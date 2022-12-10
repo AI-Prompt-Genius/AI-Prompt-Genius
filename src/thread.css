@@ -1,6 +1,3 @@
-.col-1{
-    max-width: 10px;
-}
 .icon{
     width: 48px;
     height: 48px;
@@ -17,9 +14,11 @@
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 20px;
 }
-#main svg{
+.icon svg{
     background-color: #0BA37F;
+    color: white;
     fill: white;
+    border-radius: 3px;
     padding: 3px;
 }
 .sidenav a {
@@ -41,11 +40,33 @@
 /* Style page content */
 #main {
     margin-left: 190px;
-    padding: 0px 10px;
+    padding: 0px;
+}
+.bot .light{
+    background-color: #F7F7F8;
+}
+.bot.dark{
+    background-color: #434654;
+    color: #fff;
+}
+
+.human.dark{
+    background-color: #343541;
+    color: #fff;
+}
+
+.human .light{
+    background-color: #ffffff;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+}
+.text svg{
+    display:none
+}
+pre{
+    white-space: pre-wrap;
 }
