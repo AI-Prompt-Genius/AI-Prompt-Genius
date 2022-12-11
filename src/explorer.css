@@ -13,9 +13,6 @@
     border-bottom: #E5E5E5 1px solid;
 }
 
-.row{
-    height: 150px;
-}
 
 .row:hover{
     border: #0BA37F 2px solid;
@@ -90,4 +87,10 @@ body.dark{
 }
 body.light{
     background-color: #FFF;
+}
+.highlight {
+    color: black!important;
+    background-color: yellow;
+    font-weight: bold;
+    opacity: 0.4;
 }

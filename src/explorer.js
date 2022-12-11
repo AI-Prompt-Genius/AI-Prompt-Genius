@@ -81,12 +81,9 @@ function searchList(strings, searchTerm) { // created by ChatGPT
             substring = substring + "...";
         }
 
-        return substring;
+        return substring.replace(searchTerm, `<span class="highlight">${searchTerm}</span>`);
     }).join(", ");
 }
-
-
-
 
 function load_threads(threads, search=false, search_term=""){
     for (let n = 0; n < threads.length; n++) {
