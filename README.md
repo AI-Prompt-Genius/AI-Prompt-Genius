@@ -13,6 +13,7 @@ We hope you find ChatGPT History Saver useful and enjoy using it to save and rev
 
 ## TODO
 If you're looking to help out, you could add a few useful features to our platform:
+- Known issue: reset thread button does not work after some time.
 - Search feature to filter threads
 - Export individual threads to pdf, csv, txt, or doc formats
 - Export all threads to XLS/Gsheets
