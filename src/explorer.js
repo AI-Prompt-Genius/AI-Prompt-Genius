@@ -28,7 +28,6 @@ function load_threads(threads){
         temp.querySelector('.title').innerHTML = sliceString(threads[i].convo[0], 60)
         temp.querySelector('.subtitle').innerHTML = sliceString(threads[i].convo[1], 120)
         let link = `thread.html?thread=${i}`
-        temp.querySelector('.link').href = link
         let row = temp.querySelector('.row')
         row.addEventListener('click', () => {window.open(link, '_blank')})
         main.appendChild(temp)
