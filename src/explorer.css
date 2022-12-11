@@ -1,0 +1,36 @@
+.main {
+    margin-left : 200px;
+}
+
+.link{
+    text-decoration: none;
+}
+.row.dark{
+    border-bottom: #2A2B31 1px solid;
+}
+.row.light{
+    border-bottom: #E5E5E5 1px solid;
+}
+
+.row:hover{
+    border: blue 2px solid;
+}
+
+#cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
+
+.even.dark{
+    background-color: #343541;
+    color: #ECECF1;
+}
+
+.odd.light{
+    background-color: #F7F7F8 !important;
+}
+.odd.dark{
+    background-color: #434654 !important;
+    color: #D1D5DA;
+}
+
+.even.light{
+    background-color: #ffffff;
+}

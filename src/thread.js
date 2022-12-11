@@ -31,4 +31,30 @@ function load_thread(c){
             main.appendChild(temp)
         }
     }
+    copy_setup()
+}
+function copy_setup() {
+    const clipboardBars = document.querySelectorAll('.copy');
+    const codeElements = document.querySelectorAll('pre code');
+
+
+// Add a click event listener to each clipboard bar
+    clipboardBars.forEach((clipboardBar, index) => {
+        console.log('added!')
+        clipboardBar.addEventListener('click', async () => {
+            let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
+            let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
+            clipboardBar.innerHTML = `<icon class="fa-regular fa-check"></icon> &nbsp; Copied!`;
+            setTimeout(() => {clipboardBar.outerHTML = copy_bar}, 2000);
+            // Get the code element corresponding to the clicked clipboard bar
+            const codeElement = codeElements[index];
+
+            // Get the text content of the code element
+            const text = codeElement.textContent;
+
+            // Copy the text to the clipboard
+            await navigator.clipboard.writeText(text);
+        });
+    });
+
 }
