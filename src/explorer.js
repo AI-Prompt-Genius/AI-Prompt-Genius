@@ -21,6 +21,39 @@ function delete_thread(i, row){
     row.classList.add('d-none')
 }
 
+let timer;
+function searchThreads(threads, searchTerm) { // created by ChatGPT
+    return threads.filter(thread => {
+        return thread.convo.some(message => message.includes(searchTerm));
+    });
+}
+
+function search(){
+    let search_term = document.querySelector('.search-bar').value
+    update_threads()
+    let ts = searchThreads(threads_g, document.querySelector('.search-bar').value)
+    main.innerHTML = ""
+    load_threads(ts, true, search_term)
+    if (search_term === ""){
+        load_threads(threads_g)
+    }
+}
+
+document.querySelector('.search-bar').addEventListener('input', search)
+
+let threads_g = []
+let updated = false
+function update_threads() {
+    clearTimeout(timer)
+    if (!updated) {
+        chrome.storage.local.get(['threads']).then((result) => {
+            threads_g = result.threads
+        });
+    }
+    updated = true
+    timer = setTimeout(() => {updated = false}, 10000)
+}
+
 function update_bookmark(btn, saved){
     if (saved) {
         btn.classList.remove('btn-outline-success')
@@ -32,7 +65,30 @@ function update_bookmark(btn, saved){
     }
 }
 
-function load_threads(threads){
+function searchList(strings, searchTerm) { // created by ChatGPT
+    const matchingStrings = strings.filter(string => string.includes(searchTerm));
+
+    return matchingStrings.map(string => {
+        const index = string.indexOf(searchTerm);
+        const startIndex = Math.max(0, index - 50);
+        const endIndex = Math.min(string.length, index + 50);
+
+        let substring = string.substring(startIndex, endIndex);
+        if (startIndex > 0) {
+            substring = "..." + substring;
+        }
+        if (endIndex < string.length) {
+            substring = substring + "...";
+        }
+
+        return substring;
+    }).join(", ");
+}
+
+
+
+
+function load_threads(threads, search=false, search_term=""){
     for (let n = 0; n < threads.length; n++) {
         let i = threads.length - n - 1
         let temp;
@@ -46,7 +102,12 @@ function load_threads(threads){
         temp.querySelector('.date').innerHTML = threads[i].date
         temp.querySelector('.time').innerHTML = threads[i].time
         temp.querySelector('.title').innerHTML = sliceString(threads[i].convo[0], 55)
-        temp.querySelector('.subtitle').innerHTML = sliceString(threads[i].convo[1], 100)
+        if (!search) {
+            temp.querySelector('.subtitle').innerHTML = sliceString(threads[i].convo[1], 100)
+        }
+        else{
+            temp.querySelector('.subtitle').innerHTML = sliceString(searchList(threads[i].convo, search_term), 100)
+        }
         let saved = threads[i].favorite
         let btn = temp.querySelector('.btn.bookmark')
         update_bookmark(btn, saved)
