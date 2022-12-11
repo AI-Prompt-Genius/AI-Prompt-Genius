@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Chat GPT History",
+  "name": "ChatGPT History",
   "description": "Save the full history of your ChatGPT conversations.",
-  "version": "0.9",
+  "version": "0.92",
   "permissions": ["storage", "unlimitedStorage"],
   "background": {
     "service_worker": "background.js"
