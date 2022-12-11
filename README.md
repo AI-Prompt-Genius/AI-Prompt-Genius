@@ -32,7 +32,7 @@ These enhancements would make the platform even more user-friendly and useful fo
 
 ## Installation
 - Preferred - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
-- Download source code as zip and load "src" folder as a local extension. This would also allow you to make changes to it
+- Download source code as zip and load "src" folder as a local extension. This would also allow you to make changes to it.
 
 ## Structure
 <em>It's all vanilla, baby</em>
