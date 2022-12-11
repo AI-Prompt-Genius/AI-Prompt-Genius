@@ -41,12 +41,12 @@ content.js - content script (saves ChatGPT threads to browser using chrome.stora
 
 background.js - sole purpose is to listen for 
 
-Explorer.html - page that appears when clicking the extension icon
----> Main JS: explorer.js; library - highlightJS.js
+Explorer.html - page that appears when clicking the extension icon <br>
+---> Main JS: explorer.js; library - highlightJS.js <br>
 ---> Main CSS: explorer.css
 
-Thread.html - page that appears when individual thread is loaded
----> Main JS: thread.js
+Thread.html - page that appears when individual thread is loaded <br>
+---> Main JS: thread.js <br>
 ---> Main CSS: thread.css
 
 Shared JS: dark_light.js (handles dark/light mode)
