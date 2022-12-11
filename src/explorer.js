@@ -85,7 +85,17 @@ function searchList(strings, searchTerm) { // created by ChatGPT
     }).join(", ");
 }
 
-function load_threads(threads, search=false, search_term=""){
+let dl;
+dark_light()
+async function dark_light() {
+    chrome.storage.sync.get({mode: "dark"},
+        function(result) {
+            dl = result.mode
+        }
+    )
+}
+
+function load_threads(threads, search=false, search_term="", bookmarks=false){
     for (let n = 0; n < threads.length; n++) {
         let i = threads.length - n - 1
         let temp;
@@ -99,17 +109,27 @@ function load_threads(threads, search=false, search_term=""){
         temp.querySelector('.date').innerHTML = threads[i].date
         temp.querySelector('.time').innerHTML = threads[i].time
         temp.querySelector('.title').innerHTML = sliceString(threads[i].convo[0], 55)
-        if (!search) {
+        if (!search && threads[i].convo[1] !== undefined) {
             temp.querySelector('.subtitle').innerHTML = sliceString(threads[i].convo[1], 100)
         }
         else{
             temp.querySelector('.subtitle').innerHTML = sliceString(searchList(threads[i].convo, search_term), 100)
         }
         let saved = threads[i].favorite
+        console.log(saved)
         let btn = temp.querySelector('.btn.bookmark')
         update_bookmark(btn, saved)
         let link = `thread.html?thread=${i}`
         let row = temp.querySelector('.row')
+        if (bookmarks){
+            if (!saved){
+                row.classList.add('d-none')
+            }
+        }
+        if (dl === "light") {
+            row.classList.remove('dark')
+            row.classList.add('light')
+        }
         row.addEventListener('click', event => {
             const target = event.target;
             if (target.classList.contains('trash')){
@@ -127,3 +147,20 @@ function load_threads(threads, search=false, search_term=""){
         main.appendChild(temp)
     }
 }
+function b_load(){
+    load_threads(threads_g, false, "", true)
+    document.querySelector('#blink').outerHTML = `<a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-reel"></i> &emsp; All Threads</a>`
+}
+
+function bookmarks() {
+    main.innerHTML = ""
+    update_threads()
+    setTimeout(b_load, 100)
+}
+
+function timer_dl(){
+    setTimeout(dark_light, 300)
+}
+document.querySelectorAll('.bnav').forEach(item => {item.addEventListener('click', bookmarks)})
+
+document.querySelector('#light_dark').addEventListener('click', timer_dl)

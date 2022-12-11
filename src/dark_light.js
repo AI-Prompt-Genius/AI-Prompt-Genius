@@ -19,7 +19,6 @@ function switchClass(element) {
     }
 
     // Recursively call the function for all children of the element
-    console.log(element.children)
     for (const child of element.children) {
         switchClass(child);
     }
