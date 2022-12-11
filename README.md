@@ -20,5 +20,6 @@ If you're looking to help out, you could add a few useful features to our platfo
 - Bookmark threads for easy access later
 - Improvements to the styling on the "All Threads" page
 - Ability to delete threads from history
+- Gravatar (I guess)
 
 These enhancements would make the platform even more user-friendly and useful for our users. Thank you for considering contributing to the project!
