@@ -7,7 +7,7 @@ Welcome to ChatGPT History, a Chrome extension that allows you to save your Chat
 
 To use the extension, simply open ChatGPT and start chatting as you normally would. The extension will automatically save your conversation history in your Chrome browser. You can access your saved history by clicking on the extension icon in the top right corner of your browser.
 
-In the extension's settings, you can choose to clear your saved history or export it as a text file for easy sharing or backup. <em>Still need to implement</em>
+In the extension's settings, you can choose to clear your saved history or export it as a text file for easy sharing or backup <em>(still need to implement)</em>.
 
 We hope you find ChatGPT History Saver useful and enjoy using it to save and review your ChatGPT conversations. If you have any feedback or suggestions for improvement, please don't hesitate to make a pull request. Thank you for using ChatGPT History!
 
