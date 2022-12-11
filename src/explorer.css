@@ -1,5 +1,6 @@
 .main {
-    margin-left : 200px;
+    margin-left : 201px;
+    margin-right: 12px;
 }
 
 .link{
@@ -12,8 +13,12 @@
     border-bottom: #E5E5E5 1px solid;
 }
 
+.row{
+    height: 150px;
+}
+
 .row:hover{
-    border: blue 2px solid;
+    border: #0BA37F 2px solid;
 }
 
 #cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
@@ -34,3 +39,49 @@
 .even.light{
     background-color: #ffffff;
 }
+
+.search-bar {
+    border: 0;
+    padding: 0;
+    background-color: #343541;
+    border-radius: 2px;
+    color: #fff;
+    width: 165px;
+}
+
+.search-bar:focus {
+    outline: none;
+}
+
+.search-bar:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+.search-bar:focus::-moz-placeholder {
+    color: transparent;
+}
+
+.search-bar:focus:-ms-input-placeholder {
+    color: transparent;
+}
+
+.search-bar:focus::placeholder {
+    color: transparent;
+}
+
+.search-bar::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.search-bar::-moz-placeholder {
+    color: #fff;
+}
+
+.search-bar:-ms-input-placeholder {
+    color: #fff;
+}
+
+.search-bar::placeholder {
+    color: #fff;
+}
+

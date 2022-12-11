@@ -11,6 +11,7 @@
 <body class="dark">
 <div id="cover"></div>
 <nav class="sidenav">
+    <input type="text" class="search-bar mx-3 mb-1" placeholder="Search Threads..." />
     <a id="light_dark" class="mx-3 p-3 text-white text-sm"><i class="sun-moon fa-solid fa-sun-bright"></i> &emsp; <span id="d_l">Light</span> Mode</a>
     <a class="mx-3 p-3 text-white text-sm" target="_blank" href="https://github.com/benf2004/ChatGPT-History"><i class="fa-brands fa-github"></i> &emsp;Contribute</a>
     <a class="mx-3 p-3 text-white text-sm" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSc7_UppzpzwyWzt9NcCE_0MQ1-fSdpW4G5OYce5ohMcNorkHQ/viewform?usp=sf_link"><i class="fa-solid fa-megaphone"></i> &emsp;Feedback</a>
@@ -22,33 +23,41 @@
 
 <template id="even">
     <div class="row even dark align-items-center">
-        <div class="text ml-1 col p-3">
-            <h4 class="p-2 title"></h4>
-            <em class="p-2 subtitle"></em>
+        <div class="text ml-1 col p-1">
+            <h4 class="p-2 ml-3 title"></h4>
+            <em class="p-2 ml-3 subtitle"></em>
         </div>
-        <div class="col-4 p-3">
+        <div class="col-2 p-3">
             <div class="p-1 date"></div>
             <div class="p-1 time"></div>
             <!--div class="save p-1">Save Thread <i class="fa-regular fa-bookmark"></i></div-->
         </div>
-        <div class="col-2 p-4">
-            <h2><a class="link" target="_blank" href="#">Open ></a></h2>
+        <div class="col-1 p-3">
+            <button class="btn btn-outline-danger m-1 trash"><i class="fa-solid trash fa-trash"></i></button> <br>
+            <button class="btn btn-outline-success m-1 bookmark"><i class="bookmark fa-regular fa-bookmark"></i></button>
+        </div>
+        <div class="col-1 p-3">
+            <h2><a class="link">></a></h2>
         </div>
     </div>
 </template>
 <template id="odd">
     <div class="row odd dark align-items-center">
-        <div class="text ml-1 col p-3">
-            <h4 class="p-2 title"></h4>
-            <em class="p-2 subtitle"></em>
+        <div class="text ml-3 col p-1">
+            <h4 class="p-2 ml-3 title"></h4>
+            <em class="p-2 ml-3 subtitle"></em>
         </div>
-        <div class="col-4 p-3">
+        <div class="col-2 p-3">
             <div class="p-1 date"></div>
             <div class="p-1 time"></div>
             <!--div class="save p-1">Save Thread <i class="fa-regular fa-bookmark"></i></div-->
         </div>
-        <div class="col-2 p-4">
-            <h2><a class="link" target="_blank" href="#">Open ></a></h2>
+        <div class="col-1 p-2">
+            <button class="btn btn-outline-danger m-1 trash"><i class="fa-solid trash fa-trash"></i></button> <br>
+            <button class="btn btn-outline-success m-1 bookmark"><i class="bookmark fa-regular fa-bookmark"></i></button>
+        </div>
+        <div class="col-1 p-3">
+            <h2><a class="link">></a></h2>
         </div>
     </div>
 </template>
