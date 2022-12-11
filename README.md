@@ -50,4 +50,5 @@ Thread.html - page that appears when individual thread is loaded
 ---> Main CSS: thread.css
 
 Shared JS: dark_light.js (handles dark/light mode)
+
 Shared CSS: Navbar.css (same navbar)
