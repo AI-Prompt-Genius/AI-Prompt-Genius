@@ -16,6 +16,7 @@ function delete_thread(i, row){
     chrome.storage.local.get(['threads']).then((result) => {
         let t = result.threads
         t.splice(i, 1)
+        threads_g = t
         chrome.storage.local.set({threads: t})
     });
     row.classList.add('d-none')
@@ -23,19 +24,23 @@ function delete_thread(i, row){
 
 let timer;
 function searchThreads(threads, searchTerm) { // created by ChatGPT
+    searchTerm = searchTerm.toLowerCase();
     return threads.filter(thread => {
-        return thread.convo.some(message => message.includes(searchTerm));
+        return thread.convo.some(message => message.toLowerCase().includes(searchTerm));
     });
 }
+
 
 function search(){
     let search_term = document.querySelector('.search-bar').value
     update_threads()
     let ts = searchThreads(threads_g, document.querySelector('.search-bar').value)
     main.innerHTML = ""
-    load_threads(ts, true, search_term)
     if (search_term === ""){
         load_threads(threads_g)
+    }
+    else {
+        load_threads(ts, true, search_term)
     }
 }
 
@@ -53,6 +58,7 @@ function update_threads() {
     updated = true
     timer = setTimeout(() => {updated = false}, 10000)
 }
+update_threads()
 
 function update_bookmark(btn, saved){
     if (saved) {
@@ -66,10 +72,11 @@ function update_bookmark(btn, saved){
 }
 
 function searchList(strings, searchTerm) { // created by ChatGPT
-    const matchingStrings = strings.filter(string => string.includes(searchTerm));
+    searchTerm = searchTerm.toLowerCase();
+    const matchingStrings = strings.filter(string => string.toLowerCase().includes(searchTerm));
 
     return matchingStrings.map(string => {
-        const index = string.indexOf(searchTerm);
+        const index = string.toLowerCase().indexOf(searchTerm);
         const startIndex = Math.max(0, index - 50);
         const endIndex = Math.min(string.length, index + 50);
 
@@ -81,9 +88,13 @@ function searchList(strings, searchTerm) { // created by ChatGPT
             substring = substring + "...";
         }
 
-        return substring.replace(searchTerm, `<span class="highlight">${searchTerm}</span>`);
+        // use the original case of the search term when highlighting it
+        const searchTermRegex = new RegExp(searchTerm, "gi");
+        return substring.replace(searchTermRegex, `<span class="highlight">$&</span>`);
     }).join(", ");
 }
+
+
 
 let dl;
 dark_light()
@@ -116,7 +127,6 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
             temp.querySelector('.subtitle').innerHTML = sliceString(searchList(threads[i].convo, search_term), 100)
         }
         let saved = threads[i].favorite
-        console.log(saved)
         let btn = temp.querySelector('.btn.bookmark')
         update_bookmark(btn, saved)
         let id = threads[i].id

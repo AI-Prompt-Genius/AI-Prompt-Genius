@@ -39,7 +39,6 @@ chrome.storage.local.get(['threads']).then((result) => {
     load_thread(convo)
 })
 function load_thread(c){
-    console.log(c)
     for (let i = 0; i < c.length; i++) {
         let human = i % 2 === 0;
         if (human) {
@@ -62,7 +61,6 @@ function copy_setup() {
 
 // Add a click event listener to each clipboard bar
     clipboardBars.forEach((clipboardBar, index) => {
-        console.log('added!')
         clipboardBar.addEventListener('click', async () => {
             let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
             let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`

@@ -2,7 +2,6 @@ let icon = document.querySelector('.sun-moon')
 function switchClass(element) {
     if (element.classList.contains("dark")) {
         element.classList.remove("dark");
-        console.log(element)
         element.classList.add("light");
         document.querySelector("#d_l").innerHTML = "Dark"
         icon.classList.remove('fa-sun-bright')
@@ -28,9 +27,7 @@ function switch_mode(){
 }
 
 chrome.storage.sync.get({mode: "dark"}, function(result) {
-    console.log(result.mode)
     if(result.mode === "light"){
-        console.log("TRUE")
         switch_mode()
     }
 })
