@@ -119,7 +119,11 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
         console.log(saved)
         let btn = temp.querySelector('.btn.bookmark')
         update_bookmark(btn, saved)
-        let link = `thread.html?thread=${i}`
+        let id = threads[i].id
+        if (id === undefined) {
+            id = i
+        }
+        let link = `thread.html?thread=${id}`
         let row = temp.querySelector('.row')
         if (bookmarks){
             if (!saved){

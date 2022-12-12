@@ -78,6 +78,23 @@ function main() {
         return timeString
     }
 
+    function generateUUID() {
+        // create an array of possible characters for the UUID
+        var possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        // create an empty string that will be used to generate the UUID
+        var uuid = "";
+
+        // loop over the possible characters and append a random character to the UUID string
+        for (var i = 0; i < 36; i++) {
+            uuid += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+        }
+
+        // return the generated UUID
+        return uuid;
+    }
+
+
     function save_page() {
         c = p.children
         if (c.length > 1) {
@@ -86,11 +103,11 @@ function main() {
                 let human = i % 2 === 0;
                 save_thread(human, c[i])
             }
-            let thread = {date: getDate(), time: getTime(), convo: page, favorite: false}
+            let t;
             chrome.storage.local.get({threads: null}).then((result) => {
-                let t = result.threads
+                t = result.threads
                 if (t !== null) {
-                    let t = result.threads
+                    let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: generateUUID()}
                     if (first_time) {
                         t.push(thread)
                         first_time = false
@@ -99,6 +116,7 @@ function main() {
                     }
                     chrome.storage.local.set({threads: t})
                 } else {
+                    let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: 1}
                     let t = [thread]
                     first_time = false
                     chrome.storage.local.set({threads: t})
