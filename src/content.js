@@ -1,8 +1,7 @@
 let p; let c;
-window.onload(function () {
-    p = document.querySelector("main > div > div > div > div")
-    c = p.children
-})
+p = document.querySelector("main > div > div > div > div")
+c = p.children
+
 // loop through c to see if they are p elements or pre elements
 let page = []
 let first_time = true
