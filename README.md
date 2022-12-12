@@ -20,6 +20,7 @@ Thread View:
 
 ## TODO
 If you're looking to help out, you could add a few useful features to our platform:
+- After deleting a thread, you cannot click on threads before (above) the thread you deleted. This is because the thread IDs are not updated after deletion. This can be fixed by updating the thread IDs after deletion.
 - Known issue: reset thread button does not work after some time.
 - Export individual threads to pdf, csv, txt, or doc formats
 - Export all threads to XLS/Gsheets
