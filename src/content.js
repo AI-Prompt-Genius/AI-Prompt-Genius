@@ -104,22 +104,22 @@ function main() {
                 save_thread(human, c[i])
             }
             let t;
-            browser.storage.local.get({threads: null}).then((result) => {
+            chrome.storage.local.get({threads: null}).then((result) => {
                 t = result.threads
                 if (t !== null) {
                     let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: generateUUID()}
                     if (first_time) {
                         t.push(thread)
                         first_time = false
-                    } else { // TODO: WHY? Also deleting is broken.
+                    } else {
                         t[t.length - 1] = thread
                     }
-                    browser.storage.local.set({threads: t})
+                    chrome.storage.local.set({threads: t})
                 } else {
                     let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: 1}
                     let t = [thread]
                     first_time = false
-                    browser.storage.local.set({threads: t})
+                    chrome.storage.local.set({threads: t})
                 }
             });
         }
