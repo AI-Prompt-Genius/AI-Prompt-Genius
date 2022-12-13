@@ -6,7 +6,7 @@ let main = document.querySelector(".main")
 function sliceString(str, num) { //created by ChatGPT
     // Check if the string is longer than num characters
     if (str.length > num) {
-        return `${str.slice(0, num)}...`.replace("<p>", "").replace("</p>", "");
+        return `${str.slice(0, num)}...`;
     }
     // If the string is not longer than num characters, return it as is
     return str;
