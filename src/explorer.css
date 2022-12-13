@@ -3,6 +3,11 @@
     margin-right: 12px;
 }
 
+.clickable
+{
+	cursor: pointer;
+}
+
 .link{
     text-decoration: none;
 }
