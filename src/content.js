@@ -111,7 +111,7 @@ function main() {
                     if (first_time) {
                         t.push(thread)
                         first_time = false
-                    } else {
+                    } else { // TODO: WHY? Also deleting is broken.
                         t[t.length - 1] = thread
                     }
                     browser.storage.local.set({threads: t})
