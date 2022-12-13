@@ -56,11 +56,6 @@ Shared JS: dark_light.js (handles dark/light mode)
 
 Shared CSS: Navbar.css (same navbar)
 
-## Notes on Firefox
-Notes, some changes have been made due to firefox still being in beta with <a href="https://extensionworkshop.com/documentation/develop/manifest-v3-migration-guide/">V3</a>. This is currently a temporary version for firefox that requires you to add the extension as a developer. You must tweak a few browser settings in about:config before it'll work.
-
-Right now, "background.service_worker is currently disabled" for firefox too.
-
 ## License
 Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 
