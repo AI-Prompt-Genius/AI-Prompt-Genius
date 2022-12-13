@@ -104,7 +104,7 @@ function main() {
                 save_thread(human, c[i])
             }
             let t;
-            chrome.storage.local.get({threads: null}).then((result) => {
+            browser.storage.local.get({threads: null}).then((result) => {
                 t = result.threads
                 if (t !== null) {
                     let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: generateUUID()}
@@ -114,12 +114,12 @@ function main() {
                     } else {
                         t[t.length - 1] = thread
                     }
-                    chrome.storage.local.set({threads: t})
+                    browser.storage.local.set({threads: t})
                 } else {
                     let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: 1}
                     let t = [thread]
                     first_time = false
-                    chrome.storage.local.set({threads: t})
+                    browser.storage.local.set({threads: t})
                 }
             });
         }

@@ -26,7 +26,7 @@ function getObjectById(id, list) { // created by ChatGPT
     return null;
 }
 
-chrome.storage.local.get(['threads']).then((result) => {
+browser.storage.local.get(['threads']).then((result) => {
     let t = result.threads
     let c = getObjectById(thread_num, t)
     let convo;
