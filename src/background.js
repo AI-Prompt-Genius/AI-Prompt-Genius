@@ -1,5 +1,5 @@
-chrome.action.onClicked.addListener(function(tab) {
-    chrome.tabs.create({
+browser.action.onClicked.addListener(function(tab) {
+    browser.tabs.create({
         url: "explorer.html"
     });
 });
