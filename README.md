@@ -13,7 +13,9 @@ In the extension's settings, you can choose to clear your saved history or expor
 We hope you find ChatGPT History useful and enjoy using it to save and review your ChatGPT conversations. If you have any feedback or suggestions for improvement, please don't hesitate to make a pull request. Thank you for using ChatGPT History!
 
 Thread Explorer:
-![screely-1670886489968](https://user-images.githubusercontent.com/12115686/207233395-e3e2bc0e-2b47-4aeb-a93b-b7a791f48e49.png)
+![screely-1670886428256](https://user-images.githubusercontent.com/12115686/207233691-92e31001-c045-4f77-bd3f-bc9170814360.png)
+
+
 
 Thread View:
 ![screely-1670886518332](https://user-images.githubusercontent.com/12115686/207233426-e932fe34-0ffe-45c4-9f45-7a098e062f50.png)
