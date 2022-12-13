@@ -44,6 +44,7 @@
     border-radius: 2px;
     color: #fff;
     width: 165px;
+    height: 30px;
 }
 
 .search-bar:focus {
