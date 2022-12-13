@@ -13,20 +13,22 @@ In the extension's settings, you can choose to clear your saved history or expor
 We hope you find ChatGPT History useful and enjoy using it to save and review your ChatGPT conversations. If you have any feedback or suggestions for improvement, please don't hesitate to make a pull request. Thank you for using ChatGPT History!
 
 Thread Explorer:
-![Thread Explorer](https://user-images.githubusercontent.com/12115686/206935786-b2ec28ab-1074-4d7b-b138-035cac759a6e.png)
+![screely-1670886428256](https://user-images.githubusercontent.com/12115686/207233691-92e31001-c045-4f77-bd3f-bc9170814360.png)
+
+
 
 Thread View:
-![Thread View](https://user-images.githubusercontent.com/12115686/206935876-3ee7b5bd-345d-47c8-8509-a67a391c5dc1.png)
+![screely-1670886518332](https://user-images.githubusercontent.com/12115686/207233426-e932fe34-0ffe-45c4-9f45-7a098e062f50.png)
 
 
 ## TODO
 If you're looking to help out, you could add a few useful features to our platform:
 - Known issue: reset thread button does not work after some time.
+- Auto-delete (non-bookmarked) threads after 30 days
 - Export individual threads to pdf, csv, txt, or doc formats
-- Export all threads to XLS/Gsheets
+- Export all threads
 - Improvements to the styling on the "Thread Explorer" page
 - Firefox support
-- Auto-delete (non-bookmarked) threads after 30 days
 - Gravatar (I guess)
 
 These enhancements would make the platform even more user-friendly and useful for our users. Thank you for considering contributing to the project!
@@ -40,7 +42,7 @@ These enhancements would make the platform even more user-friendly and useful fo
 
 content.js - content script (saves ChatGPT threads to browser using chrome.storage.local api)
 
-background.js - sole purpose is to listen for 
+background.js - sole purpose is to listen for when the user clicks the extension
 
 Explorer.html - page that appears when clicking the extension icon <br>
 ---> Main JS: explorer.js; library - highlightJS.js <br>
