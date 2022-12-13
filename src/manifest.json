@@ -5,7 +5,7 @@
   "version": "1.0",
   "permissions": ["storage", "unlimitedStorage"],
   "background": {
-	"scripts": ["background.js"]
+	"service_worker": "background.js"
   },
   "content_scripts": [
     {

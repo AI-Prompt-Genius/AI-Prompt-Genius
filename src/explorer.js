@@ -1,4 +1,4 @@
-browser.storage.local.get(['threads']).then((result) => {
+chrome.storage.local.get(['threads']).then((result) => {
     load_threads(result.threads)
 })
 
@@ -13,17 +13,17 @@ function sliceString(str, num) { //created by ChatGPT
 }
 
 function delete_thread(i, row){
-    browser.storage.local.get(['threads']).then((result) => {
+    chrome.storage.local.get(['threads']).then((result) => {
         let t = result.threads
         t.splice(i, 1)
         threads_g = t
-        browser.storage.local.set({threads: t})
+        chrome.storage.local.set({threads: t})
     });
     row.classList.add('d-none')
 }
 
 function export_thread(i){
-	browser.storage.local.get(['threads']).then((result) => {
+	chrome.storage.local.get(['threads']).then((result) => {
         let t = result.threads
 		let thread = t[i];
 		
@@ -96,7 +96,7 @@ let updated = false
 function update_threads() {
     clearTimeout(timer)
     if (!updated) {
-        browser.storage.local.get(['threads']).then((result) => {
+        chrome.storage.local.get(['threads']).then((result) => {
             threads_g = result.threads
         });
     }
@@ -144,7 +144,7 @@ function searchList(strings, searchTerm) { // created by ChatGPT
 let dl;
 dark_light()
 async function dark_light() {
-    browser.storage.sync.get({mode: "dark"},
+    chrome.storage.sync.get({mode: "dark"},
         function(result) {
             dl = result.mode
         }
@@ -196,7 +196,7 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
             }
             else if (target.classList.contains('bookmark')){
                 threads[i].favorite = !threads[i].favorite
-                browser.storage.local.set({threads: threads})
+                chrome.storage.local.set({threads: threads})
                 let saved = threads[i].favorite
                 update_bookmark(btn, saved)
 			}
