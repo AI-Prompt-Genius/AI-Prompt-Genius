@@ -40,7 +40,7 @@ These enhancements would make the platform even more user-friendly and useful fo
 
 content.js - content script (saves ChatGPT threads to browser using chrome.storage.local api)
 
-background.js - sole purpose is to listen for 
+background.js - sole purpose is to listen for when the user clicks the extension
 
 Explorer.html - page that appears when clicking the extension icon <br>
 ---> Main JS: explorer.js; library - highlightJS.js <br>
