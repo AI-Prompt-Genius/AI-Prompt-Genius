@@ -88,7 +88,7 @@ function export_thread()
 			c = t[thread_num];
 		}
 		
-		export_and_download_data_as_blob(c, "ChatGPT-Thread_data.txt");
+		download_thread_as_json(c);
 	})
 }
 
