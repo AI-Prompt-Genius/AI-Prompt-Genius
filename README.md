@@ -4,9 +4,9 @@
 # ChatGPT History
 <em>Written by ChatGPT, of course</em>
 
-Welcome to ChatGPT History, a Chrome extension that allows you to save your ChatGPT conversation history. With this extension, you can easily review your past conversations and refer to them at a later time.
+Welcome to ChatGPT History, a browser extension that allows you to save your ChatGPT conversation history. With this extension, you can easily review your past conversations and refer to them at a later time.
 
-To use the extension, simply open ChatGPT and start chatting as you normally would. The extension will automatically save your conversation history in your Chrome browser. You can access your saved history by clicking on the extension icon in the top right corner of your browser.
+To use the extension, simply open ChatGPT and start chatting as you normally would. The extension will automatically save your conversation history in your browser. You can access your saved history by clicking on the extension icon in the top right corner of your browser.
 
 In the extension's settings, you can choose to clear your saved history or export it as a text file for easy sharing or backup <em>(still need to implement)</em>.
 
@@ -26,7 +26,7 @@ If you're looking to help out, you could add a few useful features to our platfo
 - Known issue: reset thread button does not work after some time.
 - Auto-delete (non-bookmarked) threads after 30 days
 - Export individual threads to pdf, csv, txt, or doc formats
-- Export all threads
+- Export all threads (done for JSON, but could add more formatted)
 - Improvements to the styling on the "Thread Explorer" page
 - Firefox support
 - Gravatar (I guess)
@@ -34,13 +34,14 @@ If you're looking to help out, you could add a few useful features to our platfo
 These enhancements would make the platform even more user-friendly and useful for our users. Thank you for considering contributing to the project!
 
 ## Installation
-- Preferred - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
+- Preferred (Chrome) - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
+- Firefox - Install from <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/">Fire Fox Add-ons library</a> (link will be live soon)
 - Download source code as zip and load "src" folder as a local extension. This would also allow you to make changes to it.
 
 ## Structure
 <em>It's all vanilla, baby</em>
 
-content.js - content script (saves ChatGPT threads to browser using chrome.storage.local api)
+content.js - content script (saves ChatGPT threads to browser using browser.storage.local api)
 
 background.js - sole purpose is to listen for when the user clicks the extension
 
