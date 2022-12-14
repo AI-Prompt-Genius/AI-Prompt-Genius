@@ -20,10 +20,5 @@
   "icons":{
     "48": "48x48.png",
     "128": "128x128.png"
-  },
-  "browser_specific_settings": {
-	"gecko": {
-	  "id": "chatgpt_history@aivct.com"
-	}
   }
 }
