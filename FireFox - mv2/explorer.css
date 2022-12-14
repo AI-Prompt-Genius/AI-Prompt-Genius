@@ -1,0 +1,102 @@
+.main {
+    margin-left : 201px;
+    margin-right: 12px;
+}
+
+.clickable
+{
+	cursor: pointer;
+}
+
+.link{
+    text-decoration: none;
+}
+.row.dark{
+    border-bottom: #2A2B31 1px solid;
+}
+.row.light{
+    border-bottom: #E5E5E5 1px solid;
+}
+
+
+.row:hover{
+    border: #0BA37F 2px solid;
+}
+
+#cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
+
+.even.dark{
+    background-color: #343541;
+    color: #ECECF1;
+}
+
+.odd.light{
+    background-color: #F7F7F8 !important;
+}
+.odd.dark{
+    background-color: #434654 !important;
+    color: #D1D5DA;
+}
+
+.even.light{
+    background-color: #ffffff;
+}
+
+.search-bar {
+    border: 0;
+    padding: 0;
+    background-color: #343541;
+    border-radius: 2px;
+    color: #fff;
+    width: 165px;
+    height: 30px;
+}
+
+.search-bar:focus {
+    outline: none;
+}
+
+.search-bar:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+.search-bar:focus::-moz-placeholder {
+    color: transparent;
+}
+
+.search-bar:focus:-ms-input-placeholder {
+    color: transparent;
+}
+
+.search-bar:focus::placeholder {
+    color: transparent;
+}
+
+.search-bar::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.search-bar::-moz-placeholder {
+    color: #fff;
+}
+
+.search-bar:-ms-input-placeholder {
+    color: #fff;
+}
+
+.search-bar::placeholder {
+    color: #fff;
+}
+
+body.dark{
+    background-color: #343541;
+}
+body.light{
+    background-color: #FFF;
+}
+.highlight {
+    color: black!important;
+    background-color: yellow;
+    font-weight: bold;
+    opacity: 0.4;
+}
