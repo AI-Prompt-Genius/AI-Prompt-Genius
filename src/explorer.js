@@ -1,5 +1,10 @@
-chrome.storage.local.get(['threads']).then((result) => {
-    load_threads(result.threads)
+chrome.storage.local.get({'threads': null}).then((result) => {
+    if (result.threads !== null) {
+        load_threads(result.threads)
+    }
+    else{
+        main.innerHTML = `<h1 class="p-3 m-3 even dark">Welcome! This is where your thread history will appear. To get started, simply start new ChatGPT conversation.</h1>`
+    }
 })
 
 let main = document.querySelector(".main")

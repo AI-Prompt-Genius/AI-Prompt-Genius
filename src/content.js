@@ -103,14 +103,14 @@ function main() {
         c = p.children
         if (c.length > 2) {
             let t;
-            browser.storage.local.get({threads: null}).then((result) => {
+            chrome.storage.local.get({threads: null}).then((result) => {
                 t = result.threads
                 page = []
                 for (let i = 0; i < c.length - 1; i++) {
                     let human = i % 2 === 0;
                     let text = save_thread(human, c[i])
                     console.log(text)
-                    if (text.endsWith(`<p>network error</p>`) || text.endsWith(`<p>Load failed</p>`)) {
+                    if (text.endsWith(`<p>network error</p>`) || text.endsWith(`<p>Load failed</p>`) || text.endsWith(`<p>Error in body stream/p>`)) {
                         console.log(`error`)
                         text = t[t.length - 1].convo[i]
                         if (!text.endsWith(`(error)`)) {
@@ -129,12 +129,12 @@ function main() {
                         let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: id}
                         t[t.length - 1] = thread
                     }
-                    browser.storage.local.set({threads: t})
+                    chrome.storage.local.set({threads: t})
                 } else {
                     let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: generateUUID()}
                     let t = [thread]
                     first_time = false
-                    browser.storage.local.set({threads: t})
+                    chrome.storage.local.set({threads: t})
                 }
             });
         }
