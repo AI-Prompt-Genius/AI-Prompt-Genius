@@ -185,11 +185,71 @@ function export_all()
 {
 	browser.storage.local.get(['threads']).then((result) => {
         let t = result.threads;
-		let data = t;
+		let data = {threads:t};
 		let string = JSON.stringify(data);
 		let blob = encode_string_as_blob(string);
 		let filename = "ChatGPT-History_data.txt";
 		download_blob_as_file(blob, filename);
+	});
+}
+
+function import_all()
+{
+	let input = document.querySelector("#import_all");
+	let file = input.files[0];
+	if(!file)
+	{
+		console.warn(`unable to find a valid file`);
+		return;
+	}
+	
+	let reader = new FileReader();
+	reader.onload = function(event)
+	{
+		let string = event.target.result;
+		let data = JSON.parse(string);
+		
+		// backwards compatability, to be removed 
+		if(Array.isArray(data))
+		{
+			data = {threads:data};
+		}
+		
+		import_threads_from_data(data);
+	}
+	reader.onerror = function(event)
+	{
+		console.log(`Error occured in file reader: `);
+		console.log(event);
+	}
+	reader.readAsText(file);
+}
+
+// takes an object that looks like {threads:data[]}
+function import_threads_from_data(data)
+{
+	browser.storage.local.get(['threads']).then((result) => {
+        let t = result.threads;
+		
+		// validate each thread before adding
+		let new_t = data.threads;
+		for(let i = 0, len = new_t.length; i < len; i++)
+		{
+			let thread = new_t[i];
+			let id = thread.id;
+			
+			// If the ID is the same as one of our own, that means it is the same thread and we should ignore it.
+			if(getObjectById(id, t) !== null) continue; 
+			
+			t.push(thread);
+		}
+		
+		browser.storage.local.set({threads: t});
+		
+		// we reload directly from local storage to ensure that nothing has gone wrong
+		browser.storage.local.get(['threads']).then((result) => {
+			load_threads(result.threads)
+		});
 	});
 }
 
@@ -198,3 +258,5 @@ document.querySelectorAll('.bnav').forEach(item => {item.addEventListener('click
 document.querySelector('#light_dark').addEventListener('click', timer_dl)
 
 document.querySelector("#export_all").addEventListener('click', export_all)
+
+document.querySelector("#import_all").addEventListener('change', import_all)

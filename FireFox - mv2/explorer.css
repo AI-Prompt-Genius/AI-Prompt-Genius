@@ -20,6 +20,13 @@
 
 #cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
 
+/* file inputs must be visible, but they can't be styled, and so we do a trick with opacity. */
+.hidden-trick {
+	position:fixed;
+	pointer-events: none;
+	opacity: 0;
+}
+
 .even.dark{
     background-color: #343541;
     color: #ECECF1;
