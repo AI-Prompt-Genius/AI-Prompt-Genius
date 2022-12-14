@@ -113,7 +113,7 @@ function main() {
                     if (text.endsWith(`<p>network error</p>`) || text.endsWith(`<p>Load failed</p>`)) {
                         console.log(`error`)
                         text = t[t.length - 1].convo[i]
-                        if (!text.endsWith(`(network error)`)) {
+                        if (!text.endsWith(`(error)`)) {
                             text = `${text}<br> (error)`
                         }
                     }
