@@ -78,3 +78,18 @@ function copy_setup() {
     });
 
 }
+
+function export_thread()
+{	
+	browser.storage.local.get(['threads']).then((result) => {
+		let t = result.threads
+		let c = getObjectById(thread_num, t)
+		if (c === null) {
+			c = t[thread_num];
+		}
+		
+		export_and_download_data_as_blob(c, "ChatGPT-Thread_data.txt");
+	})
+}
+
+document.querySelector("#export").addEventListener('click', export_thread);
