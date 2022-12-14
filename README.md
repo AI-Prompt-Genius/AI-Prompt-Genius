@@ -34,13 +34,14 @@ If you're looking to help out, you could add a few useful features to our platfo
 These enhancements would make the platform even more user-friendly and useful for our users. Thank you for considering contributing to the project!
 
 ## Installation
-- Preferred - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
+- Preferred (Chrome) - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
+- Firefox - Install from <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/">Fire Fox Add-ons library</a> (link will be live soon)
 - Download source code as zip and load "src" folder as a local extension. This would also allow you to make changes to it.
 
 ## Structure
 <em>It's all vanilla, baby</em>
 
-content.js - content script (saves ChatGPT threads to browser using chrome.storage.local api)
+content.js - content script (saves ChatGPT threads to browser using browser.storage.local api)
 
 background.js - sole purpose is to listen for when the user clicks the extension
 
