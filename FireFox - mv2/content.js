@@ -110,8 +110,8 @@ function main() {
                     let human = i % 2 === 0;
                     let text = save_thread(human, c[i])
                     console.log(text)
-                    if (text.endsWith(`<p>network error</p>`) || text.endsWith(`<p>Load failed</p>`)) {
-                        console.log(`error`)
+                    if (text.endsWith(`<p>network error</p>`) || text.endsWith(`<p>Load failed</p>`) || text.startsWith(`<p>Error in body stream</p>`)) {
+						console.log(`Error averted, appending error instead of replacing...`);
                         text = t[t.length - 1].convo[i]
                         if (!text.endsWith(`(error)`)) {
                             text = `${text}<br> (error)`
