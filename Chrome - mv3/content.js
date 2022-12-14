@@ -48,11 +48,17 @@ function main() {
         return childInnerHTML;
     }
 
+    function hasChildren(element) {
+        return element.children.length > 0;
+    }
 
     function save_thread(human, h) {
         if (human) {
             let text = h.innerText // saves as plain text
             text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            if (hasChildren(h)){
+                text = h.innerHTML
+            }
             page.push(text)
         }
         if (!human) {
