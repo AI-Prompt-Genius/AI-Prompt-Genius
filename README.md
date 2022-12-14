@@ -56,7 +56,6 @@ Shared JS: dark_light.js (handles dark/light mode)
 
 Shared CSS: Navbar.css (same navbar)
 
-
 ## License
 Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 
