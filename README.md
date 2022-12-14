@@ -26,7 +26,7 @@ If you're looking to help out, you could add a few useful features to our platfo
 - Known issue: reset thread button does not work after some time.
 - Auto-delete (non-bookmarked) threads after 30 days
 - Export individual threads to pdf, csv, txt, or doc formats
-- Export all threads
+- Export all threads (done for JSON, but could add more formatted)
 - Improvements to the styling on the "Thread Explorer" page
 - Firefox support
 - Gravatar (I guess)
