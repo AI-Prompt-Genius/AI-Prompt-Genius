@@ -110,11 +110,11 @@ function main() {
                     let human = i % 2 === 0;
                     let text = save_thread(human, c[i])
                     console.log(text)
-                    if (text.endsWith(`<p>network error</p>`)) {
-                        console.log(`network error`)
+                    if (text.endsWith(`<p>network error</p>`) || text.endsWith(`<p>Load failed</p>`)) {
+                        console.log(`error`)
                         text = t[t.length - 1].convo[i]
                         if (!text.endsWith(`(network error)`)) {
-                            text = `${text}<br> (network error)`
+                            text = `${text}<br> (error)`
                         }
                     }
                     page.push(text)
