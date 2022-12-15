@@ -34,9 +34,9 @@ If you're looking to help out, you could add a few useful features to our platfo
 These enhancements would make the platform even more user-friendly and useful for our users. Thank you for considering contributing to the project!
 
 ## Installation
-- Preferred (Chrome) - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
+- Chrome - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
 - Firefox - Install from <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/">Fire Fox Add-ons library</a>
-- Download source code as zip and load "src" folder as a local extension. This would also allow you to make changes to it.
+- Download zip code from <a href="https://github.com/benf2004/ChatGPT-History/releases">releases</a> and load "src" folder as a local extension. This would also allow you to make your own changes to it.
 
 ## Structure
 <em>It's all vanilla, baby</em>
