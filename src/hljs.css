@@ -87,7 +87,7 @@
     color: #DE3078;
 }
 
-.hljs-keyword {
+.hljs-keyword, .hljs-literal {
     color: #2E95D3 !important;
 }
 .function_.hljs-title {
