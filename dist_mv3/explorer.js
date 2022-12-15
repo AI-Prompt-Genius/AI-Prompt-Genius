@@ -250,7 +250,8 @@ function export_all()
         let data = {threads:t};
         let string = JSON.stringify(data);
         let blob = encode_string_as_blob(string);
-        let filename = "ChatGPT-History_data.txt";
+		let currentTimeString = (new Date()).toJSON();
+        let filename = "ChatGPT-History" + "_" + currentTimeString + ".txt";
         download_blob_as_file(blob, filename);
     });
 }
