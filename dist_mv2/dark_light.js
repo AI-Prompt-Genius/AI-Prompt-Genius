@@ -30,8 +30,8 @@ function switch_mode(){
 }
 
 browser.storage.sync.get({mode: "dark"}, function(result) {
-    if(result.mode === "light"){
-        switch_mode()
+    if(result && result.mode === "light"){
+        switch_mode();
     }
 })
 
