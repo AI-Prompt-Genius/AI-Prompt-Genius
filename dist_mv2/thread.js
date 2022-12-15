@@ -1,12 +1,9 @@
-if (typeof browser === "undefined") {
-    browser = chrome
-}
 hljs.highlightAll();
 // Get the URL of the current page
 const url = new URL(window.location.href);
 
 // Get the value of the "name" parameter in the query string
-const thread_id = url.searchParams.get("thread");
+const thread_num = url.searchParams.get("thread");
 
 const h_template = document.querySelector("#human")
 const b_template = document.querySelector("#bot")
@@ -29,10 +26,16 @@ function getObjectById(id, list) { // created by ChatGPT
     return null;
 }
 
-browser.storage.local.get(['threads']).then((result) => {
+chrome.storage.local.get(['threads']).then((result) => {
     let t = result.threads
-    let c = getObjectById(thread_id, t)
-    let convo = c.convo
+    let c = getObjectById(thread_num, t)
+    let convo;
+    if (c === null) {
+        convo = t[thread_num].convo
+    }
+    else{
+        convo = c.convo
+    }
     load_thread(convo)
 })
 function load_thread(c){
