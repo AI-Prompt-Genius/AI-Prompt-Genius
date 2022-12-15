@@ -228,8 +228,8 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
     }
 }
 function b_load(){
-    load_threads(threads_g, false, "", true)
     document.querySelector('#blink').outerHTML = `<a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-reel"></i> &emsp; All Threads</a>`
+    load_threads(threads_g, false, "", true)
 }
 
 function bookmarks() {
