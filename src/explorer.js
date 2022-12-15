@@ -167,7 +167,8 @@ dark_light()
 async function dark_light() {
     browser.storage.sync.get({mode: "dark"},
         function(result) {
-            dl = result.mode
+            dl = result?.mode;
+			if(!dl) dl = "dark"; // guard statement because it apparently still returns undefined "result" sometimes 
         }
     )
 }
@@ -292,6 +293,9 @@ function import_threads_from_data(data)
 	browser.storage.local.get(['threads']).then((result) => {
         let t = result.threads;
 		
+		// empty case
+		if(!t) t = [];
+		
 		// validate each thread before adding
 		let new_t = data.threads;
 		for(let i = 0, len = new_t.length; i < len; i++)
@@ -299,18 +303,29 @@ function import_threads_from_data(data)
 			let thread = new_t[i];
 			let id = thread.id;
 			
+			// in case there is no ID, we have to use a simpler heuristic. If all values are exactly the same, then it's functionally the same anyways.
+			if(!id)
+			{
+				if(get_object_in_list_deep_equals(thread, t))
+				{
+					// give the thread a random new ID
+					thread.id = generateUUID();
+				}
+			}
+			
 			// If the ID is the same as one of our own, that means it is the same thread and we should ignore it.
-			if(getObjectById(id, t) !== null) continue; 
+			if(id && getObjectById(id, t) !== null) 
+			{
+				continue; 
+			}
 			
 			t.push(thread);
 		}
 		
 		browser.storage.local.set({threads: t});
 		
-		// we reload directly from local storage to ensure that nothing has gone wrong
-		browser.storage.local.get(['threads']).then((result) => {
-			load_threads(result.threads)
-		});
+		// we reload the page directly after setting. it'll conveniently reinitialize everything.
+		window.location.reload();
 	});
 }
 
