@@ -15,20 +15,43 @@ function getObjectById(id, list) { // created by ChatGPT
 }
 
 function generateUUID() {
-        // create an array of possible characters for the UUID
-        var possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	// create an array of possible characters for the UUID
+	var possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        // create an empty string that will be used to generate the UUID
-        var uuid = "";
+	// create an empty string that will be used to generate the UUID
+	var uuid = "";
 
-        // loop over the possible characters and append a random character to the UUID string
-        for (var i = 0; i < 36; i++) {
-            uuid += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
-        }
+	// loop over the possible characters and append a random character to the UUID string
+	for (var i = 0; i < 36; i++) {
+		uuid += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+	}
 
-        // return the generated UUID
-        return uuid;
-    }
+	// return the generated UUID
+	return uuid;
+}
+
+// if we're here, we're probably in a state where either thread is malformed.
+// thus, ignore bookmarks and only focus on dates and convo
+function is_thread_deep_equals(thread, comparison_thread)
+{
+	let object = {date: thread.date, time: thread.time, convo: thread.convo};
+	let comparison = {date: comparison_thread.date, time: comparison_thread.time, convo: comparison_thread.convo};
+	return isObjectDeepEquals(object, comparison);
+}
+
+function get_thread_in_list_deep_equals(comparison, list) {
+	for (let i = 0; i < list.length; i++) {
+		let object = list[i];
+		
+		// check every property recursively
+		if(is_thread_deep_equals(comparison, object)) 
+		{
+			return object;
+		}
+	}
+	
+	return null;
+}
 
 function get_object_in_list_deep_equals(comparison, list) {
 	for (let i = 0; i < list.length; i++) {

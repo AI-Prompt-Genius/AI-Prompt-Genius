@@ -288,8 +288,7 @@ function import_all()
 }
 
 // takes an object that looks like {threads:data[]}
-function import_threads_from_data(data)
-{
+function import_threads_from_data(data) {
 	browser.storage.local.get(['threads']).then((result) => {
         let t = result.threads;
 		
@@ -298,24 +297,25 @@ function import_threads_from_data(data)
 		
 		// validate each thread before adding
 		let new_t = data.threads;
-		for(let i = 0, len = new_t.length; i < len; i++)
-		{
+		for(let i = 0, len = new_t.length; i < len; i++) {
 			let thread = new_t[i];
 			let id = thread.id;
 			
-			// in case there is no ID, we have to use a simpler heuristic. If all values are exactly the same, then it's functionally the same anyways.
-			if(!id)
-			{
-				if(get_object_in_list_deep_equals(thread, t))
-				{
-					// give the thread a random new ID
+			// in case there is no ID, we have to use a simpler heuristic. 
+			// if date and convo is the same, for all intents and purposes it is the same, bookmark/id don't matter.
+			if(!id) {
+				// if found duplicate, then do nothing
+				if(get_thread_in_list_deep_equals(thread, t)) {
+					continue;
+				}
+				else {
+					// otherwise, it is completely original; give the thread a random new ID
 					thread.id = generateUUID();
 				}
 			}
 			
 			// If the ID is the same as one of our own, that means it is the same thread and we should ignore it.
-			if(id && getObjectById(id, t) !== null) 
-			{
+			if(id && getObjectById(id, t) !== null) {
 				continue; 
 			}
 			
