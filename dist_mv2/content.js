@@ -1,3 +1,6 @@
+if (typeof browser === "undefined") {
+    browser = chrome
+}
 function main() {
     let p = document.querySelector("main > div > div > div > div")
     let c;
@@ -103,7 +106,7 @@ function main() {
         c = p.children
         if (c.length > 2) {
             let t;
-            chrome.storage.local.get({threads: null}).then((result) => {
+            browser.storage.local.get({threads: null}).then((result) => {
                 t = result.threads
                 page = []
                 for (let i = 0; i < c.length - 1; i++) {
@@ -129,12 +132,13 @@ function main() {
                         let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: id}
                         t[t.length - 1] = thread
                     }
-                    chrome.storage.local.set({threads: t})
+                    browser.storage.local.set({threads: t})
                 } else {
-                    let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: generateUUID()}
+                    id = generateUUID()
+                    let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: id}
                     let t = [thread]
                     first_time = false
-                    chrome.storage.local.set({threads: t})
+                    browser.storage.local.set({threads: t})
                 }
             });
         }

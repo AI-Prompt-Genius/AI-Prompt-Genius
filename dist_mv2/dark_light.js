@@ -1,3 +1,6 @@
+if (typeof browser === "undefined") {
+    browser = chrome
+}
 let icon = document.querySelector('.sun-moon')
 function switchClass(element) {
     if (element.classList.contains("dark")) {
@@ -6,7 +9,7 @@ function switchClass(element) {
         document.querySelector("#d_l").innerHTML = "Dark"
         icon.classList.remove('fa-sun-bright')
         icon.classList.add('fa-moon')
-        chrome.storage.sync.set({mode: "light"})
+        browser.storage.sync.set({mode: "light"})
     }
     else if (element.classList.contains("light")) {
         element.classList.remove("light");
@@ -14,7 +17,7 @@ function switchClass(element) {
         document.querySelector("#d_l").innerHTML = "Light"
         icon.classList.remove('fa-moon')
         icon.classList.add('fa-sun-bright')
-        chrome.storage.sync.set({mode: "dark"})
+        browser.storage.sync.set({mode: "dark"})
     }
 
     // Recursively call the function for all children of the element
@@ -26,7 +29,7 @@ function switch_mode(){
     switchClass(document.body)
 }
 
-chrome.storage.sync.get({mode: "dark"}, function(result) {
+browser.storage.sync.get({mode: "dark"}, function(result) {
     if(result.mode === "light"){
         switch_mode()
     }
