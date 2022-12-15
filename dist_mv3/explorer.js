@@ -324,13 +324,7 @@ function import_threads_from_data(data)
 		
 		browser.storage.local.set({threads: t});
 		
-		/*
-		// we reload directly from local storage to ensure that nothing has gone wrong
-		browser.storage.local.get(['threads']).then((result) => {
-			load_threads(result.threads)
-		});
-		*/
-		// we reload the page directly to ensure no weird stuff is happening; it'll conveniently reinitialize everything.
+		// we reload the page directly after setting. it'll conveniently reinitialize everything.
 		window.location.reload();
 	});
 }
