@@ -21,6 +21,7 @@
 .text{
     margin-bottom: 1.25em;
     line-height: 1.75;
+    white-space: pre-line;
 }
 .clipboard{
     color: #D1D5DA;
@@ -28,7 +29,7 @@
 /* Style page content */
 #main {
     margin-left: 190px;
-    padding: 0px;
+    padding: 0;
 }
 .bot.light{
     background-color: #F7F7F8 !important;
