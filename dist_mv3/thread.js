@@ -51,7 +51,7 @@ function load_thread(c){
     }
     copy_setup()
 }
-function copy_setup() {
+function copy_setup() { // created by ChatGPT
     const clipboardBars = document.querySelectorAll('.copy');
     const codeElements = document.querySelectorAll('pre code');
 
