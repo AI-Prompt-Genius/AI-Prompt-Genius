@@ -1,4 +1,4 @@
-<a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/"><img src="https://user-images.githubusercontent.com/12115686/206926802-0461dc64-84cd-42de-8c17-74a7ee64528c.png" style="width: 180 !important; height: 50px !important"></a> <a href="https://www.buymeacoffee.com/bennyfi" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 48px !important;width: 173px !important;" ></a> [![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+<a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/"><img src="https://user-images.githubusercontent.com/12115686/206926802-0461dc64-84cd-42de-8c17-74a7ee64528c.png" style="width: 180 !important; height: 50px !important"></a> <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/"><img src="https://user-images.githubusercontent.com/12115686/207746497-4b4ba50c-c579-42ad-b2e9-9164073499db.png" style="width: 180 !important; height: 50px !important"></a> <a href="https://www.buymeacoffee.com/bennyfi" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 48px !important;width: 173px !important;" ></a> <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png" style="height: 48px !important"></a>
 
 
 # ChatGPT History
@@ -35,7 +35,7 @@ These enhancements would make the platform even more user-friendly and useful fo
 
 ## Installation
 - Preferred (Chrome) - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
-- Firefox - Install from <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/">Fire Fox Add-ons library</a> (link will be live soon)
+- Firefox - Install from <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/">Fire Fox Add-ons library</a>
 - Download source code as zip and load "src" folder as a local extension. This would also allow you to make changes to it.
 
 ## Structure
