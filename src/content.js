@@ -160,6 +160,11 @@ function main() {
         let text;
         if (human) {
             text = h.innerText // saves as plain text
+			if(text === "Save & Submit\nCancel")
+			{
+				// query the textarea instead 
+				text = h.querySelector("textarea")?.value;
+			}
             text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
         if (!human) {
