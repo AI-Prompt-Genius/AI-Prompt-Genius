@@ -15,12 +15,9 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://chat.openai.com/chat"
-      ],
-      "js": [
-        "content.js"
-      ],
+      "matches": ["https://chat.openai.com/chat"],
+      "js": ["scripts/html2canvas.min.js",
+        "scripts/jspdf.umd.min.js", "content.js"],
       "run_at": "document_idle"
     }
   ],
