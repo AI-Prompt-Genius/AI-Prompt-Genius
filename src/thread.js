@@ -59,3 +59,32 @@ function copy_setup() { // created by ChatGPT
     });
 
 }
+
+function getInnerText(className, propertyName) {
+    // Get all elements with the given class name
+    const elements = document.getElementsByClassName(className);
+
+    // Initialize an empty array to store the inner text of each element
+    const innerTextArray = [];
+
+    // Iterate over the elements and add their inner text to the array
+    for (let i = 0; i < elements.length; i++) {
+        innerTextArray.push({ [propertyName]: elements[i].innerText });
+    }
+
+    // Return the array
+    return innerTextArray;
+}
+function alternateValues(array1, array2) {
+    return array1.map((val, i) => (i % 2 === 0) ? val : array2[i]);
+}
+
+
+function continue_thread(){
+    let human = getInnerText('human', "User")
+    let bot = getInnerText('bot', "ChatGPT")
+    let convo = alternateValues(human, bot)
+    chrome.runtime.sendMessage({convo: convo, type: 'b_continue_convo'});
+}
+
+document.querySelector("#continue").addEventListener("click", continue_thread)

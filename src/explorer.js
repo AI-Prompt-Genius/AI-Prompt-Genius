@@ -221,7 +221,12 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
             }
             else if (target.classList.contains('export')) {
                 export_thread(i, row);
-            } else{
+            }
+            else if(target.classList.contains('continue')) {
+                let c = threads[i].convo
+                chrome.runtime.sendMessage({convo: c, type: 'b_continue_convo'})
+            }
+            else{
                 window.open(link, "_blank")
             }
         });

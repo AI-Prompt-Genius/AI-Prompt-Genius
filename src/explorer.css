@@ -107,3 +107,10 @@ body.light{
     font-weight: bold;
     opacity: 0.4;
 }
+.btn.continue{
+    width: 38px
+}
+i.continue{
+    font-size: 12pt;
+    margin-left: -2px;
+}

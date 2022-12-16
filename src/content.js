@@ -365,6 +365,23 @@ function main() {
             .map((rule) => rule.cssText)
             .join("");
     }
+    function continue_convo(convo){
+        const input = document.querySelector("textarea");
+        const button = input.parentElement.querySelector("button");
+        const intro = `The following is an array of a conversation between me and ChatGPT. Use it for context in the rest of the conversation. Be ready to edit and build upon the responses previously given by ChatGPT. Respond "ready!" if you understand the context. You do not need to say anything else. Conversation:`
+        input.value = `${intro} ${convo}`;
+        button.click();
+    }
+
+    chrome.runtime.onMessage.addListener(
+        function(request, sender, sendResponse) {
+            console.log(request)
+            if (request.type === "c_continue_convo") {
+                console.log("message recieved!")
+                continue_convo(JSON.stringify(request.convo))
+            }
+        }
+    );
 }
 
 if (document.readyState === "complete" || document.readyState === "interactive") {
