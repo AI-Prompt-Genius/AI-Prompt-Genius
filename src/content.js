@@ -7,7 +7,8 @@ if (typeof browser === "undefined") {
 const Logger = {
 	settings:
 	{
-		"isLogEnabled": true
+		"isLogEnabled": true,
+		"isWarnEnabled": true,
 	},
 	
 	log: function(message)
@@ -15,6 +16,14 @@ const Logger = {
 		if(Logger.settings.isLogEnabled)
 		{
 			console.log(message);
+		}
+	},
+	
+	warn: function(message)
+	{
+		if(Logger.settings.isWarnEnabled)
+		{
+			console.warn(message);
 		}
 	},
 };
@@ -241,13 +250,22 @@ function main() {
                     page.push(text);
 					
 					// mirror state;
-					let spanText = child.querySelector("span")?.innerHTML; // html instead of text because it sometimes hides
+					
+					let elements = child.querySelectorAll("span");
+					// get last element
+					let spanText = elements[elements.length - 1]?.innerHTML; // html instead of text because it sometimes hides
+					if(human)
+					{
+						// because there are now two spans being used for other stuff, but only for humans
+						if(elements.length < 3) spanText = undefined;
+					}
+					
 					let leafIndex = 0;
 					if(spanText)
 					{
 						// remember array indices start at 0
 						leafIndex = Number(spanText.split("/")[0]) - 1;
-						console.warn(leafIndex);
+						Logger.log(leafIndex);
 					}
 					// if last index, well, that leaf won't have any children
 					if(i === c.length - 1 - 1)
