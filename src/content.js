@@ -1,5 +1,7 @@
+let firefox = true;
 if (typeof browser === "undefined") {
     browser = chrome
+    firefox = false
 }
 function main() {
     let p = document.querySelector("main > div > div > div > div")
@@ -205,7 +207,9 @@ function main() {
         h.innerHTML = `${h_svg} Share Page`;
         nav.insertBefore(h, nav.children[3]);
     }
-    add_buttons()
+    if (!firefox){
+        add_buttons()
+    }
 
     const Format = {
         PNG: "png",
