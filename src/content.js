@@ -4,30 +4,6 @@ if (typeof browser === "undefined") {
     firefox = false
 }
 
-const Logger = {
-	settings:
-	{
-		"isLogEnabled": true,
-		"isWarnEnabled": true,
-	},
-	
-	log: function(message)
-	{
-		if(Logger.settings.isLogEnabled)
-		{
-			console.log(message);
-		}
-	},
-	
-	warn: function(message)
-	{
-		if(Logger.settings.isWarnEnabled)
-		{
-			console.warn(message);
-		}
-	},
-};
-
 function main() {
     let p = document.querySelector("main > div > div > div > div")
     let c;
@@ -265,14 +241,8 @@ function main() {
 					{
 						// remember array indices start at 0
 						leafIndex = Number(spanText.split("/")[0]) - 1;
-						Logger.log(leafIndex);
+						console.log(leafIndex);
 					}
-					// if last index, well, that leaf won't have any children
-					if(i === c.length - 1 - 1)
-					{
-						leafIndex = -1; // technically any index works, but this ensures data integrity
-					}
-					current_leaf.setData(text);
 					current_leaf.setCurrentLeafIndex(leafIndex);
 					if(leafIndex > -1)
 					{
@@ -284,10 +254,11 @@ function main() {
 							// yes, that is a thing that happens
 							current_leaf.getLeaves()[leafIndex] = new_current_leaf;
 						}
+						new_current_leaf.setData(text);
 						current_leaf = new_current_leaf;
 					}
                 }
-				Logger.log( mirror_branch_state.toJSON() );
+				console.log( mirror_branch_state.toJSON() );
                 if (t !== null) {
                     if (first_time) {
                         id = generateUUID();
