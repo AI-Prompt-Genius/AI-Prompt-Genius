@@ -5,6 +5,7 @@ if (typeof browser === "undefined") {
 }
 
 function main() {
+	console.log("Loading content script, everything is fine and dandy!");
     let p = document.querySelector("main > div > div > div > div")
     let c;
 // loop through c to see if they are p elements or pre elements
@@ -162,7 +163,7 @@ function main() {
         let text;
         if (human) {
             text = h.innerText // saves as plain text
-			if(text === "Save & Submit\nCancel")
+			if(text.includes("Save & Submit\nCancel"))
 			{
 				// query the textarea instead 
 				text = h.querySelector("textarea")?.value;
