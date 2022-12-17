@@ -133,6 +133,7 @@ function main() {
         for (var i = 0; i < children.length; i++) {
             // Clone the child element
             var child = children[i];
+            console.log(child)
             if (child.tagName == "PRE") {
                 let div = child.firstChild.children[1]
                 div.firstChild.classList.add('p-4')
