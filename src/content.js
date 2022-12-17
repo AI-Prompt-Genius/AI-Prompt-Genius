@@ -5,6 +5,7 @@ if (typeof browser === "undefined") {
 }
 
 function main() {
+	console.log("Loading content script, everything is fine and dandy!");
     let p = document.querySelector("main > div > div > div > div")
     let c;
 // loop through c to see if they are p elements or pre elements
@@ -14,6 +15,8 @@ function main() {
     document.body.appendChild(document.createElement(`div`)).setAttribute("id", "chat_history");
     let history_box = document.querySelector("#chat_history");
 
+	//<polyline points="15 18 9 12 15 6">
+	//<polyline points="9 18 15 12 9 6">
 	/*
 		The way that this new state works is by constantly updating and filling in the gaps.
 		The length of an autosave should be short enough that in the time the user is flipping through the HTML, 
@@ -161,7 +164,7 @@ function main() {
         let text;
         if (human) {
             text = h.innerText // saves as plain text
-			if(text === "Save & Submit\nCancel")
+			if(text.includes("Save & Submit\nCancel"))
 			{
 				// query the textarea instead 
 				text = h.querySelector("textarea")?.value;
@@ -245,9 +248,14 @@ function main() {
 					let leafIndex = 0;
 					if(spanText)
 					{
-						// remember array indices start at 0
-						leafIndex = Number(spanText.split("/")[0]) - 1;
-						console.log(leafIndex);
+						let spanNumber = Number(spanText.split("/")[0]);
+						// sometimes spanText trawls up "!" that comes from content warning policy; just ignore that.
+						if(!isNaN(spanNumber))
+						{
+							// remember array indices start at 0
+							leafIndex = spanNumber - 1;
+							console.log(leafIndex);
+						}
 					}
 					current_leaf.setCurrentLeafIndex(leafIndex);
 					if(leafIndex > -1)
