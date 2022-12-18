@@ -40,21 +40,19 @@
             <table class="m-0 p-0">
                 <tbody>
                 <tr>
-                    <td><button class="btn btn-outline-danger m-1 trash"><i class="fa-solid trash fa-trash"></i></button></td>
-                    <td><button class="btn btn-outline-info m-1 export"><i class="export fa-solid fa-file-arrow-down"></i></button>
+                    <td><button class="btn btn-outline-danger m-1 trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete this thread"><i class="fa-solid trash fa-trash"></i></button></td>
+                    <td><button class="btn btn-outline-info m-1 export" data-bs-toggle="tooltip" data-bs-placement="top" title="Export your conversation as JSON"><i class="export fa-solid fa-file-arrow-down"></i></button>
                     </td>
                 </tr>
                 <tr>
-                    <td><button class="btn btn-outline-success m-1 bookmark"><i class="bookmark fa-regular fa-bookmark"></i></button>
-                    <td><button class="btn btn-outline-warning m-1 continue"><i class="continue fa-regular fa-circle-play"></i></button></td>
-                    </td>
-                    <td></td>
+                    <td><button class="btn btn-outline-success m-1 bookmark" data-bs-toggle="tooltip" data-bs-placement="top" title="Bookmark this conversation for later"><i class="bookmark fa-regular fa-bookmark"></i></button></td>
+                    <td><button class="btn btn-outline-warning m-1 continue" data-bs-toggle="tooltip" data-bs-placement="top" title="Continue your conversation with ChatGPT"><i class="continue fa-regular fa-circle-play"></i></button></td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-1 p-3">
-            <h2><a class="link">&emsp;></a></h2>
+        <div class="col-1 p-3 float-right">
+            <h2>&emsp; ></h2>
         </div>
     </div>
 </template>
@@ -73,26 +71,26 @@
             <table class="m-0 p-0">
                 <tbody>
                 <tr>
-                    <td><button class="btn btn-outline-danger m-1 trash"><i class="fa-solid trash fa-trash"></i></button></td>
-                    <td><button class="btn btn-outline-info m-1 export"><i class="export fa-solid fa-file-arrow-down"></i></button>
+                    <td><button class="btn btn-outline-danger m-1 trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete this thread"><i class="fa-solid trash fa-trash"></i></button></td>
+                    <td><button class="btn btn-outline-info m-1 export" data-bs-toggle="tooltip" data-bs-placement="top" title="Export your conversation as JSON"><i class="export fa-solid fa-file-arrow-down"></i></button>
                     </td>
                 </tr>
                 <tr>
-                    <td><button class="btn btn-outline-success m-1 bookmark"><i class="bookmark fa-regular fa-bookmark"></i></button></td>
-                    <td><button class="btn btn-outline-warning m-1 continue"><i class="continue fa-regular fa-circle-play"></i></button></td>
+                    <td><button class="btn btn-outline-success m-1 bookmark" data-bs-toggle="tooltip" data-bs-placement="top" title="Bookmark this conversation for later"><i class="bookmark fa-regular fa-bookmark"></i></button></td>
+                    <td><button class="btn btn-outline-warning m-1 continue" data-bs-toggle="tooltip" data-bs-placement="top" title="Continue your conversation with ChatGPT"><i class="continue fa-regular fa-circle-play"></i></button></td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-1 p-3">
-            <h2><a class="link">&emsp;></a></h2>
+        <div class="col-1 p-3 float-right">
+            <h2>&emsp; ></h2>
         </div>
     </div>
 </template>
-
+<script src="scripts/popper.js"></script>
+<script src="scripts/bootstrap.js"></script>
 <script src="utility.js"></script>
 <script src="explorer.js"></script>
 <script src="dark_light.js"></script>
-
 </body>
 </html>
