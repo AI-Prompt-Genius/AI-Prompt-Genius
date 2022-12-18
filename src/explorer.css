@@ -114,3 +114,13 @@ i.continue{
     font-size: 12pt;
     margin-left: -2px;
 }
+
+/* highlight all editables so that the user doesn't forget to save their progress */
+[contentEditable] {
+	font-style: italic;
+	/* border: 2px solid #0060DF; */
+	border-radius: 5px;
+	background-color: #212128;
+	padding-left: 5px;
+	padding-right: 5px;
+}

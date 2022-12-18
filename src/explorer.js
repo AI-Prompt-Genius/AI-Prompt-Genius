@@ -30,6 +30,39 @@ function delete_thread(i, row){
     row.classList.add('d-none')
 }
 
+function toggle_thread_title_editable(i, row){
+	let title_text = row.querySelector(".title-text");
+	let edit_icon = row.querySelector(".edit-title-button");
+	console.log(edit_icon);
+	if(title_text.contentEditable === "inherit")
+	{
+		// if thread.title, import the FULL title into the text if it exists
+		browser.storage.local.get(['threads']).then((result) => {
+			let t = result.threads
+			let thread = t[i];
+			console.log(thread.title);
+			if(thread.title) title_text.innerHTML = thread.title;
+		});
+		title_text.contentEditable = "true";
+		title_text.focus();
+		edit_icon.classList.remove("fa-pen-to-square");
+		edit_icon.classList.add("fa-floppy-disk-pen");
+	}
+	else 
+	{
+		title_text.contentEditable = "inherit";
+		// now set the title instead
+		browser.storage.local.get(['threads']).then((result) => {
+			let t = result.threads
+			let thread = t[i];
+			thread.title = title_text.innerText;
+			browser.storage.local.set({threads: t});
+		});
+		edit_icon.classList.remove("fa-floppy-disk-pen");
+		edit_icon.classList.add("fa-pen-to-square");
+	}
+}
+
 function export_thread(i){
     browser.storage.local.get(['threads']).then((result) => {
         let t = result.threads
@@ -173,9 +206,11 @@ async function dark_light() {
     )
 }
 
+const MAX_TITLE_DISPLAY_LENGTH = 55;
+
 function load_threads(threads, search=false, search_term="", bookmarks=false){
     for (let n = 0; n < threads.length; n++) {
-        let i = threads.length - n - 1
+        let i = threads.length - n - 1;
         let temp;
         let even = n % 2 === 0;
         if (even) {
@@ -184,10 +219,16 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
         else {
             temp = document.querySelector('#odd').content.cloneNode(true);
         }
-        temp.querySelector('.date').innerHTML = threads[i].date
-        temp.querySelector('.time').innerHTML = threads[i].time
-        temp.querySelector('.title').innerHTML = sliceString(threads[i].convo[0], 55)
-        if (!search && threads[i].convo[1] !== undefined) {
+        temp.querySelector('.date').innerHTML = threads[i].date;
+        temp.querySelector('.time').innerHTML = threads[i].time;
+		
+		let thread_title = threads[i].title;
+		if(!thread_title) thread_title = sliceString(threads[i].convo[0], MAX_TITLE_DISPLAY_LENGTH);
+		if(thread_title.length > MAX_TITLE_DISPLAY_LENGTH) thread_title = sliceString(thread_title, MAX_TITLE_DISPLAY_LENGTH);
+		
+        temp.querySelector('.title-text').innerHTML = thread_title;
+        
+		if (!search && threads[i].convo[1] !== undefined) {
             temp.querySelector('.subtitle').innerHTML = sliceString(threads[i].convo[1], 100)
         }
         else{
@@ -213,6 +254,12 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
             if (target.classList.contains('trash')){
                 delete_thread(i, row)
             }
+			else if (target.classList.contains('edit-title-button')){
+				toggle_thread_title_editable(i, row);
+			}
+			else if (target.classList.contains('title-text')){
+				// solely catch a do-nothing
+			}
             else if (target.classList.contains('bookmark')){
                 threads[i].favorite = !threads[i].favorite
                 browser.storage.local.set({threads: threads})
@@ -230,9 +277,10 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
                 window.open(link, "_blank")
             }
         });
-        main.appendChild(temp)
+        main.appendChild(temp);
     }
 }
+
 function b_load(){
     document.querySelector('#blink').outerHTML = `<a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-reel"></i> &emsp; All Threads</a>`
     load_threads(threads_g, false, "", true)
@@ -330,7 +378,7 @@ function import_threads_from_data(data) {
 		
 		browser.storage.local.set({threads: t});
 		
-		// we reload the page directly after setting. it'll conveniently reinitialize everything.
+		// we reload the page directly after setting. it'll conveniently reinitialize everything and inform the user that *something* has happened.
 		window.location.reload();
 	});
 }
