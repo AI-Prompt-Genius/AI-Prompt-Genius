@@ -22,10 +22,12 @@ browser.storage.local.get(['threads']).then((result) => {
 	let b = c.branch_state;
 	if(!b)
 	{
+		console.log(`Cannot find branch state, loading convo instead...`);
 		load_thread(convo);
 	}
 	else 
 	{
+		console.log(`Loading branch state...`);
 		branch_state = new TreeNode();
 		branch_state.fromJSON(b);
 		load_branched_thread();
