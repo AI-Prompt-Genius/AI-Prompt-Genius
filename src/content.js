@@ -136,9 +136,7 @@ function main() {
         for (var i = 0; i < children.length; i++) {
             // Clone the child element
             var child = children[i];
-            console.log(child)
             if (child.tagName == "PRE") {
-                console.log("PRE!")
                 let div = child.firstChild.children[1]
                 div.firstChild.classList.add('p-4')
                 let text = div.innerHTML
@@ -160,7 +158,24 @@ function main() {
 
         return childInnerHTML;
     }
-
+	
+	function elementChildHasClass(element, className)
+	{
+		if(!element)
+		{
+			console.warn(`undefined element passed, returning undefined and doing nothing.`);
+			return;
+		}
+		if(element.classList.contains(className)) return true;
+		
+		let children = element.children; 
+		for(let index = 0; index < children.length; index++)
+		{
+			if(elementChildHasClass(children[index], className)) return true;
+		}
+		return false;
+	}
+	
     function save_thread(human, h) {
         let text;
         if (human) {
@@ -173,8 +188,8 @@ function main() {
             text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
         if (!human) {
-            text = saveChildInnerHTML(h.firstChild.children[1].firstChild.firstChild.firstChild) // saves as html
-            if (h.classList.contains('text-red-500')){
+            text = saveChildInnerHTML(h.firstChild.children[1].firstChild.firstChild) // saves as html
+            if (elementChildHasClass(h, 'text-red-500')){
                 text = "ERROR"
             }
         }
