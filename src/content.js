@@ -160,7 +160,24 @@ function main() {
 
         return childInnerHTML;
     }
-
+	
+	function elementChildHasClass(element, className)
+	{
+		if(!element)
+		{
+			console.warn(`undefined element passed, returning undefined and doing nothing.`);
+			return;
+		}
+		if(element.classList.contains(className)) return true;
+		
+		let children = element.children; 
+		for(let index = 0; index < children.length; index++)
+		{
+			if(elementChildHasClass(children[index], className)) return true;
+		}
+		return false;
+	}
+	
     function save_thread(human, h) {
         let text;
         if (human) {
@@ -174,7 +191,7 @@ function main() {
         }
         if (!human) {
             text = saveChildInnerHTML(h.firstChild.children[1].firstChild.firstChild.firstChild) // saves as html
-            if (h.classList.contains('text-red-500')){
+            if (elementChildHasClass(h, 'text-red-500')){
                 text = "ERROR"
             }
         }
