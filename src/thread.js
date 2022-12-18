@@ -11,14 +11,27 @@ const thread_id = url.searchParams.get("thread");
 const h_template = document.querySelector("#human")
 const b_template = document.querySelector("#bot")
 
-let main = document.querySelector("#main")
+let main = document.querySelector("#main");
+let branch_state;
 
 browser.storage.local.get(['threads']).then((result) => {
     let t = result.threads
     let c = getObjectById(thread_id, t)
-    let convo = c.convo
-    load_thread(convo)
-})
+    let convo = c.convo;
+	// some of the older threads don't have a branch_state object. 
+	let b = c.branch_state;
+	if(!b)
+	{
+		load_thread(convo);
+	}
+	else 
+	{
+		branch_state = new TreeNode();
+		branch_state.fromJSON(b);
+		load_branched_thread();
+	}
+});
+
 function load_thread(c){
     for (let i = 0; i < c.length; i++) {
         let human = i % 2 === 0;
@@ -36,8 +49,102 @@ function load_thread(c){
             main.appendChild(temp)
         }
     }
-    copy_setup()
+    copy_setup();
 }
+
+function load_branched_thread()
+{
+	// reset 
+	main.innerHTML = "";
+	
+	let fake_convo = branch_state.getCurrentData();
+	let current_leaf = branch_state;
+	// first element is always empty as the head node
+	if(fake_convo[0] === undefined)
+	{
+		fake_convo.shift(); 
+	}
+	
+	for (let i = 0; i < fake_convo.length; i++) {
+		let human = i % 2 === 0;
+        let bar = `<div class="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans"><button class="flex ml-auto gap-2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button></div>`
+		
+		let current_leaf_index;
+		let leaves_length = 0;
+		
+		let data_parent_leaf = current_leaf;
+		
+		if(current_leaf)
+		{
+			leaves_length = current_leaf.getNumberOfLeaves();
+			current_leaf_index = current_leaf.getCurrentLeafIndex();
+			// update for next loop iter 
+			current_leaf = current_leaf.getCurrentLeaf();
+		}
+		// set text 
+		var temp;
+		if(human) {
+			temp = h_template.content.cloneNode(true);
+		}
+		else {
+			temp = b_template.content.cloneNode(true);
+		}
+		
+		
+		if(leaves_length > 1)
+		{
+			// temp.querySelector(".branch").innerHTML = `<div class="text-xs flex items-center justify-center gap-1 invisible absolute left-0 top-2 -ml-4 -translate-x-full group-hover:visible"><button class="dark:text-white disabled:text-gray-300 dark:disabled:text-gray-400"><svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><polyline points="15 18 9 12 15 6"></polyline></svg></button><span class="flex-grow flex-shrink-0">${current_leaf_index+1} / ${leaves_length}</span><button disabled="" class="dark:text-white disabled:text-gray-300 dark:disabled:text-gray-400"><svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><polyline points="9 18 15 12 9 6"></polyline></svg></button></div>`;
+			
+			let branchSelectorElement = temp.querySelector(".branch");
+			
+			// can't go left of 0
+			if(!(current_leaf_index <= 0))
+			{
+				let buttonLeft = document.createElement("button");
+				buttonLeft.onclick = () => 
+				{
+					data_parent_leaf.decrementCurrentLeafIndex();
+					load_branched_thread();
+				};
+				buttonLeft.innerHTML = "<";
+				branchSelectorElement.appendChild(buttonLeft);
+			}
+			
+			let branchText = document.createElement("span");
+			branchText.innerHTML = `${current_leaf_index+1} / ${leaves_length}`;
+			branchSelectorElement.appendChild(branchText);
+			
+			// can't go right of max 
+			if(!(current_leaf_index >= leaves_length - 1))
+			{
+				let buttonRight = document.createElement("button");
+				buttonRight.onclick = () => 
+				{
+					data_parent_leaf.incrementCurrentLeafIndex();
+					load_branched_thread();
+				};
+				buttonRight.innerHTML = ">";
+				branchSelectorElement.appendChild(buttonRight);
+			}
+		}
+		
+        if (human) {
+            temp.querySelector(".text").innerHTML = `<p>${fake_convo[i]}</p>`
+            main.appendChild(temp)
+        }
+        else{
+            let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
+            let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
+            temp.querySelector(".text").innerHTML = fake_convo[i].replaceAll(bar, copy_bar).replaceAll(`<div class="p-4">`, "<div>") // fixes formatting for weird code divs
+            main.appendChild(temp)
+        }
+	}
+	
+	// add buttons.
+	copy_setup();
+}
+
+// Add the right event listeners for the little copy clipboard in code blocks.
 function copy_setup() { // created by ChatGPT
     const clipboardBars = document.querySelectorAll('.copy');
     const codeElements = document.querySelectorAll('pre code');
@@ -82,7 +189,7 @@ function alternateValues(array1, array2) {
     return array1.map((val, i) => (i % 2 === 0) ? val : array2[i]);
 }
 
-
+// Open a new thread on a new instance of ChatGPT
 function continue_thread(){
     let human = getInnerText('human', "User")
     let bot = getInnerText('bot', "ChatGPT")
