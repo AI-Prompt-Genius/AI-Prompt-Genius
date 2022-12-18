@@ -32,7 +32,7 @@ function load_thread(c){
             var temp = b_template.content.cloneNode(true);
             let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
             let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
-            temp.querySelector(".text").innerHTML = c[i].replace(bar, copy_bar).replace(`<div class="p-4>`, "<div>") // fixes formatting for weird code divs
+            temp.querySelector(".text").innerHTML = c[i].replaceAll(bar, copy_bar).replaceAll(`<div class="p-4">`, "<div>") // fixes formatting for weird code divs
             main.appendChild(temp)
         }
     }
