@@ -2,16 +2,16 @@
   "manifest_version": 3,
   "name": "ChatGPT History",
   "description": "Save the full history of your ChatGPT conversations.",
-  "version": "1.3.3",
+  "version": "1.3.5",
   "permissions": ["storage", "unlimitedStorage"],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://chat.openai.com/chat"],
-      "js": ["content.js", "scripts/html2canvas.min.js",
-        "scripts/jspdf.umd.min.js"],
+      "matches": ["https://chat.openai.com/chat*"],
+      "js": ["content.js", "scripts/html2canvas.js",
+        "scripts/jspdf.umd.js"],
       "run_at": "document_idle"
     }
   ],

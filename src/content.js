@@ -136,7 +136,9 @@ function main() {
         for (var i = 0; i < children.length; i++) {
             // Clone the child element
             var child = children[i];
+            console.log(child)
             if (child.tagName == "PRE") {
+                console.log("PRE!")
                 let div = child.firstChild.children[1]
                 div.firstChild.classList.add('p-4')
                 let text = div.innerHTML
@@ -188,7 +190,7 @@ function main() {
             text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
         if (!human) {
-            text = saveChildInnerHTML(h.firstChild.children[1].firstChild.firstChild) // saves as html
+            text = saveChildInnerHTML(h.firstChild.children[1].firstChild.firstChild.firstChild) // saves as html
             if (elementChildHasClass(h, 'text-red-500')){
                 text = "ERROR"
             }
