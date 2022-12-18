@@ -279,6 +279,10 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
         });
         main.appendChild(temp);
     }
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 }
 
 function b_load(){
@@ -383,10 +387,11 @@ function import_threads_from_data(data) {
 	});
 }
 
+
 document.querySelectorAll('.bnav').forEach(item => {item.addEventListener('click', bookmarks)})
 
 document.querySelector('#light_dark').addEventListener('click', timer_dl)
 
 document.querySelector("#export_all").addEventListener('click', export_all)
 
-+document.querySelector("#import_all").addEventListener('change', import_all)
+document.querySelector("#import_all").addEventListener('change', import_all)

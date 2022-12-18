@@ -188,7 +188,7 @@ function main() {
             text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
         if (!human) {
-            text = saveChildInnerHTML(h.firstChild.children[1].firstChild.firstChild) // saves as html
+            text = saveChildInnerHTML(h.firstChild.children[1].firstChild.firstChild.firstChild) // saves as html
             if (elementChildHasClass(h, 'text-red-500')){
                 text = "ERROR"
             }
