@@ -64,6 +64,10 @@ function load_branched_thread()
 	{
 		fake_convo.shift(); 
 	}
+	else 
+	{
+		console.warn(`load_branched_thread: data is malformed, weird things are going to happen.`);
+	}
 	
 	for (let i = 0; i < fake_convo.length; i++) {
 		let human = i % 2 === 0;

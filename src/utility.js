@@ -219,15 +219,16 @@ TreeNode.prototype.fromJSON = function(JSONObject)
 	this.data = JSONObject.data;
 	for(let index = 0, length = JSONObject.leaves.length; index < length; index++)
 	{
+		this.addLeaf(new TreeNode());
 		if(JSONObject.leaves[index])
 		{
-			this.addLeaf(new TreeNode());
 			// repeat recursively from a subtree
 			this.leaves[index].fromJSON(JSONObject.leaves[index]);
 		}
 		else 
 		{
 			console.warn(`TreeNode.fromJSON: Empty object at index ${index}.`);
+			console.log(JSONObject);
 		}
 	}
 }
