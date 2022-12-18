@@ -138,6 +138,7 @@ function main() {
             var child = children[i];
             console.log(child)
             if (child.tagName == "PRE") {
+                console.log("PRE!")
                 let div = child.firstChild.children[1]
                 div.firstChild.classList.add('p-4')
                 let text = div.innerHTML
@@ -172,7 +173,7 @@ function main() {
             text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
         if (!human) {
-            text = saveChildInnerHTML(h.firstChild.children[1].firstChild.firstChild) // saves as html
+            text = saveChildInnerHTML(h.firstChild.children[1].firstChild.firstChild.firstChild) // saves as html
             if (h.classList.contains('text-red-500')){
                 text = "ERROR"
             }
