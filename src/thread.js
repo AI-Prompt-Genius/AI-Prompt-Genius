@@ -49,7 +49,7 @@ function copy_setup() { // created by ChatGPT
             let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
             let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
             clipboardBar.innerHTML = `<icon class="fa-regular fa-check"></icon> &nbsp; Copied!`;
-            setTimeout(() => {clipboardBar.outerHTML = copy_bar}, 2000);
+            setTimeout(() => {clipboardBar.outerHTML = copy_bar; copy_setup()}, 2000);
             // Get the code element corresponding to the clicked clipboard bar
             const codeElement = codeElements[index];
 
