@@ -90,4 +90,8 @@ body.light{
     border-bottom: #E5E5E5 1px solid;
 }
 
+.flex.items-center.relative{
+    display: none;
+}
+
 #cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
