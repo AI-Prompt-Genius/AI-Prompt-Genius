@@ -98,33 +98,37 @@ function load_branched_thread()
 			let branchSelectorElement = temp.querySelector(".branch");
 			
 			// can't go left of 0
-			if(!(current_leaf_index <= 0))
+			let buttonLeft = document.createElement("button");
+			buttonLeft.onclick = () => 
 			{
-				let buttonLeft = document.createElement("button");
-				buttonLeft.onclick = () => 
-				{
-					data_parent_leaf.decrementCurrentLeafIndex();
-					load_branched_thread();
-				};
-				buttonLeft.innerHTML = "<";
-				branchSelectorElement.appendChild(buttonLeft);
+				data_parent_leaf.decrementCurrentLeafIndex();
+				load_branched_thread();
+			};
+			buttonLeft.innerHTML = `<i class="fa-regular fa-angle-left"></i>`;
+			branchSelectorElement.appendChild(buttonLeft);
+			if((current_leaf_index <= 0))
+			{
+				buttonLeft.disabled = true;
 			}
 			
 			let branchText = document.createElement("span");
+			branchText.classList.add("flex-grow");
+			branchText.classList.add("flex-shrink-0");
 			branchText.innerHTML = `${current_leaf_index+1} / ${leaves_length}`;
 			branchSelectorElement.appendChild(branchText);
 			
 			// can't go right of max 
-			if(!(current_leaf_index >= leaves_length - 1))
+			let buttonRight = document.createElement("button");
+			buttonRight.onclick = () => 
 			{
-				let buttonRight = document.createElement("button");
-				buttonRight.onclick = () => 
-				{
-					data_parent_leaf.incrementCurrentLeafIndex();
-					load_branched_thread();
-				};
-				buttonRight.innerHTML = ">";
-				branchSelectorElement.appendChild(buttonRight);
+				data_parent_leaf.incrementCurrentLeafIndex();
+				load_branched_thread();
+			};
+			buttonRight.innerHTML = `<i class="fa-regular fa-angle-right"></i>`;
+			branchSelectorElement.appendChild(buttonRight);
+			if((current_leaf_index >= leaves_length - 1))
+			{
+				buttonRight.disabled = true;
 			}
 		}
 		
@@ -197,4 +201,4 @@ function continue_thread(){
     chrome.runtime.sendMessage({convo: convo, type: 'b_continue_convo'});
 }
 
-document.querySelector("#continue").addEventListener("click", continue_thread)
+document.querySelector("#continue").addEventListener("click", continue_thread);
