@@ -1,5 +1,9 @@
 if (typeof browser === "undefined") {
     browser = chrome
+    firefox = false
+}
+else{
+    firefox = true
 }
 let icon = document.querySelector('.sun-moon')
 function switchClass(element) {

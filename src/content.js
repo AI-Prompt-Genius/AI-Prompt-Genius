@@ -374,7 +374,7 @@ function main() {
         h.innerHTML = `${h_svg} Share Page`;
         nav.insertBefore(h, nav.children[3]);
     }
-    if (!firefox){
+    if (!firefox && buttons === true) {
         add_buttons()
     }
 
@@ -535,9 +535,10 @@ function main() {
     function continue_convo(convo){
         const input = document.querySelector("textarea");
         const button = input.parentElement.querySelector("button");
-        const intro = `The following is an array of a conversation between me and ChatGPT. Use it for context in the rest of the conversation. Be ready to edit and build upon the responses previously given by ChatGPT. Respond "ready!" if you understand the context. You do not need to say anything else. Conversation:`
         input.value = `${intro} ${convo}`;
-        button.click();
+        if (auto_send) {
+            button.click();
+        }
     }
 
     chrome.runtime.onMessage.addListener(
@@ -557,3 +558,13 @@ if (document.readyState === "complete" || document.readyState === "interactive")
 else {
     document.addEventListener("DOMContentLoaded", main);
 }
+
+let buttons; let intro; let auto_send;
+let defaults = {buttons: true, auto_send: true, auto_delete: false, message: "The following is a transcript of a conversation between me and ChatGPT. Use it for context in the rest of the conversation. Be ready to edit and build upon the responses previously given by ChatGPT. Respond \"ready!\" if you understand the context. Do not respond wit anything else. Conversation:\n"}
+chrome.storage.local.get({settings: defaults}, function(result) {
+    let settings = result.settings
+    buttons = settings.buttons
+    intro = settings.message
+    auto_send = settings.auto_send
+    console.log("buttons!" + buttons)
+})

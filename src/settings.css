@@ -1,0 +1,27 @@
+#cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
+main{
+    margin-left : 201px;
+    margin-right: 12px;
+}
+
+.table{
+    width: 800px;
+}
+
+.w-60{
+    width: 60%;
+}
+
+body.dark{
+    background-color: #343541;
+}
+.dark{
+    color: #D1D5DA;
+}
+#defaultMessageInput{
+    height: 170px
+}
+
+.text-xs{
+    font-size: 10pt;
+}
