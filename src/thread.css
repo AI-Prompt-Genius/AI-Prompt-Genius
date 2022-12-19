@@ -93,5 +93,19 @@ body.light{
 .flex.items-center.relative{
     display: none;
 }
+/* moves the element to be completely 100% to the left of its parent */
+.left-of-parent {
+	position: absolute;
+	transform: translateX(-100%);
+	padding-right: 10px;
+}
+.branch button {
+	background: none;
+	border: none;
+	color: inherit;
+}
+.branch button:disabled {
+	color: grey;
+}
 
 #cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
