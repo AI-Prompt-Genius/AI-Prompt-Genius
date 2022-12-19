@@ -150,14 +150,9 @@ document.querySelector('.search-bar').addEventListener('input', search)
 let threads_g = []
 let updated = false
 function update_threads() {
-    clearTimeout(timer)
-    if (!updated) {
-        browser.storage.local.get(['threads']).then((result) => {
-            threads_g = result.threads
-        });
-    }
-    updated = true
-    timer = setTimeout(() => {updated = false}, 10000)
+    browser.storage.local.get(['threads']).then((result) => {
+        threads_g = result.threads
+    });
 }
 update_threads()
 
@@ -305,7 +300,7 @@ function b_load(){
 function bookmarks() {
     main.innerHTML = ""
     update_threads()
-    setTimeout(b_load, 100)
+    setTimeout(b_load, 50)
 }
 
 function timer_dl(){
