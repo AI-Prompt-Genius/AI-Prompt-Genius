@@ -249,63 +249,81 @@ function main() {
                         }
                     }
                     page.push(text);
-					
-					// mirror state;
-					
-					let elements = child.querySelectorAll("span");
-					// get last element
-					let spanText = elements[elements.length - 1]?.innerHTML; // html instead of text because it sometimes hides
-					if(human)
-					{
-						// because there are now two spans being used for other stuff, but only for humans
-						if(elements.length < 3) spanText = undefined;
-					}
-					
-					let leafIndex = 0;
-					if(spanText)
-					{
-						let spanNumber = Number(spanText.split("/")[0]);
-						// sometimes spanText trawls up "!" that comes from content warning policy; just ignore that.
-						if(!isNaN(spanNumber))
-						{
-							// remember array indices start at 0
-							leafIndex = spanNumber - 1;
-							console.log(leafIndex);
-						}
-					}
-					current_leaf.setCurrentLeafIndex(leafIndex);
-					if(leafIndex > -1)
-					{
-						let new_current_leaf = current_leaf.getCurrentLeaf();
-						if(!new_current_leaf)
-						{
-							new_current_leaf = new TreeNode();
-							// array.set in case we don't start at the beginning.
-							// yes, that is a thing that happens
-							current_leaf.getLeaves()[leafIndex] = new_current_leaf;
-						}
-						new_current_leaf.setData(text);
-						current_leaf = new_current_leaf;
-					}
-                }
-				console.log( mirror_branch_state.toJSON() );
-                if (t !== null) {
-                    if (first_time) {
-                        id = generateUUID();
-                        let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: id, branch_state: mirror_branch_state.toJSON()}
-                        t.push(thread)
-                        first_time = false
-                    } else {
-                        let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: id, branch_state: mirror_branch_state.toJSON()}
-                        t[t.length - 1] = thread
+
+                    // mirror state;
+
+                    let elements = child.querySelectorAll("span");
+                    // get last element
+                    let spanText = elements[elements.length - 1]?.innerHTML; // html instead of text because it sometimes hides
+                    if (human) {
+                        // because there are now two spans being used for other stuff, but only for humans
+                        if (elements.length < 3) spanText = undefined;
                     }
-                    browser.storage.local.set({threads: t})
-                } else {
-                    id = generateUUID()
-                    let thread = {date: getDate(), time: getTime(), convo: page, favorite: false, id: id, branch_state: mirror_branch_state.toJSON()}
-                    let t = [thread]
-                    first_time = false
-                    browser.storage.local.set({threads: t})
+
+                    let leafIndex = 0;
+                    if (spanText) {
+                        let spanNumber = Number(spanText.split("/")[0]);
+                        // sometimes spanText trawls up "!" that comes from content warning policy; just ignore that.
+                        if (!isNaN(spanNumber)) {
+                            // remember array indices start at 0
+                            leafIndex = spanNumber - 1;
+                            console.log(leafIndex);
+                        }
+                    }
+                    current_leaf.setCurrentLeafIndex(leafIndex);
+                    if (leafIndex > -1) {
+                        let new_current_leaf = current_leaf.getCurrentLeaf();
+                        if (!new_current_leaf) {
+                            new_current_leaf = new TreeNode();
+                            // array.set in case we don't start at the beginning.
+                            // yes, that is a thing that happens
+                            current_leaf.getLeaves()[leafIndex] = new_current_leaf;
+                        }
+                        new_current_leaf.setData(text);
+                        current_leaf = new_current_leaf;
+                    }
+                }
+                console.log(mirror_branch_state.toJSON());
+                if (mirror_branch_state !== null) {
+                    if (t !== null) {
+                        if (first_time) {
+                            id = generateUUID();
+                            let thread = {
+                                date: getDate(),
+                                time: getTime(),
+                                convo: page,
+                                favorite: false,
+                                id: id,
+                                branch_state: mirror_branch_state.toJSON()
+                            }
+                            t.push(thread)
+                            first_time = false
+                        } else {
+                            let thread = {
+                                date: getDate(),
+                                time: getTime(),
+                                convo: page,
+                                favorite: false,
+                                id: id,
+                                branch_state: mirror_branch_state.toJSON()
+                            }
+                            t[t.length - 1] = thread
+                        }
+                        browser.storage.local.set({threads: t})
+                    } else {
+                        id = generateUUID()
+                        let thread = {
+                            date: getDate(),
+                            time: getTime(),
+                            convo: page,
+                            favorite: false,
+                            id: id,
+                            branch_state: mirror_branch_state.toJSON()
+                        }
+                        let t = [thread]
+                        first_time = false
+                        browser.storage.local.set({threads: t})
+                    }
                 }
             });
         }

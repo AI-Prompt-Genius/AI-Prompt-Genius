@@ -42,6 +42,7 @@ function toggle_thread_title_editable(i, row){
 			let thread = t[i];
 			if(thread.title) title_text.innerHTML = thread.title;
 		});
+        title_text.classList.add('editable')
 		title_text.contentEditable = "true";
 		title_text.focus();
 		edit_icon.classList.remove("fa-pen-to-square");
@@ -49,7 +50,8 @@ function toggle_thread_title_editable(i, row){
 	}
 	else 
 	{
-		title_text.contentEditable = "inherit";
+        title_text.classList.remove('editable')
+        title_text.contentEditable = "inherit";
 		// now set the title instead
 		browser.storage.local.get(['threads']).then((result) => {
 			let t = result.threads
@@ -203,6 +205,22 @@ async function dark_light() {
     )
 }
 
+function htmlToPlainText(html) {
+    // Create a new div element
+    const div = document.createElement('div');
+    // Set the HTML content of the div to the input string
+    div.innerHTML = html;
+    // Retrieve the plain text version of the HTML string
+    let text = div.textContent || div.innerText;
+    // Remove new lines
+    text = text.replace(/\n/g, ' ').replace("Copy code", "");
+    // Remove leading and trailing white space
+    text = text.trim();
+    return text;
+}
+
+
+
 const MAX_TITLE_DISPLAY_LENGTH = 55;
 
 function load_threads(threads, search=false, search_term="", bookmarks=false){
@@ -277,7 +295,12 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
                 export_thread(i, row);
             }
             else if(target.classList.contains('continue')) {
-                let c = threads[i].convo
+                let c = [];
+                for (let i = 0; i < threads[0].convo.length; i++) {
+                    let user = i % 2 === 0 ? "Me" : "ChatGPT";
+                    c.push({ [user]: htmlToPlainText(threads[0].convo[i]) });
+                }
+
                 chrome.runtime.sendMessage({convo: c, type: 'b_continue_convo'})
             }
             else{
