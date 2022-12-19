@@ -40,7 +40,6 @@ function toggle_thread_title_editable(i, row){
 		browser.storage.local.get(['threads']).then((result) => {
 			let t = result.threads
 			let thread = t[i];
-			console.log(thread.title);
 			if(thread.title) title_text.innerHTML = thread.title;
 		});
 		title_text.contentEditable = "true";
@@ -125,12 +124,15 @@ let timer;
 function searchThreads(threads, searchTerm) { // created by ChatGPT
     searchTerm = searchTerm.toLowerCase();
     return threads.filter(thread => {
-        return thread.convo.some(message => message.toLowerCase().includes(searchTerm));
+        return (
+            thread.convo.some(message => message.toLowerCase().includes(searchTerm)) ||
+            (thread.title && thread.title.toLowerCase().includes(searchTerm))
+        );
     });
 }
 
 
-function search(){
+function search() {
     let search_term = document.querySelector('.search-bar').value
     update_threads()
     let ts = searchThreads(threads_g, document.querySelector('.search-bar').value)
@@ -233,6 +235,10 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
         }
         else{
             temp.querySelector('.subtitle').innerHTML = sliceString(searchList(threads[i].convo, search_term), 100)
+            temp.querySelector('.title-text').innerHTML = sliceString(searchList([thread_title], search_term), 100)
+            if (temp.querySelector('.title-text').innerHTML === "") {
+                temp.querySelector('.title-text').innerHTML = thread_title
+            }
         }
         let saved = threads[i].favorite
         let btn = temp.querySelector('.btn.bookmark')
