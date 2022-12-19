@@ -249,6 +249,12 @@ function load_threads(threads, search=false, search_term="", bookmarks=false){
             row.classList.remove('dark')
             row.classList.add('light')
         }
+        let title_input = row.querySelector('.title-text')
+        title_input.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                toggle_thread_title_editable(i, row)
+            }
+        });
         row.addEventListener('click', event => {
             const target = event.target;
             if (target.classList.contains('trash')){
