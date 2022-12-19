@@ -8,6 +8,23 @@
 	cursor: pointer;
 }
 
+code::before, code::after{
+    content: "`";
+}
+code, pre{
+    font-family: Söhne Mono,Monaco,Andale Mono,Ubuntu Mono,monospace!important;
+}
+code{
+    font-size: .875em;
+    font-weight: 600;
+}
+.light code{
+    color: #111827
+}
+.dark code{
+    color: #F9F9FA
+}
+
 /* file inputs must be visible, but they can't be styled, and so we do a trick with opacity. */
 .hidden-trick {
 	position:fixed;
