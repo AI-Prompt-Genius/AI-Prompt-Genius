@@ -200,7 +200,7 @@ function searchList(strings, searchTerm) { // created by ChatGPT
 let dl;
 dark_light()
 async function dark_light() {
-    browser.storage.sync.get({mode: "dark"},
+    browser.storage.local.get({mode: "dark"},
         function(result) {
             dl = result?.mode;
 			if(!dl) dl = "dark"; // guard statement because it apparently still returns undefined "result" sometimes 

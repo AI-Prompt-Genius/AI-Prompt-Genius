@@ -29,7 +29,7 @@ function switch_mode(){
     switchClass(document.body)
 }
 
-browser.storage.sync.get({mode: "dark"}, function(result) {
+browser.storage.local.get({mode: "dark"}, function(result) {
     if(result && result.mode === "light"){
         switch_mode();
     }
