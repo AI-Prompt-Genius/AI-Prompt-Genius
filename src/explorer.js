@@ -206,11 +206,9 @@ async function dark_light() {
     )
 }
 
-
-
 const MAX_TITLE_DISPLAY_LENGTH = 55;
 
-function load_threads(threads, search=false, search_term="", bookmarks=false){
+function load_threads(threads, search=false, search_term="", bookmarks=false) {
     for (let n = 0; n < threads.length; n++) {
         let i = threads.length - n - 1;
         let temp;
