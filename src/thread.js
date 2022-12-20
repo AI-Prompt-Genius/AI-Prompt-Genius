@@ -13,11 +13,11 @@ const b_template = document.querySelector("#bot")
 
 let main = document.querySelector("#main");
 let branch_state;
-
+let convo;
 browser.storage.local.get(['threads']).then((result) => {
     let t = result.threads
     let c = getObjectById(thread_id, t)
-    let convo = c.convo;
+	convo = c.convo;
 	// some of the older threads don't have a branch_state object. 
 	let b = c.branch_state;
 	if(!b)
@@ -159,7 +159,6 @@ function copy_setup() { // created by ChatGPT
     const clipboardBars = document.querySelectorAll('.copy');
     const codeElements = document.querySelectorAll('pre code');
 
-
 // Add a click event listener to each clipboard bar
     clipboardBars.forEach((clipboardBar, index) => {
         clipboardBar.addEventListener('click', async () => {
@@ -201,10 +200,12 @@ function alternateValues(array1, array2) {
 
 // Open a new thread on a new instance of ChatGPT
 function continue_thread(){
-    let human = getInnerText('human', "User")
-    let bot = getInnerText('bot', "ChatGPT")
-    let convo = alternateValues(human, bot)
-    chrome.runtime.sendMessage({convo: convo, type: 'b_continue_convo'});
+	let c = [];
+	for (let i = 0; i < convo.length; i++) {
+		let user = i % 2 === 0 ? "Me" : "ChatGPT";
+		c.push({ [user]: htmlToPlainText(convo[i]) });
+	}
+    chrome.runtime.sendMessage({convo: c, type: 'b_continue_convo'});
 }
 
 document.querySelector("#continue").addEventListener("click", continue_thread);
