@@ -66,18 +66,21 @@ code{
     background-color: #ffffff;
 }
 
+i.fa-solid.fa-magnifying-glass {
+    align-self: center;
+}
+
 .search-bar {
     border: 0;
-    padding: 0;
-    background-color: #343541;
-    border-radius: 2px;
+    background-color: #34354100;
     color: #fff;
-    width: 165px;
-    height: 30px;
+    width: 100%;
+    padding-left: 0.5rem;
 }
 
 .search-bar:focus {
     outline: none;
+    background-color: #343541;
 }
 
 .search-bar:focus::-webkit-input-placeholder {
