@@ -4,6 +4,18 @@ if (typeof browser === "undefined") {
 
 let main = document.querySelector("main");
 
+// boilerplate
+let dl;
+dark_light()
+async function dark_light() {
+    browser.storage.local.get({mode: "dark"},
+        function(result) {
+            dl = result?.mode;
+			if(!dl) dl = "dark"; // guard statement because it apparently still returns undefined "result" sometimes 
+        }
+    )
+}
+
 // default prompts for new users
 const default_prompts = [
 	{
@@ -41,13 +53,27 @@ function load_prompts(prompts)
 		prompt_text.innerHTML = prompt.text;
 		let row = template.querySelector('.row');
 		
+		if(even)
+		{
+			row.classList.add("even");
+		}
+		else 
+		{
+			row.classList.add("odd");
+		}
+        if (dl === "light") {
+            row.classList.remove('dark')
+            row.classList.add('light')
+        }
+		
+		
 		row.addEventListener('click', event => {
             const target = event.target;
 			if (target.classList.contains('trash')){
-                // TODO 
+                delete_prompt(id);
             }
 			else if(target.classList.contains('continue')){
-                // TODO 
+				use_prompt(id);
             }
 			else if (target.classList.contains('edit-button')){
 				toggle_prompt_editable(id, row);
@@ -78,7 +104,32 @@ function load_prompts(prompts)
 
 function delete_prompt(id)
 {
-	
+	browser.storage.local.get({prompts: default_prompts}).then((result) => {
+		let prompts = result.prompts;
+		let prompt = getObjectById(id, prompts);
+		if(!prompt)
+		{
+			console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
+			return;
+		}
+		removeElementInArray(prompts, prompt);
+		browser.storage.local.set({prompts: prompts});
+		load_prompts(prompts);
+	});
+}
+
+function use_prompt(id)
+{
+	browser.storage.local.get({prompts: default_prompts}).then((result) => {
+		let prompts = result.prompts;
+		let prompt = getObjectById(id, prompts);
+		if(!prompt)
+		{
+			console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
+			return;
+		}
+		chrome.runtime.sendMessage({prompt: prompt.text, type: 'b_use_prompt'})
+	});
 }
 
 function toggle_prompt_title_editable(id, element)
@@ -103,6 +154,7 @@ function toggle_prompt_editable(id, element)
 			if(!prompt)
 			{
 				console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
+				return;
 			}
 			textarea.value = prompt.text;
 			prompt_title.innerHTML = prompt.title; // load full titles from truncated
@@ -134,6 +186,7 @@ function toggle_prompt_editable(id, element)
 			if(!prompt)
 			{
 				console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
+				return;
 			}
 			prompt.text = text;
 			prompt.title = prompt_title.innerText;
@@ -148,85 +201,6 @@ function toggle_prompt_editable(id, element)
 		edit_icon.classList.add("fa-pen-to-square");
 		edit_icon.classList.remove("fa-floppy-disk-pen");
 	}
-}
-
-function toggle_prompt_body_editable(id, element)
-{
-	let edit_icon = element.querySelector(".edit-prompt-button");
-	let prompt_text = element.querySelector(".prompt-text");
-	
-	if(!prompt_text.querySelector("textarea"))
-	{
-		let textarea = document.createElement("textarea");
-		prompt_text.innerHTML = "";
-		prompt_text.appendChild(textarea);
-		browser.storage.local.get({prompts: default_prompts}).then((result) => {
-			let prompts = result.prompts;
-			let prompt = getObjectById(id, prompts);
-			textarea.value = prompt.text;
-			// init
-			autoExpandTextArea();
-		});
-		edit_icon.classList.remove("fa-pen-to-square");
-		edit_icon.classList.add("fa-floppy-disk-pen");
-		
-		// automatically growing textarea 
-		const autoExpandTextArea = function() {
-			textarea.style.height = ""; /* Reset the height*/
-			textarea.style.height = textarea.scrollHeight + "px";
-		}
-		textarea.oninput = autoExpandTextArea;
-	}
-	else 
-	{
-		let textarea = prompt_text.querySelector("textarea");
-		let text = textarea.value;
-		browser.storage.local.get({prompts: default_prompts}).then((result) => {
-			let prompts = result.prompts;
-			let prompt = getObjectById(id, prompts);
-			if(!prompt)
-			{
-				console.warn(`toggle_prompt_body_editable: cannot find prompt of id ${id}.`);
-			}
-			prompt.text = text;
-			browser.storage.local.set({prompts: prompts});
-		});
-		prompt_text.innerHTML = text;
-		edit_icon.classList.add("fa-pen-to-square");
-		edit_icon.classList.remove("fa-floppy-disk-pen");
-	}
-	/*
-	if(prompt_text.contentEditable === "inherit")
-	{
-		browser.storage.local.get({prompts: default_prompts}).then((result) => {
-			let prompts = result.prompts;
-			let prompt = getObjectById(id, prompts);
-			prompt_text.innerHTML = prompt.text;
-		});			
-		prompt_text.classList.add('editable')
-		prompt_text.contentEditable = "true";
-		prompt_text.focus();
-		edit_icon.classList.remove("fa-pen-to-square");
-		edit_icon.classList.add("fa-floppy-disk-pen");
-	}
-	else 
-	{
-		browser.storage.local.get({prompts: default_prompts}).then((result) => {
-			let prompts = result.prompts;
-			let prompt = getObjectById(id, prompts);
-			if(!prompt)
-			{
-				console.warn(`toggle_prompt_body_editable: cannot find prompt of id ${id}.`);
-			}
-			prompt.text = prompt_text.innerText;
-			browser.storage.local.set({prompts: prompts});
-		});
-		prompt_text.classList.remove('editable')
-		prompt_text.contentEditable = "inherit";
-		edit_icon.classList.add("fa-pen-to-square");
-		edit_icon.classList.remove("fa-floppy-disk-pen");
-	}
-	*/
 }
 
 function new_empty_prompt()
@@ -245,11 +219,6 @@ function new_empty_prompt()
 		load_prompts(prompts);
 	});
 	return prompt;
-}
-
-function use_prompt()
-{
-	
 }
 
 function handle_keydown(event)
@@ -273,3 +242,9 @@ document.body.addEventListener("keydown", handle_keydown);
 document.body.addEventListener("keyup", handle_keyup);
 
 document.querySelector("#new_prompt_button").addEventListener('click', new_empty_prompt)
+
+
+document.querySelector('#light_dark').addEventListener('click', timer_dl);
+function timer_dl(){
+    setTimeout(dark_light, 300)
+}

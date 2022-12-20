@@ -72,3 +72,20 @@ textarea {
 .dark textarea {
 	background-color: #212128;
 }
+
+.even.dark{
+    background-color: #343541;
+    color: #ECECF1;
+}
+.even.light{
+    background-color: #ffffff;
+}
+
+.odd.light{
+    background-color: #F7F7F8 !important;
+}
+
+.odd.dark{
+    background-color: #434654 !important;
+    color: #D1D5DA;
+}
