@@ -46,17 +46,17 @@ function load_prompts(prompts)
 			if (target.classList.contains('trash')){
                 // TODO 
             }
-			else if (target.classList.contains('edit-title-button')){
-				toggle_prompt_title_editable(id, row);
-			}
-			else if (target.classList.contains('title-text')){
-				toggle_prompt_title_editable(id, row);
-			}
-			else if (target.classList.contains('edit-prompt-button')){
-				toggle_prompt_body_editable(id, row);
+			else if(target.classList.contains('continue')){
+                // TODO 
+            }
+			else if (target.classList.contains('edit-button')){
+				toggle_prompt_editable(id, row);
 			}
 			else if (target.classList.contains('prompt-text')){
-				toggle_prompt_body_editable(id, row);
+				toggle_prompt_editable(id, row);
+			}
+			else if (target.classList.contains('title-text')){
+				// Catchall
 			}
 			else {
 				
@@ -84,6 +84,70 @@ function delete_prompt(id)
 function toggle_prompt_title_editable(id, element)
 {
 	//getObjectById(id, list)
+}
+
+function toggle_prompt_editable(id, element)
+{
+	let edit_icon = element.querySelector(".edit-button");
+	let prompt_title =  element.querySelector(".title-text");
+	let prompt_text = element.querySelector(".prompt-text");
+	
+	if(!prompt_text.querySelector("textarea"))
+	{
+		let textarea = document.createElement("textarea");
+		prompt_text.innerHTML = "";
+		prompt_text.appendChild(textarea);
+		browser.storage.local.get({prompts: default_prompts}).then((result) => {
+			let prompts = result.prompts;
+			let prompt = getObjectById(id, prompts);
+			if(!prompt)
+			{
+				console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
+			}
+			textarea.value = prompt.text;
+			prompt_title.innerHTML = prompt.title; // load full titles from truncated
+			// init
+			autoExpandTextArea();
+		});
+		// update buttons
+		edit_icon.classList.remove("fa-pen-to-square");
+		edit_icon.classList.add("fa-floppy-disk-pen");
+		// make title editable
+		prompt_title.classList.add('editable')
+		prompt_title.contentEditable = "true";
+		prompt_title.focus();
+		
+		// automatically growing textarea 
+		const autoExpandTextArea = function() {
+			textarea.style.height = ""; /* Reset the height*/
+			textarea.style.height = textarea.scrollHeight + "px";
+		}
+		textarea.oninput = autoExpandTextArea;
+	}
+	else 
+	{
+		let textarea = prompt_text.querySelector("textarea");
+		let text = textarea.value;
+		browser.storage.local.get({prompts: default_prompts}).then((result) => {
+			let prompts = result.prompts;
+			let prompt = getObjectById(id, prompts);
+			if(!prompt)
+			{
+				console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
+			}
+			prompt.text = text;
+			prompt.title = prompt_title.innerText;
+			browser.storage.local.set({prompts: prompts});
+		});
+		// make title uneditable
+		prompt_title.classList.remove('editable')
+		prompt_title.contentEditable = "inherit";
+		
+		prompt_text.innerHTML = text;
+		// update buttons
+		edit_icon.classList.add("fa-pen-to-square");
+		edit_icon.classList.remove("fa-floppy-disk-pen");
+	}
 }
 
 function toggle_prompt_body_editable(id, element)
