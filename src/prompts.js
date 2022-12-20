@@ -25,6 +25,7 @@ browser.storage.local.get({prompts: default_prompts}, function(result) {
 
 function load_prompts(prompts)
 {
+	main.innerHTML = "";
 	for (let n = prompts.length - 1; n > -1; n--) { // load in reverse order
 		let template = document.querySelector('#prompt_template').content.cloneNode(true);
 		let even = n % 2 === 0;
@@ -170,9 +171,15 @@ function new_empty_prompt()
 		date: getDate(),
 		time: getTime(),
 		id: generateUUID(),
-		title: "",
+		title: "Untitled Prompt",
 		text: "",
 	};
+	browser.storage.local.get({prompts: default_prompts}).then((result) => {
+		let prompts = result.prompts;
+		prompts.push(prompt);
+		browser.storage.local.set({prompts: prompts});
+		load_prompts(prompts);
+	});
 	return prompt;
 }
 
@@ -200,3 +207,5 @@ function handle_keyup(event)
 document.body.addEventListener("keydown", handle_keydown);
 
 document.body.addEventListener("keyup", handle_keyup);
+
+document.querySelector("#new_prompt_button").addEventListener('click', new_empty_prompt)
