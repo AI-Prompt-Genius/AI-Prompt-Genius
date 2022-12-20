@@ -141,7 +141,7 @@ i.continue{
 	padding-left: 5px;
 	padding-right: 5px;
 }
-.title-text.editable.light{
+.light .title-text.editable{
     background-color: white;
     color: black;
 }
