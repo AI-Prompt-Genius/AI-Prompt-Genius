@@ -58,6 +58,7 @@ function toggle_thread_title_editable(i, row){
 			let thread = t[i];
 			thread.title = title_text.innerText;
 			browser.storage.local.set({threads: t});
+            threads_g = t;
 		});
 		edit_icon.classList.remove("fa-floppy-disk-pen");
 		edit_icon.classList.add("fa-pen-to-square");
