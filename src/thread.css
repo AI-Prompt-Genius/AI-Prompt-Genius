@@ -31,20 +31,20 @@
     margin-left: 190px;
     padding: 0;
 }
-.bot.light{
+.light .bot {
     background-color: #F7F7F8 !important;
 }
-.bot.dark{
+.dark .bot{
     background-color: #434654 !important;
     color: #D1D5DA;
 }
 
-.human.dark{
+.dark .human {
     background-color: #343541;
     color: #ECECF1;
 }
 
-.human.light{
+.light .human {
     background-color: #ffffff;
 }
 
@@ -83,10 +83,10 @@ body.dark{
 body.light{
     background-color: #FFF;
 }
-.human.dark, .bot.dark{
+.dark .human, .dark .bot{
     border-bottom: #2A2B31 1px solid;
 }
-.human.light, .bot.light{
+.light .human, .light .bot{
     border-bottom: #E5E5E5 1px solid;
 }
 

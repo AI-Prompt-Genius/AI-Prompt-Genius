@@ -30,3 +30,11 @@
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
+
+.top-half{
+    position: absolute; top: 15px; left: 0; right: 0;
+}
+.bottom-half{
+    position: absolute; bottom: 8px; left: 0; right: 0;
+    border-top: 1px solid #4D4D4F;
+}
