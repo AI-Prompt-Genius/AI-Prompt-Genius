@@ -419,22 +419,63 @@ function main() {
     }
 
     async function sendRequest() {
-        const data = getData();
-        const uploadUrlResponse = await fetch(
-            "https://chatgpt-static.s3.amazonaws.com/url.txt"
-        );
-        const uploadUrl = await uploadUrlResponse.text();
-        fetch(uploadUrl, {
-            method: "POST",
+        function conversationData() {
+            var result = {
+                avatarUrl: getAvatarImage(),
+                items: [],
+            };
+
+            for (const node of p.parentElement.children) {
+                const markdownContent = node.querySelector(".markdown");
+
+                // tailwind class indicates human or gpt
+                if ([...node.classList].includes("dark:bg-gray-800")) {
+                    result.items.push({
+                        from: "human",
+                        value: node.textContent,
+                    });
+                    // if it's a GPT response, it might contain code blocks
+                } else if ([...node.classList].includes("bg-gray-50")) {
+                    result.items.push({
+                        from: "gpt",
+                        value: markdownContent.outerHTML,
+                    });
+                }
+            }
+
+            return result;
+        }
+        console.log(conversationData())
+
+        function getAvatarImage() {
+            // Create a canvas element
+            const canvas = document.createElement("canvas");
+
+            const image = document.querySelectorAll("img")[1];
+
+            // Set the canvas size to 30x30 pixels
+            canvas.width = 30;
+            canvas.height = 30;
+
+            // Draw the img onto the canvas
+            canvas.getContext("2d").drawImage(image, 0, 0);
+
+            // Convert the canvas to a base64 string as a JPEG image
+            const base64 = canvas.toDataURL("image/jpeg");
+
+            return base64;
+        }
+
+        const res = await fetch("https://sharegpt.com/api/conversations", {
+            body: JSON.stringify(conversationData()),
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                window.open(data.url, "_blank");
-            });
+            method: "POST",
+        });
+        const {id} = await res.json();
+        const url = `https://shareg.pt/${id}`; // short link to the ShareGPT post
+        window.open(url, "_blank");
     }
 
     function handleImg(imgData) {
