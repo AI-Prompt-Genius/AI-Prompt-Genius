@@ -112,7 +112,12 @@ function load_prompts(prompts)
 				// Catchall
 			}
 			else {
-				
+				if(row.querySelector('textarea')){
+					toggle_prompt_editable(id, row);
+				}
+				else{
+					use_prompt(id)
+				}
 			}
 		});
 		prompt_text.addEventListener('keydown', (event) => {
