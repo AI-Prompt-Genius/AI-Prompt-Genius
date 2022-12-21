@@ -6,6 +6,10 @@ main{
 .w-60{
     width: 60%;
 }
+a
+{
+    cursor: pointer;
+}
 
 body.dark{
     background-color: #343541;
