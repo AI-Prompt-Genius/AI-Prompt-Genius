@@ -552,6 +552,7 @@ function main() {
     }
     function continue_convo(convo){
         const input = document.querySelector("textarea");
+        input.style.height = "200px";
         const button = input.parentElement.querySelector("button");
         input.value = `${intro} ${convo}`;
         if (auto_send) {
@@ -560,12 +561,13 @@ function main() {
     }
 	
 	function use_prompt(prompt){
-		const input = document.querySelector("textarea");
+        const input = document.querySelector("textarea");
+        input.style.height = "200px";
         const button = input.parentElement.querySelector("button");
         input.value = `${prompt}`;
-		/*if (auto_send) {
+        if (auto_send) {
             button.click();
-        }*/
+        }
 	}
 
     chrome.runtime.onMessage.addListener(
@@ -591,7 +593,7 @@ else {
 }
 
 let buttons; let intro; let auto_send;
-let defaults = {buttons: true, auto_send: true, auto_delete: false, message: "The following is a transcript of a conversation between me and ChatGPT. Use it for context in the rest of the conversation. Be ready to edit and build upon the responses previously given by ChatGPT. Respond \"ready!\" if you understand the context. Do not respond wit anything else. Conversation:\n"}
+let defaults = {buttons: true, auto_send: false, auto_delete: false, message: "The following is a transcript of a conversation between me and ChatGPT. Use it for context in the rest of the conversation. Be ready to edit and build upon the responses previously given by ChatGPT. Respond \"ready!\" if you understand the context. Do not respond wit anything else. Conversation:\n"}
 chrome.storage.local.get({settings: defaults}, function(result) {
     let settings = result.settings
     buttons = settings.buttons
