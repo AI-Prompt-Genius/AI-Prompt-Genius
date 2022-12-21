@@ -122,6 +122,24 @@ function convert_thread_to_text_file(thread)
     return blob;
 }
 
+function convert_thread_to_markdown_file(thread)
+{
+	let string = "";
+	string += "# " + "ChatGPT Conversation" + "\n";
+	string += "Date:" + thread.date + " " + thread.time + "\n";
+	string += "\n"; // two newlines because MD is like that
+    let convo = thread.convo;
+    for(let i = 0; i < convo.length; i++)
+    {
+        let speaker = i % 2 === 0 ? "Human" : "Assistant";
+        string += "### " + speaker + "\n";
+        string += convo[i] + "\n";
+		string += "\n";
+    }
+    let blob = encode_string_as_blob(string);
+    return blob;
+}
+
 let timer;
 function searchThreads(threads, searchTerm) { // created by ChatGPT
     searchTerm = searchTerm.toLowerCase();
