@@ -81,7 +81,18 @@ function load_prompts(prompts)
             row.classList.remove('dark')
             row.classList.add('light')
         }
-		
+		let title_input = row.querySelector('.title-text')
+		title_input.addEventListener('keydown', (event) => {
+			if (event.key === 'Enter') {
+				console.log('enter!!')
+				console.log(row.querySelector('.prompt-text').innerText)
+				if (row.querySelector('textarea')) {
+					let empty_body = row.querySelector('textarea').value === "";
+					console.log(empty_body)
+					toggle_prompt_editable(id, row, empty_body)
+				}
+			}
+		});
 		
 		row.addEventListener('click', event => {
             const target = event.target;
@@ -104,18 +115,16 @@ function load_prompts(prompts)
 				
 			}
 		});
-		/*
 		prompt_text.addEventListener('keydown', (event) => {
-			if (event.key === 'Enter') {
+			if (event.key === 'Enter' && !event.shiftKey) {
 				if(!keys_pressed['shift'])
 				{
-					toggle_prompt_body_editable(id, row);
+					toggle_prompt_editable(id, row);
 				}
 			}
 		});
-		*/
 		main.appendChild(template);
-	};
+	}
 }
 
 function delete_prompt(id)
@@ -148,12 +157,7 @@ function use_prompt(id)
 	});
 }
 
-function toggle_prompt_title_editable(id, element)
-{
-	//getObjectById(id, list)
-}
-
-function toggle_prompt_editable(id, element)
+function toggle_prompt_editable(id, element, just_title=false)
 {
 	let edit_icon = element.querySelector(".edit-button");
 	let prompt_title =  element.querySelector(".title-text");
@@ -161,9 +165,10 @@ function toggle_prompt_editable(id, element)
 	
 	if(!prompt_text.querySelector("textarea"))
 	{
+		console.log('editing!')
 		let textarea = document.createElement("textarea");
 		prompt_text.innerHTML = "";
-		prompt_text.appendChild(textarea);
+		prompt_text.appendChild(textarea)
 		browser.storage.local.get({prompts: default_prompts}).then((result) => {
 			let prompts = result.prompts;
 			let prompt = getObjectById(id, prompts);
@@ -194,6 +199,7 @@ function toggle_prompt_editable(id, element)
 	}
 	else 
 	{
+		console.log('saving')
 		let textarea = prompt_text.querySelector("textarea");
 		let text = textarea.value;
 		browser.storage.local.get({prompts: default_prompts}).then((result) => {
@@ -211,11 +217,12 @@ function toggle_prompt_editable(id, element)
 		// make title uneditable
 		prompt_title.classList.remove('editable')
 		prompt_title.contentEditable = "inherit";
-		
-		prompt_text.innerHTML = text;
-		// update buttons
-		edit_icon.classList.add("fa-pen-to-square");
-		edit_icon.classList.remove("fa-floppy-disk-pen");
+
+		if (!just_title) {
+			prompt_text.innerHTML = text;
+			edit_icon.classList.add("fa-pen-to-square");
+			edit_icon.classList.remove("fa-floppy-disk-pen");
+		}
 	}
 }
 
