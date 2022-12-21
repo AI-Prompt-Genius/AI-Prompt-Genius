@@ -19,8 +19,12 @@ async function dark_light() {
 // default prompts for new users
 const default_prompts = [
 	{
-		"title": "TEST",
-		"text": "MYPROMPT",
+		"title": "George R. R. Martin Author",
+		"text": `Write using the above prompt. 
+Write in the style of George. R. R. Martin and the Game of Thrones books. Use his words and style of diction. Always write in that style.
+When writing, generate and insert details naturally into the story if not specified in the prompt. Always generate names for people and places if not specified. Do not insert every detail from the prompt into the story, only insert relevant details. When inserting details, use your own words. 
+Write the first scene.
+`,
 		"id": generateUUID(),
 		"date": getDate(),
 		"time": getTime(),
