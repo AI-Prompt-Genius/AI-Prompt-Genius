@@ -33,7 +33,6 @@ function delete_thread(i, row){
 function toggle_thread_title_editable(i, row){
 	let title_text = row.querySelector(".title-text");
 	let edit_icon = row.querySelector(".edit-title-button");
-	console.log(edit_icon);
 	if(title_text.contentEditable === "inherit")
 	{
 		// if thread.title, import the FULL title into the text if it exists
@@ -206,11 +205,9 @@ async function dark_light() {
     )
 }
 
-
-
 const MAX_TITLE_DISPLAY_LENGTH = 55;
 
-function load_threads(threads, search=false, search_term="", bookmarks=false){
+function load_threads(threads, search=false, search_term="", bookmarks=false) {
     for (let n = 0; n < threads.length; n++) {
         let i = threads.length - n - 1;
         let temp;

@@ -558,6 +558,15 @@ function main() {
             button.click();
         }
     }
+	
+	function use_prompt(prompt){
+		const input = document.querySelector("textarea");
+        const button = input.parentElement.querySelector("button");
+        input.value = `${prompt}`;
+		if (auto_send) {
+            button.click();
+        }
+	}
 
     chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
@@ -566,6 +575,10 @@ function main() {
                 console.log("message recieved!")
                 continue_convo(JSON.stringify(request.convo))
             }
+			else if(request.type === "c_use_prompt") {
+				console.log("message recieved!");
+				use_prompt(request.prompt);
+			}
         }
     );
 }
