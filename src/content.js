@@ -116,6 +116,14 @@ function main() {
 		return JSONObject;
 	}
 	
+	function encode_string_as_blob(string)
+	{
+		let bytes = new TextEncoder().encode(string);
+		let blob = new Blob([bytes], {
+			type: "application/json;charset=utf-8"
+		});
+		return blob;
+	}
 	/* conversion functions for export and download */
 	function convert_thread_to_JSON_file(thread)
 	{
@@ -138,13 +146,19 @@ function main() {
 		return blob;
 	}
 
-	function convert_thread_to_markdown_file(thread)
+	function convert_chat_to_markdown(chat, title)
 	{
 		let string = "";
-		string += "# " + "ChatGPT Conversation" + "\n";
-		string += "Date:" + thread.date + " " + thread.time + "\n";
+		if(title)
+		{
+			string += "# " + title + "\n";
+		}
+		else 
+		{
+			string += "# " + "ChatGPT Conversation" + "\n";
+		}
 		string += "\n"; // two newlines because MD is like that
-		let convo = thread.convo;
+		let convo = chat;
 		for(let i = 0; i < convo.length; i++)
 		{
 			let speaker = i % 2 === 0 ? "Human" : "Assistant";
@@ -268,7 +282,54 @@ function main() {
         // return the generated UUID
         return uuid;
     }
-
+	
+	/**
+		Returns the data of the current chat text. Only saves one branch.
+		This is intended for exports and or screenshots.
+		Querys main again so it works with the new text.
+	 */
+	function get_current_chat_text()
+	{
+		let mainElement = document.querySelector("main");
+		// should be more robust, can't see how they would change the flex col anytime soon
+		let chatContainer = mainElement.querySelector(".flex-col"); 
+		// what is one part of a conversation called again? let's just call it a chat bubble
+		let chatBubbleElements = chatContainer.children;;
+		let chat = [];
+		
+		// remember to disregard the last element, which is always a filler element
+		for(let i = 0; i < chatBubbleElements.length-1; i++)
+		{
+			let isHuman = (i % 2) === 0;
+			let chatBubble = chatBubbleElements[i];
+			let text = get_chat_bubble_text(chatBubble, isHuman);
+			chat.push(text);
+		}
+		
+		return chat;
+	}
+	
+	// gets chat with errors, for current export.
+	function get_chat_bubble_text(chatBubble, isHuman)
+	{
+		let text;
+		if(isHuman)
+		{
+			text = chatBubble.innerText;
+			if(text.includes("Save & Submit\nCancel"))
+			{
+				// query the textarea instead 
+				text = chatBubble.querySelector("textarea")?.value;
+			}
+			// for code
+			text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		}
+		else 
+		{
+			text = saveChildInnerHTML(chatBubble.firstChild.children[1].firstChild.firstChild.firstChild) // saves as html
+		}
+        return text;
+	}
 
     function save_page() {
         c = p.children
@@ -431,8 +492,22 @@ function main() {
         let h_svg = `<svg xmlns="http://www.w3.org/2000/svg" style="fill: white" stroke="currentColor" width="24" height="25" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3V320c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64c0 53 43 96 96 96H352c53 0 96-43 96-96V352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V352z"/></svg>`
         h.innerHTML = `${h_svg} Share Page`;
         nav.insertBefore(h, nav.children[3]);
+		
+		let buttonExportToMarkdown = document.createElement("a");
+        buttonExportToMarkdown.id = 'download-markdown-button';
+        buttonExportToMarkdown.onclick = () => {
+            let fileName = `${document.title}.md`;
+			let data = get_current_chat_text();
+			let blob = convert_chat_to_markdown(data, document.title);
+			download_blob_as_file(blob, fileName);
+        }
+		buttonExportToMarkdown.setAttribute("class", "flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm flex-shrink-0 border border-white/20");
+        buttonExportToMarkdown.innerHTML = `${pdf_svg} Export md`;
+		nav.insertBefore(buttonExportToMarkdown, nav.children[4]);
+		
     }
-    if (!firefox && buttons === true) {
+	
+    if (buttons === true) {
         add_buttons()
     }
 
@@ -626,6 +701,23 @@ function main() {
             });
         });
     }
+	
+	// basially using the fileSaver.js, it's an IIFE to save on implementing the <a> singleton.
+	const download_blob_as_file = (function()
+	{
+		let a = document.createElement("a");
+		document.body.appendChild(a);
+		a.style = "display: none";
+		return function (blob, file_name)
+		{
+			let url = window.URL.createObjectURL(blob);
+			a.href = url;
+			a.download = file_name;
+			a.click();
+			window.URL.revokeObjectURL(url);
+		}
+	})();
+		
     function getCssFromSheet(sheet) {
         return Array.from(sheet.cssRules)
             .map((rule) => rule.cssText)
