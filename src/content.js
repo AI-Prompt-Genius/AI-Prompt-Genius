@@ -563,9 +563,9 @@ function main() {
 		const input = document.querySelector("textarea");
         const button = input.parentElement.querySelector("button");
         input.value = `${prompt}`;
-		if (auto_send) {
+		/*if (auto_send) {
             button.click();
-        }
+        }*/
 	}
 
     chrome.runtime.onMessage.addListener(

@@ -3,6 +3,7 @@ if (typeof browser === "undefined") {
 }
 
 let main = document.querySelector("main");
+const modal = new bootstrap.Modal(document.getElementById('exploreModal'))
 
 // boilerplate
 let dl;
@@ -145,6 +146,10 @@ function delete_prompt(id)
 			console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
 			return;
 		}
+		if (imported_prompts.includes(prompt.title)){
+			imported_prompts.splice(imported_prompts.indexOf(prompt.title), 1);
+			browser.storage.local.set({imported_prompts: imported_prompts});
+		}
 		removeElementInArray(prompts, prompt);
 		browser.storage.local.set({prompts: prompts});
 		load_prompts(prompts);
@@ -234,14 +239,18 @@ function toggle_prompt_editable(id, element, just_title=false)
 	}
 }
 
-function new_empty_prompt()
+function new_blank_prompt(){
+	new_prompt("Untitled Prompt","")
+}
+
+function new_prompt(title, text)
 {
 	let prompt = {
 		date: getDate(),
 		time: getTime(),
 		id: generateUUID(),
-		title: "Untitled Prompt",
-		text: "",
+		title: title,
+		text: text,
 	};
 	browser.storage.local.get({prompts: default_prompts}).then((result) => {
 		let prompts = result.prompts;
@@ -272,10 +281,123 @@ document.body.addEventListener("keydown", handle_keydown);
 
 document.body.addEventListener("keyup", handle_keyup);
 
-document.querySelector("#new_prompt_button").addEventListener('click', new_empty_prompt)
+document.querySelector("#new_prompt_button").addEventListener('click', new_blank_prompt)
 
 
 document.querySelector('#light_dark').addEventListener('click', timer_dl);
 function timer_dl(){
     setTimeout(dark_light, 300)
 }
+
+function CSVToArray(strData, strDelimiter) {
+	strDelimiter = strDelimiter || ",";
+	var pattern = new RegExp(
+		"(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+		"(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+		"([^\"\\" + strDelimiter + "\\r\\n]*))",
+		"gi"
+	);
+	var data = [[]];
+	var matches;
+	while (matches = pattern.exec(strData)) {
+		var delimiter = matches[1];
+		if (delimiter.length && delimiter !== strDelimiter) {
+			data.push([]);
+		}
+		var value = matches[2]
+			? matches[2].replace(new RegExp("\"\"", "g"), "\"")
+			: matches[3];
+		data[data.length - 1].push(value);
+	}
+	return data;
+}
+
+function fillAndAppendTemplate(title, text, i) {
+	// Get the template element
+	const template = document.querySelector('.explore-template');
+
+	// Create a copy of the template
+	const promptDiv = template.content.cloneNode(true);
+
+	// Fill in the values for title and text
+	promptDiv.querySelector('.public-title').textContent = title;
+	promptDiv.querySelector('.public-text').textContent = text;
+
+	// Add prompt when clicked
+	promptDiv.querySelector('.prompt-div').addEventListener('click', function() {
+		new_prompt(title, text);
+		imported_prompts.push(title);
+		browser.storage.local.set({imported_prompts: imported_prompts});
+		publicTemps.splice(i, 1);
+		modal.hide();
+	})
+
+	// Append the prompt div to the modal body
+	document.querySelector('.modal-body').appendChild(promptDiv);
+}
+
+
+let publicTemps;
+function fetch_templates(){
+	fetch('https://raw.githubusercontent.com/mohalobaidi/awesome-chatgpt-prompts/main/prompts.csv')
+		// Convert the response to text
+		.then(res => res.text())
+		// Convert the CSV text to an array of records
+		.then(csv => CSVToArray(csv))
+		// Map the records to template objects with properties 'title', 'prompt', and 'placeholder'
+		.then(records => {
+			return records.map(([ title, prompt ]) => {
+				return { title, prompt }
+			})
+			.filter(({ title }) => title && title !== 'title')
+				.filter (({ title }) => !imported_prompts.includes(title))
+		})
+		.then(templates => {
+			// Save the array of prompt templates to a global variable
+			publicTemps = templates;
+			console.log(publicTemps)
+		})
+}
+fetch_templates()
+
+function explore(){
+	document.querySelector('.modal-body').innerHTML = '';
+	for (let i = 0; i < 3; i++) {
+		fillAndAppendTemplate(publicTemps[i].title, publicTemps[i].prompt, i);
+	}
+	const forwardButton = document.querySelector('.forward-button');
+	const backwardButton = document.querySelector('.backward-button');
+	backwardButton.disabled = true;
+
+	let currentIndex = 0;
+
+	const updateTemplates = () => {
+		// Clear the modal body
+		document.querySelector('.modal-body').innerHTML = '';
+
+		// Loop through the next three elements and fill the template
+		publicTemps.slice(currentIndex, currentIndex + 3).forEach(temp => fillAndAppendTemplate(temp.title, temp.prompt));
+		forwardButton.disabled = currentIndex >= publicTemps.length - 3
+		backwardButton.disabled = currentIndex <= 0;
+	}
+
+	forwardButton.addEventListener('click', () => {
+		// Increment the current index by 3
+		currentIndex += 3;
+		updateTemplates();
+
+	});
+
+	backwardButton.addEventListener('click', () => {
+		// Decrement the current index by 3
+		currentIndex -= 3;
+		updateTemplates();
+	});
+
+}
+document.querySelector('#explore').addEventListener('click', explore);
+
+let imported_prompts = [];
+browser.storage.local.get({imported_prompts: []}).then((result) => {
+	imported_prompts = result.imported_prompts;
+})

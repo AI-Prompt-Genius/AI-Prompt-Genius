@@ -6,6 +6,9 @@ main{
 .w-60{
     width: 60%;
 }
+.black{
+    color: black;
+}
 a
 {
     cursor: pointer;
@@ -92,4 +95,91 @@ textarea {
 .odd.dark{
     background-color: #434654 !important;
     color: #D1D5DA;
+}
+
+.prompt-div {
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    --sas-docked-width: 350px;
+    --sas-border-color: #068ACA;
+    --sas-popup-gutter: 20px;
+    --color-primary: #19c37d;
+    --color-secondary: #715fde;
+    --color-error: #ef4146;
+    --gradient-primary: linear-gradient(90deg, #a29bd4, #989fdd);
+    --text-primary: #202123;
+    --text-default: #353740;
+    --text-secondary: #6e6e80;
+    --text-disabled: #acacbe;
+    --text-error: var(--color-error);
+    color-scheme: light;
+    --tw-text-opacity: 1;
+    list-style: none;
+    border: 0 solid #d9d9e3;
+    box-sizing: border-box;
+    color: black;
+    font-family: inherit;
+    font-size: 100%;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: 0;
+    text-transform: none;
+    -webkit-appearance: button;
+    background-image: none;
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: .5rem;
+    border-radius: .375rem;
+    --tw-bg-opacity: 1;
+    background-color: rgba(247, 247, 248, var(--tw-bg-opacity));
+    padding: 1rem;
+    text-align: left;
+}
+
+.public-text {
+    tab-size: 4;
+    color-scheme: light;
+    list-style: none;
+    font-family: inherit;
+    font-size: 100%;
+    font-weight: inherit;
+    line-height: inherit;
+    text-transform: none;
+    cursor: pointer;
+    text-align: left;
+    border: 0 solid #d9d9e3;
+    box-sizing: border-box;
+    margin: 0;
+    color: rgba(142, 142, 160, var(--tw-text-opacity));
+}
+
+.public-title {
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    color-scheme: light;
+    list-style: none;
+    font-family: inherit;
+    text-transform: none;
+    cursor: pointer;
+    text-align: left;
+    border: 0 solid #d9d9e3;
+    box-sizing: border-box;
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    color: rgba(32, 33, 35, var(--tw-text-opacity));
+}
+
+.font-medium {
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    color-scheme: light;
+    font-weight: 500;
+}
+
+.prompt-div:hover{
+    background-color: #e0dce4;
 }

@@ -15,6 +15,7 @@
 <nav class="sidenav">
     <div class="top-half">
         <a id="new_prompt_button" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-plus"></i> &emsp;New Prompt</a>
+        <a id="explore" type="button" data-bs-toggle="modal" data-bs-target="#exploreModal" class="mx-3 p-3 text-white text-sm clickable"><i style="font-size: 16px;" class="fa-solid fa-earth-americas"></i> &emsp;Explore &emsp; &emsp; &emsp;Prompts</a>
         <a id="light_dark" class="mx-3 p-3 text-white text-sm clickable"><i class="sun-moon fa-solid fa-sun-bright"></i> &emsp;<span id="d_l">Light</span> Mode</a>
 		<a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-reel"></i> &emsp;All Threads</a>
 		<a href="settings.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-cog"></i> &emsp;Settings</a>
@@ -40,8 +41,8 @@
             <table class="m-0 p-0">
                 <tbody>
                 <tr class="m-3">
-                    <td><button class="btn btn-outline-danger m-1 trash" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete this thread"><i class="fa-solid trash fa-trash"></i></button></td>
-                    <td><button class="btn btn-outline-warning m-1 continue" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Continue your conversation with ChatGPT"><i class="continue fa-regular fa-circle-play"></i></button></td>
+                    <td><button class="btn btn-outline-danger m-1 trash tt" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete this thread"><i class="fa-solid trash fa-trash"></i></button></td>
+                    <td><button class="btn btn-outline-warning m-1 continue tt" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Use this prompt"><i class="continue fa-regular fa-circle-play"></i></button></td>
                 </tr>
                 </tbody>
             </table>
@@ -49,9 +50,37 @@
 	</div>
 </template>
 <main class="dark">
-    <div class="d-flex justify-content-center mt-5">
+    <div class="main">
 	</div>
 </main>
+<template class="explore-template">
+    <button class="prompt-div mb-2">
+        <h3 class="m-0 tracking-tight leading-8 text-gray-900 dark:text-gray-100 text-xl public-title">${title}</h3>
+        <p class="public-text m-0 font-light text-gray-500">${text}</p>
+        <span class="font-medium">Import prompt →</span>
+    </button>
+</template>
+
+<div class="modal fade modal-xl" id="exploreModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title black">Explore Prompt Templates</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary prev-next backward-button">
+                    Prev
+                </button>
+                <button class="btn btn-secondary prev-next forward-button">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="scripts/bootstrap.js"></script>
 <script src="utility.js"></script>
 <script src="dark_light.js"></script>
