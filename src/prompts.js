@@ -111,6 +111,9 @@ function load_prompts(prompts)
 			else if (target.classList.contains('title-text')){
 				// Catchall
 			}
+			else if (target.tagName === 'TEXTAREA'){
+				// Catchall
+			}
 			else {
 				if(row.querySelector('textarea')){
 					toggle_prompt_editable(id, row);
