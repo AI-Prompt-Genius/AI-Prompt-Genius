@@ -553,12 +553,17 @@ function main() {
 
     async function sendRequest() {
         function conversationData() {
+            const threadContainer = document.querySelector(
+                "#__next main div:nth-of-type(1) div:nth-of-type(1) div:nth-of-type(1) div:nth-of-type(1)"
+            );
+
             var result = {
                 avatarUrl: getAvatarImage(),
                 items: [],
             };
 
-            for (const node of p.parentElement.children) {
+            for (const node of threadContainer.children) {
+                console.log(node)
                 const markdownContent = node.querySelector(".markdown");
 
                 // tailwind class indicates human or gpt
@@ -578,7 +583,6 @@ function main() {
 
             return result;
         }
-        console.log(conversationData())
 
         function getAvatarImage() {
             // Create a canvas element
@@ -598,9 +602,9 @@ function main() {
 
             return base64;
         }
-
+        let cd = conversationData();
         const res = await fetch("https://sharegpt.com/api/conversations", {
-            body: JSON.stringify(conversationData()),
+            body: JSON.stringify(cd),
             headers: {
                 "Content-Type": "application/json",
             },
