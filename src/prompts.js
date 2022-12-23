@@ -5,17 +5,6 @@ if (typeof browser === "undefined") {
 let main = document.querySelector("main");
 const modal = new bootstrap.Modal(document.getElementById('exploreModal'))
 
-// boilerplate
-let dl;
-dark_light()
-async function dark_light() {
-    browser.storage.local.get({mode: "dark"},
-        function(result) {
-            dl = result?.mode;
-			if(!dl) dl = "dark"; // guard statement because it apparently still returns undefined "result" sometimes 
-        }
-    )
-}
 
 const default_prompts = [
 	{
@@ -78,10 +67,6 @@ function load_prompts(prompts)
 		{
 			row.classList.add("odd");
 		}
-        if (dl === "light") {
-            row.classList.remove('dark')
-            row.classList.add('light')
-        }
 		let title_input = row.querySelector('.title-text')
 		title_input.addEventListener('keydown', (event) => {
 			if (event.key === 'Enter') {
@@ -283,11 +268,6 @@ document.body.addEventListener("keyup", handle_keyup);
 
 document.querySelector("#new_prompt_button").addEventListener('click', new_blank_prompt)
 
-
-document.querySelector('#light_dark').addEventListener('click', timer_dl);
-function timer_dl(){
-    setTimeout(dark_light, 300)
-}
 
 function CSVToArray(strData, strDelimiter) {
 	strDelimiter = strDelimiter || ",";
