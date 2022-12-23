@@ -445,6 +445,55 @@ function main() {
             setTimeout(save_page, 500)
         }
     });
+	
+	// add prompts before mutation observer fires
+	browser.storage.local.get({prompts: null}).then((result) => {
+		let parent = document.querySelector("main > div > div > div > div > div");
+		
+		let prompts = result.prompts;
+		if(prompts)
+		{
+			let title = document.createElement("h2");
+			title.innerHTML = "Your Prompts";
+			title.classList.add("text-center");
+			parent.appendChild(title);
+			
+			let promptsContainer = document.createElement("ul");
+			promptsContainer.setAttribute("class", "flex flex-col gap-3.5 w-full sm:max-w-md m-auto");
+			parent.appendChild(promptsContainer);
+			
+			let count = 0; // only load a limited number of the most recent prompts
+			for(let i = prompts.length - 1; i > -1 && count < 3; i--)
+			{
+				// set parent height to fix scroll issues 
+				parent.style.height = "auto";
+				
+				let prompt = prompts[i];
+				let element = document.createElement("button");
+				element.setAttribute("class", "w-full bg-gray-50 dark:bg-white/5 p-3 rounded-md hover:bg-gray-200 dark:hover:bg-gray-900");
+				element.innerHTML = `"${prompt.text}"`;
+				element.onclick = () => {
+					// this disappears once you select first prompt, so it doesn't matter other textareas exist. We do this dynamically because otherwise refreshing will break it.
+					let input = document.querySelector("textarea");
+					input.value = `${prompt.text}`;
+					input.innerHTML = `${prompt.text}`; 
+					input.style.maxHeight = "200px"; // somehow this is needed, used from default.
+					input.style.height = "200px"; // somehow this is needed, used from default.
+					input.style.overflowY = "auto"; // somehow this is needed, used from default.
+					
+					// crazy workarounds to stop the initial text from being overwritten for some reason.
+					// we use keydown instead because we WANT this thing to be overwritten.
+					input.onkeydown = () => 
+						{
+							input.value = `${prompt.text}`;
+							input.onkeydown = null; // then delete yourself once the weird initial block has been handled
+						};
+				}; 
+				promptsContainer.appendChild(element);
+				count++;
+			}
+		}
+	});
 
     let main = p
 
