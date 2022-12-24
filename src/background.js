@@ -17,14 +17,11 @@ else {
 }
 browser.runtime.onMessage.addListener( async function(message, sender, sendResponse) {
     if (message.type === 'b_continue_convo') {
-        console.log('background recieved')
+        console.log('background received')
         browser.tabs.create({url: 'https://chat.openai.com/chat', active: true}, function (my_tab){
-            console.log(my_tab)
             let sent = false;
             browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-                console.log(tab)
                 if (tab.id === my_tab.id && changeInfo.status === 'complete' && !sent) {
-                    console.log("sending!")
                     setTimeout(() => browser.tabs.sendMessage(my_tab.id, {
                         type: 'c_continue_convo',
                         id: message.id,
@@ -34,6 +31,21 @@ browser.runtime.onMessage.addListener( async function(message, sender, sendRespo
                 }
             });
         });
-
     }
+	else if(message.type ==='b_use_prompt') {
+		console.log('background received')
+        browser.tabs.create({url: 'https://chat.openai.com/chat', active: true}, function (my_tab){
+            let sent = false;
+            browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+                if (tab.id === my_tab.id && changeInfo.status === 'complete' && !sent) {
+                    setTimeout(() => browser.tabs.sendMessage(my_tab.id, {
+                        type: 'c_use_prompt',
+                        id: message.id,
+                        prompt: message.prompt
+                    }), 500)
+                    sent = true;
+                }
+            });
+        });
+	}
 });

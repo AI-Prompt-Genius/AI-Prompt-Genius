@@ -7,6 +7,8 @@ else{
 }
 let icon = document.querySelector('.sun-moon')
 function switchClass(element) {
+    console.log(element.classList.contains('dark'))
+    console.log(element)
     if (element.classList.contains("dark")) {
         element.classList.remove("dark");
         element.classList.add("light");
@@ -29,18 +31,18 @@ function switchClass(element) {
         switchClass(child);
     }
 }
-function switch_mode(){
+function toggleMode(){
     switchClass(document.body)
 }
 
 browser.storage.local.get({mode: "dark"}, function(result) {
-    if(result && result.mode === "light"){
-        switch_mode();
+    console.log(result.mode)
+    if(result.mode === "light"){
+        console.log("TRUE!")
+        toggleMode()
     }
 })
-
-document.getElementById('light_dark').addEventListener('click', switch_mode)
-
+document.getElementById('light_dark').addEventListener('click', toggleMode)
 window.addEventListener("load", (event) => {
     document.getElementById('cover').style.display = 'none';
 });

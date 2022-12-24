@@ -205,7 +205,7 @@ function continue_thread(){
 		let user = i % 2 === 0 ? "Me" : "ChatGPT";
 		c.push({ [user]: htmlToPlainText(convo[i]) });
 	}
-    chrome.runtime.sendMessage({convo: c, type: 'b_continue_convo'});
+    browser.runtime.sendMessage({convo: c, type: 'b_continue_convo'});
 }
 
 document.querySelector("#continue").addEventListener("click", continue_thread);
