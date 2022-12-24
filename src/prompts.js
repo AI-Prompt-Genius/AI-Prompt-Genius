@@ -340,16 +340,13 @@ function fetch_templates(){
 }
 fetch_templates()
 
+let currentIndex = 0;
 function explore(){
 	document.querySelector('.modal-body').innerHTML = '';
-	for (let i = 0; i < 3; i++) {
-		fillAndAppendTemplate(publicTemps[i].title, publicTemps[i].prompt, i);
-	}
 	const forwardButton = document.querySelector('.forward-button');
 	const backwardButton = document.querySelector('.backward-button');
 	backwardButton.disabled = true;
-
-	let currentIndex = 0;
+	forwardButton.enabled = true;
 
 	const updateTemplates = () => {
 		// Clear the modal body
@@ -360,6 +357,7 @@ function explore(){
 		forwardButton.disabled = currentIndex >= publicTemps.length - 3
 		backwardButton.disabled = currentIndex <= 0;
 	}
+	updateTemplates()
 
 	forwardButton.addEventListener('click', () => {
 		// Increment the current index by 3
