@@ -31,7 +31,7 @@
 <template id="prompt_template" class="dark">
 	<div class="row even dark align-items-center">
 		<div class="ml-1 col p-1">
-            <h4 class="p-2 ml-3 title"><i class="fa-regular square-icon fa-pen-to-square edit-button"></i> <span class="title-text text dark"></span></h4>
+            <h4 class="p-2 ml-3 title"><i class="fa-regular square-icon fa-pen-to-square edit-button"></i> <span class="title-text text"></span></h4>
 			<p class="p-2 ml-3 prompt clickable"><span class="prompt-text text"></span></p>
         </div>
 		<div class="col-2 p-3">
@@ -67,9 +67,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title black">Explore Prompt Templates</h4>
+                <input type="text" id="search-bar-modal" placeholder="Search templates" class="search-bar">
+                <i class="fa fa-search"></i>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
                 <div class="modal-body">
+                    <div class="modal-main">
+                    </div>
                 </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary prev-next backward-button">

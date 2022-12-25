@@ -50,6 +50,17 @@ function searchString(string, searchTerm) {
 	return string.replace(searchTermRegex, `<span class="highlight">$&</span>`);
 }
 
+let dl;
+dark_light()
+async function dark_light() {
+	browser.storage.local.get({mode: "dark"},
+		function(result) {
+			dl = result?.mode;
+			if(!dl) dl = "dark"; // guard statement because it apparently still returns undefined "result" sometimes
+		}
+	)
+}
+
 function load_prompts(prompts, search=false, search_term="")
 {
 	main.innerHTML = "";
@@ -80,13 +91,15 @@ function load_prompts(prompts, search=false, search_term="")
 		}
 		let row = template.querySelector('.row');
 		
-		if(even)
-		{
+		if(even) {
 			row.classList.add("even");
 		}
-		else 
-		{
+		else {
 			row.classList.add("odd");
+		}
+		if (dl === "light") {
+			row.classList.remove('dark')
+			row.classList.add('light')
 		}
 		let title_input = row.querySelector('.title-text')
 		title_input.addEventListener('keydown', (event) => {
@@ -331,7 +344,7 @@ function fillAndAppendTemplate(title, text, i) {
 	})
 
 	// Append the prompt div to the modal body
-	document.querySelector('.modal-body').appendChild(promptDiv);
+	document.querySelector('.modal-main').appendChild(promptDiv);
 }
 
 
@@ -360,7 +373,7 @@ fetch_templates()
 
 let currentIndex = 0;
 function explore(){
-	document.querySelector('.modal-body').innerHTML = '';
+	document.querySelector('.modal-main').innerHTML = '';
 	const forwardButton = document.querySelector('.forward-button');
 	const backwardButton = document.querySelector('.backward-button');
 	backwardButton.disabled = true;
@@ -368,7 +381,7 @@ function explore(){
 
 	const updateTemplates = () => {
 		// Clear the modal body
-		document.querySelector('.modal-body').innerHTML = '';
+		document.querySelector('.modal-main').innerHTML = '';
 
 		// Loop through the next three elements and fill the template
 		publicTemps.slice(currentIndex, currentIndex + 3).forEach(temp => fillAndAppendTemplate(temp.title, temp.prompt));
