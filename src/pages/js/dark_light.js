@@ -7,8 +7,6 @@ else{
 }
 let icon = document.querySelector('.sun-moon')
 function switchClass(element) {
-    console.log(element.classList.contains('dark'))
-    console.log(element)
     if (element.classList.contains("dark")) {
         element.classList.remove("dark");
         element.classList.add("light");
@@ -36,9 +34,7 @@ function toggleMode(){
 }
 
 browser.storage.local.get({mode: "dark"}, function(result) {
-    console.log(result.mode)
     if(result.mode === "light"){
-        console.log("TRUE!")
         toggleMode()
     }
 })

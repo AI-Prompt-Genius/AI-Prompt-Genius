@@ -24624,7 +24624,7 @@
 
 
         var splitParagraphIntoLines = function splitParagraphIntoLines(text, maxlen, options) {
-            // at this time works only on Western scripts, ones with space char
+            // at this time works only on Western external-js, ones with space char
             // separating the words. Feel free to expand.
             if (!options) {
                 options = {};
