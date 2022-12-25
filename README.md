@@ -41,7 +41,7 @@ These enhancements would make the platform even more user-friendly and useful fo
 ## Structure
 <em>It's all vanilla, baby</em>
 
-content.js - content script (saves ChatGPT threads to browser using browser.storage.local api)
+scraper.js - content script (saves ChatGPT threads to browser using browser.storage.local api)
 
 background.js - sole purpose is to listen for when the user clicks the extension
 

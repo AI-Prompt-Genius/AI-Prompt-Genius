@@ -184,9 +184,59 @@ textarea {
     background-color: #e0dce4;
 }
 
-/*
-	Fix modal size to fixed size.
- */
 .modal-dialog .modal-content {
-	height: 100%;
+    height: 100%;
+}
+
+.search-bar {
+    border: 0;
+    padding: 0;
+    background-color: #343541;
+    border-radius: 2px;
+    color: #fff;
+    width: 165px;
+    height: 30px;
+}
+
+.highlight {
+    color: black!important;
+    background-color: yellow;
+    font-weight: bold;
+    opacity: 0.4;
+}
+
+.search-bar:focus {
+    outline: none;
+}
+
+.search-bar:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+.search-bar:focus::-moz-placeholder {
+    color: transparent;
+}
+
+.search-bar:focus:-ms-input-placeholder {
+    color: transparent;
+}
+
+.search-bar:focus::placeholder {
+    color: transparent;
+}
+
+.search-bar::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.search-bar::-moz-placeholder {
+    color: #fff;
+}
+
+.search-bar:-ms-input-placeholder {
+    color: #fff;
+}
+
+.search-bar::placeholder {
+    color: #fff;
 }

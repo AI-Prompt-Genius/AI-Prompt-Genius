@@ -37,11 +37,20 @@ const keys_pressed = {
 	"shift": false,
 };
 
+let user_prompts = [];
+
 browser.storage.local.get({prompts: default_prompts}, function(result) {
-	load_prompts(result.prompts);
+	user_prompts = result.prompts;
+	load_prompts(user_prompts);
 });
 
-function load_prompts(prompts)
+function searchString(string, searchTerm) {
+	// use the original case of the search term when highlighting it
+	const searchTermRegex = new RegExp(searchTerm, "gi");
+	return string.replace(searchTermRegex, `<span class="highlight">$&</span>`);
+}
+
+function load_prompts(prompts, search=false, search_term="")
 {
 	main.innerHTML = "";
 	for (let n = prompts.length - 1; n > -1; n--) { // load in reverse order
@@ -53,10 +62,22 @@ function load_prompts(prompts)
 		
 		template.querySelector('.date').innerHTML = prompt.date;
         template.querySelector('.time').innerHTML = prompt.time;
-        let title_text = template.querySelector('.title-text');
-		title_text.innerHTML = prompt.title;
-        let prompt_text = template.querySelector('.prompt-text');
-		prompt_text.innerHTML = prompt.text;
+		let prompt_text = template.querySelector('.prompt-text');
+		let title_text = template.querySelector('.title-text');
+		if (!search) {
+			title_text.innerHTML = prompt.title;
+			prompt_text.innerHTML = prompt.text;
+		}
+		else{
+			title_text.innerHTML = searchString(prompt.title, search_term);
+			prompt_text.innerHTML = searchString(prompt.text, search_term);
+			if (template.querySelector('.title-text').innerHTML === "") {
+				template.querySelector('.title-text').innerHTML = prompt.title
+			}
+			if (template.querySelector('.prompt-text').innerHTML === "") {
+				template.querySelector('.prompt-text').innerHTML = prompt.text
+			}
+		}
 		let row = template.querySelector('.row');
 		
 		if(even)
@@ -237,12 +258,9 @@ function new_prompt(title, text)
 		title: title,
 		text: text,
 	};
-	browser.storage.local.get({prompts: default_prompts}).then((result) => {
-		let prompts = result.prompts;
-		prompts.push(prompt);
-		browser.storage.local.set({prompts: prompts});
-		load_prompts(prompts);
-	});
+	user_prompts.push(prompt)
+	browser.storage.local.set({prompts: user_prompts});
+	load_prompts(user_prompts);
 	return prompt;
 }
 
@@ -379,3 +397,28 @@ let imported_prompts = [];
 browser.storage.local.get({imported_prompts: []}).then((result) => {
 	imported_prompts = result.imported_prompts;
 })
+
+function search() {
+	let search_term = document.querySelector('.search-bar').value
+	console.log(search_term)
+	let ts = searchPrompts(user_prompts, search_term)
+	main.innerHTML = ""
+	if (search_term === ""){
+		load_prompts(user_prompts)
+	}
+	else {
+		load_prompts(ts, true, search_term)
+	}
+}
+
+function searchPrompts(prompts, searchTerm) { // created by ChatGPT
+	searchTerm = searchTerm.toLowerCase();
+	return prompts.filter(prompt => {
+		return (
+			prompt.title.toLowerCase().includes(searchTerm) ||
+			(prompt.text && prompt.text.toLowerCase().includes(searchTerm))
+		);
+	});
+}
+
+document.querySelector('.search-bar').addEventListener('input', search)

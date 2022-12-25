@@ -1,7 +1,7 @@
 if (typeof browser === "undefined") {
     chrome.action.onClicked.addListener(function(tab) {
         chrome.tabs.create({
-            url: "explorer.html"
+            url: "pages/explorer.html"
         });
     });
     browser = chrome;
@@ -11,7 +11,7 @@ else {
     browser.browserAction.onClicked.addListener(function(tab) {
         // Open a new tab with the explorer page
         browser.tabs.create({
-            url: "explorer.html"
+            url: "pages/explorer.html"
         });
     });
 }
