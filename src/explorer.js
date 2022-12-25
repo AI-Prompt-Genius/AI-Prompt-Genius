@@ -303,7 +303,7 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
                     c.push({ [user]: htmlToPlainText(threads[0].convo[i]) });
                 }
 
-                chrome.runtime.sendMessage({convo: c, type: 'b_continue_convo'})
+                browser.runtime.sendMessage({convo: c, type: 'b_continue_convo'})
             }
             else{
                 window.open(link, "_blank")
