@@ -332,11 +332,16 @@ function timer_dl(){
     setTimeout(dark_light, 300)
 }
 
+// these are now "general" export import functions 
+// TODO: export and import settings as well
 function export_all()
-{
-    browser.storage.local.get(['threads']).then((result) => {
+{	
+    browser.storage.local.get(['threads','prompts']).then((result) => {
         let t = result.threads;
-        let data = {threads:t};
+		let prompts = result.prompts;
+        
+		let data = {threads:t, prompts:prompts};
+		
         let string = JSON.stringify(data);
         let blob = encode_string_as_blob(string);
 		let currentTimeString = (new Date()).toJSON();
@@ -361,13 +366,14 @@ function import_all()
 		let string = event.target.result;
 		let data = JSON.parse(string);
 		
-		// backwards compatability, to be removed 
+		// backwards compatability
 		if(Array.isArray(data))
 		{
 			data = {threads:data};
 		}
 		
 		import_threads_from_data(data);
+		import_prompts_from_data(data);
 	}
 	reader.onerror = function(event)
 	{
@@ -380,6 +386,7 @@ function import_all()
 // takes an object that looks like {threads:data[]}
 function import_threads_from_data(data) {
 	browser.storage.local.get(['threads']).then((result) => {
+		console.log(`Importing threads...`);
         let t = result.threads;
 		
 		// empty case
@@ -414,8 +421,35 @@ function import_threads_from_data(data) {
 		
 		browser.storage.local.set({threads: t});
 		
-		// we reload the page directly after setting. it'll conveniently reinitialize everything and inform the user that *something* has happened.
-		window.location.reload();
+		threads_g = t;
+		main.innerHTML = ""; //todo, refactor this into load_threads(t)
+		load_threads(t);
+	});
+}
+
+function import_prompts_from_data(data) {
+	browser.storage.local.get(['prompts']).then((result) => {
+		console.log(`Importing prompts...`);
+		
+		let prompts = result.prompts;
+		if(!prompts) prompts = [];
+		
+		let new_prompts = data.prompts;
+		
+		for(let i = 0, len = new_prompts.length; i < len; i++) {
+			let prompt = new_prompts[i];
+			let id = prompt.id;
+			
+			// If the ID is the same as one of our own, ignore it.
+			// thankfully, all prompts have IDs
+			if(id && getObjectById(id, prompts) !== null) {
+				continue; 
+			}
+			
+			prompts.push(prompt);
+		}
+		
+		browser.storage.local.set({prompts: prompts});
 	});
 }
 

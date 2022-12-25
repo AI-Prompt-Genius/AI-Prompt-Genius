@@ -183,3 +183,10 @@ textarea {
 .prompt-div:hover{
     background-color: #e0dce4;
 }
+
+/*
+	Fix modal size to fixed size.
+ */
+.modal-dialog .modal-content {
+	height: 100%;
+}
