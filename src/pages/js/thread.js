@@ -13,13 +13,13 @@ const b_template = document.querySelector("#bot")
 
 let main = document.querySelector("#main");
 let branch_state;
-let convo;
+let convo; let thread;
 browser.storage.local.get(['threads']).then((result) => {
     let t = result.threads
-    let c = getObjectById(thread_id, t)
-	convo = c.convo;
+	thread = getObjectById(thread_id, t)
+	convo = thread.convo;
 	// some of the older threads don't have a branch_state object. 
-	let b = c.branch_state;
+	let b = thread.branch_state;
 	if(!b)
 	{
 		console.log(`Cannot find branch state, loading convo instead...`);
@@ -201,11 +201,17 @@ function alternateValues(array1, array2) {
 // Open a new thread on a new instance of ChatGPT
 function continue_thread(){
 	let c = [];
-	for (let i = 0; i < convo.length; i++) {
-		let user = i % 2 === 0 ? "Me" : "ChatGPT";
-		c.push({ [user]: htmlToPlainText(convo[i]) });
+	if (thread.hasOwnProperty('unified_id') && thread.unified_id === true) {
+		console.log("unified")
+		window.open(`https://chat.openai.com/chat/${thread_id}`, '_blank');
 	}
-    browser.runtime.sendMessage({convo: c, type: 'b_continue_convo'});
+	else {
+		for (let i = 0; i < convo.length; i++) {
+			let user = i % 2 === 0 ? "Me" : "ChatGPT";
+			c.push({[user]: htmlToPlainText(convo[i])});
+		}
+		browser.runtime.sendMessage({convo: c, type: 'b_continue_convo'});
+	}
 }
 
 document.querySelector("#continue").addEventListener("click", continue_thread);
