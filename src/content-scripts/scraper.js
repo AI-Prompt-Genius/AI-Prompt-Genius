@@ -3,7 +3,6 @@ if (typeof browser === "undefined") {
     browser = chrome
     firefox = false
 }
-
 function main() {
     console.log("Loading content script, everything is fine and dandy!");
     let p = document.querySelector("main > div > div > div > div")
@@ -393,35 +392,48 @@ function main() {
                         current_leaf = new_current_leaf;
                     }
                 }
-                console.log(mirror_branch_state.toJSON());
-                if (mirror_branch_state !== null) {
+                //console.log(mirror_branch_state.toJSON());
+                if (mirror_branch_state.toJSON() !== null) {
+                    let unified_id = false; // boolean to check if id matches ChatGPT ID
+                    let conversation_id_el = document.querySelector('#conversationID');
+                    console.log(conversation_id_el)
+                    console.log(conversation_id_el !== null)
+                    if (conversation_id_el !== null) {
+                        id = conversation_id_el.value;
+                        unified_id = true;
+                    }
+                    else {
+                        id = generateUUID();
+                    }
                     if (t !== null) {
                         if (first_time) {
-                            id = generateUUID();
                             let thread = {
                                 date: getDate(),
                                 time: getTime(),
                                 convo: page,
                                 favorite: false,
                                 id: id,
-                                branch_state: mirror_branch_state.toJSON()
+                                branch_state: mirror_branch_state.toJSON(),
+                                unified_id: unified_id
                             }
                             t.push(thread)
                             first_time = false
-                        } else {
+                        }
+                        else {
                             let thread = {
                                 date: getDate(),
                                 time: getTime(),
                                 convo: page,
                                 favorite: false,
                                 id: id,
-                                branch_state: mirror_branch_state.toJSON()
+                                branch_state: mirror_branch_state.toJSON(),
+                                unified_id: unified_id
                             }
                             t[t.length - 1] = thread
                         }
                         browser.storage.local.set({threads: t})
-                    } else {
-                        id = generateUUID()
+                    }
+                    else {
                         let thread = {
                             date: getDate(),
                             time: getTime(),

@@ -4,10 +4,8 @@
     // Replace the fetch function with a modified version that will include a prompt template
     // if one has been selected by the user
     window.fetch = (...t) => {
-        // If the request is not for the chat backend API, just use the original fetch function
-        if (t[0] !== 'https://chat.openai.com/backend-api/conversation' || t[0] !== 'https://chat.openai.com/backend-api/conversation') return fetch(...t)
-        // If no prompt template has been selected, use the original fetch function
-        if (!window.selectedprompttemplate) return fetch(...t)
+        // If the request is not for the chat backend API or moderations, just use the original fetch function
+        if (!t[0].includes('https://chat.openai.com/backend-api/conversation') && !t[0].includes('https://chat.openai.com/backend-api/moderations')) return fetch(...t)
         // Get the selected prompt template
         const template = window.selectedprompttemplate
 
@@ -16,17 +14,30 @@
             const options = t[1]
             // Parse the request body from JSON
             const body = JSON.parse(options.body)
-            // Get the prompt from the request body
-            const prompt = body.messages[0].content.parts[0]
-            // Replace the prompt in the request body with the selected prompt template,
-            // inserting the original prompt into the template
-            body.messages[0].content.parts[0] = template.prompt.replace('[INSERT]', prompt)
-            // Clear the selected prompt template
-            selectPromptTemplate(null)
-            // Stringify the modified request body and update the options object
-            options.body = JSON.stringify(body)
-            // Use the modified fetch function to make the request
-            return fetch(t[0], options)
+            if (body.hasOwnProperty('conversation_id')) {
+                // rather than deal with message passing, we use a DOM element which the content scripts can access
+                let conversationID = body['conversation_id']
+                document.body.appendChild(document.createElement(`input`)).setAttribute("id", "conversationID")
+                document.querySelector("#conversationID").setAttribute("type", "hidden")
+                document.querySelector("#conversationID").value = conversationID
+            }
+            if (window.selectedprompttemplate) {
+                // Get the prompt from the request body
+                const prompt = body.messages[0].content.parts[0]
+                // Replace the prompt in the request body with the selected prompt template,
+                // inserting the original prompt into the template
+                body.messages[0].content.parts[0] = template.prompt.replace('[INSERT]', prompt)
+                // Clear the selected prompt template
+                selectPromptTemplate(null)
+                // Stringify the modified request body and update the options object
+                options.body = JSON.stringify(body)
+                // Use the modified fetch function to make the request
+                return fetch(t[0], options)
+            }
+            // If no prompt template has been selected, use the original fetch function
+            else {
+                return fetch(...t)
+            }
         } catch {
             // If there was an error parsing the request body or modifying the request,
             // just use the original fetch function

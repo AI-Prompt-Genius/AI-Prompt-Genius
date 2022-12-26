@@ -298,12 +298,20 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
             }
             else if(target.classList.contains('continue')) {
                 let c = [];
-                for (let i = 0; i < threads[0].convo.length; i++) {
-                    let user = i % 2 === 0 ? "Me" : "ChatGPT";
-                    c.push({ [user]: htmlToPlainText(threads[0].convo[i]) });
+                console.log(threads[i])
+                console.log(threads[i].hasOwnProperty('unified_id'))
+                if (threads[i].hasOwnProperty('unified_id') && threads[i].unified_id === true) {
+                    console.log("unified")
+                    window.open(`https://chat.openai.com/chat/${threads[i].id}`, '_blank');
                 }
+                else {
+                    for (let i = 0; i < threads[i].convo.length; i++) {
+                        let user = i % 2 === 0 ? "Me" : "ChatGPT";
+                        c.push({[user]: htmlToPlainText(threads[0].convo[i])});
+                    }
 
-                browser.runtime.sendMessage({convo: c, type: 'b_continue_convo'})
+                    browser.runtime.sendMessage({convo: c, type: 'b_continue_convo'})
+                }
             }
             else{
                 window.open(link, "_blank")
