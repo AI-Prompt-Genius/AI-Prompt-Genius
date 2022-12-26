@@ -6,4 +6,4 @@ function injectScript(file, node) {
     th.appendChild(s);
 }
 
-injectScript(chrome.runtime.getURL('content-scripts/inject.js'), 'body');
+injectScript(chrome.runtime.getURL('content-scripts/prompts.js'), 'body');
