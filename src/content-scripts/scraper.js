@@ -397,8 +397,6 @@ function main() {
                 if (mirror_branch_state.toJSON() !== null) {
                     let unified_id = false; // boolean to check if id matches ChatGPT ID
                     let conversation_id_el = document.querySelector('#conversationID');
-                    console.log(conversation_id_el)
-                    console.log(conversation_id_el !== null)
                     if (conversation_id_el !== null) {
                         id = conversation_id_el.value;
                         unified_id = true;

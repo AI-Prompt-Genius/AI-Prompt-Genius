@@ -331,8 +331,8 @@ function fillAndAppendTemplate(title, text, i) {
 	const promptDiv = template.content.cloneNode(true);
 
 	// Fill in the values for title and text
-	promptDiv.querySelector('.public-title').textContent = title;
-	promptDiv.querySelector('.public-text').textContent = text;
+	promptDiv.querySelector('.public-title').innerHTML = title;
+	promptDiv.querySelector('.public-text').innerHTML = text;
 
 	// Add prompt when clicked
 	promptDiv.querySelector('.prompt-div').addEventListener('click', function() {
@@ -357,8 +357,8 @@ function fetch_templates(){
 		.then(csv => CSVToArray(csv))
 		// Map the records to template objects with properties 'title', 'prompt', and 'placeholder'
 		.then(records => {
-			return records.map(([ title, prompt ]) => {
-				return { title, prompt }
+			return records.map(([ title, prompt, placeholder, tags ]) => {
+				return { title, prompt, tags }
 			})
 			.filter(({ title }) => title && title !== 'title')
 				.filter (({ title }) => !imported_prompts.includes(title))
@@ -370,48 +370,64 @@ function fetch_templates(){
 		})
 }
 fetch_templates()
+let first_time = true;
 
 let currentIndex = 0;
-function explore(){
+const forwardButton = document.querySelector('.forward-button');
+const backwardButton = document.querySelector('.backward-button');
+forwardButton.addEventListener('click', () => {currentIndex += 3;});
+
+backwardButton.addEventListener('click', () => {
+	currentIndex -= 3;
+})
+
+function load_explore_prompts(prompts, search=false, search_term=""){
+	console.log("CALLED!")
 	document.querySelector('.modal-main').innerHTML = '';
-	const forwardButton = document.querySelector('.forward-button');
-	const backwardButton = document.querySelector('.backward-button');
 	backwardButton.disabled = true;
 	forwardButton.enabled = true;
 
-	const updateTemplates = () => {
+	if (search) {
+		currentIndex = 0;
+	}
+
+	function updateTemplates(temps) {
 		// Clear the modal body
 		document.querySelector('.modal-main').innerHTML = '';
 
 		// Loop through the next three elements and fill the template
-		publicTemps.slice(currentIndex, currentIndex + 3).forEach(temp => fillAndAppendTemplate(temp.title, temp.prompt));
-		forwardButton.disabled = currentIndex >= publicTemps.length - 3
+		for (let i = currentIndex; i < currentIndex + 3; i++) {
+			console.log(currentIndex)
+			//console.log(temps[i])
+			//console.log(i)
+			if (temps[i]) {
+				let title = temps[i].title;
+				let text = temps[i].prompt
+				if (search) {
+					title = searchString(title, search_term);
+					text = searchString(text, search_term);
+				}
+				fillAndAppendTemplate(title, text);
+			}
+		}
+		forwardButton.disabled = currentIndex >= temps.length - 3
 		backwardButton.disabled = currentIndex <= 0;
 	}
-	updateTemplates()
+	updateTemplates(prompts)
+	forwardButton.addEventListener('click', () => {updateTemplates(prompts)});
 
-	forwardButton.addEventListener('click', () => {
-		// Increment the current index by 3
-		currentIndex += 3;
-		updateTemplates();
-
-	});
-
-	backwardButton.addEventListener('click', () => {
-		// Decrement the current index by 3
-		currentIndex -= 3;
-		updateTemplates();
-	});
+	backwardButton.addEventListener('click', () => {updateTemplates(prompts)})
 
 }
-document.querySelector('#explore').addEventListener('click', explore);
+
+document.querySelector('#explore').addEventListener('click', () => load_explore_prompts(publicTemps))
 
 let imported_prompts = [];
 browser.storage.local.get({imported_prompts: []}).then((result) => {
 	imported_prompts = result.imported_prompts;
 })
 
-function search() {
+function searchUserPrompts() {
 	let search_term = document.querySelector('.search-bar').value
 	console.log(search_term)
 	let ts = searchPrompts(user_prompts, search_term)
@@ -424,14 +440,31 @@ function search() {
 	}
 }
 
+function searchExplorePrompts() {
+	let search_term = document.querySelector('#modal-search-bar').value
+	let results = searchPrompts(publicTemps, search_term)
+	console.log(results)
+	document.querySelector('.modal-main').innerHTML = ''
+	if (search_term === ""){
+		currentIndex = 0;
+		load_explore_prompts(publicTemps)
+	}
+	else {
+		load_explore_prompts(results, true, search_term)
+	}
+}
+
 function searchPrompts(prompts, searchTerm) { // created by ChatGPT
+	console.log(prompts)
 	searchTerm = searchTerm.toLowerCase();
 	return prompts.filter(prompt => {
 		return (
 			prompt.title.toLowerCase().includes(searchTerm) ||
-			(prompt.text && prompt.text.toLowerCase().includes(searchTerm))
+			(prompt.text && prompt.text.toLowerCase().includes(searchTerm)) || (prompt.tags && prompt.tags.toLowerCase().includes(searchTerm))
 		);
 	});
 }
 
-document.querySelector('.search-bar').addEventListener('input', search)
+
+document.querySelector('#modal-search-bar').addEventListener('input', searchExplorePrompts)
+document.querySelector('.search-bar').addEventListener('input', searchUserPrompts)

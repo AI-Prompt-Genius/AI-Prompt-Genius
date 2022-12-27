@@ -51,7 +51,7 @@ body.dark{
 	padding-right: 5px;
 }
 .light .title-text.editable{
-    background-color: white;
+    background-color: #eeeeee;
     color: black;
 }
 
@@ -78,6 +78,10 @@ textarea {
 
 .dark textarea {
 	background-color: #212128;
+}
+
+.light textarea {
+    background-color: #eeeeee;
 }
 
 .even.dark{
@@ -241,14 +245,39 @@ textarea {
     color: #fff;
 }
 
-#search-bar-modal {
-    border: none;
-    outline: none;
-    background-color: #f1f1f1;
-    width: 50%;
-    margin: auto;
-    color: black;
-    font-size: 16px;
-    padding: 12px 20px 12px 40px;
+.form{
+
+    position: relative;
+}
+
+.form .fa-search{
+
+    position: absolute;
+    top:20px;
+    left: 20px;
+    color: #9ca3af;
+
+}
+
+.form span{
+
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    padding: 2px;
+    border-left: 1px solid #d1d5db;
+
+}
+
+.form-input{
+
+    height: 55px;
+    text-indent: 33px;
     border-radius: 10px;
+}
+
+.form-input:focus{
+
+    box-shadow: none;
+    border:none;
 }
