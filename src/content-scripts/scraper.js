@@ -360,9 +360,9 @@ function main() {
                     page.push(text);
 
                     // mirror state;
-
-                    let elements = child.querySelectorAll("span");
-                    // get last element
+					// get the children from the most specific div possible. It is always the LAST child of the profile pic container.
+                    let elements = child.children[0].children[0].querySelectorAll("span");
+                    // get last element because the first span in humans deals with profile pics
                     let spanText = elements[elements.length - 1]?.innerHTML; // html instead of text because it sometimes hides
                     if (human) {
                         // because there are now two spans being used for other stuff, but only for humans
@@ -370,6 +370,7 @@ function main() {
                     }
 
                     let leafIndex = 0;
+					// remember that sometimes spanText is undefined, and that is normal because there isn't always a branch
                     if (spanText) {
                         let spanNumber = Number(spanText.split("/")[0]);
                         // sometimes spanText trawls up "!" that comes from content warning policy; just ignore that.
