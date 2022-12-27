@@ -281,3 +281,21 @@ textarea {
     box-shadow: none;
     border:none;
 }
+
+.tags {
+    list-style: none; /* Remove the default bullet points */
+    display: flex; /* Display the tags as a flex container */
+    flex-wrap: wrap; /* Allow the tags to wrap onto multiple lines if necessary */
+    margin: 0; /* Remove the default margin */
+    padding: 0; /* Remove the default padding */
+}
+
+.tags li {
+    display: inline-block; /* Display each tag as an inline block */
+    margin-right: 0.5em; /* Add some space between the tags */
+    font-size: 0.9em; /* Make the font size slightly smaller than the default */
+    line-height: 1; /* Reset the line height to the default */
+    background-color: #f8f9fa; /* Set the background color to a light gray */
+    padding: 0.25em 0.5em; /* Add some padding to the tag */
+    border-radius: 0.25em; /* Round the corners of the tag */
+}
