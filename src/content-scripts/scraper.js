@@ -10,7 +10,7 @@ function main() {
 // loop through c to see if they are p elements or pre elements
     let page = []
     let first_time = true
-    let id;
+    let id = "";
     document.body.appendChild(document.createElement(`div`)).setAttribute("id", "chat_history");
     let history_box = document.querySelector("#chat_history");
 
@@ -402,7 +402,9 @@ function main() {
                         unified_id = true;
                     }
                     else {
-                        id = generateUUID();
+                        if (id === "") {
+                            id = generateUUID();
+                        }
                     }
                     if (t !== null) {
                         if (first_time) {
