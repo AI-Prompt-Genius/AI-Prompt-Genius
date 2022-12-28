@@ -7,6 +7,7 @@
 
 ### Minor Todos
 - Change styling on export buttons and fix them for Firefox
+- README update
 - Add 30-day auto-delete feature
 - Allow users to turn off history saving
 - Revamp settings page styling
