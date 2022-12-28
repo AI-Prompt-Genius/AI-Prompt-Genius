@@ -5,7 +5,7 @@
     // if one has been selected by the user
     window.fetch = (...t) => {
         // If the request is not for the chat backend API or moderations, just use the original fetch function
-        if (!t[0].includes('https://chat.openai.com/backend-api/conversation') && !t[0].includes('https://chat.openai.com/backend-api/moderations')) return fetch(...t)
+        if (!(t[0].includes('https://chat.openai.com/backend-api/conversation') || !t[0].includes('https://chat.openai.com/backend-api/moderations'))) return fetch(...t)
         // Get the selected prompt template
         // const template = window.selectedprompttemplate
 
@@ -20,6 +20,7 @@
                 document.body.appendChild(document.createElement(`input`)).setAttribute("id", "conversationID")
                 document.querySelector("#conversationID").setAttribute("type", "hidden")
                 document.querySelector("#conversationID").value = conversationID
+                return fetch(...t)
             }
             /*if (window.selectedprompttemplate) {
                 // Get the prompt from the request body
@@ -88,7 +89,7 @@
         }) */
     function loadUserPrompts() {
         let prompts = JSON.parse(document.querySelector('#prompts_storage').value)
-        window.prompttemplates = prompts
+        window.prompttemplates = prompts.reverse()
         console.log(window.prompttemplates)
         insertPromptTemplatesSection()
         document.querySelector('#prompts_storage').remove()
