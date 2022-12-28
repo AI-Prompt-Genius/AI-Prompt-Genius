@@ -5,7 +5,10 @@
   "version": "1.4.2",
   "permissions": [
     "storage",
-    "unlimitedStorage"
+    "unlimitedStorage",
+	"webRequest",
+	"*://raw.githubusercontent.com/*",
+	"https://chat.openai.com/chat*"
   ],
   "background": {
     "persistent": false,
@@ -16,13 +19,10 @@
   "content_scripts": [
     {
       "matches": ["https://chat.openai.com/chat*"],
-      "js": ["content-scripts/scraper.js", "content-scripts/prompt-inject.js", "content-scripts/export.js","external-js/html2canvas.js",
+      "js": ["content-scripts/scraper.js", "content-scripts/prompts.js", "content-scripts/export.js","external-js/html2canvas.js",
         "external-js/jspdf.umd.js"],
       "run_at": "document_idle"
     }
-  ],
-  "web_accessible_resources" : [
-    "content-scripts/prompts.js"
   ],
   "browser_action": {
     "default_title": "ChatGPT History"

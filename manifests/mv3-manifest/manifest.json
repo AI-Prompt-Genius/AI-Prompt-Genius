@@ -4,6 +4,10 @@
   "description": "Save the full history of your ChatGPT conversations.",
   "version": "1.4.2",
   "permissions": ["storage", "unlimitedStorage"],
+  "host_permissions": [
+	  "*://raw.githubusercontent.com/*",
+	  "https://chat.openai.com/chat*"
+	],
   "background": {
     "service_worker": "background.js"
   },
