@@ -2,6 +2,7 @@
 - Searching prompts on ChatGPT page
 - Categorize prompts for easier exploring
 - Allow users to share & interact with prompts
+- Cloud syncing for history/prompts
 - New themes
 
 
