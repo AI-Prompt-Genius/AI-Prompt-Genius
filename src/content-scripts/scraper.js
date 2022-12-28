@@ -241,7 +241,7 @@ function main() {
     function save_thread(human, h) {
         let text;
         if (human) {
-            text = h.innerText // saves as plain text
+            text = h.children[0].children[1].innerText // saves as plain text
             if(text.includes("Save & Submit\nCancel"))
             {
                 // query the textarea instead
