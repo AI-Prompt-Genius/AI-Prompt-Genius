@@ -344,11 +344,12 @@ function timer_dl(){
 // TODO: export and import settings as well
 function export_all()
 {
-    browser.storage.local.get(['threads','prompts']).then((result) => {
+    browser.storage.local.get(['threads','prompts', 'settings']).then((result) => {
         let t = result.threads;
         let prompts = result.prompts;
+        let settings = result.settings
 
-        let data = {threads:t, prompts:prompts};
+        let data = {threads:t, prompts:prompts, settings:settings};
 
         let string = JSON.stringify(data);
         let blob = encode_string_as_blob(string);
@@ -382,6 +383,7 @@ function import_all()
 
         import_threads_from_data(data);
         import_prompts_from_data(data);
+        import_settings_from_data(data);
     }
     reader.onerror = function(event)
     {
@@ -433,6 +435,12 @@ function import_threads_from_data(data) {
         main.innerHTML = ""; //todo, refactor this into load_threads(t)
         load_threads(t);
     });
+}
+function import_settings_from_data(data) {
+    console.log(data)
+    if (data.settings) {
+        browser.storage.local.set({settings: data.settings});
+    }
 }
 
 function import_prompts_from_data(data) {
