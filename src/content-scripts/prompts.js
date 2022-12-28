@@ -88,11 +88,17 @@
             insertPromptTemplatesSection()
         }) */
     function loadUserPrompts() {
-        let prompts = JSON.parse(document.querySelector('#prompts_storage').value)
-        window.prompttemplates = prompts.reverse()
-        console.log(window.prompttemplates)
-        insertPromptTemplatesSection()
-        document.querySelector('#prompts_storage').remove()
+		let promptsRawString = document.querySelector('#prompts_storage').value;
+		if(promptsRawString)
+		{
+			// if no prompts, do nothing
+			let prompts = JSON.parse()
+			window.prompttemplates = prompts.reverse()
+			console.log(window.prompttemplates)
+			insertPromptTemplatesSection()
+			document.querySelector('#prompts_storage').remove()
+		}
+        
     }
     setTimeout(loadUserPrompts, 500) // delay to make sure insertPromptTemplates works right
 
