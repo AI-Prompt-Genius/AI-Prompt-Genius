@@ -3,7 +3,11 @@
   "name": "ChatGPT History",
   "description": "Save the full history of your ChatGPT conversations.",
   "version": "1.4.2",
-  "permissions": ["storage", "unlimitedStorage"],
+   "permissions": [
+    "storage",
+    "unlimitedStorage",
+	"webRequest",
+	"webRequestBlocking"],
   "host_permissions": [
 	  "*://raw.githubusercontent.com/*",
 	  "https://chat.openai.com/chat*"

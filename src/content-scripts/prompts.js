@@ -4,6 +4,40 @@ if (typeof browser === "undefined") {
 
 (() => {
 	var selectedPromptTemplate;
+	
+	self.addEventListener("fetch", (event) => {
+		console.log(event);
+	});
+	
+	/*
+	window.addEventListener("message", (event) => {
+		
+	});
+	*/
+	
+	// inject some script to override a fetch listener
+	var th = document.querySelector("body");
+    var s = document.createElement('script');
+    s.setAttribute('type', 'text/javascript');
+    s.innerHTML = 
+	`
+		var template;
+		window.addEventListener("message", (event) => {
+			if(event.data.type === "selectPrompt")
+			{
+				template = event.data.template;
+			}
+		});
+
+		const fetch = window._fetch = window._fetch || window.fetch;
+		window.fetch = (...t) => {
+			console.log(t);
+			if (!t[0].includes('https://chat.openai.com/backend-api/conversation') && !t[0].includes('https://chat.openai.com/backend-api/moderations')) return fetch(...t);
+		}
+		console.log("Injecting prompt script override...");
+	`;
+    th.appendChild(s);
+	
 	/* !IMPORTANT! FETCH REPLACEMENT IS BROKEN DUE TO MOVEMENT TO CONTENT SCRIPT */
 	/*
     // Save a reference to the original fetch function
@@ -299,12 +333,14 @@ if (typeof browser === "undefined") {
 		</span>
 		`
 			textarea.placeholder = template.placeholder
-			selectedPromptTemplate = template
+			selectedPromptTemplate = template;
+			window.postMessage({type:"selectPrompt", template:selectedPromptTemplate},"*");
 			textarea.focus()
 		} else {
 			wrapper.innerHTML = ``
 			textarea.placeholder = ''
-			selectedPromptTemplate = null
+			selectedPromptTemplate = null;
+			window.postMessage({type:"selectPrompt", template:selectedPromptTemplate},"*");
 		}
 	}
 

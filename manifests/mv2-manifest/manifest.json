@@ -7,6 +7,7 @@
     "storage",
     "unlimitedStorage",
 	"webRequest",
+	"webRequestBlocking",
 	"*://raw.githubusercontent.com/*",
 	"https://chat.openai.com/chat*"
   ],
