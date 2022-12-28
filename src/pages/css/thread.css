@@ -23,6 +23,68 @@
     line-height: 1.75;
     white-space: pre-line;
 }
+
+.text table {
+	font-size: .875em;
+	line-height: 1.7142857;
+	text-align: left;
+	border: 1px solid #d9d9e3;
+	border-radius: .375rem;
+	width: 100%;
+	
+	border-collapse: separate; /* Collapse and radius are incompatible */
+    border-spacing: 0;
+	
+	margin-bottom: 2em;
+	margin-top: 2em;
+}
+
+.text th:first-child {
+  border-top-left-radius: .375rem;
+}
+
+.text th:last-child {
+  border-top-right-radius: .375rem;
+}
+
+.text th {
+  border-top-width: 0px !important;	
+}
+
+.text th:first-child,
+.text td:first-child {
+	border-left-width: 0px;
+}
+
+/* 
+	It's okay, there's no such thing as a markdown table with footers. 
+	So we don't need to worry about that case.
+*/
+
+.text tr:last-child td:first-child {
+  border-bottom-left-radius: .375rem;
+}
+
+.text tr:last-child td:last-child {
+  border-bottom-right-radius: .375rem;
+}
+
+
+.text th, 
+.text td {
+	border-left-width: 1px;
+	border-top-width: 1px;
+	padding: .25rem .75rem;
+}
+
+.light .text th {
+	background-color: #F7F7F8;
+}
+
+.dark .text th {
+	background-color: #656773;
+}
+
 .clipboard{
     color: #D1D5DA;
 }

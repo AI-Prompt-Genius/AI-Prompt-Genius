@@ -92,7 +92,7 @@
 		if(promptsRawString)
 		{
 			// if no prompts, do nothing
-			let prompts = JSON.parse()
+			let prompts = JSON.parse(promptsRawString);
 			window.prompttemplates = prompts.reverse()
 			console.log(window.prompttemplates)
 			insertPromptTemplatesSection()
