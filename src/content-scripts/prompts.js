@@ -5,7 +5,7 @@
     // if one has been selected by the user
     window.fetch = (...t) => {
         // If the request is not for the chat backend API or moderations, just use the original fetch function
-        if (!(t[0].includes('https://chat.openai.com/backend-api/conversation') || !t[0].includes('https://chat.openai.com/backend-api/moderations'))) return fetch(...t)
+        if (!(t[0].includes('https://chat.openai.com/backend-api/conversation') || t[0].includes('https://chat.openai.com/backend-api/moderations'))) return fetch(...t)
         // Get the selected prompt template
         // const template = window.selectedprompttemplate
 
