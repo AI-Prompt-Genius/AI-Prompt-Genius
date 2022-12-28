@@ -7,7 +7,7 @@
         // If the request is not for the chat backend API or moderations, just use the original fetch function
         if (!t[0].includes('https://chat.openai.com/backend-api/conversation') && !t[0].includes('https://chat.openai.com/backend-api/moderations')) return fetch(...t)
         // Get the selected prompt template
-        const template = window.selectedprompttemplate
+        // const template = window.selectedprompttemplate
 
         try {
             // Get the options object for the request, which includes the request body
@@ -21,7 +21,7 @@
                 document.querySelector("#conversationID").setAttribute("type", "hidden")
                 document.querySelector("#conversationID").value = conversationID
             }
-            if (window.selectedprompttemplate) {
+            /*if (window.selectedprompttemplate) {
                 // Get the prompt from the request body
                 const prompt = body.messages[0].content.parts[0]
                 // Replace the prompt in the request body with the selected prompt template,
@@ -33,7 +33,7 @@
                 options.body = JSON.stringify(body)
                 // Use the modified fetch function to make the request
                 return fetch(t[0], options)
-            }
+            }*/
             // If no prompt template has been selected, use the original fetch function
             else {
                 return fetch(...t)
@@ -66,7 +66,7 @@
     observer.observe(document.body, { subtree: true, childList: true })
 
     // Fetch the list of prompt templates from a remote CSV file
-    fetch('https://raw.githubusercontent.com/mohalobaidi/awesome-chatgpt-prompts/main/prompts.csv')
+    /*fetch('https://raw.githubusercontent.com/mohalobaidi/awesome-chatgpt-prompts/main/prompts.csv')
         // Convert the response to text
         .then(res => res.text())
         // Convert the CSV text to an array of records
@@ -82,9 +82,18 @@
         .then(templates => {
             // Save the array of prompt templates to a global variable
             window.prompttemplates = templates
+            console.log(templates)
             // Insert the "Prompt Templates" section into the chat interfac
             insertPromptTemplatesSection()
-        })
+        }) */
+    function loadUserPrompts() {
+        let prompts = JSON.parse(document.querySelector('#prompts_storage').value)
+        window.prompttemplates = prompts
+        console.log(window.prompttemplates)
+        insertPromptTemplatesSection()
+        document.querySelector('#prompts_storage').remove()
+    }
+    setTimeout(loadUserPrompts, 500) // delay to make sure insertPromptTemplates works right
 
     // Set up the Sidebar (by adding "Export Chat" button and other stuff)
     setupSidebar()
@@ -113,17 +122,21 @@ function handleElementAdded (e) {
 
 // the "New Chat" buttons to clear the selected prompt template when clicked
 function setupSidebar () {
-    // Get the "New Chat" buttons
+    let newChatButton = document.querySelector('nav').firstChild
+    newChatButton.addEventListener('click', () => {
+        selectPromptTemplate(null)
+    })
+    /* Get the "New Chat" buttons
     const buttons = getNewChatButtons()
     // Set the onclick event for each button to clear the selected prompt template
-    buttons.forEach(button => {
+    /*buttons.forEach(button => {
         button.onclick = () => {
             selectPromptTemplate(null)
         }
-    })
+    })*/
 }
 
-// This function gets the "New Chat" buttons
+/* This function gets the "New Chat" buttons
 function getNewChatButtons (callback) {
     // Get the sidebar and topbar elements
     const sidebar = document.querySelector('nav')
@@ -134,7 +147,7 @@ function getNewChatButtons (callback) {
     const AddButton = topbar?.querySelector("button.px-3")
     // Return an array containing the buttons, filtering out any null elements
     return [newChatButton, AddButton].filter(button => button)
-}
+}*/
 
 // This object contains properties for the prompt templates section
 const promptTemplateSection = {
@@ -179,9 +192,7 @@ function insertPromptTemplatesSection () {
       ${currentTemplates.map((template, i) => `
         <button onclick="selectPromptTemplate(${start + i})" class="${css`card`}">
           <h3 class="${css`h3`}">${template.title}</h3>
-          <p class="${css`p`}">${
-        template.prompt.replace('[INSERT]', template.placeholder)
-    }</p>
+          <p class="${css`p`}">${template.text}</p>
           <span class="font-medium">Use prompt →</span>
         </button>
       `).join('')}
@@ -248,6 +259,7 @@ function addCopyButton (buttonGroup) {
 
 // This function selects a prompt template
 function selectPromptTemplate (idx) {
+    console.log("FIRED!")
     // Get the list of prompt templates
     const templates = window.prompttemplates
     // If there are no templates, skip
@@ -256,29 +268,36 @@ function selectPromptTemplate (idx) {
     const template = templates[idx]
 
     const textarea = document.querySelector('textarea')
-    const parent = textarea.parentElement
+    /*const parent = textarea.parentElement
     let wrapper = document.createElement('div')
     wrapper.id = 'prompt-wrapper'
     if (parent.querySelector('#prompt-wrapper')) {
         wrapper = parent.querySelector('#prompt-wrapper')
     } else {
         parent.prepend(wrapper)
-    }
+    }*/
 
     if (template) {
-        wrapper.innerHTML = `
+        console.log(template)
+        /*wrapper.innerHTML = `
     <span class="${css`tag`}">
       ${template.title}
     </span>
-    `
-        textarea.placeholder = template.placeholder
-        window.selectedprompttemplate = template
+    `*/
         textarea.focus()
-    } else {
-        wrapper.innerHTML = ``
+        function setText() {
+            textarea.value = template.text
+            textarea.style.height = "200px"
+            window.selectedprompttemplate = template
+        }
+        setTimeout(setText, 100) //timeout for weird clear thing
+
+    }
+    /*else {
+        //wrapper.innerHTML = ``
         textarea.placeholder = ''
         window.selectedprompttemplate = null
-    }
+    }*/
 }
 
 function CSVToArray(strData, strDelimiter) {
