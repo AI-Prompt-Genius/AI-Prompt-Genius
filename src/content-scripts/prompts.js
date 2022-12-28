@@ -3,6 +3,9 @@ if (typeof browser === "undefined") {
 }
 
 (() => {
+	var selectedPromptTemplate;
+	/* !IMPORTANT! FETCH REPLACEMENT IS BROKEN DUE TO MOVEMENT TO CONTENT SCRIPT */
+	/*
     // Save a reference to the original fetch function
     const fetch = window._fetch = window._fetch || window.fetch
     // Replace the fetch function with a modified version that will include a prompt template
@@ -11,7 +14,7 @@ if (typeof browser === "undefined") {
         // If the request is not for the chat backend API or moderations, just use the original fetch function
         if (!t[0].includes('https://chat.openai.com/backend-api/conversation') && !t[0].includes('https://chat.openai.com/backend-api/moderations')) return fetch(...t)
         // Get the selected prompt template
-        const template = window.selectedprompttemplate
+        const template = selectedPromptTemplate
 
         try {
             // Get the options object for the request, which includes the request body
@@ -25,7 +28,7 @@ if (typeof browser === "undefined") {
                 document.querySelector("#conversationID").setAttribute("type", "hidden")
                 document.querySelector("#conversationID").value = conversationID
             }
-            if (window.selectedprompttemplate) {
+            if (selectedPromptTemplate) {
                 // Get the prompt from the request body
                 const prompt = body.messages[0].content.parts[0]
                 // Replace the prompt in the request body with the selected prompt template,
@@ -48,7 +51,7 @@ if (typeof browser === "undefined") {
             return fetch(...t)
         }
     }
-
+	*/
     // Create a new observer for the chat sidebar to watch for changes to the document body
     const observer = new MutationObserver(mutations => {
         // For each mutation (change) to the document body
@@ -288,7 +291,7 @@ if (typeof browser === "undefined") {
 		} else {
 			parent.prepend(wrapper)
 		}
-
+				
 		if (template) {
 			wrapper.innerHTML = `
 		<span class="${css`tag`}">
@@ -296,12 +299,12 @@ if (typeof browser === "undefined") {
 		</span>
 		`
 			textarea.placeholder = template.placeholder
-			window.selectedprompttemplate = template
+			selectedPromptTemplate = template
 			textarea.focus()
 		} else {
 			wrapper.innerHTML = ``
 			textarea.placeholder = ''
-			window.selectedprompttemplate = null
+			selectedPromptTemplate = null
 		}
 	}
 
