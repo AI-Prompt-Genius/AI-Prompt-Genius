@@ -171,3 +171,8 @@ body.light{
 }
 
 #cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
+
+img{
+    max-width: 100%;
+    height: auto;
+}
