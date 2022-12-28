@@ -21,11 +21,7 @@
       "run_at": "document_idle"
     }
   ],
-  "web_accessible_resources" : [{
-    "resources": ["content-scripts/prompts.js"],
-    "matches": ["https://chat.openai.com/*"],
-    "use_dynamic_url": true
-  }],
+  "web_accessible_resources" : ["content-scripts/prompts.js"],
   "browser_action": {
     "default_title": "ChatGPT History"
   },
