@@ -201,7 +201,7 @@ function insertPromptTemplatesSection () {
 
     <div class="${css`column`} items-center">
       <span class="${css`paginationText`}">
-        Showing <span class="${css`paginationNumber`}">${start + 1}</span> to <span class="${css`paginationNumber`}">${end}</span> of <a href="https://prompts.chat/" target="_blank" class="underline"><span class="${css`paginationNumber`}">${templates.length} Entries</span></a>
+        Showing <span class="${css`paginationNumber`}">${start + 1}</span> to <span class="${css`paginationNumber`}">${end}</span> of <a id="prompt-link"><span class="${css`paginationNumber`}">${templates.length} Entries</span></a>
       </span>
       <div class="${css`paginationButtonGroup`}">
         <button onclick="prevPromptTemplatesPage()" class="${css`paginationButton`}" style="border-radius: 6px 0 0 6px">Prev</button>

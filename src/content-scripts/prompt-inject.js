@@ -1,3 +1,6 @@
+if (typeof browser === "undefined"){
+    browser = chrome;
+}
 function injectScript(file, node) {
     var th = document.getElementsByTagName(node)[0];
     var s = document.createElement('script');
@@ -13,5 +16,10 @@ browser.storage.local.get('prompts').then((result) => {
     document.querySelector("#prompts_storage").value = prompts
 })
 
-injectScript(chrome.runtime.getURL('content-scripts/prompts.js'), 'body');
+injectScript(browser.runtime.getURL('content-scripts/prompts.js'), 'body');
 
+/*let url = browser.runtime.getURL('pages/prompts.html')
+
+setTimeout(() => {
+    document.querySelector("#prompt-link").href = url
+}, 2000)*/
