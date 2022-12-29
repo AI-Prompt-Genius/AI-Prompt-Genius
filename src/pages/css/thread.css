@@ -3,6 +3,19 @@
     height: 48px;
 }
 
+.blue-info-box{
+	color: #12256f; /* Use a dark blue instead of black because colour perception is relative */
+	background-color: #D8FCFF;
+	border: 2px solid #B4D8FF;
+	padding: 10px;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.blue-info-box h1{
+	font-size: 1em;
+}
+
 .copy{
     text-align: right;
     background-color: #343541;
@@ -22,6 +35,9 @@
     margin-bottom: 1.25em;
     line-height: 1.75;
     white-space: pre-line;
+	
+	/* force it to use up all the space, even in flex */
+	width:100%; 
 }
 
 .text table {

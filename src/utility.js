@@ -276,3 +276,65 @@ TreeNode.prototype.fromJSON = function(JSONObject)
 		}
 	}
 }
+
+// debug just for fun
+TreeNode.prototype.toASCII = function()
+{
+	let string;
+	if(this.data === undefined)
+	{
+		string = ("" + undefined);
+	}
+	else 
+	{
+		string = this.data.substring(0, 20);
+	}
+	
+	for(let index = 0; index < this.leaves.length; index++)
+	{
+		string += "\n";
+		let leaf = this.leaves[index];
+		let leafString = leaf.toASCII();
+		leafString = leafString.split("\n");
+		for(let count = 0; count < leafString.length; count++)
+		{
+			if(leafString[count].includes("├── "))
+			{
+				leafString[count] = "|   " + leafString[count];
+			}
+			else 
+			{
+				leafString[count] = "├── " + leafString[count];
+			}
+		}
+		leafString = leafString.join("\n");
+		string += leafString;
+	}
+	return string;
+}
+
+/*
+	A branch with two leaves, whose leaves have nothing, has a width of two.
+	A branch with no leaves has a width of one (itself).
+	A branch with one leaf, that has its own leaf, still has a width of one.
+	A branch with two leaves, which each has two leaves, has a width of four.
+	A null leaf has a width of one.
+ */
+TreeNode.prototype.getWidth = function()
+{
+	if(this.leaves.length === 0) return 1;
+	let width = 0;
+	for(let index = 0; index < this.leaves.length; index++)
+	{
+		let leaf = this.leaves[index];
+		if(leaf === null)
+		{
+			width += 1;
+		}
+		else 
+		{
+			width += leaf.getWidth();
+		}
+	}
+	return width;
+}
