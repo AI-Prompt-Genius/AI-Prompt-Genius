@@ -16,7 +16,8 @@
     <div class="top-half">
         <input type="text" class="search-bar mx-3 mb-1" placeholder="Search Prompts..." />
         <a id="new_prompt_button" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-plus"></i> &emsp;New Prompt</a>
-        <a id="explore" type="button" data-bs-toggle="modal" data-bs-target="#exploreModal" class="mx-3 p-3 text-white text-sm clickable"><i style="font-size: 16px;" class="fa-solid fa-earth-americas"></i> &emsp;Explore &emsp; &emsp; &emsp;Prompts</a>
+        <a id="explore" type="button" data-bs-toggle="modal" data-bs-target="#exploreModal" class="mx-3 p-3 text-white text-sm clickable"><i style="font-size: 16px;" class="fa-solid fa-user-tag"></i>&emsp;Curated &emsp; &emsp; &emsp;Prompts</a>
+        <a href="https://www.reddit.com/r/ChatGPTPromptGenius/" target="_blank" class="mx-3 p-3 text-white text-sm clickable" id="public" type="button"><i style="font-size: 16px;" class="fa-solid fa-earth-americas"></i> &emsp;Public &nbsp; &emsp; &emsp; &emsp;Prompts</a>
         <a id="light_dark" class="mx-3 p-3 text-white text-sm clickable"><i class="sun-moon fa-solid fa-sun-bright"></i> &emsp;<span id="d_l">Light</span> Mode</a>
 		<a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-clock"></i> &emsp;History</a>
 		<a href="settings.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-cog"></i> &emsp;Settings</a>
@@ -35,16 +36,37 @@
 			<p class="p-2 ml-3 prompt clickable"><span class="prompt-text text"></span></p>
         </div>
 		<div class="col-2 p-3">
-            <div class="p-1 date"></div>
-            <div class="p-1 time"></div>
+            <div class="p-1 category">
+                <select class="select form-select">
+                    <option value="" selected>Category...</option>
+                    <option value="Academic Writing">Academic Writing</option>
+                    <option value="Bypass & Filters">Bypass & Filters</option>
+                    <option value="Education & Learning">Education & Learning</option>
+                    <option value="Fun & Games">Fun & Games</option>
+                    <option value="Fitness & Nutrition">Fitness & Nutrition</option>
+                    <option value="Fiction Writing">Fiction Writing</option>
+                    <option value="Music">Music</option>
+                    <option value="Other Nonfiction Writing">Other Nonfiction Writing</option>
+                    <option value="Other">Other</option>
+                    <option value="Poetry">Poetry</option>
+                    <option value="Programming & Technology">Programming & Technology</option>
+                    <option value="Social Media & Blogging">Social Media & Blogging</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Therapy & Life-help">Therapy & Life-help</option>
+                </select>
+            </div>
+            <div class="p-1 tags"></div>
         </div>
-		<div class="col-1 p-2 m-3">
+		<div class="col-1 p-2 m-3 mx-4">
             <table class="m-0 p-0">
                 <tbody>
-                <tr class="m-3">
-                    <td><button class="btn btn-outline-danger m-1 trash tt" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete this thread"><i class="fa-solid trash fa-trash"></i></button></td>
-                    <td><button class="btn btn-outline-warning m-1 continue tt" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Use this prompt"><i class="continue fa-regular fa-circle-play"></i></button></td>
-                </tr>
+                    <tr class="m-3">
+                        <td><button class="btn btn-outline-danger m-1 trash tt" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete this prompt"><i class="fa-solid trash fa-trash"></i></button></td>
+                        <td><button class="btn btn-outline-warning m-1 continue tt" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Use this prompt"><i class="continue fa-regular fa-circle-play"></i></button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-primary m-1 share tt" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Share this prompt on Reddit"><i class="fa-solid share fa-arrow-up-from-bracket"></i></button></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -74,7 +96,7 @@
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title black">Explore Prompt Templates</h4>
+                <h4 class="modal-title black">Explore Curated Prompt Templates</h4>
                 <div class="form w-50">
                     <i class="fa fa-search"></i>
                     <input type="text" id="modal-search-bar" class="form-control form-input" placeholder="Search prompts...">
@@ -95,6 +117,7 @@
         </div>
     </div>
 </div>
+<script src="../external-js/popper.js"></script>
 <script src="../external-js/bootstrap.js"></script>
 <script src="../utility.js"></script>
 <script src="js/prompts.js"></script>

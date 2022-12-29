@@ -70,16 +70,17 @@ function load_prompts(prompts, search=false, search_term="")
 		
 		let prompt = prompts[n];
 		let id = prompt.id;
+		console.log(prompt)
 		
-		template.querySelector('.date').innerHTML = prompt.date;
-        template.querySelector('.time').innerHTML = prompt.time;
+		//template.querySelector('.date').innerHTML = prompt.date;
+        //template.querySelector('.time').innerHTML = prompt.time;
 		let prompt_text = template.querySelector('.prompt-text');
 		let title_text = template.querySelector('.title-text');
 		if (!search) {
 			title_text.innerHTML = prompt.title;
 			prompt_text.innerHTML = prompt.text;
 		}
-		else{
+		else {
 			title_text.innerHTML = searchString(prompt.title, search_term);
 			prompt_text.innerHTML = searchString(prompt.text, search_term);
 			if (template.querySelector('.title-text').innerHTML === "") {
@@ -88,6 +89,9 @@ function load_prompts(prompts, search=false, search_term="")
 			if (template.querySelector('.prompt-text').innerHTML === "") {
 				template.querySelector('.prompt-text').innerHTML = prompt.text
 			}
+		}
+		if (prompt.category){
+			template.querySelector('.select').value = prompt.category;
 		}
 		let row = template.querySelector('.row');
 		
@@ -113,6 +117,11 @@ function load_prompts(prompts, search=false, search_term="")
 				}
 			}
 		});
+
+		let categorySelect = row.querySelector('.select');
+		categorySelect.addEventListener('change', (event) => {
+			choose_category(id, row);
+		})
 		
 		row.addEventListener('click', event => {
             const target = event.target;
@@ -122,6 +131,39 @@ function load_prompts(prompts, search=false, search_term="")
 			else if(target.classList.contains('continue')){
 				use_prompt(id);
             }
+			else if(target.classList.contains('share')){
+				let subreddit = `https://www.reddit.com/r/ChatGPTPromptGenius/submit`
+				let tags = ""
+				if (prompt.tags){
+					tags = prompt.tags
+					console.log(tags)
+				}
+				let category
+				if (prompt.category){
+					category = prompt.category
+					if (category === "undefined"){
+						category = ""
+					}
+				}
+				let template =
+				encodeURIComponent(
+`&#x200B;
+
+|Prompt Title|${prompt.title}|
+|:-|:-|
+|Prompt Text|${prompt.text}|
+|Category|${category}|
+|Tags (separate with commas)|${tags}|
+
+
+\-----------
+
+Additional information:
+
+				`)
+				let url = `${subreddit}?title=${prompt.title}&text=${template}`;
+				window.open(url, '_blank');
+			}
 			else if (target.classList.contains('edit-button')){
 				toggle_prompt_editable(id, row);
 			}
@@ -130,6 +172,9 @@ function load_prompts(prompts, search=false, search_term="")
 			}
 			else if (target.classList.contains('title-text')){
 				// Catchall
+			}
+			else if (target.classList.contains('select') || target.parentElement.classList.contains('select')){
+				// Catchall use event listener for change instead
 			}
 			else if (target.tagName === 'TEXTAREA'){
 				// Catchall
@@ -170,6 +215,23 @@ function delete_prompt(id)
 			browser.storage.local.set({imported_prompts: imported_prompts});
 		}
 		removeElementInArray(prompts, prompt);
+		browser.storage.local.set({prompts: prompts});
+		load_prompts(prompts);
+	});
+}
+
+function choose_category(id, row)
+{
+	let category = row.querySelector('.select').value;
+	browser.storage.local.get({prompts: default_prompts}).then((result) => {
+		let prompts = result.prompts;
+		let prompt = getObjectById(id, prompts);
+		if(!prompt)
+		{
+			console.warn(`choose_category: cannot find prompt of id ${id}.`);
+			return;
+		}
+		prompt.category = category
 		browser.storage.local.set({prompts: prompts});
 		load_prompts(prompts);
 	});
@@ -262,14 +324,15 @@ function new_blank_prompt(){
 	new_prompt("Untitled Prompt","")
 }
 
-function new_prompt(title, text)
-{
+function new_prompt(title, text, tags="", category="") {
 	let prompt = {
 		date: getDate(),
 		time: getTime(),
 		id: generateUUID(),
 		title: title,
 		text: text,
+		tags: tags,
+		category: category
 	};
 	user_prompts.push(prompt)
 	browser.storage.local.set({prompts: user_prompts});
@@ -323,7 +386,7 @@ function CSVToArray(strData, strDelimiter) {
 	return data;
 }
 
-function fillAndAppendTemplate(title, text, i) {
+function fillAndAppendTemplate(title, text, i, tags="", category="") {
 	// Get the template element
 	const template = document.querySelector('.explore-template');
 
@@ -336,7 +399,7 @@ function fillAndAppendTemplate(title, text, i) {
 
 	// Add prompt when clicked
 	promptDiv.querySelector('.prompt-div').addEventListener('click', function() {
-		new_prompt(title, text);
+		new_prompt(title, text, tags, category);
 		imported_prompts.push(title);
 		browser.storage.local.set({imported_prompts: imported_prompts});
 		publicTemps.splice(i, 1);
@@ -357,8 +420,8 @@ function fetch_templates(){
 		.then(csv => CSVToArray(csv))
 		// Map the records to template objects with properties 'title', 'prompt', and 'placeholder'
 		.then(records => {
-			return records.map(([ title, prompt, placeholder, tags ]) => {
-				return { title, prompt, tags }
+			return records.map(([ title, prompt, placeholder, tags, category ]) => {
+				return { title, prompt, tags, category }
 			})
 			.filter(({ title }) => title && title !== 'title')
 				.filter (({ title }) => !imported_prompts.includes(title))
@@ -381,7 +444,7 @@ backwardButton.addEventListener('click', () => {
 	currentIndex -= 3;
 })
 
-function load_explore_prompts(prompts, search=false, search_term=""){
+function loadExplorePrompts(prompts, search=false, search_term=""){
 	console.log("CALLED!")
 	document.querySelector('.modal-main').innerHTML = '';
 	backwardButton.disabled = true;
@@ -397,17 +460,26 @@ function load_explore_prompts(prompts, search=false, search_term=""){
 
 		// Loop through the next three elements and fill the template
 		for (let i = currentIndex; i < currentIndex + 3; i++) {
-			console.log(currentIndex)
 			//console.log(temps[i])
 			//console.log(i)
 			if (temps[i]) {
 				let title = temps[i].title;
 				let text = temps[i].prompt
+				var tags = ""
+				if (temps[i].tags) {
+					tags = temps[i].tags
+					console.log("TRUE")
+				}
+				var category = ""
+				if (temps[i].category){
+					category = temps[i].category
+				}
+				console.log(tags)
 				if (search) {
 					title = searchString(title, search_term);
 					text = searchString(text, search_term);
 				}
-				fillAndAppendTemplate(title, text);
+				fillAndAppendTemplate(title, text, i, tags, category);
 			}
 		}
 		forwardButton.disabled = currentIndex >= temps.length - 3
@@ -420,7 +492,7 @@ function load_explore_prompts(prompts, search=false, search_term=""){
 
 }
 
-document.querySelector('#explore').addEventListener('click', () => load_explore_prompts(publicTemps))
+document.querySelector('#explore').addEventListener('click', () => loadExplorePrompts(publicTemps))
 
 let imported_prompts = [];
 browser.storage.local.get({imported_prompts: []}).then((result) => {
@@ -447,10 +519,10 @@ function searchExplorePrompts() {
 	document.querySelector('.modal-main').innerHTML = ''
 	if (search_term === ""){
 		currentIndex = 0;
-		load_explore_prompts(publicTemps)
+		loadExplorePrompts(publicTemps)
 	}
 	else {
-		load_explore_prompts(results, true, search_term)
+		loadExplorePrompts(results, true, search_term)
 	}
 }
 
@@ -468,3 +540,13 @@ function searchPrompts(prompts, searchTerm) { // created by ChatGPT
 
 document.querySelector('#modal-search-bar').addEventListener('input', searchExplorePrompts)
 document.querySelector('.search-bar').addEventListener('input', searchUserPrompts)
+
+
+// Tooltips
+function tooltips() {
+	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+	var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		return new bootstrap.Tooltip(tooltipTriggerEl)
+	})
+}
+setTimeout(tooltips, 500)
