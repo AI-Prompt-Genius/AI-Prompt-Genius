@@ -134,16 +134,14 @@ function load_prompts(prompts, search=false, search_term="")
 			else if(target.classList.contains('share')){
 				let subreddit = `https://www.reddit.com/r/ChatGPTPromptGenius/submit`
 				let tags = ""
+				let text = prompt.text.replace(/\n/g,"                                                           ")
 				if (prompt.tags){
 					tags = prompt.tags
 					console.log(tags)
 				}
-				let category
+				let category = "";
 				if (prompt.category){
 					category = prompt.category
-					if (category === "undefined"){
-						category = ""
-					}
 				}
 				let template =
 				encodeURIComponent(
@@ -151,7 +149,7 @@ function load_prompts(prompts, search=false, search_term="")
 
 |Prompt Title|${prompt.title}|
 |:-|:-|
-|Prompt Text|${prompt.text}|
+|Prompt Text|${text}|
 |Category|${category}|
 |Tags (separate with commas)|${tags}|
 
