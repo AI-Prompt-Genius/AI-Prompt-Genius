@@ -359,6 +359,11 @@ function main() {
         return text;
     }
 
+    function getTitle(){
+        let title = document.querySelector('title').innerText
+        return title
+    }
+
     function getObjectIndexByID(id, list) { // created by ChatGPT
         // Iterate over the list of objects
         for (let i = 0; i < list.length; i++) {
@@ -376,12 +381,8 @@ function main() {
     }
 
     function save_page() {
-        console.log('saving!')
         p = document.querySelector("main > div > div > div > div")
         let c = p.children
-        console.log(c)
-        console.log(p)
-        console.log(c.length)
         if (c.length > 2) {
             let t;
             browser.storage.local.get({threads: null}).then((result) => {
@@ -459,10 +460,16 @@ function main() {
                                 favorite: false,
                                 id: id,
                                 branch_state: mirror_branch_state.toJSON(),
-                                unified_id: unified_id
+                                unified_id: unified_id,
+                            }
+                            first_time = false
+                            if (!previous_convo) {
+                                let title = getTitle()
+                                if (title !== "New chat"){
+                                    thread.title = title
+                                }
                             }
                             t.push(thread)
-                            first_time = false
                         }
                         else {
                             let thread = {
@@ -472,7 +479,13 @@ function main() {
                                 favorite: false,
                                 id: id,
                                 branch_state: mirror_branch_state.toJSON(),
-                                unified_id: unified_id
+                                unified_id: unified_id,
+                            }
+                            if (!previous_convo) {
+                                let title = getTitle()
+                                if (title !== "New chat"){
+                                    thread.title = title
+                                }
                             }
                             t[getObjectIndexByID(id, t)] = thread
                         }
@@ -485,7 +498,13 @@ function main() {
                             convo: page,
                             favorite: false,
                             id: id,
-                            branch_state: mirror_branch_state.toJSON()
+                            branch_state: mirror_branch_state.toJSON(),
+                        }
+                        if (!previous_convo) {
+                            let title = getTitle()
+                            if (title !== "New chat"){
+                                thread.title = title
+                            }
                         }
                         let t = [thread]
                         first_time = false
@@ -511,7 +530,6 @@ function main() {
 
     //let stop_saving;
     const observer = new MutationObserver(function () { // created by chatGPT
-        console.log("MUTATION!")
         if (!timer_started) {
             interval = setInterval(save_page, 2000);
         }
@@ -548,7 +566,7 @@ function main() {
         }
     }
 
-    chrome.runtime.onMessage.addListener(
+    browser.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
             console.log(request)
             if (request.type === "c_continue_convo") {
