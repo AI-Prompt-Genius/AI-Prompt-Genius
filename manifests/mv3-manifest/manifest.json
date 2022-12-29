@@ -13,6 +13,11 @@
       "js": ["content-scripts/scraper.js", "content-scripts/prompt-inject.js", "content-scripts/export.js","external-js/html2canvas.js",
         "external-js/jspdf.umd.js"],
       "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.reddit.com/r/ChatGPTPromptGenius/submit*"],
+      "js": ["content-scripts/reddit/submit.js"],
+      "run_at": "document_idle"
     }
   ],
   "web_accessible_resources" : [{
