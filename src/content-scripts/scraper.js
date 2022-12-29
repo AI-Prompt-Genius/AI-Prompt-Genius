@@ -3,14 +3,34 @@ if (typeof browser === "undefined") {
     browser = chrome
     firefox = false
 }
+
+
 function main() {
     console.log("Loading content script, everything is fine and dandy!");
-    let p = document.querySelector("main > div > div > div > div")
-    let c;
-// loop through c to see if they are p elements or pre elements
-    let page = []
-    let first_time = true
+
+    let previous_convo;
+    let p; // parent with each chat row
     let id = "";
+    let unified_id = false; // boolean to check if id matches ChatGPT ID
+
+    // this chunk of code determines if the page is a previous chat or not and sets up the page accordingly
+    let url = window.location.href;
+    let url_split = url.split("/");
+    console.log(url_split);
+    if (url_split.length > 4) { // if the url has an id essentially.
+        previous_convo = true;
+        id = url_split[url_split.length - 1];
+        console.log("previous convo detected!")
+        unified_id = true;
+    }
+
+    p = document.querySelector("main > div > div > div > div")
+
+    let page = []
+    let first_time = false;
+    if (!previous_convo) {
+        first_time = true
+    }
     document.body.appendChild(document.createElement(`div`)).setAttribute("id", "chat_history");
     let history_box = document.querySelector("#chat_history");
 
@@ -339,8 +359,29 @@ function main() {
         return text;
     }
 
+    function getObjectIndexByID(id, list) { // created by ChatGPT
+        // Iterate over the list of objects
+        for (let i = 0; i < list.length; i++) {
+            const obj = list[i];
+
+            // Check if the object has an `id` property that matches the given id
+            if (obj.id && obj.id === id) {
+                // If a match is found, return the object
+                return i;
+            }
+        }
+
+        // If no match is found, return null
+        return null;
+    }
+
     function save_page() {
-        c = p.children
+        console.log('saving!')
+        p = document.querySelector("main > div > div > div > div")
+        let c = p.children
+        console.log(c)
+        console.log(p)
+        console.log(c.length)
         if (c.length > 2) {
             let t;
             browser.storage.local.get({threads: null}).then((result) => {
@@ -351,13 +392,16 @@ function main() {
                     let human = i % 2 === 0;
                     let child = c[i];
                     let text = save_thread(human, child)
+
+                    // don't save errors
                     if (text === "ERROR" || text.includes(`<p>network error</p>`) || text.includes(`<p>Load failed</p>`) || text.includes(`<p>Error in body stream/p>`)) {
-                        text = t[t.length - 1].convo[i]
+                        text = t[getObjectIndexByID(id, t)].convo[i]
                         if (!text.endsWith(`(error)`)) {
                             text = `${text}<br> (error)`
                         }
                     }
                     page.push(text);
+                    //console.log(page)
 
                     // mirror state;
 					// get the children from the most specific div possible. It is always the LAST child of the profile pic container.
@@ -395,15 +439,15 @@ function main() {
                 }
                 //console.log(mirror_branch_state.toJSON());
                 if (mirror_branch_state.toJSON() !== null) {
-                    let unified_id = false; // boolean to check if id matches ChatGPT ID
-                    let conversation_id_el = document.querySelector('#conversationID');
-                    if (conversation_id_el !== null) {
-                        id = conversation_id_el.value;
-                        unified_id = true;
-                    }
-                    else {
-                        if (id === "") {
-                            id = generateUUID();
+                    if (!previous_convo){
+                        let conversation_id_el = document.querySelector('#conversationID');
+                        if (conversation_id_el !== null) {
+                            id = conversation_id_el.value;
+                            unified_id = true;
+                        } else {
+                            if (id === "") {
+                                id = generateUUID();
+                            }
                         }
                     }
                     if (t !== null) {
@@ -430,11 +474,11 @@ function main() {
                                 branch_state: mirror_branch_state.toJSON(),
                                 unified_id: unified_id
                             }
-                            t[t.length - 1] = thread
+                            t[getObjectIndexByID(id, t)] = thread
                         }
                         browser.storage.local.set({threads: t})
                     }
-                    else {
+                    else { // very first conversation scraping
                         let thread = {
                             date: getDate(),
                             time: getTime(),
@@ -451,19 +495,23 @@ function main() {
             });
         }
     }
+    let interval; let timer_started = false;
 
     document.addEventListener('keydown', function (event) { // generated by ChatGPT
         // Check if the pressed key was the Enter key
         if (event.key === 'Enter') {
-            setTimeout(save_page, 500)
+            if (!timer_started) {
+                interval = setInterval(save_page, 2000);
+            }
+            timer_started = true;
         }
     });
 
-    let main = p
+    let main = document.querySelector('main');
 
     //let stop_saving;
-    let interval;
     const observer = new MutationObserver(function () { // created by chatGPT
+        console.log("MUTATION!")
         if (!timer_started) {
             interval = setInterval(save_page, 2000);
         }
@@ -479,7 +527,6 @@ function main() {
         first_time = true;
         mirror_branch_state = new TreeNode();
     })
-    let timer_started = false
 
     function continue_convo(convo){
         const input = document.querySelector("textarea");
