@@ -30,6 +30,7 @@ browser.storage.local.get(['threads']).then((result) => {
 		console.log(`Loading branch state...`);
 		branch_state = new TreeNode();
 		branch_state.fromJSON(b);
+		console.log(branch_state);
 		load_branched_thread();
 	}
 });
@@ -138,16 +139,24 @@ function load_branched_thread()
 			}
 		}
 		
-        if (human) {
-            temp.querySelector(".text").innerHTML = `<p>${fake_convo[i]}</p>`
-            main.appendChild(temp)
-        }
-        else{
-            let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
-            let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
-            temp.querySelector(".text").innerHTML = fake_convo[i].replaceAll(bar, copy_bar).replaceAll(`<div class="p-4">`, "<div>") // fixes formatting for weird code divs
-            main.appendChild(temp)
-        }
+		if(fake_convo[i] === undefined)
+		{
+			temp.querySelector(".text").innerHTML = `<div class="blue-info-box">No data available for current branch.</div>`
+			main.appendChild(temp)
+		}
+		else 
+		{
+			if (human) {
+				temp.querySelector(".text").innerHTML = `<p>${fake_convo[i]}</p>`
+				main.appendChild(temp)
+			}
+			else{
+				let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`;
+				let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`;
+				temp.querySelector(".text").innerHTML = fake_convo[i].replaceAll(bar, copy_bar).replaceAll(`<div class="p-4">`, "<div>") // fixes formatting for weird code divs
+				main.appendChild(temp)
+			}
+		}
 	}
 	
 	// add buttons.
