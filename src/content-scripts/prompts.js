@@ -356,3 +356,18 @@ function css (name) {
         case 'tag': return 'inline-flex items-center py-1 px-2 mr-2 mb-2 text-sm font-medium text-white rounded bg-gray-600 whitespace-nowrap'
     }
 }
+
+let prompts_url = window.location.href;
+
+function check_url() {
+    if (prompts_url !== window.location.href) {
+        prompts_url = window.location.href;
+        let newChatButton = document.querySelector('nav').firstChild
+        newChatButton.addEventListener('click', () => {
+            setTimeout(insertPromptTemplatesSection, 300)
+        })
+        console.log("URL CHANGE")
+    }
+}
+
+setInterval(check_url, 500);
