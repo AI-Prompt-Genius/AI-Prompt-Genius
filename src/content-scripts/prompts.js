@@ -296,11 +296,6 @@ function selectPromptTemplate (idx) {
             textarea.value = template.text
             textarea.style.height = "200px"
             window.selectedprompttemplate = template
-            textarea.onkeydown = () =>
-            {
-                textarea.value = `${template.text}`;
-                textarea.onkeydown = null; // then delete yourself once the weird initial block has been handled
-            };
         }
         setTimeout(setText, 100) //timeout for weird clear thing
 
