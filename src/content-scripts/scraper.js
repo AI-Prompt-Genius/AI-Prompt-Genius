@@ -16,7 +16,6 @@ function main() {
     // this chunk of code determines if the page is a previous chat or not and sets up the page accordingly
     let url = window.location.href;
     let url_split = url.split("/");
-    console.log(url_split);
     if (url_split.length > 4) { // if the url has an id essentially.
         previous_convo = true;
         id = url_split[url_split.length - 1];
@@ -545,40 +544,6 @@ function main() {
         first_time = true;
         mirror_branch_state = new TreeNode();
     })
-
-    function continue_convo(convo){
-        const input = document.querySelector("textarea");
-        input.style.height = "200px";
-        const button = input.parentElement.querySelector("button");
-        input.value = `${intro} ${convo}`;
-        if (auto_send) {
-            button.click();
-        }
-    }
-
-    function use_prompt(prompt){
-        const input = document.querySelector("textarea");
-        input.style.height = "200px";
-        const button = input.parentElement.querySelector("button");
-        input.value = `${prompt}`;
-        if (auto_send) {
-            button.click();
-        }
-    }
-
-    browser.runtime.onMessage.addListener(
-        function(request, sender, sendResponse) {
-            console.log(request)
-            if (request.type === "c_continue_convo") {
-                console.log("message recieved!")
-                continue_convo(JSON.stringify(request.convo))
-            }
-            else if(request.type === "c_use_prompt") {
-                console.log("message recieved!");
-                use_prompt(request.prompt);
-            }
-        }
-    );
 }
 
 if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -597,3 +562,50 @@ chrome.storage.local.get({settings: defaults}, function(result) {
     auto_send = settings.auto_send
     console.log("buttons!" + buttons)
 })
+
+function continue_convo(convo){
+    const input = document.querySelector("textarea");
+    input.style.height = "200px";
+    const button = input.parentElement.querySelector("button");
+    input.value = `${intro} ${convo}`;
+    if (auto_send) {
+        button.click();
+    }
+}
+
+function use_prompt(prompt){
+    const input = document.querySelector("textarea");
+    input.style.height = "200px";
+    const button = input.parentElement.querySelector("button");
+    input.value = `${prompt}`;
+    if (auto_send) {
+        button.click();
+    }
+}
+
+let scraper_url = window.location.href;
+
+function check_url() {
+    if (scraper_url !== window.location.href) {
+        scraper_url = window.location.href;
+        main()
+        console.log("URL CHANGE")
+    }
+}
+
+setInterval(check_url, 500);
+
+// listen for messages
+browser.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        console.log(request)
+        if (request.type === "c_continue_convo") {
+            console.log("message recieved!")
+            continue_convo(JSON.stringify(request.convo))
+        }
+        else if(request.type === "c_use_prompt") {
+            console.log("message recieved!");
+            use_prompt(request.prompt);
+        }
+    }
+);

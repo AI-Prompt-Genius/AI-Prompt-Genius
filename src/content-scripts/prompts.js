@@ -131,7 +131,7 @@ function handleElementAdded (e) {
 function setupSidebar () {
     let newChatButton = document.querySelector('nav').firstChild
     newChatButton.addEventListener('click', () => {
-        selectPromptTemplate(null)
+        setTimeout(insertPromptTemplatesSection, 300)
     })
     /* Get the "New Chat" buttons
     const buttons = getNewChatButtons()
