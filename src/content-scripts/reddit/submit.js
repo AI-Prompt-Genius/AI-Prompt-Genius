@@ -6,4 +6,4 @@ function switch_to_fancy_pants(){ // will add settings toggle, but I think most 
     confirm_btn.click()
 }
 
-switch_to_fancy_pants()
+setTimeout(switch_to_fancy_pants, 100) // short timeout for slow pages
