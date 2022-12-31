@@ -19,6 +19,7 @@
                 let conversationID = body['conversation_id']
                 document.body.appendChild(document.createElement(`input`)).setAttribute("id", "conversationID")
                 document.querySelector("#conversationID").setAttribute("type", "hidden")
+                document.querySelector("#conversationID").style.display = "none"
                 document.querySelector("#conversationID").value = conversationID
                 return fetch(...t)
             }
