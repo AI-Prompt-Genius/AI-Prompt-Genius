@@ -14,7 +14,7 @@
             const options = t[1]
             // Parse the request body from JSON
             const body = JSON.parse(options.body)
-            if (body.hasOwnProperty('conversation_id')) {
+            if (body.hasOwnProperty('conversation_id') && !document.querySelector('#conversationID')) {
                 // rather than deal with message passing, we use a DOM element which the content scripts can access
                 let conversationID = body['conversation_id']
                 document.body.appendChild(document.createElement(`input`)).setAttribute("id", "conversationID")
