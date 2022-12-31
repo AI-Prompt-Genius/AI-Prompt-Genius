@@ -9,7 +9,7 @@ function injectScript(file, node) {
     th.appendChild(s);
 }
 function main() {
-    browser.storage.local.get('prompts').then((result) => {
+    browser.storage.local.get({prompts: []}).then((result) => {
         let prompts = JSON.stringify(result.prompts)
         document.body.appendChild(document.createElement(`input`)).setAttribute("id", "prompts_storage")
         document.querySelector("#prompts_storage").setAttribute("type", "hidden")
