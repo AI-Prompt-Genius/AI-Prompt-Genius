@@ -24,6 +24,11 @@ main > div:last-child
 	
 }
 
+.dark main > div:first-child > div 
+{
+	background: transparent;
+}
+
 .dark main > div:last-child
 {
 	/* Disable that weird gradient */
@@ -46,11 +51,14 @@ main .h-full.flex-col > div
 	
 }
 
+main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
 main .h-full.flex-col > div > div
 {	
 	background: white;
 	box-shadow: 0 0 10px rgba(0,0,0,1.0);
 	margin-top: 20px;
+	padding-top :20px;
+	padding-bottom :20px;
 	padding-left: 80px;
 	padding-right: 80px;
 	border-radius: 10px;
@@ -59,6 +67,7 @@ main .h-full.flex-col > div > div
 	max-width: 60rem;
 }
 
+.dark main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
 .dark main .h-full.flex-col > div > div
 {	
 	background: rgb(52,53,65);

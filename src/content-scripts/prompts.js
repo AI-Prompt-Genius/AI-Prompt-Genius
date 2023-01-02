@@ -221,7 +221,6 @@ function insertPromptTemplatesSection () {
     let wrapper = document.createElement('div')
     wrapper.id = 'templates-wrapper'
     wrapper.className = 'mt-6 flex items-start text-center gap-3.5'
-	wrapper.style.marginBottom = "4rem";
 
     if (parent.querySelector('#templates-wrapper')) {
         wrapper = parent.querySelector('#templates-wrapper')
