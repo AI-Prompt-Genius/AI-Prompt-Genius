@@ -5,7 +5,12 @@
 /* background */
 main 
 {
-	background-image: url("https://www.logsplittersdirect.com/images/stories/submitted/social_img_1798.jpg");
+	background: 
+		linear-gradient(
+          rgba(0, 0, 0, 0.7), 
+          rgba(0, 0, 0, 0.7)
+        ),
+		url("https://www.logsplittersdirect.com/images/stories/submitted/social_img_1798.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
