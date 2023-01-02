@@ -13,6 +13,6 @@ function injectStyle(file)
     head.appendChild(stylesheet);
 }
 
-injectStyle(browser.runtime.getURL('themes/novel.css'));
+injectStyle(browser.runtime.getURL('themes/cozy-fireplace.css'));
 
 	
