@@ -22,7 +22,7 @@
   ],
   "web_accessible_resources" : [{
     "resources": ["content-scripts/prompts.js"
-      ,"themes/novel.css","themes/cozy-fireplace.css"],
+      ,"themes/none.css","themes/cozy-fireplace.css"],
     "matches": ["https://chat.openai.com/*"],
     "use_dynamic_url": true
   }],

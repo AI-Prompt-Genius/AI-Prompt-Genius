@@ -18,6 +18,12 @@ function injectStyle(file)
 
 injectStyle(browser.runtime.getURL('themes/cozy-fireplace.css'));
 
+function changeTheme(theme)
+{
+	// because dynamic paths, otherwise it won't work
+	themeStylesheet.setAttribute('href', browser.runtime.getURL(theme));
+}
+
 // theme selector 
 function addThemeSelectButton()
 {
@@ -39,9 +45,24 @@ function addThemeSelectButton()
 	themeSelect.style.overflow = "visible";
 	themeSelect.style.border = "0";
 	
+	themeSelect.addEventListener("change", (event)=>
+	{
+		let themeFile = themeSelect.value;
+		console.log(`${themeFile} selected!`);
+		
+		if(themeFile === "")
+		{
+			changeTheme("themes/none.css");
+		}
+		else 
+		{
+			changeTheme("themes/" + themeFile);
+		}
+	});
 	
 	let noThemeOption = document.createElement("option");
 	noThemeOption.value = "";
+	noThemeOption.style.color = "black";
 	noThemeOption.innerHTML = "No Theme";
 	themeSelect.appendChild(noThemeOption);
 	
@@ -50,8 +71,15 @@ function addThemeSelectButton()
 	{
 		let themeOption = document.createElement("option");
 		themeOption.value = themesList[index];
+		themeOption.style.color = "black";
 		themeOption.innerHTML = themesList[index];
 		themeSelect.appendChild(themeOption);
+		
+		if(themesList[index] === "cozy-fireplace.css") 
+		{
+			// default selected 
+			themeOption.setAttribute("selected","true");
+		}
 	}
 	
 	wrapper.appendChild(themeSelect);
