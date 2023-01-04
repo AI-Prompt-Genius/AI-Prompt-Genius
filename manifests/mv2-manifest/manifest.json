@@ -24,7 +24,7 @@
     }
   ],
   "web_accessible_resources" : ["content-scripts/prompts.js"
-    ,"themes/none.css","themes/cozy-fireplace.css"],
+    ,"themes/none.css","themes/cozy-fireplace.css","themes/hacker.css"],
   "browser_action": {
     "default_title": "ChatGPT History"
   },

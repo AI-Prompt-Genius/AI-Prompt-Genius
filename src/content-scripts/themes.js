@@ -66,7 +66,7 @@ function addThemeSelectButton()
 	noThemeOption.innerHTML = "No Theme";
 	themeSelect.appendChild(noThemeOption);
 	
-	let themesList = ["cozy-fireplace.css"];
+	let themesList = ["cozy-fireplace.css","hacker.css"];
 	for(index = 0; index < themesList.length; index++)
 	{
 		let themeOption = document.createElement("option");
