@@ -3,10 +3,17 @@ main{
     margin-left : 201px;
     margin-right: 12px;
 }
+
 .w-60{
     width: 60%;
 }
-.black{
+#category-filter{
+    background: #0BA37F;
+    color: #fff;
+    min-width: 150px;
+    display: block;
+}
+.black {
     color: black;
 }
 a
@@ -30,9 +37,11 @@ body.dark{
 
 .row.dark{
     border-bottom: #2A2B31 1px solid;
+    border-top: #2A2B31 1px solid;
 }
 .row.light{
     border-bottom: #E5E5E5 1px solid;
+    border-top: #E5E5E5 1px solid;
 }
 .row:hover{
     border: #0BA37F 2px solid;

@@ -2,7 +2,7 @@ if (typeof browser === "undefined") {
     browser = chrome
 }
 
-let main = document.querySelector("main");
+let main = document.querySelector(".main");
 const modal = new bootstrap.Modal(document.getElementById('exploreModal'))
 
 
@@ -214,6 +214,7 @@ function delete_prompt(id)
 		}
 		removeElementInArray(prompts, prompt);
 		browser.storage.local.set({prompts: prompts});
+		user_prompts = prompts;
 		load_prompts(prompts);
 	});
 }
@@ -548,3 +549,31 @@ function tooltips() {
 	})
 }
 setTimeout(tooltips, 500)
+
+function getMatchingCategory(objects, category) {
+	const matchingObjects = [];
+	for (let i = 0; i < objects.length; i++) {
+		if (objects[i].category === category) {
+			matchingObjects.push(objects[i]);
+		}
+	}
+	return matchingObjects;
+}
+
+function category_filter(){
+	let category = document.querySelector('#category-filter').value
+	if (document.querySelector('#filter')) {
+		document.querySelector('#filter').remove()
+	}
+	let promptsInCat = getMatchingCategory(user_prompts, category)
+	if (promptsInCat.length > 0) {
+		load_prompts(promptsInCat)
+	}
+	else{
+		main.innerHTML = ""
+	}
+	if (category === "All"){
+		load_prompts(user_prompts)
+	}
+}
+document.querySelector('#category-filter').addEventListener('change', category_filter)
