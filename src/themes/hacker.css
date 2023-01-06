@@ -114,9 +114,34 @@ main .h-full.flex-col > div .prose
 }
 
 /* Disable Human/AI icons */
-main .h-full.flex-col > div > div > div.items-end:first-child
+main .h-full.flex-col > div > div > div.items-end:first-child div:first-child
 {	
 	display:none;
+}
+
+main .h-full.flex-col > div
+{	
+  position: relative;  
+}
+
+main .h-full.flex-col > div > div > div.items-end:first-child
+{	
+  position: absolute;
+  background-color: red;
+  left: 0px;
+  justify-content: left;
+}
+
+main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
+{	
+	position:absolute;
+  transform: 0 !important;
+  -webkit-transform: 0 !important;
+  justify-content: left;
+  justify-items: left;
+  top: -15px;
+  right: 50px;
+  visibility: visible !important;
 }
 
 .dark main .dark\:text-gray-400
