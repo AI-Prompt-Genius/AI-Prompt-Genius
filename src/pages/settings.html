@@ -23,6 +23,8 @@
         <a class="mx-2 p-3 text-white text-sm" href="https://www.buymeacoffee.com/bennyfi" target="_blank"><i class="fa-solid fa-jar"></i> &emsp; Tip Jar</a>
     </div>
 </nav>
+<div class="dark">
+</div>
 <main class="dark">
     <div class="d-flex justify-content-center mt-5">
         <table class="table table-striped table-bordered">
@@ -34,11 +36,34 @@
             </thead>
             <tbody>
             <tr>
+                <td>Make prompts default home page</td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="default-page" checked>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Disable saving chat history</td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="disable-history">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Use visual text editor on reddit (for sharing prompts)</td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="reddit-editor" checked>
+                    </div>
+                </td>
+            </tr>
+            <tr>
                 <td>Auto-Delete (non-bookmarked) threads after 30 days</td>
                 <td>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="autoDeleteToggle">
-                        <label class="form-check-label" for="autoDeleteToggle"></label>
                     </div>
                 </td>
             </tr>
@@ -47,7 +72,6 @@
                 <td>
                     <div class="form-check form-switch">
                         <input class="form-check-input" checked type="checkbox" role="switch" id="exportButtonsToggle">
-                        <label class="form-check-label" for="exportButtonsToggle"></label>
                     </div>
                 </td>
             </tr>
@@ -58,13 +82,12 @@
                 <td>
                     <div class="form-check form-switch">
                         <input class="form-check-input" checked type="checkbox" role="switch" id="autoSendToggle">
-                        <label class="form-check-label" for="autoSendToggle"></label>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td><p>Default "continue" message</p>
-                    <em class="text-xs">This will appear before the transcript of your conversation when you click the "continue" button</em>
+                    <em class="text-xs">This will appear before the transcript of your conversation when you click the "continue" button. Note this only applies to old conversations before the December 15, 2022 update.</em>
                 </td>
                 <td class="w-60">
                     <label for="defaultMessageInput"></label>
@@ -75,7 +98,6 @@
             </tbody>
         </table>
     </div>
-
 </main>
 <script src="../external-js/bootstrap.js"></script>
 <script src="../utility.js"></script>
