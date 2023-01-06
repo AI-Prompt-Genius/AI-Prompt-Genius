@@ -3,6 +3,7 @@ console.log(`Loading themes...`);
 // the way that themes work is to inject it after everything else.
 // remember to expose themes in web_accessible_resources
 // inject theme 
+const THEMES_LIST = ["cozy-fireplace.css","hacker.css"];
 var themeStylesheet;
 
 function injectStyle(file)
@@ -16,7 +17,7 @@ function injectStyle(file)
     head.appendChild(stylesheet);
 }
 
-injectStyle(browser.runtime.getURL('themes/cozy-fireplace.css'));
+injectStyle(browser.runtime.getURL('themes/none.css'));
 
 function changeTheme(theme)
 {
@@ -67,7 +68,7 @@ function addThemeSelectButton()
 	noThemeOption.innerHTML = "No Theme";
 	themeSelect.appendChild(noThemeOption);
 	
-	let themesList = ["cozy-fireplace.css","hacker.css"];
+	let themesList = THEMES_LIST;
 	for(index = 0; index < themesList.length; index++)
 	{
 		let themeOption = document.createElement("option");
@@ -75,12 +76,13 @@ function addThemeSelectButton()
 		themeOption.style.color = "black";
 		themeOption.innerHTML = themesList[index];
 		themeSelect.appendChild(themeOption);
-		
+		/*
 		if(themesList[index] === "cozy-fireplace.css") 
 		{
 			// default selected 
 			themeOption.setAttribute("selected","true");
 		}
+		*/
 	}
 	
 	wrapper.appendChild(themeSelect);
