@@ -297,6 +297,9 @@ function selectPromptTemplate (idx) {
             textarea.value = template.text
             textarea.style.height = "200px"
             window.selectedprompttemplate = template
+            textarea.parentElement.querySelector('button').addEventListener('click', () => {
+                textarea.style.height = "24px"
+            })
         }
         setTimeout(setText, 100) //timeout for weird clear thing
 
