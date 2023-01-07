@@ -1,3 +1,6 @@
+if (typeof browser === "undefined"){
+    browser = chrome;
+}
 function switch_to_fancy_pants(){ // will add settings toggle, but I think most people will want to switch to fancy pants
     let switch_btn = document.querySelector('._3uJP0daPEH2plzVEYyTdaH')
     console.log(switch_btn)
@@ -6,4 +9,8 @@ function switch_to_fancy_pants(){ // will add settings toggle, but I think most 
     confirm_btn.click()
 }
 
-setTimeout(switch_to_fancy_pants, 100) // short timeout for slow pages
+chrome.storage.local.get({settings: {visual_editor: true}}, function(result) {
+    if (result.settings.visual_editor === true) {
+        setTimeout(switch_to_fancy_pants, 100) // short timeout for slow pages
+    }
+})
