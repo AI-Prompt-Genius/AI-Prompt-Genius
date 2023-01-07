@@ -246,7 +246,7 @@ function use_prompt(id)
 			console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
 			return;
 		}
-		chrome.runtime.sendMessage({prompt: prompt.text, type: 'b_use_prompt'})
+		browser.runtime.sendMessage({prompt: prompt.text, type: 'b_use_prompt'})
 	});
 }
 
