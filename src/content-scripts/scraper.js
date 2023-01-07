@@ -4,8 +4,7 @@ if (typeof browser === "undefined") {
     firefox = false
 }
 
-
-function main() {
+function startScraper() {
     console.log("Loading content script, everything is fine and dandy!");
 
     let previous_convo;
@@ -447,25 +446,25 @@ browser.storage.local.get({settings: defaults}, function(result) {
         disable = true;
         console.log("SCRAPER DISABLED!")
     }
-    if (!disable) {
-        if (document.readyState === "complete" || document.readyState === "interactive") {
-            setTimeout(main, 500);
-        } else {
-            document.addEventListener("DOMContentLoaded", main);
-        }
+    console.log(disable)
+    start()
+})
+
+function start(){
+    if (disable === false) {
+        startScraper()
         let scraper_url = window.location.href;
 
         function check_url() {
             if (scraper_url !== window.location.href) {
                 scraper_url = window.location.href;
-                main()
+                startScraper()
                 console.log("URL CHANGE")
             }
         }
-
         setInterval(check_url, 500);
     }
-})
+}
 
 function continue_convo(convo){
     const input = document.querySelector("textarea");
