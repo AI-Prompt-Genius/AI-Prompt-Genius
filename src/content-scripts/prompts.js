@@ -371,6 +371,12 @@ function check_url() {
         }
         let newChatButton = document.querySelector('nav').firstChild
         newChatButton.addEventListener('click', () => {
+            if (document.querySelector('#conversationID')){
+                document.querySelector('#conversationID').remove()
+            }
+            if (document.querySelector('#chat_history')){
+                document.querySelector('#chat_history').remove()
+            }
             setTimeout(insertPromptTemplatesSection, 300)
         })
         console.log("URL CHANGE")
