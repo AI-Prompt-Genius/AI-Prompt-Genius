@@ -458,6 +458,9 @@ function start(){
         function check_url() {
             if (scraper_url !== window.location.href) {
                 scraper_url = window.location.href;
+                if (document.querySelector('#chat_history')){
+                    document.querySelector('#chat_history').remove()
+                }
                 startScraper()
                 console.log("URL CHANGE")
             }

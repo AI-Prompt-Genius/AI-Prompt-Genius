@@ -366,6 +366,9 @@ let prompts_url = window.location.href;
 function check_url() {
     if (prompts_url !== window.location.href) {
         prompts_url = window.location.href;
+        if (document.querySelector('#conversationID')){
+            document.querySelector('#conversationID').remove()
+        }
         let newChatButton = document.querySelector('nav').firstChild
         newChatButton.addEventListener('click', () => {
             setTimeout(insertPromptTemplatesSection, 300)
