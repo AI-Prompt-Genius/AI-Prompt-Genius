@@ -122,6 +122,12 @@ function load_prompts(prompts, search=false, search_term="")
 		categorySelect.addEventListener('change', (event) => {
 			choose_category(id, row);
 		})
+		categorySelect.addEventListener('click', () =>{
+			if (row.querySelector('textarea')) {
+				toggle_prompt_editable(id, row);
+			}
+		})
+
 		
 		row.addEventListener('click', event => {
             const target = event.target;
