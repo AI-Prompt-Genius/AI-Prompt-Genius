@@ -2,7 +2,7 @@ if (typeof browser === "undefined") {
     let settings;
     chrome.action.onClicked.addListener(function(tab) {
         let url;
-        chrome.storage.local.get(['settings'], function(result) {
+        chrome.storage.local.get({settings: {home_is_prompts: false}}, function(result) {
             settings = result.settings
             if (settings.hasOwnProperty('home_is_prompts')) {
                 if (settings.home_is_prompts === true) {
@@ -24,7 +24,7 @@ else {
     let settings;
         // Listen for a click on the browser action
     browser.browserAction.onClicked.addListener(function(tab) {
-        browser.storage.local.get(settings, function(result) {
+        browser.storage.local.get({settings: {home_is_prompts: false}}, function(result) {
             settings = result.settings
             let url;
             if (settings.hasOwnProperty('home_is_prompts')) {
