@@ -1,20 +1,48 @@
 if (typeof browser === "undefined") {
+    let settings;
     chrome.action.onClicked.addListener(function(tab) {
-        chrome.tabs.create({
-            url: "pages/explorer.html"
+        let url;
+        chrome.storage.local.get(['settings'], function(result) {
+            settings = result.settings
+            if (settings.hasOwnProperty('home_is_prompts')) {
+                if (settings.home_is_prompts === true) {
+                    url = "pages/prompts.html"
+                }
+                else {
+                    url = "pages/explorer.html"
+                }
+            }
+            else{
+                url = "pages/explorer.html"
+            }
+            chrome.tabs.create({url: url});
         });
-    });
+        });
     browser = chrome;
 }
 else {
-    // Listen for a click on the browser action
+    let settings;
+        // Listen for a click on the browser action
     browser.browserAction.onClicked.addListener(function(tab) {
-        // Open a new tab with the explorer page
-        browser.tabs.create({
-            url: "pages/explorer.html"
+        browser.storage.local.get(settings, function(result) {
+            settings = result.settings
+            let url;
+            if (settings.hasOwnProperty('home_is_prompts')) {
+                if (settings.home_is_prompts === true) {
+                    url = "pages/prompts.html"
+                }
+                else{
+                    url = "pages/explorer.html"
+                }
+            }
+            else{
+                url = "pages/explorer.html"
+            }
+            browser.tabs.create({url: url});
         });
     });
 }
+
 browser.runtime.onMessage.addListener( async function(message, sender, sendResponse) {
     if (message.type === 'b_continue_convo') {
         console.log('background received')
