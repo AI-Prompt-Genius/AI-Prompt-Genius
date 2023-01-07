@@ -127,7 +127,6 @@ main .h-full.flex-col > div
 main .h-full.flex-col > div > div > div.items-end:first-child
 {	
   position: absolute;
-  background-color: red;
   left: 0px;
   justify-content: left;
 }
