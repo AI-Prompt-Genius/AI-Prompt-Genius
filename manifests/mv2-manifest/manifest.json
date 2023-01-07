@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "ChatGPT History",
-  "description": "Save the full history of your ChatGPT conversations.",
-  "version": "1.5.2",
+  "name": "ChatGPT Prompt Genius",
+  "description": "Discover, share, import, and use the best prompts for ChatGPT & save your ChatGPT locally (formerly ChatGPT History)",
+  "version": "1.9.7",
   "permissions": ["storage", "unlimitedStorage"],
   "background": {
     "persistent": false,
@@ -20,6 +20,11 @@
     {
       "matches": ["https://www.reddit.com/r/ChatGPTPromptGenius/submit*"],
       "js": ["content-scripts/reddit/submit.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.reddit.com/r/ChatGPT/*"],
+      "js": ["content-scripts/reddit/savePrompt.js"],
       "run_at": "document_idle"
     }
   ],
