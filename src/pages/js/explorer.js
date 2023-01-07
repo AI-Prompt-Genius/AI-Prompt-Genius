@@ -226,6 +226,7 @@ async function dark_light() {
 const MAX_TITLE_DISPLAY_LENGTH = 55;
 
 function load_threads(threads, search=false, search_term="", bookmarks=false) {
+    let threadsLoaded = []
     for (let n = 0; n < threads.length; n++) {
         let i = threads.length - n - 1;
         let temp;
@@ -317,7 +318,10 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
                 window.open(link, "_blank")
             }
         });
-        main.appendChild(temp);
+        if (!threadsLoaded.includes(id)) {
+            main.appendChild(temp);
+        }
+        threadsLoaded.push(id)
     }
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
