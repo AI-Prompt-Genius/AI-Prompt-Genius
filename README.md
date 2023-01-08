@@ -1,8 +1,8 @@
 <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/"><img src="https://user-images.githubusercontent.com/12115686/206926802-0461dc64-84cd-42de-8c17-74a7ee64528c.png" style="width: 180 !important; height: 50px !important"></a> <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/"><img src="https://user-images.githubusercontent.com/12115686/207746497-4b4ba50c-c579-42ad-b2e9-9164073499db.png" style="width: 180 !important; height: 50px !important"></a> <a href="https://www.buymeacoffee.com/bennyfi" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 48px !important;width: 173px !important;" ></a> <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png" style="height: 48px !important"></a>
 
 
-# ChatGPT History
-<em>Written by ChatGPT, of course</em>
+# ChatGPT Prompt Genius 
+<em>Update coming soon. Below is pretty outdated.</em>
 
 Welcome to ChatGPT History, a browser extension that allows you to save your ChatGPT conversation history. With this extension, you can easily review your past conversations and refer to them at a later time.
 
@@ -56,6 +56,11 @@ Thread.html - page that appears when individual thread is loaded <br>
 Shared JS: dark_light.js (handles dark/light mode)
 
 Shared CSS: Navbar.css (same navbar)
+
+## Credit 
+- Thanks to @liady for the libaries used for the export functions. See <a href="https://github.com/liady/ChatGPT-pdf">ChatGPT-pdf</a> for more.
+- Thanks to <a href="https://github.com/mohalobaidi/EnhancedChatGPT">Enhanced ChatGPT for setting up prompt insertion.
+- Many thanks to @aivct for contributing many new features.
 
 ## License
 Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
