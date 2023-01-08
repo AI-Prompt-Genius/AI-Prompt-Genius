@@ -303,6 +303,11 @@ function selectPromptTemplate (idx) {
             textarea.parentElement.querySelector('button').addEventListener('click', () => {
                 textarea.style.height = "24px"
             })
+            textarea.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    textarea.style.height = "24px"
+                }
+            })
         }
         setTimeout(setText, 100) //timeout for weird clear thing
 
