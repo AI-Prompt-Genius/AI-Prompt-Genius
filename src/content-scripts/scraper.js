@@ -427,8 +427,19 @@ function startScraper() {
         childList: true,
     });
 
+    // this is also called the new chat button
     let reset = document.querySelector("nav").firstChild
     reset.addEventListener('click', function () {
+        clearInterval(interval) // stop saving
+        id = ""
+        unified_id = false
+        if (document.querySelector('#conversationID')){
+            document.querySelector('#conversationID').remove()
+        }
+        if (document.querySelector('#history_box')){
+            document.querySelector('#history_box').remove()
+        }
+        timer_started = false;
         first_time = true;
         mirror_branch_state = new TreeNode();
     })
@@ -458,10 +469,17 @@ function start(){
         function check_url() {
             if (scraper_url !== window.location.href) {
                 scraper_url = window.location.href;
-                if (document.querySelector('#chat_history')){
-                    document.querySelector('#chat_history').remove()
-                }
+                first_time = false
                 startScraper()
+                id = ""
+                if (document.querySelector('#conversationID')){
+                    document.querySelector('#conversationID').remove()
+                }
+                if (document.querySelector('#history_box')){
+                    document.querySelector('#history_box').remove()
+                }
+                timer_started = false;
+                mirror_branch_state = new TreeNode();
                 console.log("URL CHANGE")
             }
         }

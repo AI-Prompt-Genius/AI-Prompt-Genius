@@ -318,9 +318,9 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
                 window.open(link, "_blank")
             }
         });
-        if (!threadsLoaded.includes(id)) {
+        //if (!threadsLoaded.includes(id)) {
             main.appendChild(temp);
-        }
+        //}
         threadsLoaded.push(id)
     }
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

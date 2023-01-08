@@ -132,6 +132,9 @@ function handleElementAdded (e) {
 function setupSidebar () {
     let newChatButton = document.querySelector('nav').firstChild
     newChatButton.addEventListener('click', () => {
+        if (document.querySelector('#conversationID')){
+            document.querySelector('#conversationID').remove()
+        }
         setTimeout(insertPromptTemplatesSection, 300)
     })
     /* Get the "New Chat" buttons
@@ -366,17 +369,8 @@ let prompts_url = window.location.href;
 function check_url() {
     if (prompts_url !== window.location.href) {
         prompts_url = window.location.href;
-        if (document.querySelector('#conversationID')){
-            document.querySelector('#conversationID').remove()
-        }
         let newChatButton = document.querySelector('nav').firstChild
         newChatButton.addEventListener('click', () => {
-            if (document.querySelector('#conversationID')){
-                document.querySelector('#conversationID').remove()
-            }
-            if (document.querySelector('#chat_history')){
-                document.querySelector('#chat_history').remove()
-            }
             setTimeout(insertPromptTemplatesSection, 300)
         })
         console.log("URL CHANGE")
