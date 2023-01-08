@@ -476,12 +476,13 @@ function import_prompts_from_data(data) {
     });
 }
 
-let newUser = false;
 browser.storage.local.get({threads:"none"}, function(result) {
-  if (result.threads === "none"){
-      console.log("YEYEYE")
-      newUser = true;
+  if (result.threads === "none"){ // new user
       browser.storage.local.set({seen_v2_toast: true})
+      browser.storage.local.get({settings: {home_is_prompts: true}}, function (response){
+          let settings = response.settings;
+          settings.home_is_prompts = true;
+          browser.storage.local.set({settings: settings})})
   }
   else {
       browser.storage.local.get({seen_v2_toast: false}, function (response){
@@ -491,6 +492,11 @@ browser.storage.local.get({threads:"none"}, function(result) {
               let toastEl = document.getElementById('liveToast')
               let toast = new bootstrap.Toast(toastEl)
               toast.show()
+              browser.storage.local.get({settings: {home_is_prompts: true}}, function (response){
+                  let settings = response.settings;
+                  settings.home_is_prompts = true;
+                  browser.storage.local.set({settings: settings})
+              })
           }
       })
   }

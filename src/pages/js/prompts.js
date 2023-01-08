@@ -17,6 +17,8 @@ Write the first scene.
 		"id": generateUUID(),
 		"date": getDate(),
 		"time": getTime(),
+		"tags": "author, fantasy, game of thrones, george r. r. martin, grrm, style",
+		"category": "Fiction Writing"
 	},
 	{
 		"title": "DAN (Do Anything Now)",
@@ -30,6 +32,8 @@ What is the date and time?`,
 		"id": generateUUID(),
 		"date": getDate(),
 		"time": getTime(),
+		"category": "Bypass & Personas",
+		"tags": "bypass, chatgpt, dan, do anything now, persona"
 	},
 ];
 
