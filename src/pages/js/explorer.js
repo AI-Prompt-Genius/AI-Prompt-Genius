@@ -452,7 +452,10 @@ function import_prompts_from_data(data) {
         console.log(`Importing prompts...`);
 
         let prompts = result.prompts;
-        if(!prompts) prompts = [];
+        if(!prompts){
+            prompts = [];
+            broswer.storage.local.set({seen_v2_toast: true})
+        }
 
         let new_prompts = data.prompts;
 
@@ -473,6 +476,25 @@ function import_prompts_from_data(data) {
     });
 }
 
+let newUser = false;
+browser.storage.local.get({threads:"none"}, function(result) {
+  if (result.threads === "none"){
+      console.log("YEYEYE")
+      newUser = true;
+      browser.storage.local.set({seen_v2_toast: true})
+  }
+  else {
+      browser.storage.local.get({seen_v2_toast: false}, function (response){
+          let seen_v2_toast = response.seen_v2_toast;
+          if (!seen_v2_toast) {
+              browser.storage.local.set({seen_v2_toast: true})
+              let toastEl = document.getElementById('liveToast')
+              let toast = new bootstrap.Toast(toastEl)
+              toast.show()
+          }
+      })
+  }
+})
 
 document.querySelectorAll('.bnav').forEach(item => {item.addEventListener('click', bookmarks)})
 
