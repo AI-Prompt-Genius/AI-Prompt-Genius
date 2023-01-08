@@ -10,7 +10,7 @@
 
 /* Foolproof (TM) Individual Chat Node Selector */
 main .h-full.flex-col > div
-{	
+{
 	border: 0;
 	background: transparent !important;
 	margin-top: 1rem;
@@ -18,49 +18,49 @@ main .h-full.flex-col > div
 }
 
 /* Make chats align left or right depending on if it's human or AI. Luckily we can assume odd/even. */
-main .h-full.flex-col > div:nth-child(odd) > div
-{	
+main .h-full.flex-col > div:nth-child(even) > div
+{
 	margin-left: 1rem;
   background-color: #E5E5EA;
 }
 
-.dark main .h-full.flex-col > div:nth-child(odd) > div
+.dark main .h-full.flex-col > div:nth-child(even) > div
 {
 	background-color: #333333;
 }
 
-main .h-full.flex-col > div:nth-child(even) > div
-{	
+main .h-full.flex-col > div:nth-child(odd) > div
+{
 	margin-right: 1rem;
-  background-color: #248BF5;
+    color: #E5E5EA;
+  background-color: #1982FC;
+}
+
+.lg\:w-\[calc\(100\%-115px\)\] {
+    width: calc(100% - 20px);
 }
 
 main .h-full.flex-col > div > div
-{	
+{
   border-radius: 1rem;
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
-}  
-
-.prose
-{
-	color: white;
 }
-  
+
 /* Disable Human/AI icons */
 main .h-full.flex-col > div > div > div.items-end:first-child div:first-child
-{	
+{
 	display:none;
 }
 
 /* Move the </> arrows */
-/* Yes, we do need to establish a new basis for absolutes. */ 
+/* Yes, we do need to establish a new basis for absolutes. */
 main .h-full.flex-col > div
-{	
-  position: relative;  
+{
+  position: relative;
 }
 
 main .h-full.flex-col > div > div > div.items-end:first-child
-{	
+{
   position: absolute; /* solely to remove it from the normal document flow */
   bottom: -10px;
   /* can't do left or right or else it breaks */
@@ -81,8 +81,8 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
 /* Move the thumbs up/thumbs down thingies, only for the AI */
 main .h-full.flex-col > div:nth-child(even) > div > div:last-child
 {
-	position: static;
-	width: 100%;
+    width: 100%;
+    position: static;
 }
 
 main .h-full.flex-col > div:nth-child(even) > div > div > div.self-end:last-child
@@ -96,16 +96,18 @@ main .h-full.flex-col > div:nth-child(even) > div > div > div.self-end:last-chil
   -webkit-transform: none !important;
 }
 
+
 main .h-full.flex-col > div:nth-child(even) > div > div > div > button
 {
   width: 24px;
   height: 24px;
+  margin-top: 25px;
 }
 
 /* Style Input */
 main > div.absolute:last-child > form
 {
-  
+
 }
 
 main > div.absolute:last-child > form > div > div.flex.flex-col
