@@ -1,16 +1,30 @@
-<a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/"><img src="https://user-images.githubusercontent.com/12115686/206926802-0461dc64-84cd-42de-8c17-74a7ee64528c.png" style="width: 180 !important; height: 50px !important"></a> <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/"><img src="https://user-images.githubusercontent.com/12115686/207746497-4b4ba50c-c579-42ad-b2e9-9164073499db.png" style="width: 180 !important; height: 50px !important"></a> <a href="https://www.buymeacoffee.com/bennyfi" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 48px !important;width: 173px !important;" ></a> <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png" style="height: 48px !important"></a>
+<a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/"><img src="https://user-images.githubusercontent.com/12115686/206926802-0461dc64-84cd-42de-8c17-74a7ee64528c.png" style="width: 180px !important; height: 50px !important"></a> <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/"><img src="https://user-images.githubusercontent.com/12115686/207746497-4b4ba50c-c579-42ad-b2e9-9164073499db.png" style="width: 180 !important; height: 50px !important"></a> <a href="https://www.reddit.com/r/ChatGPTPromptGenius/"><img src="https://user-images.githubusercontent.com/12115686/211184170-6aea6981-abd4-447c-bd3d-199d1688011f.png" style="width: 50px !important"></a> <a href="https://www.buymeacoffee.com/bennyfi" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 48px !important;width: 173px !important;" ></a> <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png" style="height: 48px !important"></a>
 
 
 # ChatGPT Prompt Genius 
-<em>Update coming soon. Below is pretty outdated.</em>
+<em>Written by ChatGPT, of course</em>
 
-Welcome to ChatGPT History, a browser extension that allows you to save your ChatGPT conversation history. With this extension, you can easily review your past conversations and refer to them at a later time.
+🎉 Welcome to ChatGPT Prompt Genius, a free, open-source browser extension that helps you 🔍 discover, share, import, and use the best prompts for ChatGPT. You can also 💾 save your chat history locally so you can easily review past conversations and refer to them at a later time.
 
-To use the extension, simply open ChatGPT and start chatting as you normally would. The extension will automatically save your conversation history in your browser. You can access your saved history by clicking on the extension icon in the top right corner of your browser.
+You can use the extension's prompt templates feature to easily find and add prompts to your collection. You can search, categorize, and select prompts right on the page, making it easy to find creative and productive ways to use ChatGPT.
 
-In the extension's settings, you can choose to clear your saved history or export it as a text file for easy sharing or backup <em>(still need to implement)</em>.
+🎨Add themes like SMS, cozy fireplace, and hacker on the ChatGPT page.
 
-We hope you find ChatGPT History useful and enjoy using it to save and review your ChatGPT conversations. If you have any feedback or suggestions for improvement, please don't hesitate to make a pull request. Thank you for using ChatGPT History!
+To use the history saving feature, simply open ChatGPT and start chatting 💬 as you normally would. The extension will automatically save your conversation history in your browser. You can access your saved history by clicking on the extension icon 🔍 in the top right corner of your browser. The extension rerenders your conversation in a style that closely matches ChatGPT, including code rendering & copying.
+
+On the explore page, you can 🔖 bookmark threads or 🔍 search through your threads & prompt templates. You can also save the your chats as html/pdf/png 📄 right on ChatGPT.
+
+We hope you find ChatGPT Prompt Genius useful and enjoy using it to find and save your ChatGPT prompts. If you have any feedback or suggestions for improvement, please don't hesitate to fill out the feedback form. Thank you for using ChatGPT Prompt Genius!
+
+Prompt Creator:
+<img width="640" alt="Screen Shot 2023-01-07 at 11 34 16 PM" src="https://user-images.githubusercontent.com/12115686/211184017-57b816d8-020b-4cbf-a67b-579b142068f3.png">
+
+Curated Prompt View:
+<img width="640" alt="Screen Shot 2023-01-07 at 11 35 09 PM" src="https://user-images.githubusercontent.com/12115686/211184023-777ff59d-a20d-4510-a7ae-30d9d86682ba.png">
+
+SMS Theme:
+<img width="640" alt="SMS" src="https://user-images.githubusercontent.com/12115686/211184025-b515a3e8-33f3-4e4a-aae8-ec1a30af0a50.png">
+
 
 Thread Explorer:
 ![screely-1670886428256](https://user-images.githubusercontent.com/12115686/207233691-92e31001-c045-4f77-bd3f-bc9170814360.png)
@@ -36,30 +50,25 @@ These enhancements would make the platform even more user-friendly and useful fo
 ## Installation
 - Chrome - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
 - Firefox - Install from <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/">Fire Fox Add-ons library</a>
-- Download zip code from <a href="https://github.com/benf2004/ChatGPT-History/releases">releases</a> and load "src" folder as a local extension. This would also allow you to make your own changes to it.
+- Run locally - clone the repo and run the appropriate build script for your OS. Use mv2 for Firefox and mv3 for Chrome.
 
 ## Structure
 <em>It's all vanilla, baby</em>
+src/content-scripts: includes all content scripts (including history scraper, prompt injection, export buttons, and reddit stuff)
+src/external-js: external libraries 
+src/icons: extension icons
+src/pages: includes all the extension pages (HTML + CSS + JS) for viewing thread history & prompt templates
+src/themes: CSS themes for styling ChatGPT
+background.js: listens for user clicks and handles message passing
+utility.js: common JS
 
-scraper.js - content script (saves ChatGPT threads to browser using browser.storage.local api)
+CSS: Bootstrap & Font Awesome Icons + some ustom
 
-background.js - sole purpose is to listen for when the user clicks the extension
 
-Explorer.html - page that appears when clicking the extension icon <br>
----> Main JS: explorer.js; library - highlightJS.js <br>
----> Main CSS: explorer.css
-
-Thread.html - page that appears when individual thread is loaded <br>
----> Main JS: thread.js <br>
----> Main CSS: thread.css
-
-Shared JS: dark_light.js (handles dark/light mode)
-
-Shared CSS: Navbar.css (same navbar)
 
 ## Credit 
 - Thanks to @liady for the libaries used for the export functions. See <a href="https://github.com/liady/ChatGPT-pdf">ChatGPT-pdf</a> for more.
-- Thanks to <a href="https://github.com/mohalobaidi/EnhancedChatGPT">Enhanced ChatGPT for setting up prompt insertion.
+- Thanks to <a href="https://github.com/mohalobaidi/EnhancedChatGPT">Enhanced ChatGPT's</a> code for in-page prompt insertion.
 - Many thanks to @aivct for contributing many new features.
 
 ## License
