@@ -39,16 +39,7 @@ Thread View:
 
 
 ## TODO
-If you're looking to help out, you could add a few useful features to our platform:
-- Known issue: reset thread button does not work after some time.
-- Auto-delete (non-bookmarked) threads after 30 days
-- Export individual threads to pdf, csv, txt, or doc formats
-- Export all threads (done for JSON, but could add more formatted)
-- Improvements to the styling on the "Thread Explorer" page
-- Firefox support
-- Gravatar (I guess)
-
-These enhancements would make the platform even more user-friendly and useful for our users. Thank you for considering contributing to the project!
+Please see TODO.md and the issues tab. These enhancements would make the platform even more user-friendly and useful for our users. Thank you for considering contributing to the project!
 
 ## Installation
 - Chrome - Install from the <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/">Chrome Web Store</a>
