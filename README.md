@@ -17,12 +17,15 @@ On the explore page, you can 🔖 bookmark threads or 🔍 search through your t
 We hope you find ChatGPT Prompt Genius useful and enjoy using it to find and save your ChatGPT prompts. If you have any feedback or suggestions for improvement, please don't hesitate to fill out the feedback form. Thank you for using ChatGPT Prompt Genius!
 
 Prompt Creator:
+
 <img width="640" alt="Screen Shot 2023-01-07 at 11 34 16 PM" src="https://user-images.githubusercontent.com/12115686/211184017-57b816d8-020b-4cbf-a67b-579b142068f3.png">
 
 Curated Prompt View:
+
 <img width="640" alt="Screen Shot 2023-01-07 at 11 35 09 PM" src="https://user-images.githubusercontent.com/12115686/211184023-777ff59d-a20d-4510-a7ae-30d9d86682ba.png">
 
 SMS Theme:
+
 <img width="640" alt="SMS" src="https://user-images.githubusercontent.com/12115686/211184025-b515a3e8-33f3-4e4a-aae8-ec1a30af0a50.png">
 
 
