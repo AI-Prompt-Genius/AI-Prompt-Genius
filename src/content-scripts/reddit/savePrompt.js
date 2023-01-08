@@ -1,15 +1,9 @@
 if (typeof browser === "undefined"){
     browser = chrome;
 }
-function addButtons() {
-    let title = document.querySelectorAll('th')[1].innerText
-    console.log(title)
-    let tds = document.querySelectorAll('td')
-    let text = tds[1].innerText
-    let category = tds[3].innerText
-    let tags = tds[5].innerText
-    console.log(title, text, category, tags)
 
+let title; let text; let tags; let category;
+function addButtons() {
     let share_btn_html; let try_btn_html; let saveButton;
     setTimeout(() => {
         share_btn_html = getSaveButton()
@@ -17,11 +11,18 @@ function addButtons() {
         let btn_span = `<div>${share_btn_html.outerHTML} &ensp; ${try_btn_html.outerHTML}</div>`
         let main_div;
         if (document.querySelector('#overlayScrollContainer')){
-            main_div = document.querySelector('#overlayScrollContainer').querySelector('table')
+            let posts = document.querySelectorAll('.Post')
+            main_div = posts[posts.length - 1].querySelector('table')
         }
-        else{
+        else{ // post loaded not in the reddit overlay
             main_div = document.querySelector('table')
         }
+        title = main_div.querySelectorAll('th')[1].innerText
+        let tds = main_div.querySelectorAll('td')
+        text = tds[1].innerText
+        category = tds[3].innerText
+        tags = tds[5].innerText
+        console.log(title, text, category, tags)
         main_div.insertAdjacentHTML("beforebegin", btn_span)
         saveButton = document.getElementById('save_prompt')
         saveButton.addEventListener('click', savePrompt)
@@ -35,7 +36,6 @@ function addButtons() {
 
     function savePrompt() {
         let dom_button = document.getElementById('save_prompt')
-        console.log("click!")
         dom_button.innerHTML = `Saved <icon class="icon icon-approve"></icon>`
         let prompt = {
             date: getDate(),
