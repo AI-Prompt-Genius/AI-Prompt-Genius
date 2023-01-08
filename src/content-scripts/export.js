@@ -287,7 +287,8 @@ function exportMain() {
         buttons = settings.buttons
         if (buttons === true) {
             if (!document.getElementById('download-markdown-button')) {
-                add_buttons()
+                add_buttons();
+				readdThemeSelect(); // just going to yoink this in here, from themes.js, as this is more convenient.
             }
         }
     })

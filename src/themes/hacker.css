@@ -1,0 +1,172 @@
+.dark main 
+{
+  background-color: black;
+}
+
+/* Disable all backgrounds for terminal theme */
+.dark main .dark\:bg-gray-800
+{
+  background: transparent;
+}
+
+main > div:last-child
+{
+	/* Disable that weird gradient */
+	background: transparent;
+}
+
+.dark main > div:last-child
+{
+	/* Disable that weird gradient */
+	background: transparent;
+}
+
+/* Style Input */
+main > div.absolute:last-child > form
+{
+	margin: 0;
+  max-width: 100%;
+  font-family: monospace;
+}
+
+main > div.absolute:last-child > div:last-child
+{
+	display:none;
+}
+
+main > div.absolute:last-child > form > div > div.flex.flex-col
+{
+	background-color: transparent;
+  box-shadow:none;
+  border:0;
+  border-bottom: 1px solid gray;
+  border-radius: 0;
+  color: white;
+  background-color: black;
+}
+
+main > div.absolute:last-child > form > div > div.flex.flex-col:before
+{
+	content:">";
+  position:absolute;
+  left:0px;
+  margin-top:-1px;
+  font-size: 16px;
+}
+
+.dark .btn-neutral
+{
+  background-color: #63ff44;
+  color: black;
+  border: none;
+}
+
+.dark main .bg-gray-800
+{
+  background-color: #63ff44;
+}
+
+.dark main .bg-gray-800.text-gray-200
+{
+  color: black;
+}
+
+main .h-full.flex-col > div
+{	
+	background: transparent; /* transparent it so we can see the background image */
+	/* Font */
+	font-family: monospace;
+	border:none;
+}
+
+main .h-full.flex-col > div > div
+{	
+	margin: 0;
+  margin-left: 1em;
+  padding-bottom:0;
+  max-width: 100%;
+}
+
+.dark main .h-full.flex-col > div
+{	
+  
+}
+
+/* Font Color */
+main .h-full.flex-col > div
+{
+  
+}
+
+.dark main .h-full.flex-col > div
+{
+  
+}
+
+main .h-full.flex-col > div .prose
+{	
+	color: black;
+}
+
+.dark main .h-full.flex-col > div .prose
+{	
+	color: #63ff44;
+}
+
+/* Disable Human/AI icons */
+main .h-full.flex-col > div > div > div.items-end:first-child div:first-child
+{	
+	display:none;
+}
+
+main .h-full.flex-col > div
+{	
+  position: relative;  
+}
+
+main .h-full.flex-col > div > div > div.items-end:first-child
+{	
+  position: absolute;
+  left: 0px;
+  justify-content: left;
+}
+
+main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
+{	
+	position:absolute;
+  transform: 0 !important;
+  -webkit-transform: 0 !important;
+  justify-content: left;
+  justify-items: left;
+  top: -15px;
+  right: 50px;
+  visibility: visible !important;
+}
+
+.dark main .dark\:text-gray-400
+{
+  color:inherit;
+}
+
+.dark main .dark\:bg-gray-700
+{
+  background-color: #63ff44;
+  color:black;
+}
+
+.dark main .dark\:hover\:bg-gray-900:hover
+{
+  background-color: #4dc136;
+  color:black;
+}
+
+.dark main .dark\:bg-white\/5
+{
+  background-color: #63ff44;
+  color: black;
+}
+
+.dark main .dark\:text-gray-100
+{
+  color:#63ff44;
+}
