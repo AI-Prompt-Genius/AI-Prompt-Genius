@@ -6,7 +6,7 @@
 /* background */
 main 
 {
-	animation: landscape-cycles 30s infinite;
+	animation: landscape-cycles 60s infinite;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -23,7 +23,7 @@ main
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
-	25%  {
+	20%  {
 		background: 
 			linear-gradient(
 				rgba(0, 0, 0, 0.7), 
@@ -33,7 +33,7 @@ main
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
-	50%  {
+	40%  {
 		background: 
 			linear-gradient(
 				rgba(0, 0, 0, 0.7), 
@@ -43,13 +43,23 @@ main
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
-	75%  {
+	60%  {
 		background: 
 			linear-gradient(
 				rgba(0, 0, 0, 0.7), 
 				rgba(0, 0, 0, 0.7)
 			),
 			url("https://images.pexels.com/photos/1761279/pexels-photo-1761279.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	80%  {
+		background: 
+			linear-gradient(
+				rgba(0, 0, 0, 0.7), 
+				rgba(0, 0, 0, 0.7)
+			),
+			url("https://images.pexels.com/photos/12850802/pexels-photo-12850802.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load");
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
@@ -65,13 +75,11 @@ main
 	}
 }
 
-main > div:last-child
+main > div.md\:bg-vert-light-gradient
 {
 	/* Disable that weird gradient */
-	background-color: rgba(255,255,255,100) !important;
+	background: rgba(255,255,255,100) !important;
 	box-shadow: 0 -10px 10px rgba(0,0,0,0.3);
-
-	
 }
 
 .dark main > div:first-child > div 
@@ -79,7 +87,7 @@ main > div:last-child
 	background: transparent;
 }
 
-.dark main > div:last-child
+.dark main > div.md\:bg-vert-light-gradient
 {
 	/* Disable that weird gradient */
 	background-color: rgba(52,53,65,100) !important;
@@ -96,9 +104,7 @@ main .h-full.flex-col > div
 {	
 	background: none; /* transparent it so we can see the background image */
 	/* Font */
-	font-family: "Courier", "Times New Roman", serif;
-	
-	
+	/* font-family: "Courier", "Times New Roman", serif; */
 }
 
 main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
