@@ -108,13 +108,13 @@ main > div.absolute:last-child > form
 
 }
 
-main > div.absolute:last-child > form > div > div.flex.flex-col
+main > div.absolute> form > div > div.flex.flex-col
 {
   box-shadow: none;
   border-radius: 2rem;
 }
 
-.dark main > div.absolute:last-child > form > div > div.flex.flex-col
+.dark main > div.absolute> form > div > div.flex.flex-col
 {
 	background: #333333;
   border-color: #8B8E99;
