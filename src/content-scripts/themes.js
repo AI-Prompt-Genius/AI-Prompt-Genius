@@ -3,7 +3,8 @@ console.log(`Loading themes...`);
 // the way that themes work is to inject it after everything else.
 // remember to expose themes in web_accessible_resources
 // inject theme 
-const THEMES_LIST = ["cozy-fireplace.css","hacker.css","sms.css"];
+const THEMES_LIST = ["cozy-fireplace.css","landscape-cycles.css", "sms.css", "hacker.css","terminal.css"];
+var currentTheme;
 var themeStylesheet;
 
 function injectStyle(file)
@@ -18,6 +19,22 @@ function injectStyle(file)
 }
 
 injectStyle(browser.runtime.getURL('themes/none.css'));
+
+browser.storage.local.get({"theme":"none.css"}, function(result)
+{
+	currentTheme = result.theme;
+	changeTheme("themes/" + currentTheme);
+	// reflect state in html; we must put this here because local storage loads later than DOM
+	let options = themeSelectElement.querySelector("select")?.children;
+	for(let index = 0; index < options?.length; index++)
+	{
+		let option = options[index];
+		if(option.value === currentTheme)
+		{
+			option.setAttribute("selected","true");
+		}
+	}
+});
 
 function changeTheme(theme)
 {
@@ -63,6 +80,10 @@ function addThemeSelectButton()
 		{
 			changeTheme("themes/" + themeFile);
 		}
+		
+		currentTheme = themeFile;
+		// set default on select, and yes, invalid is a valid value.
+		browser.storage.local.set({theme: currentTheme});
 	});
 	
 	let noThemeOption = document.createElement("option");
@@ -79,13 +100,12 @@ function addThemeSelectButton()
 		themeOption.style.color = "black";
 		themeOption.innerHTML = themesList[index];
 		themeSelect.appendChild(themeOption);
-		/*
-		if(themesList[index] === "cozy-fireplace.css") 
+		
+		if(themesList[index] === currentTheme) 
 		{
 			// default selected 
 			themeOption.setAttribute("selected","true");
 		}
-		*/
 	}
 	
 	wrapper.appendChild(themeSelect);

@@ -73,7 +73,6 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
   transform: none !important;
   -webkit-transform: none !important;
   justify-content: left;
-  justify-items: left;
   bottom: 0;
   visibility: visible !important;
 }
@@ -91,7 +90,6 @@ main .h-full.flex-col > div:nth-child(even) > div > div > div.self-end:last-chil
   top: -29px;
   right: 1rem;
   height: 24px;
-  /* dear transform: I hate you. */
   transform: none !important;
   -webkit-transform: none !important;
 }
@@ -126,4 +124,41 @@ main > div.absolute:last-child > form > div > div.flex.flex-col
 {
   background: #333333;
   border-color: #8B8E99;
+}
+
+main .text-xs
+{
+  color: black;
+}
+
+.dark main .text-xs
+{
+  color: white;
+}
+
+/* incredibly minor fix */
+main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs button
+{
+  margin-top: 0;
+}
+
+/* styling fix for prompts page */
+.dark main .text-gray-500
+{
+ color: inherit;
+}
+
+.bg-gray-50
+{
+  color: black;
+}
+
+.dark .bg-gray-50
+{
+  color: white;
+}
+
+.dark .dark\:hover\:bg-gray-900:hover
+{
+  background-color: #3292ff;
 }

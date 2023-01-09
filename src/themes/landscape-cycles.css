@@ -1,0 +1,147 @@
+/*
+	Cycling landscapes. 
+	Photo attribution: https://www.pexels.com/license/
+ */
+
+/* background */
+main 
+{
+	animation: landscape-cycles 60s infinite;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+@keyframes landscape-cycles
+{
+	0%   {
+		background: 
+			linear-gradient(
+				rgba(0, 0, 0, 0.7), 
+				rgba(0, 0, 0, 0.7)
+			),
+			url("https://images.pexels.com/photos/12358386/pexels-photo-12358386.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	20%  {
+		background: 
+			linear-gradient(
+				rgba(0, 0, 0, 0.7), 
+				rgba(0, 0, 0, 0.7)
+			),
+			url("https://images.pexels.com/photos/4064432/pexels-photo-4064432.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	40%  {
+		background: 
+			linear-gradient(
+				rgba(0, 0, 0, 0.7), 
+				rgba(0, 0, 0, 0.7)
+			),
+			url("https://images.pexels.com/photos/5345029/pexels-photo-5345029.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	60%  {
+		background: 
+			linear-gradient(
+				rgba(0, 0, 0, 0.7), 
+				rgba(0, 0, 0, 0.7)
+			),
+			url("https://images.pexels.com/photos/1761279/pexels-photo-1761279.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	80%  {
+		background: 
+			linear-gradient(
+				rgba(0, 0, 0, 0.7), 
+				rgba(0, 0, 0, 0.7)
+			),
+			url("https://images.pexels.com/photos/12850802/pexels-photo-12850802.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	100% {
+		background: 
+			linear-gradient(
+				rgba(0, 0, 0, 0.7), 
+				rgba(0, 0, 0, 0.7)
+			),
+			url("https://images.pexels.com/photos/12358386/pexels-photo-12358386.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+}
+
+main > div.md\:bg-vert-light-gradient
+{
+	/* Disable that weird gradient */
+	background: rgba(255,255,255,100) !important;
+	box-shadow: 0 -10px 10px rgba(0,0,0,0.3);
+}
+
+.dark main > div:first-child > div 
+{
+	background: transparent;
+}
+
+.dark main > div.md\:bg-vert-light-gradient
+{
+	/* Disable that weird gradient */
+	background-color: rgba(52,53,65,100) !important;
+	box-shadow: 0 -10px 10px rgba(0,0,0,0.3);
+}
+
+main .h-full.flex-col
+{
+	background: none;
+}
+ 
+/* Foolproof (TM) Individual Chat Node Selector */
+main .h-full.flex-col > div
+{	
+	background: none; /* transparent it so we can see the background image */
+	/* Font */
+	/* font-family: "Courier", "Times New Roman", serif; */
+}
+
+main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
+main .h-full.flex-col > div > div
+{	
+	background: white;
+	box-shadow: 0 0 10px rgba(0,0,0,1.0);
+	margin-top: 20px;
+	padding-top :20px;
+	padding-bottom :20px;
+	padding-left: 80px;
+	padding-right: 80px;
+	border-radius: 10px;
+	
+	/* reset this */
+	max-width: 60rem;
+}
+
+.dark main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
+.dark main .h-full.flex-col > div > div
+{	
+	background: rgb(52,53,65);
+}
+
+main .h-full.flex-col > div.bg-gray-50
+{	
+	background: none; /* transparent it so we can see the background image */
+}
+
+/* override borders */
+main .h-full.flex-col > div
+{	
+	border: none;
+}
+
+/* Disregard spacer */
+main .h-full.flex-col > div:last-child
+{
+	visibility: hidden;
+}
