@@ -23,7 +23,7 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://www.reddit.com/r/ChatGPT/*"],
+      "matches": ["https://www.reddit.com/r/ChatGPTPromptGenius/*"],
       "js": ["content-scripts/reddit/savePrompt.js"],
       "run_at": "document_idle"
     }
