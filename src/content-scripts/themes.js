@@ -62,6 +62,7 @@ function addThemeSelectButton()
 	themeSelect.style.paddingTop = "0.75rem";
 	themeSelect.style.paddingBottom = "0.75rem";
 	themeSelect.style.color = "inherit";
+	themeSelect.style.marginLeft= "-3%"; //align the select
 	themeSelect.style.fontFamily = "inherit";
 	themeSelect.style.fontSize = "inherit";
 	themeSelect.style.overflow = "visible";
