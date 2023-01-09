@@ -33,14 +33,17 @@ function addThemeSelectButton()
 	
 	let wrapper = document.createElement("a");
 	wrapper.id = "theme-select-button";
-	wrapper.setAttribute("class", 'flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm');
+	wrapper.setAttribute("class", 'flex px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm');
 	wrapper.innerHTML = `${icon}`;
+
+	document.head.insertAdjacentHTML("beforeend", `<style>select:focus{--tw-ring-shadow: none!important}</style>`)
 	
 	let themeSelect = document.createElement("select");
 	themeSelect.style.background = "transparent";
-	themeSelect.style.height = "19px";
+	themeSelect.style.height = "100%";
 	themeSelect.style.width = "100%";
-	themeSelect.style.padding = "0";
+	themeSelect.style.paddingTop = "0.75rem";
+	themeSelect.style.paddingBottom = "0.75rem";
 	themeSelect.style.color = "inherit";
 	themeSelect.style.fontFamily = "inherit";
 	themeSelect.style.fontSize = "inherit";
