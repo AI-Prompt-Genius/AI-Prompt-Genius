@@ -172,10 +172,15 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
   color:black;
 }
 
+.dark main .bg-gray-50 .text-gray-900
+{
+  color: inherit;
+}
+
 .dark main .dark\:hover\:bg-gray-900:hover
 {
-  background-color: #4dc136;
-  color:black;
+	background-color: black;
+	color: white;
 }
 
 .dark main .dark\:bg-white\/5
@@ -184,7 +189,12 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
   color: black;
 }
 
-/* due to how font scaling works, it is imperative that everything is 16px */
+.text-gray-500 
+{
+	color: inherit;
+}
+
+/* due to how font scaling works, it is imperative that everything is 16px and *not* bolded since font-smooth is NOT a thing. */
 main code
 {
 	font-family: "IBM VGA 8x16" !important;
@@ -204,9 +214,11 @@ main .text-xs
 main h3
 {
 	font-size: 16px !important;
+  font-weight: normal !important;
 }
 
 main h2 
 {
 	font-size: 16px !important;
+	font-weight: normal !important;
 }
