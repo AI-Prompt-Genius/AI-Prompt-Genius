@@ -22,19 +22,19 @@ main > div:last-child
 }
 
 /* Style Input */
-main > div.absolute:last-child > form
+main > div.absolute > form
 {
 	margin: 0;
   max-width: 100%;
   font-family: monospace;
 }
 
-main > div.absolute:last-child > div:last-child
+main > div.absolute > div:last-child
 {
 	display:none;
 }
 
-main > div.absolute:last-child > form > div > div.flex.flex-col
+main > div.absolute > form > div > div.flex.flex-col
 {
 	background-color: transparent;
   box-shadow:none;
@@ -45,7 +45,7 @@ main > div.absolute:last-child > form > div > div.flex.flex-col
   background-color: black;
 }
 
-main > div.absolute:last-child > form > div > div.flex.flex-col:before
+main > div.absolute > form > div > div.flex.flex-col:before
 {
 	content:">";
   position:absolute;
@@ -133,13 +133,13 @@ main .h-full.flex-col > div > div > div.items-end:first-child
 
 main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
 {	
-	position:absolute;
+	position: absolute;
   transform: 0 !important;
   -webkit-transform: 0 !important;
   justify-content: left;
   justify-items: left;
-  top: -15px;
-  right: 50px;
+  top: -16px;
+  left: 65px;
   visibility: visible !important;
 }
 

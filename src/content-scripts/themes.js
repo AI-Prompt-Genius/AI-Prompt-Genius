@@ -3,7 +3,7 @@ console.log(`Loading themes...`);
 // the way that themes work is to inject it after everything else.
 // remember to expose themes in web_accessible_resources
 // inject theme 
-const THEMES_LIST = ["cozy-fireplace.css","landscape-cycles.css", "sms.css", "hacker.css"];
+const THEMES_LIST = ["cozy-fireplace.css","landscape-cycles.css", "sms.css", "hacker.css","terminal.css"];
 var currentTheme;
 var themeStylesheet;
 

@@ -41,19 +41,19 @@ main > div:last-child
 }
 
 /* Style Input */
-main > div.absolute:last-child > form
+main > div.absolute > form
 {
 	margin: 0;
   max-width: 100%;
   font-family: "IBM VGA 8x16";
 }
 
-main > div.absolute:last-child > div:last-child
+main > div.absolute > div:last-child
 {
 	display:none;
 }
 
-main > div.absolute:last-child > form > div > div.flex.flex-col
+main > div.absolute > form > div > div.flex.flex-col
 {
 	background-color: transparent;
   box-shadow:none;
@@ -64,7 +64,7 @@ main > div.absolute:last-child > form > div > div.flex.flex-col
   background-color: black;
 }
 
-main > div.absolute:last-child > form > div > div.flex.flex-col:before
+main > div.absolute > form > div > div.flex.flex-col:before
 {
 	content:">";
   position:absolute;
@@ -129,7 +129,7 @@ main .h-full.flex-col > div .prose
 
 .dark main .h-full.flex-col > div .prose
 {	
-	color: #63ff44;
+	color: white;
 }
 
 /* Disable Human/AI icons */
@@ -152,13 +152,13 @@ main .h-full.flex-col > div > div > div.items-end:first-child
 
 main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
 {	
-	position:absolute;
+	position: absolute;
   transform: 0 !important;
   -webkit-transform: 0 !important;
   justify-content: left;
   justify-items: left;
-  top: -15px;
-  right: 50px;
+  top: -16px;
+  left: 65px;
   visibility: visible !important;
 }
 
@@ -188,4 +188,10 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
 .dark main .dark\:text-gray-100
 {
   color:#63ff44;
+}
+
+main code
+{
+  font-family: "IBM VGA 8x16" !important;
+  font-size: 16px !important;
 }
