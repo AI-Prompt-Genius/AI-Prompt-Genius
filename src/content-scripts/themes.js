@@ -24,7 +24,16 @@ browser.storage.local.get({"theme":"none.css"}, function(result)
 {
 	currentTheme = result.theme;
 	changeTheme("themes/" + currentTheme);
-	
+	// reflect state in html; we must put this here because local storage loads later than DOM
+	let options = themeSelectElement.querySelector("select")?.children;
+	for(let index = 0; index < options?.length; index++)
+	{
+		let option = options[index];
+		if(option.value === currentTheme)
+		{
+			option.setAttribute("selected","true");
+		}
+	}
 });
 
 function changeTheme(theme)
@@ -88,6 +97,12 @@ function addThemeSelectButton()
 		themeOption.style.color = "black";
 		themeOption.innerHTML = themesList[index];
 		themeSelect.appendChild(themeOption);
+		
+		if(themesList[index] === currentTheme) 
+		{
+			// default selected 
+			themeOption.setAttribute("selected","true");
+		}
 	}
 	
 	wrapper.appendChild(themeSelect);
