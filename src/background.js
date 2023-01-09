@@ -2,7 +2,7 @@ if (typeof browser === "undefined") {
     let settings;
     chrome.action.onClicked.addListener(function(tab) {
         let url;
-        chrome.storage.local.get({settings: {home_is_prompts: false}}, function(result) {
+        chrome.storage.local.get({settings: {home_is_prompts: true}}, function(result) {
             settings = result.settings
             if (settings.hasOwnProperty('home_is_prompts')) {
                 if (settings.home_is_prompts === true) {
@@ -12,7 +12,7 @@ if (typeof browser === "undefined") {
                     url = "pages/explorer.html"
                 }
             }
-            else{
+            else {
                 url = "pages/explorer.html"
             }
             chrome.tabs.create({url: url});
