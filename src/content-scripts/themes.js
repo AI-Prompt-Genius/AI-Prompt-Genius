@@ -4,6 +4,7 @@ console.log(`Loading themes...`);
 // remember to expose themes in web_accessible_resources
 // inject theme 
 const THEMES_LIST = ["cozy-fireplace.css","landscape-cycles.css", "sms.css", "hacker.css"];
+var currentTheme;
 var themeStylesheet;
 
 function injectStyle(file)
@@ -18,6 +19,13 @@ function injectStyle(file)
 }
 
 injectStyle(browser.runtime.getURL('themes/none.css'));
+
+browser.storage.local.get({"theme":"none.css"}, function(result)
+{
+	currentTheme = result.theme;
+	changeTheme("themes/" + currentTheme);
+	
+});
 
 function changeTheme(theme)
 {
@@ -60,6 +68,10 @@ function addThemeSelectButton()
 		{
 			changeTheme("themes/" + themeFile);
 		}
+		
+		currentTheme = themeFile;
+		// set default on select, and yes, invalid is a valid value.
+		browser.storage.local.set({theme: currentTheme});
 	});
 	
 	let noThemeOption = document.createElement("option");
@@ -76,13 +88,6 @@ function addThemeSelectButton()
 		themeOption.style.color = "black";
 		themeOption.innerHTML = themesList[index];
 		themeSelect.appendChild(themeOption);
-		/*
-		if(themesList[index] === "cozy-fireplace.css") 
-		{
-			// default selected 
-			themeOption.setAttribute("selected","true");
-		}
-		*/
 	}
 	
 	wrapper.appendChild(themeSelect);
