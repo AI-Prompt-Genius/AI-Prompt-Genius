@@ -75,14 +75,14 @@ main > div.absolute > form > div > div.flex.flex-col:before
 
 .dark .btn-neutral
 {
-  background-color: #63ff44;
+  background-color: white;
   color: black;
   border: none;
 }
 
 .dark main .bg-gray-800
 {
-  background-color: #63ff44;
+  background-color: white;
 }
 
 .dark main .bg-gray-800.text-gray-200
@@ -159,7 +159,6 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
   justify-items: left;
   top: -16px;
   left: 65px;
-  visibility: visible !important;
 }
 
 .dark main .dark\:text-gray-400
@@ -169,7 +168,7 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
 
 .dark main .dark\:bg-gray-700
 {
-  background-color: #63ff44;
+  background-color: white;
   color:black;
 }
 
@@ -181,17 +180,33 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
 
 .dark main .dark\:bg-white\/5
 {
-  background-color: #63ff44;
+  background-color: white;
   color: black;
 }
 
-.dark main .dark\:text-gray-100
-{
-  color:#63ff44;
-}
-
+/* due to how font scaling works, it is imperative that everything is 16px */
 main code
 {
-  font-family: "IBM VGA 8x16" !important;
-  font-size: 16px !important;
+	font-family: "IBM VGA 8x16" !important;
+	font-size: 16px !important;
+}
+
+main .text-sm
+{
+	font-size: 16px !important;
+}
+
+main .text-xs
+{
+	font-size: 16px !important;
+}
+
+main h3
+{
+	font-size: 16px !important;
+}
+
+main h2 
+{
+	font-size: 16px !important;
 }
