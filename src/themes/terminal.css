@@ -222,3 +222,15 @@ main h2
 	font-size: 16px !important;
 	font-weight: normal !important;
 }
+
+main .prose table
+{
+  font-size: 16px !important;
+}
+
+main .prose table td, th
+{
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
