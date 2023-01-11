@@ -1,13 +1,7 @@
 if (typeof browser === "undefined"){
     browser = chrome;
 }
-function injectScript(file, node) {
-    var th = document.getElementsByTagName(node)[0];
-    var s = document.createElement('script');
-    s.setAttribute('type', 'text/javascript');
-    s.setAttribute('src', file);
-    th.appendChild(s);
-}
+
 function main() {
     browser.storage.local.get({prompts: []}).then((result) => {
         let prompts = JSON.stringify(result.prompts)
@@ -16,6 +10,7 @@ function main() {
         document.querySelector("#prompts_storage").value = prompts
     })
 }
+
 main()
 
 injectScript(browser.runtime.getURL('content-scripts/prompts.js'), 'body');
