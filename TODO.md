@@ -5,6 +5,7 @@
 - Display tags on prompts & let users add tags & filter by tag
 - Export to HTML (not as a link - feedback form request)
 - More themes
+- Theme creator
 
 
 ### Minor Todos
