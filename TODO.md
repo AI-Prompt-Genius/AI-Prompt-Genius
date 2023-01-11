@@ -6,6 +6,7 @@
 - Export to HTML (not as a link - feedback form request)
 - More themes
 - Theme creator
+- Translation/language options
 
 
 ### Minor Todos
