@@ -95,7 +95,6 @@
 			// if no prompts, do nothing
 			let prompts = JSON.parse(promptsRawString);
 			window.prompttemplates = prompts.reverse()
-			console.log(window.prompttemplates)
 			insertPromptTemplatesSection()
 			document.querySelector('#prompts_storage').remove()
 		}
@@ -270,7 +269,6 @@ function addCopyButton (buttonGroup) {
 
 // This function selects a prompt template
 function selectPromptTemplate (idx) {
-    console.log("FIRED!")
     // Get the list of prompt templates
     const templates = window.prompttemplates
     // If there are no templates, skip
@@ -289,7 +287,6 @@ function selectPromptTemplate (idx) {
     }*/
 
     if (template) {
-        console.log(template)
         /*wrapper.innerHTML = `
     <span class="${css`tag`}">
       ${template.title}
