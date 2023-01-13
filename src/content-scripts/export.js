@@ -365,7 +365,12 @@ async function sendRequest() {
         // Create a canvas element
         const canvas = document.createElement("canvas");
 
-        const image = document.querySelectorAll("img")[1];
+        let image = document.querySelectorAll("img")[1];
+        console.log(image)
+
+        if (image === undefined) {
+            image = document.querySelector("img");
+        }
 
         // Set the canvas size to 30x30 pixels
         canvas.width = 30;
