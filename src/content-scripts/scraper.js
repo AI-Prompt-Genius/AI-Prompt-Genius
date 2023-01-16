@@ -374,7 +374,15 @@ function startScraper() {
                                     thread.title = title
                                 }
                             }
-                            t[getObjectIndexByID(id, t)] = thread
+							let threadIndex = getObjectIndexByID(id, t);
+							if(threadIndex !== null)
+							{
+								t[threadIndex] = thread;
+							}
+							else 
+							{
+								t.push(thread);
+							}
                         }
                         browser.storage.local.set({threads: t})
                     }
