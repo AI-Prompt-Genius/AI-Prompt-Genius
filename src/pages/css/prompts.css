@@ -308,3 +308,10 @@ textarea {
     padding: 0.25em 0.5em; /* Add some padding to the tag */
     border-radius: 0.25em; /* Round the corners of the tag */
 }
+.link-inner-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 1rem;
+}
