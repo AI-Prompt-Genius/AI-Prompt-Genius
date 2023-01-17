@@ -394,6 +394,9 @@ function CSVToArray(strData, strDelimiter) {
 	}
 	return data;
 }
+function noHighlight(text){
+	return text.replace(/<span class="highlight">/g, "").replace(/<\/span>/g, "")
+}
 
 function fillAndAppendTemplate(title, text, i, tags="", category="") {
 	// Get the template element
@@ -408,7 +411,11 @@ function fillAndAppendTemplate(title, text, i, tags="", category="") {
 
 	// Add prompt when clicked
 	promptDiv.querySelector('.prompt-div').addEventListener('click', function() {
-		new_prompt(title, text, tags, category);
+		let no_highlight_text = noHighlight(text);
+		let nh_title = noHighlight(title);
+		let nh_tags = noHighlight(tags);
+		let nh_category = noHighlight(category);
+		new_prompt(nh_title, no_highlight_text, nh_tags, nh_category);
 		imported_prompts.push(title);
 		browser.storage.local.set({imported_prompts: imported_prompts});
 		publicTemps.splice(i, 1);
@@ -453,7 +460,7 @@ backwardButton.addEventListener('click', () => {
 	currentIndex -= 3;
 })
 
-function loadExplorePrompts(prompts, search=false, search_term=""){
+function loadCuratedPrompts(prompts, search=false, search_term=""){
 	console.log("CALLED!")
 	document.querySelector('.modal-main').innerHTML = '';
 	backwardButton.disabled = true;
@@ -501,7 +508,7 @@ function loadExplorePrompts(prompts, search=false, search_term=""){
 
 }
 
-document.querySelector('#explore').addEventListener('click', () => loadExplorePrompts(publicTemps))
+document.querySelector('#explore').addEventListener('click', () => loadCuratedPrompts(publicTemps))
 
 let imported_prompts = [];
 browser.storage.local.get({imported_prompts: []}).then((result) => {
@@ -521,17 +528,17 @@ function searchUserPrompts() {
 	}
 }
 
-function searchExplorePrompts() {
+function searchCuratedPrompts() {
 	let search_term = document.querySelector('#modal-search-bar').value
 	let results = searchPrompts(publicTemps, search_term)
 	console.log(results)
 	document.querySelector('.modal-main').innerHTML = ''
 	if (search_term === ""){
 		currentIndex = 0;
-		loadExplorePrompts(publicTemps)
+		loadCuratedPrompts(publicTemps)
 	}
 	else {
-		loadExplorePrompts(results, true, search_term)
+		loadCuratedPrompts(results, true, search_term)
 	}
 }
 
@@ -547,7 +554,7 @@ function searchPrompts(prompts, searchTerm) { // created by ChatGPT
 }
 
 
-document.querySelector('#modal-search-bar').addEventListener('input', searchExplorePrompts)
+document.querySelector('#modal-search-bar').addEventListener('input', searchCuratedPrompts)
 document.querySelector('.search-bar').addEventListener('input', searchUserPrompts)
 
 
