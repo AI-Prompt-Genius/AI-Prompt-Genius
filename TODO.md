@@ -1,5 +1,4 @@
 ### New Features/High Priority
-- Fix scraper again (sigh...)
 - Searching/filter category prompts on ChatGPT page
 - Cloud syncing for history/prompts
 - Display tags on prompts & let users add tags & filter by tag
