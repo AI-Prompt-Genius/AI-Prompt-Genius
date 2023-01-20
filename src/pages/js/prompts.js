@@ -188,12 +188,7 @@ Additional information:
 				// Catchall
 			}
 			else {
-				if(row.querySelector('textarea')){
-					toggle_prompt_editable(id, row);
-				}
-				else{
-					use_prompt(id)
-				}
+				toggle_prompt_editable(id, row);
 			}
 		});
 		prompt_text.addEventListener('keydown', (event) => {
