@@ -198,11 +198,9 @@ Additional information:
 			}
 		});
 		prompt_text.addEventListener('keydown', (event) => {
-			if (event.key === 'Enter' && !event.shiftKey) {
-				if(!keys_pressed['shift'])
-				{
-					toggle_prompt_editable(id, row);
-				}
+			// if user presses ctrl-enter, then save.
+			if (event.key === 'Enter' && event.ctrlKey) {
+				toggle_prompt_editable(id, row);
 			}
 		});
 		main.appendChild(template);
