@@ -187,8 +187,14 @@ Additional information:
 			else if (target.tagName === 'TEXTAREA'){
 				// Catchall
 			}
-			else {
+			else if (target.classList.contains('prompt')) {
 				toggle_prompt_editable(id, row);
+			}
+			else {
+				// if enabled, then disable
+				if(row.querySelector('textarea')){
+					toggle_prompt_editable(id, row);
+				}
 			}
 		});
 		prompt_text.addEventListener('keydown', (event) => {
