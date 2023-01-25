@@ -1,0 +1,58 @@
+/*
+	Retro future 2000s look. I could never get it right.
+ */
+
+/* Arial */
+/* #8D9DAF */
+
+/* Disable/override backgrounds */
+.dark main > div:first-child > div 
+{
+	background: transparent;
+}
+
+main .h-full.flex-col
+{
+	background: none;
+}
+
+main .h-full.flex-col > div.bg-gray-50
+{	
+	background: transparent; /* transparent it so we can see the background image */
+}
+
+.dark main .dark\:bg-gray-800
+{
+	background: transparent;
+}
+
+/* override borders */
+main .h-full.flex-col > div
+{	
+	border: none;
+}
+
+/* Disregard spacer without disabling its position in the layout. */
+main .h-full.flex-col > div:last-child
+{
+	visibility: hidden;
+}
+
+/* Disable that weird gradient for inputs */
+main > div.md\:bg-vert-light-gradient
+{
+	background: none;
+}
+
+/* Foolproof (TM) Individual Chat Node Selector */
+main .h-full.flex-col > div
+{
+	background: linear-gradient(0deg, hsla(0, 0%, 100%, 1) 0%, hsla(240, 24%, 92%, 1) 100%);
+  color: #8D9DAF;
+}
+
+main 
+{
+	background-color: white;
+	font-family: Arial;
+}
