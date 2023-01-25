@@ -19,6 +19,7 @@ main .h-full.flex-col > div.bg-gray-50
 	background: none; /* transparent it so we can see the background image */
 }
 */
+
 .dark main .dark\:bg-gray-800
 {
 	background: transparent;
@@ -46,6 +47,11 @@ main > div.md\:bg-vert-light-gradient
 main 
 {
   font-family: Courier;
+  /*
+  background: url(https://images.pexels.com/photos/733857/pexels-photo-733857.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+  background-size: cover;
+  background-repeat: no-repeat;
+  */
 }
 
 .text-base
@@ -56,10 +62,15 @@ main
 /* Foolproof (TM) Individual Chat Node Selector */
 main .h-full.flex-col > div
 {
+  background-color: #fff;
   position: relative;
   margin: 40px auto;
-  background: #fff;
   border-radius: 2px;
+}
+
+.dark main .h-full.flex-col > div
+{
+  background-color: #343541;
 }
 
 main .h-full.flex-col > div::before,
