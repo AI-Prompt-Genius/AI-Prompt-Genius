@@ -3,7 +3,7 @@
 // inject theme 
 const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css"];
 // use the same names as you would in css, because that's where it's going 
-const FONTS_LIST = ["Arial","Verdana","Times New Roman","Courier"];
+const FONTS_LIST = ["Arial","Courier","Georgia","Times New Roman","Verdana"];
 var currentTheme;
 var currentFont;
 var themeStylesheet;
