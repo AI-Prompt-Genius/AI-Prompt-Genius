@@ -44,11 +44,7 @@ main .h-full.flex-col
 /* Foolproof (TM) Individual Chat Node Selector */
 main .h-full.flex-col > div
 {	
-	background: none; /* transparent it so we can see the background image */
-	/* Font */
-	font-family: "Courier", "Times New Roman", serif;
-	
-	
+	background: none; /* transparent it so we can see the background image */	
 }
 
 main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */

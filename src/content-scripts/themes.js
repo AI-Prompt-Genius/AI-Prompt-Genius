@@ -6,19 +6,29 @@ console.log(`Loading themes...`);
 const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css"];
 var currentTheme;
 var themeStylesheet;
+var fontStyle;
 
-function injectStyle(file)
+function injectStylesheet(file)
 {	
 	let head = document.querySelector('head');
     let stylesheet = document.createElement('link');
-	themeStylesheet = stylesheet;
     stylesheet.setAttribute('rel', 'stylesheet');
     stylesheet.setAttribute('type', 'text/css');
     stylesheet.setAttribute('href', file);
     head.appendChild(stylesheet);
+	return stylesheet;
 }
 
-injectStyle(browser.runtime.getURL('themes/none.css'));
+function injectStyle()
+{
+	let head = document.querySelector('head');
+    let style = document.createElement('style');
+    head.appendChild(style);
+	return style;
+}
+
+themeStylesheet = injectStylesheet(browser.runtime.getURL('themes/none.css'));
+fontStyle = injectStyle();
 
 browser.storage.local.get({"theme":"none.css"}, function(result)
 {
@@ -42,7 +52,22 @@ function changeTheme(theme)
 	themeStylesheet.setAttribute('href', browser.runtime.getURL(theme));
 }
 
-// theme selector
+function setFont(fontFamilyName)
+{
+	fontStyle.innerHTML = 
+`
+main {
+	font-family: "${fontFamilyName}";
+}
+main .h-full.flex-col > div {
+	font-family: "${fontFamilyName}";
+}
+`;
+}
+
+setFont("Times New Roman");
+
+// create theme selector
 let themeSelectElement;
 function addThemeSelectButton()
 {
@@ -116,8 +141,9 @@ function addThemeSelectButton()
 	
 	themeSelectElement = wrapper;
 }
-
 addThemeSelectButton();
+
+// create font selector
 
 /*
 	Re-add buttons hack.
