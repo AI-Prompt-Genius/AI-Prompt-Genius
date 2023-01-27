@@ -2,7 +2,10 @@
 // remember to expose themes in web_accessible_resources
 // inject theme 
 const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css"];
+// use the same names as you would in css, because that's where it's going 
+const FONTS_LIST = ["Arial","Verdana","Times New Roman","Courier"];
 var currentTheme;
+var currentFont;
 var themeStylesheet;
 var fontStyle;
 
@@ -82,6 +85,7 @@ function createThemeSelectButton()
 	let wrapper = document.createElement("a");
 	wrapper.id = "theme-select-button";
 	wrapper.setAttribute("class", 'flex px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm');
+	wrapper.style.height = "44px";
 	wrapper.innerHTML = `${icon}`;
 
 	document.head.insertAdjacentHTML("beforeend", `<style>select:focus{--tw-ring-shadow: none!important}</style>`)
@@ -152,7 +156,71 @@ function createThemeSelectButton()
 var fontSelectElement;
 function createFontSelectButton()
 {
+	let icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em" height="1em" style="fill: white" stroke="currentColor"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M254 52.8C249.3 40.3 237.3 32 224 32s-25.3 8.3-30 20.8L57.8 416H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32h-1.8l18-48H303.8l18 48H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H390.2L254 52.8zM279.8 304H168.2L224 155.1 279.8 304z"/></svg>`;
 	
+	let wrapper = document.createElement("a");
+	wrapper.id = "font-select-button";
+	wrapper.setAttribute("class", 'flex px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm');
+	wrapper.style.height = "44px";
+	wrapper.innerHTML = `${icon}`;
+	
+	let fontSelect = document.createElement("select");
+	fontSelect.style.background = "transparent";
+	fontSelect.style.height = "100%";
+	fontSelect.style.width = "100%";
+	fontSelect.style.paddingTop = "0.75rem";
+	fontSelect.style.paddingBottom = "0.75rem";
+	fontSelect.style.color = "inherit";
+	fontSelect.style.marginLeft= "-3%"; //align the select
+	fontSelect.style.fontFamily = "inherit";
+	fontSelect.style.fontSize = "inherit";
+	fontSelect.style.overflow = "visible";
+	fontSelect.style.border = "0";
+	
+	fontSelect.addEventListener("change", (event)=>
+	{
+		let fontFamily = fontSelect.value;
+		
+		if(fontFamily === "")
+		{
+			setFont(null);
+		}
+		else 
+		{
+			setFont(fontFamily);
+		}
+		
+		currentFont = fontFamily;
+	});
+	
+	let noFontOption = document.createElement("option");
+	noFontOption.value = "";
+	noFontOption.style.color = "black";
+	noFontOption.innerHTML = "Default";
+	fontSelect.appendChild(noFontOption);
+	
+	let fontsList = FONTS_LIST;
+	for(index = 0; index < fontsList.length; index++)
+	{
+		let fontOption = document.createElement("option");
+		fontOption.value = fontsList[index];
+		fontOption.style.color = "black";
+		fontOption.innerHTML = fontsList[index];
+		fontSelect.appendChild(fontOption);
+		
+		if(fontsList[index] === currentFont) 
+		{
+			// default selected 
+			fontOption.setAttribute("selected","true");
+		}
+	}
+	
+	wrapper.appendChild(fontSelect);
+	
+	var nav = document.querySelector("nav");
+	nav.appendChild(wrapper);
+	
+	fontSelectElement = wrapper;
 }
 
 /*
@@ -162,7 +230,7 @@ function readdThemeSelect()
 {
 	var nav = document.querySelector("nav");
 	nav.appendChild(themeSelectElement);
-	console.log("readding theme select.");
+	nav.appendChild(fontSelectElement);
 }
 
 // always place at the end because "let" statements can't be used before they're declared.
@@ -174,8 +242,5 @@ function initializeThemes()
 	
 	createThemeSelectButton();
 	createFontSelectButton();
-
-	setFont("Times New Roman");
-
 }
 initializeThemes();
