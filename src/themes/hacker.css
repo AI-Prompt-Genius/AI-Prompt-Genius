@@ -83,6 +83,18 @@ main > div.absolute > form > div > div.flex.flex-col:before
   font-size: 16px;
 }
 
+.btn-neutral
+{
+  background-color: #05321e;
+  color: inherit;
+  border: none;
+}
+
+.btn-neutral:hover
+{
+  background-color: #15422e;
+}
+
 .dark .btn-neutral
 {
   background-color: #05321e;
@@ -109,7 +121,7 @@ main > div.absolute > form > div > div.flex.flex-col:before
 
 .dark main .bg-gray-800.text-gray-200
 {
-  color: black;
+  color: inherit;
 }
 
 main .h-full.flex-col > div
@@ -145,7 +157,7 @@ main .h-full.flex-col > div
 
 main .h-full.flex-col > div .prose
 {	
-	color: black;
+	color: inherit;
 }
 
 .dark main .h-full.flex-col > div .prose
@@ -183,9 +195,38 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
   visibility: visible !important;
 }
 
+.text-gray-800
+{
+  color: inherit;
+}
+
 .dark main .dark\:text-gray-400
 {
   color:inherit;
+}
+
+.bg-gray-50,
+.bg-gray-100
+{
+  background-color: #05321e;
+  color:inherit;
+}
+
+button.bg-gray-50:hover,
+button.bg-gray-100:hover
+{
+  background-color: #15422e;
+  color:inherit;
+}
+
+.text-gray-700
+{
+  color: inherit;
+}
+
+.text-gray-900
+{
+  color: white;
 }
 
 .dark main .dark\:bg-gray-700
@@ -208,4 +249,9 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
 .dark main .dark\:text-gray-100
 {
   color: inherit;
+}
+
+.md\:bg-vert-light-gradient
+{
+  background: none;
 }
