@@ -36,3 +36,9 @@ main > div.md\:bg-vert-light-gradient
 {
 	background: none;
 }
+
+/* Foolproof (TM) Individual Chat Node Selector */
+main .h-full.flex-col > div
+{
+	
+}

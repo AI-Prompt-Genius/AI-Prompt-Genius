@@ -1,0 +1,109 @@
+/* 
+	Credit to Martin Wolf
+	https://codepen.io/martinwolf/pen/GRaWPy
+ */
+
+/* Disable/override backgrounds */
+.dark main > div:first-child > div 
+{
+	background: transparent;
+}
+
+main .h-full.flex-col
+{
+	background: none;
+}
+/*
+main .h-full.flex-col > div.bg-gray-50
+{	
+	background: none; /* transparent it so we can see the background image */
+}
+*/
+
+.dark main .dark\:bg-gray-800
+{
+	background: transparent;
+}
+
+/* override borders */
+main .h-full.flex-col > div
+{	
+	border: none;
+}
+
+/* Disregard spacer without disabling its position in the layout. */
+main .h-full.flex-col > div:last-child
+{
+	visibility: hidden;
+}
+
+/* Disable that weird gradient for inputs */
+main > div.md\:bg-vert-light-gradient
+{
+	background: none;
+}
+
+/* END RESET */
+main 
+{
+  font-family: Courier;
+  /*
+  background: url(https://images.pexels.com/photos/733857/pexels-photo-733857.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+  background-size: cover;
+  background-repeat: no-repeat;
+  */
+}
+
+.text-base
+{
+  font-size: 12pt;
+}
+
+/* Foolproof (TM) Individual Chat Node Selector */
+main .h-full.flex-col > div
+{
+  background-color: #fff;
+  position: relative;
+  margin: 40px auto;
+  border-radius: 2px;
+}
+
+.dark main .h-full.flex-col > div
+{
+  background-color: #343541;
+}
+
+main .h-full.flex-col > div::before,
+main .h-full.flex-col > div::after {
+  content: "";
+  position: absolute;
+  bottom: 10px;
+  width: 50%;
+  height: 20px;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);
+  z-index: -1;
+  transition: all 0.3s ease-in-out;
+}
+
+main .h-full.flex-col > div::before {
+  left: 5px;
+  transform: skew(-1deg) rotate(-1deg);
+}
+
+main .h-full.flex-col > div::after {
+  right: 5px;
+  transform: skew(1deg) rotate(1deg);
+}
+
+main .h-full.flex-col > div:hover::before,
+main .h-full.flex-col > div:hover::after {
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.7);
+}
+
+main .h-full.flex-col > div:hover::before {
+  left: 15px;
+}
+
+main .h-full.flex-col > div:hover::after {
+  right: 15px;
+}
