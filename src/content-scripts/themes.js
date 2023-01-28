@@ -196,7 +196,7 @@ function createFontSelectButton()
 	let noFontOption = document.createElement("option");
 	noFontOption.value = "";
 	noFontOption.style.color = "black";
-	noFontOption.innerHTML = "Default";
+	noFontOption.innerHTML = "Default Font";
 	fontSelect.appendChild(noFontOption);
 	
 	let fontsList = FONTS_LIST;
