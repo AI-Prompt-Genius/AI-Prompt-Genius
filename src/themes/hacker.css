@@ -1,3 +1,8 @@
+main
+{
+  font-family: monospace;
+}
+
 .dark main 
 {
   background-color: black;
@@ -26,7 +31,6 @@ main > div.absolute > form
 {
 	margin: 0;
   max-width: 100%;
-  font-family: monospace;
 }
 
 main > div.absolute > div:last-child
@@ -75,7 +79,6 @@ main .h-full.flex-col > div
 {	
 	background: transparent; /* transparent it so we can see the background image */
 	/* Font */
-	font-family: monospace;
 	border:none;
 }
 
