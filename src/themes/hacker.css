@@ -1,6 +1,37 @@
-.dark main 
+/* 
+	CRT effect from Edwin
+	https://dev.to/ekeijl/retro-crt-terminal-screen-in-css-js-4afh
+	
+ */
+@import url("https://fonts.googleapis.com/css?family=VT323&display=swap");
+
+main
 {
-  background-color: black;
+  font-family: "VT323", monospace;
+  background-image: radial-gradient( ellipse, #05321e 0%, #050505 90% );
+  /* text glow */
+  text-shadow: 0 0 5px #c8c8c8;
+  color: #5bf870;
+}
+
+main .h-full.flex-col::before
+{
+  
+  content: " ";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: linear-gradient(
+		to bottom,
+		rgba(18, 16, 16, 0.05) 50%,
+		rgba(0, 0, 0, 0.25) 50%
+	);
+	background-size: 100% 8px;
+	z-index: 0;
+	pointer-events: none;
 }
 
 /* Disable all backgrounds for terminal theme */
@@ -26,7 +57,6 @@ main > div.absolute > form
 {
 	margin: 0;
   max-width: 100%;
-  font-family: monospace;
 }
 
 main > div.absolute > div:last-child
@@ -38,11 +68,10 @@ main > div.absolute > form > div > div.flex.flex-col
 {
 	background-color: transparent;
   box-shadow:none;
+  color: inherit;
   border:0;
   border-bottom: 1px solid gray;
   border-radius: 0;
-  color: white;
-  background-color: black;
 }
 
 main > div.absolute > form > div > div.flex.flex-col:before
@@ -54,28 +83,51 @@ main > div.absolute > form > div > div.flex.flex-col:before
   font-size: 16px;
 }
 
+.btn-neutral
+{
+  background-color: #05321e;
+  color: inherit;
+  border: none;
+}
+
+.btn-neutral:hover
+{
+  background-color: #15422e;
+}
+
 .dark .btn-neutral
 {
-  background-color: #63ff44;
-  color: black;
+  background-color: #05321e;
+  color: inherit;
   border: none;
+}
+
+.btn-primary
+{
+  background-color: #05321e;
+  color: inherit;
+}
+
+.btn-primary:hover
+{
+  background-color: #15422e;
+  color: inherit;
 }
 
 .dark main .bg-gray-800
 {
-  background-color: #63ff44;
+  background-color: #05321e;
 }
 
 .dark main .bg-gray-800.text-gray-200
 {
-  color: black;
+  color: inherit;
 }
 
 main .h-full.flex-col > div
 {	
 	background: transparent; /* transparent it so we can see the background image */
 	/* Font */
-	font-family: monospace;
 	border:none;
 }
 
@@ -105,12 +157,12 @@ main .h-full.flex-col > div
 
 main .h-full.flex-col > div .prose
 {	
-	color: black;
+	color: inherit;
 }
 
 .dark main .h-full.flex-col > div .prose
 {	
-	color: #63ff44;
+	color: inherit;
 }
 
 /* Disable Human/AI icons */
@@ -143,30 +195,63 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
   visibility: visible !important;
 }
 
+.text-gray-800
+{
+  color: inherit;
+}
+
 .dark main .dark\:text-gray-400
 {
   color:inherit;
 }
 
+.bg-gray-50,
+.bg-gray-100
+{
+  background-color: #05321e;
+  color:inherit;
+}
+
+button.bg-gray-50:hover,
+button.bg-gray-100:hover
+{
+  background-color: #15422e;
+  color:inherit;
+}
+
+.text-gray-700
+{
+  color: inherit;
+}
+
+.text-gray-900
+{
+  color: white;
+}
+
 .dark main .dark\:bg-gray-700
 {
-  background-color: #63ff44;
-  color:black;
+  background-color: #05321e;
+  color:inherit;
 }
 
 .dark main .dark\:hover\:bg-gray-900:hover
 {
-  background-color: #4dc136;
-  color:black;
+  background-color: #15422e;
 }
 
 .dark main .dark\:bg-white\/5
 {
-  background-color: #63ff44;
-  color: black;
+  background-color: #05321e;
+  color: inherit;
 }
 
 .dark main .dark\:text-gray-100
 {
-  color:#63ff44;
+  color: inherit;
+}
+
+.md\:bg-vert-light-gradient
+{
+  background: none;
 }
