@@ -2,10 +2,6 @@
 // unlike other scripts, this will be injected, and so namespace pollution does matter
 const ExportButtons = (function()
 {
-	if (typeof browser === "undefined") {
-		browser = chrome
-	}
-	
 	return {
 		addDropDownStyle: function()
 		{

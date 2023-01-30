@@ -2,7 +2,6 @@ if (typeof browser === "undefined"){
     browser = chrome;
 }
 
-
 function addExportButtons()
 {
 	let buttonsFlag;

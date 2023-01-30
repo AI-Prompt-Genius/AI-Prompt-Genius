@@ -1,3 +1,6 @@
+if (typeof browser === "undefined") {
+	browser = chrome
+}
 /*
 	Misc utilities that are repeated across different files in content-scripts.
 	To access in page context, inject the entire file into the page.
