@@ -60,3 +60,25 @@ main {
 	background-repeat: no-repeat;
 	background-size: cover;
 }
+
+main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
+main .h-full.flex-col > div > div
+{	
+	background: rgba(255,255,255,0.5); /* glass effect */
+	box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+	margin-top: 20px;
+	padding-top :20px;
+	padding-bottom :20px;
+	padding-left: 80px;
+	padding-right: 80px;
+	border-radius: 10px;
+	
+	/* reset this */
+	max-width: 60rem;
+}
+
+.dark main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
+.dark main .h-full.flex-col > div > div
+{	
+	background: rgba(52,53,65, 1.0);
+}

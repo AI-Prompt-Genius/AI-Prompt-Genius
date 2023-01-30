@@ -80,6 +80,7 @@ main
 		themeAudio = new Audio(browser.runtime.getURL("assets/sound/rain-sound-loop.wav"));
 		console.log(themeAudio);
 		themeAudio.load();
+		themeAudio.loop = true;
 		themeAudio.play();
 	}
 	else 
