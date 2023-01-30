@@ -1,12 +1,13 @@
 // the way that themes work is to inject it after everything else.
 // remember to expose themes in web_accessible_resources
 // inject theme 
-const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css"];
+const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css","rain.css"];
 // use the same names as you would in css, because that's where it's going 
 const FONTS_LIST = ["Arial","Courier","Georgia","Times New Roman","Verdana"];
 var currentTheme;
 var currentFont;
 var themeStylesheet;
+var themeStyle;
 var fontStyle;
 
 function injectStylesheet(file)
@@ -26,6 +27,11 @@ function injectStyle()
     let style = document.createElement('style');
     head.appendChild(style);
 	return style;
+}
+
+function injectAudio()
+{
+	
 }
 
 
@@ -49,6 +55,22 @@ function changeTheme(theme)
 {
 	// because dynamic paths, otherwise it won't work
 	themeStylesheet.setAttribute('href', browser.runtime.getURL(theme));
+	// special cases for dynaloading image paths
+	if(theme === "themes/rain.css")
+	{
+		let backgroundImageURL = browser.runtime.getURL("assets/images/rain-loop-gif.webp");
+		themeStyle.innerHTML = 
+`
+main
+{
+	background-image: url("${backgroundImageURL}");
+}
+`;
+	}
+	else 
+	{
+		themeStyle.innerHTML = "";
+	}
 }
 
 /*
@@ -239,6 +261,7 @@ function initializeThemes()
 	console.log(`Loading themes...`);
 	themeStylesheet = injectStylesheet(browser.runtime.getURL('themes/none.css'));
 	fontStyle = injectStyle();
+	themeStyle = injectStyle();
 	
 	createThemeSelectButton();
 	createFontSelectButton();

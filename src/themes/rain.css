@@ -1,0 +1,62 @@
+/*
+	While it appears there's nothing here, unfortunately some js injection is necessary,
+		as you can't dynamically get video files in JS and PLUS, the video is ~3mb in size, which is starting to stretch the limit of base64 injection.
+	
+	Thus, rain.css is not a pure css theme.
+	
+	Video Source:
+	https://www.pexels.com/video/close-up-view-of-raindrops-on-a-glass-window-6042260/
+	Nikita Belokhonov
+	
+	Audio source:
+	https://www.pexels.com/video/sewerage-856283/
+	pixabay
+ */
+.dark main > div:first-child > div 
+{
+	background: transparent;
+}
+
+main .h-full.flex-col
+{
+	background: none;
+}
+
+main .h-full.flex-col > div.bg-gray-50
+{	
+	background: none; /* transparent it so we can see the background image */
+}
+
+.dark main .dark\:bg-gray-800
+{
+	background: transparent;
+}
+
+/* override borders */
+main .h-full.flex-col > div
+{	
+	border: none;
+}
+
+/* Disregard spacer without disabling its position in the layout. */
+main .h-full.flex-col > div:last-child
+{
+	visibility: hidden;
+}
+
+/* Disable that weird gradient for inputs */
+main > div.md\:bg-vert-light-gradient
+{
+	background: none;
+}
+
+/* Foolproof (TM) Individual Chat Node Selector */
+main .h-full.flex-col > div
+{
+	
+}
+
+main {
+	background-repeat: no-repeat;
+	background-size: cover;
+}

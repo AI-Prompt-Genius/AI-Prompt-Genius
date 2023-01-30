@@ -27,8 +27,8 @@
   ],
   "web_accessible_resources" : [{
     "resources": ["content-scripts/prompts.js"
-	  ,"fonts.css"
-      ,"themes/none.css","themes/cozy-fireplace.css","themes/hacker.css","themes/sms.css","themes/landscape-cycles.css","themes/terminal.css","themes/paper.css"],
+	  ,"assets/images/rain-loop-gif.webp"
+      ,"themes/none.css","themes/cozy-fireplace.css","themes/hacker.css","themes/sms.css","themes/landscape-cycles.css","themes/terminal.css","themes/paper.css","themes/rain.css"],
     "matches": ["https://chat.openai.com/*"],
     "use_dynamic_url": true
   }],
