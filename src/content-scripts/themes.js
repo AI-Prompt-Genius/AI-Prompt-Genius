@@ -9,6 +9,7 @@ var currentFont;
 var themeStylesheet;
 var themeStyle;
 var fontStyle;
+var themeAudio;
 
 function injectStylesheet(file)
 {	
@@ -55,9 +56,18 @@ function changeTheme(theme)
 {
 	// because dynamic paths, otherwise it won't work
 	themeStylesheet.setAttribute('href', browser.runtime.getURL(theme));
+	
+	// reset and or stop audio
+	if(themeAudio)
+	{
+		themeAudio.pause();
+		themeAudio = null;
+	}
+	
 	// special cases for dynaloading image paths
 	if(theme === "themes/rain.css")
 	{
+		// load video gif 
 		let backgroundImageURL = browser.runtime.getURL("assets/images/rain-loop-gif.webp");
 		themeStyle.innerHTML = 
 `
@@ -66,6 +76,11 @@ main
 	background-image: url("${backgroundImageURL}");
 }
 `;
+		// load audio
+		themeAudio = new Audio(browser.runtime.getURL("assets/sound/rain-sound-loop.wav"));
+		console.log(themeAudio);
+		themeAudio.load();
+		themeAudio.play();
 	}
 	else 
 	{
