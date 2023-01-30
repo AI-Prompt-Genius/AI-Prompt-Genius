@@ -47,7 +47,12 @@ main .h-full.flex-col > div:last-child
 /* Disable that weird gradient for inputs */
 main > div.md\:bg-vert-light-gradient
 {
-	background: none;
+	background: rgba(255,255,255,0.6) !important; /* glass effect */
+}
+
+.dark .dark\:md\:bg-vert-dark-gradient
+{
+	background: rgba(52,53,65, 1.0) !important;
 }
 
 /* Foolproof (TM) Individual Chat Node Selector */
@@ -64,8 +69,8 @@ main {
 main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
 main .h-full.flex-col > div > div
 {	
-	background: rgba(255,255,255,0.5); /* glass effect */
-	box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+	background: rgba(255,255,255,0.6); /* glass effect */
+	box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 	margin-top: 20px;
 	padding-top :20px;
 	padding-bottom :20px;
