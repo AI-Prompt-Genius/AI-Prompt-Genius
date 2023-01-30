@@ -86,7 +86,7 @@ function get_current_chat_text()
     return chat;
 }
 
-function convert_chat_to_markdown(chat, title)
+function convertChatToMarkdown(chat, title)
 {
     let string = "";
     if(title)
