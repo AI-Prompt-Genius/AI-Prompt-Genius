@@ -78,7 +78,7 @@ main
 }
 `;
 		// load audio
-		themeAudio = new Audio(`${host}/sound/rain-sound-loop.wav`);
+		themeAudio = new Audio(`${host}/sound/rain.mp3`);
 		console.log(themeAudio);
 		themeAudio.load();
 		themeAudio.loop = true;
