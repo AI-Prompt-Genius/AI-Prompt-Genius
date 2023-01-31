@@ -429,7 +429,8 @@ function fillAndAppendTemplate(title, text, i, tags="", category="") {
 
 let publicTemps;
 function fetch_templates(){
-	fetch('https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/prompts.csv')
+	const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`
+	fetch(`${host}/csv/prompts.csv`)
 		// Convert the response to text
 		.then(res => res.text())
 		// Convert the CSV text to an array of records
