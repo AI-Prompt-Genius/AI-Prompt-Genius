@@ -65,6 +65,13 @@ function changeTheme(theme)
 	}
 	
 	// special cases for dynaloading image paths
+	function selectAudio(url){
+		themeAudio = new Audio(url);
+		themeAudio.load();
+		themeAudio.loop = true;
+		themeAudio.play();
+	}
+
 	const host = "https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public" // insert host url
 	if(theme === "themes/rain.css")
 	{
@@ -78,11 +85,10 @@ main
 }
 `;
 		// load audio
-		themeAudio = new Audio(`${host}/sound/rain.mp3`);
-		console.log(themeAudio);
-		themeAudio.load();
-		themeAudio.loop = true;
-		themeAudio.play();
+		selectAudio(`${host}/sound/rain.mp3`);
+	}
+	if (theme === `themes/cozy-fireplace.css`){
+		selectAudio(`${host}/sound/fireplace.mp3`)
 	}
 	else 
 	{
