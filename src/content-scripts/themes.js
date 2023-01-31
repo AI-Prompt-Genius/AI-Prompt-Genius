@@ -65,11 +65,11 @@ function changeTheme(theme)
 	}
 	
 	// special cases for dynaloading image paths
-	const host = "" // insert host url
+	const host = "https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public" // insert host url
 	if(theme === "themes/rain.css")
 	{
 		// load video gif
-		let backgroundImageURL = `${host}/public/images/rain-loop-gif.webp`
+		let backgroundImageURL = `${host}/images/rain-loop-gif.webp`
 		themeStyle.innerHTML = 
 `
 main
@@ -78,7 +78,7 @@ main
 }
 `;
 		// load audio
-		themeAudio = new Audio(`${host}/public/sound/rain-sound-loop.wav`);
+		themeAudio = new Audio(`${host}/sound/rain-sound-loop.wav`);
 		console.log(themeAudio);
 		themeAudio.load();
 		themeAudio.loop = true;
