@@ -65,10 +65,11 @@ function changeTheme(theme)
 	}
 	
 	// special cases for dynaloading image paths
+	const host = "" // insert host url
 	if(theme === "themes/rain.css")
 	{
-		// load video gif 
-		let backgroundImageURL = browser.runtime.getURL("assets/images/rain-loop-gif.webp");
+		// load video gif
+		let backgroundImageURL = `${host}/public/images/rain-loop-gif.webp`
 		themeStyle.innerHTML = 
 `
 main
@@ -77,7 +78,7 @@ main
 }
 `;
 		// load audio
-		themeAudio = new Audio(browser.runtime.getURL("assets/sound/rain-sound-loop.wav"));
+		themeAudio = new Audio(`${host}/public/sound/rain-sound-loop.wav`);
 		console.log(themeAudio);
 		themeAudio.load();
 		themeAudio.loop = true;
