@@ -29,8 +29,6 @@
     }
   ],
   "web_accessible_resources" : ["content-scripts/prompts.js"
-	,"assets/images/rain-loop-gif.webp"
-	,"assets/sound/rain-sound-loop.wav"
     ,"themes/none.css","themes/cozy-fireplace.css","themes/hacker.css","themes/sms.css","themes/landscape-cycles.css","themes/terminal.css","themes/paper.css","themes/rain.css"],
   "browser_action": {
     "default_title": "ChatGPT History"

@@ -87,7 +87,7 @@ main
 		// load audio
 		selectAudio(`${host}/sound/rain.mp3`);
 	}
-	if (theme === `themes/cozy-fireplace.css`){
+	else if (theme === `themes/cozy-fireplace.css`){
 		selectAudio(`${host}/sound/fireplace.mp3`)
 	}
 	else 
