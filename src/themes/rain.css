@@ -62,6 +62,7 @@ main .h-full.flex-col > div
 }
 
 main {
+	background-image: url("https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public/images/rain-loop-gif.webp");
 	background-repeat: no-repeat;
 	background-size: cover;
 }

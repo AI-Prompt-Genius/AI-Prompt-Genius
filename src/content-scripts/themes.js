@@ -81,15 +81,6 @@ function changeTheme(theme, onload=false)
 	const host = "https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public"
 	if(theme === "themes/rain.css")
 	{
-		// load video gif
-		let backgroundImageURL = `${host}/images/rain-loop-gif.webp`
-		themeStyle.innerHTML = 
-`
-main
-{
-	background-image: url("${backgroundImageURL}");
-}
-`;
 		// load audio
 		selectAudio(`${host}/sound/rain.mp3`);
 	}
