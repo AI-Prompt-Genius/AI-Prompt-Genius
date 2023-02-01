@@ -213,10 +213,6 @@ Additional information:
 			else{
 				ctrlBool = (event.key === 'Enter' && !event.shiftKey);
 			}
-			console.log(event)
-			console.log(ctrlSave)
-			console.log(event.ctrlKey || event.metaKey)
-			console.log(ctrlBool)
 			if (ctrlBool) { // see line 51
 				toggle_prompt_editable(id, row);
 			}
