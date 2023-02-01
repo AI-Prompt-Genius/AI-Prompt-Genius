@@ -73,8 +73,8 @@ function changeTheme(theme, onload=false)
 		if (!onload){
 			themeAudio.play()
 		}
-		else{
-			document.body.addEventListener('keydown', () => setTimeout(() => themeAudio.play(), 500), {once: true}) // this is due to a Chrome autoplay limitation. See: https://developer.chrome.com/blog/autoplay/
+		else{ // this is due to a Chrome autoplay limitation. See: https://developer.chrome.com/blog/autoplay/
+			document.body.addEventListener('keydown', () => setTimeout(() => themeAudio.play(), 500), {once: true})
 		}
 	}
 
