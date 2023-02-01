@@ -259,7 +259,7 @@ function nextPromptTemplatesPage () {
 function addCopyButton (buttonGroup) {
     const button = document.createElement('button')
     button.onclick = () => {
-        const text = buttonGroup.parentElement.innerText
+        const text = buttonGroup.parentElement.parentElement.innerText
         navigator.clipboard.writeText(text)
     }
     button.className = css`action`
