@@ -39,7 +39,7 @@ function injectAudio()
 browser.storage.local.get({"theme":"none.css"}, function(result)
 {
 	currentTheme = result.theme;
-	changeTheme("themes/" + currentTheme);
+	changeTheme("themes/" + currentTheme, true);
 	// reflect state in html; we must put this here because local storage loads later than DOM
 	let options = themeSelectElement.querySelector("select")?.children;
 	for(let index = 0; index < options?.length; index++)
@@ -52,11 +52,12 @@ browser.storage.local.get({"theme":"none.css"}, function(result)
 	}
 });
 
-function changeTheme(theme)
+function changeTheme(theme, onload=false)
 {
 	// because dynamic paths, otherwise it won't work
 	themeStylesheet.setAttribute('href', browser.runtime.getURL(theme));
-	
+	themeStyle.innerHTML = "";
+
 	// reset and or stop audio
 	if(themeAudio)
 	{
@@ -69,10 +70,15 @@ function changeTheme(theme)
 		themeAudio = new Audio(url);
 		themeAudio.load();
 		themeAudio.loop = true;
-		themeAudio.play();
+		if (!onload){
+			themeAudio.play()
+		}
+		else{
+			document.body.addEventListener('keydown', () => themeAudio.play(), {once: true}) // this is due to a Chrome autoplay limitation. See: https://developer.chrome.com/blog/autoplay/
+		}
 	}
 
-	const host = "https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public" // insert host url
+	const host = "https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public"
 	if(theme === "themes/rain.css")
 	{
 		// load video gif
@@ -89,10 +95,6 @@ main
 	}
 	else if (theme === `themes/cozy-fireplace.css`){
 		selectAudio(`${host}/sound/fireplace.mp3`)
-	}
-	else 
-	{
-		themeStyle.innerHTML = "";
 	}
 }
 
