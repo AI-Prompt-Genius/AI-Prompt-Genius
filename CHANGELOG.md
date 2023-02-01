@@ -2,7 +2,7 @@
 [add changes here]
 
 ---
-### Released stable versions
+## Released stable versions
 ### v2.1.0 - January 31, 2023
 
 - Fixed markdown exports edge cases
