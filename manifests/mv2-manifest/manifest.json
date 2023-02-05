@@ -28,10 +28,9 @@
       "run_at": "document_idle"
     }
   ],
-  "web_accessible_resources" : ["content-scripts/prompts.js"
-    ,"themes/none.css","themes/cozy-fireplace.css","themes/hacker.css","themes/sms.css","themes/landscape-cycles.css","themes/terminal.css","themes/paper.css","themes/rain.css"],
+  "web_accessible_resources" : ["content-scripts/prompts.js", "themes/*"],
   "browser_action": {
-    "default_title": "ChatGPT History"
+    "default_title": "ChatGPT Prompt Genius"
   },
   "icons":{
     "48": "icons/48x48.png",

@@ -1,13 +1,12 @@
-### v2.1.1 - Unreleased working version
-[add changes here]
+### v2.1.1 [beta]
 
+- Fixed export buttons (future proofing)
+- Simplified web accessible resources in manifest
+- Fixed typo for default title on extension icon hover
 
-## Released stable versions
-### v2.1.0 - January 31, 2023
+### v2.1.0 - January 31, 2023 [latest stable]
 
 - Fixed markdown exports edge cases
-
-*whoops, I skipped v2.0.9*
 
 ### v2.0.8 - January 31, 2023
 

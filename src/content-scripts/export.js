@@ -486,11 +486,11 @@ class Elements {
     }
     init() {
         // this.threadWrapper = document.querySelector(".cdfdFe");
-        this.spacer = document.querySelector(".w-full.h-48.flex-shrink-0");
         this.thread = document.querySelector("[class*='react-scroll-to-bottom']>[class*='react-scroll-to-bottom']>div");
-        if (this.thread === null) {
+        if (this.thread === null) { // continuing an old thread
             this.thread = document.querySelector("main > div > div > div");
         }
+        this.spacer = this.thread.lastChild
         this.positionForm = document.querySelector("form").parentNode;
         // this.styledThread = document.querySelector("main");
         // this.threadContent = document.querySelector(".gAnhyd");
