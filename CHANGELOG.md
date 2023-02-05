@@ -3,6 +3,7 @@
 - Fixed export buttons (future proofing)
 - Simplified web accessible resources in manifest
 - Fixed typo for default title on extension icon hover
+- Added timeout for theme/export buttons
 
 ### v2.1.0 - January 31, 2023 [latest stable]
 

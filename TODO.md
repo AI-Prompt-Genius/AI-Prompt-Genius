@@ -1,5 +1,6 @@
 ### New Features/High Priority
 - Searching/filter category prompts on ChatGPT page
+- Allow delete all conversations/prompts/etc.
 - Cloud syncing for history/prompts
 - Display tags on prompts & let users add tags & filter by tag
 - Export to HTML (not as a link - feedback form request)

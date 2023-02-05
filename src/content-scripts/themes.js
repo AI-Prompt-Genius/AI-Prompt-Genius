@@ -1,6 +1,5 @@
 // the way that themes work is to inject it after everything else.
-// remember to expose themes in web_accessible_resources
-// inject theme 
+// inject theme
 const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css","rain.css"];
 // use the same names as you would in css, because that's where it's going 
 const FONTS_LIST = ["Arial","Courier","Georgia","Times New Roman","Verdana"];
@@ -35,10 +34,16 @@ function injectAudio()
 	
 }
 
+function validTheme(theme){
+	return THEMES_LIST.includes(theme.replace("themes/",""))
+}
 
 browser.storage.local.get({"theme":"none.css"}, function(result)
 {
 	currentTheme = result.theme;
+	if (!validTheme(currentTheme)){
+		currentTheme = "none.css"
+	}
 	changeTheme("themes/" + currentTheme, true);
 	// reflect state in html; we must put this here because local storage loads later than DOM
 	let options = themeSelectElement.querySelector("select")?.children;
@@ -54,8 +59,13 @@ browser.storage.local.get({"theme":"none.css"}, function(result)
 
 function changeTheme(theme, onload=false)
 {
+	if (!validTheme(theme)){
+		theme = "themes/none.css"
+	}
+
+	let css = browser.runtime.getURL(theme)
 	// because dynamic paths, otherwise it won't work
-	themeStylesheet.setAttribute('href', browser.runtime.getURL(theme));
+	themeStylesheet.setAttribute('href', css);
 	themeStyle.innerHTML = "";
 
 	// reset and or stop audio
@@ -154,8 +164,10 @@ function createThemeSelectButton()
 		{
 			changeTheme("themes/" + themeFile);
 		}
-		
 		currentTheme = themeFile;
+		if (!validTheme(themeFile)){
+			currentTheme = "themes/none.css"
+		}
 		// set default on select, and yes, invalid is a valid value.
 		browser.storage.local.set({theme: currentTheme});
 	});
@@ -278,8 +290,8 @@ function initializeThemes()
 	themeStylesheet = injectStylesheet(browser.runtime.getURL('themes/none.css'));
 	fontStyle = injectStyle();
 	themeStyle = injectStyle();
-	
-	createThemeSelectButton();
-	createFontSelectButton();
+
+	createThemeSelectButton()
+	createFontSelectButton()
 }
 initializeThemes();

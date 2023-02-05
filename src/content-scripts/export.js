@@ -339,10 +339,10 @@ function exportMain() {
         buttons = settings.buttons
         if (buttons === true) {
             if (!document.getElementById('download-markdown-button')) {
-                add_buttons();
+                setTimeout(add_buttons, 300);
             }
         }
-		readdThemeSelect(); // just going to yoink this in here, from themes.js, as this is more convenient.
+		setTimeout(readdThemeSelect,300); // just going to yoink this in here, from themes.js, as this is more convenient.
     })
 }
 exportMain()
