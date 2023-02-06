@@ -1,0 +1,90 @@
+/*
+	While it appears there's nothing here, unfortunately some js injection is necessary,
+		as you can't dynamically get video files in JS and PLUS, the video is ~3mb in size, which is starting to stretch the limit of base64 injection.
+	
+	Thus, rain.css is not a pure css theme.
+	
+	Video Source:
+	https://www.pexels.com/video/close-up-view-of-raindrops-on-a-glass-window-6042260/
+	Nikita Belokhonov
+	
+	Audio source:
+	https://www.pexels.com/video/sewerage-856283/
+	pixabay
+ */
+.dark main > div:first-child > div 
+{
+	background: transparent;
+}
+
+main .h-full.flex-col
+{
+	background: none;
+}
+
+main .h-full.flex-col > div.bg-gray-50
+{	
+	background: none; /* transparent it so we can see the background image */
+}
+
+.dark main .dark\:bg-gray-800
+{
+	background: transparent;
+}
+
+/* override borders */
+main .h-full.flex-col > div
+{	
+	border: none;
+}
+
+/* Disregard spacer without disabling its position in the layout. */
+main .h-full.flex-col > div:last-child
+{
+	visibility: hidden;
+}
+
+/* Disable that weird gradient for inputs */
+main > div.md\:bg-vert-light-gradient
+{
+	background: rgba(255,255,255,0.6) !important; /* glass effect */
+}
+
+.dark .dark\:md\:bg-vert-dark-gradient
+{
+	background: rgba(52,53,65, 1.0) !important;
+}
+
+/* Foolproof (TM) Individual Chat Node Selector */
+main .h-full.flex-col > div
+{
+	
+}
+
+main {
+	background-image: url("https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public/images/rain-loop-gif.webp");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
+main .h-full.flex-col > div > div
+{	
+	background: rgba(255,255,255,0.6); /* glass effect */
+	box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+	margin-top: 20px;
+	padding-top :20px;
+	padding-bottom :20px;
+	padding-left: 80px;
+	padding-right: 80px;
+	border-radius: 10px;
+	
+	/* reset this */
+	max-width: 60rem;
+}
+
+.dark main .h-full.flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
+.dark main .h-full.flex-col > div > div
+{	
+	background: rgba(52,53,65, 1.0);
+}

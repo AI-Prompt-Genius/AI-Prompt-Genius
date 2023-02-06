@@ -48,6 +48,12 @@ browser.storage.local.get({prompts: default_prompts}, function(result) {
 	load_prompts(user_prompts);
 });
 
+// sets up toggle for control save behavior
+let ctrlSave = false;
+browser.storage.local.get({settings: {ctrlSave: false}}, function(result){
+	ctrlSave = result.settings.ctrl_save;
+})
+
 function searchString(string, searchTerm) {
 	// use the original case of the search term when highlighting it
 	const searchTermRegex = new RegExp(searchTerm, "gi");
@@ -74,8 +80,7 @@ function load_prompts(prompts, search=false, search_term="")
 		
 		let prompt = prompts[n];
 		let id = prompt.id;
-		console.log(prompt)
-		
+
 		//template.querySelector('.date').innerHTML = prompt.date;
         //template.querySelector('.time').innerHTML = prompt.time;
 		let prompt_text = template.querySelector('.prompt-text');
@@ -187,7 +192,11 @@ Additional information:
 			else if (target.tagName === 'TEXTAREA'){
 				// Catchall
 			}
+			else if (target.classList.contains('prompt')) {
+				toggle_prompt_editable(id, row);
+			}
 			else {
+				// if enabled, then disable
 				if(row.querySelector('textarea')){
 					toggle_prompt_editable(id, row);
 				}
@@ -197,11 +206,15 @@ Additional information:
 			}
 		});
 		prompt_text.addEventListener('keydown', (event) => {
-			if (event.key === 'Enter' && !event.shiftKey) {
-				if(!keys_pressed['shift'])
-				{
-					toggle_prompt_editable(id, row);
-				}
+			let ctrlBool;
+			if (ctrlSave === true){
+				ctrlBool = (event.key === 'Enter' && (event.ctrlKey || event.metaKey))
+			}
+			else{
+				ctrlBool = (event.key === 'Enter' && !event.shiftKey);
+			}
+			if (ctrlBool) { // see line 51
+				toggle_prompt_editable(id, row);
 			}
 		});
 		main.appendChild(template);
@@ -429,7 +442,8 @@ function fillAndAppendTemplate(title, text, i, tags="", category="") {
 
 let publicTemps;
 function fetch_templates(){
-	fetch('https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/prompts.csv')
+	const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`
+	fetch(`${host}/csv/prompts.csv`)
 		// Convert the response to text
 		.then(res => res.text())
 		// Convert the CSV text to an array of records

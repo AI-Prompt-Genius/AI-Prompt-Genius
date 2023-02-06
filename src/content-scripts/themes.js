@@ -1,13 +1,14 @@
 // the way that themes work is to inject it after everything else.
-// remember to expose themes in web_accessible_resources
-// inject theme 
-const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css"];
+// inject theme
+const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css","rain.css"];
 // use the same names as you would in css, because that's where it's going 
 const FONTS_LIST = ["Arial","Courier","Georgia","Times New Roman","Verdana"];
 var currentTheme;
 var currentFont;
 var themeStylesheet;
+var themeStyle;
 var fontStyle;
+var themeAudio;
 
 function injectStylesheet(file)
 {	
@@ -28,11 +29,22 @@ function injectStyle()
 	return style;
 }
 
+function injectAudio()
+{
+	
+}
+
+function validTheme(theme){
+	return THEMES_LIST.includes(theme.replace("themes/",""))
+}
 
 browser.storage.local.get({"theme":"none.css"}, function(result)
 {
 	currentTheme = result.theme;
-	changeTheme("themes/" + currentTheme);
+	if (!validTheme(currentTheme)){
+		currentTheme = "none.css"
+	}
+	changeTheme("themes/" + currentTheme, true);
 	// reflect state in html; we must put this here because local storage loads later than DOM
 	let options = themeSelectElement.querySelector("select")?.children;
 	for(let index = 0; index < options?.length; index++)
@@ -45,10 +57,46 @@ browser.storage.local.get({"theme":"none.css"}, function(result)
 	}
 });
 
-function changeTheme(theme)
+function changeTheme(theme, onload=false)
 {
+	if (!validTheme(theme)){
+		theme = "themes/none.css"
+	}
+
+	let css = browser.runtime.getURL(theme)
 	// because dynamic paths, otherwise it won't work
-	themeStylesheet.setAttribute('href', browser.runtime.getURL(theme));
+	themeStylesheet.setAttribute('href', css);
+	themeStyle.innerHTML = "";
+
+	// reset and or stop audio
+	if(themeAudio)
+	{
+		themeAudio.pause();
+		themeAudio = null;
+	}
+	
+	// special cases for dynaloading image paths
+	function selectAudio(url){
+		themeAudio = new Audio(url);
+		themeAudio.load();
+		themeAudio.loop = true;
+		if (!onload){
+			themeAudio.play()
+		}
+		else{ // this is due to a Chrome autoplay limitation. See: https://developer.chrome.com/blog/autoplay/
+			document.body.addEventListener('keydown', () => setTimeout(() => themeAudio.play(), 500), {once: true})
+		}
+	}
+
+	const host = "https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public"
+	if(theme === "themes/rain.css")
+	{
+		// load audio
+		selectAudio(`${host}/sound/rain.mp3`);
+	}
+	else if (theme === `themes/cozy-fireplace.css`){
+		selectAudio(`${host}/sound/fireplace.mp3`)
+	}
 }
 
 /*
@@ -116,8 +164,10 @@ function createThemeSelectButton()
 		{
 			changeTheme("themes/" + themeFile);
 		}
-		
 		currentTheme = themeFile;
+		if (!validTheme(themeFile)){
+			currentTheme = "themes/none.css"
+		}
 		// set default on select, and yes, invalid is a valid value.
 		browser.storage.local.set({theme: currentTheme});
 	});
@@ -239,8 +289,9 @@ function initializeThemes()
 	console.log(`Loading themes...`);
 	themeStylesheet = injectStylesheet(browser.runtime.getURL('themes/none.css'));
 	fontStyle = injectStyle();
-	
-	createThemeSelectButton();
-	createFontSelectButton();
+	themeStyle = injectStyle();
+
+	createThemeSelectButton()
+	createFontSelectButton()
 }
 initializeThemes();
