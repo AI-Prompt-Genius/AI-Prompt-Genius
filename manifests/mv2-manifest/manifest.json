@@ -13,7 +13,7 @@
   "content_scripts": [
     {
       "matches": ["https://chat.openai.com/chat*"],
-      "js": ["content-scripts/utility.js", "content-scripts/scraper.js", "content-scripts/prompt-inject.js", "content-scripts/export.js", "content-scripts/themes.js"
+      "js": ["content-scripts/utility.js", "content-scripts/scraper.js", "content-scripts/prompt-inject.js", "content-scripts/export.js","content-scripts/export-inject.js", "content-scripts/themes.js"
 	    ,"external-js/html2canvas.js", "external-js/jspdf.umd.js"],
       "run_at": "document_idle"
     },
@@ -28,7 +28,7 @@
       "run_at": "document_idle"
     }
   ],
-  "web_accessible_resources" : ["content-scripts/prompts.js"
+  "web_accessible_resources" : ["content-scripts/prompts.js","content-scripts/export-buttons.js"
 	,"fonts.css"
     ,"themes/none.css","themes/cozy-fireplace.css","themes/hacker.css","themes/sms.css","themes/landscape-cycles.css","themes/terminal.css","themes/paper.css"],
   "browser_action": {

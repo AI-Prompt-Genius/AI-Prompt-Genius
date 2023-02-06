@@ -8,6 +8,10 @@ function addExportButtons()
 	browser.storage.local.get({settings: defaults}, function (result) {
         let settings = result.settings;
         buttonsFlag = settings.buttons;
+		
+		// TODO temp override until default init is fixed 
+		buttonsFlag = true;
+		
         if (buttonsFlag === true) {
 			// we inject script to try to defeat CORS not allowing us to save images
 			injectScript(browser.runtime.getURL('content-scripts/export-buttons.js'), 'body');

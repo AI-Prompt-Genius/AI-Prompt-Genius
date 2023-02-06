@@ -80,7 +80,7 @@ const ExportButtons = (function()
 		document.head.appendChild(style);
 	}
 	
-	createDropDown: function()
+	function createDropDown()
 	{
 		let button_class = 'flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm';
 		let shareSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" style="fill: white" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3V320c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64c0 53 43 96 96 96H352c53 0 96-43 96-96V352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V352z"/></svg>`;
@@ -131,7 +131,7 @@ const ExportButtons = (function()
 		// add listeners
 		let pdfButton = document.querySelector("#download-pdf-button");
 		let pngButton = document.querySelector('#download-png-button');
-		let markdownButton = = document.querySelector('#download-markdown-button');
+		let markdownButton = document.querySelector('#download-markdown-button');
 		let shareButton =  document.querySelector('#share-link-button');
 
 		pdfButton.onclick = () => {
@@ -154,7 +154,7 @@ const ExportButtons = (function()
 		}
 		init() {
 			// this.threadWrapper = document.querySelector(".cdfdFe");
-			this.spacer = document.querySelector(".w-full.h-48.flex-shrink-0");
+			this.spacer = document.querySelector(".w-full.h-32.flex-shrink-0"); 
 			this.thread = document.querySelector("[class*='react-scroll-to-bottom']>[class*='react-scroll-to-bottom']>div");
 			if (this.thread === null) {
 				this.thread = document.querySelector("main > div > div > div");
@@ -235,6 +235,13 @@ const ExportButtons = (function()
 		pdf.save(title + ".pdf");
 	}
 	
+	// listen for URLChange to add buttons
+	window.addEventListener("message", (event) =>
+	{
+		console.log("Export Buttons Message");
+		console.log(event);
+	});
+	
 	return {
 		/**
 			Adds the buttons.
@@ -242,7 +249,10 @@ const ExportButtons = (function()
 		 */
 		addButtons: function()
 		{
-			
+			// we must test since the buttons can be removed by the page
+			if (!document.getElementById('download-markdown-button')) {
+				createButtons();
+			}
 		},
 		
 		downloadThread: function(format)

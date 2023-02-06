@@ -174,13 +174,16 @@ function exportMain() {
         }
     })
 }
-exportMain()
 let current_url = window.location.href;
 
 function check_url() {
     if (current_url !== window.location.href) {
         current_url = window.location.href;
-        setTimeout(exportMain, 500)
+		// use postMessage to communicate with injected scripts
+		window.postMessage(
+			{
+				type: "urlChange"
+			}, "*");
         console.log("URL CHANGE")
     }
 }
