@@ -60,6 +60,50 @@ const ExportButtons = (function()
 
 		return childInnerHTML;
 	}
+	
+	function getCurrentChatText()
+	{
+		let mainElement = document.querySelector("main");
+		// new version is probaby more robust, can't see how they would change the flex col anytime soon
+		let chatContainer = mainElement.querySelector(".flex-col");
+		// what is one part of a conversation called again? let's just call it a chat bubble
+		let chatBubbleElements = chatContainer.children;;
+		let chat = [];
+
+		// remember to disregard the last element, which is always a filler element
+		for(let i = 0; i < chatBubbleElements.length-1; i++)
+		{
+			let isHuman = (i % 2) === 0;
+			let chatBubble = chatBubbleElements[i];
+			let text = getChatBubbleText(chatBubble, isHuman);
+			chat.push(text);
+		}
+
+		return chat;
+	}
+	
+	// gets chat with errors, for current export.
+	function getChatBubbleText(chatBubble, isHuman)
+	{
+		let text;
+		if(isHuman)
+		{
+			text = chatBubble.innerText;
+			if(text.includes("Save & Submit\nCancel"))
+			{
+				// query the textarea instead
+				text = chatBubble.querySelector("textarea")?.value;
+			}
+			// for code
+			text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		}
+		else
+		{
+			text = saveChildInnerHTML(chatBubble.firstChild.children[1].firstChild.firstChild.firstChild) // saves as html
+		}
+		return text;
+	}
+	
 	/* GUI functions */
 	function addDropDownStyle()
 	{
@@ -263,7 +307,6 @@ const ExportButtons = (function()
 		
 		downloadThread: function(format)
 		{
-			// TODO
 			switch(format)
 			{
 				case Format.PNG:
@@ -290,7 +333,10 @@ const ExportButtons = (function()
 					});
 					break;
 				case Format.MD:
-					// TODO
+					let fileName = `${document.title}.md`;
+					let data = getCurrentChatText();
+					let blob = convertChatToMarkdown(data, document.title);
+					downloadBlobAsFile(blob, fileName);
 					break;
 				default:
 					console.warn(`ExportButtons.downloandThread: format "${format}" not recognized.`);
