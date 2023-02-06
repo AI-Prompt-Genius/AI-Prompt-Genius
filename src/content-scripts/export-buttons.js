@@ -2,6 +2,8 @@
 // unlike other scripts, this will be injected, and so namespace pollution does matter
 const ExportButtons = (function()
 {
+	const ADD_BUTTONS_DELAY = 500;
+	
 	console.log(`Loading export buttons...`);
 	
 	let markdown_box = document.createElement("div");
@@ -239,9 +241,13 @@ const ExportButtons = (function()
 	window.addEventListener("message", (event) =>
 	{
 		console.log("Export Buttons Message");
-		console.log(event);
+		// readd buttons on URL change 
+		if(event.data?.type === "urlChange")
+		{
+			// of course, we must set timeout, because otherwise the main app will delete it 
+			setTimeout(ExportButtons.addButtons, ADD_BUTTONS_DELAY);
+		}
 	});
-	
 	return {
 		/**
 			Adds the buttons.
@@ -364,3 +370,5 @@ const ExportButtons = (function()
 		},
 	}
 })();
+// for init
+setTimeout(ExportButtons.addButtons, 500);

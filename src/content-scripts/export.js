@@ -8,7 +8,7 @@ function exportMain() {
         let settings = result.settings
         buttons = true; // temp for testing
 		// I have no idea why, but if this is put after add_buttons it just... doesn't go.
-		readdThemeSelect(); // just going to yoink this in here, from themes.js, as this is more convenient.
+		
         if (buttons === true) {
             if (!document.getElementById('download-markdown-button')) {
                 add_buttons();
@@ -16,8 +16,9 @@ function exportMain() {
         }
     })
 }
-let current_url = window.location.href;
 
+// TODO, move this somewhere more central
+let current_url = window.location.href;
 function check_url() {
     if (current_url !== window.location.href) {
         current_url = window.location.href;
@@ -26,8 +27,8 @@ function check_url() {
 			{
 				type: "urlChange"
 			}, "*");
+		readdThemeSelect(); // just going to yoink this in here, from themes.js, as this is more convenient.
         console.log("URL CHANGE")
     }
 }
-
 setInterval(check_url, 500);
