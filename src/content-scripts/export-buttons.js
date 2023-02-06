@@ -41,10 +41,8 @@ const ExportButtons = (function()
 			if (child.tagName == "PRE") {
 				let div = child.firstChild.children[1]
 				div.firstChild.classList.add('p-4')
-				let text = div.innerHTML
-				let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
-				let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
-				let template = `<pre>${copy_bar}<div>${text}</div></pre><br>`
+				let text = div.innerText
+				let template = `\n\`\`\`\n${text}\n\`\`\`\n`
 				childInnerHTML += template;
 			} else {
 				// Remove the child's class attribute
@@ -54,12 +52,13 @@ const ExportButtons = (function()
 				saveChildInnerHTML(child, false);
 
 				// Add the child's innerHTML to the string
-				childInnerHTML += child.outerHTML;
+				childInnerHTML += htmlToMDSyntax(child.outerHTML);
 			}
 		}
 
 		return childInnerHTML;
 	}
+
 	
 	function getCurrentChatText()
 	{

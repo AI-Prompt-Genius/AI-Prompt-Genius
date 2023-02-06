@@ -27,8 +27,7 @@
   ],
   "web_accessible_resources" : [{
     "resources": ["content-scripts/prompts.js","content-scripts/export-buttons.js","content-scripts/utility.js"
-	  ,"fonts.css"
-      ,"themes/none.css","themes/cozy-fireplace.css","themes/hacker.css","themes/sms.css","themes/landscape-cycles.css","themes/terminal.css","themes/paper.css"],
+      ,"themes/*"],
     "matches": ["https://chat.openai.com/*"],
     "use_dynamic_url": true
   }],
