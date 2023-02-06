@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "ChatGPT Prompt Genius",
   "description": "Discover, share, import, and use the best prompts for ChatGPT & save your chat history locally (formerly ChatGPT History)",
-  "version": "2.0.7",
+  "version": "2.1.2",
   "permissions": ["storage", "unlimitedStorage"],
   "background": {
     "service_worker": "background.js"
@@ -27,7 +27,7 @@
   ],
   "web_accessible_resources" : [{
     "resources": ["content-scripts/prompts.js","content-scripts/export-buttons.js","content-scripts/utility.js"
-      ,"themes/*"],
+      ,"themes/*", "external-js/jspdf.umd.js", "external-js/html2canvas.js"],
     "matches": ["https://chat.openai.com/*"],
     "use_dynamic_url": true
   }],
