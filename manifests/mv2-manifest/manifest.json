@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "ChatGPT Prompt Genius",
   "description": "Discover, share, import, and use the best prompts for ChatGPT & save your chat history locally (formerly ChatGPT History)",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "permissions": ["storage", "unlimitedStorage"],
   "background": {
     "persistent": false,
@@ -13,7 +13,7 @@
   "content_scripts": [
     {
       "matches": ["https://chat.openai.com/chat*"],
-      "js": ["content-scripts/scraper.js", "content-scripts/prompt-inject.js", "content-scripts/export.js", "content-scripts/themes.js"
+      "js": ["content-scripts/utility.js", "content-scripts/scraper.js", "content-scripts/prompt-inject.js", "content-scripts/export.js","content-scripts/export-inject.js", "content-scripts/themes.js"
 	    ,"external-js/html2canvas.js", "external-js/jspdf.umd.js"],
       "run_at": "document_idle"
     },
@@ -28,9 +28,10 @@
       "run_at": "document_idle"
     }
   ],
-  "web_accessible_resources" : ["content-scripts/prompts.js", "themes/*"],
+  "web_accessible_resources" : ["content-scripts/prompts.js","content-scripts/export-buttons.js","content-scripts/utility.js"
+      ,"themes/*", "external-js/jspdf.umd.js", "html2canvas.js"],
   "browser_action": {
-    "default_title": "ChatGPT Prompt Genius"
+    "default_title": "ChatGPT History"
   },
   "icons":{
     "48": "icons/48x48.png",

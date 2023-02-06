@@ -10,7 +10,6 @@
 
 
 ### Minor Todos
-- Fix export buttons FireFox
 - Add 30-day auto-delete feature
 - Revamp settings page styling
 - Move export/import to settings

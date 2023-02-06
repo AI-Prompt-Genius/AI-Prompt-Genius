@@ -1,6 +1,7 @@
 ### v2.1.2 [unreleased]
 
-[insert changes]
+- Fixed CORS bug for firefox export buttons.
+- Refactored some content script stuff into utility.js
 
 ### v2.1.1 - February 4, 2023 [pending review]
 
