@@ -292,27 +292,59 @@ function createCustomStyleButton()
 var customStyleEditor;
 function createCustomStyleEditor()
 {
+	let wrapper = document.createElement("div");;
+	wrapper.setAttribute("class", "flex flex-col items-center h-full w-full");
+	wrapper.style.background = "rgba(25,25,25,0.7)";
+	wrapper.style.position = "fixed";
+	wrapper.style.top = 0;
+	wrapper.style.left = 0;
+	wrapper.style.justifyContent = "center";
+	//wrapper.style.visibility = "hidden";
+	
 	let container = document.createElement("div");
-	container.setAttribute("class", "flex flex-col items-center h-full w-full");
-	container.style.position = "fixed";
-	container.style.top = 0;
-	container.style.left = 0;
-	container.style.justifyContent = "center";
+	container.style.background = "white";
+	container.style.borderRadius = "1rem";
+	container.style.padding = "1rem";
+	container.setAttribute("class", "flex flex-col items-center");
+	wrapper.appendChild(container);
+	
+	let editorTitle = document.createElement("h1");
+	editorTitle.innerHTML = "Advanced Style Editor";
+	container.appendChild(editorTitle);
 	
 	let editor = document.createElement("textarea");
+	editor.setAttribute("class", "mt-2");
 	editor.setAttribute("cols","80");
 	editor.setAttribute("rows","25");
 	container.appendChild(editor);
 	
+	let buttonsContainer = document.createElement("div");
+	buttonsContainer.setAttribute("class", "text-center mt-2 flex justify-center");
+	container.appendChild(buttonsContainer);
+	
 	let saveChangesButton = document.createElement("button");
 	saveChangesButton.innerHTML = "Apply Changes";
-	saveChangesButton.setAttribute("class", "btn flex justify-center gap-2 btn-primary");
-	saveChangesButton.style.marginTop = "1rem";
-	container.appendChild(saveChangesButton);
+	saveChangesButton.setAttribute("class", "btn flex justify-center gap-2 btn-primary mr-2");
+	buttonsContainer.appendChild(saveChangesButton);
 	
-	document.body.appendChild(container);
+	saveChangesButton.addEventListener("click", function()
+	{
+		customStyle.innerHTML = editor.value;
+	});
 	
-	customStyleEditor = container;
+	let cancelButton = document.createElement("button");
+	cancelButton.innerHTML = "Cancel";
+	cancelButton.setAttribute("class", "btn flex justify-center gap-2 btn-neutral");
+	buttonsContainer.appendChild(cancelButton);
+	
+	cancelButton.addEventListener("click", function()
+	{
+		wrapper.style.visibility = "hidden";
+	});
+	
+	document.body.appendChild(wrapper);
+	
+	customStyleEditor = wrapper;
 }
 
 /*
