@@ -521,7 +521,7 @@ function loadCuratedPrompts(prompts, search=false, search_term=""){
 document.querySelector('#explore').addEventListener('click', () => loadCuratedPrompts(publicTemps))
 
 let imported_prompts = [];
-chrome.storage.local.get({imported_prompts: []}).then((result) => {
+chrome.storage.local.get({imported_prompts: []}, function (result) {
 	imported_prompts = result.imported_prompts;
 })
 
