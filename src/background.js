@@ -3,8 +3,8 @@ if (typeof browser !== "undefined") {
 }
 let settings;
 // Listen for a click on the browser action
-chrome.browserAction.onClicked.addListener(function(tab) {
-    chrome.storage.local.get({settings: {home_is_prompts: false}}, function(result) {
+chrome.action.onClicked.addListener(function(tab) {
+    chrome.storage.local.get({settings: {home_is_prompts: true}}, function(result) {
         settings = result.settings
         let url;
         if (settings.hasOwnProperty('home_is_prompts')) {
@@ -16,7 +16,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
             }
         }
         else{
-            url = "pages/explorer.html"
+            url = "pages/prompts.html"
         }
         chrome.tabs.create({url: url});
     });
