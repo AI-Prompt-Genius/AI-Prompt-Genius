@@ -8,6 +8,8 @@ var currentFont;
 var themeStylesheet;
 var themeStyle;
 var fontStyle;
+var customStylesheet;
+var customStyle;
 var themeAudio;
 
 function injectStylesheet(file)
@@ -55,6 +57,13 @@ browser.storage.local.get({"theme":"none.css"}, function(result)
 			option.setAttribute("selected","true");
 		}
 	}
+});
+
+// let users inject arbitrary CSS, what could go wrong?
+// at least it's not JS so there probably aren't any exploits, and it's their own machine so they can do what they wish
+browser.storage.local.get({"custom_style":""}, function(result)
+{
+	
 });
 
 function changeTheme(theme, onload=false)
@@ -273,6 +282,39 @@ function createFontSelectButton()
 	fontSelectElement = wrapper;
 }
 
+// create custom style button that click opens the editor box
+var customStyleButton;
+function createCustomStyleButton()
+{
+	
+}
+
+var customStyleEditor;
+function createCustomStyleEditor()
+{
+	let container = document.createElement("div");
+	container.setAttribute("class", "flex flex-col items-center h-full w-full");
+	container.style.position = "fixed";
+	container.style.top = 0;
+	container.style.left = 0;
+	container.style.justifyContent = "center";
+	
+	let editor = document.createElement("textarea");
+	editor.setAttribute("cols","80");
+	editor.setAttribute("rows","25");
+	container.appendChild(editor);
+	
+	let saveChangesButton = document.createElement("button");
+	saveChangesButton.innerHTML = "Apply Changes";
+	saveChangesButton.setAttribute("class", "btn flex justify-center gap-2 btn-primary");
+	saveChangesButton.style.marginTop = "1rem";
+	container.appendChild(saveChangesButton);
+	
+	document.body.appendChild(container);
+	
+	customStyleEditor = container;
+}
+
 /*
 	Re-add buttons hack.
  */
@@ -290,8 +332,10 @@ function initializeThemes()
 	themeStylesheet = injectStylesheet(browser.runtime.getURL('themes/none.css'));
 	fontStyle = injectStyle();
 	themeStyle = injectStyle();
+	customStyle = injectStyle();
 
-	createThemeSelectButton()
-	createFontSelectButton()
+	createThemeSelectButton();
+	createFontSelectButton();
+	createCustomStyleEditor();
 }
 initializeThemes();
