@@ -138,7 +138,7 @@ browser.contextMenus.onClicked.addListener(function(info, tab) {
     if (info.menuItemId === "savePrompt") {
         browser.storage.local.get({prompts: []}, function(result) {
             let prompts = result.prompts
-            prompts.push(new_prompt("Untitled", info.selectionText))
+            prompts.push(new_prompt("", info.selectionText))
             browser.storage.local.set({prompts: prompts})
             browser.tabs.create({url: "pages/prompts.html"});
             setTimeout(() => browser.runtime.sendMessage({message: "New Prompt"}), 300)
