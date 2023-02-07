@@ -608,3 +608,11 @@ function category_filter(){
 	}
 }
 document.querySelector('#category-filter').addEventListener('change', category_filter)
+
+browser.runtime.onMessage.addListener(
+	function(request, sender, sendResponse) {
+		if (request.message === "New Prompt"){
+			document.querySelector(".edit-button").click()
+		}
+	}
+);

@@ -3,7 +3,7 @@
   "name": "ChatGPT Prompt Genius",
   "description": "Discover, share, import, and use the best prompts for ChatGPT & save your chat history locally (formerly ChatGPT History)",
   "version": "2.1.2",
-  "permissions": ["storage", "unlimitedStorage"],
+  "permissions": ["storage", "unlimitedStorage", "contextMenus"],
   "background": {
     "service_worker": "background.js"
   },
@@ -35,7 +35,8 @@
     "default-title": "ChatGPT History"
   },
   "icons":{
-    "48": "/icons/48x48.png",
-    "128": "/icons/128x128.png"
+    "16": "icons/16x16.png",
+    "48": "icons/48x48.png",
+    "128": "icons/128x128.png"
   }
 }

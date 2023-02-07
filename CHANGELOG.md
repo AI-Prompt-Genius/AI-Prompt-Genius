@@ -2,8 +2,9 @@
 
 - Fixed CORS bug for firefox export buttons.
 - Refactored some content script stuff into utility.js
+- Added context menu/right-click to save prompt
 
-### v2.1.1 - February 4, 2023 [pending review]
+### v2.1.1 - February 4, 2023
 
 - Fixed export buttons (future proofing)
 - Simplified web accessible resources in manifest
