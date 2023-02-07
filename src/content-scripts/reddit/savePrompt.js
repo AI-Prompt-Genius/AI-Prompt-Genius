@@ -1,7 +1,3 @@
-if (typeof browser === "undefined"){
-    browser = chrome;
-}
-
 let title; let text; let tags; let category;
 function addButtons() {
     let share_btn_html; let try_btn_html; let saveButton;
@@ -31,7 +27,7 @@ function addButtons() {
 
     function tryPrompt(text){
         console.log(text)
-        browser.runtime.sendMessage({prompt: text, type: 'b_use_prompt'})
+        chrome.runtime.sendMessage({prompt: text, type: 'b_use_prompt'})
     }
 
     function savePrompt() {
@@ -46,10 +42,10 @@ function addButtons() {
             tags: tags,
             category: category
         };
-        browser.storage.local.get({prompts: []}).then((result) => {
+        chrome.storage.local.get({prompts: []}).then((result) => {
             let prompts = result.prompts;
             prompts.push(prompt)
-            browser.storage.local.set({prompts: prompts});
+            chrome.storage.local.set({prompts: prompts});
         });
     }
 

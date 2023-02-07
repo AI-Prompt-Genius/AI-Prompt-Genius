@@ -3,6 +3,7 @@
 - Fixed CORS bug for firefox export buttons.
 - Refactored some content script stuff into utility.js
 - Added context menu/right-click to save prompt
+- Switched from `browser` namespace to `chrome` namespace
 
 ### v2.1.1 - February 4, 2023
 

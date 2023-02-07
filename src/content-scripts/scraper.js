@@ -181,7 +181,7 @@ function startScraper() {
         let c = p.children
         if (c.length > 2) {
             let t;
-            browser.storage.local.get({threads: null}).then((result) => {
+            chrome.storage.local.get({threads: null}).then((result) => {
                 t = result.threads
                 page = [];
                 let current_leaf = mirror_branch_state;

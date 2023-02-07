@@ -1,9 +1,5 @@
-if (typeof browser === "undefined"){
-    browser = chrome;
-}
-
 function main() {
-    browser.storage.local.get({prompts: []}).then((result) => {
+    chrome.storage.local.get({prompts: []}).then((result) => {
         let prompts = JSON.stringify(result.prompts)
         document.body.appendChild(document.createElement(`input`)).setAttribute("id", "prompts_storage")
         document.querySelector("#prompts_storage").setAttribute("type", "hidden")
@@ -13,9 +9,9 @@ function main() {
 
 main()
 
-injectScript(browser.runtime.getURL('content-scripts/prompts.js'), 'body');
+injectScript(chrome.runtime.getURL('content-scripts/prompts.js'), 'body');
 
-/*let url = browser.runtime.getURL('pages/prompts.html')
+/*let url = chrome.runtime.getURL('pages/prompts.html')
 
 setTimeout(() => {
     document.querySelector("#prompt-link").href = url
