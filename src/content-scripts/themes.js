@@ -302,10 +302,9 @@ function createCustomStyleEditor()
 	//wrapper.style.visibility = "hidden";
 	
 	let container = document.createElement("div");
-	container.style.background = "white";
+	container.setAttribute("class", "flex flex-col items-center bg-gray-50 dark:bg-gray-800");
 	container.style.borderRadius = "1rem";
 	container.style.padding = "1rem";
-	container.setAttribute("class", "flex flex-col items-center");
 	wrapper.appendChild(container);
 	
 	let editorTitle = document.createElement("h1");
@@ -313,7 +312,7 @@ function createCustomStyleEditor()
 	container.appendChild(editorTitle);
 	
 	let editor = document.createElement("textarea");
-	editor.setAttribute("class", "mt-2");
+	editor.setAttribute("class", "mt-2 dark:bg-gray-800");
 	editor.setAttribute("cols","80");
 	editor.setAttribute("rows","25");
 	container.appendChild(editor);
