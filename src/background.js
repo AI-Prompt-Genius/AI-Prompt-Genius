@@ -1,4 +1,3 @@
-let browser;
 if (typeof browser === "undefined") {
     let settings;
     chrome.action.onClicked.addListener(function(tab) {
@@ -18,7 +17,7 @@ if (typeof browser === "undefined") {
             }
             chrome.tabs.create({url: url});
         });
-        });
+    });
     browser = chrome;
 }
 else {
