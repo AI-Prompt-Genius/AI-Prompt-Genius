@@ -5,6 +5,7 @@
 - Added context menu/right-click to save prompt
 - Switched from `browser` namespace to `chrome` namespace
 - Fixed issue where buttons don't get added
+- Added FAQ.md
 
 ### v2.1.1 - February 4, 2023
 
