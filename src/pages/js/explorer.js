@@ -1,4 +1,4 @@
-chrome.storage.local.get({'threads': null}).then((result) => {
+chrome.storage.local.get({'threads': null}, function (result) {
     if (result.threads !== null) {
         load_threads(result.threads)
     }
@@ -18,7 +18,7 @@ function sliceString(str, num) { //created by ChatGPT
 }
 
 function delete_thread(i, row){
-    chrome.storage.local.get(['threads']).then((result) => {
+    chrome.storage.local.get(['threads'], function (result) {
         let t = result.threads
         t.splice(i, 1)
         threads_g = t
@@ -33,7 +33,7 @@ function toggle_thread_title_editable(i, row){
     if(title_text.contentEditable === "inherit")
     {
         // if thread.title, import the FULL title into the text if it exists
-        chrome.storage.local.get(['threads']).then((result) => {
+        chrome.storage.local.get(['threads'], function (result) {
             let t = result.threads
             let thread = t[i];
             if(thread.title) title_text.innerHTML = thread.title;
@@ -49,7 +49,7 @@ function toggle_thread_title_editable(i, row){
         title_text.classList.remove('editable')
         title_text.contentEditable = "inherit";
         // now set the title instead
-        chrome.storage.local.get(['threads']).then((result) => {
+        chrome.storage.local.get(['threads'], function (result) {
             let t = result.threads
             let thread = t[i];
             thread.title = title_text.innerText;
@@ -62,7 +62,7 @@ function toggle_thread_title_editable(i, row){
 }
 
 function export_thread(i){
-    chrome.storage.local.get(['threads']).then((result) => {
+    chrome.storage.local.get(['threads'], function (result) {
         let t = result.threads
         let thread = t[i];
 
@@ -167,7 +167,7 @@ document.querySelector('.search-bar').addEventListener('input', search)
 let threads_g = []
 let updated = false
 function update_threads() {
-    chrome.storage.local.get(['threads']).then((result) => {
+    chrome.storage.local.get(['threads'], function (result) {
         threads_g = result.threads
     });
 }
@@ -345,7 +345,7 @@ function timer_dl(){
 // TODO: export and import settings as well
 function export_all()
 {
-    chrome.storage.local.get(['threads','prompts', 'settings']).then((result) => {
+    chrome.storage.local.get(['threads','prompts', 'settings'], function (result) {
         let t = result.threads;
         let prompts = result.prompts;
         let settings = result.settings
@@ -396,7 +396,7 @@ function import_all()
 
 // takes an object that looks like {threads:data[]}
 function import_threads_from_data(data) {
-    chrome.storage.local.get(['threads']).then((result) => {
+    chrome.storage.local.get(['threads'], function (result) {
         console.log(`Importing threads...`);
         let t = result.threads;
 
@@ -445,7 +445,7 @@ function import_settings_from_data(data) {
 }
 
 function import_prompts_from_data(data) {
-    chrome.storage.local.get(['prompts']).then((result) => {
+    chrome.storage.local.get(['prompts'], function (result) {
         console.log(`Importing prompts...`);
 
         let prompts = result.prompts;

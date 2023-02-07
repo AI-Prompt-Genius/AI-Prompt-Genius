@@ -42,7 +42,7 @@ function addButtons() {
             tags: tags,
             category: category
         };
-        chrome.storage.local.get({prompts: []}).then((result) => {
+        chrome.storage.local.get({prompts: []}, function (result) {
             let prompts = result.prompts;
             prompts.push(prompt)
             chrome.storage.local.set({prompts: prompts});

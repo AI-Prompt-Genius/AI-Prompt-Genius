@@ -11,7 +11,7 @@ const b_template = document.querySelector("#bot")
 let main = document.querySelector("#main");
 let branch_state;
 let convo; let thread;
-chrome.storage.local.get(['threads']).then((result) => {
+chrome.storage.local.get(['threads'], function (result) {
     let t = result.threads
 	thread = getObjectById(thread_id, t)
 	convo = thread.convo;

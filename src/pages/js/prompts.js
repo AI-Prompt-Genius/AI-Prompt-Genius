@@ -219,7 +219,7 @@ Additional information:
 
 function delete_prompt(id)
 {
-	chrome.storage.local.get({prompts: default_prompts}).then((result) => {
+	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
 		if(!prompt)
@@ -241,7 +241,7 @@ function delete_prompt(id)
 function choose_category(id, row)
 {
 	let category = row.querySelector('.select').value;
-	chrome.storage.local.get({prompts: default_prompts}).then((result) => {
+	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
 		if(!prompt)
@@ -257,7 +257,7 @@ function choose_category(id, row)
 
 function use_prompt(id)
 {
-	chrome.storage.local.get({prompts: default_prompts}).then((result) => {
+	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
 		if(!prompt)
@@ -281,7 +281,7 @@ function toggle_prompt_editable(id, element, just_title=false)
 		let textarea = document.createElement("textarea");
 		prompt_text.innerHTML = "";
 		prompt_text.appendChild(textarea)
-		chrome.storage.local.get({prompts: default_prompts}).then((result) => {
+		chrome.storage.local.get({prompts: default_prompts}, function (result) {
 			let prompts = result.prompts;
 			let prompt = getObjectById(id, prompts);
 			if(!prompt)
@@ -314,7 +314,7 @@ function toggle_prompt_editable(id, element, just_title=false)
 		console.log('saving')
 		let textarea = prompt_text.querySelector("textarea");
 		let text = textarea.value;
-		chrome.storage.local.get({prompts: default_prompts}).then((result) => {
+		chrome.storage.local.get({prompts: default_prompts}, function (result) {
 			let prompts = result.prompts;
 			let prompt = getObjectById(id, prompts);
 			if(!prompt)
