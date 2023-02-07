@@ -1,8 +1,3 @@
-if (typeof firefox !== undefined && firefox === false){
-    console.log(document.querySelector('.export').innerHTML)
-    document.querySelector('.export').classList.remove('d-none')
-}
-
 function update_settings(){
     let buttons = document.querySelector('#exportButtonsToggle').checked
     let autoDelete = document.querySelector('#autoDeleteToggle').checked

@@ -489,10 +489,10 @@ chrome.storage.local.get({threads:"none"}, function(result) {
               let toastEl = document.getElementById('liveToast')
               let toast = new bootstrap.Toast(toastEl)
               toast.show()
-              browser.storage.local.get({settings: {home_is_prompts: true}}, function (response){
+              chrome.storage.local.get({settings: {home_is_prompts: true}}, function (response){
                   let settings = response.settings;
                   settings.home_is_prompts = true;
-                  browser.storage.local.set({settings: settings})
+                  chrome.storage.local.set({settings: settings})
               })
           }
       })

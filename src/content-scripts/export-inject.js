@@ -3,10 +3,7 @@ function addExportButtons()
 	let buttonsFlag;
 	chrome.storage.local.get({settings: defaults}, function (result) {
         let settings = result.settings;
-        buttonsFlag = settings.buttons;
-		
-		// TODO temp override until default init is fixed 
-		buttonsFlag = true;
+        buttonsFlag = settings.buttons ?? true;
 		
         if (buttonsFlag === true) {
 			

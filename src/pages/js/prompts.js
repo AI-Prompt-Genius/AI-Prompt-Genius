@@ -314,7 +314,7 @@ function toggle_prompt_editable(id, element, just_title=false)
 		console.log('saving')
 		let textarea = prompt_text.querySelector("textarea");
 		let text = textarea.value;
-		browser.storage.local.get({prompts: default_prompts}).then((result) => {
+		chrome.storage.local.get({prompts: default_prompts}).then((result) => {
 			let prompts = result.prompts;
 			let prompt = getObjectById(id, prompts);
 			if(!prompt)
@@ -324,7 +324,7 @@ function toggle_prompt_editable(id, element, just_title=false)
 			}
 			prompt.text = text;
 			prompt.title = prompt_title.innerText;
-			browser.storage.local.set({prompts: prompts});
+			chrome.storage.local.set({prompts: prompts});
 		});
 		// make title uneditable
 		prompt_title.classList.remove('editable')
@@ -353,7 +353,7 @@ function new_prompt(title, text, tags="", category="") {
 		category: category
 	};
 	user_prompts.push(prompt)
-	browser.storage.local.set({prompts: user_prompts});
+	chrome.storage.local.set({prompts: user_prompts});
 	load_prompts(user_prompts);
 	return prompt;
 }
@@ -426,7 +426,7 @@ function fillAndAppendTemplate(title, text, i, tags="", category="") {
 		let nh_category = noHighlight(category);
 		new_prompt(nh_title, no_highlight_text, nh_tags, nh_category);
 		imported_prompts.push(title);
-		browser.storage.local.set({imported_prompts: imported_prompts});
+		chrome.storage.local.set({imported_prompts: imported_prompts});
 		publicTemps.splice(i, 1);
 		modal.hide();
 	})
@@ -521,7 +521,7 @@ function loadCuratedPrompts(prompts, search=false, search_term=""){
 document.querySelector('#explore').addEventListener('click', () => loadCuratedPrompts(publicTemps))
 
 let imported_prompts = [];
-browser.storage.local.get({imported_prompts: []}).then((result) => {
+chrome.storage.local.get({imported_prompts: []}).then((result) => {
 	imported_prompts = result.imported_prompts;
 })
 
@@ -605,7 +605,7 @@ function category_filter(){
 }
 document.querySelector('#category-filter').addEventListener('change', category_filter)
 
-browser.runtime.onMessage.addListener(
+chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		if (request.message === "New Prompt"){
 			document.querySelector(".edit-button").click()

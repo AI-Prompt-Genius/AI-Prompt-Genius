@@ -1,47 +1,27 @@
-if (typeof browser === "undefined") {
-    let settings;
-    chrome.action.onClicked.addListener(function(tab) {
-        let url;
-        chrome.storage.local.get({settings: {home_is_prompts: true}}, function(result) {
-            settings = result.settings
-            if (settings.hasOwnProperty('home_is_prompts')) {
-                if (settings.home_is_prompts === true) {
-                    url = "pages/prompts.html"
-                }
-                else {
-                    url = "pages/explorer.html"
-                }
-            }
-            else {
-                url = "pages/explorer.html"
-            }
-            chrome.tabs.create({url: url});
-        });
-    });
-    browser = chrome;
+if (typeof browser !== "undefined") {
+    chrome.action = browser.browserAction
 }
-else {
-    let settings;
-        // Listen for a click on the browser action
-    chrome.browserAction.onClicked.addListener(function(tab) {
-        browser.storage.local.get({settings: {home_is_prompts: false}}, function(result) {
-            settings = result.settings
-            let url;
-            if (settings.hasOwnProperty('home_is_prompts')) {
-                if (settings.home_is_prompts === true) {
-                    url = "pages/prompts.html"
-                }
-                else{
-                    url = "pages/explorer.html"
-                }
+let settings;
+// Listen for a click on the browser action
+chrome.browserAction.onClicked.addListener(function(tab) {
+    chrome.storage.local.get({settings: {home_is_prompts: false}}, function(result) {
+        settings = result.settings
+        let url;
+        if (settings.hasOwnProperty('home_is_prompts')) {
+            if (settings.home_is_prompts === true) {
+                url = "pages/prompts.html"
             }
             else{
                 url = "pages/explorer.html"
             }
-            browser.tabs.create({url: url});
-        });
+        }
+        else{
+            url = "pages/explorer.html"
+        }
+        chrome.tabs.create({url: url});
     });
-}
+});
+
 
 chrome.runtime.onMessage.addListener( async function(message, sender, sendResponse) {
     if (message.type === 'b_continue_convo') {
