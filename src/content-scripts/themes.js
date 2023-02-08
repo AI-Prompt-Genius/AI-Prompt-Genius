@@ -350,7 +350,7 @@ function createCustomStyleEditor()
 	Create menu theme editor that opens to the right.
  */
 var menuThemeEditorButton;
-function createMenuThemeEditor()
+function createMenuThemeEditorButton()
 {
 	let icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" style="fill: white" stroke="currentColor" ><path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3H344c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32s32-14.3 32-32zm0-96c17.7 0 32-14.3 32-32s-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32zM288 96c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32s32-14.3 32-32zm96 96c17.7 0 32-14.3 32-32s-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32z"/></svg>`;
 	
@@ -369,11 +369,33 @@ function createMenuThemeEditor()
 	wrapper.appendChild(button);
 	
 	button.addEventListener("click", ()=>{openMenuThemeEditor()});
-		
+	
 	var nav = document.querySelector("nav");
 	nav.appendChild(wrapper);
 	
 	menuThemeEditorButton = wrapper;
+	
+	// create the editor itself
+	createMenuThemeEditor();
+}
+
+var menuThemeEditorElement;
+function createMenuThemeEditor()
+{
+	let wrapper = document.createElement("div");
+	wrapper.setAttribute("class", 'flex items-center bg-gray-900 text-white');
+	wrapper.style.width = "260px"; // same width as the left menu bar
+	wrapper.style.position = "absolute"; 
+	wrapper.style.left = "100%";
+	wrapper.style.bottom = "0";
+	
+	let title = document.createElement("h1");
+	title.innerHTML = "Theme Editor";
+	wrapper.appendChild(title);
+	
+	menuThemeEditorButton.appendChild(wrapper);
+	
+	menuThemeEditorElement = wrapper;
 }
 
 function openMenuThemeEditor()
@@ -397,9 +419,9 @@ function toggleMenuThemeEditor()
 function readdThemeSelect()
 {
 	var nav = document.querySelector("nav");
+	nav.appendChild(menuThemeEditorButton);
 	nav.appendChild(themeSelectElement);
 	nav.appendChild(fontSelectElement);
-	nav.appendChild(menuThemeEditorButton);
 	
 	let button_class = 'flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm';
 }
@@ -416,6 +438,6 @@ function initializeThemes()
 	createThemeSelectButton();
 	createFontSelectButton();
 	createCustomStyleEditor();
-	createMenuThemeEditor();
+	createMenuThemeEditorButton();
 }
 initializeThemes();
