@@ -1,7 +1,4 @@
-if (typeof browser === "undefined") {
-    browser = chrome
-}
-browser.storage.local.get({'threads': null}).then((result) => {
+chrome.storage.local.get({'threads': null}, function (result) {
     if (result.threads !== null) {
         load_threads(result.threads)
     }
@@ -21,11 +18,11 @@ function sliceString(str, num) { //created by ChatGPT
 }
 
 function delete_thread(i, row){
-    browser.storage.local.get(['threads']).then((result) => {
+    chrome.storage.local.get(['threads'], function (result) {
         let t = result.threads
         t.splice(i, 1)
         threads_g = t
-        browser.storage.local.set({threads: t})
+        chrome.storage.local.set({threads: t})
     });
     row.classList.add('d-none')
 }
@@ -36,7 +33,7 @@ function toggle_thread_title_editable(i, row){
     if(title_text.contentEditable === "inherit")
     {
         // if thread.title, import the FULL title into the text if it exists
-        browser.storage.local.get(['threads']).then((result) => {
+        chrome.storage.local.get(['threads'], function (result) {
             let t = result.threads
             let thread = t[i];
             if(thread.title) title_text.innerHTML = thread.title;
@@ -52,11 +49,11 @@ function toggle_thread_title_editable(i, row){
         title_text.classList.remove('editable')
         title_text.contentEditable = "inherit";
         // now set the title instead
-        browser.storage.local.get(['threads']).then((result) => {
+        chrome.storage.local.get(['threads'], function (result) {
             let t = result.threads
             let thread = t[i];
             thread.title = title_text.innerText;
-            browser.storage.local.set({threads: t});
+            chrome.storage.local.set({threads: t});
             threads_g = t;
         });
         edit_icon.classList.remove("fa-floppy-disk-pen");
@@ -65,7 +62,7 @@ function toggle_thread_title_editable(i, row){
 }
 
 function export_thread(i){
-    browser.storage.local.get(['threads']).then((result) => {
+    chrome.storage.local.get(['threads'], function (result) {
         let t = result.threads
         let thread = t[i];
 
@@ -170,7 +167,7 @@ document.querySelector('.search-bar').addEventListener('input', search)
 let threads_g = []
 let updated = false
 function update_threads() {
-    browser.storage.local.get(['threads']).then((result) => {
+    chrome.storage.local.get(['threads'], function (result) {
         threads_g = result.threads
     });
 }
@@ -215,7 +212,7 @@ function searchList(strings, searchTerm) { // created by ChatGPT
 let dl;
 dark_light()
 async function dark_light() {
-    browser.storage.local.get({mode: "dark"},
+    chrome.storage.local.get({mode: "dark"},
         function(result) {
             dl = result?.mode;
             if(!dl) dl = "dark"; // guard statement because it apparently still returns undefined "result" sometimes
@@ -290,7 +287,7 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
             }
             else if (target.classList.contains('bookmark')){
                 threads[i].favorite = !threads[i].favorite
-                browser.storage.local.set({threads: threads})
+                chrome.storage.local.set({threads: threads})
                 let saved = threads[i].favorite
                 update_bookmark(btn, saved)
             }
@@ -311,7 +308,7 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
                         c.push({[user]: htmlToPlainText(threads[0].convo[i])});
                     }
 
-                    browser.runtime.sendMessage({convo: c, type: 'b_continue_convo'})
+                    chrome.runtime.sendMessage({convo: c, type: 'b_continue_convo'})
                 }
             }
             else{
@@ -348,7 +345,7 @@ function timer_dl(){
 // TODO: export and import settings as well
 function export_all()
 {
-    browser.storage.local.get(['threads','prompts', 'settings']).then((result) => {
+    chrome.storage.local.get(['threads','prompts', 'settings'], function (result) {
         let t = result.threads;
         let prompts = result.prompts;
         let settings = result.settings
@@ -399,7 +396,7 @@ function import_all()
 
 // takes an object that looks like {threads:data[]}
 function import_threads_from_data(data) {
-    browser.storage.local.get(['threads']).then((result) => {
+    chrome.storage.local.get(['threads'], function (result) {
         console.log(`Importing threads...`);
         let t = result.threads;
 
@@ -433,7 +430,7 @@ function import_threads_from_data(data) {
             t.push(thread);
         }
 
-        browser.storage.local.set({threads: t});
+        chrome.storage.local.set({threads: t});
 
         threads_g = t;
         main.innerHTML = ""; //todo, refactor this into load_threads(t)
@@ -443,12 +440,12 @@ function import_threads_from_data(data) {
 function import_settings_from_data(data) {
     console.log(data)
     if (data.settings) {
-        browser.storage.local.set({settings: data.settings});
+        chrome.storage.local.set({settings: data.settings});
     }
 }
 
 function import_prompts_from_data(data) {
-    browser.storage.local.get(['prompts']).then((result) => {
+    chrome.storage.local.get(['prompts'], function (result) {
         console.log(`Importing prompts...`);
 
         let prompts = result.prompts;
@@ -472,30 +469,30 @@ function import_prompts_from_data(data) {
             prompts.push(prompt);
         }
 
-        browser.storage.local.set({prompts: prompts});
+        chrome.storage.local.set({prompts: prompts});
     });
 }
 
-browser.storage.local.get({threads:"none"}, function(result) {
+chrome.storage.local.get({threads:"none"}, function(result) {
   if (result.threads === "none"){ // new user
-      browser.storage.local.set({seen_v2_toast: true})
-      browser.storage.local.get({settings: {home_is_prompts: true}}, function (response){
+      chrome.storage.local.set({seen_v2_toast: true})
+      chrome.storage.local.get({settings: {home_is_prompts: true}}, function (response){
           let settings = response.settings;
           settings.home_is_prompts = true;
-          browser.storage.local.set({settings: settings})})
+          chrome.storage.local.set({settings: settings})})
   }
   else {
-      browser.storage.local.get({seen_v2_toast: false}, function (response){
+      chrome.storage.local.get({seen_v2_toast: false}, function (response){
           let seen_v2_toast = response.seen_v2_toast;
           if (!seen_v2_toast) {
-              browser.storage.local.set({seen_v2_toast: true})
+              chrome.storage.local.set({seen_v2_toast: true})
               let toastEl = document.getElementById('liveToast')
               let toast = new bootstrap.Toast(toastEl)
               toast.show()
-              browser.storage.local.get({settings: {home_is_prompts: true}}, function (response){
+              chrome.storage.local.get({settings: {home_is_prompts: true}}, function (response){
                   let settings = response.settings;
                   settings.home_is_prompts = true;
-                  browser.storage.local.set({settings: settings})
+                  chrome.storage.local.set({settings: settings})
               })
           }
       })

@@ -1,11 +1,3 @@
-if (typeof browser === "undefined") {
-    browser = chrome
-}
-if (typeof firefox !== undefined && firefox === false){
-    console.log(document.querySelector('.export').innerHTML)
-    document.querySelector('.export').classList.remove('d-none')
-}
-
 function update_settings(){
     let buttons = document.querySelector('#exportButtonsToggle').checked
     let autoDelete = document.querySelector('#autoDeleteToggle').checked
@@ -18,7 +10,7 @@ function update_settings(){
     let settings = // sorry the syntax is weird
         {buttons: buttons, ctrl_save: ctrlSave, auto_send: autoSend, auto_delete: autoDelete, message: message, disable_history: disableHistory, visual_editor: visualEditor, home_is_prompts: homePageIsPrompts}
     console.log(settings)
-    browser.storage.local.set({settings: settings})
+    chrome.storage.local.set({settings: settings})
 }
 let typingTimer;
 
@@ -34,7 +26,7 @@ document.querySelector('textarea').addEventListener('input', text_delay)
 
 function load_settings(){
     let defaults = {buttons: true, auto_send: true, auto_delete: false, ctrl_save: false, disable_history: false, visual_editor: true, home_is_prompts: true, message: "The following is a transcript of a conversation between me and ChatGPT. Use it for context in the rest of the conversation. Be ready to edit and build upon the responses previously given by ChatGPT. Respond \"ready!\" if you understand the context. Do not respond with anything else. Conversation:\n"}
-    browser.storage.local.get({settings: defaults}, function(result) {
+    chrome.storage.local.get({settings: defaults}, function(result) {
         console.log(result)
         document.querySelector('#exportButtonsToggle').checked = result.settings.buttons
         document.querySelector('#autoDeleteToggle').checked = result.settings.auto_delete

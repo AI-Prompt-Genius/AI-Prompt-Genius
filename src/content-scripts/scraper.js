@@ -1,9 +1,3 @@
-let firefox = true;
-if (typeof browser === "undefined") {
-    browser = chrome
-    firefox = false
-}
-
 function startScraper() {
     console.log("Loading content script, everything is fine and dandy!");
 
@@ -181,7 +175,7 @@ function startScraper() {
         let c = p.children
         if (c.length > 2) {
             let t;
-            browser.storage.local.get({threads: null}).then((result) => {
+            chrome.storage.local.get({threads: null}, function (result) {
                 t = result.threads
                 page = [];
                 let current_leaf = mirror_branch_state;
@@ -293,7 +287,7 @@ function startScraper() {
 								t.push(thread);
 							}
                         }
-                        browser.storage.local.set({threads: t})
+                        chrome.storage.local.set({threads: t})
                     }
                     else { // very first conversation scraping
                         let thread = {
@@ -312,7 +306,7 @@ function startScraper() {
                         }
                         let t = [thread]
                         first_time = false
-                        browser.storage.local.set({threads: t})
+                        chrome.storage.local.set({threads: t})
                     }
                 }
             });
@@ -365,7 +359,7 @@ function startScraper() {
 let intro; let auto_send;
 let disable = false;
 let defaults = {buttons: true, auto_send: false, disable_history: false, auto_delete: false, message: "The following is a transcript of a conversation between me and ChatGPT. Use it for context in the rest of the conversation. Be ready to edit and build upon the responses previously given by ChatGPT. Respond \"ready!\" if you understand the context. Do not respond wit anything else. Conversation:\n"}
-browser.storage.local.get({settings: defaults}, function(result) {
+chrome.storage.local.get({settings: defaults}, function(result) {
     let settings = result.settings
     buttons = settings.buttons
     intro = settings.message
@@ -425,7 +419,7 @@ function use_prompt(prompt){
 }
 
 // listen for messages
-browser.runtime.onMessage.addListener(
+chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         console.log(request)
         if (request.type === "c_continue_convo") {

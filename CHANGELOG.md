@@ -1,13 +1,24 @@
-### v2.1.3
-- Overhauled theme buttons to a popup menu
-- Themes now save Fonts as well
-- Custom CSS theme editor 
+### v2.1.5 [unreleased]
 
-### v2.1.2 [unreleased]
+[add changes]
+
+### v2.1.4 - February 7, 2023 [hotfix]
+
+- Fixed themes
+
+### v2.1.3 - February 7, 2023
+
+- Made PDFs size smaller
+- Added toast to introduce right-click to save prompt
+
+### v2.1.2 - February 7, 2023
 
 - Fixed CORS bug for firefox export buttons.
 - Refactored some content script stuff into utility.js
 - Added context menu/right-click to save prompt
+- Switched from `browser` namespace to `chrome` namespace
+- Fixed issue where buttons don't get added
+- Added FAQ.md
 
 ### v2.1.1 - February 4, 2023
 

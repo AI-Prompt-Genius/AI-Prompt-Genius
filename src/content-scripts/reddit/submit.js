@@ -1,6 +1,3 @@
-if (typeof browser === "undefined"){
-    browser = chrome;
-}
 function switch_to_fancy_pants(){ // will add settings toggle, but I think most people will want to switch to fancy pants
     let switch_btn = document.querySelector('._3uJP0daPEH2plzVEYyTdaH')
     console.log(switch_btn)

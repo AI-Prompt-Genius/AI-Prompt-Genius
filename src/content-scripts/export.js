@@ -1,7 +1,3 @@
-if (typeof browser === "undefined") {
-    browser = chrome
-}
-
 // TODO, move this somewhere more central
 let current_url = window.location.href;
 function check_url() {

@@ -1,6 +1,3 @@
-if (typeof browser === "undefined") {
-    browser = chrome
-}
 hljs.highlightAll();
 // Get the URL of the current page
 const url = new URL(window.location.href);
@@ -14,7 +11,7 @@ const b_template = document.querySelector("#bot")
 let main = document.querySelector("#main");
 let branch_state;
 let convo; let thread;
-browser.storage.local.get(['threads']).then((result) => {
+chrome.storage.local.get(['threads'], function (result) {
     let t = result.threads
 	thread = getObjectById(thread_id, t)
 	convo = thread.convo;
@@ -219,7 +216,7 @@ function continue_thread(){
 			let user = i % 2 === 0 ? "Me" : "ChatGPT";
 			c.push({[user]: htmlToPlainText(convo[i])});
 		}
-		browser.runtime.sendMessage({convo: c, type: 'b_continue_convo'});
+		chrome.runtime.sendMessage({convo: c, type: 'b_continue_convo'});
 	}
 }
 

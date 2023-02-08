@@ -1,7 +1,3 @@
-if (typeof browser === "undefined") {
-    browser = chrome
-}
-
 let main = document.querySelector(".main");
 const modal = new bootstrap.Modal(document.getElementById('exploreModal'))
 
@@ -43,14 +39,14 @@ const keys_pressed = {
 
 let user_prompts = [];
 
-browser.storage.local.get({prompts: default_prompts}, function(result) {
+chrome.storage.local.get({prompts: default_prompts}, function(result) {
 	user_prompts = result.prompts;
 	load_prompts(user_prompts);
 });
 
 // sets up toggle for control save behavior
 let ctrlSave = false;
-browser.storage.local.get({settings: {ctrlSave: false}}, function(result){
+chrome.storage.local.get({settings: {ctrlSave: false}}, function(result){
 	ctrlSave = result.settings.ctrl_save;
 })
 
@@ -63,7 +59,7 @@ function searchString(string, searchTerm) {
 let dl;
 dark_light()
 async function dark_light() {
-	browser.storage.local.get({mode: "dark"},
+	chrome.storage.local.get({mode: "dark"},
 		function(result) {
 			dl = result?.mode;
 			if(!dl) dl = "dark"; // guard statement because it apparently still returns undefined "result" sometimes
@@ -223,7 +219,7 @@ Additional information:
 
 function delete_prompt(id)
 {
-	browser.storage.local.get({prompts: default_prompts}).then((result) => {
+	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
 		if(!prompt)
@@ -233,10 +229,10 @@ function delete_prompt(id)
 		}
 		if (imported_prompts.includes(prompt.title)){
 			imported_prompts.splice(imported_prompts.indexOf(prompt.title), 1);
-			browser.storage.local.set({imported_prompts: imported_prompts});
+			chrome.storage.local.set({imported_prompts: imported_prompts});
 		}
 		removeElementInArray(prompts, prompt);
-		browser.storage.local.set({prompts: prompts});
+		chrome.storage.local.set({prompts: prompts});
 		user_prompts = prompts;
 		load_prompts(prompts);
 	});
@@ -245,7 +241,7 @@ function delete_prompt(id)
 function choose_category(id, row)
 {
 	let category = row.querySelector('.select').value;
-	browser.storage.local.get({prompts: default_prompts}).then((result) => {
+	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
 		if(!prompt)
@@ -254,14 +250,14 @@ function choose_category(id, row)
 			return;
 		}
 		prompt.category = category
-		browser.storage.local.set({prompts: prompts});
+		chrome.storage.local.set({prompts: prompts});
 		load_prompts(prompts);
 	});
 }
 
 function use_prompt(id)
 {
-	browser.storage.local.get({prompts: default_prompts}).then((result) => {
+	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
 		if(!prompt)
@@ -269,7 +265,7 @@ function use_prompt(id)
 			console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
 			return;
 		}
-		browser.runtime.sendMessage({prompt: prompt.text, type: 'b_use_prompt'})
+		chrome.runtime.sendMessage({prompt: prompt.text, type: 'b_use_prompt'})
 	});
 }
 
@@ -285,7 +281,7 @@ function toggle_prompt_editable(id, element, just_title=false)
 		let textarea = document.createElement("textarea");
 		prompt_text.innerHTML = "";
 		prompt_text.appendChild(textarea)
-		browser.storage.local.get({prompts: default_prompts}).then((result) => {
+		chrome.storage.local.get({prompts: default_prompts}, function (result) {
 			let prompts = result.prompts;
 			let prompt = getObjectById(id, prompts);
 			if(!prompt)
@@ -318,7 +314,7 @@ function toggle_prompt_editable(id, element, just_title=false)
 		console.log('saving')
 		let textarea = prompt_text.querySelector("textarea");
 		let text = textarea.value;
-		browser.storage.local.get({prompts: default_prompts}).then((result) => {
+		chrome.storage.local.get({prompts: default_prompts}, function (result) {
 			let prompts = result.prompts;
 			let prompt = getObjectById(id, prompts);
 			if(!prompt)
@@ -328,7 +324,7 @@ function toggle_prompt_editable(id, element, just_title=false)
 			}
 			prompt.text = text;
 			prompt.title = prompt_title.innerText;
-			browser.storage.local.set({prompts: prompts});
+			chrome.storage.local.set({prompts: prompts});
 		});
 		// make title uneditable
 		prompt_title.classList.remove('editable')
@@ -357,7 +353,7 @@ function new_prompt(title, text, tags="", category="") {
 		category: category
 	};
 	user_prompts.push(prompt)
-	browser.storage.local.set({prompts: user_prompts});
+	chrome.storage.local.set({prompts: user_prompts});
 	load_prompts(user_prompts);
 	return prompt;
 }
@@ -430,7 +426,7 @@ function fillAndAppendTemplate(title, text, i, tags="", category="") {
 		let nh_category = noHighlight(category);
 		new_prompt(nh_title, no_highlight_text, nh_tags, nh_category);
 		imported_prompts.push(title);
-		browser.storage.local.set({imported_prompts: imported_prompts});
+		chrome.storage.local.set({imported_prompts: imported_prompts});
 		publicTemps.splice(i, 1);
 		modal.hide();
 	})
@@ -525,7 +521,7 @@ function loadCuratedPrompts(prompts, search=false, search_term=""){
 document.querySelector('#explore').addEventListener('click', () => loadCuratedPrompts(publicTemps))
 
 let imported_prompts = [];
-browser.storage.local.get({imported_prompts: []}).then((result) => {
+chrome.storage.local.get({imported_prompts: []}, function (result) {
 	imported_prompts = result.imported_prompts;
 })
 
@@ -609,10 +605,21 @@ function category_filter(){
 }
 document.querySelector('#category-filter').addEventListener('change', category_filter)
 
-browser.runtime.onMessage.addListener(
+chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		if (request.message === "New Prompt"){
 			document.querySelector(".edit-button").click()
 		}
 	}
 );
+
+// right click toast - will show to new users
+chrome.storage.local.get({seenToast2: false}, function (response){
+	let seenRightClickToast = response.seenToast2;
+	if (!seenRightClickToast) {
+		chrome.storage.local.set({seenToast2: true})
+		let toastEl = document.getElementById('rightClickSaveToast')
+		let toast = new bootstrap.Toast(toastEl)
+		toast.show()
+	}
+})
