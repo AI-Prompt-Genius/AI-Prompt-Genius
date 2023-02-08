@@ -272,10 +272,10 @@ const ExportButtons = (function()
 		var pdf = new jsPDF(orientation, "pt", [
 			canvas.width / pixelRatio,
 			canvas.height / pixelRatio,
-		]);
+		], true);
 		var pdfWidth = pdf.internal.pageSize.getWidth();
 		var pdfHeight = pdf.internal.pageSize.getHeight();
-		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, "", "FAST");
 		let title = document.title
 		pdf.save(title + ".pdf");
 	}
