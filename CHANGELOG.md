@@ -1,6 +1,10 @@
-### v2.1.3 [unreleased]
+### v2.1.4 [unreleased]
+[add changes]
+
+### v2.1.3 - February 7, 2023
 
 - Made PDFs size smaller
+- Added toast to introduce right-click to save prompt
 
 ### v2.1.2 - February 7, 2023
 

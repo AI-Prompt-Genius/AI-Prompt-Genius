@@ -315,3 +315,7 @@ textarea {
     align-items: center;
     column-gap: 1rem;
 }
+
+.text-black{
+    color: black;
+}

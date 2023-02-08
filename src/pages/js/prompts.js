@@ -612,3 +612,14 @@ chrome.runtime.onMessage.addListener(
 		}
 	}
 );
+
+// right click toast - will show to new users
+chrome.storage.local.get({seenToast2: false}, function (response){
+	let seenRightClickToast = response.seenToast2;
+	if (!seenRightClickToast) {
+		chrome.storage.local.set({seenToast2: true})
+		let toastEl = document.getElementById('rightClickSaveToast')
+		let toast = new bootstrap.Toast(toastEl)
+		toast.show()
+	}
+})
