@@ -328,7 +328,9 @@ function createCustomStyleButton()
 		browser.storage.local.get({"theme":{}}, (result) =>
 		{
 			let themeSettings = result.theme;
-			let customCSS = themeSettings?.customCSS; 
+			let customCSS = themeSettings?.customCSS;
+			
+			if(customCSS === undefined) customCSS = "";
 			
 			customStyleEditor.querySelector("textarea").value = customCSS;
 		});
