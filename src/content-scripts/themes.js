@@ -370,7 +370,7 @@ function createCustomStyleEditor()
 	let editorCodeExample = document.createElement("code");
 	editorCodeExample.innerHTML = `<code>main .h-full.flex-col > div
 {
-	background-color: red;
+    background-color: red;
 }</code>`;
 	editorCodeExample.style.width = `100%`;
 	editorCodeExample.style.whiteSpace = `break-spaces`;

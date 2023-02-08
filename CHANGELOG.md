@@ -1,3 +1,8 @@
+### v2.1.3
+- Overhauled theme buttons to a popup menu
+- Themes now save Fonts as well
+- Custom CSS theme editor 
+
 ### v2.1.2 [unreleased]
 
 - Fixed CORS bug for firefox export buttons.
