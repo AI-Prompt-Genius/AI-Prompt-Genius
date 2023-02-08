@@ -3,6 +3,11 @@
 const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css","rain.css"];
 // use the same names as you would in css, because that's where it's going 
 const FONTS_LIST = ["Arial","Courier","Georgia","Times New Roman","Verdana"];
+const SVG_ICONS = {
+	palette:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" style="fill: white" stroke="currentColor" ><path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3H344c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32s32-14.3 32-32zm0-96c17.7 0 32-14.3 32-32s-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32zM288 96c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32s32-14.3 32-32zm96 96c17.7 0 32-14.3 32-32s-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32z"/></svg>`,
+	font:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em" height="1em" style="fill: white" stroke="currentColor"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M254 52.8C249.3 40.3 237.3 32 224 32s-25.3 8.3-30 20.8L57.8 416H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32h-1.8l18-48H303.8l18 48H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H390.2L254 52.8zM279.8 304H168.2L224 155.1 279.8 304z"/></svg>`,
+	code:`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-braces" viewBox="0 0 16 16" width="1em" height="1em" style="fill: white" stroke="currentColor"><path d="M2.114 8.063V7.9c1.005-.102 1.497-.615 1.497-1.6V4.503c0-1.094.39-1.538 1.354-1.538h.273V2h-.376C3.25 2 2.49 2.759 2.49 4.352v1.524c0 1.094-.376 1.456-1.49 1.456v1.299c1.114 0 1.49.362 1.49 1.456v1.524c0 1.593.759 2.352 2.372 2.352h.376v-.964h-.273c-.964 0-1.354-.444-1.354-1.538V9.663c0-.984-.492-1.497-1.497-1.6zM13.886 7.9v.163c-1.005.103-1.497.616-1.497 1.6v1.798c0 1.094-.39 1.538-1.354 1.538h-.273v.964h.376c1.613 0 2.372-.759 2.372-2.352v-1.524c0-1.094.376-1.456 1.49-1.456V7.332c-1.114 0-1.49-.362-1.49-1.456V4.352C13.51 2.759 12.75 2 11.138 2h-.376v.964h.273c.964 0 1.354.444 1.354 1.538V6.3c0 .984.492 1.497 1.497 1.6z"/></svg>`,
+};
 var currentTheme;
 var currentFont;
 var themeStylesheet;
@@ -137,7 +142,7 @@ main .h-full.flex-col > div {
 var themeSelectElement;
 function createThemeSelectButton()
 {
-	let icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" style="fill: white" stroke="currentColor" ><path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3H344c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32s32-14.3 32-32zm0-96c17.7 0 32-14.3 32-32s-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32zM288 96c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32s32-14.3 32-32zm96 96c17.7 0 32-14.3 32-32s-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32z"/></svg>`;
+	let icon = SVG_ICONS.palette;
 	
 	let wrapper = document.createElement("a");
 	wrapper.id = "theme-select-button";
@@ -213,7 +218,7 @@ function createThemeSelectButton()
 var fontSelectElement;
 function createFontSelectButton()
 {
-	let icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em" height="1em" style="fill: white" stroke="currentColor"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M254 52.8C249.3 40.3 237.3 32 224 32s-25.3 8.3-30 20.8L57.8 416H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32h-1.8l18-48H303.8l18 48H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H390.2L254 52.8zM279.8 304H168.2L224 155.1 279.8 304z"/></svg>`;
+	let icon = SVG_ICONS.font;
 	
 	let wrapper = document.createElement("a");
 	wrapper.id = "font-select-button";
@@ -281,7 +286,12 @@ function createFontSelectButton()
 var customStyleButton;
 function createCustomStyleButton()
 {
+	let icon = SVG_ICONS.code;
 	
+	let wrapper = createButton(icon, "Advanced Style");
+	wrapper.addEventListener("click", ()=>{customStyleEditor.style.visibility = "visible"});
+	
+	customStyleButton = wrapper;
 }
 
 var customStyleEditor;
@@ -305,6 +315,19 @@ function createCustomStyleEditor()
 	let editorTitle = document.createElement("h1");
 	editorTitle.innerHTML = "Advanced Style Editor";
 	container.appendChild(editorTitle);
+	
+	let editorInfo = document.createElement("p");
+	editorInfo.innerHTML = `Add some custom CSS which will be injected after everything else. For example, try changing the background color using`;
+	container.appendChild(editorInfo);
+	
+	let editorCodeExample = document.createElement("code");
+	editorCodeExample.innerHTML = `<code>main .h-full.flex-col > div
+{
+	background-color: red;
+}</code>`;
+	editorCodeExample.style.width = `100%`;
+	editorCodeExample.style.whiteSpace = `break-spaces`;
+	container.appendChild(editorCodeExample);
 	
 	let editor = document.createElement("textarea");
 	editor.setAttribute("class", "mt-2 dark:bg-gray-800");
@@ -335,8 +358,6 @@ function createCustomStyleEditor()
 	{
 		customStyleEditor.style.visibility = "hidden";
 	});
-	
-	document.body.appendChild(wrapper);
 	
 	customStyleEditor = wrapper;
 }
@@ -374,7 +395,7 @@ var menuThemeEditorElement;
 function createMenuThemeEditor()
 {
 	let wrapper = document.createElement("div");
-	wrapper.setAttribute("class", 'flex flex-col items-center bg-gray-900 text-white');
+	wrapper.setAttribute("class", 'flex flex-col items-center bg-gray-900 text-white space-y-1 p-2');
 	wrapper.style.width = "260px"; // same width as the left menu bar
 	wrapper.style.position = "absolute"; 
 	wrapper.style.left = "100%";
@@ -400,6 +421,7 @@ function createMenuThemeEditor()
 	// append buttons 
 	menuThemeEditorElement.appendChild(themeSelectElement);
 	menuThemeEditorElement.appendChild(fontSelectElement);
+	menuThemeEditorElement.appendChild(customStyleButton);
 	
 	closeMenuThemeEditor();
 }
@@ -426,6 +448,22 @@ function toggleMenuThemeEditor()
 	}
 }
 
+/**
+	Button boilerplate.
+	Does not do an onclick.
+ */
+function createButton(iconHTML, buttonText)
+{
+	let button = document.createElement("a");
+	button.setAttribute("class", 'flex px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm');
+	button.style.height = "44px";
+	button.style.width = "244px";
+	
+	button.innerHTML = `${iconHTML} ${buttonText}`;
+	
+	return button;
+}
+
 /*
 	Re-add buttons hack.
  */
@@ -443,9 +481,13 @@ function initializeThemes()
 	fontStyle = injectStyle();
 	themeStyle = injectStyle();
 	customStyle = injectStyle();
-
+	
+	createCustomStyleEditor();
+	document.body.appendChild(customStyleEditor);
+	
 	createThemeSelectButton();
 	createFontSelectButton();
+	createCustomStyleButton();
 	createMenuThemeEditorButton();
 	
 	readdThemeSelect();
