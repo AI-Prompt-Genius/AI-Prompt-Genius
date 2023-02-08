@@ -49,7 +49,7 @@ function validFont(font){
 	return FONTS_LIST.includes(font);
 }
 
-browser.storage.local.get({"theme":{}}, function(result)
+chrome.storage.local.get({"theme":{}}, function(result)
 {
 	let themeSettings = result.theme;
 	console.log(themeSettings);
@@ -97,7 +97,7 @@ function changeTheme(theme, onload=false)
 		theme = "themes/none.css"
 	}
 
-	let css = browser.runtime.getURL(theme)
+	let css = chrome.runtime.getURL(theme)
 	// because dynamic paths, otherwise it won't work
 	themeStylesheet.setAttribute('href', css);
 	themeStyle.innerHTML = "";
@@ -159,14 +159,14 @@ main .h-full.flex-col > div {
 
 function changeThemeSetting(settingName, settingValue)
 {
-	browser.storage.local.get({"theme":{}}, (result) =>
+	chrome.storage.local.get({"theme":{}}, (result) =>
 	{
 		let themeSettings = result.theme;
 		if(typeof themeSettings === "string") themeSettings = {"theme": themeSettings};
 		
 		themeSettings[settingName] = settingValue;
 		
-		browser.storage.local.set({theme: themeSettings});
+		chrome.storage.local.set({theme: themeSettings});
 	});
 }
 
@@ -325,7 +325,7 @@ function createCustomStyleButton()
 	wrapper.addEventListener("click", ()=>
 	{
 		customStyleEditor.style.visibility = "visible";
-		browser.storage.local.get({"theme":{}}, (result) =>
+		chrome.storage.local.get({"theme":{}}, (result) =>
 		{
 			let themeSettings = result.theme;
 			let customCSS = themeSettings?.customCSS;
@@ -525,7 +525,7 @@ function readdThemeSelect()
 function initializeThemes()
 {
 	console.log(`Loading themes...`);
-	themeStylesheet = injectStylesheet(browser.runtime.getURL('themes/none.css'));
+	themeStylesheet = injectStylesheet(chrome.runtime.getURL('themes/none.css'));
 	fontStyle = injectStyle();
 	themeStyle = injectStyle();
 	customStyle = injectStyle();

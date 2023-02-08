@@ -1,6 +1,8 @@
 ### v2.1.5 [unreleased]
 
-[add changes]
+- Overhauled theme buttons to a popup menu
+- Themes now save Fonts as well
+- Custom CSS theme editor 
 
 ### v2.1.4 - February 7, 2023 [hotfix]
 
