@@ -45,15 +45,23 @@ function validTheme(theme){
 	return THEMES_LIST.includes(theme.replace("themes/",""))
 }
 
-browser.storage.local.get({"theme":"none.css"}, function(result)
+function validFont(font){
+	return FONTS_LIST.includes(font);
+}
+
+browser.storage.local.get({"theme":{}}, function(result)
 {
-	currentTheme = result.theme;
+	let themeSettings = result.theme;
+	console.log(themeSettings);
+	if(typeof themeSettings === "string") themeSettings = {"theme": themeSettings};
+	
+	currentTheme = themeSettings?.theme;
 	if (!validTheme(currentTheme)){
 		currentTheme = "none.css"
 	}
 	changeTheme("themes/" + currentTheme, true);
 	// reflect state in html; we must put this here because local storage loads later than DOM
-	let options = themeSelectElement.querySelector("select")?.children;
+	var options = themeSelectElement.querySelector("select")?.children;
 	for(let index = 0; index < options?.length; index++)
 	{
 		let option = options[index];
@@ -62,13 +70,25 @@ browser.storage.local.get({"theme":"none.css"}, function(result)
 			option.setAttribute("selected","true");
 		}
 	}
-});
-
-// let users inject arbitrary CSS, what could go wrong?
-// at least it's not JS so there probably aren't any exploits, and it's their own machine so they can do what they wish
-browser.storage.local.get({"custom_style":""}, function(result)
-{
 	
+	currentFont = themeSettings?.font;
+	console.log(currentFont);
+	if (!validFont(currentFont)) {
+		currentFont = null;
+	}
+	setFont(currentFont);
+	var options = fontSelectElement.querySelector("select")?.children;
+	for(let index = 0; index < options?.length; index++)
+	{
+		let option = options[index];
+		if(option.value === currentFont)
+		{
+			option.setAttribute("selected","true");
+		}
+	}
+	
+	let customCSS = themeSettings?.customCSS; 
+	customStyle.innerHTML = customCSS;
 });
 
 function changeTheme(theme, onload=false)
@@ -137,6 +157,18 @@ main .h-full.flex-col > div {
 	}
 }
 
+function changeThemeSetting(settingName, settingValue)
+{
+	browser.storage.local.get({"theme":{}}, (result) =>
+	{
+		let themeSettings = result.theme;
+		if(typeof themeSettings === "string") themeSettings = {"theme": themeSettings};
+		
+		themeSettings[settingName] = settingValue;
+		
+		browser.storage.local.set({theme: themeSettings});
+	});
+}
 
 // create theme selector
 var themeSelectElement;
@@ -181,10 +213,10 @@ function createThemeSelectButton()
 		}
 		currentTheme = themeFile;
 		if (!validTheme(themeFile)){
-			currentTheme = "themes/none.css"
+			currentTheme = "none.css"
 		}
 		// set default on select, and yes, invalid is a valid value.
-		browser.storage.local.set({theme: currentTheme});
+		changeThemeSetting("theme",currentTheme);
 	});
 	
 	let noThemeOption = document.createElement("option");
@@ -254,6 +286,7 @@ function createFontSelectButton()
 		}
 		
 		currentFont = fontFamily;
+		changeThemeSetting("font", fontFamily);
 	});
 	
 	let noFontOption = document.createElement("option");
@@ -289,11 +322,23 @@ function createCustomStyleButton()
 	let icon = SVG_ICONS.code;
 	
 	let wrapper = createButton(icon, "Advanced Style");
-	wrapper.addEventListener("click", ()=>{customStyleEditor.style.visibility = "visible"});
+	wrapper.addEventListener("click", ()=>
+	{
+		customStyleEditor.style.visibility = "visible";
+		browser.storage.local.get({"theme":{}}, (result) =>
+		{
+			let themeSettings = result.theme;
+			let customCSS = themeSettings?.customCSS; 
+			
+			customStyleEditor.querySelector("textarea").value = customCSS;
+		});
+	});
 	
 	customStyleButton = wrapper;
 }
 
+// let users inject arbitrary CSS, what could go wrong?
+// at least it's not JS so there probably aren't any exploits, and it's their own machine so they can do what they wish
 var customStyleEditor;
 function createCustomStyleEditor()
 {
@@ -347,6 +392,7 @@ function createCustomStyleEditor()
 	saveChangesButton.addEventListener("click", function()
 	{
 		customStyle.innerHTML = editor.value;
+		changeThemeSetting("customCSS",editor.value);
 	});
 	
 	let cancelButton = document.createElement("button");
