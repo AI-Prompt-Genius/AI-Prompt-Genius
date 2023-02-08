@@ -469,7 +469,7 @@ function createMenuThemeEditor()
 	// append buttons 
 	menuThemeEditorElement.appendChild(themeSelectElement);
 	menuThemeEditorElement.appendChild(fontSelectElement);
-	menuThemeEditorElement.appendChild(customStyleButton);
+	//menuThemeEditorElement.appendChild(customStyleButton);
 	
 	closeMenuThemeEditor();
 }
