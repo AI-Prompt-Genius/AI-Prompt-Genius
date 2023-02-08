@@ -2,7 +2,7 @@
 
 [add changes]
 
-### v2.1.4 - February 7, 2023
+### v2.1.4 - February 7, 2023 [hotfix]
 
 - Fixed themes
 
