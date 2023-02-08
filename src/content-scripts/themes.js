@@ -204,11 +204,12 @@ function createThemeSelectButton()
 	}
 	
 	wrapper.appendChild(themeSelect);
-	
+	/*
 	var nav = document.querySelector("nav");
 	nav.appendChild(wrapper);
-	
+	 */
 	themeSelectElement = wrapper;
+	return wrapper;
 }
 
 // create font selector
@@ -275,10 +276,10 @@ function createFontSelectButton()
 	}
 	
 	wrapper.appendChild(fontSelect);
-	
+	/*
 	var nav = document.querySelector("nav");
 	nav.appendChild(wrapper);
-	
+	*/
 	fontSelectElement = wrapper;
 }
 
@@ -369,10 +370,10 @@ function createMenuThemeEditorButton()
 	wrapper.appendChild(button);
 	
 	button.addEventListener("click", ()=>{openMenuThemeEditor()});
-	
+	/*
 	var nav = document.querySelector("nav");
 	nav.appendChild(wrapper);
-	
+	 */
 	menuThemeEditorButton = wrapper;
 	
 	// create the editor itself
@@ -383,19 +384,23 @@ var menuThemeEditorElement;
 function createMenuThemeEditor()
 {
 	let wrapper = document.createElement("div");
-	wrapper.setAttribute("class", 'flex items-center bg-gray-900 text-white');
+	wrapper.setAttribute("class", 'flex flex-col items-center bg-gray-900 text-white');
 	wrapper.style.width = "260px"; // same width as the left menu bar
 	wrapper.style.position = "absolute"; 
 	wrapper.style.left = "100%";
 	wrapper.style.bottom = "0";
 	
 	let title = document.createElement("h1");
-	title.innerHTML = "Theme Editor";
+	title.innerHTML = "Theme Settings";
 	wrapper.appendChild(title);
 	
 	menuThemeEditorButton.appendChild(wrapper);
 	
 	menuThemeEditorElement = wrapper;
+	
+	// append buttons 
+	menuThemeEditorElement.appendChild(themeSelectElement);
+	menuThemeEditorElement.appendChild(fontSelectElement);
 }
 
 function openMenuThemeEditor()
@@ -420,10 +425,6 @@ function readdThemeSelect()
 {
 	var nav = document.querySelector("nav");
 	nav.appendChild(menuThemeEditorButton);
-	nav.appendChild(themeSelectElement);
-	nav.appendChild(fontSelectElement);
-	
-	let button_class = 'flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm';
 }
 
 // always place at the end because "let" statements can't be used before they're declared.
@@ -437,7 +438,8 @@ function initializeThemes()
 
 	createThemeSelectButton();
 	createFontSelectButton();
-	createCustomStyleEditor();
 	createMenuThemeEditorButton();
+	
+	readdThemeSelect();
 }
 initializeThemes();
