@@ -83,32 +83,32 @@ main > div.absolute > form > div > div.flex.flex-col:before
   font-size: 16px;
 }
 
-.btn-neutral
+main .btn-neutral
 {
   background-color: #05321e;
   color: inherit;
   border: none;
 }
 
-.btn-neutral:hover
+main .btn-neutral:hover
 {
   background-color: #15422e;
 }
 
-.dark .btn-neutral
+main .dark .btn-neutral
 {
   background-color: #05321e;
   color: inherit;
   border: none;
 }
 
-.btn-primary
+main .btn-primary
 {
   background-color: #05321e;
   color: inherit;
 }
 
-.btn-primary:hover
+main .btn-primary:hover
 {
   background-color: #15422e;
   color: inherit;

@@ -8,7 +8,7 @@ function check_url() {
 			{
 				type: "urlChange"
 			}, "*");
-		readdThemeSelect(); // just going to yoink this in here, from themes.js, as this is more convenient.
+		setTimeout(readdThemeSelect, 500);
         console.log("URL CHANGE")
     }
 }
