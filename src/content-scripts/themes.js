@@ -294,4 +294,4 @@ function initializeThemes()
 	createThemeSelectButton()
 	createFontSelectButton()
 }
-setTimeout(initializeThemes, 300);
+initializeThemes()
