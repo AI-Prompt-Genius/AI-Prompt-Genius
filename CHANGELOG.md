@@ -1,3 +1,7 @@
+###v2.1.3 [unreleased]
+
+- Made PDFs size smaller
+
 ### v2.1.2 - February 7, 2023
 
 - Fixed CORS bug for firefox export buttons.
