@@ -143,6 +143,7 @@ function createThemeSelectButton()
 	wrapper.id = "theme-select-button";
 	wrapper.setAttribute("class", 'flex px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm');
 	wrapper.style.height = "44px";
+	wrapper.style.width = "244px";
 	wrapper.innerHTML = `${icon}`;
 
 	document.head.insertAdjacentHTML("beforeend", `<style>select:focus{--tw-ring-shadow: none!important}</style>`)
@@ -204,10 +205,6 @@ function createThemeSelectButton()
 	}
 	
 	wrapper.appendChild(themeSelect);
-	/*
-	var nav = document.querySelector("nav");
-	nav.appendChild(wrapper);
-	 */
 	themeSelectElement = wrapper;
 	return wrapper;
 }
@@ -222,6 +219,7 @@ function createFontSelectButton()
 	wrapper.id = "font-select-button";
 	wrapper.setAttribute("class", 'flex px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm');
 	wrapper.style.height = "44px";
+	wrapper.style.width = "244px";
 	wrapper.innerHTML = `${icon}`;
 	
 	let fontSelect = document.createElement("select");
@@ -276,10 +274,6 @@ function createFontSelectButton()
 	}
 	
 	wrapper.appendChild(fontSelect);
-	/*
-	var nav = document.querySelector("nav");
-	nav.appendChild(wrapper);
-	*/
 	fontSelectElement = wrapper;
 }
 
@@ -369,11 +363,7 @@ function createMenuThemeEditorButton()
 	button.innerHTML = `${icon} Theme Settings`;
 	wrapper.appendChild(button);
 	
-	button.addEventListener("click", ()=>{openMenuThemeEditor()});
-	/*
-	var nav = document.querySelector("nav");
-	nav.appendChild(wrapper);
-	 */
+	button.addEventListener("click", ()=>{toggleMenuThemeEditor()});
 	menuThemeEditorButton = wrapper;
 	
 	// create the editor itself
@@ -390,9 +380,18 @@ function createMenuThemeEditor()
 	wrapper.style.left = "100%";
 	wrapper.style.bottom = "0";
 	
+	let titleContainer = document.createElement("div");
+	titleContainer.setAttribute("class", 'border-b border-white/20 w-full px-3');
+	titleContainer.style.height = "44px"; // same height as buttons
+	wrapper.appendChild(titleContainer);
+	
 	let title = document.createElement("h1");
 	title.innerHTML = "Theme Settings";
-	wrapper.appendChild(title);
+	// title.style.padding = "12px";
+	title.style.fontSize = "1em";
+	title.style.fontWeight = "normal";
+	title.style.textAlign = "center";
+	titleContainer.appendChild(title);
 	
 	menuThemeEditorButton.appendChild(wrapper);
 	
@@ -401,21 +400,30 @@ function createMenuThemeEditor()
 	// append buttons 
 	menuThemeEditorElement.appendChild(themeSelectElement);
 	menuThemeEditorElement.appendChild(fontSelectElement);
+	
+	closeMenuThemeEditor();
 }
 
 function openMenuThemeEditor()
 {
-	console.log(`ACK`);
+	menuThemeEditorElement.style.visibility = "visible";
 }
 
 function closeMenuThemeEditor()
 {
-	
+	menuThemeEditorElement.style.visibility = "hidden";
 }
 
 function toggleMenuThemeEditor()
 {
-	
+	if(menuThemeEditorElement.style.visibility === "visible")
+	{
+		closeMenuThemeEditor();
+	}
+	else 
+	{
+		openMenuThemeEditor();
+	}
 }
 
 /*
