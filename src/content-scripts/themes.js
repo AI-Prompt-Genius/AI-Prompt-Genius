@@ -299,7 +299,7 @@ function createCustomStyleEditor()
 	wrapper.style.top = 0;
 	wrapper.style.left = 0;
 	wrapper.style.justifyContent = "center";
-	//wrapper.style.visibility = "hidden";
+	wrapper.style.visibility = "hidden"; // default to hidden for the modal
 	
 	let container = document.createElement("div");
 	container.setAttribute("class", "flex flex-col items-center bg-gray-50 dark:bg-gray-800");
@@ -338,12 +338,57 @@ function createCustomStyleEditor()
 	
 	cancelButton.addEventListener("click", function()
 	{
-		wrapper.style.visibility = "hidden";
+		customStyleEditor.style.visibility = "hidden";
 	});
 	
 	document.body.appendChild(wrapper);
 	
 	customStyleEditor = wrapper;
+}
+
+/*
+	Create menu theme editor that opens to the right.
+ */
+var menuThemeEditorButton;
+function createMenuThemeEditor()
+{
+	let icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" style="fill: white" stroke="currentColor" ><path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3H344c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32s32-14.3 32-32zm0-96c17.7 0 32-14.3 32-32s-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32zM288 96c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32s32-14.3 32-32zm96 96c17.7 0 32-14.3 32-32s-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32z"/></svg>`;
+	
+	let wrapper = document.createElement("div");
+	wrapper.id = "menu-theme-editor-button";
+	// wrapper.setAttribute("class", 'flex px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm');
+	wrapper.style.height = "44px";
+	wrapper.style.padding = "0";
+	// wrapper.style.position = "relative";
+	
+	let button = document.createElement("a");
+	button.setAttribute("class", 'flex px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm');
+	button.style.width = "100%";
+	button.style.height = "100%";
+	button.innerHTML = `${icon} Theme Settings`;
+	wrapper.appendChild(button);
+	
+	button.addEventListener("click", ()=>{openMenuThemeEditor()});
+		
+	var nav = document.querySelector("nav");
+	nav.appendChild(wrapper);
+	
+	menuThemeEditorButton = wrapper;
+}
+
+function openMenuThemeEditor()
+{
+	console.log(`ACK`);
+}
+
+function closeMenuThemeEditor()
+{
+	
+}
+
+function toggleMenuThemeEditor()
+{
+	
 }
 
 /*
@@ -354,6 +399,9 @@ function readdThemeSelect()
 	var nav = document.querySelector("nav");
 	nav.appendChild(themeSelectElement);
 	nav.appendChild(fontSelectElement);
+	nav.appendChild(menuThemeEditorButton);
+	
+	let button_class = 'flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm';
 }
 
 // always place at the end because "let" statements can't be used before they're declared.
@@ -368,5 +416,6 @@ function initializeThemes()
 	createThemeSelectButton();
 	createFontSelectButton();
 	createCustomStyleEditor();
+	createMenuThemeEditor();
 }
 initializeThemes();
