@@ -1,4 +1,4 @@
-###v2.1.3 [unreleased]
+### v2.1.3 [unreleased]
 
 - Made PDFs size smaller
 
