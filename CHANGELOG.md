@@ -6,6 +6,7 @@
 - Added search & filter prompts on ChatGPT page
 - Removed default demo prompts for ChatGPT
 - Added auto-scroll to top of page
+- Added spacer element to fix #101
 
 ### v2.1.4 - February 7, 2023 [hotfix]
 
