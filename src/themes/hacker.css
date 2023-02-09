@@ -14,7 +14,7 @@ main
   color: #5bf870;
 }
 
-main .h-full.flex-col::before
+main .h-full > .flex-col::before
 {
   
   content: " ";
@@ -124,14 +124,14 @@ main .btn-primary:hover
   color: inherit;
 }
 
-main .h-full.flex-col > div
+main .h-full > .flex-col > div
 {	
 	background: transparent; /* transparent it so we can see the background image */
 	/* Font */
 	border:none;
 }
 
-main .h-full.flex-col > div > div
+main .h-full > .flex-col > div > div
 {	
 	margin: 0;
   margin-left: 1em;
@@ -139,51 +139,51 @@ main .h-full.flex-col > div > div
   max-width: 100%;
 }
 
-.dark main .h-full.flex-col > div
+.dark main .h-full > .flex-col > div
 {	
   
 }
 
 /* Font Color */
-main .h-full.flex-col > div
+main .h-full > .flex-col > div
 {
   
 }
 
-.dark main .h-full.flex-col > div
+.dark main .h-full > .flex-col > div
 {
   
 }
 
-main .h-full.flex-col > div .prose
+main .h-full > .flex-col > div .prose
 {	
 	color: inherit;
 }
 
-.dark main .h-full.flex-col > div .prose
+.dark main .h-full > .flex-col > div .prose
 {	
 	color: inherit;
 }
 
 /* Disable Human/AI icons */
-main .h-full.flex-col > div > div > div.items-end:first-child div:first-child
+main .h-full > .flex-col > div > div > div.items-end:first-child div:first-child
 {	
 	display:none;
 }
 
-main .h-full.flex-col > div
+main .h-full > .flex-col > div
 {	
   position: relative;  
 }
 
-main .h-full.flex-col > div > div > div.items-end:first-child
+main .h-full > .flex-col > div > div > div.items-end:first-child
 {	
   position: absolute;
   left: 0px;
   justify-content: left;
 }
 
-main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
+main .h-full > .flex-col > div > div > div.items-end:first-child div.text-xs
 {	
 	position: absolute;
   transform: 0 !important;

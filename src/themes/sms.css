@@ -9,7 +9,7 @@
 }
 
 /* Foolproof (TM) Individual Chat Node Selector */
-main .h-full.flex-col > div
+main .h-full > .flex-col > div
 {
 	border: 0;
 	background: transparent !important;
@@ -18,18 +18,18 @@ main .h-full.flex-col > div
 }
 
 /* Make chats align left or right depending on if it's human or AI. Luckily we can assume odd/even. */
-main .h-full.flex-col > div:nth-child(even) > div
+main .h-full > .flex-col > div:nth-child(even) > div
 {
 	margin-left: 1rem;
   background-color: #E5E5EA;
 }
 
-.dark main .h-full.flex-col > div:nth-child(even) > div
+.dark main .h-full > .flex-col > div:nth-child(even) > div
 {
 	background-color: #333333;
 }
 
-main .h-full.flex-col > div:nth-child(odd) > div
+main .h-full > .flex-col > div:nth-child(odd) > div
 {
 	margin-right: 1rem;
     color: #E5E5EA;
@@ -40,26 +40,26 @@ main .h-full.flex-col > div:nth-child(odd) > div
     width: calc(100% - 20px);
 }
 
-main .h-full.flex-col > div > div
+main .h-full > .flex-col > div > div
 {
   border-radius: 1rem;
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
 }
 
 /* Disable Human/AI icons */
-main .h-full.flex-col > div > div > div.items-end:first-child div:first-child
+main .h-full > .flex-col > div > div > div.items-end:first-child div:first-child
 {
 	display:none;
 }
 
 /* Move the </> arrows */
 /* Yes, we do need to establish a new basis for absolutes. */
-main .h-full.flex-col > div
+main .h-full > .flex-col > div
 {
   position: relative;
 }
 
-main .h-full.flex-col > div > div > div.items-end:first-child
+main .h-full > .flex-col > div > div > div.items-end:first-child
 {
   position: absolute; /* solely to remove it from the normal document flow */
   bottom: -10px;
@@ -67,7 +67,7 @@ main .h-full.flex-col > div > div > div.items-end:first-child
   justify-content: left;
 }
 
-main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
+main .h-full > .flex-col > div > div > div.items-end:first-child div.text-xs
 {
   position:absolute;
   transform: none !important;
@@ -78,13 +78,13 @@ main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs
 }
 
 /* Move the thumbs up/thumbs down thingies, only for the AI */
-main .h-full.flex-col > div:nth-child(even) > div > div:last-child
+main .h-full > .flex-col > div:nth-child(even) > div > div:last-child
 {
     width: 100%;
     position: static;
 }
 
-main .h-full.flex-col > div:nth-child(even) > div > div > div.self-end:last-child
+main .h-full > .flex-col > div:nth-child(even) > div > div > div.self-end:last-child
 {
   position: absolute;
   top: -29px;
@@ -95,7 +95,7 @@ main .h-full.flex-col > div:nth-child(even) > div > div > div.self-end:last-chil
 }
 
 
-main .h-full.flex-col > div:nth-child(even) > div > div > div > button
+main .h-full > .flex-col > div:nth-child(even) > div > div > div > button
 {
   width: 24px;
   height: 24px;
@@ -137,7 +137,7 @@ main .text-xs
 }
 
 /* incredibly minor fix */
-main .h-full.flex-col > div > div > div.items-end:first-child div.text-xs button
+main .h-full > .flex-col > div > div > div.items-end:first-child div.text-xs button
 {
   margin-top: 0;
 }
