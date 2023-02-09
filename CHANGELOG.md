@@ -1,4 +1,8 @@
-### v2.1.5 [unreleased]
+### v2.1.6 [unreleased]
+
+[add changes]
+
+### v2.1.5 - February 8, 2022
 
 - Overhauled theme buttons to a popup menu
 - Themes now save Fonts as well
