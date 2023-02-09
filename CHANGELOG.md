@@ -1,8 +1,12 @@
-### v2.1.6 [unreleased]
+### v2.1.7 [unreleased]
 
 [add changes]
 
-### v2.1.5 - February 8, 2022
+### v2.1.6 - February 9, 2023
+
+- fixed CSS selector for themes
+
+### v2.1.5 - February 8, 2023
 
 - Overhauled theme buttons to a popup menu
 - Themes now save Fonts as well
