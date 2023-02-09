@@ -102,6 +102,16 @@
     }
     setTimeout(loadUserPrompts, 500) // delay to make sure insertPromptTemplates works right
 
+    document.head.insertAdjacentHTML("beforeend",
+`<style>
+        .highlight {
+        color: black!important;
+        background-color: yellow;
+        font-weight: bold;
+        opacity: 0.4;
+        }
+    </style>`)
+
     // Set up the Sidebar (by adding "Export Chat" button and other stuff)
     setupSidebar()
 })()
@@ -125,6 +135,13 @@ function handleElementAdded (e) {
         addCopyButton(buttonGroup)
     }
 
+}
+
+function hideTitleAndExamples(){
+    const title = document.querySelector('h1.text-4xl');
+
+    title.style = 'display: none';
+    title.nextSibling.style = 'display: none';
 }
 
 // the "New Chat" buttons to clear the selected prompt template when clicked
@@ -159,21 +176,70 @@ function getNewChatButtons (callback) {
     return [newChatButton, AddButton].filter(button => button)
 }*/
 
+let focusSearch = false
+
 // This object contains properties for the prompt templates section
 const promptTemplateSection = {
     currentPage: 0, // The current page number
     pageSize: 5 // The number of prompt templates per page
 }
 
+function getMatchingCategory(category, objects = window.prompttemplates) {
+    let matchingObjects = [];
+    for (let i = 0; i < objects.length; i++) {
+        if (objects[i].category === category) {
+            matchingObjects.push(objects[i]);
+        }
+    }
+    return matchingObjects;
+}
+
+function highlightString(string, searchTerm) {
+    // use the original case of the search term when highlighting it
+    const searchTermRegex = new RegExp(searchTerm, "gi");
+    return string.replace(searchTermRegex, `<span class="highlight">$&</span>`);
+}
+
+function searchPrompts(prompts, searchTerm) { // created by ChatGPT
+    searchTerm = searchTerm.toLowerCase();
+    return prompts.filter(prompt => {
+        return (
+            prompt.title.toLowerCase().includes(searchTerm) ||
+            (prompt.text && prompt.text.toLowerCase().includes(searchTerm)) || (prompt.tags && prompt.tags.toLowerCase().includes(searchTerm))
+        );
+    });
+}
+
+function searchAndCat(fs){
+    focusSearch = fs
+    console.log("HEYYY")
+    promptTemplateSection.currentPage = 0
+    let searchTerm = document.querySelector("#search").value
+    let prompts = window.prompttemplates
+    let category = document.querySelector("#category").value
+    console.log(category)
+    if (category !== ""){
+        prompts = getMatchingCategory(category, prompts)
+    }
+    console.log(prompts)
+    if (searchTerm !== ""){
+        prompts = searchPrompts(prompts, searchTerm)
+    }
+    console.log(prompts)
+    console.log(category)
+    insertPromptTemplatesSection(prompts, category, searchTerm)
+}
+
+let globalTemplates = window.prompttemplates
+
 // This function inserts a section containing a list of prompt templates into the chat interface
-function insertPromptTemplatesSection () {
+function insertPromptTemplatesSection (templates = window.prompttemplates, category="", searchTerm="") {
+    hideTitleAndExamples()
     // Get the title element (as a reference point and also for some alteration)
     const title = document.querySelector('h1.text-4xl')
     // If there is no title element, return
     if (!title) return
 
-    // Get the list of prompt templates
-    const templates = window.prompttemplates
     // If there are no templates, skip
     if (!templates) return
 
@@ -185,24 +251,57 @@ function insertPromptTemplatesSection () {
     // Remove the "md:h-full" class from the parent element
     parent.classList.remove('md:h-full')
 
+    globalTemplates = templates
+
     // Get the current page number and page size from the promptTemplateSection object
     const { currentPage, pageSize } = promptTemplateSection
     // Calculate the start and end indices of the current page of prompt templates
     const start = pageSize * currentPage
     const end = Math.min(pageSize * (currentPage + 1), templates.length)
     // Get the current page of prompt templates
-    const currentTemplates = window.prompttemplates.slice(start, end)
+    const currentTemplates = templates.slice(start, end)
 
+    const hs = highlightString
     // Create the HTML for the prompt templates section
     const html = `
     <div class="${css`column`}">
     ${svg`ChatBubble`}
-    <h2 class="${css`h2`}">
+    <div class="${css`h2`}">
+    
+    <div class="${css`selectDiv`}">
+        <div style="width: 50% !important;">
+            <select id="category" class="${css`select`}">
+                <option value="" selected>All Categories</option>
+                <option value="Academic Writing">Academic Writing</option>
+                <option value="Bypass & Personas">Bypass & Personas</option>
+                <option value="Education & Learning">Education & Learning</option>
+                <option value="Expert/Consultant">Expert/Consultant</option>
+                <option value="Fun & Games">Fun & Games</option>
+                <option value="Fitness, Nutrition, & Health">Fitness, Nutrition, & Health</option>
+                <option value="Fiction Writing">Fiction Writing</option>
+                <option value="Music">Music</option>
+                <option value="Nonfiction Writing">Nonfiction Writing</option>
+                <option value="Other">Other</option>
+                <option value="Philosophy & Logic">Philosophy & Logic</option>
+                <option value="Poetry">Poetry</option>
+                <option value="Programming & Technology">Programming & Technology</option>
+                <option value="Speeches & Scripts">Speeches & Scripts</option>
+                <option value="Social Media & Blogging">Social Media & Blogging</option>
+                <option value="Travel">Travel</option>
+                <option value="Therapy & Life-help">Therapy & Life-help</option>        
+            </select>
+        </div>
+        <div style="width: 50% !important;">
+                <input id="search" type="text" class="${css`search`}" autocomplete="off" placeholder="Search">
+        </div>
+    </div>
+    
     <ul class="${css`ul`}">
       ${currentTemplates.map((template, i) => `
         <button onclick="selectPromptTemplate(${start + i})" class="${css`card`}">
-          <h3 class="${css`h3`}">${template.title}</h3>
-          <p class="${css`p`}">${template.text}</p>
+          <h3 class="${css`h3`}">${hs(template.title, searchTerm)}</h3>
+          <p class="${css`p`}">${hs(template.text, searchTerm)}</p>
+          <p class="${css `category`}">${hs(template.category, searchTerm)}</p>
           <span class="font-medium">Use prompt →</span>
         </button>
       `).join('')}
@@ -218,6 +317,8 @@ function insertPromptTemplatesSection () {
       </div>
     </div>
     </div>
+    
+    <div style="height: 100px;"></div>
   `
 
     let wrapper = document.createElement('div')
@@ -231,17 +332,35 @@ function insertPromptTemplatesSection () {
     }
 
     wrapper.innerHTML = html
+
+    // scroll to top of page
+    let scrollContainer = document.querySelector("main > div > div > div")
+    setTimeout(() => scrollContainer.scrollTop = 0, 600);
+
+    let catSelect = document.querySelector("#category")
+    let search = document.querySelector("#search")
+
+    console.log(focusSearch)
+    if (focusSearch === true){
+        search.focus()
+    }
+
+    catSelect.value = category
+    catSelect.addEventListener("change", () => searchAndCat(false))
+
+    search.value = searchTerm
+    search.addEventListener("input", () => searchAndCat(true))
 }
 
 function prevPromptTemplatesPage () {
     promptTemplateSection.currentPage--
     promptTemplateSection.currentPage = Math.max(0, promptTemplateSection.currentPage)
     // Update the section
-    insertPromptTemplatesSection()
+    insertPromptTemplatesSection(globalTemplates)
 }
 
 function nextPromptTemplatesPage () {
-    const templates = window.prompttemplates
+    const templates = globalTemplates
     if (!templates || !Array.isArray(templates)) return
 
     promptTemplateSection.currentPage++
@@ -253,7 +372,7 @@ function nextPromptTemplatesPage () {
         promptTemplateSection.currentPage
     )
     // Update the section
-    insertPromptTemplatesSection()
+    insertPromptTemplatesSection(globalTemplates)
 }
 
 function addCopyButton (buttonGroup) {
@@ -351,16 +470,20 @@ function svg (name) {
 function css (name) {
     name = Array.isArray(name) ? name[0] : name
     switch (name) {
+        case 'select': return 'bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 dark:hover:bg-gray-900';
+        case 'selectDiv': return 'grid grid-cols-2 flex sm:flex gap-2 items-end justify-left lg:-mb-4 lg:max-w-3xl md:last:mb-6 pt-2 stretch text-left text-sm';
+        case 'search': return 'bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 md:w-50';
         case 'column': return 'flex flex-col gap-3.5 flex-1'
-        case 'h2': return 'text-lg font-normal">Prompt Templates</h2><ul class="flex flex-col gap-3.5'
+        case 'h2': return 'text-lg font-normal">Prompt Genius Templates</h2><ul class="flex flex-col gap-3.5'
         case 'h3': return 'm-0 tracking-tight leading-8 text-gray-900 dark:text-gray-100 text-xl'
         case 'ul': return 'flex flex-col gap-3.5'
-        case 'card': return 'flex flex-col gap-2 w-full bg-gray-50 dark:bg-white/5 p-4 rounded-md hover:bg-gray-200 dark:hover:bg-gray-900 text-left'
-        case 'p': return 'm-0 font-light text-gray-500'
+        case 'card': return 'flex flex-col gap-2 text-sm w-full bg-gray-50 dark:bg-white/5 p-4 rounded-md hover:bg-gray-200 dark:hover:bg-gray-900 text-left'
+        case 'p': return 'm-0 font-light text-gray-600 dark:text-gray-300'
+        case 'category': return 'm-0 font-light text-gray-700 dark:text-gray-200'
         case 'paginationText': return 'text-sm text-gray-700 dark:text-gray-400'
         case 'paginationNumber': return 'font-semibold text-gray-900 dark:text-white'
         case 'paginationButtonGroup': return 'inline-flex mt-2 xs:mt-0'
-        case 'paginationButton': return 'px-4 py-2  font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white'
+        case 'paginationButton': return 'px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white'
         case 'action': return 'p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible'
         case 'tag': return 'inline-flex items-center py-1 px-2 mr-2 mb-2 text-sm font-medium text-white rounded bg-gray-600 whitespace-nowrap'
     }

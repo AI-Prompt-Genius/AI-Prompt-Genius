@@ -2,7 +2,10 @@
 
 - Overhauled theme buttons to a popup menu
 - Themes now save Fonts as well
-- Custom CSS theme editor 
+- Custom CSS theme editor (disabled for now)
+- Added search & filter prompts on ChatGPT page
+- Removed default demo prompts for ChatGPT
+- Added auto-scroll to top of page
 
 ### v2.1.4 - February 7, 2023 [hotfix]
 
