@@ -13,7 +13,7 @@
 }
 
 /* Foolproof (TM) Individual Chat Node Selector */
-main .h-full.flex-col > div
+main .h-full > .flex-col > div
 {
 	background: #fff;
 	box-shadow: 0 0 10px rgba(0,0,0,0.3);
@@ -23,7 +23,7 @@ main .h-full.flex-col > div
 }
 
 /* Disregard spacer */
-main .h-full.flex-col > div:last-child
+main .h-full > .flex-col > div:last-child
 {
 	visibility: hidden;
 }
