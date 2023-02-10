@@ -90,7 +90,7 @@ main > div.absolute > form > div > div.flex.flex-col:before
   color: black;
 }
 
-main .h-full > .flex-col > div
+main .flex-col.items-center.text-sm > div
 {	
 	background: transparent; /* transparent it so we can see the background image */
 	/* Font */
@@ -98,7 +98,7 @@ main .h-full > .flex-col > div
 	border:none;
 }
 
-main .h-full > .flex-col > div > div
+main .flex-col.items-center.text-sm > div > div
 {	
 	margin: 0;
   margin-left: 1em;
@@ -106,51 +106,51 @@ main .h-full > .flex-col > div > div
   max-width: 100%;
 }
 
-.dark main .h-full > .flex-col > div
+.dark main .flex-col.items-center.text-sm > div
 {	
   
 }
 
 /* Font Color */
-main .h-full > .flex-col > div
+main .flex-col.items-center.text-sm > div
 {
   
 }
 
-.dark main .h-full > .flex-col > div
+.dark main .flex-col.items-center.text-sm > div
 {
   
 }
 
-main .h-full > .flex-col > div .prose
+main .flex-col.items-center.text-sm > div .prose
 {	
 	color: black;
 }
 
-.dark main .h-full > .flex-col > div .prose
+.dark main .flex-col.items-center.text-sm > div .prose
 {	
 	color: white;
 }
 
 /* Disable Human/AI icons */
-main .h-full > .flex-col > div > div > div.items-end:first-child div:first-child
+main .flex-col.items-center.text-sm > div > div > div.items-end:first-child div:first-child
 {	
 	display:none;
 }
 
-main .h-full > .flex-col > div
+main .flex-col.items-center.text-sm > div
 {	
   position: relative;  
 }
 
-main .h-full > .flex-col > div > div > div.items-end:first-child
+main .flex-col.items-center.text-sm > div > div > div.items-end:first-child
 {	
   position: absolute;
   left: 0px;
   justify-content: left;
 }
 
-main .h-full > .flex-col > div > div > div.items-end:first-child div.text-xs
+main .flex-col.items-center.text-sm > div > div > div.items-end:first-child div.text-xs
 {	
 	position: absolute;
   transform: 0 !important;

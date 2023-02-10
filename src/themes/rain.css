@@ -17,12 +17,12 @@
 	background: transparent;
 }
 
-main .h-full > .flex-col
+main .flex-col.items-center.text-sm
 {
 	background: none;
 }
 
-main .h-full > .flex-col > div.bg-gray-50
+main .flex-col.items-center.text-sm > div.bg-gray-50
 {	
 	background: none; /* transparent it so we can see the background image */
 }
@@ -33,13 +33,13 @@ main .h-full > .flex-col > div.bg-gray-50
 }
 
 /* override borders */
-main .h-full > .flex-col > div
+main .flex-col.items-center.text-sm > div
 {	
 	border: none;
 }
 
 /* Disregard spacer without disabling its position in the layout. */
-main .h-full > .flex-col > div:last-child
+main .flex-col.items-center.text-sm > div:last-child
 {
 	visibility: hidden;
 }
@@ -56,7 +56,7 @@ main > div.md\:bg-vert-light-gradient
 }
 
 /* Foolproof (TM) Individual Chat Node Selector */
-main .h-full > .flex-col > div
+main .flex-col.items-center.text-sm > div
 {
 	
 }
@@ -67,8 +67,8 @@ main {
 	background-size: cover;
 }
 
-main .h-full > .flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
-main .h-full > .flex-col > div > div
+main .flex-col.items-center.text-sm > div > h1.text-center, /* Only select the ChatGPT main header */
+main .flex-col.items-center.text-sm > div > div
 {	
 	background: rgba(255,255,255,0.6); /* glass effect */
 	box-shadow: 0 5px 20px rgba(0,0,0,0.2);
@@ -83,8 +83,8 @@ main .h-full > .flex-col > div > div
 	max-width: 60rem;
 }
 
-.dark main .h-full > .flex-col > div > h1.text-center, /* Only select the ChatGPT main header */
-.dark main .h-full > .flex-col > div > div
+.dark main .flex-col.items-center.text-sm > div > h1.text-center, /* Only select the ChatGPT main header */
+.dark main .flex-col.items-center.text-sm > div > div
 {	
 	background: rgba(52,53,65, 1.0);
 }
