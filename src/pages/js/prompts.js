@@ -70,6 +70,7 @@ async function dark_light() {
 function load_prompts(prompts, search=false, search_term="")
 {
 	main.innerHTML = "";
+	let theme =	main.classList[1];
 	for (let n = prompts.length - 1; n > -1; n--) { // load in reverse order
 		let template = document.querySelector('#prompt_template').content.cloneNode(true);
 		let even = n % 2 === 0;
@@ -106,10 +107,13 @@ function load_prompts(prompts, search=false, search_term="")
 		else {
 			row.classList.add("odd");
 		}
-		if (dl === "light") {
-			row.classList.remove('dark')
-			row.classList.add('light')
-		}
+		row.classList.remove('dark' || 'light');
+		row.classList.add(`${theme}`);
+
+		// Buggy Code// 
+		// if (dl === "light") {
+		// 	console.log("DLLL",dl);
+		// }
 		let title_input = row.querySelector('.title-text')
 		title_input.addEventListener('keydown', (event) => {
 			if (event.key === 'Enter') {
