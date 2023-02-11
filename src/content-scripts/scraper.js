@@ -228,7 +228,7 @@ function startScraper() {
                         current_leaf = new_current_leaf;
                     }
                 }
-                //console.log(mirror_branch_state.toJSON());
+                
                 if (mirror_branch_state.toJSON() !== null) {
                     if (!previous_convo){
                         let conversation_id_el = document.querySelector('#conversationID');
@@ -241,73 +241,77 @@ function startScraper() {
                             }
                         }
                     }
-                    if (t !== null) {
-                        if (first_time) {
-                            let thread = {
-                                date: getDate(),
-                                time: getTime(),
-                                convo: page,
-                                favorite: false,
-                                id: id,
-                                branch_state: mirror_branch_state.toJSON(),
-                                unified_id: unified_id,
-                            }
-                            first_time = false
-                            if (!previous_convo) {
-                                let title = getTitle()
-                                if (title !== "New chat"){
-                                    thread.title = title
-                                }
-                            }
-                            t.push(thread)
-                        }
-                        else {
-                            let thread = {
-                                date: getDate(),
-                                time: getTime(),
-                                convo: page,
-                                favorite: false,
-                                id: id,
-                                branch_state: mirror_branch_state.toJSON(),
-                                unified_id: unified_id,
-                            }
-                            if (!previous_convo) {
-                                let title = getTitle()
-                                if (title !== "New chat"){
-                                    thread.title = title
-                                }
-                            }
-							let threadIndex = getObjectIndexByID(id, t);
-							if(threadIndex !== null)
-							{
-								t[threadIndex] = thread;
+					
+					if(unified_id)
+					{
+						if (t !== null) {
+							if (first_time) {
+								let thread = {
+									date: getDate(),
+									time: getTime(),
+									convo: page,
+									favorite: false,
+									id: id,
+									branch_state: mirror_branch_state.toJSON(),
+									unified_id: unified_id,
+								}
+								first_time = false
+								if (!previous_convo) {
+									let title = getTitle()
+									if (title !== "New chat"){
+										thread.title = title
+									}
+								}
+								t.push(thread)
 							}
-							else 
-							{
-								t.push(thread);
+							else {
+								let thread = {
+									date: getDate(),
+									time: getTime(),
+									convo: page,
+									favorite: false,
+									id: id,
+									branch_state: mirror_branch_state.toJSON(),
+									unified_id: unified_id,
+								}
+								if (!previous_convo) {
+									let title = getTitle()
+									if (title !== "New chat"){
+										thread.title = title
+									}
+								}
+								let threadIndex = getObjectIndexByID(id, t);
+								if(threadIndex !== null)
+								{
+									t[threadIndex] = thread;
+								}
+								else 
+								{
+									t.push(thread);
+								}
 							}
-                        }
-                        chrome.storage.local.set({threads: t})
-                    }
-                    else { // very first conversation scraping
-                        let thread = {
-                            date: getDate(),
-                            time: getTime(),
-                            convo: page,
-                            favorite: false,
-                            id: id,
-                            branch_state: mirror_branch_state.toJSON(),
-                        }
-                        if (!previous_convo) {
-                            let title = getTitle()
-                            if (title !== "New chat"){
-                                thread.title = title
-                            }
-                        }
-                        let t = [thread]
-                        first_time = false
-                        chrome.storage.local.set({threads: t})
-                    }
+							chrome.storage.local.set({threads: t})
+						}
+						else { // very first conversation scraping
+							let thread = {
+								date: getDate(),
+								time: getTime(),
+								convo: page,
+								favorite: false,
+								id: id,
+								branch_state: mirror_branch_state.toJSON(),
+							}
+							if (!previous_convo) {
+								let title = getTitle()
+								if (title !== "New chat"){
+									thread.title = title
+								}
+							}
+							let t = [thread]
+							first_time = false
+							chrome.storage.local.set({threads: t})
+						}
+					}
                 }
             });
         }
