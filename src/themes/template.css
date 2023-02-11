@@ -4,12 +4,12 @@
 	background: transparent;
 }
 
-main .h-full > .flex-col
+main .flex-col.items-center.text-sm
 {
 	background: none;
 }
 
-main .h-full > .flex-col > div.bg-gray-50
+main .flex-col.items-center.text-sm > div.bg-gray-50
 {	
 	background: none; /* transparent it so we can see the background image */
 }
@@ -20,13 +20,13 @@ main .h-full > .flex-col > div.bg-gray-50
 }
 
 /* override borders */
-main .h-full > .flex-col > div
+main .flex-col.items-center.text-sm > div
 {	
 	border: none;
 }
 
 /* Disregard spacer without disabling its position in the layout. */
-main .h-full > .flex-col > div:last-child
+main .flex-col.items-center.text-sm > div:last-child
 {
 	visibility: hidden;
 }
@@ -38,7 +38,7 @@ main > div.md\:bg-vert-light-gradient
 }
 
 /* Foolproof (TM) Individual Chat Node Selector */
-main .h-full > .flex-col > div
+main .flex-col.items-center.text-sm > div
 {
 	
 }
