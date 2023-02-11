@@ -1,3 +1,6 @@
+### v2.1.8 - February 11, 2023
+- added FAQ to extension
+
 ### v2.1.7 - February 10, 2023
 
 - fixed css selector for themes AGAIN
