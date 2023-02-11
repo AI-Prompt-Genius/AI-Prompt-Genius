@@ -283,7 +283,6 @@ const ExportButtons = (function()
 	// listen for URLChange to add buttons
 	window.addEventListener("message", (event) =>
 	{
-		console.log("Export Buttons Message");
 		// readd buttons on URL change 
 		if(event.data?.type === "urlChange")
 		{
