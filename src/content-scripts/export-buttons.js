@@ -290,6 +290,12 @@ const ExportButtons = (function()
 			// of course, we must set timeout, because otherwise the main app will delete it 
 			setTimeout(ExportButtons.addButtons, ADD_BUTTONS_DELAY);
 		}
+		else if(event.data?.type === "readdExportButtons")
+		{
+			// no delay, since presumably this is after everything else has loaded
+			// and since it's idempotent, it doesn't matter how many times we call it. no handling necessary
+			ExportButtons.addButtons();
+		}
 	});
 	return {
 		/**
