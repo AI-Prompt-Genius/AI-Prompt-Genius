@@ -234,7 +234,7 @@ let globalTemplates = window.prompttemplates
 
 // This function inserts a section containing a list of prompt templates into the chat interface
 function insertPromptTemplatesSection (templates = window.prompttemplates, category="", searchTerm="") {
-    // hideTitleAndExamples()
+    hideTitleAndExamples()
     // Get the title element (as a reference point and also for some alteration)
     const title = document.querySelector('h1.text-4xl')
     // If there is no title element, return
