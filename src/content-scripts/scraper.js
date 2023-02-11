@@ -242,7 +242,7 @@ function startScraper() {
                         }
                     }
 					
-					if(unified_id)
+					if(unified_id && id !== "")
 					{
 						if (t !== null) {
 							if (first_time) {
