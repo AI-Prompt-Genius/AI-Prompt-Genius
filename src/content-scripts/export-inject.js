@@ -4,7 +4,6 @@ function addExportButtons()
 	chrome.storage.local.get({settings: defaults}, function (result) {
         let settings = result.settings;
         buttonsFlag = settings.buttons ?? true;
-		
         if (buttonsFlag === true) {
 			
 			// we inject script to try to defeat CORS not allowing us to save images
@@ -19,5 +18,6 @@ function addExportButtons()
         }
 		readdThemeSelect(); // just going to yoink this in here, from themes.js, as this is more convenient.
     });
+
 }
 addExportButtons();
