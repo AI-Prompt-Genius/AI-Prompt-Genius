@@ -1,6 +1,14 @@
+### v2.1.9 [unreleased]
+
+[add changes]
+
+### v2.1.8 - February 11, 2023 [hotfix]
+
+- Fixed ID duplicate scraping issue  
+
 ### v2.1.7 - February 10, 2023
 
-- fixed css selector for themes AGAIN
+- Fixed css selector for themes AGAIN
 - Fixed minor dark/light mode bug
 
 ### v2.1.6 - February 9, 2023
