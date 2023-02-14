@@ -79,13 +79,15 @@ This work is licensed under a
 [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
 
-Proper Attribution (include in files with our code):
+Proper Attribution (include in prominent file):
 
 ```
 /* ChatGPT Prompt Genius - https://github.com/benf2004/ChatGPT-Prompt-Genius
 @benf2004 - https://github.com/benf2004/ - Creator
 @aivct - https://github.com/aivct/ - Major Contributor
 @itsmohmans - https://github.com/itsmohmans - Contributor
-@Abhishek7Tech - https://github.com/Abhishek7Tech - Contributor*/
+@Abhishek7Tech - https://github.com/Abhishek7Tech - Contributor
+[list of files/directories with code]
+*/
 ```
 
