@@ -1,6 +1,6 @@
-### v2.1.9 [unreleased]
+### v2.1.9 - February 16, 2023
 
-[add changes]
+- Only load right-click preview toast webp when it hasn't been seen yet (speed up slow connections)
 
 ### v2.1.8 - February 11, 2023 [hotfix]
 
