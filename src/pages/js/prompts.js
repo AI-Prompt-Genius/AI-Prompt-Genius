@@ -622,6 +622,7 @@ chrome.storage.local.get({seenToast2: false}, function (response){
 	let seenRightClickToast = response.seenToast2;
 	if (!seenRightClickToast) {
 		chrome.storage.local.set({seenToast2: true})
+		document.body.appendChild(document.getElementById("toast").content.cloneNode(true))
 		let toastEl = document.getElementById('rightClickSaveToast')
 		let toast = new bootstrap.Toast(toastEl)
 		toast.show()
