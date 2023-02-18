@@ -11,7 +11,6 @@
     padding-top: 20px;
 }
 .sidenav a {
-    padding: 6px 8px 6px 16px;
     text-decoration: none;
     font-size: 16px;
     color: #818181;
@@ -28,13 +27,22 @@
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav a {font-size: 12px;}
+}
+
+@media screen and (max-height: 670px) {
+    .sidenav a {
+        padding: 0.6rem!important;
+    }
 }
 
 .top-half{
     position: absolute; top: 15px; left: 0; right: 0;
+    z-index: 1;
+    background-color: #202123; /* Black */
 }
 .bottom-half{
     position: absolute; bottom: 8px; left: 0; right: 0;
     border-top: 1px solid #4D4D4F;
+    overflow: scroll;
 }
