@@ -1,6 +1,6 @@
-### v2.2.0 [unreleased]
+### v2.2.0 - February 18, 2022
 
-[add changes]
+- Fixed jumbled nav on zoomed in screen
 
 ### v2.1.9 - February 16, 2023
 

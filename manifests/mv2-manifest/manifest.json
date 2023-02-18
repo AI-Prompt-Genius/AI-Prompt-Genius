@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "ChatGPT Prompt Genius",
   "description": "Discover, share, import, and use the best prompts for ChatGPT & save your chat history locally (formerly ChatGPT History)",
-  "version": "2.1.9",
+  "version": "2.2.0",
   "permissions": ["storage", "unlimitedStorage", "contextMenus"],
   "background": {
     "persistent": false,
