@@ -173,14 +173,17 @@ function startScraper() {
     function save_page() {
         p = document.querySelector("main > div > div > div > div")
         let c = p.children
-        if (c.length > 2) {
+        const isPlus = isPaidSubscriptionActive()
+        if (c.length > (isPlus ? 3 : 2)) {
             let t;
             chrome.storage.local.get({threads: null}, function (result) {
                 t = result.threads
                 page = [];
                 let current_leaf = mirror_branch_state;
-                for (let i = 0; i < c.length - 1; i++) {
+                const startIndex = isPlus ? 1 : 0; // if plus, skip first element
+                for (let i = startIndex; i < c.length - 1; i++) {
                     let human = i % 2 === 0;
+                    if (isPlus) human = !human;
                     let child = c[i];
                     let text = save_thread(human, child)
 
@@ -230,7 +233,7 @@ function startScraper() {
                 }
                 
                 if (mirror_branch_state.toJSON() !== null) {
-                    if (!previous_convo){
+                    if (!previous_convo) {
                         let conversation_id_el = document.querySelector('#conversationID');
                         if (conversation_id_el !== null) {
                             id = conversation_id_el.value;
