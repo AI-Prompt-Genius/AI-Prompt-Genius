@@ -1,3 +1,7 @@
+### v2.2.2 - February 24, 2022 [hotfix]
+
+- Hotfix for v2.2.1
+
 ### v2.2.1 - February 23, 2022
 
 - Added support for ChatGPT Plus
