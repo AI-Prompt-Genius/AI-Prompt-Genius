@@ -137,11 +137,11 @@ function handleElementAdded (e) {
 
 }
 
-function hideTitleAndExamples(){
-    const title = document.querySelector('h1.text-4xl');
-
+function hideTitleAndExamples(title, isPlus) {
     title.style = 'display: none';
-    title.nextSibling.style = 'display: none';
+    if (!isPlus) {
+        title.nextSibling.style = 'display: none';
+    }
 }
 
 // the "New Chat" buttons to clear the selected prompt template when clicked
@@ -234,22 +234,41 @@ let globalTemplates = window.prompttemplates
 
 // This function inserts a section containing a list of prompt templates into the chat interface
 function insertPromptTemplatesSection (templates = window.prompttemplates, category="", searchTerm="") {
-    hideTitleAndExamples()
     // Get the title element (as a reference point and also for some alteration)
     const title = document.querySelector('h1.text-4xl')
     // If there is no title element, return
     if (!title) return
+    // in ChatGPT plus title do not have next sibling
+    const isPlus = isPaidSubscriptionActive();
+    hideTitleAndExamples(title, isPlus)
 
     // If there are no templates, skip
     if (!templates) return
 
-    // Get the parent element of the title element (main page)
-    const parent = title.parentElement
+    if(title.parentElement){
+        // Remove the "md:h-full" class from title.parentElement in free
+        title.parentElement.classList.remove('md:h-full')
+        // Remove the "h-full" calss from title.parentElement in plus
+        title.parentElement.classList.remove('h-full')
+    }
+
+    // Get the main page, in ChatGPT free is title's parent, in ChatGPT plus is parent's sibling
+    let parent = title.parentElement;
+    if (isPlus) {
+        parent = document.querySelector("#templates-wrapper-main-page")
+        if (!parent) {
+            parent = document.createElement('div')
+            parent.id = "templates-wrapper-main-page"
+            parent.className = 'text-gray-800 w-full md:max-w-2xl lg:max-w-3xl md:flex md:flex-col px-6 dark:text-gray-100'
+            title.parentElement.appendChild(parent)
+
+            // fix some style issues
+            title.parentElement.classList.add('items-center')
+            title.previousElementSibling.classList.add('w-full')
+        }
+    }
     // If there is no parent element, skip
     if (!parent) return
-
-    // Remove the "md:h-full" class from the parent element
-    parent.classList.remove('md:h-full')
 
     globalTemplates = templates
 

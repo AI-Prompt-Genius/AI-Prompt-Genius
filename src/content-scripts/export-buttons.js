@@ -69,10 +69,13 @@ const ExportButtons = (function()
 		let chatBubbleElements = chatContainer.children;;
 		let chat = [];
 
+		const isPlus = isPaidSubscriptionActive();
+		const startIndex = isPlus ? 1 : 0;
 		// remember to disregard the last element, which is always a filler element
-		for(let i = 0; i < chatBubbleElements.length-1; i++)
+		for(let i = startIndex; i < chatBubbleElements.length-1; i++)
 		{
 			let isHuman = (i % 2) === 0;
+			if (isPlus) isHuman = !isHuman
 			let chatBubble = chatBubbleElements[i];
 			let text = getChatBubbleText(chatBubble, isHuman);
 			chat.push(text);
@@ -370,6 +373,12 @@ const ExportButtons = (function()
 						result.items.push({
 							from: "human",
 							value: node.textContent,
+						});
+						// if text-center, it might be ChatGPT plus model name
+					} else if ([...node.classList].includes('text-center')) {
+						result.items.push({
+							from: "gpt",
+							value: node.textContent
 						});
 						// if it's a GPT response, it might contain code blocks
 					} else if ([...node.classList].includes("bg-gray-50")) {
