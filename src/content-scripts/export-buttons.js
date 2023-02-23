@@ -69,7 +69,7 @@ const ExportButtons = (function()
 		let chatBubbleElements = chatContainer.children;;
 		let chat = [];
 
-		const isPlus = isPaidSubscriptionActive();
+		const isPlus = isPaidSubscriptionActive() ?? false;
 		const startIndex = isPlus ? 1 : 0;
 		// remember to disregard the last element, which is always a filler element
 		for(let i = startIndex; i < chatBubbleElements.length-1; i++)
