@@ -1,3 +1,7 @@
+### v2.2.1 - February 23, 2022
+
+- Added support for ChatGPT Plus
+
 ### v2.2.0 - February 18, 2022
 
 - Fixed jumbled nav on zoomed in screen
