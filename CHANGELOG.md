@@ -1,3 +1,6 @@
+### v2.2.3 - March 1, 2022
+- Fixed in-page search
+
 ### v2.2.2 - February 24, 2022 [hotfix]
 
 - Hotfix for v2.2.1
