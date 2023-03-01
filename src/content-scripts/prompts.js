@@ -408,7 +408,7 @@ function addCopyButton (buttonGroup) {
 // This function selects a prompt template
 function selectPromptTemplate (idx) {
     // Get the list of prompt templates
-    const templates = window.prompttemplates
+    const templates = globalTemplates
     // If there are no templates, skip
     if (!templates || !Array.isArray(templates)) return
 
