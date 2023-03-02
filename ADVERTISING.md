@@ -1,6 +1,6 @@
 ## Interested in advertising with ChatGPT Prompt Genius?
 
-Do you have a relevant AI product and want to reach a broad market? **Send inquiries to aipromptgenius@gmail.com**
+Do you have a relevant tech product and want to reach a niche AI market? **Send inquiries to aipromptgenius@gmail.com**
 
 ## Advertising Space
 
