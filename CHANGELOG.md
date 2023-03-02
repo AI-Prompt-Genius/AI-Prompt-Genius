@@ -1,4 +1,10 @@
+### v2.2.4 - March 1, 2022
+
+- Fixed typo in popup name of extension
+- Added support for non-intrusive [ads](https://github.com/benf2004/ChatGPT-Prompt-Genius/blob/master/ADVERTISING.md)
+
 ### v2.2.3 - March 1, 2022
+
 - Fixed in-page search
 
 ### v2.2.2 - February 24, 2022 [hotfix]
