@@ -517,6 +517,7 @@ let prompts_url = window.location.href;
 function check_url() {
     if (prompts_url !== window.location.href) {
         prompts_url = window.location.href;
+        setTimeout(insertPromptTemplatesSection, 300)
         let newChatButton = document.querySelector('nav').firstChild
         newChatButton.addEventListener('click', () => {
             setTimeout(insertPromptTemplatesSection, 300)
@@ -525,4 +526,4 @@ function check_url() {
     }
 }
 
-setInterval(check_url, 500);
+setInterval(check_url, 1000);

@@ -5,11 +5,11 @@ function main() {
         document.querySelector("#prompts_storage").setAttribute("type", "hidden")
         document.querySelector("#prompts_storage").value = prompts
     })
+    injectScript(chrome.runtime.getURL('content-scripts/prompts.js'), 'body');
+    setTimeout(getAd, 1000)
 }
 
 main()
-
-injectScript(chrome.runtime.getURL('content-scripts/prompts.js'), 'body');
 
 async function getAd(){
     console.log("Sending message to background page");
@@ -39,7 +39,16 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
-setTimeout(getAd, 1000)
+let promptURL = window.location.href;
+
+function check_url() {
+    if (promptURL !== window.location.href) {
+        promptURL = window.location.href;
+        setTimeout(getAd, 500)
+        console.log("URL CHANGE")
+    }
+}
+setInterval(check_url, 1000);
 
 /*let url = chrome.runtime.getURL('pages/prompts.html')
 
