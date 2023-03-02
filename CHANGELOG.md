@@ -1,21 +1,25 @@
-### v2.2.4 - March 1, 2022
+### v2.2.5 - March 1, 2023
+
+ - Fixed issue with re-entering prompt templates
+
+### v2.2.4 - March 1, 2023
 
 - Fixed typo in popup name of extension
 - Added support for non-intrusive [ads](https://github.com/benf2004/ChatGPT-Prompt-Genius/blob/master/ADVERTISING.md)
 
-### v2.2.3 - March 1, 2022
+### v2.2.3 - March 1, 2023
 
 - Fixed in-page search
 
-### v2.2.2 - February 24, 2022 [hotfix]
+### v2.2.2 - February 24, 2023 [hotfix]
 
 - Hotfix for v2.2.1
 
-### v2.2.1 - February 23, 2022
+### v2.2.1 - February 23, 2023
 
 - Added support for ChatGPT Plus
 
-### v2.2.0 - February 18, 2022
+### v2.2.0 - February 18, 2023
 
 - Fixed jumbled nav on zoomed in screen
 
