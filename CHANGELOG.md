@@ -1,3 +1,7 @@
+### v2.2.6  
+
+- Moved position of share button items
+
 ### v2.2.5 - March 1, 2023
 
  - Fixed issue with re-entering prompt templates
