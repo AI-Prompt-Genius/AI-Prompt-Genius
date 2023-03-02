@@ -227,7 +227,7 @@ function searchAndCat(fs){
     if (searchTerm !== ""){
         prompts = searchPrompts(prompts, searchTerm)
     }
-    insertPromptTemplatesSection(prompts, category, searchTerm)
+    updateTemplates(prompts, category, searchTerm)
 }
 
 let globalTemplates = window.prompttemplates
@@ -327,7 +327,7 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     <div>Compact view <input id="compact" type="checkbox"> | <a target="_blank" href="https://www.reddit.com/r/ChatGPTPromptGenius/">Discover Prompts ${svg`Arrow`}</a> | <a style="cursor: pointer" target="blank" id="userPrompts">My Prompts ${svg`Arrow`}</a>
     </div>
     
-    <ul class="${css`ul`}">
+    <ul class="${css`ul`}" id="templates">
       ${currentTemplates.map((template, i) => `
         <button onclick="selectPromptTemplate(${start + i})" class="${css`card`}">
           <h3 class="${css`h3`}">${hs(template.title, searchTerm)}</h3>
@@ -390,6 +390,41 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     document.getElementById("compact").addEventListener("click", compactStyle)
 }
 
+function updateTemplates(templates = window.prompttemplates, category="", searchTerm=""){
+    globalTemplates = templates
+
+    if (isCompact){
+        promptTemplateSection.pageSize = 10
+    }
+    else{
+        promptTemplateSection.pageSize = 5
+    }
+
+    // Get the current page number and page size from the promptTemplateSection object
+    const { currentPage, pageSize } = promptTemplateSection
+    // Calculate the start and end indices of the current page of prompt templates
+    const start = pageSize * currentPage
+    const end = Math.min(pageSize * (currentPage + 1), templates.length)
+    // Get the current page of prompt templates
+    const currentTemplates = templates.slice(start, end)
+
+    const hs = highlightString
+
+    let templateHTML =
+        `
+        ${currentTemplates.map((template, i) => `
+        <button onclick="selectPromptTemplate(${start + i})" class="${css`card`}">
+          <h3 class="${css`h3`}">${hs(template.title, searchTerm)}</h3>
+          <p class="compact-hide ${css`p`}">${hs(template.text, searchTerm)}</p>
+          <p class="compact-hide ${css `category`}">${hs(template.category, searchTerm)}</p>
+          <span class="font-medium compact-hide">Use prompt →</span>
+        </button>
+      `).join('')}
+        `
+    document.getElementById("templates").innerHTML = templateHTML
+    compactStyle()
+}
+
 function compactStyle(){
     if (!firstTime) {
         isCompact = document.getElementById("compact").checked
@@ -412,7 +447,7 @@ function prevPromptTemplatesPage () {
     promptTemplateSection.currentPage--
     promptTemplateSection.currentPage = Math.max(0, promptTemplateSection.currentPage)
     // Update the section
-    insertPromptTemplatesSection(globalTemplates)
+    updateTemplates(globalTemplates)
 }
 
 function nextPromptTemplatesPage () {
@@ -428,7 +463,7 @@ function nextPromptTemplatesPage () {
         promptTemplateSection.currentPage
     )
     // Update the section
-    insertPromptTemplatesSection(globalTemplates)
+    updateTemplates(globalTemplates)
 }
 
 function addCopyButton (buttonGroup) {
