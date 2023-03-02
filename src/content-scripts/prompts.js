@@ -97,6 +97,7 @@
 			window.prompttemplates = prompts.reverse()
 			insertPromptTemplatesSection()
 			document.querySelector('#prompts_storage').remove()
+            insertAd()
 		}
         
     }
@@ -115,6 +116,23 @@
     // Set up the Sidebar (by adding "Export Chat" button and other stuff)
     setupSidebar()
 })()
+
+function insertAd(){
+    const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`
+    fetch(`${host}/ads/current.txt`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP error " + response.status);
+            }
+            return response.text();
+        })
+        .then(text => {
+            document.getElementById("cgpt-pg-ad").innerHTML = text;
+        })
+        .catch(error => {
+            console.error(error)
+        });
+}
 
 // This function is called for each new element added to the document body
 function handleElementAdded (e) {
@@ -285,7 +303,10 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     const html = `
     <div class="${css`column`}">
     ${svg`ChatBubble`}
-    <div class="${css`h2`}">
+    <div>
+    <h2 class="${css`h2`}" style="margin-bottom: 5px">ChatGPT Prompt Genius Templates</h2>
+    <div class="${css`paginationText`}" id="cgpt-pg-ad"></div>
+    <ul class="flex flex-col gap-3.5">
     
     <div class="${css`selectDiv`}">
         <div style="width: 50% !important;">
@@ -335,6 +356,7 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
         <button onclick="nextPromptTemplatesPage()" class="${css`paginationButton`} border-0 border-l border-gray-500" style="border-radius: 0 6px 6px 0">Next</button>
       </div>
     </div>
+    </ul>
     </div>
     
     <div style="height: 100px;"></div>
@@ -493,7 +515,7 @@ function css (name) {
         case 'selectDiv': return 'grid grid-cols-2 flex sm:flex gap-2 items-end justify-left lg:-mb-4 lg:max-w-3xl md:last:mb-6 pt-2 stretch text-left text-sm';
         case 'search': return 'bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 md:w-50';
         case 'column': return 'flex flex-col gap-3.5 flex-1'
-        case 'h2': return 'text-lg font-normal">Prompt Genius Templates</h2><ul class="flex flex-col gap-3.5'
+        case 'h2': return 'text-lg font-normal'
         case 'h3': return 'm-0 tracking-tight leading-8 text-gray-900 dark:text-gray-100 text-xl'
         case 'ul': return 'flex flex-col gap-3.5'
         case 'card': return 'flex flex-col gap-2 text-sm w-full bg-gray-50 dark:bg-white/5 p-4 rounded-md hover:bg-gray-200 dark:hover:bg-gray-900 text-left'
