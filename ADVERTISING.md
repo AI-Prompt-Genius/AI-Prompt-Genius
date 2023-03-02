@@ -29,7 +29,7 @@ Current rates:
 
 Payment will be made through a Stripe payment link and is expected to be paid upfront.
 
-**Send inquiries to aipromptgenius@gmail.com**. I will vet your product and make sure it is relevant and meets basic privacy standards. 
+**Send inquiries to aipromptgenius@gmail.com**. I will vet your product and make sure it is relevant (tech-related) and meets basic privacy standards. 
 
 Thank you for supporting small developers!
 
