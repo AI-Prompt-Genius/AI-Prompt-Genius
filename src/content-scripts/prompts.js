@@ -339,7 +339,7 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     </ul>
 
     <div class="${css`column`} items-center">
-      <span class="${css`paginationText`}">
+      <span class="${css`paginationText`}" id="pagination">
         Showing <span class="${css`paginationNumber`}">${start + 1}</span> to <span class="${css`paginationNumber`}">${end}</span> of <a id="prompt-link"><span class="${css`paginationNumber`}">${templates.length} Entries</span></a>
       </span>
       <div class="${css`paginationButtonGroup`}">
@@ -422,6 +422,9 @@ function updateTemplates(templates = window.prompttemplates, category="", search
       `).join('')}
         `
     document.getElementById("templates").innerHTML = templateHTML
+    let paginationHTML =   `Showing <span class="${css`paginationNumber`}">${start + 1}</span> to <span class="${css`paginationNumber`}">${end}</span> of <a id="prompt-link"><span class="${css`paginationNumber`}">${templates.length} Entries</span></a>`
+
+    document.getElementById("pagination").innerHTML = paginationHTML
     compactStyle()
 }
 
