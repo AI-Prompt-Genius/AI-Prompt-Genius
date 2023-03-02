@@ -428,7 +428,6 @@ function use_prompt(prompt){
 // listen for messages
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        console.log(request)
         if (request.type === "c_continue_convo") {
             console.log("message recieved!")
             continue_convo(JSON.stringify(request.convo))

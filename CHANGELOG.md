@@ -1,6 +1,8 @@
 ### v2.2.6  
 
 - Moved position of share button items
+- Added compact view
+- Added links to view and discover prompts
 
 ### v2.2.5 - March 1, 2023
 

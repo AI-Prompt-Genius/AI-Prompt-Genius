@@ -92,8 +92,9 @@ let firstTime = true;
         }) */
     function loadUserPrompts() {
 		let promptsRawString = document.querySelector('#prompts_storage').value;
-        isCompact = document.querySelector("#isCompact")?.value ?? false;
+        isCompact = (document.querySelector("#isCompact")?.value === "true") ?? false;
         console.log(typeof isCompact)
+        console.log(isCompact)
 		if(promptsRawString)
 		{
 			// if no prompts, do nothing
@@ -216,21 +217,16 @@ function searchPrompts(prompts, searchTerm) { // created by ChatGPT
 
 function searchAndCat(fs){
     focusSearch = fs
-    console.log("HEYYY")
     promptTemplateSection.currentPage = 0
     let searchTerm = document.querySelector("#search").value
     let prompts = window.prompttemplates
     let category = document.querySelector("#category").value
-    console.log(category)
     if (category !== ""){
         prompts = getMatchingCategory(category, prompts)
     }
-    console.log(prompts)
     if (searchTerm !== ""){
         prompts = searchPrompts(prompts, searchTerm)
     }
-    console.log(prompts)
-    console.log(category)
     insertPromptTemplatesSection(prompts, category, searchTerm)
 }
 
@@ -254,6 +250,13 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
         title.parentElement.classList.remove('md:h-full')
         // Remove the "h-full" calss from title.parentElement in plus
         title.parentElement.classList.remove('h-full')
+    }
+
+    if (isCompact){
+        promptTemplateSection.pageSize = 10
+    }
+    else{
+        promptTemplateSection.pageSize = 5
     }
 
     // Get the main page, in ChatGPT free is title's parent, in ChatGPT plus is parent's sibling
@@ -369,7 +372,6 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     let catSelect = document.querySelector("#category")
     let search = document.querySelector("#search")
 
-    console.log(focusSearch)
     if (focusSearch === true){
         search.focus()
     }
@@ -393,7 +395,7 @@ function compactStyle(){
         isCompact = document.getElementById("compact").checked
     }
     let hideElements = document.querySelectorAll(".compact-hide")
-    if (isCompact){
+    if (isCompact === true){
         for (let ele of hideElements){
             ele.style.display = "none";
         }
