@@ -3,6 +3,8 @@
 <a href="https://chrome.google.com/webstore/detail/chatgpt-history/jjdnakkfjnnbbckhifcfchagnpofjffo/"><img alt="Chrome Web Store" src="https://img.shields.io/chrome-web-store/users/jjdnakkfjnnbbckhifcfchagnpofjffo?color=red&label=Chrome%20Users"></a>
 <a href="https://addons.mozilla.org/en-US/firefox/addon/chatgpt-history/"><img alt="Mozilla Add-on" src="https://img.shields.io/amo/users/chatgpt-history?label=Firefox%20Users"></a> ![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/jjdnakkfjnnbbckhifcfchagnpofjffo?color=yellow)
 
+[Advertise with us](https://github.com/benf2004/ChatGPT-Prompt-Genius/blob/master/ADVERTISING.md)
+
 # ChatGPT Prompt Genius 
 <em>Written by ChatGPT, of course</em>
 
