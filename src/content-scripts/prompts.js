@@ -97,7 +97,6 @@
 			window.prompttemplates = prompts.reverse()
 			insertPromptTemplatesSection()
 			document.querySelector('#prompts_storage').remove()
-            insertAd()
 		}
         
     }
@@ -116,23 +115,6 @@
     // Set up the Sidebar (by adding "Export Chat" button and other stuff)
     setupSidebar()
 })()
-
-function insertAd(){
-    const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`
-    fetch(`${host}/ads/current.txt`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("HTTP error " + response.status);
-            }
-            return response.text();
-        })
-        .then(text => {
-            document.getElementById("cgpt-pg-ad").innerHTML = text;
-        })
-        .catch(error => {
-            console.error(error)
-        });
-}
 
 // This function is called for each new element added to the document body
 function handleElementAdded (e) {
@@ -485,7 +467,7 @@ function CSVToArray(strData, strDelimiter) {
         "gi"
     );
     var data = [[]];
-    var matches;
+    var matchesf;
     while (matches = pattern.exec(strData)) {
         var delimiter = matches[1];
         if (delimiter.length && delimiter !== strDelimiter) {
