@@ -36,10 +36,10 @@ Thank you for supporting small developers!
 
 ## User Advertising FAQ
 
-Q: Why are there ads on ChatGPT Prompt Genius now?
+**Q**: Why are there ads on ChatGPT Prompt Genius now?
 
-A: In order to support the continued development of ChatGPT Prompt Genius and keep it free, we use ad revenue.
+**A**: In order to support the continued development of ChatGPT Prompt Genius and keep it free, we use ad revenue.
 
-Q: Are you selling my personal information?
+**Q**: Are you selling my personal information?
 
-A: No, the ads are not personalized. We do not have access to any of your personal information.
+**A**: No, the ads are not personalized. We do not have access to any of your personal information.
