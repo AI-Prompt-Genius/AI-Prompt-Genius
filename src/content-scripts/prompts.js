@@ -1,3 +1,5 @@
+let isCompact;
+let firstTime = true;
 (() => {
     // Save a reference to the original fetch function
     const fetch = window._fetch = window._fetch || window.fetch
@@ -90,6 +92,8 @@
         }) */
     function loadUserPrompts() {
 		let promptsRawString = document.querySelector('#prompts_storage').value;
+        isCompact = document.querySelector("#isCompact")?.value ?? false;
+        console.log(typeof isCompact)
 		if(promptsRawString)
 		{
 			// if no prompts, do nothing
@@ -317,14 +321,16 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
                 <input id="search" type="text" class="${css`search`}" autocomplete="off" placeholder="Search">
         </div>
     </div>
+    <div>Compact view <input id="compact" type="checkbox"> | <a target="_blank" href="https://www.reddit.com/r/ChatGPTPromptGenius/">Discover Prompts ${svg`Arrow`}</a> | <a style="cursor: pointer" target="blank" id="userPrompts">My Prompts ${svg`Arrow`}</a>
+    </div>
     
     <ul class="${css`ul`}">
       ${currentTemplates.map((template, i) => `
         <button onclick="selectPromptTemplate(${start + i})" class="${css`card`}">
           <h3 class="${css`h3`}">${hs(template.title, searchTerm)}</h3>
-          <p class="${css`p`}">${hs(template.text, searchTerm)}</p>
-          <p class="${css `category`}">${hs(template.category, searchTerm)}</p>
-          <span class="font-medium">Use prompt →</span>
+          <p class="compact-hide ${css`p`}">${hs(template.text, searchTerm)}</p>
+          <p class="compact-hide ${css `category`}">${hs(template.category, searchTerm)}</p>
+          <span class="font-medium compact-hide">Use prompt →</span>
         </button>
       `).join('')}
     </ul>
@@ -373,6 +379,31 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
 
     search.value = searchTerm
     search.addEventListener("input", () => searchAndCat(true))
+
+    // listen for compact mode checkmark click
+    if (isCompact){
+        document.getElementById("compact").checked = true
+    }
+    compactStyle()
+    document.getElementById("compact").addEventListener("click", compactStyle)
+}
+
+function compactStyle(){
+    if (!firstTime) {
+        isCompact = document.getElementById("compact").checked
+    }
+    let hideElements = document.querySelectorAll(".compact-hide")
+    if (isCompact){
+        for (let ele of hideElements){
+            ele.style.display = "none";
+        }
+    }
+    else {
+        for (let ele of hideElements){
+            ele.style.display = "block";
+        }
+    }
+    firstTime = false
 }
 
 function prevPromptTemplatesPage () {
@@ -487,6 +518,7 @@ function svg (name) {
         case 'Archive': return '<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" height="1em" <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>'
         case 'ChatBubble': return '<svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 m-auto" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>'
         case 'Clipboard': return '<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>'
+        case "Arrow": return `<svg style="display: inline!important;" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`
     }
 }
 

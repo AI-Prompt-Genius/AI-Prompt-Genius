@@ -5,8 +5,15 @@ function main() {
         document.querySelector("#prompts_storage").setAttribute("type", "hidden")
         document.querySelector("#prompts_storage").value = prompts
     })
+    chrome.storage.local.get({isCompact: false}, function (result){
+        let isCompact = JSON.stringify(result.isCompact)
+        document.body.appendChild(document.createElement(`input`)).setAttribute("id", "isCompact")
+        document.querySelector("#isCompact").setAttribute("type", "hidden")
+        document.querySelector("#isCompact").value = isCompact
+    })
     injectScript(chrome.runtime.getURL('content-scripts/prompts.js'), 'body');
     setTimeout(getAd, 1000)
+    setTimeout(addUserPromptListener, 1000)
 }
 
 main()
@@ -35,23 +42,29 @@ chrome.runtime.onMessage.addListener(
                     clearInterval(adInterval)
                 }
             }
+
+            // add listeners for checkmark and
         }
     }
 );
 
+function openPrompts(){
+    chrome.runtime.sendMessage({type: "openPrompts"})
+}
+
+function addUserPromptListener(){
+    document.getElementById("userPrompts").addEventListener('click', openPrompts)
+}
+
+// listen for page changes
 let promptURL = window.location.href;
 
 function check_url() {
     if (promptURL !== window.location.href) {
         promptURL = window.location.href;
         setTimeout(getAd, 500)
+        setTimeout(1000, addUserPromptListener)
         console.log("URL CHANGE")
     }
 }
 setInterval(check_url, 1000);
-
-/*let url = chrome.runtime.getURL('pages/prompts.html')
-
-setTimeout(() => {
-    document.querySelector("#prompt-link").href = url
-}, 2000)*/

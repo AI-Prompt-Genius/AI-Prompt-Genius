@@ -40,6 +40,10 @@ chrome.runtime.onMessage.addListener( async function(message) {
             });
         });
     }
+    else if (message.type === "openPrompts"){
+        let url = chrome.runtime.getURL('pages/prompts.html')
+        chrome.tabs.create({url: url})
+    }
 	else if(message.type ==='b_use_prompt') {
 		console.log('background received')
         chrome.tabs.create({url: 'https://chat.openai.com/chat', active: true}, function (my_tab){
