@@ -35,6 +35,43 @@ body.dark{
     font-size: 10pt;
 }
 
+.tag:hover{
+    border: 1px solid #0BA37F !important;
+}
+
+.dark .tag:hover{
+    color: white
+}
+.light .tag:hover{
+    color: black !important;
+}
+
+.tag.selected{
+    border: 2px solid #0BA37F !important;
+}
+
+.tag {
+    display: inline-block;
+    background-color: transparent;
+    border-radius: 2em;
+    border: 1px solid #363636;
+    padding: 0.2em 0.65em;
+    cursor: pointer;
+    font-size: 0.8em;
+    line-height: 1;
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+
+.dark .tag{
+    border: 1px solid #AAAAAA;
+    color: #DDDDDD
+}
+
+.light .tag{
+    color: #555555;
+}
+
 .row.dark{
     border-bottom: #2A2B31 1px solid;
     border-top: #2A2B31 1px solid;
@@ -108,6 +145,28 @@ textarea {
 .odd.dark{
     background-color: #434654 !important;
     color: #D1D5DA;
+}
+
+.dark .addTags{
+    color: white;
+}
+
+.light .addTags{
+    color: black;
+}
+
+.addTags{
+    border: 1px solid black;
+    background-color: transparent;
+    border-radius: 2px;
+    width: 85%;
+    line-height: .8;
+    height: 20px;
+    font-size: 14px;
+}
+
+.edit-tags{
+    width: 10%;
 }
 
 .prompt-div {
@@ -291,23 +350,6 @@ textarea {
     border:none;
 }
 
-.tags {
-    list-style: none; /* Remove the default bullet points */
-    display: flex; /* Display the tags as a flex container */
-    flex-wrap: wrap; /* Allow the tags to wrap onto multiple lines if necessary */
-    margin: 0; /* Remove the default margin */
-    padding: 0; /* Remove the default padding */
-}
-
-.tags li {
-    display: inline-block; /* Display each tag as an inline block */
-    margin-right: 0.5em; /* Add some space between the tags */
-    font-size: 0.9em; /* Make the font size slightly smaller than the default */
-    line-height: 1; /* Reset the line height to the default */
-    background-color: #f8f9fa; /* Set the background color to a light gray */
-    padding: 0.25em 0.5em; /* Add some padding to the tag */
-    border-radius: 0.25em; /* Round the corners of the tag */
-}
 .link-inner-container {
     display: flex;
     flex-direction: row;

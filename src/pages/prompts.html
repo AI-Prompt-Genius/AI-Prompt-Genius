@@ -9,6 +9,7 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro-v6@44659d9/css/all.min.css" rel="stylesheet"
         type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Primer/20.8.3/select-menu.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/prompts.css">
     <link rel="stylesheet" href="css/sidenav.css">
     <link rel="stylesheet" href="css/hljs.css">
@@ -110,7 +111,9 @@
                         <option value="Therapy & Life-help">Therapy & Life-help</option>
                     </select>
                 </div>
-                <div class="p-1 tags"></div>
+                <div class="m-1"><input class="addTags p-2" type="text" maxlength="24" placeholder="Enter to add tag..."> <i class="edit-tags fa-regular fa-pen-to-square"></i></div>
+                <div class="p-1 tags">
+                </div>
             </div>
             <div class="col-1 p-2 m-3 mx-4">
                 <table class="m-0 p-0">
@@ -134,6 +137,7 @@
             </div>
         </div>
     </template>
+
     <main class="dark">
         <div class="header dark container m-0">
             <select id="category-filter" class="btn dark p-2 my-3">
@@ -157,6 +161,9 @@
                 <option value="Travel">Travel</option>
                 <option value="Therapy & Life-help">Therapy & Life-help</option>
             </select>
+            <div id="filter-tags" class="m-3">
+
+            </div>
         </div>
         <div class="main dark">
         </div>
