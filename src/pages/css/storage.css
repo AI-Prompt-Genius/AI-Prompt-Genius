@@ -1,0 +1,23 @@
+.clickable
+{
+    cursor: pointer;
+}
+body.dark{
+    background-color: #343541;
+}
+.dark{
+    color: #D1D5DA;
+}
+#cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
+
+main{
+    margin-left : 201px;
+    margin-right: 12px;
+}
+
+/* file inputs must be visible, but they can't be styled, and so we do a trick with opacity. */
+.hidden-trick {
+    position:fixed;
+    pointer-events: none;
+    opacity: 0;
+}

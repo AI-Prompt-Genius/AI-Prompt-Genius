@@ -136,13 +136,11 @@ function load_branched_thread()
 			}
 		}
 		
-		if(fake_convo[i] === undefined)
-		{
+		if (fake_convo[i] === undefined) {
 			temp.querySelector(".text").innerHTML = `<div class="blue-info-box">No data available for current branch.</div>`
 			main.appendChild(temp)
 		}
-		else 
-		{
+		else {
 			if (human) {
 				temp.querySelector(".text").innerHTML = `<p>${fake_convo[i]}</p>`
 				main.appendChild(temp)
@@ -182,7 +180,6 @@ function copy_setup() { // created by ChatGPT
             await navigator.clipboard.writeText(text);
         });
     });
-
 }
 
 function getInnerText(className, propertyName) {

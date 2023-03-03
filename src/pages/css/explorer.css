@@ -25,13 +25,6 @@ code{
     color: #F9F9FA
 }
 
-/* file inputs must be visible, but they can't be styled, and so we do a trick with opacity. */
-.hidden-trick {
-	position:fixed;
-	pointer-events: none;
-	opacity: 0;
-}
-
 .link{
     text-decoration: none;
 }
