@@ -11,6 +11,7 @@
         type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/Primer/20.8.3/select-menu.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/prompts.css">
+    <link rel="stylesheet" href="css/autocomplete.css">
     <link rel="stylesheet" href="css/sidenav.css">
     <link rel="stylesheet" href="css/hljs.css">
 </head>
@@ -111,7 +112,11 @@
                         <option value="Therapy & Life-help">Therapy & Life-help</option>
                     </select>
                 </div>
-                <div class="m-1"><input class="addTags p-2" type="text" maxlength="24" placeholder="Enter to add tag..."> <i class="edit-tags fa-regular fa-pen-to-square"></i></div>
+                <form autocomplete="off" class="m-1">
+                    <div class="autocomplete">
+                        <input class="addTags p-2" type="text" maxlength="24" placeholder="Enter to add tag..."> <i class="edit-tags fa-regular fa-pen-to-square"></i>
+                    </div>
+                </form>
                 <div class="p-1 tags">
                 </div>
             </div>
