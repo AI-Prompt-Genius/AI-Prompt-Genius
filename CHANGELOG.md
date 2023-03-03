@@ -1,4 +1,8 @@
-### v2.2.6  
+### v2.2.7 - March 2, 2023
+
+- Added separate storage page
+
+### v2.2.6  - March 2, 2023
 
 - Moved position of share button items
 - Added compact view
