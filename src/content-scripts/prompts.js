@@ -232,6 +232,57 @@ function searchAndCat(fs){
 
 let globalTemplates = window.prompttemplates
 
+function tagStyling(){
+    let styles =
+    `
+    <style>
+    .tag {
+    display: inline-block;
+    background-color: transparent;
+    border-radius: 2em;
+    border: 1px solid #363636;
+    padding: 0.2em 0.65em;
+    cursor: pointer;
+    font-size: 0.8em;
+    line-height: 1;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    z-index: 99;
+    }
+    .tag:hover{
+    border: 1px solid #0BA37F !important;
+    }
+    .tag:hover,
+    .tag:hover ~ .template:hover{
+        pointer-events: auto;
+    }
+    .dark .tag:hover{
+    color: white
+    }
+    .light .tag:hover{
+    color: black !important;
+    }
+    .tag.selected{
+    border: 2px solid #0BA37F !important;
+    }
+    .dark .tag{
+    border: 1px solid #AAAAAA;
+    color: #DDDDDD
+    }
+    .light .tag{
+        color: #555555;
+    }
+    .light .template:not(:has(.tag:hover)):hover{
+        background-color: rgb(217, 217, 227);
+    }
+    .dark .template:not(:has(.tag:hover)):hover{
+        background-color: rgb(32, 33, 35);
+    }
+    </style>
+    `
+    document.head.insertAdjacentHTML("beforeend", styles)
+}
+
 // This function inserts a section containing a list of prompt templates into the chat interface
 function insertPromptTemplatesSection (templates = window.prompttemplates, category="", searchTerm="") {
     // Get the title element (as a reference point and also for some alteration)
@@ -258,6 +309,8 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     else{
         promptTemplateSection.pageSize = 5
     }
+
+    tagStyling()
 
     // Get the main page, in ChatGPT free is title's parent, in ChatGPT plus is parent's sibling
     let parent = title.parentElement;
@@ -329,10 +382,10 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     
     <ul class="${css`ul`}" id="templates">
       ${currentTemplates.map((template, i) => `
-        <button onclick="selectPromptTemplate(${start + i})" class="${css`card`}">
+        <button class="template ${css`card`}">
           <h3 class="${css`h3`}">${hs(template.title, searchTerm)}</h3>
           <p class="compact-hide ${css`p`}">${hs(template.text, searchTerm)}</p>
-          <p class="compact-hide ${css `category`}">${hs(template.category, searchTerm)}</p>
+          <p class="compact-hide ${css `category`}">${hs(template.category, searchTerm)} ${tags(template.tags ?? [])}</p>
           <span class="font-medium compact-hide">Use prompt →</span>
         </button>
       `).join('')}
@@ -388,9 +441,50 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     }
     compactStyle()
     document.getElementById("compact").addEventListener("click", compactStyle)
+
+    addButtonClicks(templates, category, searchTerm, [], start)
 }
 
-function updateTemplates(templates = window.prompttemplates, category="", searchTerm=""){
+function addButtonClicks(t, category, searchTerm, tagList=[], start){
+    let templates = document.querySelectorAll(".template")
+    let i = 0
+    for (let template of templates){
+        template.addEventListener("click", event => {
+            const target = event.target
+            if (target.classList.contains("selected")){
+                console.log("selected")
+                let newTagList = tagList.filter(item => item !== target.innerText);
+                updateTemplates(t, category, searchTerm, newTagList)
+            }
+            else if (target.classList.contains('tag')){
+                let newTagList = [...tagList, target.innerText]
+                updateTemplates(t, category, searchTerm, newTagList)
+            }
+            else{
+                selectPromptTemplate(start + i)
+            }
+        })
+        i += 1
+    }
+}
+
+function tags(tagList, selectedTags=[]){
+    if (typeof tagList === "string"){
+        return ""
+    }
+    let tagHTML = ""
+    for (let tag of tagList){
+        let selectedClass = ""
+        if (selectedTags.includes(tag)){
+            selectedClass = "selected"
+        }
+        tagHTML += `<span class="tag ${selectedClass}">${tag}</span>`
+    }
+    return tagHTML
+}
+
+function updateTemplates(templates = window.prompttemplates, category="", searchTerm="", tagList =[]){
+    console.log(tagList)
     globalTemplates = templates
 
     if (isCompact){
@@ -412,11 +506,13 @@ function updateTemplates(templates = window.prompttemplates, category="", search
 
     let templateHTML =
         `
-        ${currentTemplates.map((template, i) => `
-        <button onclick="selectPromptTemplate(${start + i})" class="${css`card`}">
+        ${currentTemplates
+            .filter(template => tagList.every(tag => template.tags?.includes(tag)))
+            .map((template, i) => `
+        <button class="${css`card`} template">
           <h3 class="${css`h3`}">${hs(template.title, searchTerm)}</h3>
           <p class="compact-hide ${css`p`}">${hs(template.text, searchTerm)}</p>
-          <p class="compact-hide ${css `category`}">${hs(template.category, searchTerm)}</p>
+          <p className="compact-hide ${css`category`}">${hs(template.category, searchTerm)} ${tags(template.tags ?? [], tagList)}</p>
           <span class="font-medium compact-hide">Use prompt →</span>
         </button>
       `).join('')}
@@ -426,6 +522,8 @@ function updateTemplates(templates = window.prompttemplates, category="", search
 
     document.getElementById("pagination").innerHTML = paginationHTML
     compactStyle()
+
+    addButtonClicks(templates, category, searchTerm, tagList, start)
 }
 
 function compactStyle(){
@@ -572,7 +670,7 @@ function css (name) {
         case 'h2': return 'text-lg font-normal'
         case 'h3': return 'm-0 tracking-tight leading-8 text-gray-900 dark:text-gray-100 text-xl'
         case 'ul': return 'flex flex-col gap-3.5'
-        case 'card': return 'flex flex-col gap-2 text-sm w-full bg-gray-50 dark:bg-white/5 p-4 rounded-md hover:bg-gray-200 dark:hover:bg-gray-900 text-left'
+        case 'card': return 'flex flex-col gap-2 text-sm w-full bg-gray-50 dark:bg-white/5 p-4 rounded-md text-left'
         case 'p': return 'm-0 font-light text-gray-600 dark:text-gray-300'
         case 'category': return 'm-0 font-light text-gray-700 dark:text-gray-200'
         case 'paginationText': return 'text-sm text-gray-700 dark:text-gray-400'
