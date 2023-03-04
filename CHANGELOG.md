@@ -1,3 +1,7 @@
+### v2.3.0 - March 4, 2023
+
+- Fixed re-adding tooltips after filtering/searching
+
 ### v2.2.9 - March 3, 2023 [hotfix]
 
 - Fixed search function on prompts
