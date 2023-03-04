@@ -17,8 +17,8 @@ function addButtons() {
         let tds = main_div.querySelectorAll('td')
         text = tds[1].innerText
         category = tds[3].innerText
-        tags = tds[5].innerText
-        console.log(title, text, category, tags)
+        //tags = tds[5].innerText
+        tags = []
         main_div.insertAdjacentHTML("beforebegin", btn_span)
         saveButton = document.getElementById('save_prompt')
         saveButton.addEventListener('click', savePrompt)
