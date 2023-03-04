@@ -687,7 +687,7 @@ function searchPrompts(prompts, searchTerm) { // created by ChatGPT
 	return prompts.filter(prompt => {
 		return (
 			prompt.title.toLowerCase().includes(searchTerm) ||
-			(prompt.text && prompt.text.toLowerCase().includes(searchTerm)) || (prompt.tags && prompt.tags.toLowerCase().includes(searchTerm))
+			(prompt.text && prompt.text.toLowerCase().includes(searchTerm)) || (prompt.tags && prompt.tags.includes(searchTerm))
 		);
 	});
 }
