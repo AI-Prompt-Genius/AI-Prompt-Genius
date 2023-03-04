@@ -8,8 +8,6 @@ let firstTime = true;
     window.fetch = (...t) => {
         // If the request is not for the chat backend API or moderations, just use the original fetch function
         if (!(t[0].includes('https://chat.openai.com/backend-api/conversation') || t[0].includes('https://chat.openai.com/backend-api/moderations'))) return fetch(...t)
-        // Get the selected prompt template
-        // const template = window.selectedprompttemplate
 
         try {
             // Get the options object for the request, which includes the request body
@@ -25,19 +23,7 @@ let firstTime = true;
                 document.querySelector("#conversationID").value = conversationID
                 return fetch(...t)
             }
-            /*if (window.selectedprompttemplate) {
-                // Get the prompt from the request body
-                const prompt = body.messages[0].content.parts[0]
-                // Replace the prompt in the request body with the selected prompt template,
-                // inserting the original prompt into the template
-                body.messages[0].content.parts[0] = template.prompt.replace('[INSERT]', prompt)
-                // Clear the selected prompt template
-                selectPromptTemplate(null)
-                // Stringify the modified request body and update the options object
-                options.body = JSON.stringify(body)
-                // Use the modified fetch function to make the request
-                return fetch(t[0], options)
-            }*/
+
             // If no prompt template has been selected, use the original fetch function
             else {
                 return fetch(...t)
@@ -210,7 +196,7 @@ function searchPrompts(prompts, searchTerm) { // created by ChatGPT
     return prompts.filter(prompt => {
         return (
             prompt.title.toLowerCase().includes(searchTerm) ||
-            (prompt.text && prompt.text.toLowerCase().includes(searchTerm)) || (prompt.tags && prompt.tags.toLowerCase().includes(searchTerm))
+            (prompt.text && prompt.text.toLowerCase().includes(searchTerm)) || (prompt.tags  && prompt.tags.includes(searchTerm))
         );
     });
 }
@@ -283,6 +269,7 @@ function tagStyling(){
     document.head.insertAdjacentHTML("beforeend", styles)
 }
 
+let globalTags = [];
 // This function inserts a section containing a list of prompt templates into the chat interface
 function insertPromptTemplatesSection (templates = window.prompttemplates, category="", searchTerm="") {
     // Get the title element (as a reference point and also for some alteration)
@@ -383,10 +370,10 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     <ul class="${css`ul`}" id="templates">
       ${currentTemplates.map((template, i) => `
         <button class="template ${css`card`}">
-          <h3 class="${css`h3`}">${hs(template.title, searchTerm)}</h3>
-          <p class="compact-hide ${css`p`}">${hs(template.text, searchTerm)}</p>
-          <p class="compact-hide ${css `category`}">${hs(template.category, searchTerm)} ${tags(template.tags ?? [])}</p>
-          <span class="font-medium compact-hide">Use prompt →</span>
+          <h3 class="child ${css`h3`}">${hs(template.title, searchTerm)}</h3>
+          <p class="child compact-hide temp-text ${css`p`}">${hs(template.text, searchTerm)}</p>
+          <p class="child compact-hide ${css `category`}">${hs(template.category, searchTerm)} ${tags(template.tags ?? [])}</p>
+          <span class="child font-medium compact-hide">Use prompt →</span>
         </button>
       `).join('')}
     </ul>
@@ -442,12 +429,11 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     compactStyle()
     document.getElementById("compact").addEventListener("click", compactStyle)
 
-    addButtonClicks(templates, category, searchTerm, [], start)
+    addButtonClicks(templates, category, searchTerm, [])
 }
 
-function addButtonClicks(t, category, searchTerm, tagList=[], start){
+function addButtonClicks(t, category, searchTerm, tagList=[]){
     let templates = document.querySelectorAll(".template")
-    let i = 0
     for (let template of templates){
         template.addEventListener("click", event => {
             const target = event.target
@@ -461,10 +447,16 @@ function addButtonClicks(t, category, searchTerm, tagList=[], start){
                 updateTemplates(t, category, searchTerm, newTagList)
             }
             else{
-                selectPromptTemplate(start + i)
+                if (target.classList.contains(('template'))) {
+                    let text = target.querySelector(".temp-text").textContent
+                    selectPromptTemplate(text)
+                }
+                else if (target.classList.contains('child')){
+                    let text = target.parentElement.querySelector(".temp-text").textContent
+                    selectPromptTemplate(text)
+                }
             }
         })
-        i += 1
     }
 }
 
@@ -483,8 +475,8 @@ function tags(tagList, selectedTags=[]){
     return tagHTML
 }
 
-function updateTemplates(templates = window.prompttemplates, category="", searchTerm="", tagList =[]){
-    console.log(tagList)
+function updateTemplates(templates = window.prompttemplates, category="", searchTerm="", tagList =globalTags){
+    globalTags = tagList
     globalTemplates = templates
 
     if (isCompact){
@@ -510,10 +502,10 @@ function updateTemplates(templates = window.prompttemplates, category="", search
             .filter(template => tagList.every(tag => template.tags?.includes(tag)))
             .map((template, i) => `
         <button class="${css`card`} template">
-          <h3 class="${css`h3`}">${hs(template.title, searchTerm)}</h3>
-          <p class="compact-hide ${css`p`}">${hs(template.text, searchTerm)}</p>
-          <p className="compact-hide ${css`category`}">${hs(template.category, searchTerm)} ${tags(template.tags ?? [], tagList)}</p>
-          <span class="font-medium compact-hide">Use prompt →</span>
+          <h3 class="child ${css`h3`}">${hs(template.title, searchTerm)}</h3>
+          <p class="child compact-hide temp-text ${css`p`}">${hs(template.text, searchTerm)}</p>
+          <p class="child compact-hide ${css`category`}">${hs(template.category, searchTerm)} ${tags(template.tags ?? [], tagList)}</p>
+          <span class="child font-medium compact-hide">Use prompt →</span>
         </button>
       `).join('')}
         `
@@ -523,7 +515,7 @@ function updateTemplates(templates = window.prompttemplates, category="", search
     document.getElementById("pagination").innerHTML = paginationHTML
     compactStyle()
 
-    addButtonClicks(templates, category, searchTerm, tagList, start)
+    addButtonClicks(templates, category, searchTerm, tagList)
 }
 
 function compactStyle(){
@@ -579,14 +571,7 @@ function addCopyButton (buttonGroup) {
 }
 
 // This function selects a prompt template
-function selectPromptTemplate (idx) {
-    // Get the list of prompt templates
-    const templates = globalTemplates
-    // If there are no templates, skip
-    if (!templates || !Array.isArray(templates)) return
-
-    const template = templates[idx]
-
+function selectPromptTemplate (text) {
     const textarea = document.querySelector('textarea')
     /*const parent = textarea.parentElement
     let wrapper = document.createElement('div')
@@ -596,35 +581,20 @@ function selectPromptTemplate (idx) {
     } else {
         parent.prepend(wrapper)
     }*/
-
-    if (template) {
-        /*wrapper.innerHTML = `
-    <span class="${css`tag`}">
-      ${template.title}
-    </span>
-    `*/
-        textarea.focus()
-        function setText() {
-            textarea.value = template.text
-            textarea.style.height = "200px"
-            window.selectedprompttemplate = template
-            textarea.parentElement.querySelector('button').addEventListener('click', () => {
+    textarea.focus()
+    function setText() {
+        textarea.value = text
+        textarea.style.height = "200px"
+        textarea.parentElement.querySelector('button').addEventListener('click', () => {
+            textarea.style.height = "24px"
+        })
+        textarea.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
                 textarea.style.height = "24px"
-            })
-            textarea.addEventListener("keydown", function (e) {
-                if (e.key === "Enter") {
-                    textarea.style.height = "24px"
-                }
-            })
-        }
-        setTimeout(setText, 100) //timeout for weird clear thing
-
+            }
+        })
     }
-    /*else {
-        //wrapper.innerHTML = ``
-        textarea.placeholder = ''
-        window.selectedprompttemplate = null
-    }*/
+        setTimeout(setText, 100) //timeout for weird clear thing
 }
 
 function CSVToArray(strData, strDelimiter) {
