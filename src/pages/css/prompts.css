@@ -149,6 +149,7 @@ textarea {
 
 .dark .addTags{
     color: white;
+    border: 1px solid #AAAAAA;
 }
 
 .light .addTags{
