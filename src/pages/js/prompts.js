@@ -248,6 +248,7 @@ Additional information:
 	if (alteredOldPrompts){
 		chrome.storage.local.set({prompts: prompts})
 	}
+	tooltips()
 	updateAutoComplete()
 }
 
