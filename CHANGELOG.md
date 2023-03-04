@@ -1,3 +1,7 @@
+### v2.2.8 - March 3, 2023
+
+- Added tags to prompts
+
 ### v2.2.7 - March 2, 2023
 
 - Added separate storage page
