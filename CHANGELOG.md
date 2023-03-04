@@ -1,3 +1,7 @@
+### v2.2.9 - March 3, 2023 [hotfix]
+
+- Fixed search function on prompts
+
 ### v2.2.8 - March 3, 2023
 
 - Added tags to prompts
