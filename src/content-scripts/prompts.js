@@ -475,6 +475,7 @@ function tags(tagList, selectedTags=[]){
     return tagHTML
 }
 
+let globalFiltered = null;
 function updateTemplates(templates = window.prompttemplates, category="", searchTerm="", tagList =globalTags){
     globalTags = tagList
     globalTemplates = templates
@@ -486,20 +487,23 @@ function updateTemplates(templates = window.prompttemplates, category="", search
         promptTemplateSection.pageSize = 5
     }
 
+    let filteredTemplates = templates.filter(template => tagList.every(tag => template.tags?.includes(tag)))
+    globalFiltered = filteredTemplates;
+
     // Get the current page number and page size from the promptTemplateSection object
     const { currentPage, pageSize } = promptTemplateSection
     // Calculate the start and end indices of the current page of prompt templates
     const start = pageSize * currentPage
-    const end = Math.min(pageSize * (currentPage + 1), templates.length)
+    const end = Math.min(pageSize * (currentPage + 1), filteredTemplates.length)
     // Get the current page of prompt templates
-    const currentTemplates = templates.slice(start, end)
+    const currentTemplates = filteredTemplates.slice(start, end)
+
 
     const hs = highlightString
 
     let templateHTML =
         `
         ${currentTemplates
-            .filter(template => tagList.every(tag => template.tags?.includes(tag)))
             .map((template, i) => `
         <button class="${css`card`} template">
           <h3 class="child ${css`h3`}">${hs(template.title, searchTerm)}</h3>
@@ -510,7 +514,7 @@ function updateTemplates(templates = window.prompttemplates, category="", search
       `).join('')}
         `
     document.getElementById("templates").innerHTML = templateHTML
-    let paginationHTML =   `Showing <span class="${css`paginationNumber`}">${start + 1}</span> to <span class="${css`paginationNumber`}">${end}</span> of <a id="prompt-link"><span class="${css`paginationNumber`}">${templates.length} Entries</span></a>`
+    let paginationHTML =   `Showing <span class="${css`paginationNumber`}">${start + 1}</span> to <span class="${css`paginationNumber`}">${end}</span> of <a id="prompt-link"><span class="${css`paginationNumber`}">${filteredTemplates.length} Entries</span></a>`
 
     document.getElementById("pagination").innerHTML = paginationHTML
     compactStyle()
@@ -540,23 +544,25 @@ function prevPromptTemplatesPage () {
     promptTemplateSection.currentPage--
     promptTemplateSection.currentPage = Math.max(0, promptTemplateSection.currentPage)
     // Update the section
-    updateTemplates(globalTemplates)
+    updateTemplates(globalTemplates, "", "", globalTags)
 }
 
 function nextPromptTemplatesPage () {
     const templates = globalTemplates
     if (!templates || !Array.isArray(templates)) return
 
+    let check = globalFiltered ?? templates
+
     promptTemplateSection.currentPage++
     promptTemplateSection.currentPage = Math.min(
         Math.floor(
-            (templates.length - 1) /
+            (check.length - 1) /
             promptTemplateSection.pageSize
         ),
         promptTemplateSection.currentPage
     )
     // Update the section
-    updateTemplates(globalTemplates)
+    updateTemplates(globalTemplates, "", "", globalTags)
 }
 
 function addCopyButton (buttonGroup) {
