@@ -190,14 +190,14 @@ Additional information:
 			else if (target.classList.contains('selected')){
 				chrome.storage.local.get(["prompts"], function (result){
 					let newp = result.prompts
-					let newTagList = tagList.filter(item => item !== target.innerText);
+					let newTagList = tagList.filter(item => item !== target.textContent);
 					load_prompts(newp, search, search_term, newTagList)
 				})
 			}
 			else if (target.classList.contains("tag")) {
 				chrome.storage.local.get(["prompts"], function (result){
 					let newp = result.prompts
-					let newTagList = [...tagList, `${target.innerText}`]
+					let newTagList = [...tagList, `${target.textContent}`]
 					load_prompts(newp, search, search_term, newTagList)
 				})
 			}
@@ -260,7 +260,7 @@ function updateAutoComplete(){
 			let tagInputParent = tagInput.parentElement.parentElement.parentElement;
 			let childTags = tagInputParent.querySelector('.tags').children;
 			for (let i = 0; i < childTags.length; i++) {
-				if (childTags[i].innerText === tag) {
+				if (childTags[i].textContent === tag) {
 					return false; // don't include tag in filteredTags
 				}
 			}
@@ -319,7 +319,7 @@ function removeTag(id, row, target){
 }
 
 function addTag(id, row){
-	let tagName = row.querySelector('.addTags').value
+	let tagName = row.querySelector('.addTags').value.trim()
 	let tags = row.querySelector(".tags")
 	chrome.storage.local.get({prompts: []}, function(result){
 		let prompts = result.prompts

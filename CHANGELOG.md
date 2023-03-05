@@ -1,3 +1,7 @@
+### v2.3.2 - March 4, 2023
+
+- Fixed trailing space thing with tags
+
 ### v2.3.1 - March 4, 2023
 
 - Fixed filtering tags again
