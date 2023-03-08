@@ -1,3 +1,7 @@
+### v2.3.3 - March 7, 2023
+
+- Fixed issue where ad would not re-inject after clicking "new chat" 
+
 ### v2.3.2 - March 4, 2023
 
 - Fixed trailing space thing with tags
