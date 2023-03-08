@@ -70,6 +70,11 @@ function addUserPromptListener(){
     document.getElementById("compact").addEventListener("click", saveCompact)
 }
 
+let newChatButton = document.querySelector('nav').firstChild
+newChatButton.addEventListener('click', () => {
+    setTimeout(bridge, 500)
+})
+
 // listen for page changes
 let promptURL = window.location.href;
 
