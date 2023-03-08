@@ -64,7 +64,7 @@ chrome.runtime.onMessage.addListener( async function(message) {
         console.log("HEY!")
         const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
         const rando = generateUUID() // to not get cached version because headers were causing problems.
-        const response = await fetch(`${host}/ads/testing.txt?dummy=${rando}`);
+        const response = await fetch(`${host}/ads/current.txt?dummy=${rando}`);
         if (!response.ok) {
             throw new Error("HTTP error " + response.status);
         }

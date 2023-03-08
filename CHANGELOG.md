@@ -1,6 +1,9 @@
 ### v2.3.4 - March 8, 2023
 
 - Don't get cached ad
+- Removed toast
+- Changed first demo prompt
+- Fixed ads for firefox
 
 ### v2.3.3 - March 7, 2023
 

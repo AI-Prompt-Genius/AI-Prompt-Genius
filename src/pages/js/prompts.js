@@ -4,17 +4,21 @@ const modal = new bootstrap.Modal(document.getElementById('exploreModal'))
 
 const default_prompts = [
 	{
-		"title": "George R. R. Martin Author",
-		"text": `Write using the above prompt. 
-Write in the style of George. R. R. Martin and the Game of Thrones books. Use his words and style of diction. Always write in that style.
-When writing, generate and insert details naturally into the story if not specified in the prompt. Always generate names for people and places if not specified. Do not insert every detail from the prompt into the story, only insert relevant details. When inserting details, use your own words. 
-Write the first scene.
-`,
-		"id": generateUUID(),
+		"title": "My First Demo Prompt",
+		"text": `Write a set of clear and concise instructions for creating effective prompts using ChatGPT. Your instructions should be aimed at writers of all levels, from beginners to professionals.
+
+Consider the following questions as you write your instructions:
+
+- What is the purpose of a good writing prompt?
+- How can ChatGPT be used to generate effective prompts?
+- What elements should be included in a good writing prompt, such as tone, voice, and genre?
+- How can writers use prompts to improve their writing skills and creativity?
+Your instructions should be easy to follow and understand, using plain language and avoiding technical jargon. Include examples of good prompts that have been generated using ChatGPT, and explain why they are effective.`,
+		"id": "examplePrompt",
 		"date": getDate(),
 		"time": getTime(),
-		"tags": "author, fantasy, game of thrones, george r. r. martin, grrm, style",
-		"category": "Fiction Writing"
+		"tags": ["example", "prompt engineering"],
+		"category": "Other"
 	},
 ];
 
@@ -846,7 +850,7 @@ chrome.runtime.onMessage.addListener(
 	}
 );
 
-// right click toast - will show to new users
+/* right click toast - will show to new users
 chrome.storage.local.get({seenToast2: false}, function (response){
 	let seenRightClickToast = response.seenToast2;
 	if (!seenRightClickToast) {
@@ -856,4 +860,4 @@ chrome.storage.local.get({seenToast2: false}, function (response){
 		let toast = new bootstrap.Toast(toastEl)
 		toast.show()
 	}
-})
+})*/
