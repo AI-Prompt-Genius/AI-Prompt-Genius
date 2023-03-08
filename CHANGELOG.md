@@ -1,3 +1,7 @@
+### v2.3.4 - March 8, 2023
+
+- Don't get cached ad
+
 ### v2.3.3 - March 7, 2023
 
 - Fixed issue where ad would not re-inject after clicking "new chat" 
