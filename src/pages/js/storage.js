@@ -173,6 +173,16 @@ function deletePrompts() {
     animate(id("delete-prompts"))
 }
 
+function showDeleteHistory(){
+    id("confirm-history").classList.remove("d-none")
+}
+
+function deleteHistory() {
+    chrome.storage.local.set({threads: []})
+    id("confirm-history").classList.add("d-none")
+    animate(id("delete-history"))
+}
+
 function id(el) {
     return document.getElementById(el)
 }
@@ -184,3 +194,5 @@ id("export-prompts").addEventListener("click", () => exportFiles(false, true, fa
 id("export-settings").addEventListener("click", () => exportFiles(false, false, true))
 id("delete-prompts").addEventListener("click", showDeletePrompts)
 id("confirm-prompts").addEventListener("click", deletePrompts)
+id("delete-history").addEventListener("click", showDeleteHistory)
+id("confirm-history").addEventListener("click", deleteHistory)
