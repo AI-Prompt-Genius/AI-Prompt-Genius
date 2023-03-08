@@ -1,3 +1,7 @@
+### v2.3.5 - March 8, 2023
+
+- Fixed delete history
+
 ### v2.3.4 - March 8, 2023
 
 - Don't get cached ad
