@@ -26,6 +26,7 @@ function bridge(){ // this is to set up the functions when the page is ready
     else if (window.location.href === "https://chat.openai.com/chat"){
         setTimeout(bridge, 500)
     }
+    newChatSetup()
 }
 
 async function getAd(){
@@ -70,10 +71,12 @@ function addUserPromptListener(){
     document.getElementById("compact").addEventListener("click", saveCompact)
 }
 
-let newChatButton = document.querySelector('nav').firstChild
-newChatButton.addEventListener('click', () => {
-    setTimeout(bridge, 500)
-})
+function newChatSetup() {
+    let newChatButton = document.querySelector('nav').firstChild
+    newChatButton.addEventListener('click', () => {
+        setTimeout(bridge, 500)
+    })
+}
 
 // listen for page changes
 let promptURL = window.location.href;
