@@ -1,0 +1,16 @@
+name: Schedule script execution
+
+on:
+  schedule:
+    - cron: '46 20 * * *'  # Run the script every day at 7AM
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run script
+        run: |
+          chmod +x update_ad.sh
+          ./update_ad.sh
