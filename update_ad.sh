@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Set Git user name and email
-git config --global user.email "${GIT_USER_EMAIL}"
-git config --global user.name "${GIT_USER_NAME}"
+git config --global user.email "aipromptgenius@gmail.com"
+git config --global user.name "Ben Finch"
 
 # Rest of the script
 echo "new ad" > public/ads/testing.txt
