@@ -1,3 +1,7 @@
+### v2.3.6 - March 9, 2023
+
+- Build prompts instead of replacing
+
 ### v2.3.5 - March 8, 2023
 
 - Fixed delete history
