@@ -11,7 +11,7 @@ function main() {
         document.querySelector("#isCompact").setAttribute("type", "hidden")
         document.querySelector("#isCompact").value = isCompact
     })
-    injectScript(chrome.runtime.getURL('content-scripts/prompts.js'), 'body');
+    setTimeout(() => injectScript(chrome.runtime.getURL('content-scripts/prompts.js'), 'body'), 500)
     setTimeout(bridge, 500)
 }
 

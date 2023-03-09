@@ -3,8 +3,6 @@ let firstTime = true;
 (() => {
     // Save a reference to the original fetch function
     const fetch = window._fetch = window._fetch || window.fetch
-    // Replace the fetch function with a modified version that will include a prompt template
-    // if one has been selected by the user
     window.fetch = (...t) => {
         // If the request is not for the chat backend API or moderations, just use the original fetch function
         if (!(t[0].includes('https://chat.openai.com/backend-api/conversation') || t[0].includes('https://chat.openai.com/backend-api/moderations'))) return fetch(...t)
@@ -101,6 +99,7 @@ let firstTime = true;
         font-weight: bold;
         opacity: 0.4;
         }
+        #templates-wrapper
     </style>`)
 
     // Set up the Sidebar (by adding "Export Chat" button and other stuff)
@@ -369,7 +368,7 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     
     <ul class="${css`ul`}" id="templates">
       ${currentTemplates.map((template, i) => `
-        <button class="template ${css`card`}">
+        <button id="${template.id}" class="template ${css`card`}">
           <h3 class="child ${css`h3`}">${hs(template.title, searchTerm)}</h3>
           <p class="child compact-hide temp-text ${css`p`}">${hs(template.text, searchTerm)}</p>
           <p class="child compact-hide ${css `category`}">${hs(template.category, searchTerm)} ${tags(template.tags ?? [])}</p>
@@ -576,6 +575,7 @@ function addCopyButton (buttonGroup) {
     buttonGroup.prepend(button)
 }
 
+let buildPrompts = true;
 // This function selects a prompt template
 function selectPromptTemplate (text) {
     const textarea = document.querySelector('textarea')
@@ -589,6 +589,9 @@ function selectPromptTemplate (text) {
     }*/
     textarea.focus()
     function setText() {
+        if (buildPrompts){
+            text = textarea.value + text
+        }
         textarea.value = text
         textarea.style.height = "200px"
         textarea.parentElement.querySelector('button').addEventListener('click', () => {
