@@ -1,7 +1,11 @@
 #!/bin/bash
 
-echo "testing afsjadlifjsd" > public/ads/testing.txt
+# Set Git user name and email
+git config --global user.email "${GIT_USER_EMAIL}"
+git config --global user.name "${GIT_USER_NAME}"
 
+# Rest of the script
+echo "new ad" > public/ads/testing.txt
 git add public/ads/testing.txt
 git commit -m "Update ad"
-git push origin master
+git push origin ${{ github.ref }}
