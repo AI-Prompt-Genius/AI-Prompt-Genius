@@ -13,6 +13,10 @@ function isPaidSubscriptionActive() {
     if (result == undefined) {
         result = (JSON.parse(window.__NEXT_DATA__?.textContent || "{}")).props?.pageProps?.accountStatusResponse?.account_plan?.is_paid_subscription_active;
     }
+    if (result == undefined){
+        result = (document.getElementById("isPlus")?.value === "true")
+    }
+    console.log("IS PAID " + result)
     return result;
 }
 

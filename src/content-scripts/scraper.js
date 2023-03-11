@@ -173,7 +173,7 @@ function startScraper() {
     function save_page() {
         p = document.querySelector("main > div > div > div > div")
         let c = p.children
-        const isPlus = isPaidSubscriptionActive()
+        const isPlus = isPaidSubscriptionActive() ?? false
         if (c.length > (isPlus ? 3 : 2)) {
             let t;
             chrome.storage.local.get({threads: null}, function (result) {

@@ -95,8 +95,13 @@ function bigWrapper() {
 
 chrome.storage.local.get({settings: {}}, function (result){
     let dontInject = result.settings?.dont_inject_prompts ?? false
+    let isPlus = result.settings?.is_plus ?? false
     console.log("DONTINJECT" + dontInject)
     if (!dontInject){
         bigWrapper()
     }
+    let plusVal = JSON.stringify(isPlus)
+    document.body.appendChild(document.createElement(`input`)).setAttribute("id", "isPlus")
+    document.querySelector("#isPlus").setAttribute("type", "hidden")
+    document.querySelector("#isPlus").value = plusVal
 })

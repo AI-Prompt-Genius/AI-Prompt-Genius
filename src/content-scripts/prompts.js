@@ -276,7 +276,7 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     // If there is no title element, return
     if (!title) return
     // in ChatGPT plus title do not have next sibling
-    const isPlus = isPaidSubscriptionActive();
+    const isPlus = isPaidSubscriptionActive() ?? false;
     hideTitleAndExamples(title, isPlus)
 
     // If there are no templates, skip
