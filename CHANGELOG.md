@@ -1,3 +1,8 @@
+### v2.3.7 - March 11, 2023
+
+- Manually identify as a ChatGPT Plus user as a fallback
+- Option to disable in-page prompt injection per user request
+
 ### v2.3.6 - March 9, 2023
 
 - Build prompts instead of replacing
