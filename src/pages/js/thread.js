@@ -1,4 +1,3 @@
-hljs.highlightAll();
 // Get the URL of the current page
 const url = new URL(window.location.href);
 
@@ -30,6 +29,20 @@ chrome.storage.local.get(['threads'], function (result) {
 		console.log(branch_state);
 		load_branched_thread();
 	}
+	hljs.highlightAll();
+	// add titles for code blocks
+	let blocks = document.querySelectorAll('pre code.hljs');
+	Array.prototype.forEach.call(blocks, function(block) {
+		let language = block.result.language;
+		let copyBar;
+		if (block.parentElement.tagName === "DIV") {
+			copyBar = block.parentElement.parentElement.querySelector(".copy")
+		}
+		else {
+			copyBar = block.parentElement.querySelector(".copy")
+		}
+		copyBar.insertAdjacentHTML("afterbegin",`<span style="float: left"> ${language}</span>`)
+	});
 });
 
 function load_thread(c){
