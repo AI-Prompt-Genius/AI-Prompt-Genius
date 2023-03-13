@@ -1,4 +1,3 @@
-hljs.highlightAll();
 // Get the URL of the current page
 const url = new URL(window.location.href);
 
@@ -14,6 +13,7 @@ let convo; let thread;
 chrome.storage.local.get(['threads'], function (result) {
     let t = result.threads
 	thread = getObjectById(thread_id, t)
+	console.log(thread)
 	convo = thread.convo;
 	// some of the older threads don't have a branch_state object. 
 	let b = thread.branch_state;
@@ -30,13 +30,26 @@ chrome.storage.local.get(['threads'], function (result) {
 		console.log(branch_state);
 		load_branched_thread();
 	}
+	hljs.highlightAll();
+	let blocks = document.querySelectorAll('pre code.hljs');
+	Array.prototype.forEach.call(blocks, function(block) {
+		let language = block.result.language;
+		let copyBar;
+		if (block.parentElement.tagName === "DIV") {
+			copyBar = block.parentElement.parentElement.querySelector(".copy")
+		}
+		else {
+			copyBar = block.parentElement.querySelector(".copy")
+		}
+		copyBar.insertAdjacentHTML("afterbegin",`<span style="float: left"> ${language}</span>`)
+	});
 });
 
 function load_thread(c){
     for (let i = 0; i < c.length; i++) {
         let human = i % 2 === 0;
         let bar = `<div class="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans"><button class="flex ml-auto gap-2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button></div>`
-        if (human) {
+		if (human) {
             var temp = h_template.content.cloneNode(true);
             temp.querySelector(".text").innerHTML = `<p>${c[i]}</p>`
             main.appendChild(temp)
@@ -59,8 +72,9 @@ function load_branched_thread()
 	
 	let fake_convo = branch_state.getCurrentData();
 	let current_leaf = branch_state;
-	// first element is always empty as the head node
-	if(fake_convo[0] === undefined)
+
+	// first element is always null as the head node
+	if(fake_convo[0] === null || fake_convo[0] === undefined)
 	{
 		fake_convo.shift(); 
 	}
@@ -141,15 +155,23 @@ function load_branched_thread()
 			main.appendChild(temp)
 		}
 		else {
+			console.log(thread.mkdwn)
 			if (human) {
-				temp.querySelector(".text").innerHTML = `<p>${fake_convo[i]}</p>`
+				let text = fake_convo[i];
+				temp.querySelector(".text").innerHTML = `<p>${text}</p>`
 				main.appendChild(temp)
 			}
 			else{
-				let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`;
-				let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`;
-				temp.querySelector(".text").innerHTML = fake_convo[i].replaceAll(bar, copy_bar).replaceAll(`<div class="p-4">`, "<div>") // fixes formatting for weird code divs
+				const clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
+				const copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
+				const codeOG = `<pre><code>`
+				const codeNew = `<pre>${copy_bar}<code class="!whitespace-pre hljs p-4">`
+				let converter = new showdown.Converter(),
+					html = thread.mkdwn ? converter.makeHtml(fake_convo[i]).replaceAll(codeOG, codeNew) : fake_convo[i].replaceAll(bar, copy_bar).replaceAll(`<div class="p-4">`, "<div>")
+				temp.querySelector(".text").innerHTML = html
 				main.appendChild(temp)
+				console.log(fake_convo[i])
+				console.log(html)
 			}
 		}
 	}

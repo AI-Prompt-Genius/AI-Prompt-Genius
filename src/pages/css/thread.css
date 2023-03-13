@@ -152,6 +152,9 @@ pre code{
 div > code::before, div> code::after{
     content: "" !important;
 }
+pre > code::before, pre> code::after{
+    content: "" !important;
+}
 code::before, code::after{
     content: "`";
 }
@@ -185,8 +188,16 @@ body.light{
 .branch button:disabled {
 	color: grey;
 }
+li {
+    margin-bottom: 0;
+}
 
 #cover {position: fixed; height: 100%; width: 190px; top:0; left: 0; background: #202123; z-index:9999;}
+
+p {
+    margin-block-start: 0em!important;
+    margin-block-end: 0em!important;
+}
 
 img{
     max-width: 100%;
