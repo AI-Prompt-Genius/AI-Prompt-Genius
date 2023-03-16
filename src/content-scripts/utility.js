@@ -29,8 +29,11 @@ function isPaidSubscriptionActive() {
     if (result == undefined) {
         result = (JSON.parse(window.__NEXT_DATA__?.textContent || "{}")).props?.pageProps?.accountStatusResponse?.account_plan?.is_paid_subscription_active;
     }
-    if (result == undefined){
-        result = (document.getElementById("isPlus")?.value === "true")
+    if (result == undefined){ // see history resync - this should be accurate but sometimes could be slow
+        result = (document.getElementById("plusNetwork")?.value === "true")
+    }
+    if (result == undefined){ // see prompt-inject - gets the user setting from storage.
+        result = (document.getElementById("plusManual")?.value === "true")
     }
     console.log("IS PAID " + result)
     return result;

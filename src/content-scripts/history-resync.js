@@ -1,4 +1,4 @@
-let authToken = null;
+let myAuth;
 async function auth() {
     async function getAuth() {
         const fetchResult = await fetch("https://chat.openai.com/api/auth/session?stop=true", {
@@ -10,17 +10,44 @@ async function auth() {
         return await fetchResult.json()
     }
     getAuth().then(result => {
-        authToken = result.accessToken
+        myAuth = result.accessToken
+        chrome.storage.local.set({auth: myAuth})
         chrome.storage.local.get({v2_history: false}, function (result){
             if (result.v2_history !== true){
                 resyncAll()
             }
         })
+        getAccountStatus()
     })
 }
 auth()
 
-function getConversations(offset=0, limit=100){
+
+async function getAccountStatus(){
+    function fetchy() {
+        return fetch(`https://chat.openai.com/backend-api/accounts/check`, {
+            method: "GET",
+            headers: {
+                'content-type': 'application/json',
+                Authorization: myAuth
+            }
+        }).then(response => {
+            if (response.ok) {
+                return response.json()
+            }
+        })
+    }
+    let data = await fetchy()
+    console.log(data)
+    let isPlus = data?.account_plan?.is_paid_subscription_active
+    console.log("Plus USER: "+ isPlus)
+    let plusVal = JSON.stringify(isPlus)
+    document.body.appendChild(document.createElement(`input`)).setAttribute("id", "plusNetwork")
+    document.querySelector("#plusNetwork").setAttribute("type", "hidden")
+    document.querySelector("#plusNetwork").value = plusVal
+}
+
+function getConversations(offset=0, limit=100, authToken=myAuth){
     return fetch(`https://chat.openai.com/backend-api/conversations?offset=${offset}&limit=${limit}`, {
         method: "GET",
         headers: {
@@ -69,7 +96,7 @@ function findTopParent(startingNodeId, tree) {
     return baseSystemNode;
 }
 
-function getConversation(id){
+function getConversation(id, authToken=myAuth){
     return fetch(`https://chat.openai.com/backend-api/conversation/${id}`, {
         method: 'GET',
         headers: {
@@ -84,16 +111,17 @@ function getConversation(id){
     })
 }
 
-async function resyncArray(convoList, ids, threads, delayMs=1000){
+async function resyncArray(convoIds, existingIds, threads, delayMs=1000, authToken=myAuth){
     console.log("resyncing")
-    for (let convo of convoList){
-        if (ids.includes(convo.id)){
-                let thread = convoToTree(await getConversation(convo.id), convo.id)
-                let oldThreadIdx = getObjectIndexByID(thread.id, threads)
-                threads[oldThreadIdx] = thread
+    for (let convoId of convoIds){
+        if (existingIds.includes(convoId)){
+            console.log(convoId)
+            let thread = convoToTree(await getConversation(convoId), convoId)
+            let oldThreadIdx = getObjectIndexByID(thread.id, threads)
+            threads[oldThreadIdx] = thread
         }
         else {
-            let thread = convoToTree(await getConversation(convo.id), convo.id)
+            let thread = convoToTree(await getConversation(convoId, authToken), convoId)
             threads.push(thread)
         }
         chrome.storage.local.set({threads: threads.reverse()})
@@ -114,15 +142,15 @@ async function resyncAll(){
         let max = convoData.total
         let offset = 0
         while (max > 0) {
-            let convoList = convoData.items
-            resyncArray(convoList, ids, threads, 3000)
+            let allIds = convoData.items.map(convo => convo.id);
+            resyncArray(allIds, ids, threads, 3000)
             max -= 100
             offset += 100
             convoData = await getConversations(offset)
             await new Promise(r => setTimeout(r, 30000)); // 30s cooldown
         }
         console.log("FINISHED TOTAL RESYNC")
-        chrome.storage.local.set({v2_history: false})
+        chrome.storage.local.set({v2_history: true})
     })
 }
 
