@@ -20,10 +20,14 @@ function bigWrapper() {
 
     function bridge() { // this is to set up the functions when the page is ready
         console.log("bridge")
+        let isMainPage = window.location.href.split("/").length === 4
+        console.log("ISMAINPAGE!")
         if (document.getElementById("compact")) {
             getAd()
             addUserPromptListener()
-        } else if (window.location.href === "https://chat.openai.com/chat") {
+            getAccountStatus()
+        }
+        else if (isMainPage) {
             setTimeout(bridge, 500)
         }
         newChatSetup()
@@ -39,11 +43,16 @@ function bigWrapper() {
     chrome.runtime.onMessage.addListener(
         function (request, sender, sendResponse) {
             if (request.type === "adresponse") {
+                console.log("AD RECEIVED")
                 let adDiv = document.getElementById("cgpt-pg-ad")
+                console.log(adDiv)
                 adcontent = request.ad
+                console.log(adcontent)
                 if (adDiv) {
-                    adDiv.innerHTML = adcontent;
-                } else {
+                    console.log("TRUE")
+                    adDiv.innerHTML = adcontent
+                }
+                else {
                     adInterval = setInterval(pollAd, 1000)
                 }
 
@@ -101,7 +110,7 @@ chrome.storage.local.get({settings: {}}, function (result){
         bigWrapper()
     }
     let plusVal = JSON.stringify(isPlus)
-    document.body.appendChild(document.createElement(`input`)).setAttribute("id", "isPlus")
-    document.querySelector("#isPlus").setAttribute("type", "hidden")
-    document.querySelector("#isPlus").value = plusVal
+    document.body.appendChild(document.createElement(`input`)).setAttribute("id", "plusManual")
+    document.querySelector("#plusManual").setAttribute("type", "hidden")
+    document.querySelector("#plusManual").value = plusVal
 })

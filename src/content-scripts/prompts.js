@@ -87,7 +87,7 @@ let firstTime = true;
 			insertPromptTemplatesSection()
 			document.querySelector('#prompts_storage').remove()
 		}
-        
+
     }
     setTimeout(loadUserPrompts, 500) // delay to make sure insertPromptTemplates works right
 
@@ -129,7 +129,7 @@ function handleElementAdded (e) {
 
 function hideTitleAndExamples(title, isPlus) {
     title.style = 'display: none';
-    if (!isPlus) {
+    if (!isPlus && title.nextSibling) {
         title.nextSibling.style = 'display: none';
     }
 }
@@ -270,17 +270,24 @@ function tagStyling(){
 
 let globalTags = [];
 // This function inserts a section containing a list of prompt templates into the chat interface
-function insertPromptTemplatesSection (templates = window.prompttemplates, category="", searchTerm="") {
+async function insertPromptTemplatesSection (templates = window.prompttemplates, category="", searchTerm="") {
     // Get the title element (as a reference point and also for some alteration)
     const title = document.querySelector('h1.text-4xl')
+
+    const isMainPage = window.location.href.split("/").length === 4
+    console.log("Is main" + isMainPage)
     // If there is no title element, return
-    if (!title) return
+    if (!title){
+        if(isMainPage) {
+            await new Promise(r => setTimeout(r, 500));
+            console.log("NOT LOADED YET")
+            insertPromptTemplatesSection(templates, category, searchTerm)
+        }
+        return;
+    }
     // in ChatGPT plus title do not have next sibling
     const isPlus = isPaidSubscriptionActive() ?? false;
     hideTitleAndExamples(title, isPlus)
-
-    // If there are no templates, skip
-    if (!templates) return
 
     if(title.parentElement){
         // Remove the "md:h-full" class from title.parentElement in free
@@ -337,7 +344,7 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
     <ul class="flex flex-col gap-3.5">
     
     <div class="${css`selectDiv`}">
-        <div style="width: 50% !important;">
+        <div style="">
             <select id="category" class="${css`select`}">
                 <option value="" selected>All Categories</option>
                 <option value="Academic Writing">Academic Writing</option>
@@ -359,7 +366,7 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
                 <option value="Therapy & Life-help">Therapy & Life-help</option>        
             </select>
         </div>
-        <div style="width: 50% !important;">
+        <div style="">
                 <input id="search" type="text" class="${css`search`}" autocomplete="off" placeholder="Search">
         </div>
     </div>
@@ -394,7 +401,7 @@ function insertPromptTemplatesSection (templates = window.prompttemplates, categ
 
     let wrapper = document.createElement('div')
     wrapper.id = 'templates-wrapper'
-    wrapper.className = 'mt-6 flex items-start text-center gap-3.5'
+    wrapper.className = 'mt-6 md:flex items-start text-center gap-2.5 md:max-w-2xl lg:max-w-3xl m-auto text-sm'
 
     if (parent.querySelector('#templates-wrapper')) {
         wrapper = parent.querySelector('#templates-wrapper')
@@ -645,7 +652,7 @@ function css (name) {
         case 'select': return 'bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 dark:hover:bg-gray-900';
         case 'selectDiv': return 'grid grid-cols-2 flex sm:flex gap-2 items-end justify-left lg:-mb-4 lg:max-w-3xl md:last:mb-6 pt-2 stretch text-left text-sm';
         case 'search': return 'bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 md:w-50';
-        case 'column': return 'flex flex-col gap-3.5 flex-1'
+        case 'column': return 'flex flex-col gap-3.5 flex-1 px-'
         case 'h2': return 'text-lg font-normal'
         case 'h3': return 'm-0 tracking-tight leading-8 text-gray-900 dark:text-gray-100 text-xl'
         case 'ul': return 'flex flex-col gap-3.5'
