@@ -364,7 +364,14 @@ const ExportButtons = (function()
 					items: [],
 				};
 
+				let i = 0;
 				for (const node of threadContainer.children) {
+					console.log(i)
+					if (isPaidSubscriptionActive() && i === 0){
+						console.log("paid")
+						i += 1
+						continue;
+					}
 					console.log(node)
 					const markdownContent = node.querySelector(".markdown");
 
@@ -387,6 +394,7 @@ const ExportButtons = (function()
 							value: markdownContent.outerHTML,
 						});
 					}
+					i += 1
 				}
 
 				return result;
