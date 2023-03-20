@@ -31,6 +31,7 @@ chrome.storage.local.get(['threads'], function (result) {
 		load_branched_thread();
 	}
 	hljs.highlightAll();
+	// add titles for code blocks
 	let blocks = document.querySelectorAll('pre code.hljs');
 	Array.prototype.forEach.call(blocks, function(block) {
 		let language = block.result.language;

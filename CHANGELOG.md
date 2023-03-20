@@ -1,3 +1,11 @@
+### v2.3.9
+
+- Bug fixes for reinjecting prompt and detecting if the user is plus 
+
+### v2.3.8 - March 12, 2023
+
+- Added naming the code blocks to the history scraper
+
 ### v2.3.7 - March 11, 2023
 
 - Manually identify as a ChatGPT Plus user as a fallback
