@@ -1,6 +1,9 @@
 #!/bin/bash
 
-# First, create the dist directories if they don't already exist
+# Remove the dist directories if they already exist
+rm -rf dist_mv3 dist_mv2
+
+# Create the dist directories
 mkdir -p dist_mv3 dist_mv2
 
 # Copy the files from "src" to "dist_mv3" and "dist_mv2"
