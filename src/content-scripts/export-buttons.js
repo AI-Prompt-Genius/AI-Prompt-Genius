@@ -352,8 +352,7 @@ const ExportButtons = (function()
 		},
 		
 		// sends a request to ShareGPT
-		sendRequest: async function()
-		{
+		sendRequest: async function() {
 			function conversationData() {
 				let threadContainer = document.querySelector("[class*='react-scroll-to-bottom']>[class*='react-scroll-to-bottom']>div");
 				if (threadContainer === null) {
@@ -363,9 +362,14 @@ const ExportButtons = (function()
 					avatarUrl: getAvatarImage(),
 					items: [],
 				};
-
+				let i = 0;
 				for (const node of threadContainer.children) {
-					console.log(node)
+					console.log(i)
+					if (isPaidSubscriptionActive() && i === 0){
+						console.log("paid")
+						i = i + 1
+						continue;
+					}
 					const markdownContent = node.querySelector(".markdown");
 
 					// tailwind class indicates human or gpt
@@ -387,6 +391,7 @@ const ExportButtons = (function()
 							value: markdownContent.outerHTML,
 						});
 					}
+					i = i + 1
 				}
 
 				return result;
@@ -416,6 +421,7 @@ const ExportButtons = (function()
 				return base64;
 			}
 			let cd = conversationData();
+			console.log(conversationData())
 			const res = await fetch("https://sharegpt.com/api/conversations", {
 				body: JSON.stringify(cd),
 				headers: {
