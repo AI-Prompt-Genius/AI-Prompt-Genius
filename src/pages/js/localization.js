@@ -47,5 +47,22 @@ function replaceTranslation(element, translations) {
         }
     }
 }
+
+async function translate(key, lang="zh_CN") {
+    console.log("Translating " + key)
+    // fetch the translations for the specified language
+     return fetch(`/_locales/${lang}/messages.json`)
+        .then((response) => response.json())
+        .then((translations) => {
+            // check if the key exists in the translations object
+            if (translations[key] && translations[key].message) {
+                console.log(translations[key].message)
+                // set the translation to the message value of the translation object
+                return translations[key].message;
+            }
+        })
+        .catch((error) => console.error(error));
+}
+
 loadTranslations('zh_CN');
 setTimeout(() => loadTranslations('zh_CN'), 1000);

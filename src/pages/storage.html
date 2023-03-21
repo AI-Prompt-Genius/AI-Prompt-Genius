@@ -12,11 +12,10 @@
 <div id="cover"></div>
 <nav class="sidenav">
     <div class="top-half">
-        <a id="light_dark" class="mx-3 p-3 text-white text-sm clickable"><i class="sun-moon fa-solid fa-sun-bright"></i> &emsp; <span id="d_l">Light</span> Mode</a>
-        <a id="blink" class="bnav mx-3 p-3 text-white text-sm clickable"><i class="bnav fa-solid fa-bookmark"></i> &emsp; Bookmarks</a>
-        <a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-clock"></i> &emsp; History</a>
-        <a href="prompts.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-memo"></i> &emsp; Prompts</a>
-        <a href="settings.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-cog"></i> &emsp; Settings</a>
+        <a id="light_dark" class="mx-3 p-3 text-white text-sm clickable"><i class="sun-moon fa-solid fa-sun-bright"></i> &emsp; <span id="d_l" data-i18n='light'>Light</span> <span data-i18n="mode">Mode</span></a>
+        <a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-clock"></i> &emsp;<span data-i18n="history">History</span></a>
+        <a href="prompts.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-memo"></i> &emsp;<span data-i18n="prompts">Prompts</span></a>
+        <a href="settings.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-cog"></i> &emsp;<span data-i18n="settings">Settings</span></a>
     </div>
     <div class="bottom-half m-1">
         <a href="faq.html" class="mx-2 p-3 text-white text-sm clickable"> &ensp;<i class="fa-solid fa-question"></i> &emsp; <span data-i18n='faq'>FAQ</span></a>
@@ -28,34 +27,35 @@
 
 <main>
     <div class="card text-bg-light m-3" style="width: 585px">
-        <h5 class="card-header" data-i18n-text="import_export_archive">Import/Export - Archive</h5>
+        <h5 class="card-header" data-i18n="import_export_archive">Import/Export - Archive</h5>
         <div class="card-body">
-            <p data-i18n-text="archive_files">These files are used to restore your prompts &amp; history. Export all includes history, prompts, and settings.</p>
-            <button id="export-prompts" class="m-2 btn btn-secondary"><span data-i18n-text="export_prompts">Export Prompts</span> <i class="fa-solid fa-download"></i></button>
-            <button id="export-history" class="m-2 btn btn-secondary"><span data-i18n-text="export_history">Export History</span> <i class="fa-solid fa-download"></i></button>
-            <button id="export-settings" class="m-2 btn btn-secondary"><span data-i18n-text="export_settings">Export Settings</span> <i class="fa-solid fa-download"></i></button>
-            <button id="export-all" class="m-2 btn btn-success"><span data-i18n-text="export_all">Export All</span> <i class="fa-solid fa-download"></i></button>
+            <p data-i18n="archive_files">These files are used to restore your prompts &amp; history. Export all includes history, prompts, and settings.</p>
+            <button id="export-prompts" class="m-2 btn btn-secondary"><span data-i18n="export_prompts">Export Prompts</span> <i class="fa-solid fa-download"></i></button>
+            <button id="export-history" class="m-2 btn btn-secondary"><span data-i18n="export_history">Export History</span> <i class="fa-solid fa-download"></i></button>
+            <button id="export-settings" class="m-2 btn btn-secondary"><span data-i18n="export_settings">Export Settings</span> <i class="fa-solid fa-download"></i></button>
+            <button id="export-all" class="m-2 btn btn-success"><span data-i18n="export_all">Export All</span> <i class="fa-solid fa-download"></i></button>
             <button class="m-2 btn btn-primary">
-                <label id="import-label" class="clickable" for="import-any" data-i18n-text="import_any"><span>Import Any</span> <i class="fa-solid fa-upload"></i></label>
+                <label id="import-label" class="clickable" for="import-any" data-i18n="import_any"><span>Import Any</span> <i class="fa-solid fa-upload"></i></label>
                 <input type="file" id="import-any" name="import_all" class="hidden-trick">
             </button>
         </div>
     </div>
     <div class="card text-bg-light m-3" style="width: 585px">
-        <h5 class="card-header text-danger" data-i18n-text="mass_delete_header">Danger Zone - Mass Delete</h5>
+        <h5 class="card-header text-danger" data-i18n="mass_delete_header">Danger Zone - Mass Delete</h5>
         <div class="card-body">
-            <p data-i18n-text="mass_delete_note">Mass delete your prompts and threads. We recommend exporting first.</p>
-            <button id="delete-prompts" class="m-2 btn btn-outline-danger"><span data-i18n-text="delete_all_prompts_span">Delete All Prompts</span> <i class="fa-solid fa-trash"></i></button>
-            <button id="delete-history" class="m-2 btn btn-outline-danger"><span data-i18n-text="delete_all_history_span">Delete All History</span> <i class="fa-solid fa-trash"></i></button>
+            <p data-i18n="mass_delete_note">Mass delete your prompts and threads. We recommend exporting first.</p>
+            <button id="delete-prompts" class="m-2 btn btn-outline-danger"><span data-i18n="delete_all_prompts_span">Delete All Prompts</span> <i class="fa-solid fa-trash"></i></button>
+            <button id="delete-history" class="m-2 btn btn-outline-danger"><span data-i18n="delete_all_history_span">Delete All History</span> <i class="fa-solid fa-trash"></i></button>
             <br>
-            <button id="confirm-prompts" class="m-2 btn btn-outline-primary d-none"><span data-i18n-text="confirm_span">Confirm</span></button>
-            <button id="confirm-history" class="m-2 btn btn-outline-primary d-none"><span data-i18n-text="confirm_span">Confirm</span></button>
+            <button id="confirm-prompts" class="m-2 btn btn-outline-primary d-none"><span data-i18n="confirm_span">Confirm</span></button>
+            <button id="confirm-history" class="m-2 btn btn-outline-primary d-none"><span data-i18n="confirm_span">Confirm</span></button>
         </div>
     </div>
 </main>
 <script src="../external-js/popper.js"></script>
 <script src="../external-js/bootstrap.js"></script>
 <script src="../utility.js"></script>
+<script src="js/localization.js"></script>
 <script src="js/dark_light.js"></script>
 <script src="js/storage.js"></script>
 </body>

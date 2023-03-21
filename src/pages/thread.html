@@ -15,12 +15,12 @@
 <div id="cover"></div>
 <nav class="sidenav">
     <div class="top-half">
-        <a id="continue" class="mx-2 p-3 text-white text-xs"><i class="fa-regular fa-circle-play"></i> <span id="cont-text">&emsp;Resume</span></a>
-        <a id="light_dark" class="mx-2 p-3 text-white text-sm"><i class="sun-moon fa-solid fa-sun-bright"></i> &emsp; <span id="d_l">Light</span> Mode</a>
-        <a href="explorer.html" class="mx-2 p-3 text-white text-sm"><i class="fa-solid fa-clock"></i> &emsp; History</a>
-        <a href="prompts.html" class="mx-2 p-3 text-white text-sm clickable"><i class="fa-solid fa-memo"></i> &emsp; Prompts</a>
-        <a href="settings.html" class="mx-2 p-3 text-white text-sm clickable"><i class="fa-solid fa-cog"></i> &emsp; Settings</a>
-        <a href="storage.html" class="mx-2 p-3 text-white text-sm clickable"><i class="fa-solid fa-hard-drive"></i> &emsp; Storage</a>
+        <a id="continue" class="mx-2 p-3 text-white text-xs"><i class="fa-regular fa-circle-play"></i><span id="cont-text" data-i18n="resume">&emsp;Resume</span></a>
+        <a id="light_dark" class="mx-3 p-3 text-white text-sm clickable"><i class="sun-moon fa-solid fa-sun-bright"></i> &emsp; <span id="d_l" data-i18n='light'>Light</span> <span data-i18n="mode">Mode</span></a>
+        <a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-clock"></i> &emsp;<span data-i18n="history">History</span></a>
+        <a href="prompts.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-memo"></i> &emsp;<span data-i18n="prompts">Prompts</span></a>
+        <a href="settings.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-cog"></i> &emsp;<span data-i18n="settings">Settings</span></a>
+        <a href="storage.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-hard-drive"></i> &emsp; <span data-i18n='storage'>Storage</span></a>
     </div>
     <div class="bottom-half m-1">
         <a href="faq.html" class="mx-2 p-3 text-white text-sm clickable"> &ensp;<i class="fa-solid fa-question"></i> &emsp; <span data-i18n='faq'>FAQ</span></a>
@@ -64,6 +64,7 @@
 <script src="../utility.js"></script>
 <script src="../external-js/showdown.min.js"></script>
 <script src="js/highlightjs.js"></script>
+<script src="js/localization.js"></script>
 <script src="js/thread.js"></script>
 <script src="js/dark_light.js"></script>
 </body>

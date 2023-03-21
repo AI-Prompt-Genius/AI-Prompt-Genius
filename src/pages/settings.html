@@ -13,7 +13,7 @@
 <nav class="sidenav">
     <div class="top-half">
         <a id="light_dark" class="mx-3 p-3 text-white text-sm clickable"><i class="sun-moon fa-solid fa-sun-bright"></i> &emsp; <span id="d_l" data-i18n='light'>Light</span> <span data-i18n="mode">Mode</span></a>
-        <a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-clock"></i> &emsp; History</a>
+        <a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-clock"></i> &emsp;<span data-i18n="history">History</span></a>
         <a href="prompts.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-memo"></i> &emsp; <span data-i18n='prompts'>Prompts</span></a>
         <a href="storage.html" class="mx-3 p-3 text-white text-sm clickable"><i class="fa-solid fa-hard-drive"></i> &emsp; <span data-i18n='storage'>Storage</span></a>
     </div>
@@ -36,7 +36,7 @@
             </thead>
             <tbody>
             <tr>
-                <td data-i18n-text="make_prompts_default_home">Make prompts the default home page</td>
+                <td data-i18n="make_prompts_default_home">Make prompts the default home page</td>
                 <td>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="default-page" checked>
@@ -44,7 +44,7 @@
                 </td>
             </tr>
             <tr>
-                <td data-i18n-text="disable_save_chat_history">Disable saving chat history locally</td>
+                <td data-i18n="disable_save_chat_history">Disable saving chat history locally</td>
                 <td>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="disable-history">
@@ -52,10 +52,10 @@
                 </td>
             </tr>
             <tr>
-                <td data-i18n-text="disable_prompts_on_chatgpt">
+                <td data-i18n="disable_prompts_on_chatgpt">
                     Disable prompts on ChatGPT
                     <br>
-                    <em class="text-xs" data-i18n-text="prompt_templates_wont_show">Your prompt templates won't show up on ChatGPT. For use with other Chrome Extensions.</em>
+                    <em class="text-xs" data-i18n="prompt_templates_wont_show">Your prompt templates won't show up on ChatGPT. For use with other Chrome Extensions.</em>
                 </td>
                 <td>
                     <div class="form-check form-switch">
@@ -64,10 +64,10 @@
                 </td>
             </tr>
             <tr>
-                <td data-i18n-text="chatgpt_plus_user">
+                <td data-i18n="chatgpt_plus_user">
                     I'm a ChatGPT Plus user
                     <br>
-                    <em class="text-xs" data-i18n-text="extension_will_detect">The extension will try to detect this automatically, but it sometimes fails. Don't check this if you're not using ChatGPT plus.</em>
+                    <em class="text-xs" data-i18n="extension_will_detect">The extension will try to detect this automatically, but it sometimes fails. Don't check this if you're not using ChatGPT plus.</em>
                 </td>
                 <td>
                     <div class="form-check form-switch">
@@ -76,7 +76,7 @@
                 </td>
             </tr>
             <tr>
-                <td data-i18n-text="use_visual_editor_on_reddit">
+                <td data-i18n="use_visual_editor_on_reddit">
                     Use visual text editor on reddit (for sharing prompts)
                 </td>
                 <td>
@@ -86,7 +86,7 @@
                 </td>
             </tr>
             <tr>
-                <td data-i18n-text="use_ctrl_enter_to_save">
+                <td data-i18n="use_ctrl_enter_to_save">
                     Use ctrl + enter (or ⌘ + enter for mac) to save prompts (instead of enter).
                 </td>
                 <td>
@@ -96,7 +96,7 @@
                 </td>
             </tr>
             <tr>
-                <td data-i18n-text="auto_delete_threads">
+                <td data-i18n="auto_delete_threads">
                     Auto-Delete (non-bookmarked) threads after 30 days
                 </td>
                 <td>
@@ -105,7 +105,7 @@
                     </div>
                 </td>
             </tr>
-            <tr class="export" data-i18n-text="show_export_button_dropdown">
+            <tr class="export" data-i18n="show_export_button_dropdown">
                 <td>Show export button dropdown</td>
                 <td>
                     <div class="form-check form-switch">
@@ -115,8 +115,8 @@
             </tr>
             <tr>
                 <td>
-                    <p data-i18n-text="auto_send_prompt">Automatically send message when using prompt</p>
-                    <em class="text-xs" data-i18n-text="auto_send_note">Your prompt will automatically send when you click the continue button</em>
+                    <p data-i18n="auto_send_prompt">Automatically send message when using prompt</p>
+                    <em class="text-xs" data-i18n="auto_send_note">Your prompt will automatically send when you click the continue button</em>
                 </td>
                 <td>
                     <div class="form-check form-switch">
@@ -126,8 +126,8 @@
             </tr>
             <tr>
                 <td>
-                    <p data-i18n-text="default_continue_message">Default "continue" message</p>
-                    <em class="text-xs" data-i18n-text="default_continue_message_note">This will appear before the transcript of your conversation when you click the "continue" button. Note this only applies to old conversations before the December 15, 2022 update.</em>
+                    <p data-i18n="default_continue_message">Default "continue" message</p>
+                    <em class="text-xs" data-i18n="default_continue_message_note">This will appear before the transcript of your conversation when you click the "continue" button. Note this only applies to old conversations before the December 15, 2022 update.</em>
                 </td>
                 <td class="w-60">
                     <label for="defaultMessageInput"></label>
@@ -141,6 +141,7 @@
 </main>
 <script src="../external-js/bootstrap.js"></script>
 <script src="../utility.js"></script>
+<script src="js/localization.js"></script>
 <script src="js/dark_light.js"></script>
 <script src="js/settings.js"></script>
 </body>
