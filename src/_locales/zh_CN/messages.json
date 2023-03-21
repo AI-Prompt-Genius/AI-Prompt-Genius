@@ -1,0 +1,164 @@
+{
+  "appName": {
+    "message": "ChatGPT 智能提示"
+  },
+  "appDesc": {
+    "message": "发现、分享、导入并使用最佳的ChatGPT提示，保存您的聊天记录到本地（前身为ChatGPT历史记录）"
+  },
+  "search_threads": {
+    "message": "搜索线程..."
+  },
+  "light": {
+    "message": "亮色"
+  },
+  "mode": {
+    "message": "模式"
+  },
+  "bookmarks": {
+    "message": "书签"
+  },
+  "settings": {
+    "message": "设置"
+  },
+  "prompts": {
+    "message": "提示"
+  },
+  "storage": {
+    "message": "存储"
+  },
+  "resync_all": {
+    "message": "全部重新同步"
+  },
+  "faq": {
+    "message": "常见问题解答"
+  },
+  "chatgpt": {
+    "message": "ChatGPT"
+  },
+  "github": {
+    "message": "Github"
+  },
+  "tip_jar": {
+    "message": "打赏"
+  },
+  "delete_thread": {
+    "message": "删除此线程"
+  },
+  "export_conversation": {
+    "message": "将您的对话导出为JSON格式"
+  },
+  "bookmark_conversation": {
+    "message": "为以后书签化此对话"
+  },
+  "continue_conversation": {
+    "message": "继续与ChatGPT的对话"
+  },
+  "search_prompts": {
+    "message": "搜索提示..."
+  },
+  "new_prompt": {
+    "message": "新提示"
+  },
+  "curated_prompts": {
+    "message": "定制提示"
+  },
+  "public_prompts": {
+    "message": "公共提示"
+  },
+  "history": {
+    "message": "历史记录"
+  },
+  "category_placeholder": {
+    "message": "类别..."
+  },
+  "category": {
+    "message": "类别"
+  },
+  "category_academic_writing": {
+    "message": "学术写作"
+  },
+  "category_bypass_personas": {
+    "message": "绕过&人物"
+  },
+  "category_education_learning": {
+    "message": "教育与学习"
+  },
+  "category_expert_consultant": {
+    "message": "专家/咨询师"
+  },
+  "category_fun_games": {
+    "message": "娱乐与游戏"
+  },
+  "category_fitness_nutrition_health": {
+    "message": "健身、营养与健康"
+  },
+  "category_fiction_writing": {
+    "message": "小说写作"
+  },
+  "category_music": {
+    "message": "音乐"
+  },
+  "category_nonfiction_writing": {
+    "message": "非小说写作"
+  },
+  "category_other": {
+    "message": "其他"
+  },
+  "category_philosophy_logic": {
+    "message": "哲学与逻辑"
+  },
+  "category_poetry": {
+    "message": "诗歌"
+  },
+  "category_programming_technology": {
+    "message": "编程与技术"
+  },
+  "category_speeches_scripts": {
+    "message": "演讲与剧本"
+  },
+  "category_social_media_blogging": {
+    "message": "社交媒体与博客"
+  },
+  "category_travel": {
+    "message": "旅行"
+  },
+  "category_therapy_life_help": {
+    "message": "治疗与生活帮助"
+  },
+  "enter_tag": {
+    "message": "输入标签..."
+  },
+  "delete_prompt": {
+    "message": "删除此提示"
+  },
+  "use_prompt": {
+    "message": "使用此提示"
+  },
+  "share_reddit": {
+    "message": "在 Reddit 上分享此提示"
+  },
+  "-all_prompts-": {
+    "message": "-所有提示-"
+  },
+  "filter_category": {
+    "message": "按类别筛选..."
+  },
+  "advertisement": {
+    "message": ""
+  },
+  "advertise_here": {
+    "message": "在这里广告。"
+  },
+  "explore_curated_templates": {
+    "message": "探索定制的提示模板"
+  },
+  "import_prompt": {
+    "message": "导入提示 →"
+  },
+  "prev": {
+    "message": "上一页"
+  },
+  "next": {
+    "message": "下一页"
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "appName": {
+    "message": "ChatGPT Prompt Genius"
+  },
+  "appDesc": {
+    "message": "Discover, share, import, and use the best prompts for ChatGPT & save your chat history locally (formerly ChatGPT History)"
+  },
+  "search_threads": {
+    "message": "Search Threads..."
+  },
+  "light": {
+    "message": "Light"
+  },
+  "mode":{
+    "message":  "Mode"
+  },
+  "bookmarks": {
+    "message": "Bookmarks"
+  },
+  "settings": {
+    "message": "Settings"
+  },
+  "prompts": {
+    "message": "Prompts"
+  },
+  "storage": {
+    "message": "Storage"
+  },
+  "resync_all": {
+    "message": "Resync All"
+  },
+  "faq": {
+    "message": "FAQ"
+  },
+  "chatgpt": {
+    "message": "ChatGPT"
+  },
+  "github": {
+    "message": "Github"
+  },
+  "tip_jar": {
+    "message": "Tip Jar"
+  },
+  "delete_thread": {
+    "message": "Delete this thread"
+  },
+  "export_conversation": {
+    "message": "Export your conversation as JSON"
+  },
+  "bookmark_conversation": {
+    "message": "Bookmark this conversation for later"
+  },
+  "continue_conversation": {
+    "message": "Continue your conversation with ChatGPT"
+  },
+  "search_prompts": {
+    "message": "Search Prompts..."
+  },
+  "new_prompt": {
+    "message": "New Prompt"
+  },
+  "curated_prompts": {
+    "message": "Curated Prompts"
+  },
+  "public_prompts": {
+    "message": "Public Prompts"
+  },
+  "history": {
+    "message": "History"
+  },
+  "category_placeholder": {
+    "message": "Category..."
+  },
+  "category": {
+    "message": "Category"
+  },
+  "category_academic_writing": {
+    "message": "Academic Writing"
+  },
+  "category_bypass_personas": {
+    "message": "Bypass & Personas"
+  },
+  "category_education_learning": {
+    "message": "Education & Learning"
+  },
+  "category_expert_consultant": {
+    "message": "Expert/Consultant"
+  },
+  "category_fun_games": {
+    "message": "Fun & Games"
+  },
+  "category_fitness_nutrition_health": {
+    "message": "Fitness, Nutrition, & Health"
+  },
+  "category_fiction_writing": {
+    "message": "Fiction Writing"
+  },
+  "category_music": {
+    "message": "Music"
+  },
+  "category_nonfiction_writing": {
+    "message": "Nonfiction Writing"
+  },
+  "category_other": {
+    "message": "Other"
+  },
+  "category_philosophy_logic": {
+    "message": "Philosophy & Logic"
+  },
+  "category_poetry": {
+    "message": "Poetry"
+  },
+  "category_programming_technology": {
+    "message": "Programming & Technology"
+  },
+  "category_speeches_scripts": {
+    "message": "Speeches & Scripts"
+  },
+  "category_social_media_blogging": {
+    "message": "Social Media & Blogging"
+  },
+  "category_travel": {
+    "message": "Travel"
+  },
+  "category_therapy_life_help": {
+    "message": "Therapy & Life-help"
+  },
+  "enter_tag": {
+    "message": "Enter to add tag..."
+  },
+  "delete_prompt": {
+    "message": "Delete this prompt"
+  },
+  "use_prompt": {
+    "message": "Use this prompt"
+  },
+  "share_reddit": {
+    "message": "Share this prompt on Reddit"
+  },
+  "-all_prompts-": {
+    "message": "-All Prompts-"
+  },
+  "filter_category": {
+    "message": "Filter Category..."
+  },
+  "advertisement": {
+    "message": ""
+  },
+  "advertise_here": {
+    "message": "Advertise here."
+  },
+  "explore_curated_templates": {
+    "message": "Explore Curated Prompt Templates"
+  },
+  "import_prompt": {
+    "message": "Import prompt →"
+  },
+  "prev": {
+    "message": "Prev"
+  },
+  "next": {
+    "message": "Next"
+  },
+  "make_prompts_default_home": {
+    "message": "Make prompts the default home page"
+  },
+  "disable_save_chat_history": {
+    "message": "Disable saving chat history locally"
+  },
+  "disable_prompts_on_chatgpt": {
+    "message": "Disable prompts on ChatGPT",
+    "description": "Your prompt templates won't show up on ChatGPT. For use with other Chrome Extensions."
+  },
+  "chatgpt_plus_user": {
+    "message": "I'm a ChatGPT Plus user",
+    "description": "The extension will try to detect this automatically, but it sometimes fails. Don't check this if you're not using ChatGPT plus."
+  },
+  "use_visual_editor_on_reddit": {
+    "message": "Use visual text editor on reddit (for sharing prompts)"
+  },
+  "use_ctrl_enter_to_save": {
+    "message": "Use ctrl + enter (or ⌘ + enter for mac) to save prompts (instead of enter)."
+  },
+  "auto_delete_threads": {
+    "message": "Auto-Delete (non-bookmarked) threads after 30 days"
+  },
+  "show_export_button_dropdown": {
+    "message": "Show export button dropdown"
+  },
+  "auto_send_prompt": {
+    "message": "Automatically send message when using prompt"
+  },
+  "auto_send_note": {
+    "message": "Your prompt will automatically send when you click the continue button"
+  },
+  "default_continue_message": {
+    "message": "Default \"continue\" message"
+  },
+  "default_continue_message_note": {
+    "message": "This will appear before the transcript of your conversation when you click the \"continue\" button. Note this only applies to old conversations before the December 15, 2022 update."
+  },
+  "default_message": {
+    "message": "Default message"
+  },
+  "import_export_archive": {
+    "message": "Import/Export - Archive"
+  },
+  "archive_files": {
+    "message": "These files are used to restore your prompts & history. Export all includes history, prompts, and settings."
+  },
+  "export_prompts": {
+    "message": "Export Prompts"
+  },
+  "export_history": {
+    "message": "Export History"
+  },
+  "export_settings": {
+    "message": "Export Settings"
+  },
+  "export_all": {
+    "message": "Export All"
+  },
+  "import_any": {
+    "message": "Import Any"
+  },
+"mass_delete_header": {
+    "message": "Danger Zone - Mass Delete"
+  },
+  "mass_delete_note": {
+    "message": "Mass delete your prompts and threads. We recommend exporting first."
+  },
+  "delete_all_prompts_span": {
+    "message": "Delete All Prompts"
+  },
+  "delete_all_history_span": {
+    "message": "Delete All History"
+  },
+  "confirm_span": {
+    "message": "Confirm"
+  }
+}
