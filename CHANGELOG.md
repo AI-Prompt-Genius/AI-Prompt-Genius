@@ -2,6 +2,7 @@
 
 - History v2: sync history based off of network storage
 - Add ad to prompts home page
+- Replace < with "& lt;"
 
 ### v2.4.0 - March 20, 2023
 
