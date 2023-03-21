@@ -1,42 +1,106 @@
-let myAuth;
-async function auth() {
-    async function getAuth() {
-        const fetchResult = await fetch("https://chat.openai.com/api/auth/session?stop=true", {
-            method: "GET",
-            headers: {
-                'content-type': 'application/json',
-            }
-        })
-        return await fetchResult.json()
-    }
-    getAuth().then(result => {
-        myAuth = result.accessToken
-        chrome.storage.local.set({auth: myAuth})
-        getAccountStatus()
+async function startSyncer(){
+    await new Promise(r => setTimeout(r, 1000)); // 1s sleep
+    let convo;
+    const SAVE_CONVO_INTERVAL = 4000; //10s
+    chrome.storage.local.get({auth: null}, async function (result){
+        let auth = result.auth
+        setInterval(() => saveConvo(auth), SAVE_CONVO_INTERVAL)
     })
-}
-auth()
 
-async function getAccountStatus(){
-    function fetchy() {
-        return fetch(`https://chat.openai.com/backend-api/accounts/check`, {
-            method: "GET",
-            headers: {
-                'content-type': 'application/json',
-                Authorization: myAuth
+    async function saveConvo(auth){
+        let urlSegments = window.location.pathname.split('/');
+        let conversation_id = urlSegments[urlSegments.length - 1]; // extract conversation ID from URL
+        if(!conversation_id.includes("chat")){
+            convo = conversation_id;
+        }
+        else{
+            let latestConvos = await getConversations(0, 1, auth);
+            convo = latestConvos.items[0].id;
+        }
+        chrome.storage.local.get({threads: []}, async function (result) {
+            let threads = result.threads
+            let ids = [];
+            for (let thread of threads){
+                ids.push(thread.id)
             }
-        }).then(response => {
-            if (response.ok) {
-                return response.json()
-            }
+            resyncArray([convo], ids, threads, 0, myAuth)
+            firstTime = false;
         })
     }
-    let data = await fetchy()
-    console.log(data)
-    let isPlus = data?.account_plan?.is_paid_subscription_active
-    console.log("Plus USER: "+ isPlus)
-    let plusVal = JSON.stringify(isPlus)
-    document.body.appendChild(document.createElement(`input`)).setAttribute("id", "plusNetwork")
-    document.querySelector("#plusNetwork").setAttribute("type", "hidden")
-    document.querySelector("#plusNetwork").value = plusVal
 }
+
+
+
+let intro; let auto_send;
+let disable = false; let buttons;
+let defaults = {buttons: true, auto_send: false, disable_history: false, auto_delete: false, message: "The following is a transcript of a conversation between me and ChatGPT. Use it for context in the rest of the conversation. Be ready to edit and build upon the responses previously given by ChatGPT. Respond \"ready!\" if you understand the context. Do not respond wit anything else. Conversation:\n"}
+chrome.storage.local.get({settings: defaults}, function(result) {
+    let settings = result.settings
+    buttons = settings.buttons ?? true
+    intro = settings.message
+    auto_send = settings.auto_send ?? false
+    if (settings.hasOwnProperty('disable_history') && settings.disable_history === true){
+        disable = true;
+        console.log("SCRAPER DISABLED!")
+    }
+    console.log(disable)
+    start()
+})
+
+function start(){
+    if (disable === false) {
+        startSyncer()
+        let scraper_url = window.location.href;
+
+        function check_url() {
+            if (scraper_url !== window.location.href) {
+                scraper_url = window.location.href;
+                startSyncer()
+                id = ""
+                if (document.querySelector('#conversationID')){
+                    document.querySelector('#conversationID').remove()
+                }
+                if (document.querySelector('#history_box')){
+                    document.querySelector('#history_box').remove()
+                }
+                timer_started = false;
+                console.log("URL CHANGE")
+            }
+        }
+        setInterval(check_url, 500);
+    }
+}
+
+function continue_convo(convo){
+    const input = document.querySelector("textarea");
+    input.style.height = "200px";
+    const button = input.parentElement.querySelector("button");
+    input.value = `${intro} ${convo}`;
+    if (auto_send) {
+        button.click();
+    }
+}
+
+function use_prompt(prompt){
+    const input = document.querySelector("textarea");
+    input.style.height = "200px";
+    const button = input.parentElement.querySelector("button");
+    input.value = `${prompt}`;
+    if (auto_send) {
+        button.click();
+    }
+}
+
+// listen for messages
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if (request.type === "c_continue_convo") {
+            console.log("message recieved!")
+            continue_convo(JSON.stringify(request.convo))
+        }
+        else if(request.type === "c_use_prompt") {
+            console.log("message recieved!");
+            use_prompt(request.prompt);
+        }
+    }
+);

@@ -850,6 +850,18 @@ chrome.runtime.onMessage.addListener(
 	}
 );
 
+async function getAd(){
+	const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+	const rando = generateUUID() // to not get cached version because headers were causing problems.
+	const response = await fetch(`${host}/ads/current.txt?dummy=${rando}`);
+	if (!response.ok) {
+		throw new Error("HTTP error " + response.status);
+	}
+	const text = await response.text();
+	document.getElementById("ad").innerHTML = text
+}
+getAd()
+
 /* right click toast - will show to new users
 chrome.storage.local.get({seenToast2: false}, function (response){
 	let seenRightClickToast = response.seenToast2;
