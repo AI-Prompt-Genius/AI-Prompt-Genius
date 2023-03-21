@@ -63,6 +63,11 @@ body.dark{
     margin-bottom: 3px;
 }
 
+a {
+    text-decoration: none !important;
+    color: #0BA37F
+}
+
 .dark .tag{
     border: 1px solid #AAAAAA;
     color: #DDDDDD

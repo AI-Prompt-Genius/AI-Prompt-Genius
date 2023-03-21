@@ -857,8 +857,11 @@ async function getAd(){
 	if (!response.ok) {
 		throw new Error("HTTP error " + response.status);
 	}
-	const text = await response.text();
-	document.getElementById("ad").innerHTML = text
+	else {
+		let text = await response.text();
+		text = text.replaceAll(`<u>`,"").replaceAll(`</u>`, "")
+		document.getElementById("ad").innerHTML = text
+	}
 }
 getAd()
 
