@@ -60,7 +60,7 @@ src/themes: CSS themes for styling ChatGPT
 background.js: listens for user clicks and handles message passing
 utility.js: common JS
 
-CSS: Bootstrap & Font Awesome Icons + some ustom
+CSS: Bootstrap & Font Awesome Icons + some custom 
 
 
 
