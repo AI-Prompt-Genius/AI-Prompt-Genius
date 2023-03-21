@@ -173,8 +173,14 @@ function load_branched_thread()
 					const copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
 					const options = {backslashEscapesHTMLTags: true, tables: true, simplifiedAutoLink: true}
 					let converter = new showdown.Converter(options);
-					let markdown = fake_convo[i].replaceAll("<", "&lt;");
-					let codeBlockRegex = /```(?:\w+)?(?<!\\)\n[\s\S]*?\n```/g; //thanks ChatGPT
+					let markdown = fake_convo[i].replace(/```([\s\S]*?)```|<([^>]+)>/g, (match, codeBlock, lessThan) => { // replaces left tags not in code blocks, thanks ChatGPT
+						if (codeBlock) {
+							return match; // leave code block as is
+						} else {
+							return `&lt;${lessThan}>`; // replace < outside of code block
+						}
+					});
+					let codeBlockRegex = /```(?:\w+)?(?<!\\)\n[\s\S]*?\n```/g; //thanks GPT-4
 
 					// Replace code blocks with HTML elements
 					let html = converter.makeHtml(markdown.replace(codeBlockRegex, (match) => {
