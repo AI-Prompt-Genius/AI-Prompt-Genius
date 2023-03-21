@@ -13,6 +13,7 @@ let convo; let thread;
 chrome.storage.local.get(['threads'], function (result) {
     let t = result.threads
 	thread = getObjectById(thread_id, t)
+	console.log(thread)
 	convo = thread.convo;
 	// some of the older threads don't have a branch_state object. 
 	let b = thread.branch_state;
@@ -41,7 +42,11 @@ chrome.storage.local.get(['threads'], function (result) {
 		else {
 			copyBar = block.parentElement.querySelector(".copy")
 		}
-		copyBar.insertAdjacentHTML("afterbegin",`<span style="float: left"> ${language}</span>`)
+		console.log(block.parentElement)
+		console.log(copyBar)
+		if (copyBar) {
+			copyBar.insertAdjacentHTML("afterbegin", `<span style="float: left"> ${language}</span>`)
+		}
 	});
 });
 
@@ -49,7 +54,7 @@ function load_thread(c){
     for (let i = 0; i < c.length; i++) {
         let human = i % 2 === 0;
         let bar = `<div class="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans"><button class="flex ml-auto gap-2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button></div>`
-        if (human) {
+		if (human) {
             var temp = h_template.content.cloneNode(true);
             temp.querySelector(".text").innerHTML = `<p>${c[i]}</p>`
             main.appendChild(temp)
@@ -72,8 +77,9 @@ function load_branched_thread()
 	
 	let fake_convo = branch_state.getCurrentData();
 	let current_leaf = branch_state;
-	// first element is always empty as the head node
-	if(fake_convo[0] === undefined)
+
+	// first element is always null as the head node
+	if(fake_convo[0] === null || fake_convo[0] === undefined)
 	{
 		fake_convo.shift(); 
 	}
@@ -154,19 +160,56 @@ function load_branched_thread()
 			main.appendChild(temp)
 		}
 		else {
+			console.log(thread.mkdwn)
 			if (human) {
-				temp.querySelector(".text").innerHTML = `<p>${fake_convo[i]}</p>`
+				let text = fake_convo[i].replaceAll(`<`, `&lt;`).replaceAll(`>`, `&gt;`);
+				console.log(text)
+				temp.querySelector(".text").innerHTML = `<p>${text}</p>`
 				main.appendChild(temp)
 			}
-			else{
-				let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`;
-				let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`;
-				temp.querySelector(".text").innerHTML = fake_convo[i].replaceAll(bar, copy_bar).replaceAll(`<div class="p-4">`, "<div>") // fixes formatting for weird code divs
-				main.appendChild(temp)
+			else {
+				if (thread.mkdwn) { // markdown to html
+					const clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
+					const copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
+					const options = {backslashEscapesHTMLTags: true, tables: true, simplifiedAutoLink: true}
+					let converter = new showdown.Converter(options);
+					let markdown = fake_convo[i];
+					let codeBlockRegex = /```(?:\w+)?(?<!\\)\n[\s\S]*?\n```/g; //thanks ChatGPT
+
+					// Replace code blocks with HTML elements
+					let html = converter.makeHtml(markdown.replace(codeBlockRegex, (match) => {
+						// Extract the language if it is specified
+						let language = match.match(/```(\w+)/);
+						language = language ? language[1] : null;
+
+						// Remove the language from the code block match
+						let cleanedMatch = match.replace(/```(\w+)/, '```');
+
+						// Remove the opening and closing ``` lines plus the /n
+						let code = cleanedMatch.slice(4, -3);
+
+						// Highlight the code using hljs
+						let highlightedCode = hljs.highlightAuto(code, [language]).value;
+
+						return `<pre>${copy_bar}<code class="!whitespace-pre p-3 hljs ${language}">${highlightedCode}</code></pre>`;
+					}));
+
+					temp.querySelector(".text").innerHTML = html;
+
+					main.appendChild(temp)
+					console.log(fake_convo[i])
+					console.log(html)
+				}
+				else{ // already html
+					let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`;
+					let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`;
+					temp.querySelector(".text").innerHTML = fake_convo[i].replaceAll(bar, copy_bar).replaceAll(`<div class="p-4">`, "<div>") // fixes formatting for weird code divs
+					main.appendChild(temp)
+				}
 			}
 		}
 	}
-	
+
 	// add buttons.
 	copy_setup();
 }
@@ -179,8 +222,7 @@ function copy_setup() { // created by ChatGPT
 // Add a click event listener to each clipboard bar
     clipboardBars.forEach((clipboardBar, index) => {
         clipboardBar.addEventListener('click', async () => {
-            let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`
-            let copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
+            let copy_bar = clipboardBar.outerHTML
             clipboardBar.innerHTML = `<icon class="fa-regular fa-check"></icon> &nbsp; Copied!`;
             setTimeout(() => {clipboardBar.outerHTML = copy_bar; copy_setup()}, 2000);
             // Get the code element corresponding to the clicked clipboard bar
