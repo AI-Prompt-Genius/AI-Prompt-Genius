@@ -1,20 +1,41 @@
 let myAuth;let threads; let offset = 0;
 async function auth() {
     async function getAuth() {
-        const fetchResult = await fetch("https://chat.openai.com/api/auth/session?stop=true", {
+        return fetch("https://chat.openai.com/api/auth/session?stop=true", {
             method: "GET",
             headers: {
                 'content-type': 'application/json',
             }
+        }).then(response => {
+            if (response.ok){
+                return response.json()
+            }
+            else {
+                console.log("Not OK!")
+                window.open("https://chat.openai.com/auth/login", "_blank")
+                return Promise.reject(response)
+            }
         })
-        return await fetchResult.json()
     }
     getAuth().then(result => {
-        myAuth = result.accessToken
-        chrome.storage.local.set({auth: myAuth})
+        console.log(result)
+        myAuth = result?.accessToken
+        if (myAuth) {
+            chrome.storage.local.set({auth: myAuth})
+            chrome.storage.local.set({signedIn: true})
+        }
+        else {
+            chrome.storage.local.set({signedIn: false})
+        }
         chrome.storage.local.get({v2_history: false}, function (result){
             if (result.v2_history !== true){
-                resyncAll()
+                chrome.storage.local.get({awaitingSignIn: false}, function (result){
+                    if (!result.awaitingSignIn) {
+                        chrome.storage.local.get({offset: 0}, function (result){
+                            setTimeout(() => checkOffsetThenResync(result.offset), 15000)
+                        })
+                    }
+                })
             }
         })
         getAccountStatus()
@@ -22,6 +43,13 @@ async function auth() {
 }
 auth()
 
+function checkOffsetThenResync(beginningOffset){
+    chrome.storage.local.get({offset: 0}, function (result){
+        if (beginningOffset === result.offset){
+            resyncAll()
+        }
+    })
+}
 
 async function getAccountStatus(){
     function fetchy() {
@@ -133,8 +161,9 @@ async function resyncArray(convoIds, existingIds, threads, delayMs=1000, authTok
         await new Promise(r => setTimeout(r, delayMs)); // basically sleeping for 600 ms to not send a bunch of requests
     }
 }
-
+let max = null;
 async function resyncAll(){
+    chrome.storage.local.set({alreadyResyncing: true})
     console.log("resyncing all")
     chrome.storage.local.get({threads: []}, async function (result){
         threads = result.threads
@@ -144,19 +173,25 @@ async function resyncAll(){
         }
         chrome.storage.local.get({offset: 0}, async function (result) {
             offset = result.offset - 2 // overlap for safety
+            if (offset < 0){
+                offset = 0
+            }
             let convoData = await getConversations(offset)
-            let max = convoData.total
+            max = await convoData.total
             while (offset !== max) {
                 let allIds = convoData.items.map(convo => convo.id);
                 await resyncArray(allIds, ids, threads, 3000, myAuth, offset)
                 chrome.storage.local.get({offset: 0}, async function (result){
                     offset = result.offset
                     convoData = await getConversations(await offset)
+                    max = await convoData.total
                     await new Promise(r => setTimeout(r, 30000)); // 30s cooldown
                 })
             }
             console.log("FINISHED TOTAL RESYNC")
+            chrome.storage.local.set({offset: 0})
             chrome.storage.local.set({v2_history: true})
+            chrome.storage.local.set({alreadyResyncing: false})
         })
     })
 }

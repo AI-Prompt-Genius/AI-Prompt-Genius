@@ -3,6 +3,14 @@
     margin-right: 12px;
 }
 
+a.disabled{
+    cursor: not-allowed;
+}
+
+a.disabled:hover{
+    background-color: inherit !important;
+}
+
 .clickable
 {
 	cursor: pointer;
