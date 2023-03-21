@@ -1,3 +1,7 @@
+### v2.4.1 - March 20, 2023
+
+- History v2: sync history based off of network storage
+
 ### v2.4.0 - March 20, 2023
 
 - Fixed share link bug for ChatGPT Plus
