@@ -1,4 +1,9 @@
-### v2.3.9
+### v2.4.0 - March 20, 2023
+
+- Fixed share link bug for ChatGPT Plus
+- Users see ad on uninstall
+
+### v2.3.9 - March 16, 2023
 
 - Bug fixes for reinjecting prompt and detecting if the user is plus 
 

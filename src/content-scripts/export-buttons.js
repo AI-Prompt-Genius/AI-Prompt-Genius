@@ -367,7 +367,7 @@ const ExportButtons = (function()
 					console.log(i)
 					if (isPaidSubscriptionActive() && i === 0){
 						console.log("paid")
-						i = i + 1
+						i += 1
 						continue;
 					}
 					const markdownContent = node.querySelector(".markdown");
@@ -391,7 +391,7 @@ const ExportButtons = (function()
 							value: markdownContent.outerHTML,
 						});
 					}
-					i = i + 1
+					i += 1
 				}
 
 				return result;

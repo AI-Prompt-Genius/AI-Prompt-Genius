@@ -1,4 +1,4 @@
-/* always add utilities */
+/* utilities - always inject */
 injectScript(chrome.runtime.getURL('content-scripts/utility.js'), 'body');
 function addExportButtons()
 {
