@@ -28,11 +28,6 @@
       "run_at": "document_idle"
     }
   ],
-  "options_ui": {
-    "page":"pages/settings.html",
-    "browser_style": "false",
-    "open_in_tab": "true"
-  },
   "web_accessible_resources" : ["content-scripts/prompts.js","content-scripts/export-buttons.js","content-scripts/utility.js"
       ,"themes/*", "external-js/jspdf.umd.js", "html2canvas.js"],
   "browser_action": {
