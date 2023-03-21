@@ -1,6 +1,7 @@
 ### v2.4.1 - March 20, 2023
 
 - History v2: sync history based off of network storage
+- Add ad to prompts home page
 
 ### v2.4.0 - March 20, 2023
 
