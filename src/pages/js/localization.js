@@ -48,7 +48,12 @@ function replaceTranslation(element, translations) {
     }
 }
 
-async function translate(key, lang="zh_CN") {
+let language = "en";
+chrome.storage.local.get({lang: "en"}, function (response){
+    language = response.lang
+})
+
+async function translate(key, lang=language) {
     console.log("Translating " + key)
     // fetch the translations for the specified language
      return fetch(`/_locales/${lang}/messages.json`)
@@ -64,5 +69,7 @@ async function translate(key, lang="zh_CN") {
         .catch((error) => console.error(error));
 }
 
-loadTranslations('zh_CN');
-setTimeout(() => loadTranslations('zh_CN'), 1000);
+chrome.storage.local.get({lang: "en"}, function (response) {
+    loadTranslations(response.lang)
+    setTimeout(() => loadTranslations(response.lang), 1000);
+})

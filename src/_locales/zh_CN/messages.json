@@ -309,5 +309,8 @@
   },
   "copied": {
     "message": "已复制！"
+  },
+  "language":{
+    "message": "语言"
   }
 }

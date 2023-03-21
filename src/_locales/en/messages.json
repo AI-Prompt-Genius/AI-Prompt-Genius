@@ -312,5 +312,8 @@
   },
   "no_data": {
     "message": "No data available for current branch."
+  },
+  "language":{
+    "message": "Language"
   }
 }
