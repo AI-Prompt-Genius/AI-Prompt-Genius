@@ -174,7 +174,7 @@ function load_branched_thread()
 					const options = {backslashEscapesHTMLTags: true, tables: true, simplifiedAutoLink: true}
 					let converter = new showdown.Converter(options);
 					let markdown = fake_convo[i];
-					let codeBlockRegex = /```(?<!\\)\n[\s\S]*?\n```/g; //thanks ChatGPT
+					let codeBlockRegex = /```(?:\w+)?(?<!\\)\n[\s\S]*?\n```/g; //thanks ChatGPT
 
 					// Replace code blocks with HTML elements
 					let html = converter.makeHtml(markdown.replace(codeBlockRegex, (match) => {
@@ -182,8 +182,11 @@ function load_branched_thread()
 						let language = match.match(/```(\w+)/);
 						language = language ? language[1] : null;
 
+						// Remove the language from the code block match
+						let cleanedMatch = match.replace(/```(\w+)/, '```');
+
 						// Remove the opening and closing ``` lines plus the /n
-						let code = match.slice(4, -3);
+						let code = cleanedMatch.slice(4, -3);
 
 						// Highlight the code using hljs
 						let highlightedCode = hljs.highlightAuto(code, [language]).value;
@@ -192,7 +195,6 @@ function load_branched_thread()
 					}));
 
 					temp.querySelector(".text").innerHTML = html;
-
 
 					main.appendChild(temp)
 					console.log(fake_convo[i])

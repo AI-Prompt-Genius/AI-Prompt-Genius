@@ -1,4 +1,4 @@
-let myAuth;
+let myAuth;let threads; let offset = 0;
 async function auth() {
     async function getAuth() {
         const fetchResult = await fetch("https://chat.openai.com/api/auth/session?stop=true", {
@@ -82,8 +82,10 @@ function convoToTree(obj, id) {
     for (let each of firstItem.children){
         buildTree(messages[each], tree)
     }
-    const date = new Date(obj.create_time * 1000).toLocaleDateString();
-    const time = new Date(obj.create_time * 1000).toLocaleTimeString();
+    const dateOptions = {year: 'numeric', month: 'long', day: 'numeric'};
+    const date = new Date(obj.create_time * 1000).toLocaleDateString("default", dateOptions);
+    const timeOptions = { hour12: true, hour: "numeric", minute: "numeric"};
+    const time = new Date(obj.create_time * 1000).toLocaleTimeString("default", timeOptions);
     return {branch_state: tree.toJSON(), date: date, unified_id: true, mkdwn: true, convo: convo, time: time, title: obj.title, id: id, favorite: false, create_time: obj.create_time}
 }
 
@@ -111,11 +113,9 @@ function getConversation(id, authToken=myAuth){
     })
 }
 
-async function resyncArray(convoIds, existingIds, threads, delayMs=1000, authToken=myAuth){
-    console.log("resyncing")
+async function resyncArray(convoIds, existingIds, threads, delayMs=1000, authToken=myAuth, offset=null){
     for (let convoId of convoIds){
         if (existingIds.includes(convoId)){
-            console.log(convoId)
             let thread = convoToTree(await getConversation(convoId), convoId)
             let oldThreadIdx = getObjectIndexByID(thread.id, threads)
             threads[oldThreadIdx] = thread
@@ -124,12 +124,16 @@ async function resyncArray(convoIds, existingIds, threads, delayMs=1000, authTok
             let thread = convoToTree(await getConversation(convoId, authToken), convoId)
             threads.push(thread)
         }
+        if (offset !== null){
+            offset += 1
+            console.log("Offset" +offset)
+            chrome.storage.local.set({offset: offset})
+        }
         chrome.storage.local.set({threads: threads.reverse()})
         await new Promise(r => setTimeout(r, delayMs)); // basically sleeping for 600 ms to not send a bunch of requests
     }
 }
 
-let threads;
 async function resyncAll(){
     console.log("resyncing all")
     chrome.storage.local.get({threads: []}, async function (result){
@@ -138,19 +142,22 @@ async function resyncAll(){
         for (let thread of threads){
             ids.push(thread.id)
         }
-        let convoData = await getConversations()
-        let max = convoData.total
-        let offset = 0
-        while (max > 0) {
-            let allIds = convoData.items.map(convo => convo.id);
-            resyncArray(allIds, ids, threads, 3000)
-            max -= 100
-            offset += 100
-            convoData = await getConversations(offset)
-            await new Promise(r => setTimeout(r, 30000)); // 30s cooldown
-        }
-        console.log("FINISHED TOTAL RESYNC")
-        chrome.storage.local.set({v2_history: true})
+        chrome.storage.local.get({offset: 0}, async function (result) {
+            offset = result.offset - 2 // overlap for safety
+            let convoData = await getConversations(offset)
+            let max = convoData.total
+            while (offset !== max) {
+                let allIds = convoData.items.map(convo => convo.id);
+                await resyncArray(allIds, ids, threads, 3000, myAuth, offset)
+                chrome.storage.local.get({offset: 0}, async function (result){
+                    offset = result.offset
+                    convoData = await getConversations(await offset)
+                    await new Promise(r => setTimeout(r, 30000)); // 30s cooldown
+                })
+            }
+            console.log("FINISHED TOTAL RESYNC")
+            chrome.storage.local.set({v2_history: true})
+        })
     })
 }
 
