@@ -11,7 +11,7 @@ let main = document.querySelector(".main")
 function sliceString(str, num) { //created by ChatGPT
     // Check if the string is longer than num characters
     if (str.length > num) {
-        return `${str.slice(0, num)}...`.replace(`<p>`, "").replace(`</p>`, "");
+        return `${str.slice(0, num)}...`.replace(`<p>`, "").replace(`</p>`, "").replaceAll("<", "&lt;");
     }
     // If the string is not longer than num characters, return it as is
     return str;
@@ -36,7 +36,7 @@ function toggle_thread_title_editable(i, row){
         chrome.storage.local.get(['threads'], function (result) {
             let t = result.threads
             let thread = t[i];
-            if(thread.title) title_text.innerHTML = thread.title;
+            if(thread.title) title_text.innerHTML = thread.title.replaceAll("<", "&lt;");
         });
         title_text.classList.add('editable')
         title_text.contentEditable = "true";
@@ -241,7 +241,7 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
         if(!thread_title) thread_title = sliceString(threads[i].convo[0], MAX_TITLE_DISPLAY_LENGTH);
         if(thread_title.length > MAX_TITLE_DISPLAY_LENGTH) thread_title = sliceString(thread_title, MAX_TITLE_DISPLAY_LENGTH);
 
-        temp.querySelector('.title-text').innerHTML = thread_title;
+        temp.querySelector('.title-text').innerHTML = thread_title.replaceAll("<", "&lt;");
 
         if (!search && threads[i].convo[1] !== undefined) {
             temp.querySelector('.subtitle').innerHTML = sliceString(threads[i].convo[1], 100)

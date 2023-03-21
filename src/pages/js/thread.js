@@ -173,7 +173,7 @@ function load_branched_thread()
 					const copy_bar = `<div class="p-2 copy float-right">${clipboard} &nbsp; Copy code</div>`
 					const options = {backslashEscapesHTMLTags: true, tables: true, simplifiedAutoLink: true}
 					let converter = new showdown.Converter(options);
-					let markdown = fake_convo[i];
+					let markdown = fake_convo[i].replaceAll("<", "&lt;");
 					let codeBlockRegex = /```(?:\w+)?(?<!\\)\n[\s\S]*?\n```/g; //thanks ChatGPT
 
 					// Replace code blocks with HTML elements
