@@ -1,4 +1,4 @@
-### v2.4.2 - March 21, 2023 
+### v2.4.2 - March 22, 2023 
 
 - Fixed replacing left tags in code blocks
 - Localization
