@@ -310,6 +310,9 @@
   "copied": {
     "message": "已复制！"
   },
+  "no_data": {
+    "message": "当前分支没有可用的数据。"
+  },
   "language":{
     "message": "语言"
   },

@@ -369,7 +369,7 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
             </select>
         </div>
         <div style="">
-                <input id="search" type="text" class="${css`search`}" autocomplete="off" data-i18n="search_prompts" placeholder="Search Prompts...">
+                <input id="search" type="text" class="${css`search`}" autocomplete="off" data-i18n-placeholder="search_prompts" placeholder="Search Prompts...">
         </div>
     </div>
     <div><span data-i18n="compact">Compact view</span> <input id="compact" type="checkbox"> | <a target="_blank" href="https://www.reddit.com/r/ChatGPTPromptGenius/"><span data-i18n="discover">Discover Prompts</span> ${svg`Arrow`}</a> | <a style="cursor: pointer" target="blank" id="userPrompts"><span data-i18n="my_prompts">My Prompts</span> ${svg`Arrow`}</a>

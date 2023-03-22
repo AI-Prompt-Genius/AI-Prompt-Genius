@@ -331,6 +331,30 @@
   "theme_settings":{
     "message": "Theme Settings"
   },
+  "all_categories": {
+    "message": "All Categories"
+  },
+  "templates_title": {
+    "message": "ChatGPT Prompt Genius Templates"
+  },
+  "compact": {
+    "message": "Compact view"
+  },
+  "discover": {
+    "message": "Discover Prompts"
+  },
+  "my_prompts": {
+    "message": "My Prompts"
+  },
+  "to": {
+    "message": "to"
+  },
+  "of": {
+    "message": "of"
+  },
+  "entries": {
+    "message": "Entries"
+  },
   "showing": {
     "message": "Showing"
   }
