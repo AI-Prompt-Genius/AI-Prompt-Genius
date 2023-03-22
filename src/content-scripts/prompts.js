@@ -94,12 +94,14 @@ let firstTime = true;
     document.head.insertAdjacentHTML("beforeend",
 `<style>
         .highlight {
-        color: black!important;
+        color: black !important;
         background-color: yellow;
         font-weight: bold;
         opacity: 0.4;
         }
-        #templates-wrapper
+        body {
+        overflow: hidden !important;
+        }
     </style>`)
 
     // Set up the Sidebar (by adding "Export Chat" button and other stuff)
@@ -317,7 +319,7 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
 
             // fix some style issues
             title.parentElement.classList.add('items-center')
-            title.previousElementSibling.classList.add('w-full')
+            title.previousElementSibling?.classList.add('w-full')
         }
     }
     // If there is no parent element, skip
@@ -339,38 +341,38 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
     <div class="${css`column`}">
     ${svg`ChatBubble`}
     <div>
-    <h2 class="${css`h2`}" style="margin-bottom: 5px">ChatGPT Prompt Genius Templates</h2>
+    <h2 class="${css`h2`}" style="margin-bottom: 5px" data-i18n="templates_title">ChatGPT Prompt Genius Templates</h2>
     <div class="${css`paginationText`}" id="cgpt-pg-ad"></div>
     <ul class="flex flex-col gap-3.5">
     
     <div class="${css`selectDiv`}">
         <div style="">
             <select id="category" class="${css`select`}">
-                <option value="" selected>All Categories</option>
-                <option value="Academic Writing">Academic Writing</option>
-                <option value="Bypass & Personas">Bypass & Personas</option>
-                <option value="Education & Learning">Education & Learning</option>
-                <option value="Expert/Consultant">Expert/Consultant</option>
-                <option value="Fun & Games">Fun & Games</option>
-                <option value="Fitness, Nutrition, & Health">Fitness, Nutrition, & Health</option>
-                <option value="Fiction Writing">Fiction Writing</option>
-                <option value="Music">Music</option>
-                <option value="Nonfiction Writing">Nonfiction Writing</option>
-                <option value="Other">Other</option>
-                <option value="Philosophy & Logic">Philosophy & Logic</option>
-                <option value="Poetry">Poetry</option>
-                <option value="Programming & Technology">Programming & Technology</option>
-                <option value="Speeches & Scripts">Speeches & Scripts</option>
-                <option value="Social Media & Blogging">Social Media & Blogging</option>
-                <option value="Travel">Travel</option>
-                <option value="Therapy & Life-help">Therapy & Life-help</option>        
+                <option value="" data-i18n="all_categories">-All Categories-</option>
+                <option value="Academic Writing" data-i18n="category_academic_writing">Academic Writing</option>
+                <option value="Bypass & Personas" data-i18n="category_bypass_personas">Bypass &amp; Personas</option>
+                <option value="Education & Learning" data-i18n="category_education_learning">Education &amp; Learning</option>
+                <option value="Expert/Consultant" data-i18n="category_expert_consultant">Expert/Consultant</option>
+                <option value="Fun & Games" data-i18n="category_fun_games">Fun &amp; Games</option>
+                <option value="Fitness, Nutrition, & Health" data-i18n="category_fitness_nutrition_health">Fitness, Nutrition, &amp; Health</option>
+                <option value="Fiction Writing" data-i18n="category_fiction_writing">Fiction Writing</option>
+                <option value="Music" data-i18n="category_music">Music</option>
+                <option value="Nonfiction Writing" data-i18n="category_nonfiction_writing">Nonfiction Writing</option>
+                <option value="Other" data-i18n="category_other">Other</option>
+                <option value="Philosophy & Logic" data-i18n="category_philosophy_logic">Philosophy &amp; Logic</option>
+                <option value="Poetry" data-i18n="category_poetry">Poetry</option>
+                <option value="Programming & Technology" data-i18n="category_programming_technology">Programming &amp; Technology</option>
+                <option value="Speeches & Scripts" data-i18n="category_speeches_scripts">Speeches &amp; Scripts</option>
+                <option value="Social Media & Blogging" data-i18n="category_social_media_blogging">Social Media &amp; Blogging</option>
+                <option value="Travel" data-i18n="category_travel">Travel</option>
+                <option value="Therapy & Life-help" data-i18n="category_therapy_life_help">Therapy &amp; Life-help</option>
             </select>
         </div>
         <div style="">
-                <input id="search" type="text" class="${css`search`}" autocomplete="off" placeholder="Search">
+                <input id="search" type="text" class="${css`search`}" autocomplete="off" data-i18n="search_prompts" placeholder="Search Prompts...">
         </div>
     </div>
-    <div>Compact view <input id="compact" type="checkbox"> | <a target="_blank" href="https://www.reddit.com/r/ChatGPTPromptGenius/">Discover Prompts ${svg`Arrow`}</a> | <a style="cursor: pointer" target="blank" id="userPrompts">My Prompts ${svg`Arrow`}</a>
+    <div><span data-i18n="compact">Compact view</span> <input id="compact" type="checkbox"> | <a target="_blank" href="https://www.reddit.com/r/ChatGPTPromptGenius/"><span data-i18n="discover">Discover Prompts</span> ${svg`Arrow`}</a> | <a style="cursor: pointer" target="blank" id="userPrompts"><span data-i18n="my_prompts">My Prompts</span> ${svg`Arrow`}</a>
     </div>
     
     <ul class="${css`ul`}" id="templates">
@@ -386,11 +388,11 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
 
     <div class="${css`column`} items-center">
       <span class="${css`paginationText`}" id="pagination">
-        Showing <span class="${css`paginationNumber`}">${start + 1}</span> to <span class="${css`paginationNumber`}">${end}</span> of <a id="prompt-link"><span class="${css`paginationNumber`}">${templates.length} Entries</span></a>
+        <span data-i18n="showing">Showing</span> <span class="${css`paginationNumber`}">${start + 1}</span> <span data-i18n="to">to</span> <span class="${css`paginationNumber`}">${end}</span> <span data-i18n="of">of</span> <a id="prompt-link"><span class="${css`paginationNumber`}">${templates.length} <span data-i18n="entries">Entries</span></span></a>
       </span>
       <div class="${css`paginationButtonGroup`}">
-        <button onclick="prevPromptTemplatesPage()" class="${css`paginationButton`}" style="border-radius: 6px 0 0 6px">Prev</button>
-        <button onclick="nextPromptTemplatesPage()" class="${css`paginationButton`} border-0 border-l border-gray-500" style="border-radius: 0 6px 6px 0">Next</button>
+        <button onclick="prevPromptTemplatesPage()" class="${css`paginationButton`}" style="border-radius: 6px 0 0 6px" data-i18n="prev">Prev</button>
+        <button onclick="nextPromptTemplatesPage()" class="${css`paginationButton`} border-0 border-l border-gray-500" style="border-radius: 0 6px 6px 0" data-i18n="next">Next</button>
       </div>
     </div>
     </ul>
@@ -422,11 +424,22 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
         search.focus()
     }
 
-    catSelect.value = category
     catSelect.addEventListener("change", () => searchAndCat(false))
 
     search.value = searchTerm
     search.addEventListener("input", () => searchAndCat(true))
+
+    function checkForMessages(){
+        let messagesRaw = document.querySelector('#pr-messages')?.value;
+        if (messagesRaw){
+            promptTranslations = JSON.parse(messagesRaw)
+            loadTranslations(promptTranslations)
+        }
+        else {
+            setTimeout(checkForMessages, 500)
+        }
+    }
+    checkForMessages()
 
     // listen for compact mode checkmark click
     if (isCompact){
@@ -436,6 +449,31 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
     document.getElementById("compact").addEventListener("click", compactStyle)
 
     addButtonClicks(templates, category, searchTerm, [])
+}
+let promptTranslations;
+
+function loadTranslations(messages){
+    const elements = document.querySelectorAll('[data-i18n], [data-i18n-placeholder]');
+    elements.forEach((element) => {
+        replaceTranslation(element, messages);
+    })
+}
+
+function replaceTranslation(element, translations) {
+    if (element.hasAttribute('data-i18n')) {
+        const key = element.getAttribute('data-i18n');
+        const translation = translations[key];
+        if (translation && translation.message) {
+            element.innerHTML = translation.message;
+        }
+    }
+    if (element.hasAttribute('data-i18n-placeholder')) {
+        const key = element.getAttribute('data-i18n-placeholder');
+        const translation = translations[key];
+        if (translation && translation.message) {
+            element.setAttribute('placeholder', translation.message);
+        }
+    }
 }
 
 function addButtonClicks(t, category, searchTerm, tagList=[]){
@@ -520,10 +558,11 @@ function updateTemplates(templates = window.prompttemplates, category="", search
       `).join('')}
         `
     document.getElementById("templates").innerHTML = templateHTML
-    let paginationHTML =   `Showing <span class="${css`paginationNumber`}">${start + 1}</span> to <span class="${css`paginationNumber`}">${end}</span> of <a id="prompt-link"><span class="${css`paginationNumber`}">${filteredTemplates.length} Entries</span></a>`
+    let paginationHTML =   `<span data-i18n="showing">Showing</span> <span class="${css`paginationNumber`}">${start + 1}</span> <span data-i18n="to">to</span> <span class="${css`paginationNumber`}">${end}</span> <span data-i18n="of">of</span> <a id="prompt-link"><span class="${css`paginationNumber`}">${templates.length} <span data-i18n="entries">Entries</span></span></a>`
 
     document.getElementById("pagination").innerHTML = paginationHTML
     compactStyle()
+    loadTranslations(promptTranslations)
 
     addButtonClicks(templates, category, searchTerm, tagList)
 }

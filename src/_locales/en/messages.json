@@ -137,7 +137,7 @@
   "share_reddit": {
     "message": "Share this prompt on Reddit"
   },
-  "-all_prompts-": {
+  "all_prompts": {
     "message": "-All Prompts-"
   },
   "filter_category": {
@@ -315,5 +315,23 @@
   },
   "language":{
     "message": "Language"
+  },
+  "share": {
+    "message": "Share"
+  },
+  "export": {
+    "message": "Export"
+  },
+  "download": {
+    "message": "Download"
+  },
+  "link": {
+    "message": "Link"
+  },
+  "theme_settings":{
+    "message": "Theme Settings"
+  },
+  "showing": {
+    "message": "Showing"
   }
 }

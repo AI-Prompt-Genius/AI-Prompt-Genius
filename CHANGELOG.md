@@ -1,3 +1,8 @@
+### v2.4.2 - March 21, 2023
+
+- Localization!
+- Removed double scrollbar
+
 ### v2.4.1 - March 20, 2023
 
 - History v2: sync history based off of network storage
