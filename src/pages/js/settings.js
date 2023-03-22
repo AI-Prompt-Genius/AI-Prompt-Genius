@@ -41,6 +41,9 @@ function load_settings(){
         document.querySelector("#disable-prompt-injection").checked = result.settings.dont_inject_prompts ?? false
         document.querySelector("#chatgpt-plus").checked = result.settings.is_plus ?? false
     })
+    chrome.storage.local.get({lang: "en"}, function (response){
+         document.getElementById("selectLang").value = response.lang
+    })
 }
 load_settings()
 
@@ -52,5 +55,13 @@ function settings_dark(){
         document.querySelector('table').classList.add('table-dark')
     }
 }
+
+function changeLang(){
+    let langSelect = document.getElementById("selectLang")
+    chrome.storage.local.set({lang: langSelect.value})
+    location.reload()
+}
+
 setTimeout(settings_dark, 50)
 document.body.querySelector('#light_dark').addEventListener('click', function f(){setTimeout(settings_dark, 0)})
+document.getElementById("selectLang").addEventListener("change", changeLang)

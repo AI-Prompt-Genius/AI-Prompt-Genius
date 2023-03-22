@@ -7,8 +7,8 @@ chrome.storage.local.get({v2_history: true}, function (result){
     }
 })
 
-function animateResync(){
-    resyncButt.innerHTML = `<i class="fa-solid fa-spin fa-arrows-rotate"></i>&emsp; Resyncing...`
+async function animateResync(){
+    resyncButt.innerHTML = `<i class="fa-solid fa-spin fa-arrows-rotate"></i>&emsp; ${await translate("resyncing")}`
     resyncButt.classList.add("disabled")
     chrome.storage.local.get({offset: 0}, function (result){
         checkOffsetThenResync(result.offset)
@@ -16,17 +16,17 @@ function animateResync(){
     })
 }
 
-function resetButton(){
-    resyncButt.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i>&emsp; Resync All`
+async function resetButton(){
+    resyncButt.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i>&emsp; ${await translate("resync_all")}`
     resyncButt.classList.remove("disabled")
     document.getElementById("resync-status").classList.add("d-none")
 }
 
 function updateResyncProgress(){
-    chrome.storage.local.get({offset: 0}, function (result){
+    chrome.storage.local.get({offset: 0}, async function (result){
         let offset = result.offset
         document.getElementById("resync-offset").innerHTML = offset
-        document.getElementById("resync-max").innerHTML = max ?? "All Threads"
+        document.getElementById("resync-max").innerHTML = max ?? await translate("all_threads")
         if (document.getElementById("resync-status").classList.contains("d-none")) {
             document.getElementById("resync-status").classList.remove("d-none")
         }
