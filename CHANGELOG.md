@@ -1,7 +1,6 @@
-### v2.4.2 - March 21, 2023
+### v2.4.2 - March 21, 2023 
 
-- Localization!
-- Removed double scrollbar
+- Fixed replacing left tags in code blocks
 
 ### v2.4.1 - March 20, 2023
 
