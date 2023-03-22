@@ -33,7 +33,6 @@
   "browser_action": {
     "default_title": "ChatGPT Prompt Genius"
   },
-  "default_locale": "en",
   "icons":{
     "16": "icons/16x16.png",
     "48": "icons/48x48.png",

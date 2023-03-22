@@ -70,7 +70,7 @@ function load_thread(c){
     copy_setup();
 }
 
-async function load_branched_thread()
+function load_branched_thread()
 {
 	// reset 
 	main.innerHTML = "";
@@ -156,7 +156,7 @@ async function load_branched_thread()
 		}
 		
 		if (fake_convo[i] === undefined) {
-			temp.querySelector(".text").innerHTML = `<div class="blue-info-box">${await translate("no_data")}</div>`
+			temp.querySelector(".text").innerHTML = `<div class="blue-info-box">No data available for current branch.</div>`
 			main.appendChild(temp)
 		}
 		else {
@@ -221,7 +221,7 @@ async function load_branched_thread()
 }
 
 // Add the right event listeners for the little copy clipboard in code blocks.
-async function copy_setup() { // created by ChatGPT
+function copy_setup() { // created by ChatGPT
     const clipboardBars = document.querySelectorAll('.copy');
     const codeElements = document.querySelectorAll('pre code');
 
@@ -229,7 +229,7 @@ async function copy_setup() { // created by ChatGPT
     clipboardBars.forEach((clipboardBar, index) => {
         clipboardBar.addEventListener('click', async () => {
             let copy_bar = clipboardBar.outerHTML
-            clipboardBar.innerHTML = `<icon class="fa-regular fa-check"></icon> &nbsp; ${await translate("copied")}`;
+            clipboardBar.innerHTML = `<icon class="fa-regular fa-check"></icon> &nbsp; Copied!`;
             setTimeout(() => {clipboardBar.outerHTML = copy_bar; copy_setup()}, 2000);
             // Get the code element corresponding to the clicked clipboard bar
             const codeElement = codeElements[index];

@@ -1,9 +1,9 @@
-chrome.storage.local.get({'threads': null}, async function (result) {
+chrome.storage.local.get({'threads': null}, function (result) {
     if (result.threads !== null) {
         load_threads(result.threads)
     }
     else{
-        main.innerHTML = `<h1 class="p-3 m-3 even dark">${await translate("welcome_history")}</h1>`
+        main.innerHTML = `<h1 class="p-3 m-3 even dark">Welcome! This is where your thread history will appear. To start syncing, open ChatGPT.</h1>`
     }
 })
 
@@ -326,8 +326,8 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
     })
 }
 
-async function b_load(){
-    document.querySelector('#blink').outerHTML = `<a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-reel"></i> &emsp; ${await translate("all_threads")}</a>`
+function b_load(){
+    document.querySelector('#blink').outerHTML = `<a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-reel"></i> &emsp; All Threads</a>`
     load_threads(threads_g, false, "", true)
 }
 

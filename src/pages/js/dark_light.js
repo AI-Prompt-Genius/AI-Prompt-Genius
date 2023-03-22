@@ -1,9 +1,9 @@
 let icon = document.querySelector('.sun-moon')
-async function switchClass(element) {
+function switchClass(element) {
     if (element.classList.contains("dark")) {
         element.classList.remove("dark");
         element.classList.add("light");
-        document.querySelector("#d_l").innerHTML = await translate("dark")
+        document.querySelector("#d_l").innerHTML = "Dark"
         icon.classList.remove('fa-sun-bright')
         icon.classList.add('fa-moon')
         chrome.storage.local.set({mode: "light"})
@@ -11,7 +11,7 @@ async function switchClass(element) {
     else if (element.classList.contains("light")) {
         element.classList.remove("light");
         element.classList.add("dark");
-        document.querySelector("#d_l").innerHTML = await translate("light")
+        document.querySelector("#d_l").innerHTML = "Light"
         icon.classList.remove('fa-moon')
         icon.classList.add('fa-sun-bright')
         chrome.storage.local.set({mode: "dark"})
