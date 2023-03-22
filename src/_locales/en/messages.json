@@ -360,5 +360,8 @@
   },
   "help_translate": {
     "message": "Help translate this into your language or fix auto-translated content."
+  },
+  "default_continue": {
+    "message": "The following is a transcript of a conversation between me and ChatGPT. Use it for context in the rest of the conversation. Be ready to edit and build upon the responses previously given by ChatGPT. Respond \"ready!\" if you understand the context. Do not respond with anything else. Conversation:\n"
   }
 }
