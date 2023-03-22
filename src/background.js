@@ -154,3 +154,25 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
         });
     }
 });
+
+chrome.storage.local.get({autoDetectedLocale: false}, function (result){
+    if (!result.autoDetectedLocale){
+        let acceptedLanguages = ["en", "zh_CN"]
+        chrome.i18n.getAcceptLanguages(function (languages){
+            console.log(languages)
+            for (let lang of languages){
+                lang = lang.replace("-", "_")
+                if (acceptedLanguages.includes(lang)){
+                    chrome.storage.local.set({lang: lang})
+                    chrome.storage.local.set({autoDetectedLocale: true})
+                    break;
+                }
+                else if (acceptedLanguages.includes(lang.split("_")[0])){
+                    chrome.storage.local.set({lang: lang.split("_")[0]})
+                    chrome.storage.local.set({autoDetectedLocale: true})
+                    break;
+                }
+            }
+        })
+    }
+})
