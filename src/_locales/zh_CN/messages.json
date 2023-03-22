@@ -137,7 +137,7 @@
   "share_reddit": {
     "message": "在 Reddit 上分享此提示"
   },
-  "-all_prompts-": {
+  "all_prompts": {
     "message": "-所有提示-"
   },
   "filter_category": {
@@ -312,5 +312,47 @@
   },
   "language":{
     "message": "语言"
+  },
+  "share": {
+    "message": "分享"
+  },
+  "export": {
+    "message": "导出"
+  },
+  "download": {
+    "message": "下载"
+  },
+  "link": {
+    "message": "链接"
+  },
+  "theme_settings": {
+    "message": "主题设置"
+  },
+  "all_categories": {
+    "message": "所有分类"
+  },
+  "templates_title": {
+    "message": "ChatGPT 写作提示大师模板"
+  },
+  "compact": {
+    "message": "紧凑视图"
+  },
+  "discover": {
+    "message": "发现写作提示"
+  },
+  "my_prompts": {
+    "message": "我的写作提示"
+  },
+  "to": {
+    "message": "到"
+  },
+  "of": {
+    "message": "的"
+  },
+  "entries": {
+    "message": "条目"
+  },
+  "showing": {
+    "message": "显示"
   }
 }
