@@ -224,6 +224,17 @@ const MAX_TITLE_DISPLAY_LENGTH = 55;
 
 function load_threads(threads, search=false, search_term="", bookmarks=false) {
     let threadsLoaded = []
+    threads = threads.sort((a, b) => { // load threads newest to oldest
+        if (a.create_time && b.create_time) {
+            return new Date(a.create_time) - new Date(b.create_time);
+        } else if (a.create_time) {
+            return -1;
+        } else if (b.create_time) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
     for (let n = 0; n < threads.length; n++) {
         let i = threads.length - n - 1;
         let temp;
@@ -286,10 +297,17 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
                 // solely catch a do-nothing
             }
             else if (target.classList.contains('bookmark')){
-                threads[i].favorite = !threads[i].favorite
-                chrome.storage.local.set({threads: threads})
-                let saved = threads[i].favorite
-                update_bookmark(btn, saved)
+                chrome.storage.local.get({threads: []}, function (result){
+                    let updatedThreads = result.threads
+                    let idx = getObjectIndexByID(threads[i].id, updatedThreads)
+                    let thread = updatedThreads[idx]
+                    thread.favorite = !thread.favorite
+                    updatedThreads[idx] = thread
+                    console.log(updatedThreads[idx])
+                    chrome.storage.local.set({threads: updatedThreads})
+                    let saved = thread.favorite
+                    update_bookmark(btn, saved)
+                })
             }
             else if (target.classList.contains('export')) {
                 export_thread(i, row);

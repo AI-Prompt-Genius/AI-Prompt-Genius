@@ -1,3 +1,9 @@
+### v2.4.3 - March 22, 2023
+
+- Missing i18n tag
+- Fixed bookmarks?
+- Load threads in older
+
 ### v2.4.2 - March 22, 2023 
 
 - Fixed replacing left tags in code blocks
