@@ -28,10 +28,7 @@
       "run_at": "document_idle"
     }
   ],
-  "web_accessible_resources" : [{
-    "resources": ["content-scripts/*" ,"themes/*", "external-js/*", "_locales/*"],
-    "matches": ["https://chat.openai.com/*"]
-  }],
+  "web_accessible_resources" : ["content-scripts/*" ,"themes/*", "external-js/*", "_locales/*"],
   "browser_action": {
     "default_title": "ChatGPT Prompt Genius"
   },
