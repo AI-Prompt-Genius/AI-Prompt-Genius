@@ -357,5 +357,8 @@
   },
   "showing": {
     "message": "显示"
+  },
+  "help_translate": {
+    "message": "帮助将此翻译成您的语言或修复自动翻译的内容。"
   }
 }

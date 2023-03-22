@@ -357,5 +357,8 @@
   },
   "showing": {
     "message": "Showing"
+  },
+  "help_translate": {
+    "message": "Help translate this into your language or fix auto-translated content."
   }
 }
