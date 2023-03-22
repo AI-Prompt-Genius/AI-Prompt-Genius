@@ -5,6 +5,9 @@
 
 [Advertise with us](https://github.com/benf2004/ChatGPT-Prompt-Genius/blob/master/ADVERTISING.md)
 
+[*Help translate*](https://crowdin.com/project/chatgpt-prompt-genius/invite/public?h=6b3278f0cfb94d5a92e0c504dd273f7a1645597&show-join)
+
+
 # ChatGPT Prompt Genius 
 <em>Written by ChatGPT, of course</em>
 
