@@ -2,7 +2,7 @@
 
 - Missing i18n tag
 - Fixed bookmarks?
-- Load threads in older
+- Load threads in order
 
 ### v2.4.2 - March 22, 2023 
 
