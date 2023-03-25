@@ -1,3 +1,9 @@
+### v2.4.4 - March 25, 2023
+
+- Ukrainian, Traditional Chinese
+- Localized CWS description
+- Fixed manifest for localization
+
 ### v2.4.3 - March 22, 2023
 
 - Missing i18n tag
