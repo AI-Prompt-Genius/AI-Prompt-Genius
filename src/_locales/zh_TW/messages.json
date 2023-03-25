@@ -1,15 +1,15 @@
 {
   "appName": {
-    "message": "ChatGPT Prompt Genius"
+    "message": "ChatGPT 智慧提示"
   },
   "appDesc": {
-    "message": "發現、分享、匯入並使用最好的 ChatGPT 提示，並將您的聊天記錄保存在本地 (前身為 ChatGPT History)"
+    "message": "探索、分享、引入及運用最佳的 ChatGPT 提示，並將您的聊天記錄儲存在裝置上（原名為 ChatGPT History ）"
   },
   "search_threads": {
-    "message": "搜尋串..."
+    "message": "搜尋對話..."
   },
   "light": {
-    "message": "亮色"
+    "message": "淺色"
   },
   "mode": {
     "message": "模式"
@@ -24,10 +24,10 @@
     "message": "提示"
   },
   "storage": {
-    "message": "存儲"
+    "message": "儲存空間"
   },
   "resync_all": {
-    "message": "重新同步所有"
+    "message": "全部重新同步"
   },
   "faq": {
     "message": "常見問題"
@@ -39,34 +39,34 @@
     "message": "Github"
   },
   "tip_jar": {
-    "message": "小費罐"
+    "message": "贊助"
   },
   "delete_thread": {
-    "message": "刪除此串"
+    "message": "刪除對話"
   },
   "export_conversation": {
-    "message": "將您的對話匯出為 JSON"
+    "message": "匯出您的對話為 JSON 格式"
   },
   "bookmark_conversation": {
-    "message": "將此對話加入書籤以供稍後使用"
+    "message": "將此對話加入書籤以便日後查看"
   },
   "continue_conversation": {
     "message": "繼續與 ChatGPT 對話"
   },
   "search_prompts": {
-    "message": "搜索提示..."
+    "message": "搜尋提示..."
   },
   "new_prompt": {
     "message": "新提示"
   },
   "curated_prompts": {
-    "message": "經選擇的提示"
+    "message": "精選提示"
   },
   "public_prompts": {
-    "message": "公開提示"
+    "message": "公共提示"
   },
   "history": {
-    "message": "歷史"
+    "message": "歷史紀錄"
   },
   "category_placeholder": {
     "message": "類別..."
@@ -78,19 +78,19 @@
     "message": "學術寫作"
   },
   "category_bypass_personas": {
-    "message": "繞過 & 人物形象"
+    "message": "規避與角色扮演"
   },
   "category_education_learning": {
-    "message": "教育 & 學習"
+    "message": "教育與學習"
   },
   "category_expert_consultant": {
-    "message": "專家/顧問"
+    "message": "專家與顧問"
   },
   "category_fun_games": {
-    "message": "娛樂 & 遊戲"
+    "message": "娛樂與遊戲"
   },
   "category_fitness_nutrition_health": {
-    "message": "健身、營養和健康"
+    "message": "健身、營養與健康"
   },
   "category_fiction_writing": {
     "message": "小說寫作"
@@ -105,37 +105,37 @@
     "message": "其他"
   },
   "category_philosophy_logic": {
-    "message": "哲學 & 邏輯"
+    "message": "哲學與邏輯"
   },
   "category_poetry": {
-    "message": "詩歌"
+    "message": "詩"
   },
   "category_programming_technology": {
-    "message": "編程 & 技術"
+    "message": "程式設計與科技"
   },
   "category_speeches_scripts": {
-    "message": "演講 & 劇本"
+    "message": "演講與劇本"
   },
   "category_social_media_blogging": {
-    "message": "社交媒體 & 博客"
+    "message": "社群媒體與部落格"
   },
   "category_travel": {
     "message": "旅行"
   },
   "category_therapy_life_help": {
-    "message": "治療和生命幫助"
+    "message": "治療與生活輔導"
   },
   "enter_tag": {
-    "message": "輸入標籤以添加..."
+    "message": "按 Enter 建立標籤..."
   },
   "delete_prompt": {
-    "message": "刪除此提示"
+    "message": "刪除提示"
   },
   "use_prompt": {
-    "message": "使用此提示"
+    "message": "使用提示"
   },
   "share_reddit": {
-    "message": "在 Reddit 上分享此提示"
+    "message": "在 Reddit 分享提示"
   },
   "all_prompts": {
     "message": "-所有提示-"
@@ -147,13 +147,13 @@
     "message": ""
   },
   "advertise_here": {
-    "message": "在這裡廣告。"
+    "message": "在這裡投放廣告。"
   },
   "explore_curated_templates": {
-    "message": "探索精選提示模板"
+    "message": "探索精選的提示模板"
   },
   "import_prompt": {
-    "message": "導入提示 →"
+    "message": "匯入提示 →"
   },
   "prev": {
     "message": "上一頁"
@@ -165,75 +165,75 @@
     "message": "將提示設為預設首頁"
   },
   "disable_save_chat_history": {
-    "message": "停用本地儲存聊天記錄"
+    "message": "停用裝置上的聊天記錄儲存功能"
   },
   "disable_prompts_on_chatgpt": {
-    "message": "停用 ChatGPT 上的提示",
-    "description": "您的提示模板將不會顯示在 ChatGPT 上。用於與其他 Chrome 擴展一同使用。"
+    "message": "在 ChatGPT 停用提示",
+    "description": "Your prompt templates won't show up on ChatGPT. For use with other Chrome Extensions."
   },
   "chatgpt_plus_user": {
     "message": "我是 ChatGPT Plus 用戶",
-    "description": "擴展會嘗試自動偵測，但有時會失敗。如果您未使用 ChatGPT Plus，請不要勾選此選項。"
+    "description": "The extension will try to detect this automatically, but it sometimes fails. Don't check this if you're not using ChatGPT plus."
   },
   "use_visual_editor_on_reddit": {
-    "message": "在 Reddit 上使用視覺化文字編輯器 (用於分享提示)"
+    "message": "在 Reddit 上使用視覺化文字編輯器（用於分享提示）"
   },
   "use_ctrl_enter_to_save": {
-    "message": "使用 ctrl + enter (或 ⌘ + enter 在 Mac 上) 保存提示 (而非按 Enter)。"
+    "message": "使用 Ctrl + Enter （ Mac 為 ⌘ + Enter ）儲存提示（而不是按 Enter 鍵）。"
   },
   "auto_delete_threads": {
-    "message": "自動刪除 (未加書籤的) 串，30 天後刪除"
+    "message": "30 天後自動刪除（非加入書籤）的對話"
   },
   "show_export_button_dropdown": {
-    "message": "顯示匯出按鈕下拉選單"
+    "message": "顯示匯出按鈕下拉式選單"
   },
   "auto_send_prompt": {
     "message": "使用提示時自動發送訊息"
   },
   "auto_send_note": {
-    "message": "當您點擊繼續按鈕時，您的提示將自動發送"
+    "message": "按下「繼續」按鈕時，您的提示將自動發送"
   },
   "default_continue_message": {
-    "message": "預設的「繼續」訊息"
+    "message": "預設「繼續」訊息"
   },
   "default_continue_message_note": {
-    "message": "當您點擊「繼續」按鈕時，這將出現在您的對話記錄之前。請注意，這僅適用於 2022 年 12 月 15 日更新之前的舊對話。"
+    "message": "當您按下「繼續」按鈕時，此訊息將顯示在您的對話之前。請注意，這僅適用於 2022 年 12 月 15 日更新之前的舊對話。"
   },
   "default_message": {
     "message": "預設訊息"
   },
   "import_export_archive": {
-    "message": "匯入/匯出 - 存檔"
+    "message": "匯入 / 匯出 - 檔案"
   },
   "archive_files": {
-    "message": "這些檔案用於恢復您的提示和記錄。全部匯出包括記錄、提示和設定。"
+    "message": "這些檔案用於還原您的提示和歷史記錄。匯出全部的歷史記錄、提示和設定。"
   },
   "export_prompts": {
     "message": "匯出提示"
   },
   "export_history": {
-    "message": "匯出歷史"
+    "message": "匯出歷史紀錄"
   },
   "export_settings": {
     "message": "匯出設定"
   },
   "export_all": {
-    "message": "匯出全部"
+    "message": "全部匯出"
   },
   "import_any": {
-    "message": "任意匯入"
+    "message": "匯入"
   },
   "mass_delete_header": {
     "message": "危險區域 - 大量刪除"
   },
   "mass_delete_note": {
-    "message": "大量刪除您的提示和串。我們建議先進行匯出。"
+    "message": "批次刪除您的提示和對話。我們建議先匯出。"
   },
   "delete_all_prompts_span": {
     "message": "刪除所有提示"
   },
   "delete_all_history_span": {
-    "message": "刪除所有記錄"
+    "message": "刪除所有歷史紀錄"
   },
   "confirm_span": {
     "message": "確認"
@@ -242,76 +242,76 @@
     "message": "常見問題"
   },
   "faq_permissions_header": {
-    "message": "為什麼此擴展需要 Reddit 權限?"
+    "message": "為什麼這個擴充功能需要 Reddit 權限？"
   },
   "faq_permissions_answer": {
-    "message": "我們唯一需要的權限是在我們自己的子版 r/ChatGPTPromptGenius，這僅是為了在您提交提示時幫助格式化。我們還插入了一個按鈕，讓您快速導入其他人的提示。我們不會在任何其他子版上運行任何腳本，也不會收集任何 Reddit 的數據。"
+    "message": "我們唯一需要的權限是在我們自己的 subreddit r/ChatGPTPromptGenius ，這只是為了格式化您提交到 subreddit 的提示。我們還插入了一個按鈕，讓您快速導入其他人的提示。我們不在任何其他的 subreddit 上運行任何提示，也不會從 reddit 收集任何資料。"
   },
   "faq_data_header": {
-    "message": "您會怎麼處理我的數據?"
+    "message": "您對我的資料做了什麼處理？"
   },
   "faq_data_answer": {
-    "message": "我們明白您的數據對您很重要，我們要保證您完全掌控。您所有的數據都存儲在您的設備本地，我們不聲稱所有權。此外，我們無法訪問您的數據（我們沒有服務器），因為它僅存儲在您的設備本地存儲中。如果您選擇分享聊天，它將上傳到 ShareGPT 服務器，但您仍然保留您的數據權利。您可以隨時以原始 JSON 格式導出您的數據，我們還在努力添加更多的導出格式以方便您使用。"
+    "message": "我們明白您的資料對您來說非常重要，我們想向您保證，這些資料完全由您控制。您所有的資料都儲存在您的設備端，我們不會主張任何所有權。此外，我們沒有訪問您的資料（我們沒有伺服器），因為它僅儲存在您的設備的儲存空間。如果您選擇分享對話，它將上傳到 ShareGPT 伺服器，但您仍然保留對您的資料的所有權利。您可以隨時以原始的 JSON 格式匯出資料，我們也正在努力添加更多的匯出格式，以方便您使用。"
   },
   "faq_delete_header": {
-    "message": "我可以刪除通過鏈接共享的內容嗎?"
+    "message": "我可以刪除我通過連結分享的內容嗎？"
   },
   "faq_sharegpt_data": {
-    "message": "不幸的是，我們正在使用 ShareGPT 的公共服務器來托管您的共享服務。我們無法訪問該數據。我們建議您不要共享任何敏感信息。"
+    "message": "很抱歉，我們使用 ShareGPT 的公共伺服器來提供您的分享服務，因此無法存取這些資料。我們建議您不要分享任何敏感訊息。"
   },
   "faq_data_shared_header": {
-    "message": "是否共享其他數據?"
+    "message": "是否還有其他共享的資料？"
   },
   "faq_data_shared_answer": {
-    "message": "除非您使用“分享鏈接”按鈕明確共享該數據，否則不會有任何數據離開您的設備。所有數據都存儲在本地存儲中，即使是導出到 PDF/PNG/MD。"
+    "message": "除非您明確地使用「分享鏈接」按鈕分享資料，否則沒有資料會離開您的設備。即使匯出為 PDF / PNG / MD，所有資料都儲存在設備端的儲存空間。"
   },
   "faq_bug_header": {
-    "message": "我發現了一個錯誤!"
+    "message": "我發現了一個漏洞！"
   },
   "faq_bug_text_part1": {
-    "message": "很抱歉聽到您遇到了錯誤。如果您可以在我們的 "
+    "message": "很抱歉您遇到了問題。如果您能在我們的 "
   },
   "faq_bug_text_part2": {
-    "message": "GitHub 倉庫"
+    "message": "GitHub 儲存庫"
   },
   "faq_bug_text_part3": {
-    "message": "，我們將盡快解決問題。如果您願意嘗試，您也可以開啟一個拉取請求，自行修復錯誤並成為您想看到的改變!"
+    "message": "上提出問題，我們會盡快解決問題。如果您想冒險的話，您也可以開啟一個拉取請求來修復這個漏洞，成為您想看到的變化！"
   },
   "faq_feature_header": {
-    "message": "我有一個功能點子!"
+    "message": "我有一個功能想法！"
   },
   "faq_improve_extension_text_part1": {
-    "message": "我們一直在尋找改進擴展的方法，並且非常樂意聽取您的想法。請使用我們的"
+    "message": "我們一直在尋求改進擴充功能的發法，我們很樂意聽取您的想法。請使用我們 "
   },
   "faq_improve_extension_text_part2": {
-    "message": "GitHub 倉庫"
+    "message": "GitHub 儲存庫"
   },
   "faq_improve_extension_text_part3": {
-    "message": "上的討論分享您的想法。"
+    "message": "上的討論區來分享您的想法。"
   },
   "faq_we_header": {
-    "message": "我們 是誰?"
+    "message": "「我們」是誰？"
   },
   "faq_we_text": {
-    "message": "該項目是開源的，包括許多貢獻者。如果您看到需要改進的內容，可以通過開啟問題或拉取請求來幫助我們。"
+    "message": "這個項目是開源的，有很多貢獻者參與其中。如果您發現需要改進的地方，可以透過開啟問題或拉取請求（ pull request ）來幫助我們改進。"
   },
   "dark": {
     "message": "深色"
   },
   "all_threads": {
-    "message": "所有主題"
+    "message": "所有對話"
   },
   "welcome_history": {
-    "message": "歡迎！這是您的主題歷史記錄。若要開始同步，請打開 ChatGPT。"
+    "message": "歡迎！這裡是您的聊天紀錄。若要開始同步，請開啟 ChatGPT 。"
   },
   "resyncing": {
-    "message": "正在重新同步..."
+    "message": "重新同步中..."
   },
   "copied": {
-    "message": "已複製!"
+    "message": "已複製！"
   },
   "no_data": {
-    "message": "當前分支沒有可用的數據。"
+    "message": "當前分支沒有可用的資料。"
   },
   "language": {
     "message": "語言"
@@ -326,22 +326,22 @@
     "message": "下載"
   },
   "link": {
-    "message": "鏈接"
+    "message": "連結"
   },
   "theme_settings": {
-    "message": "主題設置"
+    "message": "佈景主題設定"
   },
   "all_categories": {
     "message": "所有類別"
   },
   "templates_title": {
-    "message": "ChatGPT Prompt Genius 模板"
+    "message": "ChatGPT 智慧提示的模版"
   },
   "compact": {
-    "message": "緊湊視圖"
+    "message": "精簡畫面"
   },
   "discover": {
-    "message": "發現提示"
+    "message": "探索提示"
   },
   "my_prompts": {
     "message": "我的提示"
@@ -356,10 +356,10 @@
     "message": "條目"
   },
   "showing": {
-    "message": "顯示"
+    "message": "顯示中"
   },
   "help_translate": {
-    "message": "幫助將此翻譯為您的語言或修正自動翻譯的內容。"
+    "message": "請幫忙將此翻譯成您的語言或修正自動翻譯的內容。"
   },
   "default_continue": {
     "message": "以下是我和 ChatGPT 之間的對話記錄，請用於上下文理解。在回答 ChatGPT 提出的問題時，請記得編輯並擴展 ChatGPT 先前給出的回答。如果您理解了上下文，請回答\"ready!\"，請勿回答其他內容。對話記錄：\n"
