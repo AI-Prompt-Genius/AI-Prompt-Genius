@@ -8,7 +8,7 @@
 [**Help translate**](https://crowdin.com/project/chatgpt-prompt-genius/invite/public?h=6b3278f0cfb94d5a92e0c504dd273f7a1645597&show-join)
 
 
-# ChatGPT Prompt Genius 
+# ChatGPT Prompt Genius  
 <em>Written by ChatGPT, of course</em>
 
 🎉 Welcome to ChatGPT Prompt Genius, a free, open-source browser extension that helps you 🔍 discover, share, import, and use the best prompts for ChatGPT. You can also 💾 save your chat history locally so you can easily review past conversations and refer to them at a later time.
@@ -63,7 +63,7 @@ src/themes: CSS themes for styling ChatGPT
 background.js: listens for user clicks and handles message passing
 utility.js: common JS
 
-CSS: Bootstrap & Font Awesome Icons + some custom 
+CSS: Bootstrap & Font Awesome Icons + some custom  
 
 
 
@@ -73,7 +73,7 @@ CSS: Bootstrap & Font Awesome Icons + some custom
 - Many thanks to @aivct for contributing many new features.
 
 ## License
-Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa] 
 
 This work is licensed under a
 [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
@@ -84,7 +84,7 @@ This work is licensed under a
 [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
 
-Proper Attribution (include in prominent file):
+Proper Attribution (include in prominent file): 
 
 ```
 /* ChatGPT Prompt Genius - https://github.com/benf2004/ChatGPT-Prompt-Genius
