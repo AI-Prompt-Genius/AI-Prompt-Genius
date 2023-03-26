@@ -15,7 +15,7 @@
 
 You can use the extension's prompt templates feature to easily find and add prompts to your collection. You can search, categorize, and select prompts right on the page, making it easy to find creative and productive ways to use ChatGPT.
 
-🎨Add themes like SMS, cozy fireplace, and hacker on the ChatGPT page.
+🎨Add themes like SMS, cozy fireplace, and hacker on the ChatGPT page. 
 
 To use the history saving feature, simply open ChatGPT and start chatting 💬 as you normally would. The extension will automatically save your conversation history in your browser. You can access your saved history by clicking on the extension icon 🔍 in the top right corner of your browser. The extension rerenders your conversation in a style that closely matches ChatGPT, including code rendering & copying.
 
@@ -80,11 +80,11 @@ This work is licensed under a
 
 [![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
 
-[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
-[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
-[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/ 
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png 
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg 
 
-Proper Attribution (include in prominent file): 
+Proper Attribution (include in prominent file):  
 
 ```
 /* ChatGPT Prompt Genius - https://github.com/benf2004/ChatGPT-Prompt-Genius
