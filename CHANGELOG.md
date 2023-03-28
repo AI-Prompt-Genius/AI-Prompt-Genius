@@ -1,3 +1,8 @@
+### v2.4.5 - March 27, 2023
+
+- French
+- Update interval is 10s
+
 ### v2.4.4 - March 25, 2023
 
 - Ukrainian, Traditional Chinese
