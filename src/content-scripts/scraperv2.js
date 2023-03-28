@@ -1,7 +1,7 @@
 async function startSyncer(){
     await new Promise(r => setTimeout(r, 1000)); // 1s sleep
     let convo;
-    const SAVE_CONVO_INTERVAL = 4000; //10s
+    const SAVE_CONVO_INTERVAL = 10000; //10s
     chrome.storage.local.get({auth: null}, async function (result){
         let auth = result.auth
         setInterval(() => saveConvo(auth), SAVE_CONVO_INTERVAL)
