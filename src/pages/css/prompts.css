@@ -86,7 +86,7 @@ a {
     border-top: #E5E5E5 1px solid;
 }
 .row:hover{
-    border: #0BA37F 2px solid;
+    box-shadow: 0 0 0 2px #0BA37F inset;
 }
 
 .square-icon {
