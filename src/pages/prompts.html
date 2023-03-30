@@ -73,7 +73,7 @@
     </nav>
     <template id="prompt_template" class="dark">
         <div class="row even dark align-items-center">
-            <div class="ml-1 col p-1">
+            <div class="col p-1">
                 <h4 class="p-2 ml-3 title"><i class="fa-regular square-icon fa-pen-to-square edit-button"></i> <span
                         class="title-text text"></span></h4>
                 <p class="p-2 ml-3 prompt clickable"><span class="prompt-text text"></span></p>
@@ -156,9 +156,9 @@
                 <option value="Therapy & Life-help" data-i18n="category_therapy_life_help">Therapy &amp; Life-help</option>
             </select>
             <br>
-            <em id="outerAd"><span id="ad" class="ad p-2 m-3"></span><a href="https://7yq2.short.gy/OwDoLv" target="_blank" data-i18n="advertise_here">Advertise here.</a></em>
+            <div class="mb-3"><em id="outerAd"><span id="ad" class="ad p-2"></span><a href="https://7yq2.short.gy/OwDoLv" target="_blank" data-i18n="advertise_here">Advertise here.</a></em></div>
         </div>
-        <div class="main dark">
+        <div class="main dark" id="main">
         </div>
     </main>
     <template class="explore-template">
@@ -220,6 +220,7 @@
     <script src="../external-js/popper.js"></script>
     <script src="../external-js/bootstrap.js"></script>
     <script src="../utility.js"></script>
+    <script src="../external-js/sortable.min.js"></script>
     <script src="js/localization.js"></script>
     <script src="js/prompts.js"></script>
     <script src="js/dark_light.js"></script>

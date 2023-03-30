@@ -1,3 +1,15 @@
+### v2.4.6 - March 28, 2023
+
+- Update ad placement on prompts.html
+- Fix tag issue
+- Made translation more efficient 
+- Drag prompts to reorder
+
+### v2.4.5 - March 27, 2023
+
+- French
+- Update interval is 10s
+
 ### v2.4.4 - March 25, 2023
 
 - Ukrainian, Traditional Chinese

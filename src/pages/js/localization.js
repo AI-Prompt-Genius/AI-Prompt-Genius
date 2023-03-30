@@ -1,7 +1,9 @@
+let messages = {};
 function loadTranslations(lang) {
     fetch(`/_locales/${lang}/messages.json`)
         .then((response) => response.json())
         .then((translations) => {
+            messages[lang] = translations;
             const elements = document.querySelectorAll('[data-i18n], [data-i18n-placeholder], [data-i18n-title], template');
             elements.forEach((element) => {
                 if (element.tagName === 'TEMPLATE') {
@@ -54,20 +56,30 @@ chrome.storage.local.get({lang: "en"}, function (response){
 })
 
 async function translate(key, lang=language) {
-    console.log("Translating " + key)
-    // fetch the translations for the specified language
-     return fetch(`/_locales/${lang}/messages.json`)
+    // Check if the translations for the specified language have already been loaded
+    if (messages[lang]) {
+        // Check if the key exists in the translations object
+        if (messages[lang][key] && messages[lang][key].message) {
+            // Return the translation from the cache
+            return messages[lang][key].message;
+        }
+    }
+
+    // If the translations have not been loaded yet or the key does not exist in the cache, fetch the translations
+    return fetch(`/_locales/${lang}/messages.json`)
         .then((response) => response.json())
-        .then((translations) => {
-            // check if the key exists in the translations object
-            if (translations[key] && translations[key].message) {
-                console.log(translations[key].message)
-                // set the translation to the message value of the translation object
-                return translations[key].message;
+        .then((json) => {
+            // Store the translations in the global variable
+            messages[lang] = json;
+            // Check if the key exists in the translations object
+            if (json[key] && json[key].message) {
+                // Return the translation
+                return json[key].message;
             }
         })
         .catch((error) => console.error(error));
 }
+
 
 chrome.storage.local.get({lang: "en"}, function (response) {
     loadTranslations(response.lang)

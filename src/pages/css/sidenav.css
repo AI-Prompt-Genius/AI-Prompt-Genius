@@ -44,5 +44,5 @@
 .bottom-half{
     position: absolute; bottom: 8px; left: 0; right: 0;
     border-top: 1px solid #4D4D4F;
-    overflow: scroll;
+    overflow: hidden;
 }

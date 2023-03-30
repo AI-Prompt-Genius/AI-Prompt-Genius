@@ -482,12 +482,13 @@ function addButtonClicks(t, category, searchTerm, tagList=[]){
         template.addEventListener("click", event => {
             const target = event.target
             if (target.classList.contains("selected")){
-                console.log("selected")
                 let newTagList = tagList.filter(item => item !== target.innerText);
+                promptTemplateSection.currentPage = 0
                 updateTemplates(t, category, searchTerm, newTagList)
             }
             else if (target.classList.contains('tag')){
                 let newTagList = [...tagList, target.innerText]
+                promptTemplateSection.currentPage = 0
                 updateTemplates(t, category, searchTerm, newTagList)
             }
             else{

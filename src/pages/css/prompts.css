@@ -86,7 +86,7 @@ a {
     border-top: #E5E5E5 1px solid;
 }
 .row:hover{
-    border: #0BA37F 2px solid;
+    box-shadow: 0 0 0 2px #0BA37F inset;
 }
 
 .square-icon {
@@ -173,6 +173,10 @@ textarea {
 
 .edit-tags{
     width: 10%;
+}
+
+.prompt:hover, .title:hover{
+    cursor: default;
 }
 
 .prompt-div {
@@ -367,3 +371,25 @@ textarea {
 .text-black{
     color: black;
 }
+/************************ sbDraggable ************************/
+
+[draggable] {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    /* Required to make elements draggable in old WebKit */
+    -khtml-user-drag: element;
+    -webkit-user-drag: element;
+}
+
+.sb-dragging-start {
+    opacity: 0.4;
+}
+
+.sb-dragging-over {
+    border-top: 2px solid #ea6b3387;
+}
+
+
+/********************** End sbDragable **********************/
