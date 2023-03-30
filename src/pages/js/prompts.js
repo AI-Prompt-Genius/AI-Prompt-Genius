@@ -1,7 +1,6 @@
 let main = document.querySelector(".main");
 const modal = new bootstrap.Modal(document.getElementById('exploreModal'))
 
-
 const default_prompts = [
 	{
 		"title": "My First Demo Prompt",
@@ -92,6 +91,7 @@ function load_prompts(prompts, search=false, search_term="", tagList=[])
 			template.querySelector('.select').value = prompt.category;
 		}
 		let row = template.querySelector('.row');
+		row.id = id
 
 		if(even) {
 			row.classList.add("even");
@@ -252,8 +252,60 @@ Additional information:
 	if (alteredOldPrompts){
 		chrome.storage.local.set({prompts: prompts})
 	}
+	draggables()
 	tooltips()
 	updateAutoComplete()
+}
+
+function reorderObjectsByRow(objects) {
+	const rows = document.querySelectorAll('.row');
+	const objectsById = {}; // map object id to object
+
+	// build map of objects by id
+	for (const object of objects) {
+		objectsById[object.id] = object;
+	}
+
+	// sort rows by their position in the DOM
+	const sortedRows = Array.from(rows).sort((a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+
+	// iterate over rows and reorder objects
+	for (const row of sortedRows) {
+		const objectId = row.id;
+		const object = objectsById[objectId];
+
+		// move the row to the correct position in the DOM
+		row.parentNode.insertBefore(row, row.previousSibling);
+
+		// if the object was found, update its position in the array
+		if (object) {
+			const index = objects.indexOf(object);
+			objects.splice(index, 1);
+			objects.splice(sortedRows.indexOf(row), 0, object);
+		}
+	}
+	return objects
+}
+
+function reorderList(){
+	chrome.storage.local.get({"prompts": []}, function (result) {
+		let newobj = reorderObjectsByRow(result.prompts).reverse() // reverse it because that's how it's stored
+		chrome.storage.local.set({"prompts": newobj})
+	})
+}
+
+function draggables(){
+	let items = document.getElementById("main")
+	let sd = Sortable.create(items, {
+		scroll: true,
+		forceAutoscrollFallback: true,
+		scrollSensitivity: 90,
+		bubbleScroll: true,
+		scrollSpeed: 100,
+		onEnd: function(evt) {
+			reorderList()
+		}
+	});
 }
 
 function updateAutoComplete(){

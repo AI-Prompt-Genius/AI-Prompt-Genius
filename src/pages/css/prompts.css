@@ -175,6 +175,10 @@ textarea {
     width: 10%;
 }
 
+.prompt:hover, .title:hover{
+    cursor: default;
+}
+
 .prompt-div {
     -webkit-text-size-adjust: 100%;
     tab-size: 4;
@@ -367,3 +371,25 @@ textarea {
 .text-black{
     color: black;
 }
+/************************ sbDraggable ************************/
+
+[draggable] {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    /* Required to make elements draggable in old WebKit */
+    -khtml-user-drag: element;
+    -webkit-user-drag: element;
+}
+
+.sb-dragging-start {
+    opacity: 0.4;
+}
+
+.sb-dragging-over {
+    border-top: 2px solid #ea6b3387;
+}
+
+
+/********************** End sbDragable **********************/
