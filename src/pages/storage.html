@@ -51,6 +51,20 @@
             <button id="confirm-history" class="m-2 btn btn-outline-primary d-none"><span data-i18n="confirm_span">Confirm</span></button>
         </div>
     </div>
+    <div id="cloudCard" class="d-none card text-bg-light m-3" style="width: 585px">
+        <h5 class="card-header" data-i18n="cloud_syncing">Cloud Syncing</h5>
+        <div class="card-body">
+            <p data-i18n="cloud_note">Sync your prompts on the cloud with Google Sheets. Chrome only.</p>
+            <em data-i18n="cloud_disclaimer">Note: you must be signed in to the same Google Chrome account for syncing to work properly.</em>
+            <div id="unlinked-buttons">
+                <button id="createNew" class="m-2 btn btn-success"><span data-i18n="link_sheet">Link Google Sheets</span> <i class="fa-brands fa-google-drive"></i></button>
+            </div>
+            <div class="d-none" id="linkedDiv">
+                <a id="linked-url" target="_blank" href=""><span data-i18n="view_linked">View linked sheet</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <button id="unlink" class="m-2 btn btn-outline-danger"><span data-i18n="unlink">Unlink Sheet</span> <i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
 </main>
 <script src="../external-js/popper.js"></script>
 <script src="../external-js/bootstrap.js"></script>
@@ -58,5 +72,6 @@
 <script src="js/localization.js"></script>
 <script src="js/dark_light.js"></script>
 <script src="js/storage.js"></script>
+<script src="js/cloudPrompts.js"></script>
 </body>
 </html>

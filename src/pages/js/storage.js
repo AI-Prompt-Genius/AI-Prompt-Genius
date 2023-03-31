@@ -157,10 +157,10 @@ function importPrompts(data) {
     });
 }
 
-function animate(button){
+function animate(button, timeout=1000){
     let html = button.innerHTML
     button.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`
-    setTimeout(() => button.innerHTML = html, 1000)
+    setTimeout(() => button.innerHTML = html, timeout)
 }
 
 function showDeletePrompts(){
