@@ -1,11 +1,10 @@
 if (typeof browser !== "undefined") {
     chrome.action = browser.browserAction
 }
-let settings;
 // Listen for a click on the browser action
 chrome.action.onClicked.addListener(function(tab) {
     chrome.storage.local.get({settings: {home_is_prompts: true}}, function(result) {
-        settings = result.settings
+        let settings = result.settings
         let url;
         if (settings.hasOwnProperty('home_is_prompts')) {
             if (settings.home_is_prompts === true) {
@@ -64,7 +63,7 @@ chrome.runtime.onMessage.addListener( async function(message) {
         console.log("HEY!")
         const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
         const rando = generateUUID() // to not get cached version because headers were causing problems.
-        const response = await fetch(`${host}/ads/current.txt?dummy=${rando}`);
+        const response = await fetch(`${host}/ads/current.txt?nocache=${rando}`);
         if (!response.ok) {
             throw new Error("HTTP error " + response.status);
         }
@@ -98,25 +97,6 @@ function JSONtoNestedList(prompts) {
         values.push(list)
     }
     return values
-}
-
-function mergePrompts(localPrompts, cloudPrompts) {
-    // Create a copy of the local prompts array
-    const mergedPrompts = JSON.parse(JSON.stringify(localPrompts));
-
-    // Merge in cloud prompts
-    cloudPrompts.forEach(cloudPrompt => {
-        const existingIndex = mergedPrompts.findIndex(localPrompt => localPrompt.id === cloudPrompt.id);
-        if (existingIndex === -1) { // not an existing prompt
-            // Add new prompt
-            mergedPrompts.push(cloudPrompt);
-        } else {
-            // Update existing prompt
-            mergedPrompts[existingIndex] = Object.assign({}, mergedPrompts[existingIndex], cloudPrompt);
-        }
-    });
-
-    return mergedPrompts;
 }
 
 async function updateSheetData(spreadsheetId, range, data) {
@@ -199,54 +179,54 @@ async function getSheetData(spreadsheetId, range) {
 async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetId) {
     try {
         // Get prompts from the Google Sheets version
-        const sheetData = await getSheetData(sheetId, "Sheet1!A1:G");
-        console.log(sheetData)
+        console.log(sheetId)
+        const syncedPrompts = await getSheetData(sheetId, "Sheet1!A1:G");
+        console.log(syncedPrompts)
 
         // Remove deleted prompts from the cloud version
         deletedPrompts.forEach(id => {
-            const index = sheetData.findIndex(prompt => prompt.id === id);
+            const index = syncedPrompts.findIndex(prompt => prompt.id === id);
             if (index !== -1) {
-                sheetData.splice(index, 1);
+                syncedPrompts.splice(index, 1);
+            }
+        });
+
+        // Add new prompts from the cloud version
+        newPrompts.forEach(id => {
+            const prompt = localPrompts.find(prompt => prompt.id === id);
+            if (prompt) {
+                syncedPrompts.push(prompt);
             }
         });
 
         // Merge local and cloud version for changed prompts
-        changedPrompts.concat(newPrompts).forEach(changedP => {
-            let id = changedP.id
-            console.log(localPrompts)
+        changedPrompts.forEach(id => {
             const localPrompt = localPrompts.find(prompt => prompt.id === id);
-            const cloudPrompt = sheetData.find(prompt => prompt.id === id);
+            const cloudPrompt = syncedPrompts.find(prompt => prompt.id === id);
 
             if (localPrompt) {
-                if (!cloudPrompt){
-                    sheetData.push(localPrompt)
+                // Merge the two prompts
+                cloudPrompt.text = localPrompt?.text;
+                cloudPrompt.time = localPrompt?.time;
+                cloudPrompt.category = localPrompt?.category;
+                cloudPrompt.tags = localPrompt?.tags.join(";");
+
+                // Find the index of the merged prompt in the sheetData array
+                const index = syncedPrompts.findIndex(prompt => prompt.id === id);
+
+                // Replace the old prompt with the merged prompt
+                if (index !== -1) {
+                    syncedPrompts[index] = cloudPrompt;
                 }
                 else {
-                    // Merge the two prompts
-                    cloudPrompt.text = localPrompt?.text;
-                    cloudPrompt.time = localPrompt?.time;
-                    cloudPrompt.category = localPrompt?.category;
-                    console.log(localPrompt.tags)
-                    cloudPrompt.tags = localPrompt?.tags.join(";");
-
-                    // Find the index of the merged prompt in the sheetData array
-                    const index = sheetData.findIndex(prompt => prompt.id === id);
-
-                    // Replace the old prompt with the merged prompt
-                    if (index !== -1) {
-                        sheetData[index] = cloudPrompt;
-                    }
-                    else {
-                        sheetData.push(cloudPrompt);
-                    }
+                    syncedPrompts.push(cloudPrompt);
                 }
             }
         });
 
         // Update the Chrome storage version with the merged data
-        const mergedData = mergePrompts(localPrompts, sheetData);
         const correctTags = []
-        for (let prompt of mergedData){
+        for (let prompt of syncedPrompts){
             console.log(prompt)
             if (typeof prompt.tags === "string") {
                 prompt.tags = prompt.tags.split(";")
@@ -256,7 +236,7 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
         chrome.storage.local.set({'prompts': correctTags});
 
         // Update the Google Sheets version with the merged data
-        await updateSheetData(sheetId, "Sheet1!A1:G", sheetData);
+        await updateSheetData(sheetId, "Sheet1!A1:G", syncedPrompts);
     }
     catch (error) {
         console.error(error);

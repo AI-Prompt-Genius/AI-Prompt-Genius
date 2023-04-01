@@ -22,9 +22,6 @@ async function alreadyLinked() {
     document.getElementById("unlinked-buttons").classList.add("d-none")
     document.getElementById("linkedDiv").classList.remove("d-none")
     document.getElementById("unlink").addEventListener("click", unlink)
-    chrome.storage.local.get({"prompts": []}, function (r){
-        chrome.runtime.sendMessage({params: [[],[], r.prompts, r.prompts, result.sheetID], type:"resync"})
-    })
 }
 
 async function unlink() {
@@ -86,7 +83,8 @@ async function getPrompts() {
         chrome.storage.local.get('prompts', function (data) {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
-            } else {
+            }
+            else {
                 resolve(data.prompts);
             }
         });
@@ -168,6 +166,7 @@ async function newSheet(token) {
         console.log("Successfully populated the spreadsheet with the prompts list!");
         chrome.storage.sync.set({ "cloudSyncing": true })
         chrome.storage.sync.set({ "sheetID": spreadsheetId })
+        chrome.runtime.sendMessage({params: [[],[], prompts, prompts, spreadsheetId], type:"resync"})
         alreadyLinked()
     } catch (error) {
         console.error(error);
@@ -184,12 +183,35 @@ async function linkSheet() {
             const sheetId = data.files[0].id;
             chrome.storage.sync.set({"cloudSyncing": true})
             chrome.storage.sync.set({"sheetID": sheetId})
+            let prompts = await getPrompts()
+            chrome.runtime.sendMessage({params: [[],[], prompts, prompts, sheetId], type:"resync"})
             alreadyLinked()
         }
         else {
             await newSheet(token);
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
     }
 }
+
+async function getSheetID(){
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get('sheetID', function (data) {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            }
+            else {
+                resolve(data.sheetID);
+            }
+        });
+    });
+}
+
+async function testing() {
+    let prompts = await getPrompts()
+    let spreadsheetId = await getSheetID()
+    chrome.runtime.sendMessage({params: [[], [], [], prompts, spreadsheetId], type: "resync"})
+}
+testing()
