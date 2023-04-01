@@ -23,12 +23,16 @@ async function alreadyLinked() {
     document.getElementById("linkedDiv").classList.remove("d-none")
     document.getElementById("unlink").addEventListener("click", unlink)
     chrome.storage.local.get({"prompts": []}, function (r){
-        syncPrompts([],[], r.prompts, r.prompts, result.sheetID)
+        chrome.runtime.sendMessage({params: [[],[], r.prompts, r.prompts, result.sheetID], type:"resync"})
     })
 }
 
 async function unlink() {
     animate(document.getElementById("unlink"), 1000)
+    let current_token = await getAuthToken()
+    fetch("https://accounts.google.com/o/oauth2/revoke?token=" + current_token, {
+        method: "GET"
+    });
     chrome.identity.clearAllCachedAuthTokens()
     await new Promise(r => setTimeout(r, 800));
     chrome.storage.sync.set({ "cloudSyncing": false })
@@ -107,154 +111,6 @@ function JSONtoNestedList(prompts) {
     return values
 }
 
-async function updateSheetData(spreadsheetId, range, data) {
-    try {
-        const token = await getAuthToken();
-        const values = JSONtoNestedList(data);
-        const requestBody = {
-            values: values
-        };
-        const valueInputOption = "USER_ENTERED";
-        const endpointUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=${valueInputOption}`;
-        const response = await fetch(endpointUrl, {
-            method: 'PUT',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        });
-        if (!response.ok) {
-            throw new Error('Failed to update spreadsheet');
-        }
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-
-function mergePrompts(localPrompts, cloudPrompts) {
-    // Create a copy of the local prompts array
-    const mergedPrompts = JSON.parse(JSON.stringify(localPrompts));
-
-    // Merge in cloud prompts
-    cloudPrompts.forEach(cloudPrompt => {
-        const existingIndex = mergedPrompts.findIndex(localPrompt => localPrompt.id === cloudPrompt.id);
-        if (existingIndex === -1) { // not an existing prompt
-            // Add new prompt
-            mergedPrompts.push(cloudPrompt);
-        } else {
-            // Update existing prompt
-            mergedPrompts[existingIndex] = Object.assign({}, mergedPrompts[existingIndex], cloudPrompt);
-        }
-    });
-
-    return mergedPrompts;
-}
-
-async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetId) {
-    try {
-        // Get prompts from the Google Sheets version
-        const sheetData = await getSheetData(sheetId, "Sheet1!A1:G");
-        console.log(sheetData)
-
-        // Remove deleted prompts from the cloud version
-        deletedPrompts.forEach(id => {
-            const index = sheetData.findIndex(prompt => prompt.id === id);
-            if (index !== -1) {
-                sheetData.splice(index, 1);
-            }
-        });
-
-        // Merge local and cloud version for changed prompts
-        changedPrompts.concat(newPrompts).forEach(changedP => {
-            let id = changedP.id
-            console.log(localPrompts)
-            const localPrompt = localPrompts.find(prompt => prompt.id === id);
-            const cloudPrompt = sheetData.find(prompt => prompt.id === id);
-
-            if (localPrompt) {
-                if (!cloudPrompt){
-                    sheetData.push(localPrompt)
-                }
-                else {
-                    // Merge the two prompts
-                    cloudPrompt.text = localPrompt?.text;
-                    cloudPrompt.time = localPrompt?.time;
-                    cloudPrompt.category = localPrompt?.category;
-                    console.log(localPrompt.tags)
-                    cloudPrompt.tags = localPrompt?.tags.join(";");
-
-                    // Find the index of the merged prompt in the sheetData array
-                    const index = sheetData.findIndex(prompt => prompt.id === id);
-
-                    // Replace the old prompt with the merged prompt
-                    if (index !== -1) {
-                        sheetData[index] = cloudPrompt;
-                    }
-                    else {
-                        sheetData.push(cloudPrompt);
-                    }
-                }
-            }
-        });
-
-        // Update the Chrome storage version with the merged data
-        const mergedData = mergePrompts(localPrompts, sheetData);
-        const correctTags = []
-        for (let prompt of mergedData){
-            console.log(prompt)
-            //prompt.tags = prompt.tags.split(";")
-            correctTags.push(prompt)
-        }
-        chrome.storage.local.set({'prompts': mergedData});
-
-        // Update the Google Sheets version with the merged data
-        await updateSheetData(sheetId, "Sheet1!A1:G", sheetData);
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-
-async function getSheetData(spreadsheetId, range) {
-    try {
-        const mumboJumbo = "AIzaSyAjjnHsq4rkzK7jtjZ_zvs62lT8nqeQVoU" // this isn't dangerous but you can ignore it
-        const token = await getAuthToken();
-        const endpointUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${mumboJumbo}`;
-        const headers = new Headers();
-        headers.append("Authorization", `Bearer ${token}`);
-        const response = await fetch(endpointUrl, {
-            method: "GET",
-            headers: headers
-        });
-        if (!response.ok) {
-            throw new Error('Failed to fetch data from endpoint');
-        }
-        const data = await response.json();
-        console.log((data))
-        const headersRow = data.values[0];
-        const values = data.values.slice(1);
-        const jsonData = values.map(row => {
-            const obj = {};
-            headersRow.forEach((header, index) => {
-                if (header === "tags") {
-                    console.log("tags!")
-                    obj[header] = row[index].split(';');
-                }
-                else {
-                    obj[header] = row[index];
-                }
-            });
-            return obj;
-        });
-        console.log(jsonData)
-        return jsonData;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
 async function checkForExisting(token) {
     const endpointUrl = "https://www.googleapis.com/drive/v3/files" +
         "?fields=files(id,name,mimeType,createdTime)" +
@@ -319,7 +175,7 @@ async function newSheet(token) {
 }
 
 async function linkSheet() {
-    animate(document.getElementById("createNew"), 60000);
+    animate(document.getElementById("createNew"), 20000);
     try {
         const token = await getAuthToken();
         const data = await checkForExisting(token);
