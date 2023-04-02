@@ -1,10 +1,11 @@
 if (typeof browser !== "undefined") {
     chrome.action = browser.browserAction
 }
+let settings;
 // Listen for a click on the browser action
 chrome.action.onClicked.addListener(function(tab) {
     chrome.storage.local.get({settings: {home_is_prompts: true}}, function(result) {
-        let settings = result.settings
+        settings = result.settings
         let url;
         if (settings.hasOwnProperty('home_is_prompts')) {
             if (settings.home_is_prompts === true) {
@@ -43,8 +44,8 @@ chrome.runtime.onMessage.addListener( async function(message) {
         let url = chrome.runtime.getURL('pages/prompts.html')
         chrome.tabs.create({url: url})
     }
-    else if(message.type ==='b_use_prompt') {
-        console.log('background received')
+	else if(message.type ==='b_use_prompt') {
+		console.log('background received')
         chrome.tabs.create({url: 'https://chat.openai.com/chat', active: true}, function (my_tab){
             let sent = false;
             chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
@@ -58,12 +59,12 @@ chrome.runtime.onMessage.addListener( async function(message) {
                 }
             });
         });
-    }
+	}
     else if (message.type === "ad"){
         console.log("HEY!")
         const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
         const rando = generateUUID() // to not get cached version because headers were causing problems.
-        const response = await fetch(`${host}/ads/current.txt?nocache=${rando}`);
+        const response = await fetch(`${host}/ads/current.txt?dummy=${rando}`);
         if (!response.ok) {
             throw new Error("HTTP error " + response.status);
         }
@@ -74,175 +75,7 @@ chrome.runtime.onMessage.addListener( async function(message) {
             chrome.tabs.sendMessage(tab.id, {ad: text, type: "adresponse"});
         });
     }
-    else if (message.type === "resync"){
-        console.log("resyncing!")
-        let mp = message.params
-        syncPrompts(mp[0], mp[1], mp[2], mp[3], mp[4])
-    }
 });
-
-function JSONtoNestedList(prompts) {
-    let values = []
-    const headers = Object.keys(prompts[0]);
-    values.push(headers)
-    for (let prompt of prompts) {
-        let list = []
-        for (let key of Object.keys(prompt)) {
-            if (Array.isArray(prompt[key])) {
-                list.push(prompt[key].join(";"));
-            } else {
-                list.push(prompt[key]);
-            }
-        }
-        values.push(list)
-    }
-    return values
-}
-
-async function updateSheetData(spreadsheetId, range, data) {
-    try {
-        const token = await getAuthToken();
-        const values = JSONtoNestedList(data);
-        const requestBody = {
-            values: values
-        };
-        const valueInputOption = "USER_ENTERED";
-        const endpointUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=${valueInputOption}`;
-        const response = await fetch(endpointUrl, {
-            method: 'PUT',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        });
-        if (!response.ok) {
-            throw new Error('Failed to update spreadsheet');
-        }
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-
-async function getAuthToken() {
-    console.log("gettingToken")
-    return new Promise((resolve, reject) => {
-        chrome.identity.getAuthToken({ 'interactive': true }, function (token) {
-            if (chrome.runtime.lastError) {
-                reject(chrome.runtime.lastError);
-            } else {
-                resolve(token);
-            }
-        });
-    });
-}
-
-async function getSheetData(spreadsheetId, range) {
-    try {
-        const mumboJumbo = "AIzaSyAjjnHsq4rkzK7jtjZ_zvs62lT8nqeQVoU" // this isn't dangerous but you can ignore it
-        const token = await getAuthToken();
-        const endpointUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${mumboJumbo}`;
-        const headers = new Headers();
-        headers.append("Authorization", `Bearer ${token}`);
-        const response = await fetch(endpointUrl, {
-            method: "GET",
-            headers: headers
-        });
-        if (!response.ok) {
-            throw new Error('Failed to fetch data from endpoint');
-        }
-        const data = await response.json();
-        console.log((data))
-        const headersRow = data.values[0];
-        const values = data.values.slice(1);
-        const jsonData = values.map(row => {
-            const obj = {};
-            headersRow.forEach((header, index) => {
-                if (header === "tags") {
-                    console.log("tags!")
-                    obj[header] = row[index].split(';');
-                }
-                else {
-                    obj[header] = row[index];
-                }
-            });
-            return obj;
-        });
-        console.log(jsonData)
-        return jsonData;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetId) {
-    try {
-        // Get prompts from the Google Sheets version
-        console.log(sheetId)
-        const syncedPrompts = await getSheetData(sheetId, "Sheet1!A1:G");
-        console.log(syncedPrompts)
-
-        // Remove deleted prompts from the cloud version
-        deletedPrompts.forEach(id => {
-            const index = syncedPrompts.findIndex(prompt => prompt.id === id);
-            if (index !== -1) {
-                syncedPrompts.splice(index, 1);
-            }
-        });
-
-        // Add new prompts from the cloud version
-        newPrompts.forEach(id => {
-            const prompt = localPrompts.find(prompt => prompt.id === id);
-            if (prompt) {
-                syncedPrompts.push(prompt);
-            }
-        });
-
-        // Merge local and cloud version for changed prompts
-        changedPrompts.forEach(id => {
-            const localPrompt = localPrompts.find(prompt => prompt.id === id);
-            const cloudPrompt = syncedPrompts.find(prompt => prompt.id === id);
-
-            if (localPrompt) {
-                // Merge the two prompts
-                cloudPrompt.text = localPrompt?.text;
-                cloudPrompt.time = localPrompt?.time;
-                cloudPrompt.category = localPrompt?.category;
-                cloudPrompt.tags = localPrompt?.tags.join(";");
-
-                // Find the index of the merged prompt in the sheetData array
-                const index = syncedPrompts.findIndex(prompt => prompt.id === id);
-
-                // Replace the old prompt with the merged prompt
-                if (index !== -1) {
-                    syncedPrompts[index] = cloudPrompt;
-                }
-                else {
-                    syncedPrompts.push(cloudPrompt);
-                }
-            }
-        });
-
-        // Update the Chrome storage version with the merged data
-        const correctTags = []
-        for (let prompt of syncedPrompts){
-            console.log(prompt)
-            if (typeof prompt.tags === "string") {
-                prompt.tags = prompt.tags.split(";")
-            }
-            correctTags.push(prompt)
-        }
-        chrome.storage.local.set({'prompts': correctTags});
-
-        // Update the Google Sheets version with the merged data
-        await updateSheetData(sheetId, "Sheet1!A1:G", syncedPrompts);
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-
 async function setUninstallURL(){
     const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
     const rando = generateUUID() // to not get cached version because headers were causing problems.
@@ -324,7 +157,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 
 chrome.storage.local.get({autoDetectedLocale: false}, function (result){
     if (!result.autoDetectedLocale){
-        let acceptedLanguages = ["en", "zh_CN", "fr, zh_TW", "uk"]
+        let acceptedLanguages = ["en", "zh_CN"]
         chrome.i18n.getAcceptLanguages(function (languages){
             console.log(languages)
             for (let lang of languages){
