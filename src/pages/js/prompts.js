@@ -404,10 +404,8 @@ function addTag(id, row){
 	row.querySelector('.addTags').value = ""
 }
 
-function delete_prompt(id) {
-	chrome.local.storage.get({"deletedPrompts": []}, function (result){
-		chrome.local.storage.set({"deletedPrompts": result.deletedPrompts.push(id)})
-	})
+function delete_prompt(id)
+{
 	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
@@ -427,7 +425,8 @@ function delete_prompt(id) {
 	});
 }
 
-function choose_category(id, row) {
+function choose_category(id, row)
+{
 	let category = row.querySelector('.select').value;
 	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
@@ -443,7 +442,8 @@ function choose_category(id, row) {
 	});
 }
 
-function use_prompt(id) {
+function use_prompt(id)
+{
 	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
@@ -456,7 +456,8 @@ function use_prompt(id) {
 	});
 }
 
-function toggle_prompt_editable(id, element, just_title=false) {
+function toggle_prompt_editable(id, element, just_title=false)
+{
 	let edit_icon = element.querySelector(".edit-button");
 	let prompt_title =  element.querySelector(".title-text");
 	let prompt_text = element.querySelector(".prompt-text");
