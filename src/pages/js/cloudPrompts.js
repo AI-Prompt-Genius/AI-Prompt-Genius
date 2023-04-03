@@ -80,7 +80,7 @@ async function createSpreadsheet(token) {
 
 async function getPrompts() {
     return new Promise((resolve, reject) => {
-        chrome.storage.local.get('prompts', function (data) {
+        chrome.storage.local.get({'prompts': []}, function (data) {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
             }
@@ -149,7 +149,7 @@ async function newSheet(token) {
         const requestBody = {
             values: values
         };
-        const range = "Sheet1!A1:G" + values.length;
+        const range = "Sheet1!A1:Z" + values.length;
         const valueInputOption = "USER_ENTERED";
         const myToken = await getAuthToken();
         const response = await fetch('https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '/values/' + range + '?valueInputOption=' + valueInputOption, {
@@ -184,7 +184,8 @@ async function linkSheet() {
             chrome.storage.sync.set({"cloudSyncing": true})
             chrome.storage.sync.set({"sheetID": sheetId})
             let prompts = await getPrompts()
-            chrome.runtime.sendMessage({params: [[],[], prompts, prompts, sheetId], type:"resync"})
+            let promptIDList = prompts.length > 0 ? prompts.map(obj => obj.id) : []
+            chrome.runtime.sendMessage({params: [[],[], promptIDList, prompts, sheetId], type:"resync"})
             alreadyLinked()
         }
         else {
@@ -198,7 +199,7 @@ async function linkSheet() {
 
 async function getSheetID(){
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.get('sheetID', function (data) {
+        chrome.storage.sync.get({'sheetID': ""}, function (data) {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
             }
@@ -212,6 +213,8 @@ async function getSheetID(){
 async function testing() {
     let prompts = await getPrompts()
     let spreadsheetId = await getSheetID()
-    chrome.runtime.sendMessage({params: [[], [], [], prompts, spreadsheetId], type: "resync"})
+    console.log(prompts)
+    let promptIDList = prompts.length > 0 ? prompts.map(obj => obj.id) : []
+    chrome.runtime.sendMessage({params: [[], [], promptIDList, prompts, spreadsheetId], type: "resync"})
 }
 testing()
