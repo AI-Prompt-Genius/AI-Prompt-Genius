@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
-  "version": "2.4.8",
+  "version": "2.4.9",
   "permissions": ["storage", "unlimitedStorage", "contextMenus"],
   "background": {
     "persistent": false,
