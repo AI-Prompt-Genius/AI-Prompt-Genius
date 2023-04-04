@@ -1,6 +1,8 @@
 ### v2.4.7 - April 3, 2023
 
-- Freezing browser while resyncing fix??
+- Move resync page
+- Add abort controller
+- New thing
 
 ### v2.4.6 - March 28, 2023
 
