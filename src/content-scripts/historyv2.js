@@ -1,21 +1,39 @@
 let myAuth;let threads; let offset = 0;
 async function auth() {
     async function getAuth() {
-        return fetch("https://chat.openai.com/api/auth/session?stop=true", {
-            method: "GET",
-            headers: {
-                'content-type': 'application/json',
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+        const timeout = setTimeout(() => {
+            controller.abort();
+        }, 5000);
+
+        try {
+            const response = await fetch(
+                "https://chat.openai.com/api/auth/session?stop=true",
+                {
+                    method: "GET",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    signal,
+                }
+            );
+
+            clearTimeout(timeout);
+
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log("Not OK!");
+                window.open("https://chat.openai.com/auth/login", "_blank");
+                return Promise.reject(response);
             }
-        }).then(response => {
-            if (response.ok){
-                return response.json()
-            }
-            else {
-                console.log("Not OK!")
-                window.open("https://chat.openai.com/auth/login", "_blank")
-                return Promise.reject(response)
-            }
-        })
+        } catch (error) {
+            console.log(error);
+            window.open("https://chat.openai.com/auth/login", "_blank");
+            return Promise.reject(error);
+        }
     }
     getAuth().then(result => {
         console.log(result)
@@ -180,7 +198,7 @@ async function resyncAll(){
             max = await convoData.total
             while (offset !== max) {
                 let allIds = convoData.items.map(convo => convo.id);
-                await resyncArray(allIds, ids, threads, 3000, myAuth, offset)
+                await resyncArray(allIds, ids, threads, 15000, myAuth, offset)
                 chrome.storage.local.get({offset: 0}, async function (result){
                     offset = result.offset
                     convoData = await getConversations(await offset)
