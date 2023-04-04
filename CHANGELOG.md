@@ -1,3 +1,7 @@
+### v2.4.7 - April 3, 2023
+
+- Freezing browser while resyncing fix??
+
 ### v2.4.6 - March 28, 2023
 
 - Update ad placement on prompts.html
