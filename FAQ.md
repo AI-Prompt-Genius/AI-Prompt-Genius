@@ -1,4 +1,4 @@
-### ChatGPT Prompt Genius FAQ
+### ChatGPT Prompt Genius FAQ & Privacy Policy
 
 **Why does this extension require reddit permissions?**
 
