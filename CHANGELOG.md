@@ -1,3 +1,17 @@
+### v2.5.0 - April 3, 2023
+
+- Russian language
+
+### v2.4.8 & 2.4.9 - April 3, 2023
+
+- even HOTTER fixes
+
+### v2.4.7 - April 3, 2023
+
+- Move resync page
+- Add abort controller
+- New thing
+
 ### v2.4.6 - March 28, 2023
 
 - Update ad placement on prompts.html

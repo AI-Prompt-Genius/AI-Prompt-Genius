@@ -1,10 +1,12 @@
 chrome.storage.local.get({'threads': null}, async function (result) {
-    if (result.threads !== null) {
-        load_threads(result.threads)
-    }
-    else{
-        main.innerHTML = `<h1 class="p-3 m-3 even dark">${await translate("welcome_history")}</h1>`
-    }
+    await expungeDuplicates(result.threads)
+    chrome.storage.local.get({'threads': null}, async function (result1) {
+        if (result.threads !== null) {
+            load_threads(result1.threads)
+        } else {
+            main.innerHTML = `<h1 class="p-3 m-3 even dark">${await translate("welcome_history")}</h1>`
+        }
+    })
 })
 
 let main = document.querySelector(".main")
@@ -71,6 +73,20 @@ function export_thread(i){
         download_blob_as_file(file, title);
     });
 }
+
+async function expungeDuplicates(threads) {
+    const uniqueThreads = {};
+    threads.forEach((thread) => {
+        if (!uniqueThreads[thread.id]) {
+            uniqueThreads[thread.id] = thread;
+        }
+    });
+   return chrome.storage.local.set({threads: Object.values(uniqueThreads)}, async function (re){
+       return true;
+   })
+}
+
+
 
 function encode_string_as_blob(string)
 {
@@ -333,10 +349,13 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
                 window.open(link, "_blank")
             }
         });
-        //if (!threadsLoaded.includes(id)) {
+        if (threadsLoaded.includes(id)){ // fix duplicates
+            delete_thread(i, row)
+        }
+        else {
             main.appendChild(temp);
-        //}
-        threadsLoaded.push(id)
+            threadsLoaded.push(id)
+        }
     }
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
