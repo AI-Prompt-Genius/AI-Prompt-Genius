@@ -1,3 +1,5 @@
+### v2.4.8 - April 3, 2023
+
 ### v2.4.7 - April 3, 2023
 
 - Move resync page

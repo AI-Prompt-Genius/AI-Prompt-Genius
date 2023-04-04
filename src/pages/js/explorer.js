@@ -335,7 +335,6 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
         });
         if (threadsLoaded.includes(id)){ // fix duplicates
             delete_thread(i, row)
-            n -= 1
         }
         else {
             main.appendChild(temp);
