@@ -1,0 +1,370 @@
+{
+  "appName": {
+    "message": "ChatGPT Prompt Genius"
+  },
+  "appDesc": {
+    "message": "Откройте, делитесь, импортируйте и используйте лучшие промпты для ChatGPT и сохраните историю чата локально (ранее история чата ChatGPT)"
+  },
+  "search_threads": {
+    "message": "Поиск по темам..."
+  },
+  "light": {
+    "message": "Светлый"
+  },
+  "mode": {
+    "message": "режим"
+  },
+  "bookmarks": {
+    "message": "Закладки"
+  },
+  "settings": {
+    "message": "Настройки"
+  },
+  "prompts": {
+    "message": "Промпты"
+  },
+  "storage": {
+    "message": "Хранилище"
+  },
+  "resync_all": {
+    "message": "Повторная синхронизация"
+  },
+  "faq": {
+    "message": "FAQ"
+  },
+  "chatgpt": {
+    "message": "ChatGPT"
+  },
+  "github": {
+    "message": "GitHub"
+  },
+  "tip_jar": {
+    "message": "Поддержать"
+  },
+  "delete_thread": {
+    "message": "Удалить чат"
+  },
+  "export_conversation": {
+    "message": "Сохранить чат в JSON"
+  },
+  "bookmark_conversation": {
+    "message": "Добавить чат в закладки"
+  },
+  "continue_conversation": {
+    "message": "Перейти к чату на ChatGPT"
+  },
+  "search_prompts": {
+    "message": "Поиск подсказок..."
+  },
+  "new_prompt": {
+    "message": "Добавить промпт"
+  },
+  "curated_prompts": {
+    "message": "Курируемые промпты"
+  },
+  "public_prompts": {
+    "message": "Публичные промпты"
+  },
+  "history": {
+    "message": "История"
+  },
+  "category_placeholder": {
+    "message": "Категория..."
+  },
+  "category": {
+    "message": "Категория"
+  },
+  "category_academic_writing": {
+    "message": "Академическое написание"
+  },
+  "category_bypass_personas": {
+    "message": "Обход и персонажи"
+  },
+  "category_education_learning": {
+    "message": "Образование и обучение"
+  },
+  "category_expert_consultant": {
+    "message": "Эксперт/Консультант"
+  },
+  "category_fun_games": {
+    "message": "Веселье и игры"
+  },
+  "category_fitness_nutrition_health": {
+    "message": "Фитнесс, Питание и Здоровье"
+  },
+  "category_fiction_writing": {
+    "message": "Написание художественной литературы"
+  },
+  "category_music": {
+    "message": "Музыка"
+  },
+  "category_nonfiction_writing": {
+    "message": "Написание художественной литературы"
+  },
+  "category_other": {
+    "message": "Прочие"
+  },
+  "category_philosophy_logic": {
+    "message": "Философия и логика"
+  },
+  "category_poetry": {
+    "message": "Поэзия"
+  },
+  "category_programming_technology": {
+    "message": "Программирование и технологии"
+  },
+  "category_speeches_scripts": {
+    "message": "Речи и скрипты"
+  },
+  "category_social_media_blogging": {
+    "message": "Блокировка отслеживания через социальные сети"
+  },
+  "category_travel": {
+    "message": "Поездка"
+  },
+  "category_therapy_life_help": {
+    "message": "Психотерапия и поддержка в жизни"
+  },
+  "enter_tag": {
+    "message": "Нажмите Enter для добавления тега..."
+  },
+  "delete_prompt": {
+    "message": "Удалить этот промпт"
+  },
+  "use_prompt": {
+    "message": "Использовать этот промпт"
+  },
+  "share_reddit": {
+    "message": "Поделиться этим промптом на Reddit"
+  },
+  "all_prompts": {
+    "message": "-Все промпты-"
+  },
+  "filter_category": {
+    "message": "Фильтр категории..."
+  },
+  "advertisement": {
+    "message": ""
+  },
+  "advertise_here": {
+    "message": "Рекламируйте здесь."
+  },
+  "explore_curated_templates": {
+    "message": "Исследуйте отобранные шаблоны промптов"
+  },
+  "import_prompt": {
+    "message": "Импорт промпта→"
+  },
+  "prev": {
+    "message": "Назад"
+  },
+  "next": {
+    "message": "Далее"
+  },
+  "make_prompts_default_home": {
+    "message": "Сделать страницу с промптами стандартной домашней страницей"
+  },
+  "disable_save_chat_history": {
+    "message": "Отключить локальное сохранение истории чата"
+  },
+  "disable_prompts_on_chatgpt": {
+    "message": "Отключить промпты в ChatGPT",
+    "description": "Your prompt templates won't show up on ChatGPT. For use with other Chrome Extensions."
+  },
+  "chatgpt_plus_user": {
+    "message": "У меня есть ChatGPT Plus",
+    "description": "The extension will try to detect this automatically, but it sometimes fails. Don't check this if you're not using ChatGPT plus."
+  },
+  "use_visual_editor_on_reddit": {
+    "message": "Используйте визуальный текстовый редактор на reddit (для обмена подсказками)"
+  },
+  "use_ctrl_enter_to_save": {
+    "message": "Используйте ctrl + enter (или <unk> + enter for mac) для сохранения запросов (вместо enter)."
+  },
+  "auto_delete_threads": {
+    "message": "Автоматическое удаление (не добавленных в закладки) тем после 30 дней"
+  },
+  "show_export_button_dropdown": {
+    "message": "Показать выпадающее меню кнопки экспорта"
+  },
+  "auto_send_prompt": {
+    "message": "Автоматически отправлять сообщение при использовании промпта"
+  },
+  "auto_send_note": {
+    "message": "Ваш промпт будет автоматически отправлен при нажатии на кнопку «Продолжить»"
+  },
+  "default_continue_message": {
+    "message": "Сообщение \"Продолжить\" по умолчанию"
+  },
+  "default_continue_message_note": {
+    "message": "Это появится перед субтитрами вашего чата, когда вы нажмете кнопку \"Продолжить\". Обратите внимание, что это относится только к старым чатам до обновления 15 декабря 2022 года."
+  },
+  "default_message": {
+    "message": "Сообщение по умолчанию"
+  },
+  "import_export_archive": {
+    "message": "Импорт/Экспорт - Архив"
+  },
+  "archive_files": {
+    "message": "Эти файлы используются для восстановления ваших промптов и истории. Экспорт включает в себя историю, промпты и настройки."
+  },
+  "export_prompts": {
+    "message": "Экспорт промптов"
+  },
+  "export_history": {
+    "message": "Экспорт истории"
+  },
+  "export_settings": {
+    "message": "Экспорт настроек"
+  },
+  "export_all": {
+    "message": "Экспорт всего"
+  },
+  "import_any": {
+    "message": "Импортировать всё"
+  },
+  "mass_delete_header": {
+    "message": "Внимание! - Массовое удаление"
+  },
+  "mass_delete_note": {
+    "message": "Массовое удаление подсказок и веток. Мы рекомендуем сохранить перед удалением."
+  },
+  "delete_all_prompts_span": {
+    "message": "Удалить все промпты"
+  },
+  "delete_all_history_span": {
+    "message": "Очистить всю историю"
+  },
+  "confirm_span": {
+    "message": "Подтвердить"
+  },
+  "faq_header": {
+    "message": "Часто задаваемые вопросы"
+  },
+  "faq_permissions_header": {
+    "message": "Почему это расширение требует прав reddit?"
+  },
+  "faq_permissions_answer": {
+    "message": "Мы запрашиваем разрешение только для нашего собственного сообщества на Reddit - r/ChatGPTPromptGenius, и это только для упрощения форматирования при отправке заданий на наш подраздел. Мы также добавляем кнопку для быстрого импорта заданий других пользователей. Мы не запускаем скрипты на других подразделах и не собираем никаких данных с Reddit."
+  },
+  "faq_data_header": {
+    "message": "Что вы делаете с моими данными?"
+  },
+  "faq_data_answer": {
+    "message": "Мы понимаем, что ваши данные важны для вас, и хотим заверить вас, что они полностью находятся под вашим контролем. Все ваши данные хранятся локально на вашем устройстве, и мы не претендуем на какие-либо права на них. Кроме того, у нас нет доступа к вашим данным (у нас нет серверов), так как они хранятся исключительно на локальном хранилище вашего устройства. Если вы решите поделиться чатом, он будет загружен на ShareGPT сервер, но вы по-прежнему сохраните права на ваши данные. Вы можете сохранить свои данные в любой момент в формат JSON, и мы также работаем над добавлением большего количества экспортируемых форматов для вашего удобства."
+  },
+  "faq_delete_header": {
+    "message": "Могу ли я удалить то, чем я поделился по ссылке?"
+  },
+  "faq_sharegpt_data": {
+    "message": "К сожалению, мы используем публичные серверы с ShareGPT для размещения ваших общих сервисов. Мы не имеем возможности получить доступ к этим данным. Мы предлагаем вам не передавать конфиденциальную информацию."
+  },
+  "faq_data_shared_header": {
+    "message": "Есть ли другие данные, которые будут переданы?"
+  },
+  "faq_data_shared_answer": {
+    "message": "Если вы не поделитесь этими данными, используя кнопку «поделиться ссылкой», никакие данные не покинут ваше устройство. Все они хранятся в локальном хранилище, даже экспортируемые в pdf/png/md."
+  },
+  "faq_bug_header": {
+    "message": "Я нашел баг!"
+  },
+  "faq_bug_text_part1": {
+    "message": "Мы сожалеем, что вы столкнулись с ошибкой. Если вы могли бы поставить проблему на наш "
+  },
+  "faq_bug_text_part2": {
+    "message": "GitHub репозиторий"
+  },
+  "faq_bug_text_part3": {
+    "message": "Мы будем работать над устранением проблемы как можно скорее. Если вы чувствуете желание приключений, вы также можете создать запрос на объединение (pull request) и исправить ошибку самостоятельно, став примером того, как нужно менять мир!"
+  },
+  "faq_feature_header": {
+    "message": "У меня есть идея!"
+  },
+  "faq_improve_extension_text_part1": {
+    "message": "Мы всегда ищем способы улучшения нашего расширения, и мы бы хотели услышать ваши идеи. Пожалуйста, используйте обсуждения по нашей"
+  },
+  "faq_improve_extension_text_part2": {
+    "message": "GitHub репозиторий"
+  },
+  "faq_improve_extension_text_part3": {
+    "message": "Поделитесь своими мыслями"
+  },
+  "faq_we_header": {
+    "message": "Кто «мы»?"
+  },
+  "faq_we_text": {
+    "message": "Этот проект открыт для общественности и включает множество участников. Вы можете помочь, открывая проблемы или запрашивая изменения кода, если заметите, что что-то нуждается в улучшении."
+  },
+  "dark": {
+    "message": "Тёмный"
+  },
+  "all_threads": {
+    "message": "Все темы"
+  },
+  "welcome_history": {
+    "message": "Добро пожаловать! Здесь появится история потоков. Чтобы начать синхронизацию, откройте ChatGPT."
+  },
+  "resyncing": {
+    "message": "Пересинхронизация..."
+  },
+  "copied": {
+    "message": "Скопировано!"
+  },
+  "no_data": {
+    "message": "Нет данных для текущей ветки."
+  },
+  "language": {
+    "message": "Язык"
+  },
+  "share": {
+    "message": "Поделиться"
+  },
+  "export": {
+    "message": "Экспорт"
+  },
+  "download": {
+    "message": "Скачать"
+  },
+  "link": {
+    "message": "Ссылка"
+  },
+  "theme_settings": {
+    "message": "Настройки темы"
+  },
+  "all_categories": {
+    "message": "Все категории"
+  },
+  "templates_title": {
+    "message": "Шаблоны промптов для ChatGPT"
+  },
+  "compact": {
+    "message": "Компактный вид"
+  },
+  "discover": {
+    "message": "Найти промпты"
+  },
+  "my_prompts": {
+    "message": "Мои промпты"
+  },
+  "to": {
+    "message": "к"
+  },
+  "of": {
+    "message": "из"
+  },
+  "entries": {
+    "message": "Записи"
+  },
+  "showing": {
+    "message": "Показано"
+  },
+  "help_translate": {
+    "message": "Помогите перевести это расширение на ваш язык или исправить автоперевод контента."
+  },
+  "default_continue": {
+    "message": "Ниже приведена запись разговора между мной и ChatGPT. Используйте его для контекста в остальной части разговора. Будьте готовы редактировать и основываться на ответах, ранее данных ChatGPT. Ответить «готово!», если вы понимаете контекст. Не реагируйте ни на что еще. Разговор:\n"
+  },
+  "resync_interim": {
+    "message": "Эта страница предназначена для временной изоляции синхронизации во время устранения некоторых ошибок. Нажмите \"Синхронизировать все\" в навигационной панели, чтобы синхронизировать все предыдущие беседы с ChatGPT."
+  }
+}
