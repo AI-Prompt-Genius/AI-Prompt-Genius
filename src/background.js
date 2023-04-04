@@ -1,11 +1,10 @@
 if (typeof browser !== "undefined") {
     chrome.action = browser.browserAction
 }
-let settings;
 // Listen for a click on the browser action
 chrome.action.onClicked.addListener(function(tab) {
     chrome.storage.local.get({settings: {home_is_prompts: true}}, function(result) {
-        settings = result.settings
+        let settings = result.settings
         let url;
         if (settings.hasOwnProperty('home_is_prompts')) {
             if (settings.home_is_prompts === true) {
@@ -24,7 +23,17 @@ chrome.action.onClicked.addListener(function(tab) {
 
 
 chrome.runtime.onMessage.addListener( async function(message) {
-    if (message.type === 'b_continue_convo') {
+    console.log("recieved message!")
+     if (message.type === "resync"){
+        console.log("resyncing!")
+        let mp = message.params
+        syncPrompts(mp[0], mp[1], mp[2], mp[3], mp[4])
+    }
+    else if (message.type === "resyncNow"){
+        console.log("Resycning Now")
+        resyncStuff()
+    }
+    else if (message.type === 'b_continue_convo') {
         console.log('background received')
         chrome.tabs.create({url: 'https://chat.openai.com/chat', active: true}, function (my_tab){
             let sent = false;
@@ -44,8 +53,8 @@ chrome.runtime.onMessage.addListener( async function(message) {
         let url = chrome.runtime.getURL('pages/prompts.html')
         chrome.tabs.create({url: url})
     }
-	else if(message.type ==='b_use_prompt') {
-		console.log('background received')
+    else if(message.type ==='b_use_prompt') {
+        console.log('background received')
         chrome.tabs.create({url: 'https://chat.openai.com/chat', active: true}, function (my_tab){
             let sent = false;
             chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
@@ -59,23 +68,265 @@ chrome.runtime.onMessage.addListener( async function(message) {
                 }
             });
         });
-	}
+    }
     else if (message.type === "ad"){
-        console.log("HEY!")
         const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
         const rando = generateUUID() // to not get cached version because headers were causing problems.
-        const response = await fetch(`${host}/ads/current.txt?dummy=${rando}`);
+        const response = await fetch(`${host}/ads/current.txt?nocache=${rando}`);
         if (!response.ok) {
             throw new Error("HTTP error " + response.status);
         }
         const text = await response.text();
-        console.log({ad:text});
         chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
             const [tab] = tabs;
             chrome.tabs.sendMessage(tab.id, {ad: text, type: "adresponse"});
         });
     }
 });
+
+function checkForResync() {
+    chrome.storage.sync.get({"cloudSyncing": false}, async function (result) {
+        if (result.cloudSyncing === true) {
+            const ls = await chrome.storage.local.get({"lastSynced": 0});
+            if (moreThan15Min(ls.lastSynced)) {
+                resyncStuff()
+            }
+        }
+    });
+}
+checkForResync()
+
+function JSONtoNestedList(prompts) {
+    if (prompts.length === 0){
+        return [["category", "date", "id", "tags", "text", "time", "title", "lastChanged"]]
+    }
+    let values = []
+    const headers = Object.keys(prompts[0]);
+    values.push(headers)
+    for (let prompt of prompts) {
+        let list = []
+        for (let key of Object.keys(prompt)) {
+            if (Array.isArray(prompt[key])) {
+                list.push(prompt[key].join(";"));
+            } else {
+                list.push(prompt[key]);
+            }
+        }
+        values.push(list)
+    }
+    return values
+}
+
+async function updateSheetData(spreadsheetId, range, data) {
+    try {
+        const token = await getAuthToken();
+        const clearUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:clear`;
+        const clearResponse = await fetch(clearUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        });
+        if (!clearResponse.ok) {
+            throw new Error('Failed to clear sheet');
+        }
+        const values = JSONtoNestedList(data);
+        const requestBody = {
+            values: values
+        };
+        const valueInputOption = "USER_ENTERED";
+        const endpointUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=${valueInputOption}`;
+        const response = await fetch(endpointUrl, {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to update spreadsheet');
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+async function getAuthToken() {
+    return new Promise((resolve, reject) => {
+        chrome.identity.getAuthToken({ 'interactive': true }, function (token) {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            } else {
+                chrome.storage.local.set({token: token})
+                resolve(token);
+            }
+        });
+    });
+}
+
+async function getSheetData(spreadsheetId, range) {
+    try {
+        const mumboJumbo = "AIzaSyAjjnHsq4rkzK7jtjZ_zvs62lT8nqeQVoU" // this isn't dangerous but you can ignore it
+        const token = await getAuthToken();
+        const endpointUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${mumboJumbo}`;
+        const headers = new Headers();
+        headers.append("Authorization", `Bearer ${token}`);
+        const response = await fetch(endpointUrl, {
+            method: "GET",
+            headers: headers
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch data from endpoint');
+        }
+        const data = await response.json();
+        const headersRow = ["category", "date", "id", "tags", "text", "time", "title", "lastChanged"] // allows user to translate if they want
+        const values = data.values.slice(1);
+        const jsonData = values.map(row => {
+            const obj = {};
+            headersRow.forEach((header, index) => {
+                if (header === "tags") {
+                    obj[header] = row[index].split(';');
+                }
+                else {
+                    obj[header] = row[index];
+                }
+            });
+            return obj;
+        });
+        return jsonData;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getPrompts() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get({'prompts': []}, function (data) {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            }
+            else {
+                resolve(data.prompts);
+            }
+        });
+    });
+}
+
+async function getSheetID(){
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get({'sheetID': ""}, function (data) {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            }
+            else {
+                resolve(data.sheetID);
+            }
+        });
+    });
+}
+
+async function resyncStuff(){
+    const dp = await chrome.storage.local.get({"deletedPrompts": []});
+    const deletedPrompts = dp.deletedPrompts
+    const np = await chrome.storage.local.get({"newPrompts": []});
+    const newPrompts = np.newPrompts
+    const cp = await chrome.storage.local.get({"changedPrompts": []});
+    const changedPrompts = cp.changedPrompts
+    const localPrompts = await getPrompts()
+    const sheetID = await getSheetID()
+    syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetID)
+}
+
+function moreThan15Min(timestamp) {
+    // Get the current time in milliseconds
+    const currentTime = new Date().getTime();
+
+    // Calculate the time difference in milliseconds
+    const timeDiff = currentTime - timestamp;
+
+    // Check if the time difference is less than 15 minutes (in milliseconds)
+    const fifteenMinutesInMs = 15 * 60 * 1000; // 15 minutes in milliseconds
+    return timeDiff > fifteenMinutesInMs;
+}
+
+async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetId) {
+    try {
+        // Get prompts from the Google Sheets version
+        const syncedPrompts = await getSheetData(sheetId, "Sheet1!A1:Z");
+
+        // Remove deleted prompts from the cloud version
+        deletedPrompts.forEach(id => {
+            const index = syncedPrompts.findIndex(prompt => prompt.id === id);
+            if (index !== -1) {
+                syncedPrompts.splice(index, 1);
+            }
+        });
+
+        // Add new/revised prompts to the cloud version
+        newPrompts.concat(changedPrompts).forEach(id => {
+            const localPrompt = localPrompts.find(prompt => prompt.id === id);
+            const cloudPrompt = syncedPrompts.find(prompt => prompt.id === id);
+
+            if (localPrompt) {
+                if (!cloudPrompt) {
+                    syncedPrompts.push(localPrompt);
+                }
+                else {
+                    // Merge the two prompts
+                    if (cloudPrompt?.lastChanged === undefined || localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
+                        cloudPrompt.text = localPrompt.text;
+                        cloudPrompt.time = localPrompt.time;
+                        cloudPrompt.category = localPrompt.category;
+                        cloudPrompt.tags = localPrompt.tags.join(";");
+                        if (localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
+                            cloudPrompt.lastChanged = localPrompt.lastChanged;
+                        }
+                    }
+                    if (cloudPrompt?.lastChanged == undefined || cloudPrompt?.lastChanged == null){
+                        cloudPrompt.lastChanged = new Date().getTime()
+                    }
+
+
+                    // Find the index of the merged prompt in the sheetData array
+                    const index = syncedPrompts.findIndex(prompt => prompt.id === id);
+
+                    // Replace the old prompt with the merged prompt
+                    if (index !== -1) {
+                        syncedPrompts[index] = cloudPrompt;
+                    }
+                    else {
+                        syncedPrompts.push(cloudPrompt);
+                    }
+                }
+            }
+        });
+
+        // Update the Chrome storage version with the merged data
+        const correctTags = []
+        for (let prompt of syncedPrompts){
+            if (typeof prompt.tags === "string") {
+                if (prompt?.tags[0] && prompt?.tags !== ""){
+                    prompt.tags = prompt.tags.split(";")
+                }
+            }
+            correctTags.push(prompt)
+        }
+        chrome.storage.local.set({'prompts': correctTags});
+        chrome.storage.local.set({"deletedPrompts": []})
+        chrome.storage.local.set({"changedPrompts": []})
+        chrome.storage.local.set({"newPrompts": []})
+        const time = new Date().getTime()
+        chrome.storage.local.set({"lastSynced": time})
+        // Update the Google Sheets version with the merged data
+        await updateSheetData(sheetId, "Sheet1!A1:Z", syncedPrompts);
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
 async function setUninstallURL(){
     const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
     const rando = generateUUID() // to not get cached version because headers were causing problems.
@@ -157,7 +408,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 
 chrome.storage.local.get({autoDetectedLocale: false}, function (result){
     if (!result.autoDetectedLocale){
-        let acceptedLanguages = ["en", "zh_CN", "zh_TW", "ru", "uk", "fr"]
+        let acceptedLanguages = ["en", "zh_CN", "fr, zh_TW", "uk"]
         chrome.i18n.getAcceptLanguages(function (languages){
             console.log(languages)
             for (let lang of languages){

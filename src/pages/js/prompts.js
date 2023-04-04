@@ -150,12 +150,15 @@ function load_prompts(prompts, search=false, search_term="", tagList=[])
 		row.addEventListener('click', event => {
             const target = event.target;
 			if (target.classList.contains('trash')){
+				hideAllTooltips(row)
                 delete_prompt(id);
             }
 			else if(target.classList.contains('continue')){
+				hideAllTooltips(row)
 				use_prompt(id);
             }
 			else if(target.classList.contains('share')){
+				hideAllTooltips(row)
 				let subreddit = `https://www.reddit.com/r/ChatGPTPromptGenius/submit`
 				let text = prompt.text.replace(/\n/g,"                                                           ")
 				let category = "";
@@ -257,6 +260,13 @@ Additional information:
 	updateAutoComplete()
 }
 
+function hideAllTooltips(row){
+	let btns = row.querySelectorAll(".btn")
+	for (let btn of btns){
+		bootstrap.Tooltip.getInstance(btn).hide()
+	}
+}
+
 function reorderObjectsByRow(objects) {
 	const rows = document.querySelectorAll('.row');
 	const objectsById = {}; // map object id to object
@@ -331,6 +341,13 @@ function hasAllTags(tags, tagFilter) {
 }
 
 function toggleTagsEditable(id, row){
+	chrome.storage.local.get({"changedPrompts": []}, function (result){
+		let changedPrompts = result.changedPrompts
+		if (!changedPrompts.includes(id)){
+			changedPrompts.push(id)
+			chrome.storage.local.set({"changedPrompts": changedPrompts})
+		}
+	})
 	let tagDiv = row.querySelector('.tags')
 	let tags = tagDiv.children
 	let edit_icon = row.querySelector('.edit-tags')
@@ -375,6 +392,13 @@ function removeTag(id, row, target){
 }
 
 function addTag(id, row){
+	chrome.storage.local.get({"changedPrompts": []}, function (result){
+		let changedPrompts = result.changedPrompts
+		if (!changedPrompts.includes(id)){
+			changedPrompts.push(id)
+			chrome.storage.local.set({"changedPrompts": changedPrompts})
+		}
+	})
 	let tagName = row.querySelector('.addTags').value.trim()
 	let tags = row.querySelector(".tags")
 	chrome.storage.local.get({prompts: []}, function(result){
@@ -404,8 +428,13 @@ function addTag(id, row){
 	row.querySelector('.addTags').value = ""
 }
 
-function delete_prompt(id)
-{
+function delete_prompt(id) {
+	console.log(id)
+	chrome.storage.local.get({"deletedPrompts": []}, function (result){
+		let dp = result.deletedPrompts;
+		dp.push(id)
+		chrome.storage.local.set({"deletedPrompts": dp});
+	});
 	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
@@ -425,8 +454,14 @@ function delete_prompt(id)
 	});
 }
 
-function choose_category(id, row)
-{
+function choose_category(id, row) {
+	chrome.storage.local.get({"changedPrompts": []}, function (result){
+		let changedPrompts = result.changedPrompts
+		if (!changedPrompts.includes(id)){
+			changedPrompts.push(id)
+			chrome.storage.local.set({"changedPrompts": changedPrompts})
+		}
+	})
 	let category = row.querySelector('.select').value;
 	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
@@ -442,8 +477,7 @@ function choose_category(id, row)
 	});
 }
 
-function use_prompt(id)
-{
+function use_prompt(id) {
 	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
@@ -456,14 +490,18 @@ function use_prompt(id)
 	});
 }
 
-function toggle_prompt_editable(id, element, just_title=false)
-{
+function toggle_prompt_editable(id, element, just_title=false) {
 	let edit_icon = element.querySelector(".edit-button");
 	let prompt_title =  element.querySelector(".title-text");
 	let prompt_text = element.querySelector(".prompt-text");
-	
-	if(!prompt_text.querySelector("textarea"))
-	{
+	chrome.storage.local.get({"changedPrompts": []}, function (result){
+		let changedPrompts = result.changedPrompts
+		if (!changedPrompts.includes(id)){
+			changedPrompts.push(id)
+			chrome.storage.local.set({"changedPrompts": changedPrompts})
+		}
+	})
+	if(!prompt_text.querySelector("textarea")) {
 		let textarea = document.createElement("textarea");
 		prompt_text.innerHTML = "";
 		prompt_text.appendChild(textarea)
@@ -495,8 +533,7 @@ function toggle_prompt_editable(id, element, just_title=false)
 		}
 		textarea.oninput = autoExpandTextArea;
 	}
-	else 
-	{
+	else {
 		console.log('saving')
 		let textarea = prompt_text.querySelector("textarea");
 		let text = textarea.value;
@@ -510,6 +547,7 @@ function toggle_prompt_editable(id, element, just_title=false)
 			}
 			prompt.text = text;
 			prompt.title = prompt_title.innerText;
+			prompt.lastChanged = new Date().getTime()
 			chrome.storage.local.set({prompts: prompts});
 		});
 		// make title uneditable
@@ -536,8 +574,14 @@ function new_prompt(title, text, tags="", category="") {
 		title: title,
 		text: text,
 		tags: tags,
-		category: category
+		category: category,
+		lastChanged: new Date().getTime()
 	};
+	chrome.storage.local.get({"newPrompts": []}, function (response){
+		let newPrompts = response.newPrompts
+		newPrompts.push(prompt.id)
+		chrome.storage.local.set({"newPrompts": newPrompts})
+	})
 	user_prompts.push(prompt)
 	chrome.storage.local.set({prompts: user_prompts});
 	load_prompts(user_prompts);
@@ -752,7 +796,6 @@ function searchPrompts(prompts, searchTerm) { // created by ChatGPT
 
 document.querySelector('#modal-search-bar').addEventListener('input', searchCuratedPrompts)
 document.querySelector('.search-bar').addEventListener('input', searchUserPrompts)
-
 
 // Tooltips
 function tooltips() {
