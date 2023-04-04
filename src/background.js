@@ -23,7 +23,17 @@ chrome.action.onClicked.addListener(function(tab) {
 
 
 chrome.runtime.onMessage.addListener( async function(message) {
-    if (message.type === 'b_continue_convo') {
+    console.log("recieved message!")
+     if (message.type === "resync"){
+        console.log("resyncing!")
+        let mp = message.params
+        syncPrompts(mp[0], mp[1], mp[2], mp[3], mp[4])
+    }
+    else if (message.type === "resyncNow"){
+        console.log("Resycning Now")
+        resyncStuff()
+    }
+    else if (message.type === 'b_continue_convo') {
         console.log('background received')
         chrome.tabs.create({url: 'https://chat.openai.com/chat', active: true}, function (my_tab){
             let sent = false;
@@ -72,21 +82,12 @@ chrome.runtime.onMessage.addListener( async function(message) {
             chrome.tabs.sendMessage(tab.id, {ad: text, type: "adresponse"});
         });
     }
-    else if (message.type === "resync"){
-        console.log("resyncing!")
-        let mp = message.params
-        console.log(mp)
-        syncPrompts(mp[0], mp[1], mp[2], mp[3], mp[4])
-    }
-    else if (message.type === "resyncNow"){
-        resyncStuff()
-    }
 });
 
 function checkForResync() {
     chrome.storage.sync.get({"cloudSyncing": false}, async function (result) {
         if (result.cloudSyncing === true) {
-            const ls = await chrome.storage.sync.get({"lastSynced": 0});
+            const ls = await chrome.storage.local.get({"lastSynced": 0});
             if (moreThan15Min(ls.lastSynced)) {
                 resyncStuff()
             }
@@ -96,6 +97,9 @@ function checkForResync() {
 checkForResync()
 
 function JSONtoNestedList(prompts) {
+    if (prompts.length === 0){
+        return [["category", "date", "id", "tags", "text", "time", "title", "lastChanged"]]
+    }
     let values = []
     const headers = Object.keys(prompts[0]);
     values.push(headers)
@@ -116,6 +120,16 @@ function JSONtoNestedList(prompts) {
 async function updateSheetData(spreadsheetId, range, data) {
     try {
         const token = await getAuthToken();
+        const clearUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:clear`;
+        const clearResponse = await fetch(clearUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        });
+        if (!clearResponse.ok) {
+            throw new Error('Failed to clear sheet');
+        }
         const values = JSONtoNestedList(data);
         const requestBody = {
             values: values
@@ -173,7 +187,6 @@ async function getSheetData(spreadsheetId, range) {
             const obj = {};
             headersRow.forEach((header, index) => {
                 if (header === "tags") {
-                    console.log("tags!")
                     obj[header] = row[index].split(';');
                 }
                 else {
@@ -215,11 +228,11 @@ async function getSheetID(){
 }
 
 async function resyncStuff(){
-    const dp = await chrome.storage.sync.get({"deletedPrompts": []});
+    const dp = await chrome.storage.local.get({"deletedPrompts": []});
     const deletedPrompts = dp.deletedPrompts
-    const np = await chrome.storage.sync.get({"newPrompts": []});
+    const np = await chrome.storage.local.get({"newPrompts": []});
     const newPrompts = np.newPrompts
-    const cp = await chrome.storage.sync.get({"changedPrompts": []});
+    const cp = await chrome.storage.local.get({"changedPrompts": []});
     const changedPrompts = cp.changedPrompts
     const localPrompts = await getPrompts()
     const sheetID = await getSheetID()
@@ -251,7 +264,7 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
             }
         });
 
-        // Add new prompts from the cloud version
+        // Add new/revised prompts to the cloud version
         newPrompts.concat(changedPrompts).forEach(id => {
             const localPrompt = localPrompts.find(prompt => prompt.id === id);
             const cloudPrompt = syncedPrompts.find(prompt => prompt.id === id);
@@ -261,17 +274,20 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
                     syncedPrompts.push(localPrompt);
                 }
                 else {
-                    console.log(cloudPrompt?.lastChanged)
                     // Merge the two prompts
                     if (cloudPrompt?.lastChanged === undefined || localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
                         cloudPrompt.text = localPrompt.text;
                         cloudPrompt.time = localPrompt.time;
                         cloudPrompt.category = localPrompt.category;
                         cloudPrompt.tags = localPrompt.tags.join(";");
-                        if ((cloudPrompt?.lastChanged === undefined && localPrompt?.lastChanged === undefined) || localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
+                        if (localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
                             cloudPrompt.lastChanged = localPrompt.lastChanged;
                         }
                     }
+                    if (cloudPrompt?.lastChanged == undefined || cloudPrompt?.lastChanged == null){
+                        cloudPrompt.lastChanged = new Date().getTime()
+                    }
+
 
                     // Find the index of the merged prompt in the sheetData array
                     const index = syncedPrompts.findIndex(prompt => prompt.id === id);
@@ -287,9 +303,6 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
             }
         });
 
-        // Sort the synced prompts array by lastChanged value in descending order
-        syncedPrompts.sort((a, b) => b.lastChanged - a.lastChanged);
-
         // Update the Chrome storage version with the merged data
         const correctTags = []
         for (let prompt of syncedPrompts){
@@ -300,9 +313,12 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
             }
             correctTags.push(prompt)
         }
-        console.log(correctTags)
         chrome.storage.local.set({'prompts': correctTags});
-
+        chrome.storage.local.set({"deletedPrompts": []})
+        chrome.storage.local.set({"changedPrompts": []})
+        chrome.storage.local.set({"newPrompts": []})
+        const time = new Date().getTime()
+        chrome.storage.local.set({"lastSynced": time})
         // Update the Google Sheets version with the merged data
         await updateSheetData(sheetId, "Sheet1!A1:Z", syncedPrompts);
     }

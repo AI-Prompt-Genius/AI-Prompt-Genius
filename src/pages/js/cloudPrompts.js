@@ -22,7 +22,8 @@ async function alreadyLinked() {
     document.getElementById("unlinked-buttons").classList.add("d-none")
     document.getElementById("linkedDiv").classList.remove("d-none")
     document.getElementById("unlink").addEventListener("click", unlink)
-    chrome.runtime.sendMessage({type: "resyncNow"})
+    console.log("sending message")
+    setTimeout(() => chrome.runtime.sendMessage({type: "resyncNow"}), 1000)
 }
 
 async function unlink() {

@@ -150,12 +150,15 @@ function load_prompts(prompts, search=false, search_term="", tagList=[])
 		row.addEventListener('click', event => {
             const target = event.target;
 			if (target.classList.contains('trash')){
+				hideAllTooltips(row)
                 delete_prompt(id);
             }
 			else if(target.classList.contains('continue')){
+				hideAllTooltips(row)
 				use_prompt(id);
             }
 			else if(target.classList.contains('share')){
+				hideAllTooltips(row)
 				let subreddit = `https://www.reddit.com/r/ChatGPTPromptGenius/submit`
 				let text = prompt.text.replace(/\n/g,"                                                           ")
 				let category = "";
@@ -255,6 +258,13 @@ Additional information:
 	draggables()
 	tooltips()
 	updateAutoComplete()
+}
+
+function hideAllTooltips(row){
+	let btns = row.querySelectorAll(".btn")
+	for (let btn of btns){
+		bootstrap.Tooltip.getInstance(btn).hide()
+	}
 }
 
 function reorderObjectsByRow(objects) {
@@ -419,9 +429,12 @@ function addTag(id, row){
 }
 
 function delete_prompt(id) {
-	chrome.local.storage.get({"deletedPrompts": []}, function (result){
-		chrome.local.storage.set({"deletedPrompts": result.deletedPrompts.push(id)})
-	})
+	console.log(id)
+	chrome.storage.local.get({"deletedPrompts": []}, function (result){
+		let dp = result.deletedPrompts;
+		dp.push(id)
+		chrome.storage.local.set({"deletedPrompts": dp});
+	});
 	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
 		let prompt = getObjectById(id, prompts);
@@ -534,6 +547,7 @@ function toggle_prompt_editable(id, element, just_title=false) {
 			}
 			prompt.text = text;
 			prompt.title = prompt_title.innerText;
+			prompt.lastChanged = new Date().getTime()
 			chrome.storage.local.set({prompts: prompts});
 		});
 		// make title uneditable
@@ -560,7 +574,8 @@ function new_prompt(title, text, tags="", category="") {
 		title: title,
 		text: text,
 		tags: tags,
-		category: category
+		category: category,
+		lastChanged: new Date().getTime()
 	};
 	chrome.storage.local.get({"newPrompts": []}, function (response){
 		let newPrompts = response.newPrompts
@@ -781,7 +796,6 @@ function searchPrompts(prompts, searchTerm) { // created by ChatGPT
 
 document.querySelector('#modal-search-bar').addEventListener('input', searchCuratedPrompts)
 document.querySelector('.search-bar').addEventListener('input', searchUserPrompts)
-
 
 // Tooltips
 function tooltips() {

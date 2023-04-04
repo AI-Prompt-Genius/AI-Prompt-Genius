@@ -139,7 +139,7 @@ function importPrompts(data) {
 
         let prompts = result.prompts;
         let new_prompts = data.prompts ?? [];
-
+        let newSync = []
         for(let i = 0, len = new_prompts.length; i < len; i++) {
             let prompt = new_prompts[i];
             let id = prompt.id;
@@ -149,15 +149,17 @@ function importPrompts(data) {
             if(id && getObjectById(id, prompts) !== null) {
                 continue;
             }
-
-            chrome.storage.local.get({"newPrompts": []}, function (result){
-                let newP = result.newPrompts
-                newP.push(id)
-                chrome.storage.local.set({"newPrompts": newP})
-            })
+            newSync.push(id)
 
             prompts.push(prompt);
         }
+
+        chrome.storage.local.get({"newPrompts": []}, function (result){
+            let newP = result.newPrompts
+            let newList = newP.concat(newSync)
+            console.log(newList)
+            chrome.storage.local.set({"newPrompts": newList})
+        })
 
         chrome.storage.local.set({prompts: prompts});
     });
@@ -174,9 +176,19 @@ function showDeletePrompts(){
 }
 
 function deletePrompts() {
-    chrome.storage.local.set({prompts: []})
-    id("confirm-prompts").classList.add("d-none")
-    animate(id("delete-prompts"))
+    chrome.storage.local.get({prompts: []}, function (result){
+        chrome.storage.local.get({"deletedPrompts": []}, function (r){
+            let dp = r.deletedPrompts
+            let prompts = result.prompts
+            for (let prompt of prompts){
+                dp.push(prompt.id)
+            }
+            chrome.storage.local.set({"deletedPrompts": dp})
+            chrome.storage.local.set({prompts: []})
+            id("confirm-prompts").classList.add("d-none")
+            animate(id("delete-prompts"))
+        })
+    })
 }
 
 function showDeleteHistory(){
