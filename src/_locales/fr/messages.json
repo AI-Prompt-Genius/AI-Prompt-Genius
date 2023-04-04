@@ -363,5 +363,8 @@
   },
   "default_continue": {
     "message": "Ce qui suit est une transcription d'une conversation entre moi et ChatGPT. Utilisez-la pour le contexte dans le reste de la conversation. Soyez prêt à éditer et à construire sur les réponses données précédemment par ChatGPT. Répondez \"prêt!\" si vous comprenez le contexte. Ne répondez pas avec autre chose. Conversation:\n"
+  },
+  "resync_interim": {
+  "message": "Cette page sert à isoler temporairement la resynchronisation pendant que nous corrigeons certains bugs. Cliquez sur \"Tout resynchroniser\" dans la barre de navigation pour resynchroniser toutes vos conversations précédentes avec ChatGPT."
   }
 }
