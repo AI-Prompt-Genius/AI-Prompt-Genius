@@ -78,7 +78,22 @@ chrome.runtime.onMessage.addListener( async function(message) {
         console.log(mp)
         syncPrompts(mp[0], mp[1], mp[2], mp[3], mp[4])
     }
+    else if (message.type === "resyncNow"){
+        resyncStuff()
+    }
 });
+
+function checkForResync() {
+    chrome.storage.sync.get({"cloudSyncing": false}, async function (result) {
+        if (result.cloudSyncing === true) {
+            const ls = await chrome.storage.sync.get({"lastSynced": 0});
+            if (moreThan15Min(ls.lastSynced)) {
+                resyncStuff()
+            }
+        }
+    });
+}
+checkForResync()
 
 function JSONtoNestedList(prompts) {
     let values = []
@@ -130,6 +145,7 @@ async function getAuthToken() {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
             } else {
+                chrome.storage.local.set({token: token})
                 resolve(token);
             }
         });
@@ -151,7 +167,7 @@ async function getSheetData(spreadsheetId, range) {
             throw new Error('Failed to fetch data from endpoint');
         }
         const data = await response.json();
-        const headersRow = data.values[0];
+        const headersRow = ["category", "date", "id", "tags", "text", "time", "title", "lastChanged"] // allows user to translate if they want
         const values = data.values.slice(1);
         const jsonData = values.map(row => {
             const obj = {};
@@ -172,27 +188,55 @@ async function getSheetData(spreadsheetId, range) {
     }
 }
 
-function lastChangedIsLocal(local, cloud) {
-    let highestLastChanged = 0;
-    let listWithHighestLastChanged;
-
-    local.forEach((item) => {
-        if (item.lastChanged > highestLastChanged) {
-            highestLastChanged = item.lastChanged;
-            listWithHighestLastChanged = local;
-        }
+async function getPrompts() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get({'prompts': []}, function (data) {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            }
+            else {
+                resolve(data.prompts);
+            }
+        });
     });
-
-    cloud.forEach((item) => {
-        if (item.lastChanged > highestLastChanged) {
-            highestLastChanged = item.lastChanged;
-            listWithHighestLastChanged = cloud;
-        }
-    });
-
-    return listWithHighestLastChanged === local;
 }
 
+async function getSheetID(){
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get({'sheetID': ""}, function (data) {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            }
+            else {
+                resolve(data.sheetID);
+            }
+        });
+    });
+}
+
+async function resyncStuff(){
+    const dp = await chrome.storage.sync.get({"deletedPrompts": []});
+    const deletedPrompts = dp.deletedPrompts
+    const np = await chrome.storage.sync.get({"newPrompts": []});
+    const newPrompts = np.newPrompts
+    const cp = await chrome.storage.sync.get({"changedPrompts": []});
+    const changedPrompts = cp.changedPrompts
+    const localPrompts = await getPrompts()
+    const sheetID = await getSheetID()
+    syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetID)
+}
+
+function moreThan15Min(timestamp) {
+    // Get the current time in milliseconds
+    const currentTime = new Date().getTime();
+
+    // Calculate the time difference in milliseconds
+    const timeDiff = currentTime - timestamp;
+
+    // Check if the time difference is less than 15 minutes (in milliseconds)
+    const fifteenMinutesInMs = 15 * 60 * 1000; // 15 minutes in milliseconds
+    return timeDiff > fifteenMinutesInMs;
+}
 
 async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetId) {
     try {

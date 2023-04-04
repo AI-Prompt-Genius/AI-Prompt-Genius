@@ -150,6 +150,12 @@ function importPrompts(data) {
                 continue;
             }
 
+            chrome.local.storage.get({"newPrompts": []}, function (result){
+                let newP = result.newPrompts
+                newP.push(id)
+                chrome.local.storage.set({"newPrompts": newP})
+            })
+
             prompts.push(prompt);
         }
 

@@ -22,21 +22,24 @@ async function alreadyLinked() {
     document.getElementById("unlinked-buttons").classList.add("d-none")
     document.getElementById("linkedDiv").classList.remove("d-none")
     document.getElementById("unlink").addEventListener("click", unlink)
+    chrome.runtime.sendMessage({type: "resyncNow"})
 }
 
 async function unlink() {
     animate(document.getElementById("unlink"), 1000)
-    let current_token = await getAuthToken()
-    fetch("https://accounts.google.com/o/oauth2/revoke?token=" + current_token, {
-        method: "GET"
-    });
     chrome.identity.clearAllCachedAuthTokens()
-    await new Promise(r => setTimeout(r, 800));
-    chrome.storage.sync.set({ "cloudSyncing": false })
-    chrome.storage.sync.remove(["sheetID"])
-    document.getElementById("unlinked-buttons").classList.remove("d-none")
-    document.getElementById("linkedDiv").classList.add("d-none")
-    notLinked()
+    chrome.storage.local.get({token: ""}, async function (result){
+        let current_token = result.token
+        fetch("https://accounts.google.com/o/oauth2/revoke?token=" + current_token, {
+            method: "GET"
+        });
+        await new Promise(r => setTimeout(r, 800));
+        chrome.storage.sync.set({ "cloudSyncing": false })
+        chrome.storage.sync.remove(["sheetID"])
+        document.getElementById("unlinked-buttons").classList.remove("d-none")
+        document.getElementById("linkedDiv").classList.add("d-none")
+        notLinked()
+    })
 }
 
 async function getAuthToken() {
@@ -46,6 +49,7 @@ async function getAuthToken() {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
             } else {
+                chrome.storage.local.set({token: token})
                 resolve(token);
             }
         });
@@ -53,8 +57,9 @@ async function getAuthToken() {
 }
 
 async function createSpreadsheet(token) {
+    let name = await translate("appName")
     const metadata = {
-        'name': 'ChatGPT Prompt Genius',
+        'name': name,
         'mimeType': 'application/vnd.google-apps.spreadsheet'
     };
     try {
@@ -196,25 +201,3 @@ async function linkSheet() {
         console.error(error);
     }
 }
-
-async function getSheetID(){
-    return new Promise((resolve, reject) => {
-        chrome.storage.sync.get({'sheetID': ""}, function (data) {
-            if (chrome.runtime.lastError) {
-                reject(chrome.runtime.lastError);
-            }
-            else {
-                resolve(data.sheetID);
-            }
-        });
-    });
-}
-
-async function testing() {
-    let prompts = await getPrompts()
-    let spreadsheetId = await getSheetID()
-    console.log(prompts)
-    let promptIDList = prompts.length > 0 ? prompts.map(obj => obj.id) : []
-    chrome.runtime.sendMessage({params: [[], [], promptIDList, prompts, spreadsheetId], type: "resync"})
-}
-testing()

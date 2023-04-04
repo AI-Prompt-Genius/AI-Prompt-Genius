@@ -331,6 +331,13 @@ function hasAllTags(tags, tagFilter) {
 }
 
 function toggleTagsEditable(id, row){
+	chrome.storage.local.get({"changedPrompts": []}, function (result){
+		let changedPrompts = result.changedPrompts
+		if (!changedPrompts.includes(id)){
+			changedPrompts.push(id)
+			chrome.storage.local.set({"changedPrompts": changedPrompts})
+		}
+	})
 	let tagDiv = row.querySelector('.tags')
 	let tags = tagDiv.children
 	let edit_icon = row.querySelector('.edit-tags')
@@ -375,6 +382,13 @@ function removeTag(id, row, target){
 }
 
 function addTag(id, row){
+	chrome.storage.local.get({"changedPrompts": []}, function (result){
+		let changedPrompts = result.changedPrompts
+		if (!changedPrompts.includes(id)){
+			changedPrompts.push(id)
+			chrome.storage.local.set({"changedPrompts": changedPrompts})
+		}
+	})
 	let tagName = row.querySelector('.addTags').value.trim()
 	let tags = row.querySelector(".tags")
 	chrome.storage.local.get({prompts: []}, function(result){
@@ -428,6 +442,13 @@ function delete_prompt(id) {
 }
 
 function choose_category(id, row) {
+	chrome.storage.local.get({"changedPrompts": []}, function (result){
+		let changedPrompts = result.changedPrompts
+		if (!changedPrompts.includes(id)){
+			changedPrompts.push(id)
+			chrome.storage.local.set({"changedPrompts": changedPrompts})
+		}
+	})
 	let category = row.querySelector('.select').value;
 	chrome.storage.local.get({prompts: default_prompts}, function (result) {
 		let prompts = result.prompts;
@@ -460,9 +481,14 @@ function toggle_prompt_editable(id, element, just_title=false) {
 	let edit_icon = element.querySelector(".edit-button");
 	let prompt_title =  element.querySelector(".title-text");
 	let prompt_text = element.querySelector(".prompt-text");
-	
-	if(!prompt_text.querySelector("textarea"))
-	{
+	chrome.storage.local.get({"changedPrompts": []}, function (result){
+		let changedPrompts = result.changedPrompts
+		if (!changedPrompts.includes(id)){
+			changedPrompts.push(id)
+			chrome.storage.local.set({"changedPrompts": changedPrompts})
+		}
+	})
+	if(!prompt_text.querySelector("textarea")) {
 		let textarea = document.createElement("textarea");
 		prompt_text.innerHTML = "";
 		prompt_text.appendChild(textarea)
@@ -494,8 +520,7 @@ function toggle_prompt_editable(id, element, just_title=false) {
 		}
 		textarea.oninput = autoExpandTextArea;
 	}
-	else 
-	{
+	else {
 		console.log('saving')
 		let textarea = prompt_text.querySelector("textarea");
 		let text = textarea.value;
@@ -537,6 +562,11 @@ function new_prompt(title, text, tags="", category="") {
 		tags: tags,
 		category: category
 	};
+	chrome.storage.local.get({"newPrompts": []}, function (response){
+		let newPrompts = response.newPrompts
+		newPrompts.push(prompt.id)
+		chrome.storage.local.set({"newPrompts": newPrompts})
+	})
 	user_prompts.push(prompt)
 	chrome.storage.local.set({prompts: user_prompts});
 	load_prompts(user_prompts);
