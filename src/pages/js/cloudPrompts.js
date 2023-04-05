@@ -16,14 +16,20 @@ function notLinked() {
     document.getElementById("createNew").addEventListener("click", linkSheet)
 }
 
+function resyncNow(){
+    chrome.runtime.sendMessage({type: "resyncNow"})
+    animate(document.getElementById("manual-resync"), 3000)
+}
+
 async function alreadyLinked() {
     const result = await chrome.storage.sync.get(["sheetID"]);
     document.getElementById("linked-url").href = `https://docs.google.com/spreadsheets/d/${result.sheetID}`
     document.getElementById("unlinked-buttons").classList.add("d-none")
     document.getElementById("linkedDiv").classList.remove("d-none")
+    document.getElementById("manual-resync").addEventListener("click", resyncNow)
     document.getElementById("unlink").addEventListener("click", unlink)
     console.log("sending message")
-    setTimeout(() => chrome.runtime.sendMessage({type: "resyncNow"}), 1000)
+    chrome.runtime.sendMessage({type: "resyncNow"})
 }
 
 async function unlink() {
@@ -98,21 +104,42 @@ async function getPrompts() {
 }
 
 function JSONtoNestedList(prompts) {
-    let values = []
-    const headers = Object.keys(prompts[0]);
-    values.push(headers)
+    if (prompts.length === 0) {
+        return [["category", "date", "id", "lastChanged", "tags", "text", "time", "title"]];
+    }
+
+    prompts = prompts.reverse()
+
+    const headers = ["category", "date", "id", "lastChanged", "tags", "text", "time", "title"];
+    const values = [];
+
+    // Add headers to the values array
+    values.push(headers);
+
+    // Loop through each prompt in the array
     for (let prompt of prompts) {
-        let list = []
-        for (let key of Object.keys(prompt)) {
-            if (Array.isArray(prompt[key])) {
-                list.push(prompt[key].join(";"));
+        const promptValues = [];
+
+        // Loop through each header and check if the prompt has the key
+        for (let header of headers) {
+            if (prompt.hasOwnProperty(header)) {
+                // If the prompt has the key, add the value to the promptValues array
+                if (Array.isArray(prompt[header])) {
+                    promptValues.push(prompt[header].join(";"));
+                } else {
+                    promptValues.push(prompt[header]);
+                }
             } else {
-                list.push(prompt[key]);
+                // If the prompt does not have the key, add an empty string to the promptValues array
+                promptValues.push("");
             }
         }
-        values.push(list)
+
+        // Add the promptValues array to the values array
+        values.push(promptValues);
     }
-    return values
+
+    return values;
 }
 
 async function checkForExisting(token) {

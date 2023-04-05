@@ -21,10 +21,8 @@ chrome.action.onClicked.addListener(function(tab) {
     });
 });
 
-
-chrome.runtime.onMessage.addListener( async function(message) {
-    console.log("recieved message!")
-     if (message.type === "resync"){
+chrome.runtime.onMessage.addListener(function (message){
+    if (message.type === "resync"){
         console.log("resyncing!")
         let mp = message.params
         syncPrompts(mp[0], mp[1], mp[2], mp[3], mp[4])
@@ -69,7 +67,10 @@ chrome.runtime.onMessage.addListener( async function(message) {
             });
         });
     }
-    else if (message.type === "ad"){
+})
+
+chrome.runtime.onMessage.addListener( async function(message) {
+    if (message.type === "ad"){
         const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
         const rando = generateUUID() // to not get cached version because headers were causing problems.
         const response = await fetch(`${host}/ads/current.txt?nocache=${rando}`);
@@ -97,24 +98,42 @@ function checkForResync() {
 checkForResync()
 
 function JSONtoNestedList(prompts) {
-    if (prompts.length === 0){
-        return [["category", "date", "id", "tags", "text", "time", "title", "lastChanged"]]
+    if (prompts.length === 0) {
+        return [["category", "date", "id", "lastChanged", "tags", "text", "time", "title"]];
     }
-    let values = []
-    const headers = Object.keys(prompts[0]);
-    values.push(headers)
+
+    prompts = prompts.reverse()
+
+    const headers = ["category", "date", "id", "lastChanged", "tags", "text", "time", "title"];
+    const values = [];
+
+    // Add headers to the values array
+    values.push(headers);
+
+    // Loop through each prompt in the array
     for (let prompt of prompts) {
-        let list = []
-        for (let key of Object.keys(prompt)) {
-            if (Array.isArray(prompt[key])) {
-                list.push(prompt[key].join(";"));
+        const promptValues = [];
+
+        // Loop through each header and check if the prompt has the key
+        for (let header of headers) {
+            if (prompt.hasOwnProperty(header)) {
+                // If the prompt has the key, add the value to the promptValues array
+                if (Array.isArray(prompt[header])) {
+                    promptValues.push(prompt[header].join(";"));
+                } else {
+                    promptValues.push(prompt[header]);
+                }
             } else {
-                list.push(prompt[key]);
+                // If the prompt does not have the key, add an empty string to the promptValues array
+                promptValues.push("");
             }
         }
-        values.push(list)
+
+        // Add the promptValues array to the values array
+        values.push(promptValues);
     }
-    return values
+
+    return values;
 }
 
 async function updateSheetData(spreadsheetId, range, data) {
@@ -181,13 +200,16 @@ async function getSheetData(spreadsheetId, range) {
             throw new Error('Failed to fetch data from endpoint');
         }
         const data = await response.json();
-        const headersRow = ["category", "date", "id", "tags", "text", "time", "title", "lastChanged"] // allows user to translate if they want
+        const headersRow = ["category", "date", "id", "lastChanged", "tags", "text", "time", "title"] // allows user to translate if they want
         const values = data.values.slice(1);
         const jsonData = values.map(row => {
             const obj = {};
             headersRow.forEach((header, index) => {
                 if (header === "tags") {
                     obj[header] = row[index].split(';');
+                    if (obj[header][0] === ""){
+                        obj[header] = []
+                    }
                 }
                 else {
                     obj[header] = row[index];
@@ -195,7 +217,7 @@ async function getSheetData(spreadsheetId, range) {
             });
             return obj;
         });
-        return jsonData;
+        return jsonData.reverse();
     } catch (error) {
         console.error(error);
     }
@@ -279,13 +301,18 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
                         cloudPrompt.text = localPrompt.text;
                         cloudPrompt.time = localPrompt.time;
                         cloudPrompt.category = localPrompt.category;
+                        cloudPrompt.title = localPrompt.title;
+                        cloudPrompt.date = localPrompt.date;
                         cloudPrompt.tags = localPrompt.tags.join(";");
-                        if (localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
+                        if (!localPrompt?.lastChanged && !cloudPrompt?.lastChanged){
+                            cloudPrompt.lastChanged = new Date().getTime()
+                        }
+                        else if (localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
                             cloudPrompt.lastChanged = localPrompt.lastChanged;
                         }
-                    }
-                    if (cloudPrompt?.lastChanged == undefined || cloudPrompt?.lastChanged == null){
-                        cloudPrompt.lastChanged = new Date().getTime()
+                        else {
+                            cloudPrompt.lastChanged = new Date().getTime()
+                        }
                     }
 
 
