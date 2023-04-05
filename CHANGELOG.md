@@ -1,3 +1,9 @@
+### v2.5.1
+
+- Cloud Syncing
+- Light/dark mode bug
+- Tooltips bug
+
 ### v2.5.0 - April 3, 2023
 
 - Russian language
