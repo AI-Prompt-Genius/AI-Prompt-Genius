@@ -365,6 +365,30 @@
     "message": "Ce qui suit est une transcription d'une conversation entre moi et ChatGPT. Utilisez-la pour le contexte dans le reste de la conversation. Soyez prêt à éditer et à construire sur les réponses données précédemment par ChatGPT. Répondez \"prêt!\" si vous comprenez le contexte. Ne répondez pas avec autre chose. Conversation:\n"
   },
   "resync_interim": {
-  "message": "Cette page sert à isoler temporairement la resynchronisation pendant que nous corrigeons certains bugs. Cliquez sur \"Tout resynchroniser\" dans la barre de navigation pour resynchroniser toutes vos conversations précédentes avec ChatGPT."
+    "message": "Cette page sert à isoler temporairement la resynchronisation pendant que nous corrigeons certains bugs. Cliquez sur \"Tout resynchroniser\" dans la barre de navigation pour resynchroniser toutes vos conversations précédentes avec ChatGPT."
+  },
+  "cloud_syncing": {
+    "message": "Synchronisation sur le cloud"
+  },
+  "cloud_note": {
+    "message": "Synchronisez vos prompts sur le cloud avec Google Sheets. Chrome uniquement."
+  },
+  "cloud_disclaimer": {
+    "message": "Remarque : vous devez être connecté au même compte Google pour que la synchronisation fonctionne correctement."
+  },
+  "cloud-rearrange": {
+    "message": "Pour réorganiser vos prompts avec la synchronisation activée, faites glisser les lignes de votre feuille de calcul liée."
+  },
+  "link_sheet": {
+    "message": "Lier Google Sheets"
+  },
+  "view_linked": {
+    "message": "Voir la feuille de calcul liée"
+  },
+  "force_resync": {
+    "message": "Forcer la synchronisation"
+  },
+  "unlink": {
+    "message": "Supprimer le lien"
   }
 }

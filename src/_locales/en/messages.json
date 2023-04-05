@@ -366,5 +366,29 @@
   },
   "resync_interim": {
     "message": "This page is for the interim purpose of isolating resyncing while we squash some bugs. Click \"Resync All\" in the navbar to resync all of your previous conversations with ChatGPT."
+  },
+  "cloud_syncing": {
+    "message": "Cloud Syncing"
+  },
+  "cloud_note": {
+    "message": "Sync your prompts on the cloud with Google Sheets. Chrome only."
+  },
+  "cloud_disclaimer": {
+    "message": "Note: you must be signed in to the same Google account for syncing to work properly."
+  },
+  "cloud-rearrange": {
+    "message": "To rearrange your prompts with syncing enabled, drag the rows in your linked spreadsheet"
+  },
+  "link_sheet": {
+    "message": "Link Google Sheets"
+  },
+  "view_linked": {
+    "message": "View linked sheet"
+  },
+  "force_resync": {
+    "message": "Force Resync"
+  },
+  "unlink": {
+    "message": "Unlink Sheet"
   }
 }

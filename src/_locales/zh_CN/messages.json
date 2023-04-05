@@ -366,5 +366,29 @@
   },
   "resync_interim": {
     "message": "此页面用于临时隔离重新同步，同时我们正在消除一些错误。在导航栏中单击“全部重新同步”，以重新同步您与ChatGPT之前的所有对话。"
+  },
+  "cloud_syncing": {
+    "message": "云同步"
+  },
+  "cloud_note": {
+    "message": "使用 Google Sheets 在云上同步您的提示。仅限 Chrome。"
+  },
+  "cloud_disclaimer": {
+    "message": "注意：为了使同步正常工作，您必须登录相同的 Google 帐户。"
+  },
+  "cloud-rearrange": {
+    "message": "启用同步后，可在链接的电子表格中拖动行以重新排列提示"
+  },
+  "link_sheet": {
+    "message": "链接 Google Sheets"
+  },
+  "view_linked": {
+    "message": "查看已链接的表格"
+  },
+  "force_resync": {
+    "message": "强制同步"
+  },
+  "unlink": {
+    "message": "取消链接表格"
   }
 }
