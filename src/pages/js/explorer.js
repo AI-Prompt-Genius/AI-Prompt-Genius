@@ -223,23 +223,12 @@ function searchList(strings, searchTerm) { // created by ChatGPT
     }).join(", ");
 }
 
-
-
-let dl;
-dark_light()
-async function dark_light() {
-    chrome.storage.local.get({mode: "dark"},
-        function(result) {
-            dl = result?.mode;
-            if(!dl) dl = "dark"; // guard statement because it apparently still returns undefined "result" sometimes
-        }
-    )
-}
-
 const MAX_TITLE_DISPLAY_LENGTH = 55;
 
 function load_threads(threads, search=false, search_term="", bookmarks=false) {
-    let threadsLoaded = []
+    const theme =	document.body.classList[0];
+    console.log(theme)
+    let threadsLoaded = [];
     threads = threads.sort((a, b) => { // load threads newest to oldest
         if (a.create_time && b.create_time) {
             return new Date(a.create_time) - new Date(b.create_time);
@@ -291,10 +280,8 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
                 row.classList.add('d-none')
             }
         }
-        if (dl === "light") {
-            row.classList.remove('dark')
-            row.classList.add('light')
-        }
+        row.classList.remove('dark' || 'light');
+        row.classList.add(`${theme}`);
         let title_input = row.querySelector('.title-text')
         title_input.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
@@ -374,10 +361,6 @@ function bookmarks() {
     setTimeout(b_load, 50)
 }
 
-function timer_dl(){
-    setTimeout(dark_light, 300)
-}
-
 chrome.storage.local.get({threads:"none"}, function(result) {
   if (result.threads === "none"){ // new user
       chrome.storage.local.set({seen_v2_toast: true})
@@ -405,5 +388,3 @@ chrome.storage.local.get({threads:"none"}, function(result) {
 })
 
 document.querySelectorAll('.bnav').forEach(item => {item.addEventListener('click', bookmarks)})
-
-document.querySelector('#light_dark').addEventListener('click', timer_dl)

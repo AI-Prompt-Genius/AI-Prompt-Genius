@@ -44,17 +44,6 @@ function searchString(string, searchTerm) {
 	return string.replace(searchTermRegex, `<span class="highlight">$&</span>`);
 }
 
-let dl;
-dark_light()
-async function dark_light() {
-	chrome.storage.local.get({mode: "dark"},
-		function(result) {
-			dl = result?.mode;
-			if(!dl) dl = "dark"; // guard statement because it apparently still returns undefined "result" sometimes
-		}
-	)
-}
-
 let allTags = [];
 let alteredOldPrompts = false; // this is due to saving old tags as string
 function load_prompts(prompts, search=false, search_term="", tagList=[])

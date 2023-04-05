@@ -26,7 +26,9 @@ function toggleMode(){
     switchClass(document.body)
 }
 
-chrome.storage.local.get({mode: "dark"}, function(result) {
+chrome.storage.local.get({mode: "dark"}, async function(result) {
+    let string = (result.mode === "dark") ? "light" : "dark";
+    document.getElementById("d_l").innerHTML = await translate(string)
     if(result.mode === "light"){
         toggleMode()
     }
