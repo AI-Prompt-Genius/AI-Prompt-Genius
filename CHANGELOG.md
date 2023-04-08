@@ -4,7 +4,7 @@
 - Light/dark mode bug
 - Tooltips bug
 - Theme editor bug
-- Writing multiple new prompts 
+- Writing multiple new prompts bug
 
 ### v2.5.0 - April 3, 2023
 
