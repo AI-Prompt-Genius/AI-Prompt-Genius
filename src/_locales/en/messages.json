@@ -376,7 +376,7 @@
   "cloud_disclaimer": {
     "message": "Note: you must be signed in to the same Google account for syncing to work properly."
   },
-  "cloud-rearrange": {
+  "cloud_rearrange": {
     "message": "To rearrange your prompts with syncing enabled, drag the rows in your linked spreadsheet"
   },
   "link_sheet": {

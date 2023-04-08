@@ -376,7 +376,7 @@
   "cloud_disclaimer": {
     "message": "注意：為了使同步正常工作，您必須登錄相同的 Google 帳戶。"
   },
-  "cloud-rearrange": {
+  "cloud_rearrange": {
     "message": "啟用同步後，可在鏈接的電子表格中拖動行以重新排列提示"
   },
   "link_sheet": {

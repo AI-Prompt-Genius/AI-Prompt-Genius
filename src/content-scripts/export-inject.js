@@ -3,7 +3,7 @@ injectScript(chrome.runtime.getURL('content-scripts/utility.js'), 'body');
 function addExportButtons()
 {
 	let buttonsFlag;
-	chrome.storage.local.get({settings: {}}, function (result) {
+	chrome.storage.local.get({settings: {}}, function (set) {
 		chrome.storage.local.get({lang: "en"}, function (result){
 			console.log("inserting!")
 			lang = result.lang ?? "en"
@@ -16,7 +16,7 @@ function addExportButtons()
 					document.body.appendChild(document.createElement(`input`)).setAttribute("id", "pr-messages")
 					document.querySelector("#pr-messages").setAttribute("type", "hidden")
 					document.querySelector("#pr-messages").value = messages
-					let settings = result.settings;
+					let settings = set.settings;
 					buttonsFlag = settings?.buttons ?? true;
 					if (buttonsFlag === true) {
 
@@ -30,7 +30,7 @@ function addExportButtons()
 						injectScript(chrome.runtime.getURL('content-scripts/translate-inject.js'), 'body');
 					}
 					readdThemeSelect(); // just going to yoink this in here, from themes.js, as this is more convenient.
-					initializeThemes();
+					initializeThemes()
 				})
 		})
     });
@@ -39,7 +39,7 @@ addExportButtons();
 
 let myMessages; let lang;
 function tr(key, translations=myMessages) {
-	if (translations[key]) {
+	if (typeof translations !== 'undefined' && translations.hasOwnProperty(key)) {
 		return translations[key].message;
 	}
 }

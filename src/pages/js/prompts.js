@@ -571,9 +571,12 @@ function new_prompt(title, text, tags="", category="") {
 		newPrompts.push(prompt.id)
 		chrome.storage.local.set({"newPrompts": newPrompts})
 	})
-	user_prompts.push(prompt)
-	chrome.storage.local.set({prompts: user_prompts});
-	load_prompts(user_prompts);
+	chrome.storage.local.get({prompts: []}, function (r){
+		user_prompts = r.prompts
+		user_prompts.push(prompt)
+		chrome.storage.local.set({prompts: user_prompts});
+		load_prompts(user_prompts);
+	})
 	return prompt;
 }
 

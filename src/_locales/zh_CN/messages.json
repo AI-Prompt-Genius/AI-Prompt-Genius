@@ -376,7 +376,7 @@
   "cloud_disclaimer": {
     "message": "注意：为了使同步正常工作，您必须登录相同的 Google 帐户。"
   },
-  "cloud-rearrange": {
+  "cloud_rearrange": {
     "message": "启用同步后，可在链接的电子表格中拖动行以重新排列提示"
   },
   "link_sheet": {

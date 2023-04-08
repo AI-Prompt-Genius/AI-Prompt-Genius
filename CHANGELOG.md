@@ -1,8 +1,10 @@
-### v2.5.1
+### v2.5.1 - April 7, 2023
 
-- Cloud Syncing
+- Cloud syncing - Chrome syncing
 - Light/dark mode bug
 - Tooltips bug
+- Theme editor bug
+- Writing multiple new prompts 
 
 ### v2.5.0 - April 3, 2023
 

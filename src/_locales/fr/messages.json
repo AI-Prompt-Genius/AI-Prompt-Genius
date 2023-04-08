@@ -376,7 +376,7 @@
   "cloud_disclaimer": {
     "message": "Remarque : vous devez être connecté au même compte Google pour que la synchronisation fonctionne correctement."
   },
-  "cloud-rearrange": {
+  "cloud_rearrange": {
     "message": "Pour réorganiser vos prompts avec la synchronisation activée, faites glisser les lignes de votre feuille de calcul liée."
   },
   "link_sheet": {

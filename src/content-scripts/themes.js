@@ -43,54 +43,15 @@ function injectAudio()
 }
 
 function validTheme(theme){
+	if (!theme){
+		return false
+	}
 	return THEMES_LIST.includes(theme.replace("themes/",""))
 }
 
 function validFont(font){
 	return FONTS_LIST.includes(font);
 }
-
-chrome.storage.local.get({"theme":{}}, function(result)
-{
-	let themeSettings = result.theme;
-	console.log(themeSettings);
-	if(typeof themeSettings === "string") themeSettings = {"theme": themeSettings};
-	
-	currentTheme = themeSettings?.theme;
-	if (!validTheme(currentTheme)){
-		currentTheme = "none.css"
-	}
-	changeTheme("themes/" + currentTheme, true);
-	// reflect state in html; we must put this here because local storage loads later than DOM
-	var options = themeSelectElement.querySelector("select")?.children;
-	for(let index = 0; index < options?.length; index++)
-	{
-		let option = options[index];
-		if(option.value === currentTheme)
-		{
-			option.setAttribute("selected","true");
-		}
-	}
-	
-	currentFont = themeSettings?.font;
-	console.log(currentFont);
-	if (!validFont(currentFont)) {
-		currentFont = null;
-	}
-	setFont(currentFont);
-	var options = fontSelectElement.querySelector("select")?.children;
-	for(let index = 0; index < options?.length; index++)
-	{
-		let option = options[index];
-		if(option.value === currentFont)
-		{
-			option.setAttribute("selected","true");
-		}
-	}
-	
-	let customCSS = themeSettings?.customCSS; 
-	customStyle.innerHTML = customCSS;
-});
 
 function changeTheme(theme, onload=false)
 {
@@ -100,8 +61,10 @@ function changeTheme(theme, onload=false)
 
 	let css = chrome.runtime.getURL(theme)
 	// because dynamic paths, otherwise it won't work
-	themeStylesheet.setAttribute('href', css);
-	themeStyle.innerHTML = "";
+	if (themeStylesheet){
+		themeStylesheet.setAttribute('href', css);
+		themeStyle.innerHTML = "";
+	}
 
 	// reset and or stop audio
 	if(themeAudio)
@@ -434,18 +397,20 @@ function createMenuThemeEditorButton()
 	button.innerHTML = `${icon} ${translated}`;
 	wrapper.appendChild(button);
 	menuThemeEditorButton = wrapper;
-	button.addEventListener("click", ()=>{toggleMenuThemeEditor()});
+	button.addEventListener("click", toggleMenuThemeEditor);
 	createMenuThemeEditor();
 }
 
 var menuThemeEditorElement;
 function createMenuThemeEditor()
 {
+	console.log("Creating menu theme editor")
 	let wrapper = document.createElement("div");
 	wrapper.setAttribute("class", 'flex flex-col items-center bg-gray-900 text-white space-y-1 p-2');
 	wrapper.style.width = "260px"; // same width as the left menu bar
 	wrapper.style.position = "absolute"; 
-	wrapper.style.left = "100%";
+	wrapper.style.left = "260px";
+	wrapper.style.zIndex = "3"
 	wrapper.style.bottom = "0";
 	
 	let titleContainer = document.createElement("div");
@@ -468,7 +433,7 @@ function createMenuThemeEditor()
 	// append buttons 
 	menuThemeEditorElement.appendChild(themeSelectElement);
 	menuThemeEditorElement.appendChild(fontSelectElement);
-	//menuThemeEditorElement.appendChild(customStyleButton);
+	menuThemeEditorElement.appendChild(customStyleButton);
 	
 	closeMenuThemeEditor();
 }
@@ -485,6 +450,8 @@ function closeMenuThemeEditor()
 
 function toggleMenuThemeEditor()
 {
+	console.warn("toggling")
+	console.log(menuThemeEditorElement)
 	if(menuThemeEditorElement.style.visibility === "visible")
 	{
 		closeMenuThemeEditor();
@@ -521,16 +488,16 @@ function readdThemeSelect()
 		nav.appendChild(menuThemeEditorButton);
 	}
 }
+readdThemeSelect()
 
 // always place at the end because "let" statements can't be used before they're declared.
-function initializeThemes()
-{
+function initializeThemes() {
 	console.log(`Loading themes...`);
 	themeStylesheet = injectStylesheet(chrome.runtime.getURL('themes/none.css'));
 	fontStyle = injectStyle();
 	themeStyle = injectStyle();
 	customStyle = injectStyle();
-	
+
 	createCustomStyleEditor();
 	document.body.appendChild(customStyleEditor);
 
@@ -539,6 +506,45 @@ function initializeThemes()
 	createCustomStyleButton();
 	createMenuThemeEditorButton();
 
-	
 	readdThemeSelect();
+
+	chrome.storage.local.get({"theme":{}}, function(result)  {
+		let themeSettings = result.theme;
+		console.log(themeSettings);
+		if(typeof themeSettings === "string") themeSettings = {"theme": themeSettings};
+
+		currentTheme = themeSettings?.theme;
+		if (!validTheme(currentTheme)){
+			currentTheme = "none.css"
+		}
+		changeTheme("themes/" + currentTheme, true);
+		// reflect state in html; we must put this here because local storage loads later than DOM
+		var options = themeSelectElement.querySelector("select")?.children;
+		for(let index = 0; index < options?.length; index++)
+		{
+			let option = options[index];
+			if (option.value === currentTheme) {
+				option.setAttribute("selected","true");
+			}
+		}
+
+		currentFont = themeSettings?.font;
+		console.log(currentFont);
+		if (!validFont(currentFont)) {
+			currentFont = null;
+		}
+		setFont(currentFont);
+		var options = fontSelectElement.querySelector("select")?.children;
+		for(let index = 0; index < options?.length; index++)
+		{
+			let option = options[index];
+			if(option.value === currentFont)
+			{
+				option.setAttribute("selected","true");
+			}
+		}
+
+		let customCSS = themeSettings?.customCSS;
+		customStyle.innerHTML = customCSS;
+	});
 }
