@@ -32,6 +32,11 @@
   "action": {
     "default-title": "ChatGPT Prompt Genius"
   },
+  "oauth2": {
+  "client_id": "608311790441-pkkhjmm1qclhqd9nh6k6ophn8eimrafh.apps.googleusercontent.com",
+  "scopes": ["https://www.googleapis.com/auth/drive.file"]
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAk5XZtUbZsw0MDuInTiRVx05/PODaPVhNAJ2CJT1VjuctCkMU/dZfmRTbjVJF8CV8ZPHsnA6Q6eqZFw0K4CHpn3z2EE+AkWwc9gN9hrd4lIlHPq5CwqEED0Fq+7JrUq4CjYNEfOLjnIge2cXknzN22u5+TByq/cJ1+NuqxuE8cywxxJqHEs3vgtu3uqbtOqNN+suik92pABklcjLy8Kmb60KXCxxWoalkdhr2rp5SFScsyVfzzURhwurIacq+aOEdj+yYLCQqJtsoqOpr31SEQE0coTSphpO0L5KatsgEwEMSPr2qnqwltxddvRztsb506ZMHXiSN+v0F48E8Z2AwIDAQAB",
   "default_locale": "en",
   "icons":{
     "16": "icons/16x16.png",
