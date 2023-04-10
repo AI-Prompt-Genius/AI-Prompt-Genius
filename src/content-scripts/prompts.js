@@ -187,9 +187,12 @@ function getMatchingCategory(category, objects = window.prompttemplates) {
 }
 
 function highlightString(string, searchTerm) {
+    if (searchTerm === ""){
+        return string
+    }
     // use the original case of the search term when highlighting it
     const searchTermRegex = new RegExp(searchTerm, "gi");
-    return string.replace(searchTermRegex, `<span class="highlight">$&</span>`);
+    return string?.replace(searchTermRegex, `<span class="highlight">$&</span>`);
 }
 
 function searchPrompts(prompts, searchTerm) { // created by ChatGPT

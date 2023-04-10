@@ -1,3 +1,7 @@
+### v2.5.2 
+
+- Fix prompt with no title
+
 ### v2.5.1 - April 7, 2023
 
 - Cloud syncing - Chrome syncing
