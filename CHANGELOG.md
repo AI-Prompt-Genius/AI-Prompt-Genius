@@ -1,3 +1,8 @@
+### v2.5.2 - April 11, 2023
+
+- Add identity permission for cloud syncing
+- Remove advanced theme editor
+
 ### v2.5.1 - April 7, 2023
 
 - Cloud syncing - Chrome syncing
