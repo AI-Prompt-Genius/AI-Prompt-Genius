@@ -3,7 +3,7 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "version": "2.5.1",
-  "permissions": ["storage", "unlimitedStorage", "contextMenus"],
+  "permissions": ["storage", "unlimitedStorage", "contextMenus", "identity"],
   "background": {
     "service_worker": "background.js"
   },

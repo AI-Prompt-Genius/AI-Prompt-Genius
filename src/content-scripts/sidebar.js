@@ -32,14 +32,14 @@ async function main() {
         `
 <div id="prompt-bar" class="flex h-full flex-1 flex-col space-y-1 p-2" style="position:fixed; z-index: 1; right:0; width:260px; background-color: #202123">
   <div class="flex items-center">
-    <button style="width: 190px;"class="flex text-white text-sm flex-shrink-0 items-center gap-3 rounded-md border hover:bg-gray-500/10 border-white/20 p-3 text-white">
+    <button id="newPromptPg" style="width: 100%;" class="flex text-white text-sm flex-shrink-0 items-center gap-3 rounded-md border hover:bg-gray-500/10 border-white/20 p-3 text-white">
       ${svg("plus")} ${tr("new_prompt", t)}</button>
-    <button class="flex items-center flex-shrink-0 gap-3 p-3 ml-2 text-sm text-white transition-colors duration-200 border rounded-md cursor-pointer border-white/20 hover:bg-gray-500/10">
-      ${svg("folder")}
-    </button>
+    <!--button class="flex items-center flex-shrink-0 gap-3 p-3 ml-2 text-sm text-white transition-colors duration-200 border rounded-md cursor-pointer border-white/20 hover:bg-gray-500/10">
+      $ {svg("folder")}
+    </button-->
   </div>
   <div class="relative flex items-center">
-    <input class="w-full flex-1 rounded-md border border-neutral-600 px-4 py-3 pr-10 text-[14px] leading-3 text-white" type="text" placeholder='${tr("search_prompts", t)}' value="" style="background-color: #202123">
+    <input class="w-full flex-1 rounded-md border border-white/20 px-4 py-3 pr-10 text-[14px] leading-3 text-white" type="text" placeholder='${tr("search_prompts", t)}' value="" style="background-color: #202123">
   </div>
   <div class="flex-grow overflow-auto">
     <div class="pt-2">
@@ -52,7 +52,7 @@ async function main() {
                     <div data-prompt-id2="${prompt.id}" style="font-size: 12.5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 165px" class="relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3">${prompt.title}</div>
                 </button>
                 <div class="absolute right-1 z-10 flex text-gray-300">
-                    <button style="min-width: 20px" class="p-1 text-neutral-400 svg-hover">
+                    <button data-prompt-id3="${prompt.id}" style="min-width: 20px" class="p-1 can text-neutral-400 svg-hover">
                         ${svg('trash')}
                     </button>
                 </div>
@@ -64,24 +64,79 @@ async function main() {
 </div>
 <button id="closePrompt" style="position: absolute; z-index: 1; bottom: 0; right: 259px; background-color: #202123; width: 28px; height: 28px; color: white; border-top-left-radius: 5px; border-bottom-left-radius: 3px;">></button>
 `
-    let nav = (document.querySelector("nav")).parentElement.parentElement.parentElement
-    nav.id = "navbar"
-    nav = document.getElementById("navbar")
+    let nav = document.querySelector("#__next").querySelectorAll("div")[1].firstChild
+    const chatInput = document.querySelector("textarea")
     const mainPar = document.querySelector("main").parentElement
     const closeNavButton = `<button id="closeNav" style="position: absolute; z-index: 1; bottom: 0; left: 259px; background-color: #202123; width: 28px; height: 28px; color: white; border-top-right-radius: 5px; border-bottom-right-radius: 3px;"><</button>`
     nav.insertAdjacentHTML("afterend", promptBar)
     nav.insertAdjacentHTML("afterend", closeNavButton)
-    mainPar.style.marginRight = "220px"
+    const closeNavBut = document.getElementById("closeNav")
+    mainPar.style.marginRight = "220px";
 
     function addStyles(){
-        const styles = `<style>.pgbtn:hover{background-color: rgba(52,53,65,.9)};.svg-hover:hover{color: #F5F5F5!important;}</style>`
-        document.head.insertAdjacentHTML("beforeend", styles)
+        const styles = `<style>.pgbtn:hover{background-color: rgba(52,53,65,.9)} .svg-hover:hover{color: #F5F5F5!important;}</style>`;
+        console.log(styles);
+        document.head.insertAdjacentHTML("beforeend", styles);
     }
-    addStyles()
+    addStyles();
+
+    function updateNav(){
+        if (document.querySelector("nav")){
+            nav = document.querySelector("#__next").querySelectorAll("div")[1].firstChild
+            closeNavBut.style.display = "block"
+        }
+        else {
+            nav = document.querySelector("#__next").querySelectorAll("div")[1]
+            closeNavBut.style.display = "none"
+        }
+    }
+
+    async function newBlank(){
+        prompts = await getPrompts()
+        let prompt = {
+            date: getDate(),
+            time: getTime(),
+            id: generateUUID(),
+            title: "Untitled Prompt",
+            text: "",
+            tags: [],
+            category: "",
+            lastChanged: new Date().getTime()
+        }
+        prompts.unshift(prompt)
+        chrome.storage.local.set({prompts: prompts.reverse()})
+        const html = `<div class="relative flex items-center">
+                <button data-prompt-id="${prompt.id}" class="edit-prompts pgbtn flex w-full text-white cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-500/10" draggable="true">
+                    ${svg("lightbulb")}
+                    <div data-prompt-id2="${prompt.id}" style="font-size: 12.5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 165px" class="relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3">${prompt.title}</div>
+                </button>
+                <div class="absolute right-1 z-10 flex text-gray-300">
+                    <button style="min-width: 20px" class="p-1 text-neutral-400 svg-hover">
+                        ${svg('trash')}
+                    </button>
+                </div>
+            </div>`
+        const promptList = document.getElementById("sidebarPrompts")
+        promptList.insertAdjacentHTML("afterbegin", html)
+        document.querySelector(".edit-prompts").addEventListener("click", (event) => {
+            let t = event.target
+            while (!t.dataset.promptId){
+                t = t.parentElement
+            }
+            let promptId = t.dataset.promptId; // Get the data-prompt-id value
+            console.log("CLICK!")
+            editPrompt(promptId); // Pass the promptId as a parameter to editPrompt function
+        });
+    }
+
+    // Attach an event listener to the window object for the "resize" event
+    window.addEventListener('resize', function(event) {
+        // Code to be executed when the window is resized
+        updateNav()
+    });
 
     function toggleNav() {
         const hidden = nav.style.display === "none"
-        const closeNavBut = document.getElementById("closeNav")
         if (hidden) {
             nav.style.display = "block"
             closeNavBut.style.left = "259px"
@@ -95,8 +150,8 @@ async function main() {
 
     async function editPrompt(id){
         console.log(id)
-        let newP = await getPrompts()
-        let prompt = newP[getObjectIndexByID(id, newP)]
+        prompts = await getPrompts()
+        let prompt = prompts[getObjectIndexByID(id, prompts)]
         console.log(prompt)
         const html = getPromptModal(prompt.id, prompt?.title ?? "", prompt?.text ?? "",  prompt?.tags?.join(",") ?? "")
         nav.insertAdjacentHTML("beforeend", html)
@@ -106,37 +161,75 @@ async function main() {
 
     async function updatePrompt(id) {
         console.log("updating prompt " + id)
-        let newP = await getPrompts();
-        let promptIndex = getObjectIndexByID(id, newP);
+        prompts = await getPrompts();
+        let promptIndex = getObjectIndexByID(id, prompts);
         let title;
         if (promptIndex !== -1) { // Ensure a valid index is returned by getObjectIndexByID function
             title = document.getElementById("prompt-name").value
-            newP[promptIndex].title = title;
+            prompts[promptIndex].title = title;
             console.log(document.getElementById("prompt-text").value)
-            newP[promptIndex].text = document.getElementById("prompt-text").value;
-            newP[promptIndex].tags = document.getElementById("prompt-tags").value.split(",");
-            newP[promptIndex].category = document.getElementById("prompt-category").value;
-            newP[promptIndex].lastChanged = new Date().getTime()
-            console.log(newP)
-            chrome.storage.local.set({prompts: newP.reverse()});
+            prompts[promptIndex].text = document.getElementById("prompt-text").value;
+            prompts[promptIndex].tags = document.getElementById("prompt-tags").value.split(",");
+            prompts[promptIndex].category = document.getElementById("prompt-category").value;
+            prompts[promptIndex].lastChanged = new Date().getTime()
+            console.log(prompts)
+            chrome.storage.local.set({prompts: prompts.reverse()});
         }
+        chrome.storage.local.get({"changedPrompts": []}, function (result){
+            let changedPrompts = result.changedPrompts
+            if (!changedPrompts.includes(id)){
+                changedPrompts.push(id)
+                chrome.storage.local.set({"changedPrompts": changedPrompts})
+            }
+        })
         document.getElementById("prompt-modal").remove()
         const btn = document.querySelector(`[data-prompt-id2='${id}']`)
         btn.innerHTML = title
     }
 
+    function deletePrompt(id, el) {
+        console.log(id)
+        chrome.storage.local.get({"deletedPrompts": []}, function (result){
+            let dp = result.deletedPrompts;
+            dp.push(id)
+            chrome.storage.local.set({"deletedPrompts": dp});
+        });
+        chrome.storage.local.get({prompts: []}, function (result) {
+            prompts = result.prompts;
+            let prompt = prompts[getObjectIndexByID(id, prompts)];
+            if(!prompt)
+            {
+                console.warn(`toggle_prompt_editable: cannot find prompt of id ${id}.`);
+                return;
+            }
+            removeElementInArray(prompts, prompt);
+            chrome.storage.local.set({prompts: prompts});
+        });
+        el.remove()
+    }
+
     function addEvents(){
         let ep = document.querySelectorAll(".edit-prompts");
-        for (let prompt of ep) {
+        for (const prompt of ep) {
             prompt.addEventListener("click", (event) => {
                 let t = event.target
                 while (!t.dataset.promptId){
                     t = t.parentElement
                 }
                 let promptId = t.dataset.promptId; // Get the data-prompt-id value
-                console.log("CLICK!")
                 editPrompt(promptId); // Pass the promptId as a parameter to editPrompt function
             });
+        }
+        let trashCans = document.querySelectorAll(".can")
+        for (const can of trashCans){
+            can.addEventListener("click", (event) => {
+                let t = event.target
+                while (!t.dataset.promptId3){
+                    t = t.parentElement
+                }
+                let promptID = t.dataset.promptId3
+                deletePrompt(promptID, t.parentElement.parentElement)
+            })
         }
     }
     addEvents()
@@ -144,57 +237,207 @@ async function main() {
     function getPromptModal(id="", name="", text="", tags=""){
         const template = `
     <div id="prompt-modal" data-prompt-id="${id}" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-100">
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
-                <div
-                    class="dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle"
-                    role="dialog">
-                    <div class="text-sm font-bold text-black dark:text-neutral-200">${tr("name", t)}</div>
-                    <input id="prompt-name" value="${name}" class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100" placeholder="A name for your prompt." value="">
-                        <div class="mt-6 text-sm font-bold text-black dark:text-neutral-200">${tr("prompt", t)}</div>
-                        <textarea id="prompt-text"
-                            class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100"
-                            placeholder="Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}"
-                            rows="10" style="resize: none;" spellCheck="false">${text}</textarea> <br>
-                    <div class="text-sm font-bold text-black dark:text-neutral-200">${tr("tags", t)}</div>
-                    
-                    <input id="prompt-tags" value="${tags}" class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100" placeholder="Tags for your prompt. Separate with a comma." value="">
-                    <div class="mt-6 text-sm font-bold text-black dark:text-neutral-200">${tr("category", t)}</div>
-                    <div style="">
-                        <select id="prompt-category" class="border border-neutral-500 text-sm rounded block w-full">
-                            <option value="" data-i18n="all_categories">Select</option>
-                            <option value="Academic Writing" data-i18n="category_academic_writing">Academic Writing</option>
-                            <option value="Bypass & Personas" data-i18n="category_bypass_personas">Bypass &amp; Personas</option>
-                            <option value="Education & Learning" data-i18n="category_education_learning">Education &amp; Learning</option>
-                            <option value="Expert/Consultant" data-i18n="category_expert_consultant">Expert/Consultant</option>
-                            <option value="Fun & Games" data-i18n="category_fun_games">Fun &amp; Games</option>
-                            <option value="Fitness, Nutrition, & Health" data-i18n="category_fitness_nutrition_health">Fitness, Nutrition, &amp; Health</option>
-                            <option value="Fiction Writing" data-i18n="category_fiction_writing">Fiction Writing</option>
-                            <option value="Music" data-i18n="category_music">Music</option>
-                            <option value="Nonfiction Writing" data-i18n="category_nonfiction_writing">Nonfiction Writing</option>
-                            <option value="Other" data-i18n="category_other">Other</option>
-                            <option value="Philosophy & Logic" data-i18n="category_philosophy_logic">Philosophy &amp; Logic</option>
-                            <option value="Poetry" data-i18n="category_poetry">Poetry</option>
-                            <option value="Programming & Technology" data-i18n="category_programming_technology">Programming &amp; Technology</option>
-                            <option value="Speeches & Scripts" data-i18n="category_speeches_scripts">Speeches &amp; Scripts</option>
-                            <option value="Social Media & Blogging" data-i18n="category_social_media_blogging">Social Media &amp; Blogging</option>
-                            <option value="Travel" data-i18n="category_travel">Travel</option>
-                            <option value="Therapy & Life-help" data-i18n="category_therapy_life_help">Therapy &amp; Life-help</option>
-                        </select>
-                    </div>
-                        <!--div class="mt-6 text-sm font-bold text-black dark:text-neutral-200">$ {tr("description", t)}</div>
-                        <textarea
+      <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+          <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
+          <div class="dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle" role="dialog">
+            <div class="text-sm font-bold text-black dark:text-neutral-200">${tr("name", t)}</div>
+            <input style="border-color: #8e8ea0" id="prompt-name" value="${name}" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100" placeholder="A name for your prompt." value="">
+            <div class="my-2 text-sm font-bold text-black dark:text-neutral-200">${tr("prompt", t)}</div>
+            <textarea id="prompt-text" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100" placeholder="Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}" rows="10" style="resize: none;" spellCheck="false">${text}</textarea>
+            <div class="text-sm font-bold text-black dark:text-neutral-200">${tr("tags", t)}</div>
+            <input style="border-color: #8e8ea0" id="prompt-tags" value="${tags}" class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100" placeholder="Tags for your prompt. Separate with a comma." value="">
+            <div class="my-2 text-sm font-bold text-black dark:text-neutral-200">${tr("category", t)}</div>
+            <div style="">
+              <select id="prompt-category" class="border border-neutral-500 text-sm rounded block w-full">
+                <option value="" data-i18n="all_categories">Select</option>
+                <option value="Academic Writing" data-i18n="category_academic_writing">Academic Writing</option>
+                <option value="Bypass & Personas" data-i18n="category_bypass_personas">Bypass &amp; Personas</option>
+                <option value="Education & Learning" data-i18n="category_education_learning">Education &amp; Learning</option>
+                <option value="Expert/Consultant" data-i18n="category_expert_consultant">Expert/Consultant</option>
+                <option value="Fun & Games" data-i18n="category_fun_games">Fun &amp; Games</option>
+                <option value="Fitness, Nutrition, & Health" data-i18n="category_fitness_nutrition_health">Fitness, Nutrition, &amp; Health</option>
+                <option value="Fiction Writing" data-i18n="category_fiction_writing">Fiction Writing</option>
+                <option value="Music" data-i18n="category_music">Music</option>
+                <option value="Nonfiction Writing" data-i18n="category_nonfiction_writing">Nonfiction Writing</option>
+                <option value="Other" data-i18n="category_other">Other</option>
+                <option value="Philosophy & Logic" data-i18n="category_philosophy_logic">Philosophy &amp; Logic</option>
+                <option value="Poetry" data-i18n="category_poetry">Poetry</option>
+                <option value="Programming & Technology" data-i18n="category_programming_technology">Programming &amp; Technology</option>
+                <option value="Speeches & Scripts" data-i18n="category_speeches_scripts">Speeches &amp; Scripts</option>
+                <option value="Social Media & Blogging" data-i18n="category_social_media_blogging">Social Media &amp; Blogging</option>
+                <option value="Travel" data-i18n="category_travel">Travel</option>
+                <option value="Therapy & Life-help" data-i18n="category_therapy_life_help">Therapy &amp; Life-help</option>
+              </select>
+            </div>
+            <!--div class="mt-6 text-sm font-bold text-black dark:text-neutral-200">$ {tr("description", t)}</div><textarea
                             class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100"
                             placeholder="A description for your prompt." rows="3" style="resize: none;"></textarea-->
-                        <button id="save-prompt" type="button"
-                                class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-white dark:text-black dark:hover:bg-neutral-300">Save
-                        </button></div>
-            </div>
+            <button id="save-prompt" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-white dark:text-black dark:hover:bg-neutral-300">Save </button>
+          </div>
         </div>
+      </div>
     </div>
     `
         return template
+    }
+
+    function suggestions(inp, arr) { // thanks w3Schools: https://www.w3schools.com/howto/howto_js_autocomplete.asp
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function(e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) { return false;}
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    /*insert a input field that will hold the current array item's value:*/
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function(e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = inp.value + this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+            addActive(a.getElementsByTagName("div"));
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function(e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+        function closeAllLists(elmnt = document.body) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+        inp.addEventListener("keydown", function (event){
+            if (event.key === "Enter"){
+                closeAllLists()
+            }
+        });
+    }
+
+    function autoComplete(event) {
+        // If keydown is a backslash / character, do this
+        if (event.key === '/') {
+            // Set a flag to indicate that autoComplete was triggered by the slash
+            chatInput.dataset.autoCompleteActive = 'true';
+            const titles = prompts.map(prompt => prompt.title);
+            suggestions(chatInput, titles)
+        }
+        // If space is pressed, remove autoComplete suggestions and reset the autoComplete flag
+        else if (event.key === ' ' || (event.key === 'Backspace' && chatInput.value.lastIndexOf('/') === -1)) {
+            //removeSuggestion();
+            chatInput.dataset.autoCompleteActive = 'false';
+        }
+        /* If autoComplete was triggered and a non-space character is pressed, process autoComplete
+        else if (chatInput.dataset.autoCompleteActive === 'true' && event.key !== ' ') {
+            const searchTerm = chatInput.value.split('/').pop();
+            console.log(searchTerm)
+            const suggestions = document.querySelector(".suggestions")
+            if (suggestions){
+                suggestions.remove()
+            }
+            chatInput.parentElement.insertAdjacentHTML("beforebegin", getSuggestedPrompts(searchTerm));*/
+        //}
+        // Else, return
+        else {
+            return;
+        }
+    }
+
+    function removeSuggestion() {
+        const suggestionElement = document.querySelector('.suggestions');
+        if (suggestionElement) {
+            suggestionElement.remove();
+        }
+    }
+
+    chatInput.addEventListener("keydown", autoComplete);
+
+
+
+    function getSuggestedPrompts(searchTerm){
+        let filtered = prompts.filter(prompt => prompt.title.includes(searchTerm))
+        const html =
+        `
+        <div class="w-full suggestions" style="position: relative">
+            <ul style="font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 10; max-height: 13rem; width: 100%; overflow: scroll; border-radius: .25rem; border-width: 1px; border-color: rgba(0,0,0,.1); background-color: rgb(255 255 255); box-shadow: 0 0 10px rgba(0,0,0,.1); ">
+                ${filtered.map((prompt) => `
+                <li data-prompt-id4="${prompt.id}" class="cursor-pointer px-3 py-2 text-sm text-black dark:text-white">${prompt.title}</li>
+                `).join("")}
+            </ul>
+        </div>
+        `
+        return html
     }
 
     function togglePrompt() {
@@ -217,8 +460,10 @@ async function main() {
 
     document.getElementById("closeNav").addEventListener("click", toggleNav)
     document.getElementById("closePrompt").addEventListener("click", togglePrompt)
+    document.getElementById("newPromptPg").addEventListener("click", newBlank)
+    chatInput.addEventListener("change", autoComplete)
 }
-setTimeout(main, 1000)
+main()
 
 function svg(name){
     switch(name){
