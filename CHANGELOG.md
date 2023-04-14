@@ -1,3 +1,7 @@
+### v2.5.3 - April 14, 2023
+
+- Hotfix to fix URL changes
+
 ### v2.5.2 - April 11, 2023
 
 - Add identity permission for cloud syncing
