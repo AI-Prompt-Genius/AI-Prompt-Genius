@@ -10,7 +10,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://chat.openai.com/chat*"],
+      "matches": ["https://chat.openai.com/", "https://chat.openai.com/c/*"],
       "js": ["content-scripts/utility.js", "content-scripts/translate.js", "content-scripts/scraperv2.js", "content-scripts/historyv2.js", "content-scripts/prompt-inject.js", "content-scripts/export.js","content-scripts/export-inject.js", "content-scripts/themes.js"
       ,"external-js/html2canvas.js", "external-js/jspdf.umd.js"],
       "run_at": "document_idle"
