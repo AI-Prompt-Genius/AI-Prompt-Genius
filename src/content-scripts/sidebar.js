@@ -281,58 +281,27 @@ async function main() {
     `
         return template
     }
-
-    function suggestions(inp, arr, searchTerm) { // searchTerm added to the function signature
-        var currentFocus;
-        inp.addEventListener("input", function(e) {
-            var a, b, i, val = this.value;
-            closeAllLists();
-            if (!val) { return false;}
-            currentFocus = -1;
-            a = document.createElement("DIV");
-            a.setAttribute("id", this.id + "autocomplete-list");
-            a.setAttribute("class", "autocomplete-items");
-            this.parentNode.appendChild(a);
-            for (i = 0; i < arr.length; i++) {
-                // Use searchTerm to filter the suggestions
-                if (arr[i].toUpperCase().indexOf(searchTerm.toUpperCase()) != -1) {
-                    b = document.createElement("DIV");
-                    b.innerHTML = "<strong>" + arr[i].substr(0, searchTerm.length) + "</strong>";
-                    b.innerHTML += arr[i].substr(searchTerm.length);
-                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                    b.addEventListener("click", function(e) {
-                        inp.value = inp.value + this.getElementsByTagName("input")[0].value;
-                        closeAllLists();
-                    });
-                    a.appendChild(b);
-                }
-            }
-            addActive(a.getElementsByTagName("div"));
-        });
-
-        // Rest of the function remains the same
-    }
-
     /*execute a function presses a key on the keyboard:*/
-    function suggestions(inp, arr, searchTerm) { // searchTerm added to the function signature
+    function suggestions(inp, arr, searchTerm) {
         var currentFocus;
-        inp.addEventListener("input", function(e) {
+        inp.addEventListener("input", function (e) {
             var a, b, i, val = this.value;
             closeAllLists();
-            if (!val) { return false;}
+            if (!val) {
+                return false;
+            }
             currentFocus = -1;
             a = document.createElement("DIV");
             a.setAttribute("id", this.id + "autocomplete-list");
             a.setAttribute("class", "autocomplete-items");
             this.parentNode.appendChild(a);
             for (i = 0; i < arr.length; i++) {
-                // Use searchTerm to filter the suggestions
                 if (arr[i].toUpperCase().indexOf(searchTerm.toUpperCase()) != -1) {
                     b = document.createElement("DIV");
                     b.innerHTML = "<strong>" + arr[i].substr(0, searchTerm.length) + "</strong>";
                     b.innerHTML += arr[i].substr(searchTerm.length);
                     b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                    b.addEventListener("click", function(e) {
+                    b.addEventListener("click", function (e) {
                         inp.value = inp.value + this.getElementsByTagName("input")[0].value;
                         closeAllLists();
                     });
@@ -341,49 +310,35 @@ async function main() {
             }
             addActive(a.getElementsByTagName("div"));
         });
-        inp.addEventListener("keydown", function(e) {
+        inp.addEventListener("keydown", function (e) {
             var x = document.getElementById(this.id + "autocomplete-list");
             if (x) x = x.getElementsByTagName("div");
-            if (e.keyCode == 40) {
-                /*If the arrow DOWN key is pressed,
-                increase the currentFocus variable:*/
+            if (e.key === "ArrowDown") {
                 currentFocus++;
-                /*and and make the current item more visible:*/
                 addActive(x);
-            } else if (e.keyCode == 38) { //up
-                /*If the arrow UP key is pressed,
-                decrease the currentFocus variable:*/
+            } else if (e.key === "ArrowUp") {
                 currentFocus--;
-                /*and and make the current item more visible:*/
                 addActive(x);
-            } else if (e.keyCode == 13) {
-                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+            } else if (e.key === "Enter") {
                 e.preventDefault();
                 if (currentFocus > -1) {
-                    /*and simulate a click on the "active" item:*/
                     if (x) x[currentFocus].click();
                 }
             }
         });
         function addActive(x) {
-            /*a function to classify an item as "active":*/
             if (!x) return false;
-            /*start by removing the "active" class on all items:*/
             removeActive(x);
             if (currentFocus >= x.length) currentFocus = 0;
             if (currentFocus < 0) currentFocus = (x.length - 1);
-            /*add class "autocomplete-active":*/
             x[currentFocus].classList.add("autocomplete-active");
         }
         function removeActive(x) {
-            /*a function to remove the "active" class from all autocomplete items:*/
             for (var i = 0; i < x.length; i++) {
                 x[i].classList.remove("autocomplete-active");
             }
         }
         function closeAllLists(elmnt = document.body) {
-            /*close all autocomplete lists in the document,
-            except the one passed as an argument:*/
             var x = document.getElementsByClassName("autocomplete-items");
             for (var i = 0; i < x.length; i++) {
                 if (elmnt != x[i] && elmnt != inp) {
@@ -391,45 +346,82 @@ async function main() {
                 }
             }
         }
-        /*execute a function when someone clicks in the document:*/
         document.addEventListener("click", function (e) {
             closeAllLists(e.target);
         });
-        inp.addEventListener("keydown", function (event){
-            if (event.key === "Enter"){
-                closeAllLists()
-            }
-        });
     }
 
+
+    let autocomplete = false;
     function autoComplete(event) {
         // If keydown is a backslash / character, do this
         if (event.key === '/') {
             // Set a flag to indicate that autoComplete was triggered by the slash
-            chatInput.dataset.autoCompleteActive = 'true';
+            autocomplete = true
             const titles = prompts.map(prompt => prompt.title);
-            suggestions(chatInput, titles)
+            suggestions(chatInput, titles, "")
         }
         // If space is pressed, remove autoComplete suggestions and reset the autoComplete flag
         else if (event.key === ' ' || (event.key === 'Backspace' && chatInput.value.lastIndexOf('/') === -1)) {
-            //removeSuggestion();
-            chatInput.dataset.autoCompleteActive = 'false';
-        }
-        /* If autoComplete was triggered and a non-space character is pressed, process autoComplete
-        else if (chatInput.dataset.autoCompleteActive === 'true' && event.key !== ' ') {
-            const searchTerm = chatInput.value.split('/').pop();
-            console.log(searchTerm)
-            const suggestions = document.querySelector(".suggestions")
-            if (suggestions){
-                suggestions.remove()
+            autocomplete = false;
+            console.log("stop!")
+            if (document.getElementById("autocomplete-list")) {
+                document.getElementById("autocomplete-list")?.remove()
             }
-            chatInput.parentElement.insertAdjacentHTML("beforebegin", getSuggestedPrompts(searchTerm));*/
+        }
+        // If autoComplete was triggered and a non-space character is pressed, process autoComplete
+        else if (autocomplete === true && event.key !== ' ') {
+            const searchTerm = chatInput.value.split('/').slice(1).join('/').split(' ')[0];
+            console.log(searchTerm)
+            const titles = prompts.map(prompt => prompt.title);
+            suggestions(chatInput, titles, searchTerm)
+        }
         //}
         // Else, return
         else {
             return;
         }
     }
+    const autocompleteStyles =
+    `
+    <style>
+    .autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    max-height: 150px !important;
+    display: inline-block;
+    }
+    .autocomplete-items {
+        position: absolute;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        /*position the autocomplete items to be the same width as the container:*/
+        width: 100%;
+        bottom: 100%;
+        overflow: auto;
+        max-height: 250px;
+        left: 0;
+        right: 0;
+    }
+    .autocomplete-items div {
+        padding: 5px;
+        cursor: pointer;
+        background-color: #fff;
+    }
+    .autocomplete-items div:hover {
+        /*when hovering an item:*/
+        background-color: #e9e9e9;
+    }
+    .autocomplete-active {
+        /*when navigating through the items using the arrow keys:*/
+        background-color: #0BA37F !important;
+        color: #ffffff;
+    }
+    </style>
+    `
+    document.head.insertAdjacentHTML("beforeend", autocompleteStyles)
 
     function removeSuggestion() {
         const suggestionElement = document.querySelector('.suggestions');
