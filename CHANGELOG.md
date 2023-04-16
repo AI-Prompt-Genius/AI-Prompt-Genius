@@ -1,3 +1,7 @@
+### v2.5.4
+
+- Fix URL changes for real
+
 ### v2.5.3 - April 14, 2023
 
 - Hotfix to fix URL changes

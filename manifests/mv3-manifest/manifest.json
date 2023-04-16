@@ -3,14 +3,15 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "permissions": ["storage", "unlimitedStorage", "contextMenus", "identity"],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://chat.openai.com/", "https://chat.openai.com/c/*"],
+      "matches": ["https://chat.openai.com/*"],
+      "exclude_matches": ["https://chat.openai.com/auth/*"],
       "js": ["content-scripts/utility.js", "content-scripts/translate.js", "content-scripts/scraperv2.js", "content-scripts/historyv2.js", "content-scripts/prompt-inject.js", "content-scripts/export.js","content-scripts/export-inject.js", "content-scripts/themes.js"
       ,"external-js/html2canvas.js", "external-js/jspdf.umd.js"],
       "run_at": "document_idle"
