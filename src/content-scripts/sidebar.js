@@ -41,8 +41,8 @@ async function main() {
   <div class="relative flex items-center">
     <input class="w-full flex-1 rounded-md border border-white/20 px-4 py-3 pr-10 text-[14px] leading-3 text-white" type="text" placeholder='${tr("search_prompts", t)}' value="" style="background-color: #202123">
   </div>
-  <div class="flex-grow overflow-auto">
-    <div class="pt-2">
+  <div class="flex-grow overflow-y-auto scrollbar-trigger dark">
+    <div class="pt-2"">
       <div class="flex w-full flex-col gap-1" id="sidebarPrompts">
         <!--begin prompt column template-->
         ${prompts.map((prompt) => `
