@@ -1,6 +1,20 @@
-### v2.5.2 
+### v2.5.5
 
-- Fix prompt with no title
+- Remove blank translate.js file
+- Fix scraper
+
+### v2.5.4 - April 17, 2023
+
+- Fix URL changes for real
+
+### v2.5.3 - April 14, 2023
+
+- Hotfix to fix URL changes
+
+### v2.5.2 - April 11, 2023
+
+- Add identity permission for cloud syncing
+- Remove advanced theme editor
 
 ### v2.5.1 - April 7, 2023
 
