@@ -153,8 +153,9 @@ async function main() {
         prompts = await getPrompts()
         let prompt = prompts[getObjectIndexByID(id, prompts)]
         console.log(prompt)
-        const html = getPromptModal(prompt.id, prompt?.title ?? "", prompt?.text ?? "",  prompt?.tags?.join(",") ?? "")
-        nav.insertAdjacentHTML("beforeend", html)
+        const tags = prompt?.tags ?? []
+        const html = getPromptModal(prompt.id, prompt?.title ?? "", prompt?.text ?? "",  tags.join(",") ?? "")
+        document.body.insertAdjacentHTML("beforeend", html)
         document.getElementById("prompt-category").value = prompt?.category ?? ""
         document.getElementById("save-prompt").addEventListener("click", () => updatePrompt(id))
     }
@@ -169,7 +170,7 @@ async function main() {
             prompts[promptIndex].title = title;
             console.log(document.getElementById("prompt-text").value)
             prompts[promptIndex].text = document.getElementById("prompt-text").value;
-            prompts[promptIndex].tags = document.getElementById("prompt-tags").value.split(",");
+            prompts[promptIndex].tags = document.getElementById("prompt-tags").value.split(",").filter(tag => tag !== "");
             prompts[promptIndex].category = document.getElementById("prompt-category").value;
             prompts[promptIndex].lastChanged = new Date().getTime()
             console.log(prompts)
@@ -289,7 +290,6 @@ async function main() {
     function selectPrompt(id){
         const promptText = prompts.find(prompt => prompt.id === id)?.text;
         const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
-        console.log(searchTerm)
         const lastSlashIndex = chatInput.value.lastIndexOf('/');
         const lastSearchTermIndex = lastSlashIndex + searchTerm.length + 1;
         removeSuggestion();
@@ -325,16 +325,11 @@ async function main() {
             }
         }
         else if (autocomplete && event.key === "Enter"){
-            const focused = document.querySelector(".autocomplete-active")
-            if (focused){
-                event.preventDefault()
-                event.stopImmediatePropagation()
-                event.stopPropagation()
-                const promptId = focused.getAttribute("data-prompt-id4")
-                selectPrompt(promptId)
-                return false;
-            }
-            removeSuggestion();
+            selectFocused()
+            event.preventDefault()
+            event.stopImmediatePropagation()
+            event.stopPropagation()
+            return false;
         }
         else if (autocomplete && event.key === "ArrowDown"){
             event.preventDefault()
@@ -361,6 +356,15 @@ async function main() {
         else {
             return;
         }
+    }
+
+    function selectFocused(){
+        const focused = document.querySelector(".autocomplete-active")
+        if (focused){
+            const promptId = focused.getAttribute("data-prompt-id4")
+            selectPrompt(promptId)
+        }
+        removeSuggestion();
     }
 
     function preventEnter(event){
@@ -416,7 +420,7 @@ async function main() {
         let filtered = prompts.filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
         const html =
             `
-        <div class="w-full suggestions" style="position: relative">
+        <div id="suggestions" class="w-full suggestions" style="position: relative">
             <ul id="scrollSuggest" style="font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 10; max-height: 13rem; width: 100%; overflow: scroll; border-radius: .25rem; border-width: 1px; border-color: rgba(0,0,0,.1); background-color: rgb(255 255 255); box-shadow: 0 0 10px rgba(0,0,0,.1); ">
                 ${filtered.map((prompt, idx) => `
                 <li data-idx="${idx}" data-prompt-id4="${prompt.id}" class="cursor-pointer pg-suggestion px-3 py-2 text-sm text-black dark:text-white">${prompt.title}</li>
@@ -425,7 +429,9 @@ async function main() {
         </div>
         `
         textDiv.insertAdjacentHTML("beforebegin", html)
-        document.querySelectorAll(".pg-suggestion").forEach(s => s.addEventListener("mouseenter", () => focusEl(s.getAttribute("data-idx"))));
+        const suggestions = document.querySelectorAll(".pg-suggestion")
+        suggestions.forEach(s => s.addEventListener("mouseenter", () => focusEl(s.getAttribute("data-idx"))));
+        suggestions.forEach(s => s.addEventListener("mouseup", () => selectPrompt(s.getAttribute("data-prompt-id4"))));
     }
 
 
@@ -463,3 +469,15 @@ function svg(name){
         case "plus" : return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-plus"> <path d="M12 5l0 14"></path> <path d="M5 12l14 0"></path> </svg>`
     }
 }
+
+let sidebarURL = window.location.href;
+
+function check_url() {
+    if (sidebarURL !== window.location.href) {
+        console.log("sidebar URL")
+        sidebarURL = window.location.href;
+        setTimeout(main, 300)
+    }
+}
+
+setInterval(check_url, 1000);

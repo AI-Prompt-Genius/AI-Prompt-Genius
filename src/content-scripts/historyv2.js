@@ -90,6 +90,7 @@ async function getAccountStatus(){
     let plusVal = JSON.stringify(isPlus)
     document.body.appendChild(document.createElement(`input`)).setAttribute("id", "plusNetwork")
     document.querySelector("#plusNetwork").setAttribute("type", "hidden")
+    document.querySelector("#plusNetwork").style.display = "none"
     document.querySelector("#plusNetwork").value = plusVal
 }
 
