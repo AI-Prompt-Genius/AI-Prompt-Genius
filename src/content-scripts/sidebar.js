@@ -281,100 +281,80 @@ async function main() {
     `
         return template
     }
-    /*execute a function presses a key on the keyboard:*/
-    function suggestions(inp, arr, searchTerm) {
-        var currentFocus;
-        inp.addEventListener("input", function (e) {
-            var a, b, i, val = this.value;
-            closeAllLists();
-            if (!val) {
-                return false;
-            }
-            currentFocus = -1;
-            a = document.createElement("DIV");
-            a.setAttribute("id", this.id + "autocomplete-list");
-            a.setAttribute("class", "autocomplete-items");
-            this.parentNode.appendChild(a);
-            for (i = 0; i < arr.length; i++) {
-                if (arr[i].toUpperCase().indexOf(searchTerm.toUpperCase()) != -1) {
-                    b = document.createElement("DIV");
-                    b.innerHTML = "<strong>" + arr[i].substr(0, searchTerm.length) + "</strong>";
-                    b.innerHTML += arr[i].substr(searchTerm.length);
-                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                    b.addEventListener("click", function (e) {
-                        inp.value = inp.value + this.getElementsByTagName("input")[0].value;
-                        closeAllLists();
-                    });
-                    a.appendChild(b);
-                }
-            }
-            addActive(a.getElementsByTagName("div"));
-        });
-        inp.addEventListener("keydown", function (e) {
-            var x = document.getElementById(this.id + "autocomplete-list");
-            if (x) x = x.getElementsByTagName("div");
-            if (e.key === "ArrowDown") {
-                currentFocus++;
-                addActive(x);
-            } else if (e.key === "ArrowUp") {
-                currentFocus--;
-                addActive(x);
-            } else if (e.key === "Enter") {
-                e.preventDefault();
-                if (currentFocus > -1) {
-                    if (x) x[currentFocus].click();
-                }
-            }
-        });
-        function addActive(x) {
-            if (!x) return false;
-            removeActive(x);
-            if (currentFocus >= x.length) currentFocus = 0;
-            if (currentFocus < 0) currentFocus = (x.length - 1);
-            x[currentFocus].classList.add("autocomplete-active");
-        }
-        function removeActive(x) {
-            for (var i = 0; i < x.length; i++) {
-                x[i].classList.remove("autocomplete-active");
-            }
-        }
-        function closeAllLists(elmnt = document.body) {
-            var x = document.getElementsByClassName("autocomplete-items");
-            for (var i = 0; i < x.length; i++) {
-                if (elmnt != x[i] && elmnt != inp) {
-                    x[i].parentNode.removeChild(x[i]);
-                }
-            }
-        }
-        document.addEventListener("click", function (e) {
-            closeAllLists(e.target);
-        });
+
+    const textDiv = chatInput.parentElement
+    let autocomplete = false;
+    let focusedIdx = 0;
+
+    function selectPrompt(id){
+        const promptText = prompts.find(prompt => prompt.id === id)?.text;
+        const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
+        console.log(searchTerm)
+        const lastSlashIndex = chatInput.value.lastIndexOf('/');
+        const lastSearchTermIndex = lastSlashIndex + searchTerm.length + 1;
+        removeSuggestion();
+        chatInput.style.height = "200px"
+        chatInput.parentElement.querySelector('button').addEventListener('click', () => {
+            chatInput.style.height = "24px"
+        })
+        const newText = chatInput.value.substring(0, lastSlashIndex) + promptText + chatInput.value.substring(lastSearchTermIndex);
+        chatInput.value = newText;
+        autocomplete = false;
     }
 
-
-    let autocomplete = false;
     function autoComplete(event) {
         // If keydown is a backslash / character, do this
-        if (event.key === '/') {
+        if (event.key === '/' && !autocomplete) {
             // Set a flag to indicate that autoComplete was triggered by the slash
-            autocomplete = true
-            const titles = prompts.map(prompt => prompt.title);
-            suggestions(chatInput, titles, "")
+            autocomplete = true;
+            getSuggestedPrompts("")
+            focusedIdx = 0
+            focusEl(focusedIdx)
         }
         // If space is pressed, remove autoComplete suggestions and reset the autoComplete flag
         else if (event.key === ' ' || (event.key === 'Backspace' && chatInput.value.lastIndexOf('/') === -1)) {
             autocomplete = false;
-            console.log("stop!")
-            if (document.getElementById("autocomplete-list")) {
-                document.getElementById("autocomplete-list")?.remove()
+            removeSuggestion()
+        }
+        else if (autocomplete && event.key === "ArrowUp"){
+            event.preventDefault()
+            if (focusedIdx > 0){
+                focusedIdx -= 1
+                const focused = focusEl(focusedIdx)
+                focused.scrollIntoView({ behavior: "instant", block: "nearest", inline: "start"})
+            }
+        }
+        else if (autocomplete && event.key === "Enter"){
+            const focused = document.querySelector(".autocomplete-active")
+            if (focused){
+                event.preventDefault()
+                event.stopImmediatePropagation()
+                event.stopPropagation()
+                const promptId = focused.getAttribute("data-prompt-id4")
+                selectPrompt(promptId)
+                return false;
+            }
+            removeSuggestion();
+        }
+        else if (autocomplete && event.key === "ArrowDown"){
+            event.preventDefault()
+            const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
+            let filtered = prompts.filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
+            if (focusedIdx < filtered.length - 1){
+                focusedIdx += 1
+                const focused = focusEl(focusedIdx)
+                focused.scrollIntoView({ behavior: "instant", block: "nearest", inline: "start"})
             }
         }
         // If autoComplete was triggered and a non-space character is pressed, process autoComplete
-        else if (autocomplete === true && event.key !== ' ') {
-            const searchTerm = chatInput.value.split('/').slice(1).join('/').split(' ')[0];
+        else if (autocomplete && event.key !== ' ') {
+            const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
+            textDiv.querySelector("button").disabled = true // weird jerry rig to stop form from submitting
             console.log(searchTerm)
-            const titles = prompts.map(prompt => prompt.title);
-            suggestions(chatInput, titles, searchTerm)
+            removeSuggestion()
+            getSuggestedPrompts(searchTerm)
+            focusedIdx = 0
+            focusEl(focusedIdx)
         }
         //}
         // Else, return
@@ -382,38 +362,28 @@ async function main() {
             return;
         }
     }
+
+    function preventEnter(event){
+        if (event.key === "Enter" && autocomplete && document.querySelector(".autocomplete-active")){
+            console.warn("PREVENING!")
+            textDiv.querySelector("button").disabled = true // weird jerry rig to stop form from submitting
+            event.preventDefault()
+            event.stopPropagation()
+            return false;
+        }
+    }
+
+    function focusEl(idx) {
+        document.querySelectorAll(".pg-suggestion").forEach(each => each.classList.remove("autocomplete-active"));
+        const focusedEl = document.querySelectorAll(".pg-suggestion")[idx]
+        focusedEl?.classList.add("autocomplete-active")
+        return focusedEl
+    }
+
     const autocompleteStyles =
     `
     <style>
-    .autocomplete {
-    /*the container must be positioned relative:*/
-    position: relative;
-    max-height: 150px !important;
-    display: inline-block;
-    }
-    .autocomplete-items {
-        position: absolute;
-        border: 1px solid #d4d4d4;
-        border-bottom: none;
-        border-top: none;
-        z-index: 99;
-        /*position the autocomplete items to be the same width as the container:*/
-        width: 100%;
-        bottom: 100%;
-        overflow: auto;
-        max-height: 250px;
-        left: 0;
-        right: 0;
-    }
-    .autocomplete-items div {
-        padding: 5px;
-        cursor: pointer;
-        background-color: #fff;
-    }
-    .autocomplete-items div:hover {
-        /*when hovering an item:*/
-        background-color: #e9e9e9;
-    }
+
     .autocomplete-active {
         /*when navigating through the items using the arrow keys:*/
         background-color: #0BA37F !important;
@@ -423,6 +393,12 @@ async function main() {
     `
     document.head.insertAdjacentHTML("beforeend", autocompleteStyles)
 
+    function updatePlaceholder(){
+        const placeholder = tr("placeholder", t)
+        document.querySelector("textarea").placeholder = placeholder
+    }
+    updatePlaceholder()
+
     function removeSuggestion() {
         const suggestionElement = document.querySelector('.suggestions');
         if (suggestionElement) {
@@ -430,24 +406,29 @@ async function main() {
         }
     }
 
-    chatInput.addEventListener("keydown", autoComplete);
+    chatInput.addEventListener("keyup", autoComplete, {capture: true});
+    chatInput.addEventListener("keydown", preventEnter, {capture: true})
+    chatInput.addEventListener("keypress", preventEnter, {capture: true})
 
 
 
-    function getSuggestedPrompts(searchTerm){
-        let filtered = prompts.filter(prompt => prompt.title.includes(searchTerm))
+    function getSuggestedPrompts(searchTerm) {
+        let filtered = prompts.filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
         const html =
-        `
+            `
         <div class="w-full suggestions" style="position: relative">
-            <ul style="font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 10; max-height: 13rem; width: 100%; overflow: scroll; border-radius: .25rem; border-width: 1px; border-color: rgba(0,0,0,.1); background-color: rgb(255 255 255); box-shadow: 0 0 10px rgba(0,0,0,.1); ">
-                ${filtered.map((prompt) => `
-                <li data-prompt-id4="${prompt.id}" class="cursor-pointer px-3 py-2 text-sm text-black dark:text-white">${prompt.title}</li>
+            <ul id="scrollSuggest" style="font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 10; max-height: 13rem; width: 100%; overflow: scroll; border-radius: .25rem; border-width: 1px; border-color: rgba(0,0,0,.1); background-color: rgb(255 255 255); box-shadow: 0 0 10px rgba(0,0,0,.1); ">
+                ${filtered.map((prompt, idx) => `
+                <li data-idx="${idx}" data-prompt-id4="${prompt.id}" class="cursor-pointer pg-suggestion px-3 py-2 text-sm text-black dark:text-white">${prompt.title}</li>
                 `).join("")}
             </ul>
         </div>
         `
-        return html
+        textDiv.insertAdjacentHTML("beforebegin", html)
+        document.querySelectorAll(".pg-suggestion").forEach(s => s.addEventListener("mouseenter", () => focusEl(s.getAttribute("data-idx"))));
     }
+
+
 
     function togglePrompt() {
         const myNav = document.getElementById("prompt-bar")

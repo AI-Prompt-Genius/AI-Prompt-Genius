@@ -402,5 +402,8 @@
   },
   "tags": {
     "message": "Tags"
+  },
+  "placeholder":{
+    "message": "Type a message or type \"/\" to select a prompt..."
   }
 }
