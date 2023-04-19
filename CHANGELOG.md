@@ -2,6 +2,7 @@
 
 - Remove blank translate.js file
 - Fix scraper
+- Plus network input bug (hide it)
 
 ### v2.5.4 - April 17, 2023
 
