@@ -88,10 +88,8 @@ async function getAccountStatus(){
     let isPlus = data?.account_plan?.is_paid_subscription_active
     console.log("Plus USER: "+ isPlus)
     let plusVal = JSON.stringify(isPlus)
-    document.body.appendChild(document.createElement(`input`)).setAttribute("id", "plusNetwork")
-    document.querySelector("#plusNetwork").setAttribute("type", "hidden")
-    document.querySelector("#plusNetwork").style.display = "none"
-    document.querySelector("#plusNetwork").value = plusVal
+    const input = `<input id="plusNetwork" value="${plusVal}" type="hidden" style="width: 0; height: 0; display: none">`
+    document.body.insertAdjacentHTML("beforeend", input)
 }
 
 function getConversations(offset=0, limit=100, authToken=myAuth){
