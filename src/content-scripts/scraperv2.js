@@ -8,9 +8,9 @@ async function startSyncer(){
     })
 
     async function saveConvo(auth){
-        let urlSegments = window.location.pathname.split('/');
+        const urlSegments = window.location.pathname.split('/');
         let conversation_id = urlSegments[urlSegments.length - 1]; // extract conversation ID from URL
-        if(!conversation_id.includes("chat")){
+        if(!conversation_id === ""){
             convo = conversation_id;
         }
         else{

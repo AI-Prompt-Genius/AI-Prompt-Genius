@@ -1,3 +1,8 @@
+### v2.5.5
+
+- Remove blank translate.js file
+- Fix scraper
+
 ### v2.5.4 - April 17, 2023
 
 - Fix URL changes for real
