@@ -390,5 +390,20 @@
   },
   "unlink": {
     "message": "Unlink Sheet"
+  },
+  "name" : {
+    "message": "Name"
+  },
+  "description": {
+    "message": "Description"
+  },
+  "prompt":{
+    "message": "Prompt"
+  },
+  "tags": {
+    "message": "Tags"
+  },
+  "placeholder":{
+    "message": "Type a message or type \"/\" to select a prompt..."
   }
 }

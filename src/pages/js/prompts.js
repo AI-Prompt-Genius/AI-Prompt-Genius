@@ -555,7 +555,7 @@ function new_blank_prompt(){
 	new_prompt("Untitled Prompt","")
 }
 
-function new_prompt(title, text, tags="", category="") {
+function new_prompt(title, text, tags=[], category="") {
 	let prompt = {
 		date: getDate(),
 		time: getTime(),
