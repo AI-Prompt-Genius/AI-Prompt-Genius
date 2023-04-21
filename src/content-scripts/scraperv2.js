@@ -50,24 +50,6 @@ chrome.storage.local.get({settings: defaults}, function(result) {
 function start(){
     if (disable === false) {
         startSyncer()
-        let scraper_url = window.location.href;
-
-        function check_url() {
-            if (scraper_url !== window.location.href) {
-                scraper_url = window.location.href;
-                startSyncer()
-                id = ""
-                if (document.querySelector('#conversationID')){
-                    document.querySelector('#conversationID').remove()
-                }
-                if (document.querySelector('#history_box')){
-                    document.querySelector('#history_box').remove()
-                }
-                timer_started = false;
-                console.log("URL CHANGE")
-            }
-        }
-        setInterval(check_url, 500);
     }
 }
 
