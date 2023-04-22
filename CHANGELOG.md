@@ -1,6 +1,6 @@
 ### v2.5.6 
 
-- Fix login but
+- Fix login bug
 
 ### v2.5.5 - April 18, 2023
 
