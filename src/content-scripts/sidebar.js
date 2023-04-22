@@ -41,13 +41,13 @@ async function main() {
   <div class="relative flex items-center">
     <input class="w-full flex-1 rounded-md border border-white/20 px-4 py-3 pr-10 text-[14px] leading-3 text-white" type="text" placeholder='${tr("search_prompts", t)}' value="" style="background-color: #202123">
   </div>
-  <div class="flex-grow overflow-y-auto scrollbar-trigger dark">
-    <div class="pt-2"">
+  <div id="scroll-prompts" class="flex-grow dark" style="overflow: scroll!important;">
+    <div class="pt-2">
       <div class="flex w-full flex-col gap-1" id="sidebarPrompts">
         <!--begin prompt column template-->
         ${prompts.map((prompt) => `
             <div class="relative flex items-center">
-                <button data-prompt-id="${prompt.id}" class="edit-prompts pgbtn flex w-full text-white cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-500/10" draggable="true">
+                <button data-prompt-id="${prompt.id}" class="edit-prompts pgbtn flex w-full text-white cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-500/10">
                     ${svg("lightbulb")}
                     <div data-prompt-id2="${prompt.id}" style="font-size: 12.5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 165px" class="relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3">${prompt.title}</div>
                 </button>
@@ -106,7 +106,7 @@ async function main() {
         prompts.unshift(prompt)
         chrome.storage.local.set({prompts: prompts.reverse()})
         const html = `<div class="relative flex items-center">
-                <button data-prompt-id="${prompt.id}" class="edit-prompts pgbtn flex w-full text-white cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-500/10" draggable="true">
+                <button data-prompt-id="${prompt.id}" class="edit-prompts pgbtn flex w-full text-white cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-500/10">
                     ${svg("lightbulb")}
                     <div data-prompt-id2="${prompt.id}" style="font-size: 12.5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 165px" class="relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3">${prompt.title}</div>
                 </button>
@@ -153,8 +153,8 @@ async function main() {
         prompts = await getPrompts()
         let prompt = prompts[getObjectIndexByID(id, prompts)]
         console.log(prompt)
-        const tags = prompt?.tags ?? []
-        const html = getPromptModal(prompt.id, prompt?.title ?? "", prompt?.text ?? "",  tags.join(",") ?? "")
+        const tags = prompt.tags ? prompt.tags.join(",") : "";
+        const html = getPromptModal(prompt.id, prompt?.title ?? "", prompt?.text ?? "", tags)
         document.body.insertAdjacentHTML("beforeend", html)
         document.getElementById("prompt-category").value = prompt?.category ?? ""
         document.getElementById("save-prompt").addEventListener("click", () => updatePrompt(id))
@@ -237,20 +237,20 @@ async function main() {
 
     function getPromptModal(id="", name="", text="", tags=""){
         const template = `
-    <div id="prompt-modal" data-prompt-id="${id}" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-100">
+    <div id="prompt-modal" data-prompt-id="${id}" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed inset-0 flex items-center justify-center bg-opacity-50 z-100">
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
           <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
-          <div class="dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle" role="dialog">
-            <div class="text-sm font-bold text-black dark:text-neutral-200">${tr("name", t)}</div>
-            <input style="border-color: #8e8ea0" id="prompt-name" value="${name}" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100" placeholder="A name for your prompt." value="">
-            <div class="my-2 text-sm font-bold text-black dark:text-neutral-200">${tr("prompt", t)}</div>
-            <textarea id="prompt-text" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100" placeholder="Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}" rows="10" style="resize: none;" spellCheck="false">${text}</textarea>
-            <div class="text-sm font-bold text-black dark:text-neutral-200">${tr("tags", t)}</div>
-            <input style="border-color: #8e8ea0" id="prompt-tags" value="${tags}" class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100" placeholder="Tags for your prompt. Separate with a comma." value="">
-            <div class="my-2 text-sm font-bold text-black dark:text-neutral-200">${tr("category", t)}</div>
-            <div style="">
-              <select id="prompt-category" class="border border-neutral-500 text-sm rounded block w-full">
+          <div class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle" role="dialog">
+            <div class="text-sm font-bold text-black dark:text-gray-200">${tr("name", t)}</div>
+            <input style="border-color: #8e8ea0" id="prompt-name" value="${name}" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="A name for your prompt." value="">
+            <div class="my-2 text-sm font-bold text-black dark:text-gray-200">${tr("prompt", t)}</div>
+            <textarea style="border-color: #8e8ea0" id="prompt-text" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}" rows="10" style="resize: none;" spellCheck="false">${text}</textarea>
+            <div class="text-sm font-bold text-black dark:text-gray-200">${tr("tags", t)}</div>
+            <input style="border-color: #8e8ea0" id="prompt-tags" value="${tags}" class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="Tags for your prompt. Separate with a comma." value="">
+            <div class="my-2 text-sm font-bold text-black dark:text-gray-200">${tr("category", t)}</div>
+            <div class="">
+              <select id="prompt-category" class="dark:bg-gray-800 border border-neutral-500 text-sm rounded block w-full">
                 <option value="" data-i18n="all_categories">Select</option>
                 <option value="Academic Writing" data-i18n="category_academic_writing">Academic Writing</option>
                 <option value="Bypass & Personas" data-i18n="category_bypass_personas">Bypass &amp; Personas</option>
@@ -271,10 +271,10 @@ async function main() {
                 <option value="Therapy & Life-help" data-i18n="category_therapy_life_help">Therapy &amp; Life-help</option>
               </select>
             </div>
-            <!--div class="mt-6 text-sm font-bold text-black dark:text-neutral-200">$ {tr("description", t)}</div><textarea
-                            class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-[#40414F] dark:text-neutral-100"
+            <!--div class="mt-6 text-sm font-bold text-black dark:text-gray-200">$ {tr("description", t)}</div><textarea
+                            class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100"
                             placeholder="A description for your prompt." rows="3" style="resize: none;"></textarea-->
-            <button id="save-prompt" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-white dark:text-black dark:hover:bg-neutral-300">Save </button>
+            <button id="save-prompt" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">Save </button>
           </div>
         </div>
       </div>
@@ -316,14 +316,6 @@ async function main() {
             autocomplete = false;
             removeSuggestion()
         }
-        else if (autocomplete && event.key === "ArrowUp"){
-            event.preventDefault()
-            if (focusedIdx > 0){
-                focusedIdx -= 1
-                const focused = focusEl(focusedIdx)
-                focused.scrollIntoView({ behavior: "instant", block: "nearest", inline: "start"})
-            }
-        }
         else if (autocomplete && event.key === "Enter"){
             selectFocused()
             event.preventDefault()
@@ -331,8 +323,18 @@ async function main() {
             event.stopPropagation()
             return false;
         }
+        else if (autocomplete && event.key === "ArrowUp"){
+            event.preventDefault()
+            event.stopImmediatePropagation()
+            if (focusedIdx > 0){
+                focusedIdx -= 1
+                const focused = focusEl(focusedIdx)
+                focused.scrollIntoView({ behavior: "instant", block: "nearest", inline: "start"})
+            }
+        }
         else if (autocomplete && event.key === "ArrowDown"){
             event.preventDefault()
+            event.stopImmediatePropagation()
             const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
             let filtered = prompts.filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
             if (focusedIdx < filtered.length - 1){
@@ -390,8 +392,11 @@ async function main() {
 
     .autocomplete-active {
         /*when navigating through the items using the arrow keys:*/
-        background-color: #0BA37F !important;
+        background-color: #0BA37F;
         color: #ffffff;
+    }
+    .dark .autocomplete-active {
+        background-color: #2A2B32 !important;
     }
     </style>
     `
@@ -421,9 +426,9 @@ async function main() {
         const html =
             `
         <div id="suggestions" class="w-full suggestions" style="position: relative">
-            <ul id="scrollSuggest" style="font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 10; max-height: 13rem; width: 100%; overflow: scroll; border-radius: .25rem; border-width: 1px; border-color: rgba(0,0,0,.1); background-color: rgb(255 255 255); box-shadow: 0 0 10px rgba(0,0,0,.1); ">
+            <ul id="scrollSuggest" class="dark:border-white/2 rounded border-black/10 dark:bg-gray-700" style="font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 10; max-height: 13rem; width: 100%; overflow: auto; ">
                 ${filtered.map((prompt, idx) => `
-                <li data-idx="${idx}" data-prompt-id4="${prompt.id}" class="cursor-pointer pg-suggestion px-3 py-2 text-sm text-black dark:text-white">${prompt.title}</li>
+                <li data-idx="${idx}" data-prompt-id4="${prompt.id}" class="cursor-pointer dark:bg-gray-700 pg-suggestion px-3 py-2 text-sm text-black dark:text-white">${prompt.title}</li>
                 `).join("")}
             </ul>
         </div>
@@ -442,6 +447,7 @@ async function main() {
         const closePrompt = document.getElementById("closePrompt")
         if (hidden) {
             myNav.style.display = "block"
+            myNav.querySelector("#scroll-prompts").overflow = "scroll"
             closePrompt.style.right = "259px"
             closePrompt.innerHTML = ">"
             mainPar.style.marginRight = "259px"
