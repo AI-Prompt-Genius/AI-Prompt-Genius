@@ -26,7 +26,9 @@ async function auth(openLogin = false) {
                 return response.json();
             } else {
                 console.log("Not OK!");
-                window.open("https://chat.openai.com/auth/login", "_blank");
+                if (openLogin === true){
+                    window.open("https://chat.openai.com/auth/login", "_blank");
+                }
                 return Promise.reject(response);
             }
         } catch (error) {
