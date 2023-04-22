@@ -1,5 +1,5 @@
 let myAuth;let threads; let offset = 0;
-async function auth() {
+async function auth(openLogin = false) {
     async function getAuth() {
         const controller = new AbortController();
         const signal = controller.signal;
@@ -31,7 +31,9 @@ async function auth() {
             }
         } catch (error) {
             console.log(error);
-            window.open("https://chat.openai.com/auth/login", "_blank");
+            if (openLogin === true){
+                window.open("https://chat.openai.com/auth/login", "_blank");
+            }
             return Promise.reject(error);
         }
     }
@@ -61,9 +63,12 @@ async function auth() {
 }
 auth()
 
-function checkOffsetThenResync(beginningOffset){
-    chrome.storage.local.get({offset: 0}, function (result){
+async function checkOffsetThenResync(beginningOffset, openLogin=false){
+    chrome.storage.local.get({offset: 0}, async function (result){
         if (beginningOffset === result.offset){
+            if (openLogin){
+                myAuth = await auth(true)
+            }
             resyncAll()
         }
     })

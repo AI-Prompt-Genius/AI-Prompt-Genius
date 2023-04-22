@@ -11,7 +11,7 @@ async function animateResync(){
     resyncButt.innerHTML = `<i class="fa-solid fa-spin fa-arrows-rotate"></i>&emsp; ${await translate("resyncing")}`
     resyncButt.classList.add("disabled")
     chrome.storage.local.get({offset: 0}, function (result){
-        checkOffsetThenResync(result.offset)
+        checkOffsetThenResync(result.offset, true)
         resyncInterval = setInterval(updateResyncProgress, 4000)
     })
 }
