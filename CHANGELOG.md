@@ -1,4 +1,8 @@
-### v2.5.5
+### v2.5.6 
+
+- Fix login but
+
+### v2.5.5 - April 18, 2023
 
 - Remove blank translate.js file
 - Fix scraper
