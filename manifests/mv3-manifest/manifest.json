@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
-  "version": "2.5.5",
+  "version": "2.5.6",
   "permissions": ["storage", "unlimitedStorage", "contextMenus", "identity"],
   "background": {
     "service_worker": "background.js"
