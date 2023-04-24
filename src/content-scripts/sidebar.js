@@ -30,7 +30,7 @@ async function main() {
     const t = await translations
     const promptBar = // styles from chatbotui.com (MIT - Mckay Wrigley)
         `
-<div id="prompt-bar" class="flex h-full flex-1 flex-col space-y-1 p-2" style="position:fixed; z-index: 1; right:0; width:260px; background-color: #202123">
+<div id="prompt-bar" class="flex h-full flex-1 flex-col space-y-1 p-2 scrollbar-trigger" style="position:fixed; z-index: 1; right:0; width:260px; background-color: #202123">
   <div class="flex items-center">
     <button id="newPromptPg" style="width: 100%;" class="flex text-white text-sm flex-shrink-0 items-center gap-3 rounded-md border hover:bg-gray-500/10 border-white/20 p-3 text-white">
       ${svg("plus")} ${tr("new_prompt", t)}</button>
@@ -41,8 +41,7 @@ async function main() {
   <div class="relative flex items-center">
     <input class="w-full flex-1 rounded-md border border-white/20 px-4 py-3 pr-10 text-[14px] leading-3 text-white" type="text" placeholder='${tr("search_prompts", t)}' value="" style="background-color: #202123">
   </div>
-  <div id="scroll-prompts" class="flex-grow dark" style="overflow: scroll!important;">
-    <div class="pt-2">
+  <div id="scroll-prompts" class="pt-2 flex-grow dark" style="overflow: auto;">
       <div class="flex w-full flex-col gap-1" id="sidebarPrompts">
         <!--begin prompt column template-->
         ${prompts.map((prompt) => `
@@ -83,7 +82,7 @@ async function main() {
     function updateNav(){
         if (document.querySelector("nav")){
             nav = document.querySelector("#__next").querySelectorAll("div")[1].firstChild
-            closeNavBut.style.display = "block"
+            closeNavBut.style.display = ""
         }
         else {
             nav = document.querySelector("#__next").querySelectorAll("div")[1]
@@ -138,7 +137,7 @@ async function main() {
     function toggleNav() {
         const hidden = nav.style.display === "none"
         if (hidden) {
-            nav.style.display = "block"
+            nav.style.display = ""
             closeNavBut.style.left = "259px"
             closeNavBut.innerHTML = "<"
         } else {
@@ -426,7 +425,7 @@ async function main() {
         const html =
             `
         <div id="suggestions" class="w-full suggestions" style="position: relative">
-            <ul id="scrollSuggest" class="dark:border-white/2 rounded border-black/10 dark:bg-gray-700" style="font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 10; max-height: 13rem; width: 100%; overflow: auto; ">
+            <ul id="scrollSuggest" class="dark:border-white/2 rounded border-black/10 bg-white dark:bg-gray-700" style="font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 10; max-height: 13rem; width: 100%; overflow: auto; ">
                 ${filtered.map((prompt, idx) => `
                 <li data-idx="${idx}" data-prompt-id4="${prompt.id}" class="cursor-pointer dark:bg-gray-700 pg-suggestion px-3 py-2 text-sm text-black dark:text-white">${prompt.title}</li>
                 `).join("")}
