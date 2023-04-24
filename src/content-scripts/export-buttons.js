@@ -145,8 +145,8 @@ const ExportButtons = (function()
 		<a id="shareExport" class="dropbtn ${button_class}">${shareSVG} ${tr("share")} & ${tr("export")}</a>
 		</div>
 		`
-		let nav = document.querySelector('nav > div')
-		nav.insertAdjacentHTML("afterend", html);
+		const nav = document.querySelector('nav')
+		nav.insertAdjacentHTML("beforeend", html);
 
 		/* When the user clicks on the button,
 		toggle between hiding and showing the dropdown content */
