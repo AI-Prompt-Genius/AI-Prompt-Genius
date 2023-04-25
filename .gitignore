@@ -4,3 +4,5 @@ dist_mv3/
 releases/
 /src/manifest.json
 .DS_Store
+docs/.obsidian
+docs/Private
