@@ -470,6 +470,7 @@ async function main() {
         else if (event.key === '/' && !autocomplete) {
             // Set a flag to indicate that autoComplete was triggered by the slash
             autocomplete = true;
+            removeSuggestion()
             getSuggestedPrompts("")
             focusedIdx = 0
             focusEl(focusedIdx)
@@ -585,11 +586,8 @@ async function main() {
         }
     }
 
-
-
-
     function getSuggestedPrompts(searchTerm) {
-        let filtered = prompts.reverse().filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
+        let filtered = prompts.filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
         // Sort the filtered prompts - thanks gpt-4
         if (searchTerm !== "") {
@@ -679,10 +677,12 @@ function check_url() {
         let sidebar = document.getElementById("prompt-bar")
         let closeNav = document.getElementById("closeNav")
         let closePrompt = document.getElementById("closePrompt")
+        let suggestions = document.getElementById("suggestions")
         function remove(){
             if (closePrompt) closePrompt.remove()
             if (closeNav) closeNav.remove()
             if (sidebar) sidebar.remove()
+            if (suggestions) suggestions.remove()
         }
         setTimeout(remove, 300)
         main()
