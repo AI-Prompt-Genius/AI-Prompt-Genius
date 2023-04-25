@@ -184,9 +184,11 @@ function createThemeSelectButton()
 	});
 	
 	let noThemeOption = document.createElement("option");
+	let noTheme = tr("no_theme")
+
 	noThemeOption.value = "";
 	noThemeOption.style.color = "black";
-	noThemeOption.innerHTML = "No Theme";
+	noThemeOption.innerHTML = noTheme;
 	themeSelect.appendChild(noThemeOption);
 	
 	let themesList = THEMES_LIST;
