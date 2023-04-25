@@ -188,7 +188,7 @@ function createThemeSelectButton()
 
 	noThemeOption.value = "";
 	noThemeOption.style.color = "black";
-	noThemeOption.innerHTML = noTheme;
+	noThemeOption.innerHTML = `${noTheme}`;
 	themeSelect.appendChild(noThemeOption);
 	
 	let themesList = THEMES_LIST;
@@ -258,9 +258,10 @@ function createFontSelectButton()
 	let noFontOption = document.createElement("option");
 	let noFont = tr("no_font");
 
+
 	noFontOption.value = "";
 	noFontOption.style.color = "black";
-	noFontOption.innerHTML = noFont;
+	noFontOption.innerHTML = `${noFont}`;
 	fontSelect.appendChild(noFontOption);
 	
 	let fontsList = FONTS_LIST;
