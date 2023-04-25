@@ -113,6 +113,21 @@ async function main() {
         const searchTerm = document.getElementById("pg-search-sidebar").value
         const sidebar = document.getElementById("sidebarPrompts")
         const fPrompts = searchTerm ? prompts.reverse().filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase())) : prompts.reverse();
+        if (searchTerm !== "") { // thanks GPT-4
+            fPrompts.sort((a, b) => {
+                const aTitle = a.title.toLowerCase();
+                const bTitle = b.title.toLowerCase();
+                const searchTermLower = searchTerm.toLowerCase();
+
+                if (aTitle.startsWith(searchTermLower) && !bTitle.startsWith(searchTermLower)) {
+                    return -1;
+                } else if (!aTitle.startsWith(searchTermLower) && bTitle.startsWith(searchTermLower)) {
+                    return 1;
+                } else {
+                    return aTitle.localeCompare(bTitle);
+                }
+            });
+        }
         const html = `
         ${fPrompts.map((prompt) => `
             <div class="relative flex items-center">
@@ -346,28 +361,24 @@ async function main() {
     let autocomplete = false;
     let focusedIdx = 0;
 
-    function findVariables(str) {
+    function findVariables(str) { // thanks chatgpt
         const regex = /{{(.+?)}}/g;
-        const matches = [];
+        const matches = new Set();
         let match;
         while ((match = regex.exec(str))) {
-            matches.push(match[1]);
+            matches.add(match[1]);
         }
-        return matches;
+        return Array.from(matches);
     }
 
-    function replaceVariables(str, values) {
-        const regex = /{{(.+?)}}/g;
-        let index = 0;
-        return str.replace(regex, (match, variable) => {
-            if (index < values.length) {
-                const value = values[index];
-                index++;
-                return value;
-            } else {
-                return match;
-            }
+    function replaceVariables(str, values) { // thanks chatgpt
+        const variables = findVariables(str);
+        variables.forEach((variable, index) => {
+            const value = values[index % values.length];
+            const regex = new RegExp(`{{${variable}}}`, "g");
+            str = str.replace(regex, value);
         });
+        return str;
     }
 
     async function getVarsFromModal(varArray, promptText){
@@ -407,12 +418,12 @@ async function main() {
             }
             document.getElementById("var-modal").remove()
             selectPrompt(replaceVariables(promptText, variables), false)
+            setTimeout(() => chatInput.focus(), 80) // so not to add a newline
         }
     }
 
     async function selectPrompt(promptText, hasVars=true){
         const vars = hasVars ? findVariables(promptText) : [] // so if the chosen variable has a variable within {{}}
-        console.log(vars)
         if (vars.length > 0){
             getVarsFromModal(vars, promptText)
             return "";
@@ -558,6 +569,24 @@ async function main() {
 
     function getSuggestedPrompts(searchTerm) {
         let filtered = prompts.reverse().filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        // Sort the filtered prompts - thanks gpt-4
+        if (searchTerm !== "") {
+            filtered.sort((a, b) => {
+                const aTitle = a.title.toLowerCase();
+                const bTitle = b.title.toLowerCase();
+                const searchTermLower = searchTerm.toLowerCase();
+
+                if (aTitle.startsWith(searchTermLower) && !bTitle.startsWith(searchTermLower)) {
+                    return -1;
+                } else if (!aTitle.startsWith(searchTermLower) && bTitle.startsWith(searchTermLower)) {
+                    return 1;
+                } else {
+                    return aTitle.localeCompare(bTitle);
+                }
+            });
+        }
+
         const html =
             `
         <div id="suggestions" class="w-full suggestions" style="position: relative">
