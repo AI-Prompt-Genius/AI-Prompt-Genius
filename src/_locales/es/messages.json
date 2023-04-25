@@ -432,5 +432,9 @@
   },
   "no_font": {
     "message": "Sin fuente"
-  }
+  },
+  "what_new" : {
+    "message": "¿Qué hay de nuevo?"
+  },
+
 }

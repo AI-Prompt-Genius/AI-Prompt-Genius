@@ -432,5 +432,8 @@
   },
   "no_font": {
     "message": "沒有字型"
+  },
+  "what_new" : {
+    "message": "有什麼新消息?"
   }
 }

@@ -433,5 +433,8 @@
   },
   "no_font": {
     "message": "No Font"
+  },
+  "what_new" : {
+    "message": "What's New?"
   }
 }

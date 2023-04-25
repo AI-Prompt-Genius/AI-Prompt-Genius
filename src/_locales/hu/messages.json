@@ -432,5 +432,8 @@
   },
   "no_font": {
     "message": "Nincs betűtípus"
+  },
+  "what_new" : {
+    "message": "Mi az újdonság?"
   }
 }
