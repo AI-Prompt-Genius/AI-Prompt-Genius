@@ -390,5 +390,35 @@
   },
   "unlink": {
     "message": "Supprimer le lien"
+  },
+  "name": {
+    "message": "Nom"
+  },
+  "description": {
+    "message": "Description"
+  },
+  "prompt": {
+    "message": "Incitation"
+  },
+  "tags": {
+    "message": "Étiquettes"
+  },
+  "placeholder": {
+    "message": "Tapez un message ou tapez \"/\" pour sélectionner une incitation..."
+  },
+  "untitled": {
+    "message": "Incitation sans titre"
+  },
+  "prompt_name": {
+    "message": "Un nom pour votre incitation."
+  },
+  "prompt_body": {
+    "message": "Contenu de l'incitation."
+  },
+  "prompt_tags": {
+    "message": "Étiquettes pour votre incitation. Séparez-les par une virgule sans espace."
+  },
+  "save": {
+    "message": "Enregistrer"
   }
 }

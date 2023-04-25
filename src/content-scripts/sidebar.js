@@ -30,8 +30,8 @@ async function main() {
     const t = await translations
     const promptBar = // styles from chatbotui.com (MIT - Mckay Wrigley)
         `
-<div id="prompt-bar" class="flex h-full flex-1 flex-col space-y-1 p-2 scrollbar-trigger" style="position:fixed; z-index: 1; right:0; width:260px; background-color: #202123">
-  <div class="flex items-center">
+<div id="prompt-bar" class="flex h-full flex-1 flex-col space-y-1 p-2 scrollbar-trigger" style="transition: transform 0.3s ease-in-out; position:fixed; z-index: 1; right:0; width:260px; background-color: #202123">
+  <div class="flex items-center mb-1">
     <button id="newPromptPg" style="width: 100%;" class="flex text-white text-sm flex-shrink-0 items-center gap-3 rounded-md border hover:bg-gray-500/10 border-white/20 p-3 text-white">
       ${svg("plus")} ${tr("new_prompt", t)}</button>
     <!--button class="flex items-center flex-shrink-0 gap-3 p-3 ml-2 text-sm text-white transition-colors duration-200 border rounded-md cursor-pointer border-white/20 hover:bg-gray-500/10">
@@ -39,7 +39,7 @@ async function main() {
     </button-->
   </div>
   <div class="relative flex items-center">
-    <input class="w-full flex-1 rounded-md border border-white/20 px-4 py-3 pr-10 text-[14px] leading-3 text-white" type="text" placeholder='${tr("search_prompts", t)}' value="" style="background-color: #202123">
+    <input id="pg-search-sidebar" class="w-full flex-1 rounded-md border border-white/20 px-4 py-3 pr-10 text-[14px] leading-3 text-white" type="text" placeholder='${tr("search_prompts", t)}' value="" style="background-color: #202123">
   </div>
   <div id="scroll-prompts" class="pt-2 flex-grow dark" style="overflow: auto;">
       <div class="flex w-full flex-col gap-1" id="sidebarPrompts">
@@ -73,11 +73,41 @@ async function main() {
     mainPar.style.marginRight = "220px";
 
     function addStyles(){
-        const styles = `<style>.pgbtn:hover{background-color: rgba(52,53,65,.9)} .svg-hover:hover{color: #F5F5F5!important;}</style>`;
+        const styles =
+        `<style>
+        .pgbtn:hover{background-color: rgba(52,53,65,.9)} 
+        .svg-hover:hover{color: #F5F5F5!important;}
+        #prompt-bar.hidden {
+        transform: translateX(-100%);
+        }
+        </style>`;
         console.log(styles);
         document.head.insertAdjacentHTML("beforeend", styles);
     }
     addStyles();
+
+    function filterPrompts(){
+        const searchTerm = document.getElementById("pg-search-sidebar").value
+        const sidebar = document.getElementById("sidebarPrompts")
+        const fPrompts = searchTerm ? prompts.reverse().filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase())) : prompts.reverse();
+        const html = `
+        ${fPrompts.map((prompt) => `
+            <div class="relative flex items-center">
+                <button data-prompt-id="${prompt.id}" class="edit-prompts pgbtn flex w-full text-white cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-500/10">
+                    ${svg("lightbulb")}
+                    <div data-prompt-id2="${prompt.id}" style="font-size: 12.5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 165px" class="relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3">${prompt.title}</div>
+                </button>
+                <div class="absolute right-1 z-10 flex text-gray-300">
+                    <button data-prompt-id3="${prompt.id}" style="min-width: 20px" class="p-1 can text-neutral-400 svg-hover">
+                        ${svg('trash')}
+                    </button>
+                </div>
+            </div>`).join(" ")}
+        `
+        sidebar.innerHTML = html
+        addEvents()
+    }
+    document.getElementById("pg-search-sidebar").addEventListener("input", filterPrompts)
 
     function updateNav(){
         if (document.querySelector("nav")){
@@ -96,7 +126,7 @@ async function main() {
             date: getDate(),
             time: getTime(),
             id: generateUUID(),
-            title: "Untitled Prompt",
+            title: tr("untitled", t),
             text: "",
             tags: [],
             category: "",
@@ -110,7 +140,7 @@ async function main() {
                     <div data-prompt-id2="${prompt.id}" style="font-size: 12.5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 165px" class="relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3">${prompt.title}</div>
                 </button>
                 <div class="absolute right-1 z-10 flex text-gray-300">
-                    <button style="min-width: 20px" class="p-1 text-neutral-400 svg-hover">
+                    <button data-prompt-id3="${prompt.id}" style="min-width: 20px" class="pg-trash p-1 text-neutral-400 svg-hover">
                         ${svg('trash')}
                     </button>
                 </div>
@@ -123,9 +153,16 @@ async function main() {
                 t = t.parentElement
             }
             let promptId = t.dataset.promptId; // Get the data-prompt-id value
-            console.log("CLICK!")
             editPrompt(promptId); // Pass the promptId as a parameter to editPrompt function
         });
+        document.querySelector(".pg-trash").addEventListener("click", (event) => {
+            let t = event.target
+            while (!t.dataset.promptId3){
+                t = t.parentElement
+            }
+            let promptID = t.dataset.promptId3
+            deletePrompt(promptID, t.parentElement.parentElement)
+        })
     }
 
     // Attach an event listener to the window object for the "resize" event
@@ -242,38 +279,38 @@ async function main() {
           <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
           <div class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle" role="dialog">
             <div class="text-sm font-bold text-black dark:text-gray-200">${tr("name", t)}</div>
-            <input style="border-color: #8e8ea0" id="prompt-name" value="${name}" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="A name for your prompt." value="">
+            <input style="border-color: #8e8ea0" id="prompt-name" value="${name}" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr("prompt_name", t)}" value="">
             <div class="my-2 text-sm font-bold text-black dark:text-gray-200">${tr("prompt", t)}</div>
-            <textarea style="border-color: #8e8ea0" id="prompt-text" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}" rows="10" style="resize: none;" spellCheck="false">${text}</textarea>
+            <textarea style="border-color: #8e8ea0" id="prompt-text" class="my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr("prompt_body", t)}" rows="10" style="resize: none;" spellCheck="false">${text}</textarea>
             <div class="text-sm font-bold text-black dark:text-gray-200">${tr("tags", t)}</div>
-            <input style="border-color: #8e8ea0" id="prompt-tags" value="${tags}" class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="Tags for your prompt. Separate with a comma." value="">
+            <input style="border-color: #8e8ea0" id="prompt-tags" value="${tags}" class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr("prompt_tags", t)}" value="">
             <div class="my-2 text-sm font-bold text-black dark:text-gray-200">${tr("category", t)}</div>
             <div class="">
               <select id="prompt-category" class="dark:bg-gray-800 border border-neutral-500 text-sm rounded block w-full">
-                <option value="" data-i18n="all_categories">Select</option>
-                <option value="Academic Writing" data-i18n="category_academic_writing">Academic Writing</option>
-                <option value="Bypass & Personas" data-i18n="category_bypass_personas">Bypass &amp; Personas</option>
-                <option value="Education & Learning" data-i18n="category_education_learning">Education &amp; Learning</option>
-                <option value="Expert/Consultant" data-i18n="category_expert_consultant">Expert/Consultant</option>
-                <option value="Fun & Games" data-i18n="category_fun_games">Fun &amp; Games</option>
-                <option value="Fitness, Nutrition, & Health" data-i18n="category_fitness_nutrition_health">Fitness, Nutrition, &amp; Health</option>
-                <option value="Fiction Writing" data-i18n="category_fiction_writing">Fiction Writing</option>
-                <option value="Music" data-i18n="category_music">Music</option>
-                <option value="Nonfiction Writing" data-i18n="category_nonfiction_writing">Nonfiction Writing</option>
-                <option value="Other" data-i18n="category_other">Other</option>
-                <option value="Philosophy & Logic" data-i18n="category_philosophy_logic">Philosophy &amp; Logic</option>
-                <option value="Poetry" data-i18n="category_poetry">Poetry</option>
-                <option value="Programming & Technology" data-i18n="category_programming_technology">Programming &amp; Technology</option>
-                <option value="Speeches & Scripts" data-i18n="category_speeches_scripts">Speeches &amp; Scripts</option>
-                <option value="Social Media & Blogging" data-i18n="category_social_media_blogging">Social Media &amp; Blogging</option>
-                <option value="Travel" data-i18n="category_travel">Travel</option>
-                <option value="Therapy & Life-help" data-i18n="category_therapy_life_help">Therapy &amp; Life-help</option>
+                <option value="">${tr("all_categories", t)}</option>
+                <option value="Academic Writing">${tr("category_academic_writing", t)}</option>
+                <option value="Bypass &amp; Personas">${tr("category_bypass_personas", t)}</option>
+                <option value="Education &amp; Learning">${tr("category_education_learning", t)}</option>
+                <option value="Expert/Consultant">${tr("category_expert_consultant", t)}</option>
+                <option value="Fun &amp; Games">${tr("category_fun_games", t)}</option>
+                <option value="Fitness, Nutrition, &amp; Health">${tr("category_fitness_nutrition_health", t)}</option>
+                <option value="Fiction Writing">${tr("category_fiction_writing", t)}</option>
+                <option value="Music">${tr("category_music", t)}</option>
+                <option value="Nonfiction Writing">${tr("category_nonfiction_writing", t)}</option>
+                <option value="Other">${tr("category_other", t)}</option>
+                <option value="Philosophy &amp; Logic">${tr("category_philosophy_logic", t)}</option>
+                <option value="Poetry">${tr("category_poetry", t)}</option>
+                <option value="Programming &amp; Technology">${tr("category_programming_technology", t)}</option>
+                <option value="Speeches &amp; Scripts">${tr("category_speeches_scripts", t)}</option>
+                <option value="Social Media &amp; Blogging">${tr("category_social_media_blogging", t)}</option>
+                <option value="Travel">${tr("category_travel", t)}</option>
+                <option value="Therapy &amp; Life-help">${tr("category_therapy_life_help", t)}</option>
               </select>
             </div>
             <!--div class="mt-6 text-sm font-bold text-black dark:text-gray-200">$ {tr("description", t)}</div><textarea
                             class="mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100"
                             placeholder="A description for your prompt." rows="3" style="resize: none;"></textarea-->
-            <button id="save-prompt" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">Save </button>
+            <button id="save-prompt" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">${tr("save", t)} </button>
           </div>
         </div>
       </div>
@@ -325,15 +362,18 @@ async function main() {
         else if (autocomplete && event.key === "ArrowUp"){
             event.preventDefault()
             event.stopImmediatePropagation()
+            event.stopPropagation()
             if (focusedIdx > 0){
                 focusedIdx -= 1
                 const focused = focusEl(focusedIdx)
                 focused.scrollIntoView({ behavior: "instant", block: "nearest", inline: "start"})
             }
+            return false;
         }
         else if (autocomplete && event.key === "ArrowDown"){
             event.preventDefault()
             event.stopImmediatePropagation()
+            event.stopPropagation()
             const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
             let filtered = prompts.filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
             if (focusedIdx < filtered.length - 1){
@@ -341,6 +381,7 @@ async function main() {
                 const focused = focusEl(focusedIdx)
                 focused.scrollIntoView({ behavior: "instant", block: "nearest", inline: "start"})
             }
+            return false;
         }
         // If autoComplete was triggered and a non-space character is pressed, process autoComplete
         else if (autocomplete && event.key !== ' ') {
@@ -441,22 +482,20 @@ async function main() {
 
 
     function togglePrompt() {
-        const myNav = document.getElementById("prompt-bar")
-        const hidden = myNav.style.display === "none"
-        const closePrompt = document.getElementById("closePrompt")
+        const myNav = document.getElementById("prompt-bar");
+        const hidden = myNav.classList.contains("hidden");
+        const closePrompt = document.getElementById("closePrompt");
         if (hidden) {
-            myNav.style.display = "block"
-            myNav.querySelector("#scroll-prompts").overflow = "scroll"
-            closePrompt.style.right = "259px"
-            closePrompt.innerHTML = ">"
-            mainPar.style.marginRight = "259px"
+            myNav.classList.remove("hidden");
+            closePrompt.style.right = "259px";
+            closePrompt.innerHTML = ">";
+            mainPar.style.marginRight = "259px";
         } else {
-            myNav.style.display = "none"
-            closePrompt.style.right = "0"
-            closePrompt.innerHTML = "<"
-            mainPar.style.marginRight = "0"
+            myNav.classList.add("hidden");
+            closePrompt.style.right = "0";
+            closePrompt.innerHTML = "<";
+            mainPar.style.marginRight = "0";
         }
-
     }
 
     document.getElementById("closeNav").addEventListener("click", toggleNav)

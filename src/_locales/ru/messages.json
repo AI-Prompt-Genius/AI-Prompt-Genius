@@ -390,5 +390,15 @@
   },
   "unlink": {
     "message": "Удалить связь"
-  }
+  },
+  "name": {"message": "Имя"},
+  "description": {"message": "Описание"},
+  "prompt": {"message": "Подсказка"},
+  "tags": {"message": "Теги"},
+  "placeholder": {"message": "Введите сообщение или введите \"/\", чтобы выбрать подсказку ..."},
+  "untitled": {"message": "Безымянная подсказка"},
+  "prompt_name": {"message": "Название вашей подсказки."},
+  "prompt_body": {"message": "Содержание подсказки."},
+  "prompt_tags": {"message": "Теги для вашей подсказки. Разделяйте запятыми и без пробелов."},
+  "save": {"message": "Сохранить"}
 }

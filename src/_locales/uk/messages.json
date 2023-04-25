@@ -390,5 +390,15 @@
   },
   "unlink": {
     "message": "Від'єднати таблицю"
-  }
+  },
+  "name": {"message":"Ім'я"},
+  "description": {"message":"Опис"},
+  "prompt": {"message":"Запитання"},
+  "tags": {"message":"Теги"},
+  "placeholder": {"message":"Введіть повідомлення або введіть \"/\" для вибору запитання ..."},
+  "untitled": {"message":"Без назви"},
+  "prompt_name": {"message":"Назва вашого запитання."},
+  "prompt_body": {"message":"Вміст запитання."},
+  "prompt_tags": {"message":"Теги для вашого запитання. Розділіть комою і без пробілу."},
+  "save": {"message":"Зберегти"}
 }

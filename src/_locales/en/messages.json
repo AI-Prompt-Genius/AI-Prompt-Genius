@@ -391,6 +391,8 @@
   "unlink": {
     "message": "Unlink Sheet"
   },
+
+
   "name" : {
     "message": "Name"
   },
@@ -405,5 +407,20 @@
   },
   "placeholder":{
     "message": "Type a message or type \"/\" to select a prompt..."
+  },
+  "untitled": {
+    "message": "Untitled Prompt"
+  },
+  "prompt_name": {
+    "message": "A name for your prompt."
+  },
+  "prompt_body": {
+    "message": "Prompt content."
+  },
+  "prompt_tags": {
+    "message": "Tags for your prompt. Separate with a comma & no space."
+  },
+  "save": {
+    "message": "Save"
   }
 }
