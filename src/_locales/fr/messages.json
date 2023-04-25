@@ -420,5 +420,11 @@
   },
   "save": {
     "message": "Enregistrer"
+  },
+  "enter_val": {
+    "message": "Entrez une valeur pour"
+  },
+  "submit": {
+    "message": "Soumettre"
   }
 }

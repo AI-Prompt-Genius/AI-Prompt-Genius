@@ -400,5 +400,11 @@
   "prompt_name": {"message": "提示名称"},
   "prompt_body": {"message": "提示内容"},
   "prompt_tags": {"message": "提示标签。用逗号分隔且不加空格。"},
-  "save": {"message": "保存"}
+  "save": {"message": "保存"},
+  "enter_val": {
+    "message": "输入一个值"
+  },
+  "submit": {
+    "message": "提交"
+  }
 }

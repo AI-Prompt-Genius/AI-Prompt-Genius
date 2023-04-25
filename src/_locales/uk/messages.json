@@ -400,5 +400,11 @@
   "prompt_name": {"message":"Назва вашого запитання."},
   "prompt_body": {"message":"Вміст запитання."},
   "prompt_tags": {"message":"Теги для вашого запитання. Розділіть комою і без пробілу."},
-  "save": {"message":"Зберегти"}
+  "save": {"message":"Зберегти"},
+  "enter_val": {
+    "message": "Введіть значення для"
+  },
+  "submit": {
+    "message": "Надіслати"
+  }
 }
