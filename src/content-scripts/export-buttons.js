@@ -4,7 +4,7 @@ const ExportButtons = (function()
 {
 	const ADD_BUTTONS_DELAY = 500;
 	
-	console.log(`Loading export buttons...`);
+	//console.log(`Loading export buttons...`);
 	
 	let markdown_box = document.createElement("div");
 	markdown_box.setAttribute("id", "markdown_box");
@@ -151,7 +151,7 @@ const ExportButtons = (function()
 		/* When the user clicks on the button,
 		toggle between hiding and showing the dropdown content */
 		function showDropDown() {
-			console.log("showing dropdown")
+			//console.log("showing dropdown")
 			document.getElementById("myDropdown").classList.toggle("show");
 		}
 		document.querySelector('#shareExport').addEventListener('click', showDropDown)
@@ -364,9 +364,9 @@ const ExportButtons = (function()
 				};
 				let i = 0;
 				for (const node of threadContainer.children) {
-					console.log(i)
+					//console.log(i)
 					if (isPaidSubscriptionActive() && i === 0){
-						console.log("paid")
+						//console.log("paid")
 						i += 1
 						continue;
 					}
@@ -402,7 +402,7 @@ const ExportButtons = (function()
 				const canvas = document.createElement("canvas");
 
 				let image = document.querySelectorAll("img")[1];
-				console.log(image)
+				//console.log(image)
 
 				if (image === undefined) {
 					image = document.querySelector("img");
@@ -421,7 +421,7 @@ const ExportButtons = (function()
 				return base64;
 			}
 			let cd = conversationData();
-			console.log(conversationData())
+			//console.log(conversationData())
 			const res = await fetch("https://sharegpt.com/api/conversations", {
 				body: JSON.stringify(cd),
 				headers: {

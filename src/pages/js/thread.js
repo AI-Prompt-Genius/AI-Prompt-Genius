@@ -13,21 +13,21 @@ let convo; let thread;
 chrome.storage.local.get(['threads'], function (result) {
     let t = result.threads
 	thread = getObjectById(thread_id, t)
-	console.log(thread)
+	//console.log(thread)
 	convo = thread.convo;
 	// some of the older threads don't have a branch_state object. 
 	let b = thread.branch_state;
 	if(!b)
 	{
-		console.log(`Cannot find branch state, loading convo instead...`);
+		//console.log(`Cannot find branch state, loading convo instead...`);
 		load_thread(convo);
 	}
 	else 
 	{
-		console.log(`Loading branch state...`);
+		//console.log(`Loading branch state...`);
 		branch_state = new TreeNode();
 		branch_state.fromJSON(b);
-		console.log(branch_state);
+		//console.log(branch_state);
 		load_branched_thread();
 	}
 	hljs.highlightAll();
@@ -42,8 +42,8 @@ chrome.storage.local.get(['threads'], function (result) {
 		else {
 			copyBar = block.parentElement.querySelector(".copy")
 		}
-		console.log(block.parentElement)
-		console.log(copyBar)
+		//console.log(block.parentElement)
+		//console.log(copyBar)
 		if (copyBar) {
 			copyBar.insertAdjacentHTML("afterbegin", `<span style="float: left"> ${language}</span>`)
 		}
@@ -160,10 +160,10 @@ async function load_branched_thread()
 			main.appendChild(temp)
 		}
 		else {
-			console.log(thread.mkdwn)
+			//console.log(thread.mkdwn)
 			if (human) {
 				let text = fake_convo[i].replaceAll(`<`, `&lt;`).replaceAll(`>`, `&gt;`);
-				console.log(text)
+				//console.log(text)
 				temp.querySelector(".text").innerHTML = `<p>${text}</p>`
 				main.appendChild(temp)
 			}
@@ -203,8 +203,8 @@ async function load_branched_thread()
 					temp.querySelector(".text").innerHTML = html;
 
 					main.appendChild(temp)
-					console.log(fake_convo[i])
-					console.log(html)
+					//console.log(fake_convo[i])
+					//console.log(html)
 				}
 				else{ // already html
 					let clipboard = `<i class="fa-regular clipboard fa-clipboard"></i>`;
@@ -266,7 +266,7 @@ function alternateValues(array1, array2) {
 function continue_thread(){
 	let c = [];
 	if (thread.hasOwnProperty('unified_id') && thread.unified_id === true) {
-		console.log("unified")
+		//console.log("unified")
 		window.open(`https://chat.openai.com/chat/${thread_id}`, '_blank');
 	}
 	else {

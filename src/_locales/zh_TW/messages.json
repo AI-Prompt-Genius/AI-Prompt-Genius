@@ -390,5 +390,35 @@
   },
   "unlink": {
     "message": "取消鏈接表格"
+  },
+  "name": {
+    "message": "名稱"
+  },
+  "description": {
+    "message": "描述"
+  },
+  "prompt": {
+    "message": "提示"
+  },
+  "tags": {
+    "message": "標籤"
+  },
+  "placeholder": {
+    "message": "輸入訊息或輸入“/”選擇提示..."
+  },
+  "untitled": {
+    "message": "未命名的提示"
+  },
+  "prompt_name": {
+    "message": "為您的提示命名。"
+  },
+  "prompt_body": {
+    "message": "提示內容。"
+  },
+  "prompt_tags": {
+    "message": "提示標籤。使用逗號分隔，不要加空格。"
+  },
+  "save": {
+    "message": "保存"
   }
 }

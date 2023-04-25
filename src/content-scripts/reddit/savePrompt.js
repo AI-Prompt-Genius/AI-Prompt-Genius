@@ -26,7 +26,7 @@ function addButtons() {
     }, 300)
 
     function tryPrompt(text){
-        console.log(text)
+        //console.log(text)
         chrome.runtime.sendMessage({prompt: text, type: 'b_use_prompt'})
     }
 
@@ -94,7 +94,7 @@ function checkURL() {
             addFontAwesomeIcons()
             setTimeout(addButtons, 500)
         }
-        console.log("URL CHANGE")
+        //console.log("URL CHANGE")
     }
 }
 

@@ -55,8 +55,8 @@ main > div:last-child
 /* Style Input */
 main > div.absolute > form
 {
-	margin: 0;
-  max-width: 100%;
+    margin: 0 35px;
+    max-width: 100%;
 }
 
 main > div.absolute > div:last-child

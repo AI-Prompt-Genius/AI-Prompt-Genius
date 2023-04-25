@@ -19,9 +19,9 @@ function bigWrapper() {
     main()
 
     function bridge() { // this is to set up the functions when the page is ready
-        console.log("bridge")
+        //console.log("bridge")
         let isMainPage = window.location.href.split("/").length === 4
-        console.log("ISMAINPAGE!")
+        //console.log("ISMAINPAGE!")
         if (document.getElementById("compact")) {
             getAd()
             addUserPromptListener()
@@ -34,7 +34,7 @@ function bigWrapper() {
     }
 
     async function getAd() {
-        console.log("Sending message to background page");
+        //console.log("Sending message to background page");
         chrome.runtime.sendMessage({type: "ad"});
     }
 
@@ -43,13 +43,13 @@ function bigWrapper() {
     chrome.runtime.onMessage.addListener(
         function (request, sender, sendResponse) {
             if (request.type === "adresponse") {
-                console.log("AD RECEIVED")
+                //console.log("AD RECEIVED")
                 let adDiv = document.getElementById("cgpt-pg-ad")
-                console.log(adDiv)
+                //console.log(adDiv)
                 adcontent = request.ad
-                console.log(adcontent)
+                //console.log(adcontent)
                 if (adDiv) {
-                    console.log("TRUE")
+                    //console.log("TRUE")
                     adDiv.innerHTML = adcontent
                 }
                 else {
@@ -72,7 +72,7 @@ function bigWrapper() {
 
     function saveCompact() {
         let isCompact = document.getElementById("compact").checked
-        console.log(isCompact)
+        //console.log(isCompact)
         chrome.storage.local.set({isCompact: isCompact})
     }
 
@@ -88,6 +88,8 @@ function bigWrapper() {
         })
     }
 
+    
+
 // listen for page changes
     let promptURL = window.location.href;
 
@@ -95,7 +97,7 @@ function bigWrapper() {
         if (promptURL !== window.location.href) {
             promptURL = window.location.href;
             bridge()
-            console.log("URL CHANGE")
+            //console.log("URL CHANGE")
         }
     }
 
@@ -105,7 +107,7 @@ function bigWrapper() {
 chrome.storage.local.get({settings: {}}, function (result){
     let dontInject = result.settings?.dont_inject_prompts ?? false
     let isPlus = result.settings?.is_plus ?? false
-    console.log("DONT INJECT " + dontInject)
+    //console.log("DONT INJECT " + dontInject)
     if (!dontInject){
         bigWrapper()
     }

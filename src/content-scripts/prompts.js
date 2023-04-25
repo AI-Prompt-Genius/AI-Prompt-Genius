@@ -70,15 +70,15 @@ let firstTime = true;
         .then(templates => {
             // Save the array of prompt templates to a global variable
             window.prompttemplates = templates
-            console.log(templates)
+            //console.log(templates)
             // Insert the "Prompt Templates" section into the chat interfac
             insertPromptTemplatesSection()
         }) */
     function loadUserPrompts() {
 		let promptsRawString = document.querySelector('#prompts_storage').value;
         isCompact = (document.querySelector("#isCompact")?.value === "true") ?? false;
-        console.log(typeof isCompact)
-        console.log(isCompact)
+        //console.log(typeof isCompact)
+        //console.log(isCompact)
 		if(promptsRawString)
 		{
 			// if no prompts, do nothing
@@ -187,9 +187,12 @@ function getMatchingCategory(category, objects = window.prompttemplates) {
 }
 
 function highlightString(string, searchTerm) {
+    if (searchTerm === ""){
+        return string
+    }
     // use the original case of the search term when highlighting it
     const searchTermRegex = new RegExp(searchTerm, "gi");
-    return string.replace(searchTermRegex, `<span class="highlight">$&</span>`);
+    return string?.replace(searchTermRegex, `<span class="highlight">$&</span>`);
 }
 
 function searchPrompts(prompts, searchTerm) { // created by ChatGPT
@@ -277,12 +280,12 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
     const title = document.querySelector('h1.text-4xl')
 
     const isMainPage = window.location.href.split("/").length === 4
-    console.log("Is main" + isMainPage)
+    //console.log("Is main" + isMainPage)
     // If there is no title element, return
     if (!title){
         if(isMainPage) {
             await new Promise(r => setTimeout(r, 500));
-            console.log("NOT LOADED YET")
+            //console.log("NOT LOADED YET")
             insertPromptTemplatesSection(templates, category, searchTerm)
         }
         return;
@@ -341,7 +344,7 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
     <div class="${css`column`}">
     ${svg`ChatBubble`}
     <div>
-    <h2 class="${css`h2`}" style="margin-bottom: 5px" data-i18n="templates_title">ChatGPT Prompt Genius Templates</h2>
+    <h2 class="${css`h2`}" style="margin-bottom: 5px"><span data-i18n="templates_title">ChatGPT Prompt Genius Templates</span></h2> 
     <div class="${css`paginationText`}" id="cgpt-pg-ad"></div>
     <ul class="flex flex-col gap-3.5">
     
@@ -622,9 +625,78 @@ function addCopyButton (buttonGroup) {
     buttonGroup.prepend(button)
 }
 
+function findVariables(str) { // thanks chatgpt
+    const regex = /{{(.+?)}}/g;
+    const matches = new Set();
+    let match;
+    while ((match = regex.exec(str))) {
+        matches.add(match[1]);
+    }
+    return Array.from(matches);
+}
+
+function replaceVariables(str, values) { // thanks chatgpt
+    const variables = findVariables(str);
+    variables.forEach((variable, index) => {
+        const value = values[index % values.length];
+        const regex = new RegExp(`{{${variable}}}`, "g");
+        str = str.replace(regex, value);
+    });
+    return str;
+}
+
+async function getVarsFromModal(varArray, promptText){
+    const t = promptTranslations
+    const template =
+        `  
+        <div id="var-modal" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed inset-0 flex items-center justify-center bg-opacity-50 z-100">
+          <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+              <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
+              <div class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle" role="dialog">
+                ${varArray.map((variable) => `
+                <div class="text-sm font-bold text-black dark:text-gray-200">${variable}</div>
+                <input style="border-color: #8e8ea0" class="pg-variable my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr("enter_val", t)} ${variable}..." value="">
+                `).join("")}
+                <button id="save-vars" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">${tr("submit", t)} </button>   
+              </div>
+            </div>
+          </div>
+        </div>
+        `
+    document.body.insertAdjacentHTML("beforeend", template)
+    document.querySelector(".pg-variable").focus()
+    function handleKeyDown(event) {
+        if (event.key === "Enter" || event.keyCode === 13) {
+            event.preventDefault()
+            event.stopImmediatePropagation()
+            event.stopPropagation()
+            submitModal()
+            document.removeEventListener("keydown", handleKeyDown);
+        }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.getElementById("save-vars").addEventListener("click", submitModal)
+    function submitModal(){
+        const varInputs = document.querySelectorAll(".pg-variable")
+        let variables = []
+        for (const varIn of varInputs){
+            variables.push(varIn.value)
+        }
+        document.getElementById("var-modal").remove()
+        selectPromptTemplate(replaceVariables(promptText, variables), false)
+    }
+}
+
 let buildPrompts = true;
 // This function selects a prompt template
-function selectPromptTemplate (text) {
+function selectPromptTemplate (text, hasVars=true) {
+    const vars = hasVars ? findVariables(text) : [] // so if the chosen variable has a variable within {{}}
+    if (vars.length > 0){
+        getVarsFromModal(vars, text)
+        return "";
+    }
     const textarea = document.querySelector('textarea')
     /*const parent = textarea.parentElement
     let wrapper = document.createElement('div')
@@ -718,7 +790,7 @@ function check_url() {
         newChatButton.addEventListener('click', () => {
             setTimeout(insertPromptTemplatesSection, 300)
         })
-        console.log("URL CHANGE")
+        //console.log("URL CHANGE")
     }
 }
 

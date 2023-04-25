@@ -23,16 +23,16 @@ chrome.action.onClicked.addListener(function(tab) {
 
 chrome.runtime.onMessage.addListener(function (message){
     if (message.type === "resync"){
-        console.log("resyncing!")
+        //console.log("resyncing!")
         let mp = message.params
         syncPrompts(mp[0], mp[1], mp[2], mp[3], mp[4])
     }
     else if (message.type === "resyncNow"){
-        console.log("Resycning Now")
+        //console.log("Resycning Now")
         resyncStuff()
     }
     else if (message.type === 'b_continue_convo') {
-        console.log('background received')
+        //console.log('background received')
         chrome.tabs.create({url: 'https://chat.openai.com/chat', active: true}, function (my_tab){
             let sent = false;
             chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener(function (message){
         chrome.tabs.create({url: url})
     }
     else if(message.type ==='b_use_prompt') {
-        console.log('background received')
+        //console.log('background received')
         chrome.tabs.create({url: 'https://chat.openai.com/chat', active: true}, function (my_tab){
             let sent = false;
             chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
@@ -437,7 +437,7 @@ chrome.storage.local.get({autoDetectedLocale: false}, function (result){
     if (!result.autoDetectedLocale){
         let acceptedLanguages = ["en", "zh_CN", "fr, zh_TW", "uk"]
         chrome.i18n.getAcceptLanguages(function (languages){
-            console.log(languages)
+            //console.log(languages)
             for (let lang of languages){
                 lang = lang.replace("-", "_")
                 if (acceptedLanguages.includes(lang)){
