@@ -8,6 +8,12 @@
   "search_threads": {
     "message": "Знайти теми..."
   },
+  "no_theme": {
+    "message": "За замовчуванням"
+  },
+  "no_font": {
+    "message": "Стандартний"
+  },
   "light": {
     "message": "Світлий"
   },

@@ -331,6 +331,12 @@
   "theme_settings":{
     "message": "Theme Settings"
   },
+  "no_theme": {
+    "message": "Default"
+  },
+  "no_font": {
+    "message": "Default"
+  },
   "all_categories": {
     "message": "All Categories"
   },

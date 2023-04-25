@@ -184,9 +184,10 @@ function createThemeSelectButton()
 	});
 	
 	let noThemeOption = document.createElement("option");
+	let noTheme = tr("no_theme");
 	noThemeOption.value = "";
 	noThemeOption.style.color = "black";
-	noThemeOption.innerHTML = "No Theme";
+	noThemeOption.innerHTML = `${noTheme}`;
 	themeSelect.appendChild(noThemeOption);
 	
 	let themesList = THEMES_LIST;
@@ -254,9 +255,10 @@ function createFontSelectButton()
 	});
 	
 	let noFontOption = document.createElement("option");
+	let noFont = tr("no_font");
 	noFontOption.value = "";
 	noFontOption.style.color = "black";
-	noFontOption.innerHTML = "Default Font";
+	noFontOption.innerHTML = `${noFont}`;
 	fontSelect.appendChild(noFontOption);
 	
 	let fontsList = FONTS_LIST;
