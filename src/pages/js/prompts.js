@@ -4,7 +4,7 @@ const modal = new bootstrap.Modal(document.getElementById('exploreModal'))
 const default_prompts = [
 	{
 		"title": "My First Demo Prompt",
-		"text": `Write a set of clear and concise instructions for creating effective prompts using ChatGPT. Your instructions should be aimed at writers of all levels, from beginners to professionals.
+		"text": `Use {{curly braces}} to denote variables. Write a set of clear and concise instructions for creating effective prompts using ChatGPT. Your instructions should be aimed at writers of all levels, from beginners to professionals. 
 
 Consider the following questions as you write your instructions:
 

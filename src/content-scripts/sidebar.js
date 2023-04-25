@@ -656,6 +656,14 @@ async function main() {
     document.getElementById("closeNav").addEventListener("click", toggleNav)
     document.getElementById("closePrompt").addEventListener("click", togglePrompt)
     document.getElementById("newPromptPg").addEventListener("click", newBlank)
+
+    chrome.runtime.onMessage.addListener(
+        function(request, sender, sendResponse) {
+            if(request.type === "c_use_prompt") {
+                selectPrompt(request.prompt);
+            }
+        }
+    );
 }
 main()
 

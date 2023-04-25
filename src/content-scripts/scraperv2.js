@@ -80,9 +80,5 @@ chrome.runtime.onMessage.addListener(
             //console.log("message recieved!")
             continue_convo(JSON.stringify(request.convo))
         }
-        else if(request.type === "c_use_prompt") {
-            //console.log("message recieved!");
-            use_prompt(request.prompt);
-        }
     }
 );
