@@ -287,7 +287,7 @@ TreeNode.prototype.fromJSON = function(JSONObject)
 		else 
 		{
 			console.warn(`TreeNode.fromJSON: Empty object at index ${index}.`);
-			console.log(JSONObject);
+			//console.log(JSONObject);
 		}
 	}
 }

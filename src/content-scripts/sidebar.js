@@ -14,7 +14,7 @@ async function getPrompts() {
 async function getTranslations() {
     return new Promise(async (resolve) => {
         chrome.storage.local.get({ lang: "en" }, async function (result) {
-            console.log("inserting!");
+            //console.log("inserting!");
             const lang = result.lang ?? "en";
             const url = chrome.runtime.getURL(`_locales/${lang}/messages.json`);
             const response = await fetch(url);
@@ -26,7 +26,7 @@ async function getTranslations() {
 async function main() {
     let prompts = await getPrompts()
     const translations = await getTranslations()
-    console.log(await translations)
+    //console.log(await translations)
     const t = await translations
     const promptBar = // styles from chatbotui.com (MIT - Mckay Wrigley)
         `
@@ -65,12 +65,35 @@ async function main() {
 `
     let nav = document.querySelector("#__next").querySelectorAll("div")[1].firstChild
     const chatInput = document.querySelector("textarea")
-    const mainPar = document.querySelector("main").parentElement
+    let mainPar = document.querySelector("main").parentElement
     const closeNavButton = `<button id="closeNav" style="position: absolute; z-index: 1; bottom: 0; left: 259px; background-color: #202123; width: 28px; height: 28px; color: white; border-top-right-radius: 5px; border-bottom-right-radius: 3px;"><</button>`
     nav.insertAdjacentHTML("afterend", promptBar)
     nav.insertAdjacentHTML("afterend", closeNavButton)
     const closeNavBut = document.getElementById("closeNav")
-    mainPar.style.marginRight = "220px";
+    mainPar.style.marginRight = "260px";
+
+    // Create a new instance of MutationObserver
+    const observer = new MutationObserver(handleMutation);
+
+    let timeoutId;
+
+    function handleMutation() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(updateMargin, 100);
+    }
+    // Start observing the element for attribute changes
+    observer.observe(document.body,{ attributes: true, childList: true, subtree: true });
+
+    function updateMargin(){
+        const mainPar = document.querySelector("main").parentElement
+        const promptBar = document.getElementById("prompt-bar")
+        if (promptBar && promptBar.classList.contains("hidden")) {
+            mainPar.style.marginRight = "0"
+        }
+        else {
+            mainPar.style.marginRight = "260px"
+        }
+    }
 
     function addStyles(){
         const styles =
@@ -81,7 +104,7 @@ async function main() {
         transform: translateX(-100%);
         }
         </style>`;
-        console.log(styles);
+        //console.log(styles);
         document.head.insertAdjacentHTML("beforeend", styles);
     }
     addStyles();
@@ -185,10 +208,10 @@ async function main() {
     }
 
     async function editPrompt(id){
-        console.log(id)
+        //console.log(id)
         prompts = await getPrompts()
         let prompt = prompts[getObjectIndexByID(id, prompts)]
-        console.log(prompt)
+        //console.log(prompt)
         const tags = prompt.tags ? prompt.tags.join(",") : "";
         const html = getPromptModal(prompt.id, prompt?.title ?? "", prompt?.text ?? "", tags)
         document.body.insertAdjacentHTML("beforeend", html)
@@ -197,19 +220,19 @@ async function main() {
     }
 
     async function updatePrompt(id) {
-        console.log("updating prompt " + id)
+        //console.log("updating prompt " + id)
         prompts = await getPrompts();
         let promptIndex = getObjectIndexByID(id, prompts);
         let title;
         if (promptIndex !== -1) { // Ensure a valid index is returned by getObjectIndexByID function
             title = document.getElementById("prompt-name").value
             prompts[promptIndex].title = title;
-            console.log(document.getElementById("prompt-text").value)
+            //console.log(document.getElementById("prompt-text").value)
             prompts[promptIndex].text = document.getElementById("prompt-text").value;
             prompts[promptIndex].tags = document.getElementById("prompt-tags").value.split(",").filter(tag => tag !== "");
             prompts[promptIndex].category = document.getElementById("prompt-category").value;
             prompts[promptIndex].lastChanged = new Date().getTime()
-            console.log(prompts)
+            //console.log(prompts)
             chrome.storage.local.set({prompts: prompts.reverse()});
         }
         chrome.storage.local.get({"changedPrompts": []}, function (result){
@@ -225,7 +248,7 @@ async function main() {
     }
 
     function deletePrompt(id, el) {
-        console.log(id)
+        //console.log(id)
         chrome.storage.local.get({"deletedPrompts": []}, function (result){
             let dp = result.deletedPrompts;
             dp.push(id)
@@ -323,8 +346,61 @@ async function main() {
     let autocomplete = false;
     let focusedIdx = 0;
 
-    function selectPrompt(id){
-        const promptText = prompts.find(prompt => prompt.id === id)?.text;
+    function findVariables(str) {
+        const regex = /{{(\w+)}}/g;
+        const matches = [];
+        let match;
+        while ((match = regex.exec(str))) {
+            matches.push(match[1]);
+        }
+        return matches;
+    }
+
+    function replaceVariables(str, values) {
+        const regex = /{{(\w+)}}/g;
+        return str.replace(regex, (match, variable) => {
+            const index = values.indexOf(variable);
+            return index !== -1 ? values[index] : match;
+        });
+    }
+
+    async function getVarsFromModal(varArray, promptText){
+        const template =
+        `  
+        <div id="var-modal" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed inset-0 flex items-center justify-center bg-opacity-50 z-100">
+          <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+              <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
+              <div class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle" role="dialog">
+                ${varArray.map((variable) => `
+                <div class="text-sm font-bold text-black dark:text-gray-200">${variable}</div>
+                <input style="border-color: #8e8ea0" class="pg-variable my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr("enter_val", t)} ${variable}..." value="">
+                `).join("")}
+              </div>
+            </div>
+            <button id="save-vars" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">${tr("submit", t)} </button>
+          </div>
+        </div>
+        `
+        document.body.insertAdjacentHTML("beforeend", template)
+        document.getElementById("save-vars").addEventListener("click", submitModal)
+        function submitModal(){
+            const varInputs = document.querySelectorAll(".pg-variable")
+            let variables = []
+            for (const varIn of varInputs){
+                variables.push(varIn.value)
+            }
+            document.getElementById("var-modal").remove()
+            selectPrompt(replaceVariables(promptText, variables), false)
+        }
+    }
+
+    async function selectPrompt(promptText, hasVars=true){
+        const vars = hasVars ? findVariables(promptText) : [] // so if the chosen variable has a variable within {{}}
+        if (vars.length > 0){
+            getVarsFromModal(vars, promptText)
+            return "";
+        }
         const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
         const lastSlashIndex = chatInput.value.lastIndexOf('/');
         const lastSearchTermIndex = lastSlashIndex + searchTerm.length + 1;
@@ -387,7 +463,7 @@ async function main() {
         else if (autocomplete && event.key !== ' ') {
             const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
             textDiv.querySelector("button").disabled = true // weird jerry rig to stop form from submitting
-            console.log(searchTerm)
+            //console.log(searchTerm)
             removeSuggestion()
             getSuggestedPrompts(searchTerm)
             focusedIdx = 0
@@ -404,18 +480,21 @@ async function main() {
         const focused = document.querySelector(".autocomplete-active")
         if (focused){
             const promptId = focused.getAttribute("data-prompt-id4")
-            selectPrompt(promptId)
+            selectPrompt(prompts.find(prompt => prompt.id === promptId)?.text)
         }
         removeSuggestion();
     }
 
     function preventEnter(event){
         if (event.key === "Enter" && autocomplete && document.querySelector(".autocomplete-active")){
-            console.warn("PREVENING!")
             textDiv.querySelector("button").disabled = true // weird jerry rig to stop form from submitting
             event.preventDefault()
             event.stopPropagation()
             return false;
+        }
+        else if ((event.key === "ArrowUp" || event.key === "ArrowDown") && autocomplete){
+            event.preventDefault()
+            event.stopPropagation()
         }
     }
 
@@ -462,11 +541,11 @@ async function main() {
 
 
     function getSuggestedPrompts(searchTerm) {
-        let filtered = prompts.filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
+        let filtered = prompts.reverse().filter(prompt => prompt.title.toLowerCase().includes(searchTerm.toLowerCase()));
         const html =
             `
         <div id="suggestions" class="w-full suggestions" style="position: relative">
-            <ul id="scrollSuggest" class="dark:border-white/2 rounded border-black/10 bg-white dark:bg-gray-700" style="font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 10; max-height: 13rem; width: 100%; overflow: auto; ">
+            <ul id="scrollSuggest" class="rounded bg-white dark:bg-gray-700" style="border-color: rgba(0,0,0,.1); border-width: 1px; font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 1; max-height: 13rem; width: 100%; overflow: auto; ">
                 ${filtered.map((prompt, idx) => `
                 <li data-idx="${idx}" data-prompt-id4="${prompt.id}" class="cursor-pointer dark:bg-gray-700 pg-suggestion px-3 py-2 text-sm text-black dark:text-white">${prompt.title}</li>
                 `).join("")}
@@ -476,12 +555,13 @@ async function main() {
         textDiv.insertAdjacentHTML("beforebegin", html)
         const suggestions = document.querySelectorAll(".pg-suggestion")
         suggestions.forEach(s => s.addEventListener("mouseenter", () => focusEl(s.getAttribute("data-idx"))));
-        suggestions.forEach(s => s.addEventListener("mouseup", () => selectPrompt(s.getAttribute("data-prompt-id4"))));
+        suggestions.forEach(s => s.addEventListener("mouseup", () => selectPrompt(prompts.find(prompt => prompt.id === s.getAttribute("data-prompt-id4"))?.text)));
     }
 
 
 
     function togglePrompt() {
+        let mainP = document.querySelector("main").parentElement
         const myNav = document.getElementById("prompt-bar");
         const hidden = myNav.classList.contains("hidden");
         const closePrompt = document.getElementById("closePrompt");
@@ -489,12 +569,12 @@ async function main() {
             myNav.classList.remove("hidden");
             closePrompt.style.right = "259px";
             closePrompt.innerHTML = ">";
-            mainPar.style.marginRight = "259px";
+            mainP.style.marginRight = "260px";
         } else {
             myNav.classList.add("hidden");
             closePrompt.style.right = "0";
             closePrompt.innerHTML = "<";
-            mainPar.style.marginRight = "0";
+            mainP.style.marginRight = "0";
         }
     }
 
@@ -518,9 +598,18 @@ let sidebarURL = window.location.href;
 
 function check_url() {
     if (sidebarURL !== window.location.href) {
-        console.log("sidebar URL")
+        //console.log("sidebar URL")
         sidebarURL = window.location.href;
-        setTimeout(main, 300)
+        let sidebar = document.getElementById("prompt-bar")
+        let closeNav = document.getElementById("closeNav")
+        let closePrompt = document.getElementById("closePrompt")
+        function remove(){
+            if (closePrompt) closePrompt.remove()
+            if (closeNav) closeNav.remove()
+            if (sidebar) sidebar.remove()
+        }
+        setTimeout(remove, 300)
+        main()
     }
 }
 

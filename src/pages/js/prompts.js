@@ -50,7 +50,7 @@ function load_prompts(prompts, search=false, search_term="", tagList=[])
 {
 	main.innerHTML = "";
 	let theme =	main.classList[1];
-	console.log(tagList)
+	//console.log(tagList)
 	for (let n = prompts.length - 1; n > -1; n--) { // load in reverse order
 		let template = document.querySelector('#prompt_template').content.cloneNode(true);
 		let even = n % 2 === 0;
@@ -403,7 +403,7 @@ function addTag(id, row){
 			chrome.storage.local.set({prompts: prompts})
 			user_prompts = prompts
 			let clist = Array.from(row.querySelector('.tags').classList)
-			console.log(clist.includes('editable'))
+			//console.log(clist.includes('editable'))
 			if (clist.includes('editable')){
 				toggleTagsEditable(id, row)
 				toggleTagsEditable(id, row)
@@ -418,7 +418,7 @@ function addTag(id, row){
 }
 
 function delete_prompt(id) {
-	console.log(id)
+	//console.log(id)
 	chrome.storage.local.get({"deletedPrompts": []}, function (result){
 		let dp = result.deletedPrompts;
 		dp.push(id)
@@ -523,7 +523,7 @@ function toggle_prompt_editable(id, element, just_title=false) {
 		textarea.oninput = autoExpandTextArea;
 	}
 	else {
-		console.log('saving')
+		//console.log('saving')
 		let textarea = prompt_text.querySelector("textarea");
 		let text = textarea.value;
 		chrome.storage.local.get({prompts: default_prompts}, function (result) {
@@ -677,7 +677,7 @@ function fetch_templates(){
 		.then(templates => {
 			// Save the array of prompt templates to a global variable
 			publicTemps = templates;
-			console.log(publicTemps)
+			//console.log(publicTemps)
 		})
 }
 fetch_templates()
@@ -693,7 +693,7 @@ backwardButton.addEventListener('click', () => {
 })
 
 function loadCuratedPrompts(prompts, search=false, search_term=""){
-	console.log("CALLED!")
+	//console.log("CALLED!")
 	document.querySelector('.modal-main').innerHTML = '';
 	backwardButton.disabled = true;
 	forwardButton.enabled = true;
@@ -708,21 +708,21 @@ function loadCuratedPrompts(prompts, search=false, search_term=""){
 
 		// Loop through the next three elements and fill the template
 		for (let i = currentIndex; i < currentIndex + 3; i++) {
-			//console.log(temps[i])
-			//console.log(i)
+			////console.log(temps[i])
+			////console.log(i)
 			if (temps[i]) {
 				let title = temps[i].title;
 				let text = temps[i].prompt
 				var tags = ""
 				if (temps[i].tags) {
 					tags = temps[i].tags
-					console.log("TRUE")
+					//console.log("TRUE")
 				}
 				var category = ""
 				if (temps[i].category){
 					category = temps[i].category
 				}
-				console.log(tags)
+				//console.log(tags)
 				if (search) {
 					title = searchString(title, search_term);
 					text = searchString(text, search_term);
@@ -749,7 +749,7 @@ chrome.storage.local.get({imported_prompts: []}, function (result) {
 
 function searchUserPrompts() {
 	let search_term = document.querySelector('.search-bar').value
-	console.log(search_term)
+	//console.log(search_term)
 	let ts = searchPrompts(user_prompts, search_term)
 	main.innerHTML = ""
 	if (search_term === ""){
@@ -763,7 +763,7 @@ function searchUserPrompts() {
 function searchCuratedPrompts() {
 	let search_term = document.querySelector('#modal-search-bar').value
 	let results = searchPrompts(publicTemps, search_term)
-	console.log(results)
+	//console.log(results)
 	document.querySelector('.modal-main').innerHTML = ''
 	if (search_term === ""){
 		currentIndex = 0;
@@ -775,7 +775,7 @@ function searchCuratedPrompts() {
 }
 
 function searchPrompts(prompts, searchTerm) { // created by ChatGPT
-	console.log(prompts)
+	//console.log(prompts)
 	searchTerm = searchTerm.toLowerCase();
 	return prompts.filter(prompt => {
 		return (

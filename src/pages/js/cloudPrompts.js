@@ -28,7 +28,7 @@ async function alreadyLinked() {
     document.getElementById("linkedDiv").classList.remove("d-none")
     document.getElementById("manual-resync").addEventListener("click", resyncNow)
     document.getElementById("unlink").addEventListener("click", unlink)
-    console.log("sending message")
+    //console.log("sending message")
     chrome.runtime.sendMessage({type: "resyncNow"})
 }
 
@@ -50,7 +50,7 @@ async function unlink() {
 }
 
 async function getAuthToken() {
-    console.log("gettingToken")
+    //console.log("gettingToken")
     return new Promise((resolve, reject) => {
         chrome.identity.getAuthToken({ 'interactive': true }, function (token) {
             if (chrome.runtime.lastError) {
@@ -196,7 +196,7 @@ async function newSheet(token) {
         if (!response.ok) {
             throw new Error('Failed to populate spreadsheet');
         }
-        console.log("Successfully populated the spreadsheet with the prompts list!");
+        //console.log("Successfully populated the spreadsheet with the prompts list!");
         chrome.storage.sync.set({ "cloudSyncing": true })
         chrome.storage.sync.set({ "sheetID": spreadsheetId })
         chrome.runtime.sendMessage({params: [[],[], prompts, prompts, spreadsheetId], type:"resync"})

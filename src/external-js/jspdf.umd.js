@@ -75,8 +75,8 @@
     }();
 
     function consoleLog() {
-        if (globalObject.console && typeof globalObject.console.log === "function") {
-            globalObject.console.log.apply(globalObject.console, arguments);
+        if (globalObject.console && typeof globalObject.//console.log === "function") {
+            globalObject.//console.log.apply(globalObject.console, arguments);
         }
     }
 
@@ -18215,7 +18215,7 @@
 
                                 if (!(block_size >= 0)) throw Error("Invalid block size");
                                 if (block_size === 0) break; // 0 size is terminator
-                                // console.log(buf.slice(p, p+block_size).toString('ascii'));
+                                // //console.log(buf.slice(p, p+block_size).toString('ascii'));
 
                                 p += block_size;
                             }
@@ -18528,7 +18528,7 @@
             var op_end = op + chase_length + (chase_code !== code ? 1 : 0);
 
             if (op_end > output_length) {
-                console.log("Warning, gif stream longer than expected.");
+                //console.log("Warning, gif stream longer than expected.");
                 return;
             } // Already have the first byte from the chase, might as well write it fast.
 
@@ -18565,7 +18565,7 @@
         }
 
         if (op !== output_length) {
-            console.log("Warning, gif stream shorter than expected.");
+            //console.log("Warning, gif stream shorter than expected.");
         }
 
         return output;
@@ -19273,7 +19273,7 @@
 
             var sf = quality < 50 ? Math.floor(5000 / quality) : Math.floor(200 - quality * 2);
             initQuantTables(sf);
-            currentQuality = quality; //console.log('Quality set to: '+quality +'%');
+            currentQuality = quality; ////console.log('Quality set to: '+quality +'%');
         }
 
         function init() {
@@ -19412,7 +19412,7 @@
             this.data = new Uint8Array(len);
             this[bitn]();
         } catch (e) {
-            console.log("bit decode error:" + e);
+            //console.log("bit decode error:" + e);
         }
     };
 

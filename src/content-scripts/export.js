@@ -9,7 +9,7 @@ function check_url() {
 				type: "urlChange"
 			}, "*");
 		setTimeout(readdThemeSelect, 500);
-        console.log("URL CHANGE");
+        //console.log("URL CHANGE");
     }
 	
 	// throw in other checks for convenience's sake. I know it's probably bad practice 

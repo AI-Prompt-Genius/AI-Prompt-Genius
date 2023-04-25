@@ -227,7 +227,7 @@ const MAX_TITLE_DISPLAY_LENGTH = 55;
 
 function load_threads(threads, search=false, search_term="", bookmarks=false) {
     const theme =	document.body.classList[0];
-    console.log(theme)
+    //console.log(theme)
     let threadsLoaded = [];
     threads = threads.sort((a, b) => { // load threads newest to oldest
         if (a.create_time && b.create_time) {
@@ -306,7 +306,7 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
                     let thread = updatedThreads[idx]
                     thread.favorite = !thread.favorite
                     updatedThreads[idx] = thread
-                    console.log(updatedThreads[idx])
+                    //console.log(updatedThreads[idx])
                     chrome.storage.local.set({threads: updatedThreads})
                     let saved = thread.favorite
                     update_bookmark(btn, saved)
@@ -317,10 +317,10 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
             }
             else if(target.classList.contains('continue')) {
                 let c = [];
-                console.log(threads[i])
-                console.log(threads[i].hasOwnProperty('unified_id'))
+                //console.log(threads[i])
+                //console.log(threads[i].hasOwnProperty('unified_id'))
                 if (threads[i].hasOwnProperty('unified_id') && threads[i].unified_id === true) {
-                    console.log("unified")
+                    //console.log("unified")
                     window.open(`https://chat.openai.com/chat/${threads[i].id}`, '_blank');
                 }
                 else {

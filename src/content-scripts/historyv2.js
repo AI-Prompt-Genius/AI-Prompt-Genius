@@ -25,14 +25,14 @@ async function auth(openLogin = false) {
             if (response.ok) {
                 return response.json();
             } else {
-                console.log("Not OK!");
+                //console.log("Not OK!");
                 if (openLogin === true){
                     window.open("https://chat.openai.com/auth/login", "_blank");
                 }
                 return Promise.reject(response);
             }
         } catch (error) {
-            console.log(error);
+            //console.log(error);
             if (openLogin === true){
                 window.open("https://chat.openai.com/auth/login", "_blank");
             }
@@ -40,7 +40,7 @@ async function auth(openLogin = false) {
         }
     }
     getAuth().then(result => {
-        console.log(result)
+        //console.log(result)
         myAuth = result?.accessToken
         if (myAuth) {
             chrome.storage.local.set({auth: myAuth})
@@ -91,9 +91,9 @@ async function getAccountStatus(){
         })
     }
     let data = await fetchy()
-    console.log(data)
+    //console.log(data)
     let isPlus = data?.account_plan?.is_paid_subscription_active
-    console.log("Plus USER: "+ isPlus)
+    //console.log("Plus USER: "+ isPlus)
     let plusVal = JSON.stringify(isPlus)
     const input = `<input id="plusNetwork" value="${plusVal}" type="hidden" style="width: 0; height: 0; display: none">`
     document.body.insertAdjacentHTML("beforeend", input)
@@ -178,7 +178,7 @@ async function resyncArray(convoIds, existingIds, threads, delayMs=1000, authTok
         }
         if (offset !== null){
             offset += 1
-            console.log("Offset" +offset)
+            //console.log("Offset" +offset)
             chrome.storage.local.set({offset: offset})
         }
         chrome.storage.local.set({threads: threads.reverse()})
@@ -188,7 +188,7 @@ async function resyncArray(convoIds, existingIds, threads, delayMs=1000, authTok
 let max = null;
 async function resyncAll(){
     chrome.storage.local.set({alreadyResyncing: true})
-    console.log("resyncing all")
+    //console.log("resyncing all")
     chrome.storage.local.get({threads: []}, async function (result){
         threads = result.threads
         let ids = [];
@@ -212,7 +212,7 @@ async function resyncAll(){
                     await new Promise(r => setTimeout(r, 30000)); // 30s cooldown
                 })
             }
-            console.log("FINISHED TOTAL RESYNC")
+            //console.log("FINISHED TOTAL RESYNC")
             chrome.storage.local.set({offset: 0})
             chrome.storage.local.set({v2_history: true})
             chrome.storage.local.set({alreadyResyncing: false})

@@ -41,9 +41,9 @@ chrome.storage.local.get({settings: defaults}, function(result) {
     auto_send = settings.auto_send ?? false
     if (settings.hasOwnProperty('disable_history') && settings.disable_history === true){
         disable = true;
-        console.log("SCRAPER DISABLED!")
+        //console.log("SCRAPER DISABLED!")
     }
-    console.log(disable)
+    //console.log(disable)
     start()
 })
 
@@ -77,11 +77,11 @@ function use_prompt(prompt){
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.type === "c_continue_convo") {
-            console.log("message recieved!")
+            //console.log("message recieved!")
             continue_convo(JSON.stringify(request.convo))
         }
         else if(request.type === "c_use_prompt") {
-            console.log("message recieved!");
+            //console.log("message recieved!");
             use_prompt(request.prompt);
         }
     }

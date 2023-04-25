@@ -165,7 +165,7 @@ function createThemeSelectButton()
 	themeSelect.addEventListener("change", (event)=>
 	{
 		let themeFile = themeSelect.value;
-		console.log(`${themeFile} selected!`);
+		//console.log(`${themeFile} selected!`);
 		
 		if(themeFile === "")
 		{
@@ -393,7 +393,7 @@ function createMenuThemeEditorButton()
 	button.style.width = "100%";
 	button.style.height = "100%";
 	let translated = tr("theme_settings")
-	console.log(typeof translated)
+	//console.log(typeof translated)
 	button.innerHTML = `${icon} ${translated}`;
 	wrapper.appendChild(button);
 	menuThemeEditorButton = wrapper;
@@ -404,7 +404,7 @@ function createMenuThemeEditorButton()
 var menuThemeEditorElement;
 function createMenuThemeEditor()
 {
-	console.log("Creating menu theme editor")
+	//console.log("Creating menu theme editor")
 	let wrapper = document.createElement("div");
 	wrapper.setAttribute("class", 'flex flex-col items-center bg-gray-900 text-white space-y-1 p-2');
 	wrapper.style.width = "260px"; // same width as the left menu bar
@@ -451,7 +451,7 @@ function closeMenuThemeEditor()
 function toggleMenuThemeEditor()
 {
 	console.warn("toggling")
-	console.log(menuThemeEditorElement)
+	//console.log(menuThemeEditorElement)
 	if(menuThemeEditorElement.style.visibility === "visible")
 	{
 		closeMenuThemeEditor();
@@ -492,7 +492,7 @@ readdThemeSelect()
 
 // always place at the end because "let" statements can't be used before they're declared.
 function initializeThemes() {
-	console.log(`Loading themes...`);
+	//console.log(`Loading themes...`);
 	themeStylesheet = injectStylesheet(chrome.runtime.getURL('themes/none.css'));
 	fontStyle = injectStyle();
 	themeStyle = injectStyle();
@@ -510,7 +510,7 @@ function initializeThemes() {
 
 	chrome.storage.local.get({"theme":{}}, function(result)  {
 		let themeSettings = result.theme;
-		console.log(themeSettings);
+		//console.log(themeSettings);
 		if(typeof themeSettings === "string") themeSettings = {"theme": themeSettings};
 
 		currentTheme = themeSettings?.theme;
@@ -529,7 +529,7 @@ function initializeThemes() {
 		}
 
 		currentFont = themeSettings?.font;
-		console.log(currentFont);
+		//console.log(currentFont);
 		if (!validFont(currentFont)) {
 			currentFont = null;
 		}

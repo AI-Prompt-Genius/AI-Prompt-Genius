@@ -5,7 +5,7 @@ function addExportButtons()
 	let buttonsFlag;
 	chrome.storage.local.get({settings: {}}, function (set) {
 		chrome.storage.local.get({lang: "en"}, function (result){
-			console.log("inserting!")
+			//console.log("inserting!")
 			lang = result.lang ?? "en"
 			let url = chrome.runtime.getURL(`_locales/${lang}/messages.json`)
 			fetch(url)

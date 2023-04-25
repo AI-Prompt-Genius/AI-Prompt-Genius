@@ -70,15 +70,15 @@ let firstTime = true;
         .then(templates => {
             // Save the array of prompt templates to a global variable
             window.prompttemplates = templates
-            console.log(templates)
+            //console.log(templates)
             // Insert the "Prompt Templates" section into the chat interfac
             insertPromptTemplatesSection()
         }) */
     function loadUserPrompts() {
 		let promptsRawString = document.querySelector('#prompts_storage').value;
         isCompact = (document.querySelector("#isCompact")?.value === "true") ?? false;
-        console.log(typeof isCompact)
-        console.log(isCompact)
+        //console.log(typeof isCompact)
+        //console.log(isCompact)
 		if(promptsRawString)
 		{
 			// if no prompts, do nothing
@@ -280,12 +280,12 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
     const title = document.querySelector('h1.text-4xl')
 
     const isMainPage = window.location.href.split("/").length === 4
-    console.log("Is main" + isMainPage)
+    //console.log("Is main" + isMainPage)
     // If there is no title element, return
     if (!title){
         if(isMainPage) {
             await new Promise(r => setTimeout(r, 500));
-            console.log("NOT LOADED YET")
+            //console.log("NOT LOADED YET")
             insertPromptTemplatesSection(templates, category, searchTerm)
         }
         return;
@@ -721,7 +721,7 @@ function check_url() {
         newChatButton.addEventListener('click', () => {
             setTimeout(insertPromptTemplatesSection, 300)
         })
-        console.log("URL CHANGE")
+        //console.log("URL CHANGE")
     }
 }
 

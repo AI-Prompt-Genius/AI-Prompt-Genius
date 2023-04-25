@@ -84,8 +84,8 @@ function importAny()
     }
     reader.onerror = function(event)
     {
-        console.log(`Error occured in file reader: `);
-        console.log(event);
+        //console.log(`Error occured in file reader: `);
+        //console.log(event);
     }
     reader.readAsText(file);
     animate(id("import-label"))
@@ -94,7 +94,7 @@ function importAny()
 // takes an object that looks like {threads:data[]}
 function importThreads(data) {
     chrome.storage.local.get({threads: []}, function (result) {
-        console.log(`Importing threads...`);
+        //console.log(`Importing threads...`);
         let t = result.threads;
 
         // validate each thread before adding
@@ -135,7 +135,7 @@ function importSettings(data) {
 
 function importPrompts(data) {
     chrome.storage.local.get({prompts: []}, function (result) {
-        console.log(`Importing prompts...`);
+        //console.log(`Importing prompts...`);
 
         let prompts = result.prompts;
         let new_prompts = data.prompts ?? [];
@@ -157,7 +157,7 @@ function importPrompts(data) {
         chrome.storage.local.get({"newPrompts": []}, function (result){
             let newP = result.newPrompts
             let newList = newP.concat(newSync)
-            console.log(newList)
+            //console.log(newList)
             chrome.storage.local.set({"newPrompts": newList})
         })
 
