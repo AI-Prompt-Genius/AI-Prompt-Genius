@@ -256,9 +256,11 @@ function createFontSelectButton()
 	});
 	
 	let noFontOption = document.createElement("option");
+	let noFont = tr("no_font");
+
 	noFontOption.value = "";
 	noFontOption.style.color = "black";
-	noFontOption.innerHTML = "Default Font";
+	noFontOption.innerHTML = noFont;
 	fontSelect.appendChild(noFontOption);
 	
 	let fontsList = FONTS_LIST;
