@@ -435,7 +435,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 
 chrome.storage.local.get({autoDetectedLocale: false}, function (result){
     if (!result.autoDetectedLocale){
-        let acceptedLanguages = ["en", "zh_CN", "fr, zh_TW", "uk", "hu", "ru"]
+        let acceptedLanguages = ["en", "zh_CN", "fr, zh_TW", "uk", "hu", "ru", "pt_PT", "pt_BR", "es"]
         chrome.i18n.getAcceptLanguages(function (languages){
             //console.log(languages)
             for (let lang of languages){
