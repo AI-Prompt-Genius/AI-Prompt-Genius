@@ -1,6 +1,6 @@
 // the way that themes work is to inject it after everything else.
 // inject theme
-const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css","rain.css"];
+const THEMES_LIST = ["paper.css", "sms.css", "cozy-fireplace.css","landscape-cycles.css", "hacker.css","terminal.css","rain.css", "JustBigger.css"];
 // use the same names as you would in css, because that's where it's going 
 const FONTS_LIST = ["Arial","Courier","Georgia","Times New Roman","Verdana"];
 const SVG_ICONS = {
