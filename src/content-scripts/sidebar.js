@@ -74,6 +74,17 @@ async function main() {
     const closeNavBut = document.getElementById("closeNav")
     mainPar.style.marginRight = "260px";
 
+    chrome.storage.local.get({"hidePromptBar": false}, function (result){
+        if (result.hidePromptBar === true){
+            togglePrompt()
+        }
+    })
+    chrome.storage.local.get({"hideNavBar": false}, function (result){
+        if (result.hideNavBar === true){
+            toggleNav()
+        }
+    })
+
     // Create a new instance of MutationObserver
     const observer = new MutationObserver(handleMutation);
 
@@ -220,10 +231,12 @@ async function main() {
     function toggleNav() {
         const hidden = nav.style.display === "none"
         if (hidden) {
+            chrome.storage.local.set({"hideNavBar": false})
             nav.style.display = ""
             closeNavBut.style.left = "259px"
             closeNavBut.innerHTML = "<"
         } else {
+            chrome.storage.local.set({"hideNavBar": true})
             nav.style.display = "none"
             closeNavBut.style.left = "0"
             closeNavBut.innerHTML = ">"
@@ -619,11 +632,13 @@ async function main() {
         const hidden = myNav.classList.contains("hidden");
         const closePrompt = document.getElementById("closePrompt");
         if (hidden) {
+            chrome.storage.local.set({"hidePromptBar": false})
             myNav.classList.remove("hidden");
             closePrompt.style.right = "259px";
             closePrompt.innerHTML = ">";
             mainP.style.marginRight = "260px";
         } else {
+            chrome.storage.local.set({"hidePromptBar": true})
             myNav.classList.add("hidden");
             closePrompt.style.right = "0";
             closePrompt.innerHTML = "<";
