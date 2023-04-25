@@ -413,7 +413,7 @@
     "message": "A name for your prompt."
   },
   "prompt_body": {
-    "message": "Prompt content."
+    "message": "Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}"
   },
   "prompt_tags": {
     "message": "Tags for your prompt. Separate with a comma & no space."

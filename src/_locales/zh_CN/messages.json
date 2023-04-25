@@ -398,7 +398,9 @@
   "placeholder": {"message": "输入消息或输入“/”选择提示..."},
   "untitled": {"message": "未命名的提示"},
   "prompt_name": {"message": "提示名称"},
-  "prompt_body": {"message": "提示内容"},
+  "prompt_body": {
+    "message": "提示内容。使用{{}}表示变量。例如：{{name}}是一个{{adjective}} {{noun}}"
+  },
   "prompt_tags": {"message": "提示标签。用逗号分隔且不加空格。"},
   "save": {"message": "保存"},
   "enter_val": {

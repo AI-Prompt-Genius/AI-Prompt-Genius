@@ -413,7 +413,7 @@
     "message": "為您的提示命名。"
   },
   "prompt_body": {
-    "message": "提示內容。"
+    "message": "提示內容。使用{{}}表示變量。例如：{{name}}是一個{{adjective}} {{noun}}"
   },
   "prompt_tags": {
     "message": "提示標籤。使用逗號分隔，不要加空格。"

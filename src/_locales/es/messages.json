@@ -413,7 +413,7 @@
     "message": "Un nombre para tu sugerencia."
   },
   "prompt_body": {
-    "message": "Contenido de la sugerencia."
+    "message": "Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}"
   },
   "prompt_tags": {
     "message": "Etiquetas para tu sugerencia. Separa con coma y sin espacio."

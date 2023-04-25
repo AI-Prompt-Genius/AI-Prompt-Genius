@@ -413,7 +413,7 @@
     "message": "Prompt elnevezése"
   },
   "prompt_body": {
-    "message": "A Prompt tartalma"
+    "message": "A felkérés tartalma. A változók jelöléséhez használja a {{}} jelet. Példa: {{name}} egy {{adjective}} {{noun}}"
   },
   "prompt_tags": {
     "message": "Címkék a Prompthoz. Vesszővel válaszdd el őket, de ne tegyél szóközt közéjük!"

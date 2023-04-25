@@ -413,7 +413,7 @@
     "message": "Un nom pour votre incitation."
   },
   "prompt_body": {
-    "message": "Contenu de l'incitation."
+    "message": "Contenu de la demande. Utilisez {{}} pour indiquer une variable. Ex: {{name}} est un {{noun}} {{adjectif}}"
   },
   "prompt_tags": {
     "message": "Étiquettes pour votre incitation. Séparez-les par une virgule sans espace."
