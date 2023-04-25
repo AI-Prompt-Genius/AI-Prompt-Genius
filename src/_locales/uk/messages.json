@@ -11,6 +11,9 @@
   "no_theme": {
     "message": "За замовчуванням"
   },
+  "no_font": {
+    "message": "Стандартний"
+  },
   "light": {
     "message": "Світлий"
   },
