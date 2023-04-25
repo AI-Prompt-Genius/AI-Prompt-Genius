@@ -76,7 +76,6 @@ async function translate(key, lang=language) {
                 // Return the translation
                 return json[key].message;
             }
-            return key + "- empty translation!";
         })
         .catch((error) => console.error(error));
 }
