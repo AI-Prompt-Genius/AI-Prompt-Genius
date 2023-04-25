@@ -420,5 +420,11 @@
   },
   "save": {
     "message": "保存"
+  },
+  "enter_val": {
+    "message": "輸入一個值"
+  },
+  "submit": {
+    "message": "提交"
   }
 }
