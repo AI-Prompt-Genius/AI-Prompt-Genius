@@ -406,5 +406,11 @@
   },
   "submit": {
     "message": "提交"
+  },
+  "no_theme": {
+    "message": "没有主题"
+  },
+  "no_font": {
+    "message": "没有字体"
   }
 }

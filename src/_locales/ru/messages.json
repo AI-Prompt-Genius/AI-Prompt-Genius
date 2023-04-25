@@ -406,5 +406,11 @@
   },
   "submit": {
     "message": "Отправить"
+  },
+  "no_theme": {
+    "message": "Нет темы"
+  },
+  "no_font": {
+    "message": "Нет шрифта"
   }
 }

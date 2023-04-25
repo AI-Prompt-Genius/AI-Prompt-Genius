@@ -331,12 +331,6 @@
   "theme_settings":{
     "message": "Theme Settings"
   },
-  "no_theme": {
-    "message": "Default"
-  },
-  "no_font": {
-    "message": "Default"
-  },
   "all_categories": {
     "message": "All Categories"
   },
@@ -433,5 +427,11 @@
   },
   "submit" : {
     "message": "Submit"
+  },
+  "no_theme": {
+    "message": "No Theme"
+  },
+  "no_font": {
+    "message": "No Font"
   }
 }

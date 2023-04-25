@@ -426,5 +426,11 @@
   },
   "submit": {
     "message": "Elküldés"
+  },
+  "no_theme": {
+    "message": "Nincs téma"
+  },
+  "no_font": {
+    "message": "Nincs betűtípus"
   }
 }

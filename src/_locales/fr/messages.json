@@ -426,5 +426,11 @@
   },
   "submit": {
     "message": "Soumettre"
+  },
+  "no_theme": {
+    "message": "Aucun thème"
+  },
+  "no_font": {
+    "message": "Aucune police"
   }
 }
