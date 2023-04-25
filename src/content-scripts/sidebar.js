@@ -64,7 +64,9 @@ async function main() {
 <button id="closePrompt" style="position: absolute; z-index: 1; bottom: 0; right: 259px; background-color: #202123; width: 28px; height: 28px; color: white; border-top-left-radius: 5px; border-bottom-left-radius: 3px;">></button>
 `
     let nav = document.querySelector("#__next").querySelectorAll("div")[1].firstChild
-    const chatInput = document.querySelector("textarea")
+    let chatInput = document.querySelector("textarea")
+    chatInput.id = "chatInput"
+    chatInput = document.getElementById("chatInput")
     let mainPar = document.querySelector("main").parentElement
     const closeNavButton = `<button id="closeNav" style="position: absolute; z-index: 1; bottom: 0; left: 259px; background-color: #202123; width: 28px; height: 28px; color: white; border-top-right-radius: 5px; border-bottom-right-radius: 3px;"><</button>`
     nav.insertAdjacentHTML("afterend", promptBar)
@@ -92,6 +94,12 @@ async function main() {
         }
         else {
             mainPar.style.marginRight = "260px"
+        }
+        updatePlaceholder()
+        if (!document.getElementById("chatInput")) {
+            document.querySelector("textarea").id = "chatInput"
+            chatInput = document.getElementById("chatInput")
+            textDiv = chatInput.parentElement
         }
     }
 
@@ -357,7 +365,7 @@ async function main() {
         return template
     }
 
-    const textDiv = chatInput.parentElement
+    let textDiv = chatInput.parentElement
     let autocomplete = false;
     let focusedIdx = 0;
 
@@ -443,7 +451,10 @@ async function main() {
 
     function autoComplete(event) {
         // If keydown is a backslash / character, do this
-        if (event.key === '/' && !autocomplete) {
+        if (!(event.target.id === "chatInput")) {
+            return true;
+        }
+        else if (event.key === '/' && !autocomplete) {
             // Set a flag to indicate that autoComplete was triggered by the slash
             autocomplete = true;
             getSuggestedPrompts("")
@@ -499,7 +510,7 @@ async function main() {
         //}
         // Else, return
         else {
-            return;
+            return true;
         }
     }
 
@@ -548,8 +559,8 @@ async function main() {
     `
     document.head.insertAdjacentHTML("beforeend", autocompleteStyles)
 
+    const placeholder = tr("placeholder", t)
     function updatePlaceholder(){
-        const placeholder = tr("placeholder", t)
         document.querySelector("textarea").placeholder = placeholder
     }
     updatePlaceholder()
@@ -561,9 +572,6 @@ async function main() {
         }
     }
 
-    chatInput.addEventListener("keyup", autoComplete, {capture: true});
-    chatInput.addEventListener("keydown", preventEnter, {capture: true})
-    chatInput.addEventListener("keypress", preventEnter, {capture: true})
 
 
 
@@ -623,10 +631,18 @@ async function main() {
         }
     }
 
+    function chatInputEvents(){
+        document.addEventListener("keyup", autoComplete, {capture: true});
+        document.addEventListener("keydown", preventEnter, {capture: true});
+        document.addEventListener("keypress", preventEnter, {capture: true});
+        document.addEventListener("change", autoComplete);
+    }
+    chatInputEvents();
+
+
     document.getElementById("closeNav").addEventListener("click", toggleNav)
     document.getElementById("closePrompt").addEventListener("click", togglePrompt)
     document.getElementById("newPromptPg").addEventListener("click", newBlank)
-    chatInput.addEventListener("change", autoComplete)
 }
 main()
 
