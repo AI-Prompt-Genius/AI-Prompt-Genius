@@ -347,7 +347,7 @@ async function main() {
     let focusedIdx = 0;
 
     function findVariables(str) {
-        const regex = /{{(\w+)}}/g;
+        const regex = /{{(.+?)}}/g;
         const matches = [];
         let match;
         while ((match = regex.exec(str))) {
@@ -357,10 +357,16 @@ async function main() {
     }
 
     function replaceVariables(str, values) {
-        const regex = /{{(\w+)}}/g;
+        const regex = /{{(.+?)}}/g;
+        let index = 0;
         return str.replace(regex, (match, variable) => {
-            const index = values.indexOf(variable);
-            return index !== -1 ? values[index] : match;
+            if (index < values.length) {
+                const value = values[index];
+                index++;
+                return value;
+            } else {
+                return match;
+            }
         });
     }
 
@@ -376,13 +382,22 @@ async function main() {
                 <div class="text-sm font-bold text-black dark:text-gray-200">${variable}</div>
                 <input style="border-color: #8e8ea0" class="pg-variable my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr("enter_val", t)} ${variable}..." value="">
                 `).join("")}
+                <button id="save-vars" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">${tr("submit", t)} </button>   
               </div>
             </div>
-            <button id="save-vars" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">${tr("submit", t)} </button>
           </div>
         </div>
         `
         document.body.insertAdjacentHTML("beforeend", template)
+        document.querySelector(".pg-variable").focus()
+        function handleKeyDown(event) {
+            if (event.key === "Enter" || event.keyCode === 13) {
+                submitModal()
+                document.removeEventListener("keydown", handleKeyDown);
+            }
+        }
+
+        document.addEventListener("keydown", handleKeyDown);
         document.getElementById("save-vars").addEventListener("click", submitModal)
         function submitModal(){
             const varInputs = document.querySelectorAll(".pg-variable")
@@ -397,6 +412,7 @@ async function main() {
 
     async function selectPrompt(promptText, hasVars=true){
         const vars = hasVars ? findVariables(promptText) : [] // so if the chosen variable has a variable within {{}}
+        console.log(vars)
         if (vars.length > 0){
             getVarsFromModal(vars, promptText)
             return "";
