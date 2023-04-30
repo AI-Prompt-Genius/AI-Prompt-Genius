@@ -1,8 +1,6 @@
 ---
 dg-publish: true
 dg-home: true
-dg-meta-tags: 
- "google-site-verification": "aevDUfIlE05KFcL9ofO9w9XCly-sbgh-1jlAxLoEL_8"
 ---
 # ChatGPT Prompt Genius
 
