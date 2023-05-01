@@ -33,14 +33,14 @@ While we make no guarantees on possible results, we believe that our platform of
 
 We offer simple and affordable advertising rates. Our current rates are:
 
-- $150/day
-- $750/week (7 consecutive days)
+- $199/day
+- $999/week (7 consecutive days)
 
 Payment is expected to be made upfront through a secure Stripe payment link. We do not offer refunds for cancelled advertisements.
 
-If you decide to run a week-long campaign, you are welcome to have multiple different versions  (copies) of ads for the same product, up to one for each day. 
+If you decide to run a week-long campaign, you may have multiple different versions  (copies) of ads for the same product, up to one for each day. 
 
-Ads are reserved on a first-come, first-serve basis. Please see the calendar below for which dates are available. **The next available dates are May 2-May 7**. 
+Ads are reserved on a first-come, first-serve basis. Please see the calendar below for which dates are available. **The next available dates are May 2-May 7 & June 5-11**.
 
 We understand that every business has unique needs and goals, and we are happy to work with you to create a customized advertising plan that meets your needs. If you have any questions about our pricing or advertising opportunities, please don't hesitate to reach out to us at **[aipromptgenius@gmail.com](mailto:aipromptgenius@gmail.com)**.
 
