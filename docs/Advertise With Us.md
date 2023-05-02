@@ -1,6 +1,7 @@
 ---
 dg-publish: true
 ---
+# Advertise with us
 ## Interested in advertising with ChatGPT Prompt Genius?
 
 Welcome to ChatGPT Prompt Genius's advertising page! Here, you'll find information on how to reach a niche audience of tech-savvy, AI-conscious users with your product or service. With over 130,000 weekly active users, ChatGPT Prompt Genius is a growing platform that offers a valuable opportunity for advertisers to increase brand awareness and drive traffic to their websites. Our simple and affordable advertising options make it easy to get started. **Contact us at [aipromptgenius@gmail.com](mailto:aipromptgenius@gmail.com) with any questions or to start advertising today!**
@@ -33,10 +34,11 @@ While we make no guarantees on possible results, we believe that our platform of
 
 We offer simple and affordable advertising rates. Our current rates are:
 
-- $199/day
-- $999/week (7 consecutive days)
+- $200/day
+- $1100/week (7 consecutive days)
+- Longer campaigns may qualify for further discounts
 
-Payment is expected to be made upfront through a secure Stripe payment link. We do not offer refunds for cancelled advertisements.
+Payment is expected to be made upfront through a secure Stripe payment link. We do not offer refunds for canceled advertisements.
 
 If you decide to run a week-long campaign, you may have multiple different versions  (copies) of ads for the same product, up to one for each day. 
 
@@ -45,7 +47,7 @@ Ads are reserved on a first-come, first-serve basis. Please see the calendar bel
 We understand that every business has unique needs and goals, and we are happy to work with you to create a customized advertising plan that meets your needs. If you have any questions about our pricing or advertising opportunities, please don't hesitate to reach out to us at **[aipromptgenius@gmail.com](mailto:aipromptgenius@gmail.com)**.
 
 ## Available Bookings
-Any dates not marked as "booked" are avaliable for advertising! 
+Any dates not marked as "booked" are available for advertising! 
 
 <iframe src="https://calendar.google.com/calendar/embed?src=aipromptgenius%40gmail.com&ctz=America%2FBoise" style="border: 0" width="680" height="525" frameborder="0" scrolling="no"></iframe>
 

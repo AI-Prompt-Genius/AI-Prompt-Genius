@@ -4,6 +4,7 @@ dg-meta-tags:
  "google-site-verification": "aevDUfIlE05KFcL9ofO9w9XCly-sbgh-1jlAxLoEL_8"
 ---
 
+# What's new?
 Languages: 
  [[有什么新功能？|中文（简体)]] 
 
@@ -23,7 +24,7 @@ Prompt variables are values that change with each usage of the prompt. Place dou
 
 **Output should be in the \{\{language\}\} language. Be sure to use correct grammar.**
 
-Then, when you select the prompt, a modal will ask for variable values: 
+Then, when you select the prompt, a popup will ask for variable values: 
 
 ![[screely-1682402359272.png]]
 
@@ -31,14 +32,14 @@ Prompts can have multiple of the same variable. Input will only be asked for onc
 
 **I want you to act like an expert in \{\{field\}\}. As an expert in \{\{field\}\}, you have been trained for forty years in \{\{field\}\}.**
 
-The modal for this prompt looks like this: 
+The popup for this prompt looks like this: 
 
 ![[screely-1682465964425.png]]
 
-To submit the modal, you can either click "Submit" or hit enter on your keyboard. 
+To submit the popup, you can either click "Submit" or hit enter on your keyboard. 
 
 ### Prompt Sidebar & Collapsable Nav
-The prompt sidebar allows you to create, edit, and delete prompts insde the ChatGPT interface. 
+The prompt sidebar allows you to create, edit, and delete prompts inside the ChatGPT interface. 
 
 To create a prompt, click on the "New Prompt" button. Then, to edit it, click on the new untitled prompt in your sidebar prompt list. You can also edit other prompts in the same way.
 
@@ -48,7 +49,7 @@ To delete a prompt, simply click the trash can icon right next to the prompt.
 
 ![[sidebars.gif]]
 
-You can now click the arrows on the new prompt sidebar and navigation to hide those for a distraction free environment. 
+You can now click the arrows on the new prompt sidebar and navigation to hide those for a distraction-free environment. 
 
 ---
 # Previous Versions
@@ -59,6 +60,4 @@ You can now click the arrows on the new prompt sidebar and navigation to hide th
 
 Highlight some text, right-click, and click "Save Text As Prompt" to easily add a new prompt to your library. 
 
----
-##### Privacy
-[[Privacy|View our privacy policy]].
+#extension #help #howto #faq #guide #changelog
