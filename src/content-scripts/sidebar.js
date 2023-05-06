@@ -444,6 +444,7 @@ async function main() {
     }
 
     async function selectPrompt(promptText, hasVars=true){
+        removeSuggestion();
         const vars = hasVars ? findVariables(promptText) : [] // so if the chosen variable has a variable within {{}}
         if (vars.length > 0){
             getVarsFromModal(vars, promptText)
@@ -452,7 +453,6 @@ async function main() {
         const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
         const lastSlashIndex = chatInput.value.lastIndexOf('/');
         const lastSearchTermIndex = lastSlashIndex + searchTerm.length + 1;
-        removeSuggestion();
         chatInput.style.height = "200px"
         chatInput.parentElement.querySelector('button').addEventListener('click', () => {
             chatInput.style.height = "24px"
@@ -512,7 +512,8 @@ async function main() {
             return false;
         }
         // If autoComplete was triggered and a non-space character is pressed, process autoComplete
-        else if (autocomplete && event.key !== ' ') {
+        else if (autocomplete && event.key !== ' ' && event.type !== "change") {
+            console.log(event)
             const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
             textDiv.querySelector("button").disabled = true // weird jerry rig to stop form from submitting
             //console.log(searchTerm)
