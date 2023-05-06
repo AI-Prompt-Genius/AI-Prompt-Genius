@@ -34,8 +34,8 @@ While we make no guarantees on possible results, we believe that our platform of
 
 We offer simple and affordable advertising rates. Our current rates are:
 
-- $200/day
-- $1100/week (7 consecutive days)
+- $150/day
+- $750/week (7 consecutive days)
 - Longer campaigns may qualify for further discounts
 
 Payment is expected to be made upfront through a secure Stripe payment link. We do not offer refunds for canceled advertisements.

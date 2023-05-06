@@ -3,7 +3,7 @@
  */
 
 /* background */
-main 
+main
 {
 	background-image: url("https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public/images/fire.webp");
 	background-repeat: no-repeat;
@@ -37,7 +37,7 @@ main .flex-col.items-center.text-sm
 }
  
 /* Foolproof (TM) Individual Chat Node Selector */
-main .flex-col.items-center.text-sm > div
+main .flex-col.items-center.text-sm > div, main .flex-col.items-center.text-sm > div > div
 {	
 	background: none; /* transparent it so we can see the background image */	
 }

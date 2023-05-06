@@ -310,7 +310,7 @@ function createCustomStyleButton()
 var customStyleEditor;
 function createCustomStyleEditor()
 {
-	let wrapper = document.createElement("div");;
+	let wrapper = document.createElement("div");
 	wrapper.setAttribute("class", "flex flex-col items-center h-full w-full");
 	wrapper.style.background = "rgba(25,25,25,0.7)";
 	wrapper.style.position = "fixed";
@@ -410,10 +410,11 @@ function createMenuThemeEditor()
 	let wrapper = document.createElement("div");
 	wrapper.setAttribute("class", 'flex flex-col items-center bg-gray-900 text-white space-y-1 p-2');
 	wrapper.style.width = "260px"; // same width as the left menu bar
-	wrapper.style.position = "absolute"; 
+	wrapper.style.position = "fixed";
 	wrapper.style.left = "260px";
 	wrapper.style.zIndex = "3"
 	wrapper.style.bottom = "0";
+	wrapper.style.visibility = "hidden";
 	
 	let titleContainer = document.createElement("div");
 	titleContainer.setAttribute("class", 'border-b border-white/20 w-full px-3');
@@ -452,7 +453,6 @@ function closeMenuThemeEditor()
 
 function toggleMenuThemeEditor()
 {
-	console.warn("toggling")
 	//console.log(menuThemeEditorElement)
 	if(menuThemeEditorElement.style.visibility === "visible")
 	{
@@ -509,6 +509,7 @@ function initializeThemes() {
 	createMenuThemeEditorButton();
 
 	readdThemeSelect();
+
 
 	chrome.storage.local.get({"theme":{}}, function(result)  {
 		let themeSettings = result.theme;

@@ -1,4 +1,14 @@
-### v2.5.6 
+### v3.0.1 - May 5, 2023
+
+- Theme select bug
+- Theme fixes
+- Remove clipboard copy (now native)
+
+### v3.0.0 - April 24, 2023
+
+- See the [what's new page](https://docs.aipromptgenius.app/what-s-new/)
+
+### v2.5.6 - April 22, 2023
 
 - Fix login bug
 

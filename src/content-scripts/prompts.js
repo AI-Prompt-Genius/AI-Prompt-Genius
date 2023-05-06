@@ -124,7 +124,6 @@ function handleElementAdded (e) {
         if (buttonGroup.children.length !== 2) return
         // It heavily depends on the fact Assistant's has two buttons, "upvote" and "downvote".
         // and the user has only one button, "edit prompt".
-        addCopyButton(buttonGroup)
     }
 
 }
@@ -612,17 +611,6 @@ function nextPromptTemplatesPage () {
     )
     // Update the section
     updateTemplates(globalTemplates, "", "", globalTags)
-}
-
-function addCopyButton (buttonGroup) {
-    const button = document.createElement('button')
-    button.onclick = () => {
-        const text = buttonGroup.parentElement.parentElement.innerText
-        navigator.clipboard.writeText(text)
-    }
-    button.className = css`action`
-    button.innerHTML = svg`Clipboard`
-    buttonGroup.prepend(button)
 }
 
 function findVariables(str) { // thanks chatgpt
