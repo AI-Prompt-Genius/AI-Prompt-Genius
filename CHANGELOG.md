@@ -1,3 +1,7 @@
+### v3.0.2 - May 5, 2023
+
+- fix bug #274
+
 ### v3.0.1 - May 5, 2023
 
 - Theme select bug
