@@ -1,3 +1,8 @@
+### v3.0.3
+
+- German language
+- Tutorial link
+
 ### v3.0.2 - May 5, 2023
 
 - fix bug #274
@@ -7,6 +12,7 @@
 - Theme select bug
 - Theme fixes
 - Remove clipboard copy (now native)
+- New link for "What's New?"
 
 ### v3.0.0 - April 24, 2023
 
