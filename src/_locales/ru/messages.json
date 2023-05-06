@@ -417,5 +417,8 @@
   },
   "what_new" : {
     "message": "Что нового?"
+  },
+  "tutorial" : {
+    "message" : "Учебник"
   }
 }

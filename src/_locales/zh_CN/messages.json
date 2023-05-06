@@ -417,5 +417,8 @@
   },
   "what_new" : {
     "message": "有什么新的?"
+  },
+  "tutorial" : {
+    "message" : "教程"
   }
 }

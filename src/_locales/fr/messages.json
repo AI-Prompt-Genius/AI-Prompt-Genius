@@ -435,5 +435,8 @@
   },
   "what_new" : {
     "message": "Quoi de neuf?"
+  },
+  "tutorial" : {
+    "message" : "Tutoriel"
   }
 }

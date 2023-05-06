@@ -1,0 +1,442 @@
+{
+  "appName": {
+    "message": "Gedopt prompt Genius"
+  },
+  "appDesc": {
+    "message": "Entdecke, Teile, Importiere und nutze die besten ChatGPTt-Prompt und sichere den Chatverlauf lokal (ehemals ChatGPT-Historie)"
+  },
+  "search_threads": {
+    "message": "In Threads suchen..."
+  },
+  "light": {
+    "message": "Hell"
+  },
+  "mode": {
+    "message": "Modus"
+  },
+  "bookmarks": {
+    "message": "Lesezeichen"
+  },
+  "settings": {
+    "message": "Einstellungen"
+  },
+  "prompts": {
+    "message": "Prompts"
+  },
+  "storage": {
+    "message": "Speicher"
+  },
+  "resync_all": {
+    "message": "Alles neu synchronisieren"
+  },
+  "faq": {
+    "message": "FAQ"
+  },
+  "chatgpt": {
+    "message": "ChatGPT"
+  },
+  "github": {
+    "message": "Github"
+  },
+  "tip_jar": {
+    "message": "Kaffeekasse"
+  },
+  "delete_thread": {
+    "message": "Den Thread löschen"
+  },
+  "export_conversation": {
+    "message": "Exportiere deine Unterhaltung als JSON"
+  },
+  "bookmark_conversation": {
+    "message": "Setze diese Konversation als Lesezeichen für später"
+  },
+  "continue_conversation": {
+    "message": "Setze deine Unterhaltung mit ChatGPT fort"
+  },
+  "search_prompts": {
+    "message": "Prompts durchsuchen..."
+  },
+  "new_prompt": {
+    "message": "Neuer Prompt"
+  },
+  "curated_prompts": {
+    "message": "Ausgewählte Prompts"
+  },
+  "public_prompts": {
+    "message": "Puplic Prompts"
+  },
+  "history": {
+    "message": "Verlauf"
+  },
+  "category_placeholder": {
+    "message": "Kategorie..."
+  },
+  "category": {
+    "message": "Kategorie"
+  },
+  "category_academic_writing": {
+    "message": "Wissenschaftliches Schreiben"
+  },
+  "category_bypass_personas": {
+    "message": "Umgehung & Persönlichkeiten"
+  },
+  "category_education_learning": {
+    "message": "Bildung & Lernen"
+  },
+  "category_expert_consultant": {
+    "message": "Expert/BeraterIn"
+  },
+  "category_fun_games": {
+    "message": "Spiel & Spaß"
+  },
+  "category_fitness_nutrition_health": {
+    "message": "Fitness, Ernährung & Gesundheit"
+  },
+  "category_fiction_writing": {
+    "message": "Fiktives Schreiben"
+  },
+  "category_music": {
+    "message": "Musik"
+  },
+  "category_nonfiction_writing": {
+    "message": "Sachbuch schreiben"
+  },
+  "category_other": {
+    "message": "Weiteres"
+  },
+  "category_philosophy_logic": {
+    "message": "Philosophie & Logik"
+  },
+  "category_poetry": {
+    "message": "Poesie"
+  },
+  "category_programming_technology": {
+    "message": "Programmierung & Technologien"
+  },
+  "category_speeches_scripts": {
+    "message": "Reden & Skripte"
+  },
+  "category_social_media_blogging": {
+    "message": "Soziale Medien & Blogging"
+  },
+  "category_travel": {
+    "message": "Reisen"
+  },
+  "category_therapy_life_help": {
+    "message": "Therapie & Lebenshilfe"
+  },
+  "enter_tag": {
+    "message": "Tippe ein um Tag hinzuzufügen..."
+  },
+  "delete_prompt": {
+    "message": "Den Prompt löschen"
+  },
+  "use_prompt": {
+    "message": "Verwende diesen Prompt"
+  },
+  "share_reddit": {
+    "message": "Teile den Prompt auf Reddit"
+  },
+  "all_prompts": {
+    "message": "-Alle Prompts-"
+  },
+  "filter_category": {
+    "message": "Filter Kategorie"
+  },
+  "advertisement": {
+    "message": ""
+  },
+  "advertise_here": {
+    "message": "Deine Werbung hier."
+  },
+  "explore_curated_templates": {
+    "message": "Kuratierte Prompt-Vorlagen erkunden"
+  },
+  "import_prompt": {
+    "message": "Prompt importieren→"
+  },
+  "prev": {
+    "message": "Zurück"
+  },
+  "next": {
+    "message": "Weiter"
+  },
+  "make_prompts_default_home": {
+    "message": "Prompts als Startseite festlegen"
+  },
+  "disable_save_chat_history": {
+    "message": "Lokales Speichern des Chatverlaufs deaktivieren"
+  },
+  "disable_prompts_on_chatgpt": {
+    "message": "Eingaben bei ChatGPT deaktivieren",
+    "description": "Your prompt templates won't show up on ChatGPT. For use with other Chrome Extensions."
+  },
+  "chatgpt_plus_user": {
+    "message": "Ich bin ein ChatGPT Plus Nutzer",
+    "description": "The extension will try to detect this automatically, but it sometimes fails. Don't check this if you're not using ChatGPT plus."
+  },
+  "use_visual_editor_on_reddit": {
+    "message": "Visuellen Texteditor auf Reddit verwenden (für das Teilen von Prompts)"
+  },
+  "use_ctrl_enter_to_save": {
+    "message": "Benutzen Sie Strg + Enter (bzw. ⌘ + Enter am Mac), um Eingaben zu speichern (statt Enter)."
+  },
+  "auto_delete_threads": {
+    "message": "Threads (ohne Lesezeichen) nach 30 Tagen automatisch löschen"
+  },
+  "show_export_button_dropdown": {
+    "message": "Button für Export-Menü anzeigen"
+  },
+  "auto_send_prompt": {
+    "message": "Nachricht automatisch senden wenn Prompt verwendet wird"
+  },
+  "auto_send_note": {
+    "message": "Dein Prompt wird automatisch gesendet, wenn du auf den Weiter-Button klickst"
+  },
+  "default_continue_message": {
+    "message": "Standard \"Fortfahren\" Nachricht"
+  },
+  "default_continue_message_note": {
+    "message": "Dies erscheint vor dem Transkript deiner Unterhaltung, wenn du auf den \"Weiter\"-Button klickst. Beachte, dass dies nur für alte Konversationen vor dem Update vom 15. Dezember 2022 gilt."
+  },
+  "default_message": {
+    "message": "Standard-Nachricht"
+  },
+  "import_export_archive": {
+    "message": "Import/Export - Archiv"
+  },
+  "archive_files": {
+    "message": "Diese Dateien werden verwendet, um Ihre Eingabeaufforderungen und den Verlauf wiederherzustellen. Exportieren Sie alle Verlaufsdaten, Eingabeaufforderungen und Einstellungen."
+  },
+  "export_prompts": {
+    "message": "Prompts exportieren"
+  },
+  "export_history": {
+    "message": "Verlauf exportieren"
+  },
+  "export_settings": {
+    "message": "Eistellungen exportieren"
+  },
+  "export_all": {
+    "message": "Alles exportieren"
+  },
+  "import_any": {
+    "message": "Importieren"
+  },
+  "mass_delete_header": {
+    "message": "Gefahrenzone - Vollständiges Löschen"
+  },
+  "mass_delete_note": {
+    "message": "Lösche all deine Prompts und Threads auf einmal. Wir empfehlen, diese zuerst zu exportieren."
+  },
+  "delete_all_prompts_span": {
+    "message": "Lösche alle Prompts"
+  },
+  "delete_all_history_span": {
+    "message": "Lösche den ganzen Verlauf"
+  },
+  "confirm_span": {
+    "message": "Bestätigen"
+  },
+  "faq_header": {
+    "message": "Häufig gestellte Fragen"
+  },
+  "faq_permissions_header": {
+    "message": "Warum benötigt diese Erweiterung reddit-Berechtigungen?"
+  },
+  "faq_permissions_answer": {
+    "message": "Die einzige Erlaubnis, die wir benötigen, ist die für unser eigenes Subreddit, r/ChatGPTPromptGenius, und das nur, um die Formatierung zu erleichtern, wenn Sie Prompts an unser Subreddit senden. Wir fügen auch eine Schaltfläche ein, mit der Sie schnell die Prompts anderer Benutzer importieren können. Wir lassen keine Skripte auf anderen Subreddits laufen und sammeln keine Daten von reddit."
+  },
+  "faq_data_header": {
+    "message": "Was macht ihr mit meinen Daten?"
+  },
+  "faq_data_answer": {
+    "message": "Wir verstehen, dass Ihre Daten für Sie wichtig sind, und wir möchten Ihnen versichern, dass Sie die volle Kontrolle darüber haben. Alle Ihre Daten werden lokal auf Ihrem Gerät gespeichert, und wir erheben keinen Anspruch auf ihr Eigentum. Außerdem haben wir keinen Zugriff auf Ihre Daten (wir haben keine Server), da sie ausschließlich auf dem lokalen Speicher Ihres Geräts gespeichert sind. Wenn Sie sich entscheiden, einen Chat zu teilen, wird dieser auf einen ShareGPT-Server hochgeladen, aber Sie behalten weiterhin die Rechte an Ihren Daten. Sie können Ihre Daten jederzeit im JSON-Rohformat exportieren, und wir arbeiten auch daran, weitere Exportformate für Sie hinzuzufügen."
+  },
+  "faq_delete_header": {
+    "message": "Kann ich etwas löschen, was ich über einen Link geteilt habe?"
+  },
+  "faq_sharegpt_data": {
+    "message": "Leider verwenden wir die öffentlichen Server von ShareGPT, um Ihre gemeinsamen Dienste zu hosten. Wir haben keine Möglichkeit, auf diese Daten zuzugreifen. Wir empfehlen Ihnen, keine sensiblen Informationen zu teilen."
+  },
+  "faq_data_shared_header": {
+    "message": "Gibt es noch andere Daten, die weitergegeben werden?"
+  },
+  "faq_data_shared_answer": {
+    "message": "Sofern Sie diese Daten nicht explizit mit der Schaltfläche \"Link teilen\" teilen, verlassen keine Daten Ihr Gerät. Es wird im lokalen Speicher gespeichert. Dies gilt auch für Exporte zu pdf/png/md."
+  },
+  "faq_bug_header": {
+    "message": "Ich habe einen Fehler gefunden!"
+  },
+  "faq_bug_text_part1": {
+    "message": "Es tut uns leid zu hören, dass Sie auf einen Fehler gestoßen sind. Wenn Sie bitte ein Problem auf unserer "
+  },
+  "faq_bug_text_part2": {
+    "message": "GitHub-Repository"
+  },
+  "faq_bug_text_part3": {
+    "message": ", wir werden uns bemühen, das Problem so schnell wie möglich zu lösen. Wenn du dich abenteuerlustig fühlst, kannst du auch einen Pull-Request öffnen, um den Fehler selbst zu beheben und die Welt dadurch ein wenig besser zu machen!"
+  },
+  "faq_feature_header": {
+    "message": "Ich habe eine Idee für ein Feature!"
+  },
+  "faq_improve_extension_text_part1": {
+    "message": "Wir sind immer auf der Suche nach Möglichkeiten, unsere Erweiterung zu verbessern, und wir würden uns über deine Ideen und Vorschläge freuen. Bitte besuche unsere Diskussionen auf unserer"
+  },
+  "faq_improve_extension_text_part2": {
+    "message": "GitHub-Repository"
+  },
+  "faq_improve_extension_text_part3": {
+    "message": "und teile deine Meinung und Ideen mit uns."
+  },
+  "faq_we_header": {
+    "message": "Wer sind \"wir\"?"
+  },
+  "faq_we_text": {
+    "message": "Dieses Projekt ist Open Source und umfasst viele Mitwirkende. Du kannst helfen, indem du ein Issue oder einen Pull-Request erstellst, wenn du etwas siehst, das verbessert werden sollte."
+  },
+  "dark": {
+    "message": "Dunkel"
+  },
+  "all_threads": {
+    "message": "Alle Threads"
+  },
+  "welcome_history": {
+    "message": "Willkommen! Hier wird Ihr Thread-Verlauf angezeigt. Um die Synchronisierung zu starten, öffnen Sie ChatGPT."
+  },
+  "resyncing": {
+    "message": "Synchronisiere..."
+  },
+  "copied": {
+    "message": "Kopiert!"
+  },
+  "no_data": {
+    "message": "Für die aktuelle Branche sind keine Daten verfügbar."
+  },
+  "language": {
+    "message": "Sprache"
+  },
+  "share": {
+    "message": "Teilen"
+  },
+  "export": {
+    "message": "Exportieren"
+  },
+  "download": {
+    "message": "Herunterladen"
+  },
+  "link": {
+    "message": "Link"
+  },
+  "theme_settings": {
+    "message": "Design-Einstellungen"
+  },
+  "all_categories": {
+    "message": "Alle Kategorien"
+  },
+  "templates_title": {
+    "message": "ChatGPT Prompt Genius-Vorlagen"
+  },
+  "compact": {
+    "message": "Kompakte Ansicht"
+  },
+  "discover": {
+    "message": "Prompts entdecken"
+  },
+  "my_prompts": {
+    "message": "My Prompts"
+  },
+  "to": {
+    "message": "bis"
+  },
+  "of": {
+    "message": "von"
+  },
+  "entries": {
+    "message": "Einträge"
+  },
+  "showing": {
+    "message": "Zeige"
+  },
+  "help_translate": {
+    "message": "Hilf mit, dies in deine Sprache zu übersetzen oder korrigiere automatisch übersetzte Inhalte."
+  },
+  "default_continue": {
+    "message": "Das Folgende ist eine Aufzeichnung eines Gesprächs zwischen mir und ChatGPT. Verwende sie als Kontext für den Rest des Gesprächs. Sei bereit, die zuvor von ChatGPT gegebenen Antworten zu bearbeiten und darauf aufzubauen. Antworte mit \"bereit!\", wenn du den Zusammenhang verstehst. Antworte nicht mit etwas anderem. Konversation:\n"
+  },
+  "resync_interim": {
+    "message": "Diese Seite dient dem vorläufigen Zweck, die Neusynchronisierung zu isolieren, während wir einige Bugs beseitigen. Klicken Sie auf \"Alle neu synchronisieren\" in der Navigationsleiste, um alle Ihre früheren Unterhaltungen mit ChatGPT neu zu synchronisieren."
+  },
+  "cloud_syncing": {
+    "message": "Cloud-Synchronisation"
+  },
+  "cloud_note": {
+    "message": "Synchronisieren Sie Ihre Eingaben in der Cloud mit Google Sheets. Nur in Chrome."
+  },
+  "cloud_disclaimer": {
+    "message": "Hinweis: Sie müssen mit demselben Google-Konto angemeldet sein, um die Synchronisierung korrekt durchzuführen."
+  },
+  "cloud_rearrange": {
+    "message": "Um die Aufforderungen bei aktivierter Synchronisierung neu anzuordnen, ziehen Sie die Zeilen in ihre verknüpfte Tabelle"
+  },
+  "link_sheet": {
+    "message": "Google Sheets verknüpfen"
+  },
+  "view_linked": {
+    "message": "Verknüpfte Tabelle anzeigen"
+  },
+  "force_resync": {
+    "message": "Synchronisieren erzwingen"
+  },
+  "unlink": {
+    "message": "Tabellenverknüpfung entfernen"
+  },
+  "name": {
+    "message": "Name"
+  },
+  "description": {
+    "message": "Beschreibung"
+  },
+  "prompt": {
+    "message": "Aufforderung"
+  },
+  "tags": {
+    "message": "Stichwörter"
+  },
+  "placeholder": {
+    "message": "Schreiben Sie eine Nachricht ein oder geben Sie \"/\" ein, um eine Aufforderung auszuwählen..."
+  },
+  "untitled": {
+    "message": "Unbenannte Aufforderung"
+  },
+  "prompt_name": {
+    "message": "Ein Name für die Aufforderung."
+  },
+  "prompt_body": {
+    "message": "Inhalt der Aufforderung."
+  },
+  "prompt_tags": {
+    "message": "Stichwörter für Ihre Aufforderung. Trennen Sie diese mit einem Komma ohne Leerzeichen."
+  },
+  "save": {
+    "message": "Speichern"
+  },
+  "enter_val": {
+    "message": "Gib einen Wert ein für"
+  },
+  "submit": {
+    "message": "Absenden"
+  },
+  "no_theme": {
+    "message": "Kein Design"
+  },
+  "no_font": {
+    "message": "Keine Schriftart"
+  },
+  "what_new": {
+    "message": "Was gibt’s neues?"
+  },
+  "tutorial" : {
+    "message" : "Anleitung"
+  }
+}
