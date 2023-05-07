@@ -2,7 +2,7 @@ name: Schedule script execution
 
 on:
   schedule:
-    - cron: '55 13 1 5 *'  # Run the script at 12:55 (6:55 AM MDT) on May 1st
+    - cron: '55 12 1 5 *'  # Run the script at 12:55 (6:55 AM MDT) on May 1st
 
 jobs:
   run_script:
