@@ -1,4 +1,4 @@
-### v3.0.3
+### v3.0.3 - May 8, 2023
 
 - German language
 - Tutorial link
