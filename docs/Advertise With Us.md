@@ -42,7 +42,7 @@ Payment is expected to be made upfront through a secure Stripe payment link. We 
 
 If you decide to run a week-long campaign, you may have multiple different versions  (copies) of ads for the same product, up to one for each day. 
 
-Ads are reserved on a first-come, first-serve basis. Please see the calendar below for which dates are available. **The next available dates are May 2-May 7 & June 5-11**.
+Ads are reserved on a first-come, first-serve basis. Please see the calendar below for which dates are available. **The next available dates are June 5-11**.
 
 We understand that every business has unique needs and goals, and we are happy to work with you to create a customized advertising plan that meets your needs. If you have any questions about our pricing or advertising opportunities, please don't hesitate to reach out to us at **[aipromptgenius@gmail.com](mailto:aipromptgenius@gmail.com)**.
 
