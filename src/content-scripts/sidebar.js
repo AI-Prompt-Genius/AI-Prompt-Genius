@@ -464,8 +464,8 @@ async function main() {
 
     let lastKey = "";
     function autoComplete(event) {
-        console.log(lastKey)
-        console.log(event)
+        //console.log(lastKey)
+        //console.log(event)
         if (!(event.target.id === "chatInput")) {
             return true;
         }
