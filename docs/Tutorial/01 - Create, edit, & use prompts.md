@@ -1,10 +1,11 @@
 ---
 dg-publish: true
 ---
-
 # Tutorial Part 1 - Extension Basics
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/eboVpzh8Qbc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+Follow along with this video. 
 
 ## Click on the extension icon 
 To access most of the extension's pages, you need to click on the extension icon. We  recommend pinning the extension to your extension toolbar for quick access. 

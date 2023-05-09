@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "permissions": ["storage", "unlimitedStorage", "contextMenus"],
   "background": {
     "persistent": false,
@@ -16,16 +16,6 @@
       "exclude_matches": ["https://chat.openai.com/auth/*"],
       "js": ["content-scripts/utility.js", "content-scripts/scraperv2.js", "content-scripts/historyv2.js", "content-scripts/prompt-inject.js", "content-scripts/export.js","content-scripts/export-inject.js", "content-scripts/themes.js", "content-scripts/sidebar.js"
       ,"external-js/html2canvas.js", "external-js/jspdf.umd.js"],
-      "run_at": "document_idle"
-    },
-    {
-      "matches": ["https://www.reddit.com/r/ChatGPTPromptGenius/submit*"],
-      "js": ["content-scripts/reddit/submit.js"],
-      "run_at": "document_idle"
-    },
-    {
-      "matches": ["https://www.reddit.com/r/ChatGPTPromptGenius/*"],
-      "js": ["content-scripts/reddit/savePrompt.js"],
       "run_at": "document_idle"
     }
   ],

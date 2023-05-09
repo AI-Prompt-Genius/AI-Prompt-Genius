@@ -21,6 +21,13 @@ chrome.action.onClicked.addListener(function(tab) {
     });
 });
 
+chrome.runtime.onInstalled.addListener(function (object) {
+    const welcomeUrl = "https://link.aipromptgenius.app/welcome-install";
+    if (object.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+        chrome.tabs.create({url: welcomeUrl});
+    }
+});
+
 chrome.runtime.onMessage.addListener(function (message){
     if (message.type === "resync"){
         //console.log("resyncing!")
