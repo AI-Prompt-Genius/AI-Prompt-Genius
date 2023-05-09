@@ -462,12 +462,15 @@ async function main() {
         autocomplete = false;
     }
 
+    let lastKey = "";
     function autoComplete(event) {
-        // If keydown is a backslash / character, do this
+        console.log(lastKey)
+        console.log(event)
         if (!(event.target.id === "chatInput")) {
             return true;
         }
-        else if (event.key === '/' && !autocomplete) {
+        // If keydown is a backslash / character, do this
+        else if (event.key === '/' && lastKey !== "Shift" && !autocomplete) {
             // Set a flag to indicate that autoComplete was triggered by the slash
             autocomplete = true;
             removeSuggestion()
@@ -485,6 +488,7 @@ async function main() {
             event.preventDefault()
             event.stopImmediatePropagation()
             event.stopPropagation()
+            lastKey = event?.key ?? ""
             return false;
         }
         else if (autocomplete && event.key === "ArrowUp"){
@@ -496,6 +500,7 @@ async function main() {
                 const focused = focusEl(focusedIdx)
                 focused.scrollIntoView({ behavior: "instant", block: "nearest", inline: "start"})
             }
+            lastKey = event?.key ?? ""
             return false;
         }
         else if (autocomplete && event.key === "ArrowDown"){
@@ -509,11 +514,11 @@ async function main() {
                 const focused = focusEl(focusedIdx)
                 focused.scrollIntoView({ behavior: "instant", block: "nearest", inline: "start"})
             }
+            lastKey = event?.key ?? ""
             return false;
         }
         // If autoComplete was triggered and a non-space character is pressed, process autoComplete
         else if (autocomplete && event.key !== ' ' && event.type !== "change") {
-            console.log(event)
             const searchTerm = chatInput.value.substring(chatInput.value.lastIndexOf('/') + 1).split(' ')[0];
             textDiv.querySelector("button").disabled = true // weird jerry rig to stop form from submitting
             //console.log(searchTerm)
@@ -525,8 +530,10 @@ async function main() {
         //}
         // Else, return
         else {
+            lastKey = event?.key ?? ""
             return true;
         }
+        lastKey = event?.key ?? ""
     }
 
     function selectFocused(){
@@ -645,11 +652,10 @@ async function main() {
         }
     }
 
-    function chatInputEvents(){
+    function chatInputEvents() {
         document.addEventListener("keyup", autoComplete, {capture: true});
         document.addEventListener("keydown", preventEnter, {capture: true});
         document.addEventListener("keypress", preventEnter, {capture: true});
-        document.addEventListener("change", autoComplete);
     }
     chatInputEvents();
 

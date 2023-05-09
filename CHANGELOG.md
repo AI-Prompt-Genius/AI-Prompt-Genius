@@ -1,3 +1,7 @@
+### v3.0.4 
+
+- Fix bug #272/#279/#283
+
 ### v3.0.3 - May 8, 2023
 
 - German language
