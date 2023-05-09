@@ -32,7 +32,10 @@ Unfortunately, we are using the public servers from ShareGPT to host your shared
 
 **Is there any other data that is shared?**
 
-Unless you explicitly share that data using the "share link" button, no data leaves your device. It is all stored in local storage, even exports to pdf/png/md.
+Unless you explicitly share that data using the "share link" button, no data leaves your device. It is all stored in local storage, even exports to pdf/png/md. 
+
+**What if I click on an advertisement?**
+If you click on an advertisement, you will be subject to that website's privacy policy. 
 
 ### [r/ChatGPTPromptGenius](https://www.reddit.com/r/ChatGPTPromptGenius) Subreddit FAQ
 
