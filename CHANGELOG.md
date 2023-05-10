@@ -1,6 +1,8 @@
 ### v3.0.5
 
--
+- Removed Reddit Scripts
+- Fixed SMS theme
+- Added oninstall page
 
 ### v3.0.4 
 

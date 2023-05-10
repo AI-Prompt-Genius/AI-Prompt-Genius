@@ -156,12 +156,12 @@ function load_prompts(prompts, search=false, search_term="", tagList=[])
 				}
 				let template =
 				encodeURIComponent(
-`&#x200B;
+`
+## ${prompt.title}
 
-|Prompt Title|${prompt.title}|
-|:-|:-|
-|Prompt Text|${text}|
-|Category|${category}|
+${text}
+
+Category: ${category}
 
 \-----------
 
