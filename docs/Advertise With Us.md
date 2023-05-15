@@ -43,7 +43,7 @@ Pricing for this ad is somewhat cheaper since less people see it on average, tho
 
 We love to partner with relevant products to sponsor prompt creation competitions on our subreddit, [r/ChatGPTPromptGenius](https://www.reddit.com/r/ChatGPTPromptGenius/)!
 
-If you'd like to sponsor a prompt creation competition by providing some Amazon gift cards in exchange for a short ad for your product, please reach out at [aipromptgenius@gmail.com](mailto:aipromptgenius@gmail.com).
+If you'd like to sponsor a prompt creation competition by providing money for Amazon gift cards in exchange for a short ad for your product, please reach out at [aipromptgenius@gmail.com](mailto:aipromptgenius@gmail.com).
 
 ## Reach
 
