@@ -47,7 +47,7 @@ If you'd like to sponsor a prompt creation competition by providing money for Am
 
 ## Reach
 
-ChatGPT Prompt Genius is a growing platform with over 130,000 weekly active users and 80,000 daily active users. Our user base is primarily English-speaking, with about 50% who have English as their default language. We also have a sizeable Chinese-speaking population. The largest portion of our users are located in the United States. 
+ChatGPT Prompt Genius is a growing platform with over 140,000 weekly active users and 80,000 daily active users. Our user base is primarily English-speaking, with about 50% who have English as their default language. We also have a sizeable Chinese-speaking population. The largest portion of our users are located in the United States. 
 
 We are happy to provide more detailed, anonymized demographics upon request (as provided by the Chrome Web Store). 
 

@@ -8,6 +8,8 @@ dg-meta-tags:
 Languages: 
  [[有什么新功能？|中文（简体)]] 
 
+View our full [technical changelog](https://github.com/benf2004/ChatGPT-Prompt-Genius/blob/master/CHANGELOG.md)
+
 ## v3.0.0 - Prompt hotkey, sidebar, and variables!
 
 v3.0.0 brings a whole new slew of productivity features to ChatGPT. We've been able to take some ideas from [ChatBotUI.com](https://ChatBotUI.com) (which, for you copyright nerds, is under an MIT license) and apply them to ChatGPT in some pretty exciting ways. 
