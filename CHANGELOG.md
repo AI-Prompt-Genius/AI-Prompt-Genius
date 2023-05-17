@@ -1,3 +1,8 @@
+### v3.0.6
+
+- New icons 
+- free, legit cdn
+
 ### v3.0.5
 
 - Removed Reddit Scripts
