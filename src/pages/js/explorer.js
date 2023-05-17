@@ -44,7 +44,7 @@ function toggle_thread_title_editable(i, row){
         title_text.contentEditable = "true";
         title_text.focus();
         edit_icon.classList.remove("fa-pen-to-square");
-        edit_icon.classList.add("fa-floppy-disk-pen");
+        edit_icon.classList.add("fa-floppy-disk");
     }
     else
     {
@@ -58,7 +58,7 @@ function toggle_thread_title_editable(i, row){
             chrome.storage.local.set({threads: t});
             threads_g = t;
         });
-        edit_icon.classList.remove("fa-floppy-disk-pen");
+        edit_icon.classList.remove("fa-floppy-disk");
         edit_icon.classList.add("fa-pen-to-square");
     }
 }
@@ -351,7 +351,7 @@ function load_threads(threads, search=false, search_term="", bookmarks=false) {
 }
 
 async function b_load(){
-    document.querySelector('#blink').outerHTML = `<a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-reel"></i> &emsp; ${await translate("all_threads")}</a>`
+    document.querySelector('#blink').outerHTML = `<a href="explorer.html" class="mx-3 p-3 text-white text-sm"><i class="fa-solid fa-book"></i> &emsp; ${await translate("all_threads")}</a>`
     load_threads(threads_g, false, "", true)
 }
 

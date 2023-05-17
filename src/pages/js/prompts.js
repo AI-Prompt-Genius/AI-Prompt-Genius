@@ -342,7 +342,7 @@ function toggleTagsEditable(id, row){
 	let edit_icon = row.querySelector('.edit-tags')
 	if (!tagDiv.classList.contains("editable")) {
 		edit_icon.classList.remove("fa-pen-to-square");
-		edit_icon.classList.add("fa-floppy-disk-pen");
+		edit_icon.classList.add("fa-floppy-disk");
 		for (let tag of tags) {
 			let tname = tag.innerHTML
 			tag.innerHTML = `<i class="fa-solid fa-xmark"></i> ${tname}`
@@ -352,7 +352,7 @@ function toggleTagsEditable(id, row){
 	}
 	else {
 		edit_icon.classList.add("fa-pen-to-square");
-		edit_icon.classList.remove("fa-floppy-disk-pen");
+		edit_icon.classList.remove("fa-floppy-disk");
 		for (let tag of tags) {
 			let tname = tag.innerHTML
 			tag.innerHTML = tname.replace(`<i class="fa-solid fa-xmark"></i> `, "")
@@ -509,7 +509,7 @@ function toggle_prompt_editable(id, element, just_title=false) {
 		});
 		// update buttons
 		edit_icon.classList.remove("fa-pen-to-square");
-		edit_icon.classList.add("fa-floppy-disk-pen");
+		edit_icon.classList.add("fa-floppy-disk");
 		// make title editable
 		prompt_title.classList.add('editable')
 		prompt_title.contentEditable = "true";
@@ -546,7 +546,7 @@ function toggle_prompt_editable(id, element, just_title=false) {
 		if (!just_title) {
 			prompt_text.innerHTML = text;
 			edit_icon.classList.add("fa-pen-to-square");
-			edit_icon.classList.remove("fa-floppy-disk-pen");
+			edit_icon.classList.remove("fa-floppy-disk");
 		}
 	}
 }
