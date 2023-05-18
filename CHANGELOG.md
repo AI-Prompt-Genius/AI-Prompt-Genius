@@ -1,4 +1,8 @@
-### v3.0.6
+### v3.0.7 - May 18, 2023
+
+- Fixed bug where settings wouldn't save
+
+### v3.0.6 - May 16, 2023
 
 - New icons 
 - free, legit cdn
