@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set Git user name and email
-git config --global user.email "aipromptgenius@gmail.com"
+git config --global user.email "code@phooey.foo"
 git config --global user.name "benf2004"
 
 # Rest of the script
