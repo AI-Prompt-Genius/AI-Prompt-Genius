@@ -8,9 +8,9 @@ const ExportButtons = (function()
 	
 	let markdown_box = document.createElement("div");
 	markdown_box.setAttribute("id", "markdown_box");
-	document.querySelector('main').appendChild(markdown_box);
+	if (document.querySelector("main")) document.querySelector('main').appendChild(markdown_box);
 	let mdb = document.querySelector("#markdown_box");
-	mdb.style.display = "none";
+	if (mdb) mdb.style.display = "none";
 
 	const Format = {
 		PNG: "png",
@@ -202,11 +202,11 @@ const ExportButtons = (function()
 		}
 		init() {
 			// this.threadWrapper = document.querySelector(".cdfdFe");
-			this.spacer = document.querySelector(".w-full.h-32.flex-shrink-0"); 
 			this.thread = document.querySelector("[class*='react-scroll-to-bottom']>[class*='react-scroll-to-bottom']>div");
-			if (this.thread === null) {
+			if (this.thread === undefined) {
 				this.thread = document.querySelector("main > div > div > div");
 			}
+			this.spacer = this.thread.querySelectorAll("div")[this.thread.querySelectorAll("div").length - 1];
 			this.positionForm = document.querySelector("form").parentNode;
 			// this.styledThread = document.querySelector("main");
 			// this.threadContent = document.querySelector(".gAnhyd");
@@ -220,7 +220,7 @@ const ExportButtons = (function()
 			this.hiddens.forEach((el) => {
 				el.classList.remove("overflow-hidden");
 			});
-			this.spacer.style.display = "none";
+			if (this.spacer) this.spacer.style.display = "none";
 			this.thread.style.maxWidth = "960px";
 			this.thread.style.marginInline = "auto";
 			this.positionForm.style.display = "none";
@@ -240,7 +240,7 @@ const ExportButtons = (function()
 			this.hiddens.forEach((el) => {
 				el.classList.add("overflow-hidden");
 			});
-			this.spacer.style.display = null;
+			if (this.spacer) this.spacer.style.display = null;
 			this.thread.style.maxWidth = null;
 			this.thread.style.marginInline = null;
 			this.positionForm.style.display = null;
