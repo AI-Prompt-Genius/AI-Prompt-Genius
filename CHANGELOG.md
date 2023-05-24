@@ -1,3 +1,7 @@
+### v3.0.8 - May 23, 2023
+
+- Fixed export bug
+
 ### v3.0.7 - May 18, 2023
 
 - Fixed bug where settings wouldn't save
