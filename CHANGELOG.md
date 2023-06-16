@@ -1,3 +1,9 @@
+### v3.0.9 - Jun 16, 2023 
+
+- Updated variable modal to support multiple lines
+- Fixed bug where sidebar would not appear
+- Removed navbar arrow (sherlocked)
+
 ### v3.0.8 - May 23, 2023
 
 - Fixed export bug
