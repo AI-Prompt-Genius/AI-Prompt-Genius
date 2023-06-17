@@ -1,3 +1,7 @@
+### v3.1.0
+
+- Fixes #300
+
 ### v3.0.9 - Jun 16, 2023 
 
 - Updated variable modal to support multiple lines
