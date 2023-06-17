@@ -97,7 +97,7 @@ async function main() {
             mainPar.style.marginRight = "260px"
         }
         updatePlaceholder()
-        if (!document.getElementById("chatInput")) {
+        if (!document.getElementById("prompt-textarea")) {
             document.querySelector("textarea").id = "prompt-textarea"
             chatInput = document.getElementById("prompt-textarea")
             textDiv = chatInput.parentElement
