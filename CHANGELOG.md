@@ -1,3 +1,7 @@
+### v3.1.1 
+
+- Rename extension AI prompt genius per legal complaint
+
 ### v3.1.0
 
 - Fixes #300
