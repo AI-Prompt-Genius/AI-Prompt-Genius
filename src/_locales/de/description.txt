@@ -1,4 +1,4 @@
-🎉 Willkommen bei ChatGPT Prompt Genius! Eine kostenlose Open-Source-Browser-Erweiterung mit Funktionen wie:
+🎉 Willkommen bei AI Prompt Genius! Eine kostenlose Open-Source-Browser-Erweiterung mit Funktionen wie:
 
 - 💾 Synchronisiere den Chatverlauf lokal für einfachen Zugriff und die Suche in der ChatGPT-Historie
 - 📄 Speichere Chats als Markdown, HTML, PDF oder PNG

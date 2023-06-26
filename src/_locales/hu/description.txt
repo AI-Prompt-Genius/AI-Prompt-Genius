@@ -1,4 +1,4 @@
-🎉 Üdvözlünk a ChatGPT Prompt Genius-ban! Ez egy ingyenes, nyílt forráskódú böngésző-kiegészítő olyan funkciókkal, mint:
+🎉 Üdvözlünk a AI Prompt Genius-ban! Ez egy ingyenes, nyílt forráskódú böngésző-kiegészítő olyan funkciókkal, mint:
 
 - 💾 Chat-ek helyi szinkronizálása egyszerű hozzáféréshez és kereséshez
 - 📄 Chat-ek mentése Markdown, HTML, PDF vagy PNG formátumban

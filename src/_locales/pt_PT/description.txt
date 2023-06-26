@@ -1,4 +1,4 @@
-Bem-vindo ao ChatGPT Prompt Genius! Uma extensão gratuita de navegador de código aberto com funcionalidades como:
+Bem-vindo ao AI Prompt Genius! Uma extensão gratuita de navegador de código aberto com funcionalidades como:
 
 - 💾 Sync chat history locally for easy access and searching
 - 📄 Guardar conversas como markdown, HTML, PDF ou PNG

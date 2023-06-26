@@ -1,4 +1,4 @@
-🎉 Bem-vindo ao ChatGPT Genius! Uma extensão de navegador gratuita e de código aberto com recursos como:
+🎉 Bem-vindo ao AI Genius! Uma extensão de navegador gratuita e de código aberto com recursos como:
 
 - 💾 Sincronize o histórico do chat localmente para fácil acesso e pesquisa
 - 📄 Salve chats como markdown, HTML, PDF ou PNG

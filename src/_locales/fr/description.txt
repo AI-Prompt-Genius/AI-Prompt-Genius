@@ -1,4 +1,4 @@
-🎉 Bienvenue dans ChatGPT Prompt Genius ! Une extension de navigateur gratuite offrant les fonctionnalités suivantes :
+🎉 Bienvenue dans AI Prompt Genius ! Une extension de navigateur gratuite offrant les fonctionnalités suivantes :
 
 💾 Synchronisation de l'historique des chats localement pour un accès et une recherche faciles
 📄 Enregistrez les chats au format markdown, HTML, PDF ou PNG

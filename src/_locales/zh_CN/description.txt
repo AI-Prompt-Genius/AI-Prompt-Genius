@@ -1,4 +1,4 @@
-🎉 欢迎使用 ChatGPT Prompt Genius！这是一个免费、开源的浏览器扩展程序，具有以下功能：
+🎉 欢迎使用 AI Prompt Genius！这是一个免费、开源的浏览器扩展程序，具有以下功能：
 
 💾 同步本地聊天记录，方便查找和搜索
 📄 将聊天保存为 markdown、HTML、PDF 或 PNG 格式

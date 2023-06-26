@@ -1,4 +1,4 @@
-🎉 Welcome to ChatGPT Prompt Genius! A free, open-source browser extension with features like:
+🎉 Welcome to AI Prompt Genius! A free, open-source browser extension with features like:
 
 - 💾 Sync chat history locally for easy access and searching
 - 📄 Save chats as markdown, HTML, PDF, or PNG
@@ -10,6 +10,8 @@ Find and add prompt templates to your collection, categorize, and select them ea
 **Access saved history & prompt templates by clicking on the extension icon**
 
 Explore and 🔖 bookmark threads, or 🔍 search through threads & prompt templates. Provide feedback or suggestions through our feedback form. Thank you for using ChatGPT Prompt Genius!
+
+**Not affiliated with OpenAI or ChatGPT**
 
 FAQ
 What do you do with my data?
