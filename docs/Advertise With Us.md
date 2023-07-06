@@ -5,7 +5,7 @@ dg-publish: true
 # Advertise with us
 ## Interested in advertising with ChatGPT Prompt Genius?
 
-Welcome to ChatGPT Prompt Genius's advertising page! Here, you'll find information on how to reach a niche audience of tech-savvy, AI-conscious users with your product or service. With over 130,000 weekly active users, ChatGPT Prompt Genius is a growing platform that offers a valuable opportunity for advertisers to increase brand awareness and drive traffic to their websites. Our simple and affordable advertising options make it easy to get started. **Contact us at [aipromptgenius@gmail.com](mailto:aipromptgenius@gmail.com)  or fill out [this form](https://tally.so/r/mVjpza) with any questions or to start advertising today!**
+Welcome to ChatGPT Prompt Genius's advertising page! Here, you'll find information on how to reach a niche audience of tech-savvy, AI-conscious users with your product or service. With over 160,000 active users, ChatGPT Prompt Genius is a growing platform that offers a valuable opportunity for advertisers to increase brand awareness and drive traffic to their websites. Our simple and affordable advertising options make it easy to get started. **Contact us at [aipromptgenius@gmail.com](mailto:aipromptgenius@gmail.com)  or fill out [this form](https://tally.so/r/mVjpza) with any questions or to start advertising today!**
 
 ## Advertising Space
 
@@ -47,7 +47,7 @@ If you'd like to sponsor a prompt creation competition by providing money for Am
 
 ## Reach
 
-ChatGPT Prompt Genius is a growing platform with over 140,000 weekly active users and 80,000 daily active users. Our user base is primarily English-speaking, with about 50% who have English as their default language. We also have a sizeable Chinese-speaking population. The largest portion of our users are located in the United States. 
+ChatGPT Prompt Genius is a growing platform with over 160,000 weekly active users and 90,000 daily active users. Our user base is primarily English-speaking, with about 50% who have English as their default language. We also have a sizeable Chinese-speaking population. The largest portion of our users are located in the United States. 
 
 We are happy to provide more detailed, anonymized demographics upon request (as provided by the Chrome Web Store). 
 
@@ -59,15 +59,15 @@ While we make no guarantees on possible results, we believe that our platform of
 
 We offer simple and affordable advertising rates. Our current rates are:
 
-- $150/day
-- $750/week (7 consecutive days)
+- $100/day
+- $600/week (7 consecutive days)
 - Longer campaigns may qualify for further discounts
 
 Payment is expected to be made upfront through a secure Stripe payment link. We do not offer refunds for canceled advertisements.
 
 If you decide to run a week-long campaign, you may have multiple different versions  (copies) of ads for the same product, up to one for each day. 
 
-Ads are reserved on a first-come, first-serve basis. Please see the calendar below for which dates are available. **The next available dates are June 5-11**.
+Ads are reserved on a first-come, first-serve basis. Please see the calendar below for which dates are available. **We have open slots starting July 16**.
 
 We understand that every business has unique needs and goals, and we are happy to work with you to create a customized advertising plan that meets your needs. If you have any questions about our pricing or advertising opportunities, please don't hesitate to reach out to us at **[aipromptgenius@gmail.com](mailto:aipromptgenius@gmail.com)**.
 
