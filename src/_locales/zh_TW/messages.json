@@ -48,7 +48,7 @@
     "message": "匯出您的對話為 JSON 格式"
   },
   "bookmark_conversation": {
-    "message": "將此對話加入書籤以便日後查看"
+    "message": "將此對話加入書籤以便日後檢視"
   },
   "continue_conversation": {
     "message": "繼續與 ChatGPT 對話"
@@ -150,7 +150,7 @@
     "message": "在這裡投放廣告。"
   },
   "explore_curated_templates": {
-    "message": "探索精選的提示模板"
+    "message": "探索精選的提示範本"
   },
   "import_prompt": {
     "message": "匯入提示 →"
@@ -169,11 +169,11 @@
   },
   "disable_prompts_on_chatgpt": {
     "message": "在 ChatGPT 停用提示",
-    "description": "Your prompt templates won't show up on ChatGPT. For use with other Chrome Extensions."
+    "description": "您的提示範本將不會在 ChatGPT 上顯示。適用於與其他擴充功能一起使用的情況。"
   },
   "chatgpt_plus_user": {
-    "message": "我是 ChatGPT Plus 用戶",
-    "description": "The extension will try to detect this automatically, but it sometimes fails. Don't check this if you're not using ChatGPT plus."
+    "message": "我是 ChatGPT Plus 使用者",
+    "description": "擴充功能將會自動偵測此選項，但有時會失敗。如果您未使用 ChatGPT Plus 請勿勾選。"
   },
   "use_visual_editor_on_reddit": {
     "message": "在 Reddit 上使用視覺化文字編輯器（用於分享提示）"
@@ -188,10 +188,10 @@
     "message": "顯示匯出按鈕下拉式選單"
   },
   "auto_send_prompt": {
-    "message": "使用提示時自動發送訊息"
+    "message": "使用提示時自動傳送訊息"
   },
   "auto_send_note": {
-    "message": "按下「繼續」按鈕時，您的提示將自動發送"
+    "message": "按下「繼續」按鈕時，您的提示將自動傳送"
   },
   "default_continue_message": {
     "message": "預設「繼續」訊息"
@@ -245,16 +245,16 @@
     "message": "為什麼這個擴充功能需要 Reddit 權限？"
   },
   "faq_permissions_answer": {
-    "message": "我們唯一需要的權限是在我們自己的 subreddit r/ChatGPTPromptGenius ，這只是為了格式化您提交到 subreddit 的提示。我們還插入了一個按鈕，讓您快速導入其他人的提示。我們不在任何其他的 subreddit 上運行任何提示，也不會從 reddit 收集任何資料。"
+    "message": "我們唯一需要的權限就是在我們自己的 subreddit r/ChatGPTPromptGenius ，僅是為了格式化您提交到 subreddit 的提示。 我們還加入了一個按鈕，讓您能快速匯入其他人的提示。 我們不會在任何其他的 subreddit 上執行任何提示，也不會從 reddit 收集任何資訊。"
   },
   "faq_data_header": {
     "message": "您對我的資料做了什麼處理？"
   },
   "faq_data_answer": {
-    "message": "我們明白您的資料對您來說非常重要，我們想向您保證，這些資料完全由您控制。您所有的資料都儲存在您的設備端，我們不會主張任何所有權。此外，我們沒有訪問您的資料（我們沒有伺服器），因為它僅儲存在您的設備的儲存空間。如果您選擇分享對話，它將上傳到 ShareGPT 伺服器，但您仍然保留對您的資料的所有權利。您可以隨時以原始的 JSON 格式匯出資料，我們也正在努力添加更多的匯出格式，以方便您使用。"
+    "message": "我們明白您的資料對您來說非常重要，我們想向您保證，這些資料完全由您控制。您所有的資料都儲存在您的裝置端，我們不會主張任何所有權。此外，我們沒有存取您的資料（我們沒有伺服器），因為它僅儲存在您的裝置的儲存空間。如果您選擇分享對話，它將上傳到 ShareGPT 伺服器，但您仍然保留對您的資料的所有權利。您可以隨時以原始的 JSON 格式匯出資料，我們也正在努力新增更多的匯出格式，以方便您使用。"
   },
   "faq_delete_header": {
-    "message": "我可以刪除我通過連結分享的內容嗎？"
+    "message": "我可以刪除我透過連結分享的內容嗎？"
   },
   "faq_sharegpt_data": {
     "message": "很抱歉，我們使用 ShareGPT 的公共伺服器來提供您的分享服務，因此無法存取這些資料。我們建議您不要分享任何敏感訊息。"
@@ -263,7 +263,7 @@
     "message": "是否還有其他共享的資料？"
   },
   "faq_data_shared_answer": {
-    "message": "除非您明確地使用「分享鏈接」按鈕分享資料，否則沒有資料會離開您的設備。即使匯出為 PDF / PNG / MD，所有資料都儲存在設備端的儲存空間。"
+    "message": "除非您明確地使用「分享連結」按鈕分享資料，否則沒有資料會離開您的裝置。即使匯出為 PDF / PNG / MD，所有資料都儲存在裝置端的儲存空間。"
   },
   "faq_bug_header": {
     "message": "我發現了一個漏洞！"
@@ -281,7 +281,7 @@
     "message": "我有一個功能想法！"
   },
   "faq_improve_extension_text_part1": {
-    "message": "我們一直在尋求改進擴充功能的發法，我們很樂意聽取您的想法。請使用我們 "
+    "message": "我們一直在尋求改進擴充功能的方法，我們很樂意聽取您的想法。請使用我們 "
   },
   "faq_improve_extension_text_part2": {
     "message": "GitHub 儲存庫"
@@ -293,7 +293,7 @@
     "message": "「我們」是誰？"
   },
   "faq_we_text": {
-    "message": "這個項目是開源的，有很多貢獻者參與其中。如果您發現需要改進的地方，可以透過開啟問題或拉取請求（ pull request ）來幫助我們改進。"
+    "message": "這個專案是開源的，有很多貢獻者參與其中。如果您發現需要改進的地方，可以透過開啟問題或拉取請求（ pull request ）來幫助我們改進。"
   },
   "dark": {
     "message": "深色"
@@ -374,22 +374,22 @@
     "message": "使用 Google Sheets 在雲端同步您的提示。僅適用於 Chrome。"
   },
   "cloud_disclaimer": {
-    "message": "注意：為了使同步正常工作，您必須登錄相同的 Google 帳戶。"
+    "message": "注意：為了使同步正常工作，您必須登入相同的 Google 帳戶。"
   },
   "cloud_rearrange": {
-    "message": "啟用同步後，可在鏈接的電子表格中拖動行以重新排列提示"
+    "message": "啟用同步後，可在連結的電子表格中拖動行以重新排列提示"
   },
   "link_sheet": {
-    "message": "鏈接 Google Sheets"
+    "message": "連結 Google Sheets"
   },
   "view_linked": {
-    "message": "查看已鏈接的表格"
+    "message": "檢視已連結的表格"
   },
   "force_resync": {
     "message": "強制同步"
   },
   "unlink": {
-    "message": "取消鏈接表格"
+    "message": "取消連結表格"
   },
   "name": {
     "message": "名稱"
@@ -413,13 +413,13 @@
     "message": "為您的提示命名。"
   },
   "prompt_body": {
-    "message": "提示內容。使用{{}}表示變量。例如：{{name}}是一個{{adjective}} {{noun}}"
+    "message": "提示內容。使用{{}}表示變數。例如：{{name}}是一個{{adjective}} {{noun}}"
   },
   "prompt_tags": {
     "message": "提示標籤。使用逗號分隔，不要加空格。"
   },
   "save": {
-    "message": "保存"
+    "message": "儲存"
   },
   "enter_val": {
     "message": "輸入一個值"
@@ -434,7 +434,7 @@
     "message": "沒有字型"
   },
   "what_new" : {
-    "message": "有什麼新消息?"
+    "message": "有什麼新訊息?"
   },
   "tutorial" : {
     "message" : "教學"
