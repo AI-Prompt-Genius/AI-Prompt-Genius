@@ -1,3 +1,7 @@
+### v3.1.2 - July 14, 2023
+
+- Improved zh_CN translations
+
 ### v3.1.1 
 
 - Rename extension AI prompt genius per legal complaint
