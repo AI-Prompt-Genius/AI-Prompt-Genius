@@ -2,15 +2,15 @@
 
 - Improved zh_TW translations
 
-### v3.1.1 
+### v3.1.1 - June 26, 2023
 
 - Rename extension AI prompt genius per legal complaint
 
-### v3.1.0
+### v3.1.0 - June 17, 2023
 
 - Fixes #300
 
-### v3.0.9 - Jun 16, 2023 
+### v3.0.9 - June 16, 2023 
 
 - Updated variable modal to support multiple lines
 - Fixed bug where sidebar would not appear
