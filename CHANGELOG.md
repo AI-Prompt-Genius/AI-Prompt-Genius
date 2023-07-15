@@ -1,6 +1,6 @@
 ### v3.1.2 - July 14, 2023
 
-- Improved zh_CN translations
+- Improved zh_TW translations
 
 ### v3.1.1 
 
