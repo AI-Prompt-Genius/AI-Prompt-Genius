@@ -5,7 +5,7 @@ git config --global user.email "code@phooey.foo"
 git config --global user.name "benf2004"
 
 # Rest of the script
-echo 'Sponsored by <u><a href="https://link.aipromptgenius.app/useai" target="_blank">UseChatGPT.AI</a></u> - Free ChatGPT Copilot on Chrome. Use ChatGPT (GPT-4 ✓) on any website without copy-pasting.' > public/ads/current.txt
+echo 'Consider leaving <u><a href="https://chrome.google.com/webstore/detail/ai-prompt-genius/jjdnakkfjnnbbckhifcfchagnpofjffo" target="_blank">a review</a></u> or <u><a href="ko-fi.com/bennyfi">a tip</a></u>. Seeking new advertisers - <u><a href="https://link.aipromptgenius.app/ads-jul16" target="_blank">learn more.</a></u>' > public/ads/current.txt
 echo 'https://link.aipromptgenius.app/useai-uninstall' > public/ads/currentUrl.txt
 git add public/ads/current.txt
 git add public/ads/currentUrl.txt

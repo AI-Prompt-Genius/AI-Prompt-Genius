@@ -3,6 +3,8 @@ dg-publish: true
 ---
 ### ChatGPT Prompt Genius FAQ & Privacy Policy
 
+We do not collect, sell, or store any of your personal information. 
+
 **What do you do with my data?**
 
 We understand that your data is important to you, and we want to assure you that it is completely under your control. All of your data is stored locally on your device, and we do not claim any ownership over it. Additionally, we do not have access to your data (we do not have servers), as it is stored solely on your device's local storage. If you choose to share a chat, it will be uploaded to a ShareGPT server, but you will still retain the rights to your data. You can export your data at any time in its raw JSON format, and we are also working on adding more export formats for your convenience.
