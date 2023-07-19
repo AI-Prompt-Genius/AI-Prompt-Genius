@@ -21,7 +21,7 @@
   ],
   "web_accessible_resources" : ["content-scripts/*" ,"themes/*", "external-js/*", "_locales/*"],
   "browser_action": {
-    "default_title": "ChatGPT Prompt Genius"
+    "default_title": "__MSG_appName__"
   },
   "default_locale": "en",
   "icons":{
