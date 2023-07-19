@@ -1,3 +1,7 @@
+### v3.1.3 - July 19, 2023
+
+- Switch to ko-fi instead of buymeacoffee
+
 ### v3.1.2 - July 14, 2023
 
 - Improved zh_TW translations
