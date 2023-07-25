@@ -1,3 +1,6 @@
+---
+dg-publish: true
+---
 
 At AI Prompt Genius, we strive to provide valuable and informative content to our users. As part of our commitment to transparency and integrity, we want to be upfront about our affiliate partnerships.
 
@@ -14,3 +17,5 @@ By clicking on external links within AI Prompt Genius, you acknowledge and agree
 If you have any questions or concerns about our affiliate disclosure or any aspect of our website, feel free to reach out to us. Your feedback is essential in helping us maintain the highest standards of transparency and providing you with the best possible user experience.
 
 Thank you for being a part of the AI Prompt Genius community and for your continued support.
+
+If you are interested in sponsoring AI Prompt Genius, please see our [[Advertise With Us]] page.
