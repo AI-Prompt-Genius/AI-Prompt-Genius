@@ -3,10 +3,10 @@
 To start this tutorial, head over to [ChatGPT](https://chat.openai.com). 
 
 ## Prompt Sidebar
-The prompt sidebar allows you to create, edit, and delete prompts inside the ChatGPT interface. 
+The prompt sidebar allows you to create, edit, and delete prompts directly within the ChatGPT interface. 
 
 #### Create, edit, and delete a prompt
-To create a prompt, click on the "New Prompt" button. Then, to edit it, click on the new untitled prompt in your sidebar prompt list. You can also edit other prompts in the same way.
+To create a prompt, click on the "New Prompt" button. Then, to edit it, click on the new untitled prompt in your sidebar prompt list. You can also edit your other prompts in the same way.
 
 <img src="https://github.com/benf2004/ChatGPT-Prompt-Genius/raw/master/public/images/newpromptdemo.webp">
 
@@ -25,7 +25,8 @@ Access all of your prompts without leaving the chatbox! Simply type /\[prompt na
 
 You can use the /hotkey throughout your conversation & multiple times in the same chat. The suggestion box will disappear when you hit space or when you select a prompt. 
 
-## Share & Export
+### Themes 
 
+ChatGPT Prompt Genius let's you customize the look of ChatGPT. 
 
-## Themes
+#tutorial #help #faq #guide #promptcreation #extension #subreddit #howto 

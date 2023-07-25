@@ -50,6 +50,6 @@ To save a prompt from the extension subreddit or elsewhere, highlight some text,
 
 <img src="https://github.com/benf2004/ChatGPT-Prompt-Genius/raw/master/public/images/RightClickSave.webp">
 
-
+[[02 - ChatGPT interface, themes, export|Continue to Part 2]]
 
 #tutorial #help #faq #guide #promptcreation #extension #subreddit #howto 
