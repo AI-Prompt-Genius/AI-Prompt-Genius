@@ -438,5 +438,17 @@
   },
   "tutorial" : {
     "message" : "教學"
+  },
+  "human": {
+    "message": "人類"
+  },
+  "assistant": {
+    "message": "助理"
+  },
+  "conversation": {
+    "message": "對話"
+  },
+  "exported_on": {
+    "message": "导出时间"
   }
 }

@@ -438,5 +438,17 @@
   },
   "tutorial" : {
     "message" : "Útmutató"
+  },
+  "human": {
+    "message": "Ember"
+  },
+  "assistant": {
+    "message": "Segítő"
+  },
+  "conversation": {
+    "message": "Beszélgetés"
+  },
+  "exported_on": {
+    "message": "Exportálva"
   }
 }

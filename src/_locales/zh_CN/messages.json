@@ -420,5 +420,17 @@
   },
   "tutorial" : {
     "message" : "教程"
+  },
+  "human": {
+    "message": "人类"
+  },
+  "assistant": {
+    "message": "助手"
+  },
+  "conversation": {
+    "message": "对话"
+  },
+  "exported_on": {
+    "message": "导出时间"
   }
 }

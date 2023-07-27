@@ -420,5 +420,17 @@
   },
   "tutorial" : {
     "message" : "Посібник"
+  },
+  "human": {
+    "message": "Людина"
+  },
+  "assistant": {
+    "message": "Асистент"
+  },
+  "conversation": {
+    "message": "Розмова"
+  },
+  "exported_on": {
+    "message": "Експортовано"
   }
 }

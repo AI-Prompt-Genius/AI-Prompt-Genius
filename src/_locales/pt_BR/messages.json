@@ -438,5 +438,17 @@
   },
   "tutorial" : {
     "message" : "Tutorial"
+  },
+  "human": {
+    "message": "Humano"
+  },
+  "assistant": {
+    "message": "Assistente"
+  },
+  "conversation": {
+    "message": "Conversa"
+  },
+  "exported_on": {
+    "message": "Exportado em"
   }
 }
