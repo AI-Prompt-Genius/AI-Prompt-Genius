@@ -78,7 +78,7 @@ async function main() {
 </div>
 <button id="closePrompt" style="position: absolute; z-index: 1; bottom: 0; right: 259px; background-color: #202123; width: 28px; height: 28px; color: white; border-top-left-radius: 5px; border-bottom-left-radius: 3px;">></button>
 `;
-  let nav = document.querySelector("#__next").querySelector("div");
+  let nav = document.querySelector("#__next").querySelector("div").querySelector("div");
   let chatInput = document.querySelector("#prompt-textarea");
   let mainPar = document.querySelector("main").parentElement;
   nav.insertAdjacentHTML("beforebegin", promptBar);
