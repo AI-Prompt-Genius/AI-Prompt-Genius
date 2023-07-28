@@ -127,7 +127,7 @@ async function load_branched_thread()
 				data_parent_leaf.decrementCurrentLeafIndex();
 				load_branched_thread();
 			};
-			buttonLeft.innerHTML = `<i class="fa-regular fa-angle-left"></i>`;
+			buttonLeft.innerHTML = `<i class="fa-solid fa-angle-left"></i>`;
 			branchSelectorElement.appendChild(buttonLeft);
 			if((current_leaf_index <= 0))
 			{
@@ -147,7 +147,7 @@ async function load_branched_thread()
 				data_parent_leaf.incrementCurrentLeafIndex();
 				load_branched_thread();
 			};
-			buttonRight.innerHTML = `<i class="fa-regular fa-angle-right"></i>`;
+			buttonRight.innerHTML = `<i class="fa-solid fa-angle-right"></i>`;
 			branchSelectorElement.appendChild(buttonRight);
 			if((current_leaf_index >= leaves_length - 1))
 			{

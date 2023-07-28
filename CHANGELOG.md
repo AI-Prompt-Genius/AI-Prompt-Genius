@@ -1,3 +1,10 @@
+### v3.1.4 - July 27, 2023
+
+- Localized export to markdown
+- Switched export to markdown to Showdown
+- Removed ShareGPT (sherlocked)
+- Fixed icon in thread
+
 ### v3.1.3 - July 19, 2023
 
 - Switch to ko-fi instead of buymeacoffee

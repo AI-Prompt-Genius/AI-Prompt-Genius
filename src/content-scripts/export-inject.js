@@ -25,6 +25,9 @@ function addExportButtons()
 						/* libraries */
 						injectScript(chrome.runtime.getURL('external-js/html2canvas.js'), 'body');
 						injectScript(chrome.runtime.getURL('external-js/jspdf.umd.js'), 'body');
+						injectScript(chrome.runtime.getURL('external-js/turndown.min.js'), 'body');
+						injectScript(chrome.runtime.getURL('external-js/turndown-plugin.min.js'), 'body');
+
 						/* main script*/
 						injectScript(chrome.runtime.getURL('content-scripts/export-buttons.js'), 'body');
 						injectScript(chrome.runtime.getURL('content-scripts/translate-inject.js'), 'body');
