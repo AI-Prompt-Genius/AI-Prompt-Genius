@@ -1,3 +1,7 @@
+### v3.1.5 - July 29, 2023
+
+- Turkish & Italian translations
+
 ### v3.1.4 - July 28, 2023
 
 - Localized export to markdown

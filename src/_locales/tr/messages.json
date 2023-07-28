@@ -1,0 +1,454 @@
+{
+  "appName": {
+    "message": "AI Prompt Genius"
+  },
+  "appDesc": {
+    "message": "ChatGPT için en iyi ipuçlarını keşfedin, paylaşın, içe aktarın ve kullanın ve sohbet geçmişinizi yerel olarak kaydedin (eski adıyla ChatGPT History)."
+  },
+  "search_threads": {
+    "message": "Konu başlıklarını ara..."
+  },
+  "light": {
+    "message": "Işık"
+  },
+  "mode": {
+    "message": "Mod"
+  },
+  "bookmarks": {
+    "message": "Yer İmleri"
+  },
+  "settings": {
+    "message": "ayarlar"
+  },
+  "prompts": {
+    "message": "Prompts (İpuçları)"
+  },
+  "storage": {
+    "message": "depolama"
+  },
+  "resync_all": {
+    "message": "Tümünü Yeniden Eşitle"
+  },
+  "faq": {
+    "message": "SSS"
+  },
+  "chatgpt": {
+    "message": "ChatGPT"
+  },
+  "github": {
+    "message": "GitHub"
+  },
+  "tip_jar": {
+    "message": "İpucu Kavanozu"
+  },
+  "delete_thread": {
+    "message": "Bu Konuyu sil"
+  },
+  "export_conversation": {
+    "message": "Konuşmanızı Markdown olarak dışa aktarın"
+  },
+  "bookmark_conversation": {
+    "message": "Bu konuşmayı daha sonra göz atmak üzere yer imlerinize ekleyin"
+  },
+  "continue_conversation": {
+    "message": "Sohbetinize ChatGPT ile devam edin"
+  },
+  "search_prompts": {
+    "message": "İpuçları Ara (Prompts)"
+  },
+  "new_prompt": {
+    "message": "Yeni İpucu (Prompt)"
+  },
+  "curated_prompts": {
+    "message": "Özenle seçilmiş ipuçları (Prompts)\n\n\n\n\n"
+  },
+  "public_prompts": {
+    "message": "Halka açık ipuçları (Prompts)"
+  },
+  "history": {
+    "message": "Geçmiş"
+  },
+  "category_placeholder": {
+    "message": "Kategori..."
+  },
+  "category": {
+    "message": "Kategori"
+  },
+  "category_academic_writing": {
+    "message": "Akademik danışmanlık"
+  },
+  "category_bypass_personas": {
+    "message": "Geçiş yapma ve kişilikler (Bypass & Personas)"
+  },
+  "category_education_learning": {
+    "message": "Eğitim - Öğretim"
+  },
+  "category_expert_consultant": {
+    "message": "Expert/Consultant"
+  },
+  "category_fun_games": {
+    "message": "Eğlence ve Oyunlar"
+  },
+  "category_fitness_nutrition_health": {
+    "message": "Fitness, Beslenme ve Sağlık"
+  },
+  "category_fiction_writing": {
+    "message": "Kurgu Yazma"
+  },
+  "category_music": {
+    "message": "Müzik"
+  },
+  "category_nonfiction_writing": {
+    "message": "Kurgusal Olmayan Yazı"
+  },
+  "category_other": {
+    "message": "Diğer"
+  },
+  "category_philosophy_logic": {
+    "message": "Felsefe ve Mantık"
+  },
+  "category_poetry": {
+    "message": "Şiir"
+  },
+  "category_programming_technology": {
+    "message": "Programlama ve Teknoloji"
+  },
+  "category_speeches_scripts": {
+    "message": "Konuşmalar ve Senaryolar"
+  },
+  "category_social_media_blogging": {
+    "message": "Sosyal Medya ve Blog Yazarlığı"
+  },
+  "category_travel": {
+    "message": "Seyahat"
+  },
+  "category_therapy_life_help": {
+    "message": "Terapi ve Hayat Yardımı"
+  },
+  "enter_tag": {
+    "message": "Etiket eklemek için enter'a basın..."
+  },
+  "delete_prompt": {
+    "message": "Bu ipucunu sil"
+  },
+  "use_prompt": {
+    "message": "Bu ipucunu kullan"
+  },
+  "share_reddit": {
+    "message": "Bu ipucunu Reddit'te paylaş"
+  },
+  "all_prompts": {
+    "message": "-Tüm İpuçları-"
+  },
+  "filter_category": {
+    "message": "Kategorileri Filtrele..."
+  },
+  "advertisement": {
+    "message": ""
+  },
+  "advertise_here": {
+    "message": "Burada reklam verin."
+  },
+  "explore_curated_templates": {
+    "message": "Özenle Hazırlanmış İpucu Şablonlarını Keşfet"
+  },
+  "import_prompt": {
+    "message": "İpucunu İçe Aktar →"
+  },
+  "prev": {
+    "message": "Önceki"
+  },
+  "next": {
+    "message": "Sonraki"
+  },
+  "make_prompts_default_home": {
+    "message": "İpuçlarını varsayılan ana sayfa yap"
+  },
+  "disable_save_chat_history": {
+    "message": "Sohbet geçmişini yerel olarak kaydetmeyi devre dışı bırak"
+  },
+  "disable_prompts_on_chatgpt": {
+    "message": "ChatGPT'de ipuçlarını devre dışı bırak",
+    "description": "Your prompt templates won't show up on ChatGPT. For use with other Chrome Extensions."
+  },
+  "chatgpt_plus_user": {
+    "message": "ChatGPT Plus kullanıcısıyım",
+    "description": "The extension will try to detect this automatically, but it sometimes fails. Don't check this if you're not using ChatGPT plus."
+  },
+  "use_visual_editor_on_reddit": {
+    "message": "Reddit'te görsel metin düzenleyicisini kullan (ipuçlarını paylaşmak için)"
+  },
+  "use_ctrl_enter_to_save": {
+    "message": "İpuçlarını kaydetmek için ctrl + enter (veya mac için ⌘ + enter) kullan"
+  },
+  "auto_delete_threads": {
+    "message": "30 gün sonra (yer imi olmayan) konuları otomatik olarak sil"
+  },
+  "show_export_button_dropdown": {
+    "message": "Dışa aktarma düğme açılır menüsünü göster"
+  },
+  "auto_send_prompt": {
+    "message": "İpuçları kullanılırken otomatik olarak mesaj gönder"
+  },
+  "auto_send_note": {
+    "message": "İpuçlarınızı kullanırken devam düğmesine tıkladığınızda ipucunuz otomatik olarak gönderilecektir"
+  },
+  "default_continue_message": {
+    "message": "Varsayılan \"devam\" mesajı"
+  },
+  "default_continue_message_note": {
+    "message": "\"Devam\" düğmesine tıkladığınızda sohbetinizin transkriptinden önce görünecektir. Bu, yalnızca 15 Aralık 2022 güncellemesinden önceki eski konuşmalara uygulanır."
+  },
+  "default_message": {
+    "message": "Varsayılan mesaj"
+  },
+  "import_export_archive": {
+    "message": "İçe Aktar/ Dışa Aktar - Arşiv"
+  },
+  "archive_files": {
+    "message": "Bu dosyalar bilgi istemlerinizi ve geçmişinizi geri yüklemek için kullanılır. Geçmişi, istemleri ve ayarları içeren tümünü dışa aktar."
+  },
+  "export_prompts": {
+    "message": "İpucunu İçe Aktar"
+  },
+  "export_history": {
+    "message": "Geçmişi dışa aktar"
+  },
+  "export_settings": {
+    "message": "Dışa Aktarma Ayarları"
+  },
+  "export_all": {
+    "message": "Tümünü Dışa Aktar"
+  },
+  "import_any": {
+    "message": "Önemli"
+  },
+  "mass_delete_header": {
+    "message": "Tehlikeli Bölge - Toplu Silme"
+  },
+  "mass_delete_note": {
+    "message": "İstemlerinizi ve ileti dizilerinizi toplu olarak silin. Önce ihracat yapmanızı öneririz."
+  },
+  "delete_all_prompts_span": {
+    "message": "Tüm Karakterleri Sil"
+  },
+  "delete_all_history_span": {
+    "message": "Tüm geçmişi sil"
+  },
+  "confirm_span": {
+    "message": "Onayla"
+  },
+  "faq_header": {
+    "message": "Sıkça Sorulan Sorular"
+  },
+  "faq_permissions_header": {
+    "message": "Bu eklenti neden reddit izinleri gerektiriyor?"
+  },
+  "faq_permissions_answer": {
+    "message": "İstediğimiz tek izin, kendi alt dizinimiz olan r/ChatGPTPromptGenius içindir ve bu, yalnızca alt dizinimize bilgi istemleri gönderdiğinizde biçimlendirmeye yardımcı olmak içindir. Ayrıca, diğer kişilerin istemlerini hızlı bir şekilde içe aktarmanıza olanak tanıyan bir düğme ekledik. Başka herhangi bir subreddit üzerinde herhangi bir komut dosyası çalıştırmıyoruz ve reddit'ten herhangi bir veri toplamıyoruz."
+  },
+  "faq_data_header": {
+    "message": "Et ile ne yapıyorsun?"
+  },
+  "faq_data_answer": {
+    "message": "Anladığımız kadarıyla verileriniz sizin için önemlidir ve size tamamen kontrolünüz altında olduğunu garanti etmek istiyoruz. Tüm verileriniz yerel olarak cihazınızda depolanır ve üzerinde herhangi bir sahiplik iddiasında bulunmuyoruz. Ayrıca, verilerinize erişimimiz yoktur (sunucularımız da yoktur), çünkü yalnızca cihazınızın yerel depolamasında saklanır. Bir sohbeti paylaşmayı seçerseniz, bu ShareGPT sunucusuna yüklenecektir, ancak verilerinize olan haklarınızı hala korursunuz. Verilerinizi ham Markdown biçiminde istediğiniz zaman dışa aktarabilirsiniz ve size kolaylık sağlamak için daha fazla dışa aktarma biçimi eklemek üzerinde çalışıyoruz."
+  },
+  "faq_delete_header": {
+    "message": "Bağlantı yoluyla paylaştığım bir şeyi silebilir miyim?"
+  },
+  "faq_sharegpt_data": {
+    "message": "Maalesef, paylaşılan hizmetlerinizi barındırmak için ShareGPT'nin genel sunucularını kullanıyoruz. Bu verilere erişme yolumuz yok. Herhangi bir hassas bilgi paylaşmamanızı öneririz."
+  },
+  "faq_data_shared_header": {
+    "message": "Paylaşılan başka hangi veriler var?"
+  },
+  "faq_data_shared_answer": {
+    "message": "\"Paylaş link\" düğmesini kullanarak verileri açıkça paylaşmadıkça, hiçbir veri cihazınızdan çıkmaz. Tümü yerel depolamada saklanır, hatta pdf/png/md olarak dışa aktarmalar bile."
+  },
+  "faq_bug_header": {
+    "message": "Bir hata buldum!"
+  },
+  "faq_bug_text_part1": {
+    "message": "Bir hatayla karşılaştığınızı duyduğumuza üzgünüz. Lütfen "
+  },
+  "faq_bug_text_part2": {
+    "message": "GitHub deposunda"
+  },
+  "faq_bug_text_part3": {
+    "message": "bir sorun oluşturabilir misiniz, sorunu mümkün olan en kısa sürede çözmek için çalışacağız. Maceraperest hissediyorsanız, hatayı kendiniz düzeltmek ve dünyada görmek istediğiniz kısmı belirtiniz."
+  },
+  "faq_feature_header": {
+    "message": "Bir özellik fikrim var!"
+  },
+  "faq_improve_extension_text_part1": {
+    "message": "Uzantımızı geliştirmek için her zaman yollar arıyoruz ve fikirlerinizi duymaktan mutluluk duyarız. Lütfen düşüncelerinizi paylaşmak için"
+  },
+  "faq_improve_extension_text_part2": {
+    "message": "GitHub deposunu"
+  },
+  "faq_improve_extension_text_part3": {
+    "message": "kullanın."
+  },
+  "faq_we_header": {
+    "message": "\"Biz\" kimiz?"
+  },
+  "faq_we_text": {
+    "message": "Bu proje açık kaynaklıdır ve birçok katkıda bulunan içerir. Bir iyileştirme gerektiğinde bir sorun veya talep açarak yardımcı olabilirsiniz."
+  },
+  "dark": {
+    "message": "Koyu"
+  },
+  "all_threads": {
+    "message": "Tüm Konular"
+  },
+  "welcome_history": {
+    "message": "Hoş geldiniz! İplik geçmişinizin görüneceği yer burasıdır. Senkronizasyona başlamak için ChatGPT'yi açın."
+  },
+  "resyncing": {
+    "message": "Yeniden senkronize ediliyor..."
+  },
+  "copied": {
+    "message": "Kopyalandı!"
+  },
+  "no_data": {
+    "message": "Mevcut dal için kullanılabilir veri yok."
+  },
+  "language": {
+    "message": "Dil"
+  },
+  "share": {
+    "message": "Paylaş"
+  },
+  "export": {
+    "message": "Dışa Aktar"
+  },
+  "download": {
+    "message": "İndir"
+  },
+  "link": {
+    "message": "Bağlantı"
+  },
+  "theme_settings": {
+    "message": "Tema Ayarları"
+  },
+  "all_categories": {
+    "message": "Tüm Kategoriler"
+  },
+  "templates_title": {
+    "message": "ChatGPT Prompt Genius Şablonları"
+  },
+  "compact": {
+    "message": "Kompakt görünüm"
+  },
+  "discover": {
+    "message": "İpuçları Keşfet"
+  },
+  "my_prompts": {
+    "message": "Benim İpuçlarım (Prompts)"
+  },
+  "to": {
+    "message": "kime"
+  },
+  "of": {
+    "message": "arasında"
+  },
+  "entries": {
+    "message": "Girişler"
+  },
+  "showing": {
+    "message": "Gösteriliyor"
+  },
+  "help_translate": {
+    "message": "Bunu kendi dilinize çevirin veya otomatik çevrilen içeriği düzeltin."
+  },
+  "default_continue": {
+    "message": "Aşağıdaki, benim ve ChatGPT arasında geçen bir konuşmanın transkriptidir. Konuşmanın geri kalanında bağlam için kullanın. ChatGPT tarafından daha önce verilen yanıtları düzenleyin ve üzerine inşa edin. Eğer bağlamı anladıysanız \"hazır!\" şeklinde yanıtlayın. Başka bir şeyle yanıt vermeyin. Konuşma:\n"
+  },
+  "resync_interim": {
+    "message": "Bu sayfa, bazı hataları düzeltirken senkronizasyonu izole etme amacıyla geçici olarak kullanılmaktadır. Önceki konuşmalarınızı ChatGPT ile yeniden senkronize etmek için gezinti çubuğunda \"Tümünü Senkronize Et\"e tıklayın."
+  },
+  "cloud_syncing": {
+    "message": "Bulut Senkronizasyonu"
+  },
+  "cloud_note": {
+    "message": "İpucularınızı Google Sheets üzerinde bulut ile senkronize edin. Sadece Chrome."
+  },
+  "cloud_disclaimer": {
+    "message": "Not: Senkronizasyonun düzgün çalışması için aynı Google hesabına giriş yapmış olmanız gerekmektedir."
+  },
+  "cloud_rearrange": {
+    "message": "Senkronizasyon etkin olduğunda ipuçlarınızı yeniden düzenlemek için bağlantılı elektronik tabloda satırları sürükleyin."
+  },
+  "link_sheet": {
+    "message": "Google Sheets'i Bağla"
+  },
+  "view_linked": {
+    "message": "Bağlantılı tabloyu görüntüle"
+  },
+  "force_resync": {
+    "message": "Zorla Yeniden Senkronize Et"
+  },
+  "unlink": {
+    "message": "Bağlantıyı Kaldır"
+  },
+  "name": {
+    "message": "İsim"
+  },
+  "description": {
+    "message": "Açıklama"
+  },
+  "prompt": {
+    "message": "İpucu"
+  },
+  "tags": {
+    "message": "Etiketler"
+  },
+  "placeholder": {
+    "message": "Bir mesaj yazın veya bir ipucu seçmek için \"/\" tuşuna basın..."
+  },
+  "untitled": {
+    "message": "İsimsiz İpucu"
+  },
+  "prompt_name": {
+    "message": "İpucu için bir ad."
+  },
+  "prompt_body": {
+    "message": "İpucu içeriği. Değişkenleri belirtmek için {{}} kullanın. Örnek: {{isim}} bir {{sıfat}} {{isim}}."
+  },
+  "prompt_tags": {
+    "message": "İpucu için etiketler. Virgülle ayırın ve boşluk bırakmayın."
+  },
+  "save": {
+    "message": "Kaydet"
+  },
+  "enter_val": {
+    "message": "Değer girin:"
+  },
+  "submit": {
+    "message": "Gönder"
+  },
+  "no_theme": {
+    "message": "Tema Yok"
+  },
+  "no_font": {
+    "message": "Yok"
+  },
+  "what_new": {
+    "message": "Neler Yeni?"
+  },
+  "tutorial": {
+    "message": "Öğretici"
+  },
+  "human": {
+    "message": "İnsan"
+  },
+  "assistant": {
+    "message": "Asistan"
+  },
+  "conversation": {
+    "message": "Konuşma"
+  },
+  "exported_on": {
+    "message": "Dışa Aktarıldığı Tarih"
+  }
+}
