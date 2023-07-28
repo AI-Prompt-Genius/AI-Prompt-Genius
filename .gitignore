@@ -9,3 +9,4 @@ docs/Private
 package-lock.json
 package.json
 .prettierrc.json
+yarn.lock
