@@ -36,12 +36,10 @@ const ExportButtons = (function()
 
 	function convertChatToMarkdown(chat, title) {
 		let string = "";
-		if(title)
-		{
+		if(title) {
 			string += "# " + title + "\n";
 		}
-		else
-		{
+		else {
 			string += "# " + `${tr("chatgpt")} ${tr("conversation")}` + "\n";
 		}
 		string += "\n"; // two newlines because MD is like that
