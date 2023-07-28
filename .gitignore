@@ -6,3 +6,6 @@ releases/
 .DS_Store
 docs/.obsidian
 docs/Private
+package-lock.json
+package.json
+.prettierrc.json
