@@ -1,7 +1,8 @@
 ### v3.1.4 - July 27, 2023
 
 - Localized export to markdown
-- Switched export to markdown to Showdown
+- Switched export to markdown to Turndown (even though showdown is supposed to be bidirectional, it doesn't really work)
+- Markdown syntax is consistent, including support for MathJax
 - Removed ShareGPT (sherlocked)
 - Fixed icon in thread
 

@@ -19,6 +19,16 @@ const ExportButtons = (function()
 	function messageToMarkdown(html) {
 		var converter = new TurndownService({codeBlockStyle: "fenced", emDelimiter: "*"});
 		var gfm = turndownPluginGfm.gfm;
+		converter.addRule('math', {
+			filter: function (node) {
+				return node.classList.contains('math')
+			},
+			replacement: function (content, node, options) {
+				const text = node.querySelector('annotation').textContent
+				console.log(text)
+				return `$${text}$`
+			}
+		})
 		converter.use(gfm)
 		const md = converter.turndown(html)
 		return md;
