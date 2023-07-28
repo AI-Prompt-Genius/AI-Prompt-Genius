@@ -391,19 +391,19 @@
   "unlink": {
     "message": "Desvincular folha"
   },
-  "name" : {
+  "name": {
     "message": "Nome"
   },
   "description": {
     "message": "Descrição"
   },
-  "prompt":{
+  "prompt": {
     "message": "Sugestão"
   },
   "tags": {
     "message": "Etiquetas"
   },
-  "placeholder":{
+  "placeholder": {
     "message": "Digite uma mensagem ou digite \"/\" para selecionar uma sugestão..."
   },
   "untitled": {
@@ -421,10 +421,10 @@
   "save": {
     "message": "Guardar"
   },
-  "enter_val" : {
+  "enter_val": {
     "message": "Introduza um valor para"
   },
-  "submit" : {
+  "submit": {
     "message": "Submeter"
   },
   "no_theme": {
@@ -433,11 +433,11 @@
   "no_font": {
     "message": "Sem tipo de letra"
   },
-  "what_new" : {
+  "what_new": {
     "message": "O que há de novo?"
   },
-  "tutorial" : {
-    "message" : "Tutorial"
+  "tutorial": {
+    "message": "Tutorial"
   },
   "human": {
     "message": "Humano"

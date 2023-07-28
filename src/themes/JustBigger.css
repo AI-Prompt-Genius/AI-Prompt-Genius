@@ -1,11 +1,9 @@
 /* Style Input */
-main > div.absolute > form
-{
+main > div.absolute > form {
   max-width: 90%;
 }
 
-main .flex-col.items-center.text-sm > div > div
-{	
-  padding-bottom:0;
+main .flex-col.items-center.text-sm > div > div {
+  padding-bottom: 0;
   max-width: 90%;
 }

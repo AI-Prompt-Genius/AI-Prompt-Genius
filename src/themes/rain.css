@@ -12,79 +12,67 @@
 	https://www.pexels.com/video/sewerage-856283/
 	pixabay
  */
-.dark main > div:first-child > div 
-{
-	background: transparent;
+.dark main > div:first-child > div {
+  background: transparent;
 }
 
-main .flex-col.items-center.text-sm
-{
-	background: none;
+main .flex-col.items-center.text-sm {
+  background: none;
 }
 
-main .flex-col.items-center.text-sm > div.bg-gray-50
-{	
-	background: none; /* transparent it so we can see the background image */
+main .flex-col.items-center.text-sm > div.bg-gray-50 {
+  background: none; /* transparent it so we can see the background image */
 }
 
-.dark main .dark\:bg-gray-800
-{
-	background: transparent;
+.dark main .dark\:bg-gray-800 {
+  background: transparent;
 }
 
 /* override borders */
-main .flex-col.items-center.text-sm > div
-{	
-	border: none;
+main .flex-col.items-center.text-sm > div {
+  border: none;
 }
 
 /* Disregard spacer without disabling its position in the layout. */
-main .flex-col.items-center.text-sm > div:last-child
-{
-	visibility: hidden;
+main .flex-col.items-center.text-sm > div:last-child {
+  visibility: hidden;
 }
 
 /* Disable that weird gradient for inputs */
-main > div.md\:bg-vert-light-gradient
-{
-	background: rgba(255,255,255,0.6) !important; /* glass effect */
+main > div.md\:bg-vert-light-gradient {
+  background: rgba(255, 255, 255, 0.6) !important; /* glass effect */
 }
 
-.dark .dark\:md\:bg-vert-dark-gradient
-{
-	background: rgba(52,53,65, 1.0) !important;
+.dark .dark\:md\:bg-vert-dark-gradient {
+  background: rgba(52, 53, 65, 1) !important;
 }
 
 /* Foolproof (TM) Individual Chat Node Selector */
-main .flex-col.items-center.text-sm > div
-{
-	
+main .flex-col.items-center.text-sm > div {
 }
 
 main {
-	background-image: url("https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public/images/rain-loop-gif.webp");
-	background-repeat: no-repeat;
-	background-size: cover;
+  background-image: url("https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public/images/rain-loop-gif.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 main .flex-col.items-center.text-sm > div > h1.text-center, /* Only select the ChatGPT main header */
-main .flex-col.items-center.text-sm > div > div
-{	
-	background: rgba(255,255,255,0.6); /* glass effect */
-	box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-	margin-top: 20px;
-	padding-top :20px;
-	padding-bottom :20px;
-	padding-left: 80px;
-	padding-right: 80px;
-	border-radius: 10px;
-	
-	/* reset this */
-	max-width: 60rem;
+main .flex-col.items-center.text-sm > div > div {
+  background: rgba(255, 255, 255, 0.6); /* glass effect */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 10px;
+
+  /* reset this */
+  max-width: 60rem;
 }
 
 .dark main .flex-col.items-center.text-sm > div > h1.text-center, /* Only select the ChatGPT main header */
-.dark main .flex-col.items-center.text-sm > div > div
-{	
-	background: rgba(52,53,65, 1.0);
+.dark main .flex-col.items-center.text-sm > div > div {
+  background: rgba(52, 53, 65, 1);
 }

@@ -11,8 +11,8 @@
   "light": {
     "message": "Light"
   },
-  "mode":{
-    "message":  "Mode"
+  "mode": {
+    "message": "Mode"
   },
   "bookmarks": {
     "message": "Bookmarks"
@@ -223,7 +223,7 @@
   "import_any": {
     "message": "Import Any"
   },
-"mass_delete_header": {
+  "mass_delete_header": {
     "message": "Danger Zone - Mass Delete"
   },
   "mass_delete_note": {
@@ -301,7 +301,7 @@
   "all_threads": {
     "message": "All Threads"
   },
-  "welcome_history":{
+  "welcome_history": {
     "message": "Welcome! This is where your thread history will appear. To start syncing, open ChatGPT."
   },
   "resyncing": {
@@ -313,7 +313,7 @@
   "no_data": {
     "message": "No data available for current branch."
   },
-  "language":{
+  "language": {
     "message": "Language"
   },
   "share": {
@@ -328,7 +328,7 @@
   "link": {
     "message": "Link"
   },
-  "theme_settings":{
+  "theme_settings": {
     "message": "Theme Settings"
   },
   "all_categories": {
@@ -391,19 +391,19 @@
   "unlink": {
     "message": "Unlink Sheet"
   },
-  "name" : {
+  "name": {
     "message": "Name"
   },
   "description": {
     "message": "Description"
   },
-  "prompt":{
+  "prompt": {
     "message": "Prompt"
   },
   "tags": {
     "message": "Tags"
   },
-  "placeholder":{
+  "placeholder": {
     "message": "Type a message or type \"/\" to select a prompt..."
   },
   "untitled": {
@@ -422,10 +422,10 @@
     "message": "Save"
   },
 
-  "enter_val" : {
+  "enter_val": {
     "message": "Enter a value for"
   },
-  "submit" : {
+  "submit": {
     "message": "Submit"
   },
   "no_theme": {
@@ -434,11 +434,11 @@
   "no_font": {
     "message": "No Font"
   },
-  "what_new" : {
+  "what_new": {
     "message": "What's New?"
   },
-  "tutorial" : {
-    "message" : "Tutorial"
+  "tutorial": {
+    "message": "Tutorial"
   },
   "human": {
     "message": "Human"

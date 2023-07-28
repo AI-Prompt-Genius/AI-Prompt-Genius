@@ -1,60 +1,74 @@
 let isCompact;
 let firstTime = true;
 (() => {
-    // Save a reference to the original fetch function
-    const fetch = window._fetch = window._fetch || window.fetch
-    window.fetch = (...t) => {
-        // If the request is not for the chat backend API or moderations, just use the original fetch function
-        if (!(t[0].includes('https://chat.openai.com/backend-api/conversation') || t[0].includes('https://chat.openai.com/backend-api/moderations'))) return fetch(...t)
+  // Save a reference to the original fetch function
+  const fetch = (window._fetch = window._fetch || window.fetch);
+  window.fetch = (...t) => {
+    // If the request is not for the chat backend API or moderations, just use the original fetch function
+    if (
+      !(
+        t[0].includes("https://chat.openai.com/backend-api/conversation") ||
+        t[0].includes("https://chat.openai.com/backend-api/moderations")
+      )
+    )
+      return fetch(...t);
 
-        try {
-            // Get the options object for the request, which includes the request body
-            const options = t[1]
-            // Parse the request body from JSON
-            const body = JSON.parse(options.body)
-            if (body.hasOwnProperty('conversation_id') && !document.querySelector('#conversationID')) {
-                // rather than deal with message passing, we use a DOM element which the content scripts can access
-                let conversationID = body['conversation_id']
-                document.body.appendChild(document.createElement(`input`)).setAttribute("id", "conversationID")
-                document.querySelector("#conversationID").setAttribute("type", "hidden")
-                document.querySelector("#conversationID").style.display = "none"
-                document.querySelector("#conversationID").value = conversationID
-                return fetch(...t)
-            }
+    try {
+      // Get the options object for the request, which includes the request body
+      const options = t[1];
+      // Parse the request body from JSON
+      const body = JSON.parse(options.body);
+      if (
+        body.hasOwnProperty("conversation_id") &&
+        !document.querySelector("#conversationID")
+      ) {
+        // rather than deal with message passing, we use a DOM element which the content scripts can access
+        let conversationID = body["conversation_id"];
+        document.body
+          .appendChild(document.createElement(`input`))
+          .setAttribute("id", "conversationID");
+        document
+          .querySelector("#conversationID")
+          .setAttribute("type", "hidden");
+        document.querySelector("#conversationID").style.display = "none";
+        document.querySelector("#conversationID").value = conversationID;
+        return fetch(...t);
+      }
 
-            // If no prompt template has been selected, use the original fetch function
-            else {
-                return fetch(...t)
-            }
-        } catch {
-            // If there was an error parsing the request body or modifying the request,
-            // just use the original fetch function
-            return fetch(...t)
-        }
+      // If no prompt template has been selected, use the original fetch function
+      else {
+        return fetch(...t);
+      }
+    } catch {
+      // If there was an error parsing the request body or modifying the request,
+      // just use the original fetch function
+      return fetch(...t);
     }
+  };
 
-    // Create a new observer for the chat sidebar to watch for changes to the document body
-    const observer = new MutationObserver(mutations => {
-        // For each mutation (change) to the document body
-        mutations.forEach(mutation => {
-            // If the mutation is not a change to the list of child nodes, skip it
-            if (mutation.type !== 'childList')
-                // If no new nodes were added, skip this mutation
-                if (mutation.addedNodes.length == 0) return
-            // Get the first added node
-            const node = mutation.addedNodes[0]
-            // If the node is not an element or does not have a `querySelector` method, skip it
-            if (!node || !node.querySelector) return
-            // Call the `handleElementAdded` function with the added node
-            handleElementAdded(node)
-        })
-    })
+  // Create a new observer for the chat sidebar to watch for changes to the document body
+  const observer = new MutationObserver((mutations) => {
+    // For each mutation (change) to the document body
+    mutations.forEach((mutation) => {
+      // If the mutation is not a change to the list of child nodes, skip it
+      if (mutation.type !== "childList")
+        if (mutation.addedNodes.length == 0)
+          // If no new nodes were added, skip this mutation
+          return;
+      // Get the first added node
+      const node = mutation.addedNodes[0];
+      // If the node is not an element or does not have a `querySelector` method, skip it
+      if (!node || !node.querySelector) return;
+      // Call the `handleElementAdded` function with the added node
+      handleElementAdded(node);
+    });
+  });
 
-    // Start observing the document body for changes
-    observer.observe(document.body, { subtree: true, childList: true })
+  // Start observing the document body for changes
+  observer.observe(document.body, { subtree: true, childList: true });
 
-    // Fetch the list of prompt templates from a remote CSV file
-    /*fetch('https://raw.githubusercontent.com/mohalobaidi/awesome-chatgpt-prompts/main/prompts.csv')
+  // Fetch the list of prompt templates from a remote CSV file
+  /*fetch('https://raw.githubusercontent.com/mohalobaidi/awesome-chatgpt-prompts/main/prompts.csv')
         // Convert the response to text
         .then(res => res.text())
         // Convert the CSV text to an array of records
@@ -74,25 +88,24 @@ let firstTime = true;
             // Insert the "Prompt Templates" section into the chat interfac
             insertPromptTemplatesSection()
         }) */
-    function loadUserPrompts() {
-		let promptsRawString = document.querySelector('#prompts_storage').value;
-        isCompact = (document.querySelector("#isCompact")?.value === "true") ?? false;
-        //console.log(typeof isCompact)
-        //console.log(isCompact)
-		if(promptsRawString)
-		{
-			// if no prompts, do nothing
-			let prompts = JSON.parse(promptsRawString);
-			window.prompttemplates = prompts.reverse()
-			insertPromptTemplatesSection()
-			document.querySelector('#prompts_storage').remove()
-		}
-
+  function loadUserPrompts() {
+    let promptsRawString = document.querySelector("#prompts_storage").value;
+    isCompact = document.querySelector("#isCompact")?.value === "true" ?? false;
+    //console.log(typeof isCompact)
+    //console.log(isCompact)
+    if (promptsRawString) {
+      // if no prompts, do nothing
+      let prompts = JSON.parse(promptsRawString);
+      window.prompttemplates = prompts.reverse();
+      insertPromptTemplatesSection();
+      document.querySelector("#prompts_storage").remove();
     }
-    setTimeout(loadUserPrompts, 500) // delay to make sure insertPromptTemplates works right
+  }
+  setTimeout(loadUserPrompts, 500); // delay to make sure insertPromptTemplates works right
 
-    document.head.insertAdjacentHTML("beforeend",
-`<style>
+  document.head.insertAdjacentHTML(
+    "beforeend",
+    `<style>
         .highlight {
         color: black !important;
         background-color: yellow;
@@ -102,49 +115,49 @@ let firstTime = true;
         body {
         overflow: hidden !important;
         }
-    </style>`)
+    </style>`,
+  );
 
-    // Set up the Sidebar (by adding "Export Chat" button and other stuff)
-    setupSidebar()
-})()
+  // Set up the Sidebar (by adding "Export Chat" button and other stuff)
+  setupSidebar();
+})();
 
 // This function is called for each new element added to the document body
-function handleElementAdded (e) {
-    // If the element added is the root element for the chat sidebar, set up the sidebar
-    if (e.id === 'headlessui-portal-root') {
-        setupSidebar()
-        return
-    }
+function handleElementAdded(e) {
+  // If the element added is the root element for the chat sidebar, set up the sidebar
+  if (e.id === "headlessui-portal-root") {
+    setupSidebar();
+    return;
+  }
 
-    // Add "Copy Button" to Assistant's chat bubble.
-    if (e.querySelector('.lg\\:self-center.lg\\:pl-2')) {
-        // Get buttons group
-        const buttonGroup = e.querySelector('.lg\\:self-center.lg\\:pl-2')
-        // Filter out Assistant's chat bubble from User's chat bubble
-        if (buttonGroup.children.length !== 2) return
-        // It heavily depends on the fact Assistant's has two buttons, "upvote" and "downvote".
-        // and the user has only one button, "edit prompt".
-    }
-
+  // Add "Copy Button" to Assistant's chat bubble.
+  if (e.querySelector(".lg\\:self-center.lg\\:pl-2")) {
+    // Get buttons group
+    const buttonGroup = e.querySelector(".lg\\:self-center.lg\\:pl-2");
+    // Filter out Assistant's chat bubble from User's chat bubble
+    if (buttonGroup.children.length !== 2) return;
+    // It heavily depends on the fact Assistant's has two buttons, "upvote" and "downvote".
+    // and the user has only one button, "edit prompt".
+  }
 }
 
 function hideTitleAndExamples(title, isPlus) {
-    title.style = 'display: none';
-    if (!isPlus && title.nextSibling) {
-        title.nextSibling.style = 'display: none';
-    }
+  title.style = "display: none";
+  if (!isPlus && title.nextSibling) {
+    title.nextSibling.style = "display: none";
+  }
 }
 
 // the "New Chat" buttons to clear the selected prompt template when clicked
-function setupSidebar () {
-    let newChatButton = document.querySelector('nav').firstChild
-    newChatButton.addEventListener('click', () => {
-        if (document.querySelector('#conversationID')){
-            document.querySelector('#conversationID').remove()
-        }
-        setTimeout(insertPromptTemplatesSection, 300)
-    })
-    /* Get the "New Chat" buttons
+function setupSidebar() {
+  let newChatButton = document.querySelector("nav").firstChild;
+  newChatButton.addEventListener("click", () => {
+    if (document.querySelector("#conversationID")) {
+      document.querySelector("#conversationID").remove();
+    }
+    setTimeout(insertPromptTemplatesSection, 300);
+  });
+  /* Get the "New Chat" buttons
     const buttons = getNewChatButtons()
     // Set the onclick event for each button to clear the selected prompt template
     /*buttons.forEach(button => {
@@ -167,63 +180,64 @@ function getNewChatButtons (callback) {
     return [newChatButton, AddButton].filter(button => button)
 }*/
 
-let focusSearch = false
+let focusSearch = false;
 
 // This object contains properties for the prompt templates section
 const promptTemplateSection = {
-    currentPage: 0, // The current page number
-    pageSize: 5 // The number of prompt templates per page
-}
+  currentPage: 0, // The current page number
+  pageSize: 5, // The number of prompt templates per page
+};
 
 function getMatchingCategory(category, objects = window.prompttemplates) {
-    let matchingObjects = [];
-    for (let i = 0; i < objects.length; i++) {
-        if (objects[i].category === category) {
-            matchingObjects.push(objects[i]);
-        }
+  let matchingObjects = [];
+  for (let i = 0; i < objects.length; i++) {
+    if (objects[i].category === category) {
+      matchingObjects.push(objects[i]);
     }
-    return matchingObjects;
+  }
+  return matchingObjects;
 }
 
 function highlightString(string, searchTerm) {
-    if (searchTerm === ""){
-        return string
-    }
-    // use the original case of the search term when highlighting it
-    const searchTermRegex = new RegExp(searchTerm, "gi");
-    return string?.replace(searchTermRegex, `<span class="highlight">$&</span>`);
+  if (searchTerm === "") {
+    return string;
+  }
+  // use the original case of the search term when highlighting it
+  const searchTermRegex = new RegExp(searchTerm, "gi");
+  return string?.replace(searchTermRegex, `<span class="highlight">$&</span>`);
 }
 
-function searchPrompts(prompts, searchTerm) { // created by ChatGPT
-    searchTerm = searchTerm.toLowerCase();
-    return prompts.filter(prompt => {
-        return (
-            prompt.title.toLowerCase().includes(searchTerm) ||
-            (prompt.text && prompt.text.toLowerCase().includes(searchTerm)) || (prompt.tags  && prompt.tags.includes(searchTerm))
-        );
-    });
+function searchPrompts(prompts, searchTerm) {
+  // created by ChatGPT
+  searchTerm = searchTerm.toLowerCase();
+  return prompts.filter((prompt) => {
+    return (
+      prompt.title.toLowerCase().includes(searchTerm) ||
+      (prompt.text && prompt.text.toLowerCase().includes(searchTerm)) ||
+      (prompt.tags && prompt.tags.includes(searchTerm))
+    );
+  });
 }
 
-function searchAndCat(fs){
-    focusSearch = fs
-    promptTemplateSection.currentPage = 0
-    let searchTerm = document.querySelector("#search").value
-    let prompts = window.prompttemplates
-    let category = document.querySelector("#category").value
-    if (category !== ""){
-        prompts = getMatchingCategory(category, prompts)
-    }
-    if (searchTerm !== ""){
-        prompts = searchPrompts(prompts, searchTerm)
-    }
-    updateTemplates(prompts, category, searchTerm)
+function searchAndCat(fs) {
+  focusSearch = fs;
+  promptTemplateSection.currentPage = 0;
+  let searchTerm = document.querySelector("#search").value;
+  let prompts = window.prompttemplates;
+  let category = document.querySelector("#category").value;
+  if (category !== "") {
+    prompts = getMatchingCategory(category, prompts);
+  }
+  if (searchTerm !== "") {
+    prompts = searchPrompts(prompts, searchTerm);
+  }
+  updateTemplates(prompts, category, searchTerm);
 }
 
-let globalTemplates = window.prompttemplates
+let globalTemplates = window.prompttemplates;
 
-function tagStyling(){
-    let styles =
-    `
+function tagStyling() {
+  let styles = `
     <style>
     .tag {
     display: inline-block;
@@ -268,82 +282,88 @@ function tagStyling(){
         background-color: rgb(32, 33, 35);
     }
     </style>
-    `
-    document.head.insertAdjacentHTML("beforeend", styles)
+    `;
+  document.head.insertAdjacentHTML("beforeend", styles);
 }
 
 let globalTags = [];
 // This function inserts a section containing a list of prompt templates into the chat interface
-async function insertPromptTemplatesSection (templates = window.prompttemplates, category="", searchTerm="") {
-    // Get the title element (as a reference point and also for some alteration)
-    const title = document.querySelector('h1.text-4xl')
+async function insertPromptTemplatesSection(
+  templates = window.prompttemplates,
+  category = "",
+  searchTerm = "",
+) {
+  // Get the title element (as a reference point and also for some alteration)
+  const title = document.querySelector("h1.text-4xl");
 
-    const isMainPage = window.location.href.split("/").length === 4
-    //console.log("Is main" + isMainPage)
-    // If there is no title element, return
-    if (!title){
-        if(isMainPage) {
-            await new Promise(r => setTimeout(r, 500));
-            //console.log("NOT LOADED YET")
-            insertPromptTemplatesSection(templates, category, searchTerm)
-        }
-        return;
+  const isMainPage = window.location.href.split("/").length === 4;
+  //console.log("Is main" + isMainPage)
+  // If there is no title element, return
+  if (!title) {
+    if (isMainPage) {
+      await new Promise((r) => setTimeout(r, 500));
+      //console.log("NOT LOADED YET")
+      insertPromptTemplatesSection(templates, category, searchTerm);
     }
-    // in ChatGPT plus title do not have next sibling
-    const isPlus = isPaidSubscriptionActive() ?? false;
-    hideTitleAndExamples(title, isPlus)
+    return;
+  }
+  // in ChatGPT plus title do not have next sibling
+  const isPlus = isPaidSubscriptionActive() ?? false;
+  hideTitleAndExamples(title, isPlus);
 
-    if(title.parentElement){
-        // Remove the "md:h-full" class from title.parentElement in free
-        title.parentElement.classList.remove('md:h-full')
-        // Remove the "h-full" calss from title.parentElement in plus
-        title.parentElement.classList.remove('h-full')
+  if (title.parentElement) {
+    // Remove the "md:h-full" class from title.parentElement in free
+    title.parentElement.classList.remove("md:h-full");
+    // Remove the "h-full" calss from title.parentElement in plus
+    title.parentElement.classList.remove("h-full");
+  }
+
+  if (isCompact) {
+    promptTemplateSection.pageSize = 10;
+  } else {
+    promptTemplateSection.pageSize = 5;
+  }
+
+  tagStyling();
+
+  // Get the main page, in ChatGPT free is title's parent, in ChatGPT plus is parent's sibling
+  let parent = title.parentElement;
+  if (isPlus) {
+    parent = document.querySelector("#templates-wrapper-main-page");
+    if (!parent) {
+      parent = document.createElement("div");
+      parent.id = "templates-wrapper-main-page";
+      parent.className =
+        "text-gray-800 w-full md:max-w-2xl lg:max-w-3xl md:flex md:flex-col px-6 dark:text-gray-100";
+      title.parentElement.appendChild(parent);
+
+      // fix some style issues
+      title.parentElement.classList.add("items-center");
+      title.previousElementSibling?.classList.add("w-full");
     }
+  }
+  // If there is no parent element, skip
+  if (!parent) return;
 
-    if (isCompact){
-        promptTemplateSection.pageSize = 10
-    }
-    else{
-        promptTemplateSection.pageSize = 5
-    }
+  globalTemplates = templates;
 
-    tagStyling()
+  // Get the current page number and page size from the promptTemplateSection object
+  const { currentPage, pageSize } = promptTemplateSection;
+  // Calculate the start and end indices of the current page of prompt templates
+  const start = pageSize * currentPage;
+  const end = Math.min(pageSize * (currentPage + 1), templates.length);
+  // Get the current page of prompt templates
+  const currentTemplates = templates.slice(start, end);
 
-    // Get the main page, in ChatGPT free is title's parent, in ChatGPT plus is parent's sibling
-    let parent = title.parentElement;
-    if (isPlus) {
-        parent = document.querySelector("#templates-wrapper-main-page")
-        if (!parent) {
-            parent = document.createElement('div')
-            parent.id = "templates-wrapper-main-page"
-            parent.className = 'text-gray-800 w-full md:max-w-2xl lg:max-w-3xl md:flex md:flex-col px-6 dark:text-gray-100'
-            title.parentElement.appendChild(parent)
-
-            // fix some style issues
-            title.parentElement.classList.add('items-center')
-            title.previousElementSibling?.classList.add('w-full')
-        }
-    }
-    // If there is no parent element, skip
-    if (!parent) return
-
-    globalTemplates = templates
-
-    // Get the current page number and page size from the promptTemplateSection object
-    const { currentPage, pageSize } = promptTemplateSection
-    // Calculate the start and end indices of the current page of prompt templates
-    const start = pageSize * currentPage
-    const end = Math.min(pageSize * (currentPage + 1), templates.length)
-    // Get the current page of prompt templates
-    const currentTemplates = templates.slice(start, end)
-
-    const hs = highlightString
-    // Create the HTML for the prompt templates section
-    const html = `
+  const hs = highlightString;
+  // Create the HTML for the prompt templates section
+  const html = `
     <div class="${css`column`}">
     ${svg`ChatBubble`}
     <div>
-    <h2 class="${css`h2`}" style="margin-bottom: 5px"><span data-i18n="templates_title">ChatGPT Prompt Genius Templates</span> - <a href="https://link.aipromptgenius.app/new" target="_blank"><u data-i18n="what_new">What's New?</u> ${svg("Arrow")}</a></h2> 
+    <h2 class="${css`h2`}" style="margin-bottom: 5px"><span data-i18n="templates_title">ChatGPT Prompt Genius Templates</span> - <a href="https://link.aipromptgenius.app/new" target="_blank"><u data-i18n="what_new">What's New?</u> ${svg(
+      "Arrow",
+    )}</a></h2> 
     <div class="${css`paginationText`}" id="cgpt-pg-ad"></div>
     <ul class="flex flex-col gap-3.5">
     
@@ -378,19 +398,33 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
     </div>
     
     <ul class="${css`ul`}" id="templates">
-      ${currentTemplates.map((template, i) => `
+      ${currentTemplates
+        .map(
+          (template, i) => `
         <button id="${template.id}" class="template ${css`card`}">
           <h3 class="child ${css`h3`}">${hs(template.title, searchTerm)}</h3>
-          <p class="child compact-hide temp-text ${css`p`}">${hs(template.text, searchTerm)}</p>
-          <p class="child compact-hide ${css `category`}">${hs(template.category, searchTerm)} ${tags(template.tags ?? [])}</p>
+          <p class="child compact-hide temp-text ${css`p`}">${hs(
+            template.text,
+            searchTerm,
+          )}</p>
+          <p class="child compact-hide ${css`category`}">${hs(
+            template.category,
+            searchTerm,
+          )} ${tags(template.tags ?? [])}</p>
           <span class="child font-medium compact-hide">Use prompt →</span>
         </button>
-      `).join('')}
+      `,
+        )
+        .join("")}
     </ul>
 
     <div class="${css`column`} items-center">
       <span class="${css`paginationText`}" id="pagination">
-        <span data-i18n="showing">Showing</span> <span class="${css`paginationNumber`}">${start + 1}</span> <span data-i18n="to">to</span> <span class="${css`paginationNumber`}">${end}</span> <span data-i18n="of">of</span> <a id="prompt-link"><span class="${css`paginationNumber`}">${templates.length} <span data-i18n="entries">Entries</span></span></a>
+        <span data-i18n="showing">Showing</span> <span class="${css`paginationNumber`}">${
+          start + 1
+        }</span> <span data-i18n="to">to</span> <span class="${css`paginationNumber`}">${end}</span> <span data-i18n="of">of</span> <a id="prompt-link"><span class="${css`paginationNumber`}">${
+          templates.length
+        } <span data-i18n="entries">Entries</span></span></a>
       </span>
       <div class="${css`paginationButtonGroup`}">
         <button onclick="prevPromptTemplatesPage()" class="${css`paginationButton`}" style="border-radius: 6px 0 0 6px" data-i18n="prev">Prev</button>
@@ -401,292 +435,319 @@ async function insertPromptTemplatesSection (templates = window.prompttemplates,
     </div>
     
     <div style="height: 100px;"></div>
-  `
+  `;
 
-    let wrapper = document.createElement('div')
-    wrapper.id = 'templates-wrapper'
-    wrapper.className = 'mt-6 md:flex items-start text-center gap-2.5 md:max-w-2xl lg:max-w-3xl m-auto text-sm'
+  let wrapper = document.createElement("div");
+  wrapper.id = "templates-wrapper";
+  wrapper.className =
+    "mt-6 md:flex items-start text-center gap-2.5 md:max-w-2xl lg:max-w-3xl m-auto text-sm";
 
-    if (parent.querySelector('#templates-wrapper')) {
-        wrapper = parent.querySelector('#templates-wrapper')
+  if (parent.querySelector("#templates-wrapper")) {
+    wrapper = parent.querySelector("#templates-wrapper");
+  } else {
+    parent.appendChild(wrapper);
+  }
+
+  wrapper.innerHTML = html;
+
+  // scroll to top of page
+  let scrollContainer = document.querySelector("main > div > div > div");
+  setTimeout(() => (scrollContainer.scrollTop = 0), 600);
+
+  let catSelect = document.querySelector("#category");
+  let search = document.querySelector("#search");
+
+  if (focusSearch === true) {
+    search.focus();
+  }
+
+  catSelect.addEventListener("change", () => searchAndCat(false));
+
+  search.value = searchTerm;
+  search.addEventListener("input", () => searchAndCat(true));
+
+  function checkForMessages() {
+    let messagesRaw = document.querySelector("#pr-messages")?.value;
+    if (messagesRaw) {
+      promptTranslations = JSON.parse(messagesRaw);
+      loadTranslations(promptTranslations);
     } else {
-        parent.appendChild(wrapper)
+      setTimeout(checkForMessages, 500);
     }
+  }
+  checkForMessages();
 
-    wrapper.innerHTML = html
+  // listen for compact mode checkmark click
+  if (isCompact) {
+    document.getElementById("compact").checked = true;
+  }
+  compactStyle();
+  document.getElementById("compact").addEventListener("click", compactStyle);
 
-    // scroll to top of page
-    let scrollContainer = document.querySelector("main > div > div > div")
-    setTimeout(() => scrollContainer.scrollTop = 0, 600);
-
-    let catSelect = document.querySelector("#category")
-    let search = document.querySelector("#search")
-
-    if (focusSearch === true){
-        search.focus()
-    }
-
-    catSelect.addEventListener("change", () => searchAndCat(false))
-
-    search.value = searchTerm
-    search.addEventListener("input", () => searchAndCat(true))
-
-    function checkForMessages(){
-        let messagesRaw = document.querySelector('#pr-messages')?.value;
-        if (messagesRaw){
-            promptTranslations = JSON.parse(messagesRaw)
-            loadTranslations(promptTranslations)
-        }
-        else {
-            setTimeout(checkForMessages, 500)
-        }
-    }
-    checkForMessages()
-
-    // listen for compact mode checkmark click
-    if (isCompact){
-        document.getElementById("compact").checked = true
-    }
-    compactStyle()
-    document.getElementById("compact").addEventListener("click", compactStyle)
-
-    addButtonClicks(templates, category, searchTerm, [])
+  addButtonClicks(templates, category, searchTerm, []);
 }
 let promptTranslations;
 
-function loadTranslations(messages){
-    const elements = document.querySelectorAll('[data-i18n], [data-i18n-placeholder]');
-    elements.forEach((element) => {
-        replaceTranslation(element, messages);
-    })
+function loadTranslations(messages) {
+  const elements = document.querySelectorAll(
+    "[data-i18n], [data-i18n-placeholder]",
+  );
+  elements.forEach((element) => {
+    replaceTranslation(element, messages);
+  });
 }
 
 function replaceTranslation(element, translations) {
-    if (element.hasAttribute('data-i18n')) {
-        const key = element.getAttribute('data-i18n');
-        const translation = translations[key];
-        if (translation && translation.message) {
-            element.innerHTML = translation.message;
-        }
+  if (element.hasAttribute("data-i18n")) {
+    const key = element.getAttribute("data-i18n");
+    const translation = translations[key];
+    if (translation && translation.message) {
+      element.innerHTML = translation.message;
     }
-    if (element.hasAttribute('data-i18n-placeholder')) {
-        const key = element.getAttribute('data-i18n-placeholder');
-        const translation = translations[key];
-        if (translation && translation.message) {
-            element.setAttribute('placeholder', translation.message);
-        }
+  }
+  if (element.hasAttribute("data-i18n-placeholder")) {
+    const key = element.getAttribute("data-i18n-placeholder");
+    const translation = translations[key];
+    if (translation && translation.message) {
+      element.setAttribute("placeholder", translation.message);
     }
+  }
 }
 
-function addButtonClicks(t, category, searchTerm, tagList=[]){
-    let templates = document.querySelectorAll(".template")
-    for (let template of templates){
-        template.addEventListener("click", event => {
-            const target = event.target
-            if (target.classList.contains("selected")){
-                let newTagList = tagList.filter(item => item !== target.innerText);
-                promptTemplateSection.currentPage = 0
-                updateTemplates(t, category, searchTerm, newTagList)
-            }
-            else if (target.classList.contains('tag')){
-                let newTagList = [...tagList, target.innerText]
-                promptTemplateSection.currentPage = 0
-                updateTemplates(t, category, searchTerm, newTagList)
-            }
-            else{
-                if (target.classList.contains(('template'))) {
-                    let text = target.querySelector(".temp-text").textContent
-                    selectPromptTemplate(text)
-                }
-                else if (target.classList.contains('child')){
-                    let text = target.parentElement.querySelector(".temp-text").textContent
-                    selectPromptTemplate(text)
-                }
-            }
-        })
-    }
+function addButtonClicks(t, category, searchTerm, tagList = []) {
+  let templates = document.querySelectorAll(".template");
+  for (let template of templates) {
+    template.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target.classList.contains("selected")) {
+        let newTagList = tagList.filter((item) => item !== target.innerText);
+        promptTemplateSection.currentPage = 0;
+        updateTemplates(t, category, searchTerm, newTagList);
+      } else if (target.classList.contains("tag")) {
+        let newTagList = [...tagList, target.innerText];
+        promptTemplateSection.currentPage = 0;
+        updateTemplates(t, category, searchTerm, newTagList);
+      } else {
+        if (target.classList.contains("template")) {
+          let text = target.querySelector(".temp-text").textContent;
+          selectPromptTemplate(text);
+        } else if (target.classList.contains("child")) {
+          let text =
+            target.parentElement.querySelector(".temp-text").textContent;
+          selectPromptTemplate(text);
+        }
+      }
+    });
+  }
 }
 
-function tags(tagList, selectedTags=[]){
-    if (typeof tagList === "string"){
-        return ""
+function tags(tagList, selectedTags = []) {
+  if (typeof tagList === "string") {
+    return "";
+  }
+  let tagHTML = "";
+  for (let tag of tagList) {
+    let selectedClass = "";
+    if (selectedTags.includes(tag)) {
+      selectedClass = "selected";
     }
-    let tagHTML = ""
-    for (let tag of tagList){
-        let selectedClass = ""
-        if (selectedTags.includes(tag)){
-            selectedClass = "selected"
-        }
-        tagHTML += `<span class="tag ${selectedClass}">${tag}</span>`
-    }
-    return tagHTML
+    tagHTML += `<span class="tag ${selectedClass}">${tag}</span>`;
+  }
+  return tagHTML;
 }
 
 let globalFiltered = null;
-function updateTemplates(templates = window.prompttemplates, category="", searchTerm="", tagList =globalTags){
-    globalTags = tagList
-    globalTemplates = templates
+function updateTemplates(
+  templates = window.prompttemplates,
+  category = "",
+  searchTerm = "",
+  tagList = globalTags,
+) {
+  globalTags = tagList;
+  globalTemplates = templates;
 
-    if (isCompact){
-        promptTemplateSection.pageSize = 10
-    }
-    else{
-        promptTemplateSection.pageSize = 5
-    }
+  if (isCompact) {
+    promptTemplateSection.pageSize = 10;
+  } else {
+    promptTemplateSection.pageSize = 5;
+  }
 
-    let filteredTemplates = templates.filter(template => tagList.every(tag => template.tags?.includes(tag)))
-    globalFiltered = filteredTemplates;
+  let filteredTemplates = templates.filter((template) =>
+    tagList.every((tag) => template.tags?.includes(tag)),
+  );
+  globalFiltered = filteredTemplates;
 
-    // Get the current page number and page size from the promptTemplateSection object
-    const { currentPage, pageSize } = promptTemplateSection
-    // Calculate the start and end indices of the current page of prompt templates
-    const start = pageSize * currentPage
-    const end = Math.min(pageSize * (currentPage + 1), filteredTemplates.length)
-    // Get the current page of prompt templates
-    const currentTemplates = filteredTemplates.slice(start, end)
+  // Get the current page number and page size from the promptTemplateSection object
+  const { currentPage, pageSize } = promptTemplateSection;
+  // Calculate the start and end indices of the current page of prompt templates
+  const start = pageSize * currentPage;
+  const end = Math.min(pageSize * (currentPage + 1), filteredTemplates.length);
+  // Get the current page of prompt templates
+  const currentTemplates = filteredTemplates.slice(start, end);
 
+  const hs = highlightString;
 
-    const hs = highlightString
-
-    let templateHTML =
-        `
+  let templateHTML = `
         ${currentTemplates
-            .map((template, i) => `
+          .map(
+            (template, i) => `
         <button class="${css`card`} template">
           <h3 class="child ${css`h3`}">${hs(template.title, searchTerm)}</h3>
-          <p class="child compact-hide temp-text ${css`p`}">${hs(template.text, searchTerm)}</p>
-          <p class="child compact-hide ${css`category`}">${hs(template.category, searchTerm)} ${tags(template.tags ?? [], tagList)}</p>
+          <p class="child compact-hide temp-text ${css`p`}">${hs(
+            template.text,
+            searchTerm,
+          )}</p>
+          <p class="child compact-hide ${css`category`}">${hs(
+            template.category,
+            searchTerm,
+          )} ${tags(template.tags ?? [], tagList)}</p>
           <span class="child font-medium compact-hide">Use prompt →</span>
         </button>
-      `).join('')}
-        `
-    document.getElementById("templates").innerHTML = templateHTML
-    let paginationHTML =   `<span data-i18n="showing">Showing</span> <span class="${css`paginationNumber`}">${start + 1}</span> <span data-i18n="to">to</span> <span class="${css`paginationNumber`}">${end}</span> <span data-i18n="of">of</span> <a id="prompt-link"><span class="${css`paginationNumber`}">${templates.length} <span data-i18n="entries">Entries</span></span></a>`
+      `,
+          )
+          .join("")}
+        `;
+  document.getElementById("templates").innerHTML = templateHTML;
+  let paginationHTML = `<span data-i18n="showing">Showing</span> <span class="${css`paginationNumber`}">${
+    start + 1
+  }</span> <span data-i18n="to">to</span> <span class="${css`paginationNumber`}">${end}</span> <span data-i18n="of">of</span> <a id="prompt-link"><span class="${css`paginationNumber`}">${
+    templates.length
+  } <span data-i18n="entries">Entries</span></span></a>`;
 
-    document.getElementById("pagination").innerHTML = paginationHTML
-    compactStyle()
-    loadTranslations(promptTranslations)
+  document.getElementById("pagination").innerHTML = paginationHTML;
+  compactStyle();
+  loadTranslations(promptTranslations);
 
-    addButtonClicks(templates, category, searchTerm, tagList)
+  addButtonClicks(templates, category, searchTerm, tagList);
 }
 
-function compactStyle(){
-    if (!firstTime) {
-        isCompact = document.getElementById("compact").checked
+function compactStyle() {
+  if (!firstTime) {
+    isCompact = document.getElementById("compact").checked;
+  }
+  let hideElements = document.querySelectorAll(".compact-hide");
+  if (isCompact === true) {
+    for (let ele of hideElements) {
+      ele.style.display = "none";
     }
-    let hideElements = document.querySelectorAll(".compact-hide")
-    if (isCompact === true){
-        for (let ele of hideElements){
-            ele.style.display = "none";
-        }
+  } else {
+    for (let ele of hideElements) {
+      ele.style.display = "block";
     }
-    else {
-        for (let ele of hideElements){
-            ele.style.display = "block";
-        }
-    }
-    firstTime = false
+  }
+  firstTime = false;
 }
 
-function prevPromptTemplatesPage () {
-    promptTemplateSection.currentPage--
-    promptTemplateSection.currentPage = Math.max(0, promptTemplateSection.currentPage)
-    // Update the section
-    updateTemplates(globalTemplates, "", "", globalTags)
+function prevPromptTemplatesPage() {
+  promptTemplateSection.currentPage--;
+  promptTemplateSection.currentPage = Math.max(
+    0,
+    promptTemplateSection.currentPage,
+  );
+  // Update the section
+  updateTemplates(globalTemplates, "", "", globalTags);
 }
 
-function nextPromptTemplatesPage () {
-    const templates = globalTemplates
-    if (!templates || !Array.isArray(templates)) return
+function nextPromptTemplatesPage() {
+  const templates = globalTemplates;
+  if (!templates || !Array.isArray(templates)) return;
 
-    let check = globalFiltered ?? templates
+  let check = globalFiltered ?? templates;
 
-    promptTemplateSection.currentPage++
-    promptTemplateSection.currentPage = Math.min(
-        Math.floor(
-            (check.length - 1) /
-            promptTemplateSection.pageSize
-        ),
-        promptTemplateSection.currentPage
-    )
-    // Update the section
-    updateTemplates(globalTemplates, "", "", globalTags)
+  promptTemplateSection.currentPage++;
+  promptTemplateSection.currentPage = Math.min(
+    Math.floor((check.length - 1) / promptTemplateSection.pageSize),
+    promptTemplateSection.currentPage,
+  );
+  // Update the section
+  updateTemplates(globalTemplates, "", "", globalTags);
 }
 
-function findVariables(str) { // thanks chatgpt
-    const regex = /{{(.+?)}}/g;
-    const matches = new Set();
-    let match;
-    while ((match = regex.exec(str))) {
-        matches.add(match[1]);
-    }
-    return Array.from(matches);
+function findVariables(str) {
+  // thanks chatgpt
+  const regex = /{{(.+?)}}/g;
+  const matches = new Set();
+  let match;
+  while ((match = regex.exec(str))) {
+    matches.add(match[1]);
+  }
+  return Array.from(matches);
 }
 
-function replaceVariables(str, values) { // thanks chatgpt
-    const variables = findVariables(str);
-    variables.forEach((variable, index) => {
-        const value = values[index % values.length];
-        const regex = new RegExp(`{{${variable}}}`, "g");
-        str = str.replace(regex, value);
-    });
-    return str;
+function replaceVariables(str, values) {
+  // thanks chatgpt
+  const variables = findVariables(str);
+  variables.forEach((variable, index) => {
+    const value = values[index % values.length];
+    const regex = new RegExp(`{{${variable}}}`, "g");
+    str = str.replace(regex, value);
+  });
+  return str;
 }
 
-async function getVarsFromModal(varArray, promptText){
-    const t = promptTranslations
-    const template =
-        `  
+async function getVarsFromModal(varArray, promptText) {
+  const t = promptTranslations;
+  const template = `  
         <div id="var-modal" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed inset-0 flex items-center justify-center bg-opacity-50 z-100">
           <div class="fixed inset-0 z-10 overflow-y-auto">
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
               <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
               <div style="width: 80%" class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle" role="dialog">
-                ${varArray.map((variable) => `
+                ${varArray
+                  .map(
+                    (variable) => `
                 <div class="text-sm font-bold text-black dark:text-gray-200">${variable}</div>
-                <textarea style="border-color: #8e8ea0" class="pg-variable my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr("enter_val", t)} ${variable}..." value=""></textarea>
-                `).join("")}
-                <button id="save-vars" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">${tr("submit", t)} </button>   
+                <textarea style="border-color: #8e8ea0" class="pg-variable my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr(
+                  "enter_val",
+                  t,
+                )} ${variable}..." value=""></textarea>
+                `,
+                  )
+                  .join("")}
+                <button id="save-vars" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">${tr(
+                  "submit",
+                  t,
+                )} </button>   
               </div>
             </div>
           </div>
         </div>
-        `
-    document.body.insertAdjacentHTML("beforeend", template)
-    document.querySelector(".pg-variable").focus()
-    function handleKeyDown(event) {
-        if (event.key === "Enter" || event.keyCode === 13) {
-            event.preventDefault()
-            event.stopImmediatePropagation()
-            event.stopPropagation()
-            submitModal()
-            document.removeEventListener("keydown", handleKeyDown);
-        }
+        `;
+  document.body.insertAdjacentHTML("beforeend", template);
+  document.querySelector(".pg-variable").focus();
+  function handleKeyDown(event) {
+    if (event.key === "Enter" || event.keyCode === 13) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      event.stopPropagation();
+      submitModal();
+      document.removeEventListener("keydown", handleKeyDown);
     }
+  }
 
-    document.addEventListener("keydown", handleKeyDown);
-    document.getElementById("save-vars").addEventListener("click", submitModal)
-    function submitModal(){
-        const varInputs = document.querySelectorAll(".pg-variable")
-        let variables = []
-        for (const varIn of varInputs){
-            variables.push(varIn.value)
-        }
-        document.getElementById("var-modal").remove()
-        selectPromptTemplate(replaceVariables(promptText, variables), false)
+  document.addEventListener("keydown", handleKeyDown);
+  document.getElementById("save-vars").addEventListener("click", submitModal);
+  function submitModal() {
+    const varInputs = document.querySelectorAll(".pg-variable");
+    let variables = [];
+    for (const varIn of varInputs) {
+      variables.push(varIn.value);
     }
+    document.getElementById("var-modal").remove();
+    selectPromptTemplate(replaceVariables(promptText, variables), false);
+  }
 }
 
 let buildPrompts = true;
 // This function selects a prompt template
-function selectPromptTemplate (text, hasVars=true) {
-    const vars = hasVars ? findVariables(text) : [] // so if the chosen variable has a variable within {{}}
-    if (vars.length > 0){
-        getVarsFromModal(vars, text)
-        return "";
-    }
-    const textarea = document.querySelector('textarea')
-    /*const parent = textarea.parentElement
+function selectPromptTemplate(text, hasVars = true) {
+  const vars = hasVars ? findVariables(text) : []; // so if the chosen variable has a variable within {{}}
+  if (vars.length > 0) {
+    getVarsFromModal(vars, text);
+    return "";
+  }
+  const textarea = document.querySelector("textarea");
+  /*const parent = textarea.parentElement
     let wrapper = document.createElement('div')
     wrapper.id = 'prompt-wrapper'
     if (parent.querySelector('#prompt-wrapper')) {
@@ -694,92 +755,118 @@ function selectPromptTemplate (text, hasVars=true) {
     } else {
         parent.prepend(wrapper)
     }*/
-    textarea.focus()
-    function setText() {
-        if (buildPrompts){
-            text = textarea.value + text
-        }
-        textarea.value = text
-        textarea.style.height = "200px"
-        textarea.parentElement.querySelector('button').addEventListener('click', () => {
-            textarea.style.height = "24px"
-        })
-        textarea.addEventListener("keydown", function (e) {
-            if (e.key === "Enter") {
-                textarea.style.height = "24px"
-            }
-        })
+  textarea.focus();
+  function setText() {
+    if (buildPrompts) {
+      text = textarea.value + text;
     }
-        setTimeout(setText, 100) //timeout for weird clear thing
+    textarea.value = text;
+    textarea.style.height = "200px";
+    textarea.parentElement
+      .querySelector("button")
+      .addEventListener("click", () => {
+        textarea.style.height = "24px";
+      });
+    textarea.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        textarea.style.height = "24px";
+      }
+    });
+  }
+  setTimeout(setText, 100); //timeout for weird clear thing
 }
 
 function CSVToArray(strData, strDelimiter) {
-    strDelimiter = strDelimiter || ",";
-    var pattern = new RegExp(
-        "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
-        "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
-        "([^\"\\" + strDelimiter + "\\r\\n]*))",
-        "gi"
-    );
-    var data = [[]];
-    var matchesf;
-    while (matches = pattern.exec(strData)) {
-        var delimiter = matches[1];
-        if (delimiter.length && delimiter !== strDelimiter) {
-            data.push([]);
-        }
-        var value = matches[2]
-            ? matches[2].replace(new RegExp("\"\"", "g"), "\"")
-            : matches[3];
-        data[data.length - 1].push(value);
+  strDelimiter = strDelimiter || ",";
+  var pattern = new RegExp(
+    "(\\" +
+      strDelimiter +
+      "|\\r?\\n|\\r|^)" +
+      '(?:"([^"]*(?:""[^"]*)*)"|' +
+      '([^"\\' +
+      strDelimiter +
+      "\\r\\n]*))",
+    "gi",
+  );
+  var data = [[]];
+  var matchesf;
+  while ((matches = pattern.exec(strData))) {
+    var delimiter = matches[1];
+    if (delimiter.length && delimiter !== strDelimiter) {
+      data.push([]);
     }
-    return data;
+    var value = matches[2]
+      ? matches[2].replace(new RegExp('""', "g"), '"')
+      : matches[3];
+    data[data.length - 1].push(value);
+  }
+  return data;
 }
 
-function svg (name) {
-    name = Array.isArray(name) ? name[0] : name
-    switch (name) {
-        case 'Archive': return '<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" height="1em" <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>'
-        case 'ChatBubble': return '<svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 m-auto" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>'
-        case 'Clipboard': return '<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>'
-        case "Arrow": return `<svg style="display: inline!important;" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`
-    }
+function svg(name) {
+  name = Array.isArray(name) ? name[0] : name;
+  switch (name) {
+    case "Archive":
+      return '<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" height="1em" <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>';
+    case "ChatBubble":
+      return '<svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 m-auto" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>';
+    case "Clipboard":
+      return '<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>';
+    case "Arrow":
+      return `<svg style="display: inline!important;" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
+  }
 }
 
-function css (name) {
-    name = Array.isArray(name) ? name[0] : name
-    switch (name) {
-        case 'select': return 'bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 dark:hover:bg-gray-900';
-        case 'selectDiv': return 'grid grid-cols-2 flex sm:flex gap-2 items-end justify-left lg:-mb-4 lg:max-w-3xl md:last:mb-6 pt-2 stretch text-left text-sm';
-        case 'search': return 'bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 md:w-50';
-        case 'column': return 'flex flex-col gap-3.5 flex-1 px-'
-        case 'h2': return 'text-lg font-normal'
-        case 'h3': return 'm-0 tracking-tight leading-8 text-gray-900 dark:text-gray-100 text-xl'
-        case 'ul': return 'flex flex-col gap-3.5'
-        case 'card': return 'flex flex-col gap-2 text-sm w-full bg-gray-50 dark:bg-white/5 p-4 rounded-md text-left'
-        case 'p': return 'm-0 font-light text-gray-600 dark:text-gray-300'
-        case 'category': return 'm-0 font-light text-gray-700 dark:text-gray-200'
-        case 'paginationText': return 'text-sm text-gray-700 dark:text-gray-400'
-        case 'paginationNumber': return 'font-semibold text-gray-900 dark:text-white'
-        case 'paginationButtonGroup': return 'inline-flex mt-2 xs:mt-0'
-        case 'paginationButton': return 'px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white'
-        case 'action': return 'p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible'
-        case 'tag': return 'inline-flex items-center py-1 px-2 mr-2 mb-2 text-sm font-medium text-white rounded bg-gray-600 whitespace-nowrap'
-    }
+function css(name) {
+  name = Array.isArray(name) ? name[0] : name;
+  switch (name) {
+    case "select":
+      return "bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 dark:hover:bg-gray-900";
+    case "selectDiv":
+      return "grid grid-cols-2 flex sm:flex gap-2 items-end justify-left lg:-mb-4 lg:max-w-3xl md:last:mb-6 pt-2 stretch text-left text-sm";
+    case "search":
+      return "bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 md:w-50";
+    case "column":
+      return "flex flex-col gap-3.5 flex-1 px-";
+    case "h2":
+      return "text-lg font-normal";
+    case "h3":
+      return "m-0 tracking-tight leading-8 text-gray-900 dark:text-gray-100 text-xl";
+    case "ul":
+      return "flex flex-col gap-3.5";
+    case "card":
+      return "flex flex-col gap-2 text-sm w-full bg-gray-50 dark:bg-white/5 p-4 rounded-md text-left";
+    case "p":
+      return "m-0 font-light text-gray-600 dark:text-gray-300";
+    case "category":
+      return "m-0 font-light text-gray-700 dark:text-gray-200";
+    case "paginationText":
+      return "text-sm text-gray-700 dark:text-gray-400";
+    case "paginationNumber":
+      return "font-semibold text-gray-900 dark:text-white";
+    case "paginationButtonGroup":
+      return "inline-flex mt-2 xs:mt-0";
+    case "paginationButton":
+      return "px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white";
+    case "action":
+      return "p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible";
+    case "tag":
+      return "inline-flex items-center py-1 px-2 mr-2 mb-2 text-sm font-medium text-white rounded bg-gray-600 whitespace-nowrap";
+  }
 }
 
 let prompts_url = window.location.href;
 
 function check_url() {
-    if (prompts_url !== window.location.href) {
-        prompts_url = window.location.href;
-        setTimeout(insertPromptTemplatesSection, 300)
-        let newChatButton = document.querySelector('nav').firstChild
-        newChatButton.addEventListener('click', () => {
-            setTimeout(insertPromptTemplatesSection, 300)
-        })
-        //console.log("URL CHANGE")
-    }
+  if (prompts_url !== window.location.href) {
+    prompts_url = window.location.href;
+    setTimeout(insertPromptTemplatesSection, 300);
+    let newChatButton = document.querySelector("nav").firstChild;
+    newChatButton.addEventListener("click", () => {
+      setTimeout(insertPromptTemplatesSection, 300);
+    });
+    //console.log("URL CHANGE")
+  }
 }
 
 setInterval(check_url, 1000);

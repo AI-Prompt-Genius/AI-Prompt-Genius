@@ -433,11 +433,11 @@
   "no_font": {
     "message": "Aucune police"
   },
-  "what_new" : {
+  "what_new": {
     "message": "Quoi de neuf?"
   },
-  "tutorial" : {
-    "message" : "Tutoriel"
+  "tutorial": {
+    "message": "Tutoriel"
   },
   "human": {
     "message": "Humain"

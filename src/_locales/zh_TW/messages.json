@@ -433,11 +433,11 @@
   "no_font": {
     "message": "沒有字型"
   },
-  "what_new" : {
+  "what_new": {
     "message": "有什麼新訊息?"
   },
-  "tutorial" : {
-    "message" : "教學"
+  "tutorial": {
+    "message": "教學"
   },
   "human": {
     "message": "人類"

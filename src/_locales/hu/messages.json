@@ -433,11 +433,11 @@
   "no_font": {
     "message": "Nincs betűtípus"
   },
-  "what_new" : {
+  "what_new": {
     "message": "Mi az újdonság?"
   },
-  "tutorial" : {
-    "message" : "Útmutató"
+  "tutorial": {
+    "message": "Útmutató"
   },
   "human": {
     "message": "Ember"

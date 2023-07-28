@@ -391,19 +391,19 @@
   "unlink": {
     "message": "Desvincular planilha"
   },
-  "name" : {
+  "name": {
     "message": "Nome"
   },
   "description": {
     "message": "Descrição"
   },
-  "prompt":{
+  "prompt": {
     "message": "Sugestão"
   },
   "tags": {
     "message": "Tags"
   },
-  "placeholder":{
+  "placeholder": {
     "message": "Digite uma mensagem ou digite \"/\" para selecionar uma sugestão..."
   },
   "untitled": {
@@ -421,10 +421,10 @@
   "save": {
     "message": "Salvar"
   },
-  "enter_val" : {
+  "enter_val": {
     "message": "Digite um valor para"
   },
-  "submit" : {
+  "submit": {
     "message": "Enviar"
   },
   "no_theme": {
@@ -433,11 +433,11 @@
   "no_font": {
     "message": "Sem fonte"
   },
-  "what_new" : {
+  "what_new": {
     "message": "O que há de novo?"
   },
-  "tutorial" : {
-    "message" : "Tutorial"
+  "tutorial": {
+    "message": "Tutorial"
   },
   "human": {
     "message": "Humano"

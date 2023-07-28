@@ -293,15 +293,15 @@
     "message": "“我们”是谁?"
   },
   "faq_we_text": {
-    "message":"该项目是开源的，并包括许多贡献者。如果您发现有需要改进的地方，可以通过提交问题或拉取请求来帮助我们。"
+    "message": "该项目是开源的，并包括许多贡献者。如果您发现有需要改进的地方，可以通过提交问题或拉取请求来帮助我们。"
   },
-  "dark":{
+  "dark": {
     "message": "暗"
   },
   "all_threads": {
     "message": "所有主题"
   },
-  "welcome_history":{
+  "welcome_history": {
     "message": "欢迎！这里将显示您的聊天记录。若要开始同步，请打开 ChatGPT。"
   },
   "resyncing": {
@@ -313,7 +313,7 @@
   "no_data": {
     "message": "当前分支没有可用的数据。"
   },
-  "language":{
+  "language": {
     "message": "语言"
   },
   "share": {
@@ -391,18 +391,18 @@
   "unlink": {
     "message": "取消链接表格"
   },
-  "name": {"message": "名称"},
-  "description": {"message": "描述"},
-  "prompt": {"message": "提示"},
-  "tags": {"message": "标签"},
-  "placeholder": {"message": "输入消息或输入“/”选择提示..."},
-  "untitled": {"message": "未命名的提示"},
-  "prompt_name": {"message": "提示名称"},
+  "name": { "message": "名称" },
+  "description": { "message": "描述" },
+  "prompt": { "message": "提示" },
+  "tags": { "message": "标签" },
+  "placeholder": { "message": "输入消息或输入“/”选择提示..." },
+  "untitled": { "message": "未命名的提示" },
+  "prompt_name": { "message": "提示名称" },
   "prompt_body": {
     "message": "提示内容。使用{{}}表示变量。例如：{{name}}是一个{{adjective}} {{noun}}"
   },
-  "prompt_tags": {"message": "提示标签。用逗号分隔且不加空格。"},
-  "save": {"message": "保存"},
+  "prompt_tags": { "message": "提示标签。用逗号分隔且不加空格。" },
+  "save": { "message": "保存" },
   "enter_val": {
     "message": "输入一个值"
   },
@@ -415,11 +415,11 @@
   "no_font": {
     "message": "没有字体"
   },
-  "what_new" : {
+  "what_new": {
     "message": "有什么新的?"
   },
-  "tutorial" : {
-    "message" : "教程"
+  "tutorial": {
+    "message": "教程"
   },
   "human": {
     "message": "人类"

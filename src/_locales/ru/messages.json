@@ -391,18 +391,22 @@
   "unlink": {
     "message": "Удалить связь"
   },
-  "name": {"message": "Имя"},
-  "description": {"message": "Описание"},
-  "prompt": {"message": "Подсказка"},
-  "tags": {"message": "Теги"},
-  "placeholder": {"message": "Введите сообщение или введите \"/\", чтобы выбрать подсказку ..."},
-  "untitled": {"message": "Безымянная подсказка"},
-  "prompt_name": {"message": "Название вашей подсказки."},
+  "name": { "message": "Имя" },
+  "description": { "message": "Описание" },
+  "prompt": { "message": "Подсказка" },
+  "tags": { "message": "Теги" },
+  "placeholder": {
+    "message": "Введите сообщение или введите \"/\", чтобы выбрать подсказку ..."
+  },
+  "untitled": { "message": "Безымянная подсказка" },
+  "prompt_name": { "message": "Название вашей подсказки." },
   "prompt_body": {
     "message": "Содержание запроса. Используйте {{}} для обозначения переменной. Например, {{name}} - это {{adjective}} {{noun}}"
   },
-  "prompt_tags": {"message": "Теги для вашей подсказки. Разделяйте запятыми и без пробелов."},
-  "save": {"message": "Сохранить"},
+  "prompt_tags": {
+    "message": "Теги для вашей подсказки. Разделяйте запятыми и без пробелов."
+  },
+  "save": { "message": "Сохранить" },
   "enter_val": {
     "message": "Введите значение для"
   },
@@ -415,11 +419,11 @@
   "no_font": {
     "message": "Нет шрифта"
   },
-  "what_new" : {
+  "what_new": {
     "message": "Что нового?"
   },
-  "tutorial" : {
-    "message" : "Учебник"
+  "tutorial": {
+    "message": "Учебник"
   },
   "human": {
     "message": "Человек"

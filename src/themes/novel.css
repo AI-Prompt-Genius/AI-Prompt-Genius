@@ -1,31 +1,25 @@
 /*
 	Novel themed CSS.
  */
-.prose 
-{
-	
+.prose {
 }
 
 /* Border */
-.border-b
-{
-	
+.border-b {
 }
 
 /* Foolproof (TM) Individual Chat Node Selector */
-main .flex-col.items-center.text-sm > div
-{
-	background: #fff;
-	box-shadow: 0 0 10px rgba(0,0,0,0.3);
-	
-	/* Font */
-	font-family: "Courier", "Times New Roman", serif;
+main .flex-col.items-center.text-sm > div {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+  /* Font */
+  font-family: "Courier", "Times New Roman", serif;
 }
 
 /* Disregard spacer */
-main .flex-col.items-center.text-sm > div:last-child
-{
-	visibility: hidden;
+main .flex-col.items-center.text-sm > div:last-child {
+  visibility: hidden;
 }
 
 /*

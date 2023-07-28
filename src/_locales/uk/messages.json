@@ -391,18 +391,22 @@
   "unlink": {
     "message": "Від'єднати таблицю"
   },
-  "name": {"message":"Ім'я"},
-  "description": {"message":"Опис"},
-  "prompt": {"message":"Запитання"},
-  "tags": {"message":"Теги"},
-  "placeholder": {"message":"Введіть повідомлення або введіть \"/\" для вибору запитання ..."},
-  "untitled": {"message":"Без назви"},
-  "prompt_name": {"message":"Назва вашого запитання."},
+  "name": { "message": "Ім'я" },
+  "description": { "message": "Опис" },
+  "prompt": { "message": "Запитання" },
+  "tags": { "message": "Теги" },
+  "placeholder": {
+    "message": "Введіть повідомлення або введіть \"/\" для вибору запитання ..."
+  },
+  "untitled": { "message": "Без назви" },
+  "prompt_name": { "message": "Назва вашого запитання." },
   "prompt_body": {
     "message": "Вміст промпта. Використовуйте {{}} для позначення змінної. Наприклад, {{name}} є {{adjective}} {{noun}}"
   },
-  "prompt_tags": {"message":"Теги для вашого запитання. Розділіть комою і без пробілу."},
-  "save": {"message":"Зберегти"},
+  "prompt_tags": {
+    "message": "Теги для вашого запитання. Розділіть комою і без пробілу."
+  },
+  "save": { "message": "Зберегти" },
   "enter_val": {
     "message": "Введіть значення для"
   },
@@ -415,11 +419,11 @@
   "no_font": {
     "message": "Стандартний"
   },
-  "what_new" : {
+  "what_new": {
     "message": "Що нового?"
   },
-  "tutorial" : {
-    "message" : "Посібник"
+  "tutorial": {
+    "message": "Посібник"
   },
   "human": {
     "message": "Людина"

@@ -4,14 +4,12 @@
  */
 
 /* Disable/override backgrounds */
-.dark main > div:first-child > div 
-{
-	background: transparent;
+.dark main > div:first-child > div {
+  background: transparent;
 }
 
-main .flex-col.items-center.text-sm
-{
-	background: none;
+main .flex-col.items-center.text-sm {
+  background: none;
 }
 /*
 main .flex-col.items-center.text-sm > div.bg-gray-50
@@ -20,32 +18,27 @@ main .flex-col.items-center.text-sm > div.bg-gray-50
 }
 */
 
-.dark main .dark\:bg-gray-800
-{
-	background: transparent;
+.dark main .dark\:bg-gray-800 {
+  background: transparent;
 }
 
 /* override borders */
-main .flex-col.items-center.text-sm > div
-{	
-	border: none;
+main .flex-col.items-center.text-sm > div {
+  border: none;
 }
 
 /* Disregard spacer without disabling its position in the layout. */
-main .flex-col.items-center.text-sm > div:last-child
-{
-	visibility: hidden;
+main .flex-col.items-center.text-sm > div:last-child {
+  visibility: hidden;
 }
 
 /* Disable that weird gradient for inputs */
-main > div.md\:bg-vert-light-gradient
-{
-	background: none;
+main > div.md\:bg-vert-light-gradient {
+  background: none;
 }
 
 /* END RESET */
-main 
-{
+main {
   /*
   background: url(https://images.pexels.com/photos/733857/pexels-photo-733857.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
   background-size: cover;
@@ -53,22 +46,19 @@ main
   */
 }
 
-.text-base
-{
+.text-base {
   font-size: 12pt;
 }
 
 /* Foolproof (TM) Individual Chat Node Selector */
-main .flex-col.items-center.text-sm > div
-{
+main .flex-col.items-center.text-sm > div {
   background-color: #fff;
   position: relative;
   margin: 40px auto;
   border-radius: 2px;
 }
 
-.dark main .flex-col.items-center.text-sm > div
-{
+.dark main .flex-col.items-center.text-sm > div {
   background-color: #343541;
 }
 
