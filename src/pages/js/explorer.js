@@ -67,15 +67,13 @@ function toggle_thread_title_editable(i, row) {
   }
 }
 
-function export_thread(i) {
+function export_thread(id) {
   chrome.storage.local.get(["threads"], function (result) {
     let t = result.threads;
-    let thread = t[i];
-
+    let idx = getObjectIndexByID(id, t);
+    let thread = t[idx];
     let title = `${thread.title}.md`;
-    let file = thread.markdown
-      ? encode_string_as_blob(thread)
-      : convert_thread_to_markdown_file(thread);
+    let file = thread.markdown ? encode_string_as_blob(thread) : convert_thread_to_markdown_file(thread);
     download_blob_as_file(file, title);
   });
 }
@@ -337,7 +335,7 @@ function load_threads(
           update_bookmark(btn, saved);
         });
       } else if (target.classList.contains("export")) {
-        export_thread(i, row);
+        export_thread(id, row);
       } else if (target.classList.contains("continue")) {
         let c = [];
         //console.log(threads[i])

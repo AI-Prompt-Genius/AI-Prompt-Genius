@@ -45,7 +45,7 @@
     "message": "Supprimer le fil de discussion"
   },
   "export_conversation": {
-    "message": "Exporter votre conversation au format JSON"
+    "message": "Exporter votre conversation au format Markdown"
   },
   "bookmark_conversation": {
     "message": "Ajouter cette conversation aux favoris pour plus tard"
@@ -251,7 +251,7 @@
     "message": "Que faites-vous de mes données ?"
   },
   "faq_data_answer": {
-    "message": "Nous comprenons que vos données sont importantes pour vous, et nous voulons vous assurer qu'elles sont entièrement sous votre contrôle. Toutes vos données sont stockées localement sur votre appareil et nous ne revendiquons aucun droit de propriété. De plus, nous n'avons pas accès à vos données (nous n'avons pas de serveurs), car elles sont stockées uniquement sur le stockage local de votre appareil. Si vous choisissez de partager une conversation, elle sera téléchargée sur un serveur ShareGPT, mais vous conserverez les droits sur vos données. Vous pouvez exporter vos données à tout moment au format JSON brut, et nous travaillons également à ajouter plus de formats d'exportation pour votre commodité."
+    "message": "Nous comprenons que vos données sont importantes pour vous, et nous voulons vous assurer qu'elles sont entièrement sous votre contrôle. Toutes vos données sont stockées localement sur votre appareil et nous ne revendiquons aucun droit de propriété. De plus, nous n'avons pas accès à vos données (nous n'avons pas de serveurs), car elles sont stockées uniquement sur le stockage local de votre appareil. Si vous choisissez de partager une conversation, elle sera téléchargée sur un serveur ShareGPT, mais vous conserverez les droits sur vos données. Vous pouvez exporter vos données à tout moment au format Markdown brut, et nous travaillons également à ajouter plus de formats d'exportation pour votre commodité."
   },
   "faq_delete_header": {
     "message": "Puis-je supprimer quelque chose que j'ai partagé par lien ?"

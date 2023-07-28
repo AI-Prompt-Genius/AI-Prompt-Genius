@@ -45,7 +45,7 @@
     "message": "Excluir este tópico"
   },
   "export_conversation": {
-    "message": "Exporte a sua conversa como JSON"
+    "message": "Exporte a sua conversa como Markdown"
   },
   "bookmark_conversation": {
     "message": "Marque esta conversa para mais tarde"
@@ -251,7 +251,7 @@
     "message": "O que fazem com os meus dados?"
   },
   "faq_data_answer": {
-    "message": "Compreendemos que os seus dados são importantes para si e queremos assegurar que estão completamente sob o seu controlo. Todos os seus dados são armazenados localmente no seu dispositivo e não reivindicamos qualquer propriedade sobre os mesmos. Além disso, não temos acesso aos seus dados (não temos servidores), pois são armazenados apenas no armazenamento local do seu dispositivo. Se optar por partilhar uma conversa, esta será enviada para um servidor do ShareGPT, mas continuará a deter os direitos sobre os seus dados. Pode exportar os seus dados a qualquer momento no formato JSON bruto e estamos a trabalhar na adição de mais formatos de exportação para sua conveniência."
+    "message": "Compreendemos que os seus dados são importantes para si e queremos assegurar que estão completamente sob o seu controlo. Todos os seus dados são armazenados localmente no seu dispositivo e não reivindicamos qualquer propriedade sobre os mesmos. Além disso, não temos acesso aos seus dados (não temos servidores), pois são armazenados apenas no armazenamento local do seu dispositivo. Se optar por partilhar uma conversa, esta será enviada para um servidor do ShareGPT, mas continuará a deter os direitos sobre os seus dados. Pode exportar os seus dados a qualquer momento no formato Markdown bruto e estamos a trabalhar na adição de mais formatos de exportação para sua conveniência."
   },
   "faq_delete_header": {
     "message": "Posso apagar algo que compartilhei por link?"

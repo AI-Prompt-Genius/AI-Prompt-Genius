@@ -45,7 +45,7 @@
     "message": "Beszélgetés törlése"
   },
   "export_conversation": {
-    "message": "A beszélgetés exportálása JSON formátumban"
+    "message": "A beszélgetés exportálása Markdown formátumban"
   },
   "bookmark_conversation": {
     "message": "Beszélgetés könyvjelzőzése későbbi használatra"
@@ -251,7 +251,7 @@
     "message": "Mit csináltok az adataimmal?"
   },
   "faq_data_answer": {
-    "message": "Tudjuk, hogy az adataid fontosak számodra, és biztosítani szeretnénk róla, hogy teljes mértékben a te ellenőrzésed alatt állnak. Az összes adatod helyileg tárolódik az eszközödön, és nem állítunk igényt semmilyen tulajdonjogot rá. Ezen kívül nincs hozzáférésünk az adataidhoz (nincsenek szervereink), mivel azok kizárólag az eszközöd helyi tárolójában vannak tárolva. Ha úgy döntesz, hogy megosztasz egy chatet, az az egy ShareGPT szerverre kerül feltöltésre, de továbbra is megmaradnak az adataidhoz való jogaid. Bármikor exportálhatod az adataidat a nyers JSON formátumban, és dolgozunk azon is, hogy több exportálási formátumot is hozzáadjunk a kényelmed érdekében."
+    "message": "Tudjuk, hogy az adataid fontosak számodra, és biztosítani szeretnénk róla, hogy teljes mértékben a te ellenőrzésed alatt állnak. Az összes adatod helyileg tárolódik az eszközödön, és nem állítunk igényt semmilyen tulajdonjogot rá. Ezen kívül nincs hozzáférésünk az adataidhoz (nincsenek szervereink), mivel azok kizárólag az eszközöd helyi tárolójában vannak tárolva. Ha úgy döntesz, hogy megosztasz egy chatet, az az egy ShareGPT szerverre kerül feltöltésre, de továbbra is megmaradnak az adataidhoz való jogaid. Bármikor exportálhatod az adataidat a nyers Markdown formátumban, és dolgozunk azon is, hogy több exportálási formátumot is hozzáadjunk a kényelmed érdekében."
   },
   "faq_delete_header": {
     "message": "Tudok törölni valamit, amit megosztottam linken keresztül?"

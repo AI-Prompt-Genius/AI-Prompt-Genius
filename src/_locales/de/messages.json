@@ -45,7 +45,7 @@
     "message": "Den Thread löschen"
   },
   "export_conversation": {
-    "message": "Exportiere deine Unterhaltung als JSON"
+    "message": "Exportiere deine Unterhaltung als Markdown"
   },
   "bookmark_conversation": {
     "message": "Setze diese Konversation als Lesezeichen für später"
@@ -251,7 +251,7 @@
     "message": "Was macht ihr mit meinen Daten?"
   },
   "faq_data_answer": {
-    "message": "Wir verstehen, dass Ihre Daten für Sie wichtig sind, und wir möchten Ihnen versichern, dass Sie die volle Kontrolle darüber haben. Alle Ihre Daten werden lokal auf Ihrem Gerät gespeichert, und wir erheben keinen Anspruch auf ihr Eigentum. Außerdem haben wir keinen Zugriff auf Ihre Daten (wir haben keine Server), da sie ausschließlich auf dem lokalen Speicher Ihres Geräts gespeichert sind. Wenn Sie sich entscheiden, einen Chat zu teilen, wird dieser auf einen ShareGPT-Server hochgeladen, aber Sie behalten weiterhin die Rechte an Ihren Daten. Sie können Ihre Daten jederzeit im JSON-Rohformat exportieren, und wir arbeiten auch daran, weitere Exportformate für Sie hinzuzufügen."
+    "message": "Wir verstehen, dass Ihre Daten für Sie wichtig sind, und wir möchten Ihnen versichern, dass Sie die volle Kontrolle darüber haben. Alle Ihre Daten werden lokal auf Ihrem Gerät gespeichert, und wir erheben keinen Anspruch auf ihr Eigentum. Außerdem haben wir keinen Zugriff auf Ihre Daten (wir haben keine Server), da sie ausschließlich auf dem lokalen Speicher Ihres Geräts gespeichert sind. Wenn Sie sich entscheiden, einen Chat zu teilen, wird dieser auf einen ShareGPT-Server hochgeladen, aber Sie behalten weiterhin die Rechte an Ihren Daten. Sie können Ihre Daten jederzeit im Markdown-Rohformat exportieren, und wir arbeiten auch daran, weitere Exportformate für Sie hinzuzufügen."
   },
   "faq_delete_header": {
     "message": "Kann ich etwas löschen, was ich über einen Link geteilt habe?"
