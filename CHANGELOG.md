@@ -6,6 +6,7 @@
 - Removed ShareGPT (sherlocked)
 - Fixed icon in thread
 - Fixed GPT-4 overlays
+- Moved descriptions from extension source to outside
 
 ### v3.1.3 - July 19, 2023
 
