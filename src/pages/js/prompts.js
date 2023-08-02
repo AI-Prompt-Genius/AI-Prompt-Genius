@@ -971,7 +971,7 @@ async function getAd() {
   const activeCountries = await getCurrentAdLocales()
   const adLocale = (activeCountries.includes(userCountry)) ? userCountry : "US" // if the user's country has a specific ad active, use that one instead
   const rando = generateUUID(); // to not get cached version because headers were causing problems.
-  const response = await fetch(`${host}/ads/local/${adLocale}/currentUrl.txt?dummy=${rando}`);
+  const response = await fetch(`${host}/ads/local/${adLocale}/current.txt?dummy=${rando}`);
   if (!response.ok) {
     throw new Error("HTTP error " + response.status);
   } else {
