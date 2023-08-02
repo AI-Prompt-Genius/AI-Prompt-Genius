@@ -950,10 +950,28 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
-async function getAd() {
+async function getFromStorage(key, defaultKey = null) {
+  return await new Promise(resolve =>
+      chrome.storage.local.get({ [key]: defaultKey }, result => resolve(result[key]))
+  );
+}
+
+async function getCurrentAdLocales(){
   const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
   const rando = generateUUID(); // to not get cached version because headers were causing problems.
-  const response = await fetch(`${host}/ads/current.txt?dummy=${rando}`);
+  const response = await fetch(`${host}/ads/activeLocales.txt?nocache=${rando}`);
+  const activeLocales = JSON.parse(`${await response.text()}`);
+  console.log(await activeLocales)
+  return activeLocales;
+}
+
+async function getAd() {
+  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+  const userCountry = await getFromStorage("userCountry", "US")
+  const activeCountries = await getCurrentAdLocales()
+  const adLocale = (activeCountries.includes(userCountry)) ? userCountry : "US" // if the user's country has a specific ad active, use that one instead
+  const rando = generateUUID(); // to not get cached version because headers were causing problems.
+  const response = await fetch(`${host}/ads/local/${adLocale}/currentUrl.txt?dummy=${rando}`);
   if (!response.ok) {
     throw new Error("HTTP error " + response.status);
   } else {
