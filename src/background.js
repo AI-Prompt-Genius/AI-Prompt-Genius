@@ -105,14 +105,15 @@ async function getCurrentAdLocales(){
   const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
   const rando = generateUUID(); // to not get cached version because headers were causing problems.
   const response = await fetch(`${host}/ads/activeLocales.txt?nocache=${rando}`);
-  const activeLocales = JSON.parse(response.text());
+  const activeLocales = JSON.parse(`${await response.text()}`);
+  console.log(await activeLocales)
   return activeLocales;
 }
 
 chrome.runtime.onMessage.addListener(async function (message) {
   if (message.type === "ad") {
     const userCountry = await getFromStorage("userCountry", "US")
-    const activeCountries = getCurrentAdLocales()
+    const activeCountries = await getCurrentAdLocales()
     const adLocale = (activeCountries.includes(userCountry)) ? userCountry : "US" // if the user's country has a specific ad active, use that one instead
     const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
     const rando = generateUUID(); // to not get cached version because headers were causing problems.
@@ -446,9 +447,11 @@ async function syncPrompts(
 
 async function setUninstallURL() {
   const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
-  const lang = await getFromStorage("lang", "en")
+  const userCountry = await getFromStorage("userCountry", "US")
+  const activeCountries = await getCurrentAdLocales()
+  const adLocale = (activeCountries.includes(userCountry)) ? userCountry : "US" // if the user's country has a specific ad active, use that one instead
   const rando = generateUUID(); // to not get cached version because headers were causing problems.
-  const response = await fetch(`${host}/ads/${lang}/currentUrl.txt?dummy=${rando}`);
+  const response = await fetch(`${host}/ads/local/${adLocale}/currentUrl.txt?dummy=${rando}`);
   if (!response.ok) {
     throw new Error("HTTP error " + response.status);
   }
@@ -510,6 +513,7 @@ function new_prompt(title, text, tags = "", category = "") {
 }
 chrome.runtime.onInstalled.addListener(async () => {
   setUserRegion();
+  setUninstallURL();
   chrome.contextMenus.create({
     id: "savePrompt",
     title: "Save text as prompt",
