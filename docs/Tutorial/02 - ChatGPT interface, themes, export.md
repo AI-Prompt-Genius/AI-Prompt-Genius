@@ -1,3 +1,6 @@
+---
+dg-publish: true
+---
 # Tutorial Part 2 - Use ChatGPT Interface
 
 To start this tutorial, head over to [ChatGPT](https://chat.openai.com). 
