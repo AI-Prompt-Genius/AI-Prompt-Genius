@@ -95,11 +95,28 @@ chrome.runtime.onMessage.addListener(function (message) {
   }
 });
 
+async function getFromStorage(key, defaultKey = null) {
+  return await new Promise(resolve =>
+      chrome.storage.local.get({ [key]: defaultKey }, result => resolve(result[key]))
+  );
+}
+
+async function getCurrentAdLocales(){
+  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+  const rando = generateUUID(); // to not get cached version because headers were causing problems.
+  const response = await fetch(`${host}/ads/activeLocales.txt?nocache=${rando}`);
+  const activeLocales = JSON.parse(response.text());
+  return activeLocales;
+}
+
 chrome.runtime.onMessage.addListener(async function (message) {
   if (message.type === "ad") {
+    const userCountry = await getFromStorage("userCountry", "US")
+    const activeCountries = getCurrentAdLocales()
+    const adLocale = (activeCountries.includes(userCountry)) ? userCountry : "US" // if the user's country has a specific ad active, use that one instead
     const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
     const rando = generateUUID(); // to not get cached version because headers were causing problems.
-    const response = await fetch(`${host}/ads/current.txt?nocache=${rando}`);
+    const response = await fetch(`${host}/ads/local/${adLocale}/current.txt?nocache=${rando}`);
     if (!response.ok) {
       throw new Error("HTTP error " + response.status);
     }
@@ -122,6 +139,19 @@ function checkForResync() {
   });
 }
 checkForResync();
+
+function setUserRegion(){
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  if (userTimeZone) {
+    const tzArr = userTimeZone.split("/");
+    const userRegion = tzArr[0];
+    const userCity = tzArr[tzArr.length - 1];
+    const cityToCountryCode = {"Andorra":"AD","Dubai":"AE","Kabul":"AF","Tirane":"AL","Yerevan":"AM","Casey":"AQ","Davis":"AQ","Mawson":"AQ","Palmer":"AQ","Rothera":"AQ","Troll":"AQ","Vostok":"AQ","Buenos_Aires":"AR","Cordoba":"AR","Salta":"AR","Jujuy":"AR","Tucuman":"AR","Catamarca":"AR","La_Rioja":"AR","San_Juan":"AR","Mendoza":"AR","San_Luis":"AR","Rio_Gallegos":"AR","Ushuaia":"AR","Pago_Pago":"AS","Vienna":"AT","Lord_Howe":"AU","Macquarie":"AU","Hobart":"AU","Melbourne":"AU","Sydney":"AU","Broken_Hill":"AU","Brisbane":"AU","Lindeman":"AU","Adelaide":"AU","Darwin":"AU","Perth":"AU","Eucla":"AU","Baku":"AZ","Barbados":"BB","Dhaka":"BD","Brussels":"BE","Sofia":"BG","Bermuda":"BM","Brunei":"BN","La_Paz":"BO","Noronha":"BR","Belem":"BR","Fortaleza":"BR","Recife":"BR","Araguaina":"BR","Maceio":"BR","Bahia":"BR","Sao_Paulo":"BR","Campo_Grande":"BR","Cuiaba":"BR","Santarem":"BR","Porto_Velho":"BR","Boa_Vista":"BR","Manaus":"BR","Eirunepe":"BR","Rio_Branco":"BR","Thimphu":"BT","Minsk":"BY","Belize":"BZ","St_Johns":"CA","Halifax":"CA","Glace_Bay":"CA","Moncton":"CA","Goose_Bay":"CA","Toronto":"CA","Nipigon":"CA","Thunder_Bay":"CA","Iqaluit":"CA","Pangnirtung":"CA","Winnipeg":"CA","Rainy_River":"CA","Resolute":"CA","Rankin_Inlet":"CA","Regina":"CA","Swift_Current":"CA","Edmonton":"CA","Cambridge_Bay":"CA","Yellowknife":"CA","Inuvik":"CA","Dawson_Creek":"CA","Fort_Nelson":"CA","Whitehorse":"CA","Dawson":"CA","Vancouver":"CA","Cocos":"CC","Zurich":"CH","Abidjan":"CI","Rarotonga":"CK","Santiago":"CL","Punta_Arenas":"CL","Easter":"CL","Shanghai":"CN","Urumqi":"CN","Bogota":"CO","Costa_Rica":"CR","Havana":"CU","Cape_Verde":"CV","Christmas":"CX","Nicosia":"CY","Famagusta":"CY","Prague":"CZ","Berlin":"DE","Copenhagen":"DK","Santo_Domingo":"DO","Algiers":"DZ","Guayaquil":"EC","Galapagos":"EC","Tallinn":"EE","Cairo":"EG","El_Aaiun":"EH","Madrid":"ES","Ceuta":"ES","Canary":"ES","Helsinki":"FI","Fiji":"FJ","Stanley":"FK","Chuuk":"FM","Pohnpei":"FM","Kosrae":"FM","Faroe":"FO","Paris":"FR","London":"GB","Tbilisi":"GE","Cayenne":"GF","Gibraltar":"GI","Nuuk":"GL","Danmarkshavn":"GL","Scoresbysund":"GL","Thule":"GL","Athens":"GR","South_Georgia":"GS","Guatemala":"GT","Guam":"GU","Bissau":"GW","Guyana":"GY","Hong_Kong":"HK","Tegucigalpa":"HN","Port-au-Prince":"HT","Budapest":"HU","Jakarta":"ID","Pontianak":"ID","Makassar":"ID","Jayapura":"ID","Dublin":"IE","Jerusalem":"IL","Kolkata":"IN","Calcutta":"IN","Chagos":"IO","Baghdad":"IQ","Tehran":"IR","Reykjavik":"IS","Rome":"IT","Jamaica":"JM","Amman":"JO","Tokyo":"JP","Nairobi":"KE","Bishkek":"KG","Tarawa":"KI","Kanton":"KI","Kiritimati":"KI","Pyongyang":"KP","Seoul":"KR","Almaty":"KZ","Qyzylorda":"KZ","Qostanay":"KZ","Aqtobe":"KZ","Aqtau":"KZ","Atyrau":"KZ","Oral":"KZ","Beirut":"LB","Colombo":"LK","Monrovia":"LR","Vilnius":"LT","Luxembourg":"LU","Riga":"LV","Tripoli":"LY","Casablanca":"MA","Monaco":"MC","Chisinau":"MD","Majuro":"MH","Kwajalein":"MH","Yangon":"MM","Ulaanbaatar":"MN","Hovd":"MN","Choibalsan":"MN","Macau":"MO","Martinique":"MQ","Malta":"MT","Mauritius":"MU","Maldives":"MV","Mexico_City":"MX","Cancun":"MX","Merida":"MX","Monterrey":"MX","Matamoros":"MX","Mazatlan":"MX","Chihuahua":"MX","Ojinaga":"MX","Hermosillo":"MX","Tijuana":"MX","Bahia_Banderas":"MX","Kuala_Lumpur":"MY","Kuching":"MY","Maputo":"MZ","Windhoek":"NA","Noumea":"NC","Norfolk":"NF","Lagos":"NG","Managua":"NI","Amsterdam":"NL","Oslo":"NO","Kathmandu":"NP","Nauru":"NR","Niue":"NU","Auckland":"NZ","Chatham":"NZ","Panama":"PA","Lima":"PE","Tahiti":"PF","Marquesas":"PF","Gambier":"PF","Port_Moresby":"PG","Bougainville":"PG","Manila":"PH","Karachi":"PK","Warsaw":"PL","Miquelon":"PM","Pitcairn":"PN","Puerto_Rico":"PR","Gaza":"PS","Hebron":"PS","Lisbon":"PT","Madeira":"PT","Azores":"PT","Palau":"PW","Asuncion":"PY","Qatar":"QA","Reunion":"RE","Bucharest":"RO","Belgrade":"RS","Kaliningrad":"RU","Moscow":"RU","Simferopol":"RU","Kirov":"RU","Volgograd":"RU","Astrakhan":"RU","Saratov":"RU","Ulyanovsk":"RU","Samara":"RU","Yekaterinburg":"RU","Omsk":"RU","Novosibirsk":"RU","Barnaul":"RU","Tomsk":"RU","Novokuznetsk":"RU","Krasnoyarsk":"RU","Irkutsk":"RU","Chita":"RU","Yakutsk":"RU","Khandyga":"RU","Vladivostok":"RU","Ust-Nera":"RU","Magadan":"RU","Sakhalin":"RU","Srednekolymsk":"RU","Kamchatka":"RU","Anadyr":"RU","Riyadh":"SA","Guadalcanal":"SB","Mahe":"SC","Khartoum":"SD","Stockholm":"SE","Singapore":"SG","Paramaribo":"SR","Juba":"SS","Sao_Tome":"ST","El_Salvador":"SV","Damascus":"SY","Grand_Turk":"TC","Ndjamena":"TD","Kerguelen":"TF","Bangkok":"TH","Dushanbe":"TJ","Fakaofo":"TK","Dili":"TL","Ashgabat":"TM","Tunis":"TN","Tongatapu":"TO","Istanbul":"TR","Funafuti":"TV","Taipei":"TW","Kiev":"UA","Uzhgorod":"UA","Zaporozhye":"UA","Wake":"UM","New_York":"US","Detroit":"US","Louisville":"US","Monticello":"US","Indianapolis":"US","Vincennes":"US","Winamac":"US","Marengo":"US","Petersburg":"US","Vevay":"US","Chicago":"US","Tell_City":"US","Knox":"US","Menominee":"US","Center":"US","New_Salem":"US","Beulah":"US","Denver":"US","Boise":"US","Phoenix":"US","Los_Angeles":"US","Anchorage":"US","Juneau":"US","Sitka":"US","Metlakatla":"US","Yakutat":"US","Nome":"US","Adak":"US","Honolulu":"US","Montevideo":"UY","Samarkand":"UZ","Tashkent":"UZ","Caracas":"VE","Ho_Chi_Minh":"VN","Efate":"VU","Wallis":"WF","Apia":"WS","Johannesburg":"ZA","Antigua":"AG","Anguilla":"AI","Luanda":"AO","McMurdo":"AQ","DumontDUrville":"AQ","Syowa":"AQ","Aruba":"AW","Mariehamn":"AX","Sarajevo":"BA","Ouagadougou":"BF","Bahrain":"BH","Bujumbura":"BI","Porto-Novo":"BJ","St_Barthelemy":"BL","Kralendijk":"BQ","Nassau":"BS","Gaborone":"BW","Blanc-Sablon":"CA","Atikokan":"CA","Creston":"CA","Kinshasa":"CD","Lubumbashi":"CD","Bangui":"CF","Brazzaville":"CG","Douala":"CM","Curacao":"CW","Busingen":"DE","Djibouti":"DJ","Dominica":"DM","Asmara":"ER","Addis_Ababa":"ET","Libreville":"GA","Grenada":"GD","Guernsey":"GG","Accra":"GH","Banjul":"GM","Conakry":"GN","Guadeloupe":"GP","Malabo":"GQ","Zagreb":"HR","Isle_of_Man":"IM","Jersey":"JE","Phnom_Penh":"KH","Comoro":"KM","St_Kitts":"KN","Kuwait":"KW","Cayman":"KY","Vientiane":"LA","St_Lucia":"LC","Vaduz":"LI","Maseru":"LS","Podgorica":"ME","Marigot":"MF","Antananarivo":"MG","Skopje":"MK","Bamako":"ML","Saipan":"MP","Nouakchott":"MR","Montserrat":"MS","Blantyre":"MW","Niamey":"NE","Muscat":"OM","Kigali":"RW","St_Helena":"SH","Ljubljana":"SI","Longyearbyen":"SJ","Bratislava":"SK","Freetown":"SL","San_Marino":"SM","Dakar":"SN","Mogadishu":"SO","Lower_Princes":"SX","Mbabane":"SZ","Lome":"TG","Port_of_Spain":"TT","Dar_es_Salaam":"TZ","Kampala":"UG","Midway":"UM","Vatican":"VA","St_Vincent":"VC","Tortola":"VG","St_Thomas":"VI","Aden":"YE","Mayotte":"YT","Lusaka":"ZM","Harare":"ZW"}
+    const userCountry = cityToCountryCode[userCity];
+    chrome.storage.local.set({"userCountry": userCountry})
+  }
+}
+setUserRegion()
 
 function JSONtoNestedList(prompts) {
   if (prompts.length === 0) {
@@ -416,8 +446,9 @@ async function syncPrompts(
 
 async function setUninstallURL() {
   const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+  const lang = await getFromStorage("lang", "en")
   const rando = generateUUID(); // to not get cached version because headers were causing problems.
-  const response = await fetch(`${host}/ads/currentUrl.txt?dummy=${rando}`);
+  const response = await fetch(`${host}/ads/${lang}/currentUrl.txt?dummy=${rando}`);
   if (!response.ok) {
     throw new Error("HTTP error " + response.status);
   }
@@ -478,6 +509,7 @@ function new_prompt(title, text, tags = "", category = "") {
   return prompt;
 }
 chrome.runtime.onInstalled.addListener(async () => {
+  setUserRegion();
   chrome.contextMenus.create({
     id: "savePrompt",
     title: "Save text as prompt",
