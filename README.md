@@ -17,9 +17,9 @@ You can use the extension's prompt templates feature to easily find and add prom
 
 🎨Add themes like SMS, cozy fireplace, and hacker on the ChatGPT page. 
 
-To use the history saving feature, simply open ChatGPT and start chatting 💬 as you normally would. The extension will automatically save your conversation history in your browser. You can access your saved history by clicking on the extension icon 🔍 in the top right corner of your browser. The extension rerenders your conversation in a style that closely matches ChatGPT, including code rendering & copying.
+To use the history-saving feature, simply open ChatGPT and start chatting 💬 as you normally would. The extension will automatically save your conversation history in your browser. You can access your saved history by clicking on the extension icon 🔍 in the top right corner of your browser. The extension rerenders your conversation in a style that closely matches ChatGPT, including code rendering & copying.
 
-On the explore page, you can 🔖 bookmark threads or 🔍 search through your threads & prompt templates. You can also save the your chats as html/pdf/png 📄 right on ChatGPT.
+On the explore page, you can 🔖 bookmark threads or 🔍 search through your threads & prompt templates. You can also save your chats as html/pdf/png 📄 right on ChatGPT.
 
 We hope you find ChatGPT Prompt Genius useful and enjoy using it to find and save your ChatGPT prompts. If you have any feedback or suggestions for improvement, please don't hesitate to fill out the feedback form. Thank you for using ChatGPT Prompt Genius!
 
@@ -68,7 +68,7 @@ CSS: Bootstrap & Font Awesome Icons + some custom
 
 
 ## Credit 
-- Thanks to @liady for the libaries used for the export functions. See <a href="https://github.com/liady/ChatGPT-pdf">ChatGPT-pdf</a> for more.
+- Thanks to @liady for the libraries used for the export functions. See <a href="https://github.com/liady/ChatGPT-pdf">ChatGPT-pdf</a> for more.
 - Thanks to <a href="https://github.com/mohalobaidi/EnhancedChatGPT">Enhanced ChatGPT's</a> code for in-page prompt insertion.
 - Many thanks to @aivct for contributing many new features.
 
@@ -84,7 +84,7 @@ This work is licensed under a
 [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png 
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg 
 
-Proper Attribution (include in prominent file):  
+Proper Attribution (include in the prominent file):  
 
 ```
 /* ChatGPT Prompt Genius - https://github.com/benf2004/ChatGPT-Prompt-Genius
