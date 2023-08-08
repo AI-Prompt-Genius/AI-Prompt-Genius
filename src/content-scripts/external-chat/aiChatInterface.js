@@ -126,7 +126,7 @@ const proxyFetchRequester = new ProxyFetchRequester();
 
 class ChatGPTClient {
     constructor() {
-        this.requester = proxyFetchRequester;
+        this.requester = new GlobalFetchRequester();
 
         proxyFetchRequester.findExistingProxyTab().then((tab) => {
             if (tab) {
@@ -492,7 +492,7 @@ class ChatGPTWebBot extends AbstractBot {
                 model: modelName,
                 conversation_id: this.conversationContext?.conversationId || undefined,
                 parent_message_id: this.conversationContext?.lastMessageId || uuidv4(),
-                //arkose_token: arkoseToken
+                arkose_token: arkoseToken
             })
         });
 
@@ -549,7 +549,7 @@ class ChatGPTWebBot extends AbstractBot {
     }
 }
 
-const webBot = new ChatGPTWebBot('gpt-4');
+const webBot = new ChatGPTWebBot('gpt-3.5');
 const abortController = new AbortController()
 
 const input = "Hello there! What can you do?"
