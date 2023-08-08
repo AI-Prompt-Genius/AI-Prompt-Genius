@@ -1,5 +1,6 @@
 // Assuming the dependencies have been loaded globally:
 // All utility functions and types -> YourUtilities
+injectScript(chrome.runtime.getURL("content-scripts/external-chat/inject.js"), "head");
 
 async function* streamAsyncIterable(stream) {
     const reader = stream.getReader();
@@ -16,7 +17,7 @@ async function* streamAsyncIterable(stream) {
     }
 }
 
-export function uint8Array2String(uint8Array) {
+function uint8Array2String(uint8Array) {
     const decoder = new TextDecoder()
     return decoder.decode(uint8Array)
 }
@@ -76,7 +77,7 @@ async function main() {
     })
     if (window.__NEXT_DATA__) {
         await chrome.runtime.sendMessage({ event: 'PROXY_TAB_READY' })
-        injectTip()
+        //injectTip()
     }
 }
 

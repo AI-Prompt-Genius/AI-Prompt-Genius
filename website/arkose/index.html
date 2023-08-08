@@ -1,0 +1,25 @@
+<!--suppress JSUnresolvedLibraryURL -->
+<html>
+
+<head>
+    <script src="https://client-api.arkoselabs.com/v2/35536E1E-65B4-4D96-9D97-6ADB7EFF8147/api.js" data-callback="init" async defer></script>
+</head>
+
+<body>
+<button id="click">Click</button>
+
+<div id="token"></div>
+
+<script>
+    function init(myEnforcement) {
+        myEnforcement.setConfig({
+            selector: "#click",
+            onCompleted: (response) => {
+                document.getElementById("token").innerHTML = response.token;
+            },
+        })
+    }
+</script>
+</body>
+
+</html>

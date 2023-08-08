@@ -106,7 +106,7 @@ async function getCurrentAdLocales(){
   const rando = generateUUID(); // to not get cached version because headers were causing problems.
   const response = await fetch(`${host}/ads/activeLocales.txt?nocache=${rando}`);
   const activeLocales = JSON.parse(`${await response.text()}`);
-  console.log(await activeLocales)
+  //console.log(await activeLocales)
   return activeLocales;
 }
 

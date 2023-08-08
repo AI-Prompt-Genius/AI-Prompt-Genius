@@ -1,3 +1,5 @@
+const CHATGPT_HOME_URL = "https://chat.openai.com"
+
 class ProxyFetchRequester {
     async findExistingProxyTab() {
         const tabs = await chrome.tabs.query({ pinned: true });
@@ -56,14 +58,63 @@ class ProxyFetchRequester {
 
     async fetch(url, options) {
         const tab = await this.getProxyTab();
-        const resp = await proxyFetch(tab.id, url, options);
+        const resp = await this.proxyFetch(tab.id, url, options);
         if (resp.status === 403) {
             await this.refreshProxyTab();
-            return proxyFetch(tab.id, url, options);
+            return this.proxyFetch(tab.id, url, options);
         }
         return resp;
     }
+
+    async proxyFetch(tabId, url, options) {
+        console.debug('proxyFetch', tabId, url, options);
+        return new Promise(function(resolve) {
+            var port = chrome.tabs.connect(tabId, { name: uuidv4() });
+            port.onDisconnect.addListener(function() {
+                throw new DOMException('proxy fetch aborted', 'AbortError');
+            });
+            if (options && options.signal) {
+                options.signal.addEventListener('abort', function() {
+                    port.disconnect();
+                });
+            }
+            var body = new ReadableStream({
+                start: function(controller) {
+                    port.onMessage.addListener(function onMessage(message) {
+                        if (message.type === 'PROXY_RESPONSE_METADATA') {
+                            var response = new Response(body, message.metadata);
+                            resolve(response);
+                        } else if (message.type === 'PROXY_RESPONSE_BODY_CHUNK') {
+                            if (message.done) {
+                                controller.close();
+                                port.onMessage.removeListener(onMessage);
+                                port.disconnect();
+                            } else {
+                                var chunk = string2Uint8Array(message.value);
+                                controller.enqueue(chunk);
+                            }
+                        }
+                    });
+                    port.postMessage({ url: url, options: options });
+                },
+                cancel: function() {
+                    port.disconnect();
+                }
+            });
+        });
+    }
 }
+
+function string2Uint8Array(str) {
+    const encoder = new TextEncoder()
+    return encoder.encode(str)
+}
+
+function uint8Array2String(uint8Array) {
+    const decoder = new TextDecoder()
+    return decoder.decode(uint8Array)
+}
+
 
 class GlobalFetchRequester {
     fetch(url, options) {
@@ -71,10 +122,11 @@ class GlobalFetchRequester {
     }
 }
 
+const proxyFetchRequester = new ProxyFetchRequester();
+
 class ChatGPTClient {
     constructor() {
-        this.requester = new GlobalFetchRequester();
-        const proxyFetchRequester = new ProxyFetchRequester();
+        this.requester = proxyFetchRequester;
 
         proxyFetchRequester.findExistingProxyTab().then((tab) => {
             if (tab) {
@@ -180,8 +232,7 @@ class AbstractBot {
 
 async function fetchArkoseToken() {
     try {
-        const resp = await fetch('https://ai.fakeopen.com/api/arkose/token');
-        return resp.token;
+        return ``
     } catch (err) {
         console.error(err);
         return undefined;
