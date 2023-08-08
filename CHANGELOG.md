@@ -1,3 +1,11 @@
+### 3.1.7 - August 8, 2023
+
+- Localize ads to user region, fallback to language, fallback to US
+
+### 3.1.6 - August 3, 2023
+
+- Localize ads to users region
+
 ### v3.1.5 - July 29, 2023
 
 - Turkish & Italian translations

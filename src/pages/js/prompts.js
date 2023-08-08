@@ -968,8 +968,10 @@ async function getCurrentAdLocales(){
 async function getAd() {
   const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
   const userCountry = await getFromStorage("userCountry", "US")
-  const activeCountries = await getCurrentAdLocales()
-  const adLocale = (activeCountries.includes(userCountry)) ? userCountry : "US" // if the user's country has a specific ad active, use that one instead
+  const userLang = await getFromStorage("lang", "en")
+  const activeLocalesLangs = await getCurrentAdLocales()
+  let adLocale = (activeLocalesLangs.includes(userCountry)) ? userCountry : undefined // if the user's country has a specific ad active, use that one
+  if (!adLocale) adLocale = (activeLocalesLangs.includes(userLang)) ? userLang : "US" // if the user's language has a specific ad active, use that one - fallback to US (due to former structuring)
   const rando = generateUUID(); // to not get cached version because headers were causing problems.
   const response = await fetch(`${host}/ads/local/${adLocale}/current.txt?dummy=${rando}`);
   if (!response.ok) {
