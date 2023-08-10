@@ -97,7 +97,9 @@ async function getAccountStatus() {
   //console.log("Plus USER: "+ isPlus)
   let plusVal = JSON.stringify(isPlus);
   const input = `<input id="plusNetwork" value="${plusVal}" type="hidden" style="width: 0; height: 0; display: none">`;
-  document.body.insertAdjacentHTML("beforeend", input);
+  if (!document.getElementById("plusNetwork")) {
+    document.body.insertAdjacentHTML("beforeend", input);
+  }
 }
 
 function getConversations(offset = 0, limit = 100, authToken = myAuth) {
