@@ -1,7 +1,6 @@
 let isCompact;
 let firstTime = true;
 (() => {
-  document.querySelector("textarea").parentElement.parentElement.firstChild.remove() // remove the annoying built-in prompts
   // Save a reference to the original fetch function
   const fetch = (window._fetch = window._fetch || window.fetch);
   window.fetch = (...t) => {
@@ -289,12 +288,10 @@ function tagStyling() {
 
 let globalTags = [];
 // This function inserts a section containing a list of prompt templates into the chat interface
-async function insertPromptTemplatesSection(
-  templates = window.prompttemplates,
-  category = "",
-  searchTerm = "",
-) {
+async function insertPromptTemplatesSection(templates = window.prompttemplates, category = "", searchTerm = "") {
   // Get the title element (as a reference point and also for some alteration)
+  document.querySelector("textarea").parentElement.parentElement.firstChild.remove() // remove the annoying built-in prompts
+
   const title = document.querySelector("h1.text-4xl");
 
   const isMainPage = window.location.href.split("/").length === 4;
