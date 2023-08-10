@@ -716,7 +716,7 @@ async function getVarsFromModal(varArray, promptText) {
   document.body.insertAdjacentHTML("beforeend", template);
   document.querySelector(".pg-variable").focus();
   function handleKeyDown(event) {
-    if (event.key === "Enter" || event.keyCode === 13) {
+    if ((event.key === "Enter" || event.keyCode === 13) && !event.shiftKey) {
       event.preventDefault();
       event.stopImmediatePropagation();
       event.stopPropagation();
@@ -823,7 +823,7 @@ function css(name) {
     case "select":
       return "bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 dark:hover:bg-gray-900";
     case "selectDiv":
-      return "grid grid-cols-2 flex sm:flex gap-2 items-end justify-left lg:-mb-4 lg:max-w-3xl md:last:mb-6 pt-2 stretch text-left text-sm";
+      return "grid grid-cols-2 gap-2 items-end justify-left lg:-mb-4 lg:max-w-3xl md:last:mb-6 pt-2 stretch text-left text-sm";
     case "search":
       return "bg-gray-100 border-0 text-sm rounded block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white hover:bg-gray-200 focus:ring-0 md:w-50";
     case "column":
@@ -835,7 +835,7 @@ function css(name) {
     case "ul":
       return "flex flex-col gap-3.5";
     case "card":
-      return "flex flex-col gap-2 text-sm w-full bg-gray-50 dark:bg-white/5 p-4 rounded-md text-left";
+      return "flex flex-col gap-2 text-sm w-full bg-gray-50 dark:bg-white/5 hover:bg-gray-300 dark:hover:bg-gray-900 transition-colors p-4 rounded-md text-left";
     case "p":
       return "m-0 font-light text-gray-600 dark:text-gray-300";
     case "category":
