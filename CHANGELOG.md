@@ -1,3 +1,10 @@
+### 3.1.8 - August 10, 2023
+
+- Fix styling (cards, search/category, variable modal)
+- Fix "Use This prompt button"
+- Remove new suggested prompts from input
+- 
+
 ### 3.1.7 - August 8, 2023
 
 - Localize ads to user region, fallback to language, fallback to US
