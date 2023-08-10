@@ -492,26 +492,26 @@ async function main() {
 
   async function getVarsFromModal(varArray, promptText) {
     const template = `  
-        <div id="var-modal" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed inset-0 flex items-center justify-center bg-opacity-50 z-100">
+        <div id="var-modal" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed items-center inset-0 flex items-center justify-center bg-opacity-50 z-100">
           <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block">
               <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
-              <div style="width: 80%" class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle" role="dialog">
+              <div style="width: 50%" class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[ma400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:p-6 sm:align-middle" role="dialog">
                 ${varArray
-                  .map(
-                    (variable) => `
+        .map(
+            (variable) => `
                 <div class="text-sm font-bold text-black dark:text-gray-200">${variable}</div>
                 <textarea style="border-color: #8e8ea0" class="pg-variable my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr(
-                  "enter_val",
-                  t,
-                )} ${variable}..." value=""></textarea>
+                "enter_val",
+                t,
+            )} ${variable}..." value=""></textarea>
                 `,
-                  )
-                  .join("")}
+        )
+        .join("")}
                 <button id="save-vars" type="button" class="w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-neutral-100 focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800">${tr(
-                  "submit",
-                  t,
-                )} </button>   
+        "submit",
+        t,
+    )} </button>   
               </div>
             </div>
           </div>
@@ -813,7 +813,7 @@ async function main() {
   chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
       if (request.type === "c_use_prompt") {
-        selectPrompt(request.prompt);
+        setTimeout(() => selectPrompt(request.prompt), 1200);
       }
     },
   );

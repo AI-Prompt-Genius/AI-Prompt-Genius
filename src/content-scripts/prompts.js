@@ -689,11 +689,11 @@ function replaceVariables(str, values) {
 async function getVarsFromModal(varArray, promptText) {
   const t = promptTranslations;
   const template = `  
-        <div id="var-modal" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed inset-0 flex items-center justify-center bg-opacity-50 z-100">
+        <div id="var-modal" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed items-center inset-0 flex items-center justify-center bg-opacity-50 z-100">
           <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block">
               <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
-              <div style="width: 80%" class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle" role="dialog">
+              <div style="width: 50%" class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[ma400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:p-6 sm:align-middle" role="dialog">
                 ${varArray
                   .map(
                     (variable) => `
