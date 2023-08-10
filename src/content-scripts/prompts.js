@@ -1,6 +1,7 @@
 let isCompact;
 let firstTime = true;
 (() => {
+  document.querySelector("textarea").parentElement.parentElement.firstChild.remove() // remove the annoying built-in prompts
   // Save a reference to the original fetch function
   const fetch = (window._fetch = window._fetch || window.fetch);
   window.fetch = (...t) => {
