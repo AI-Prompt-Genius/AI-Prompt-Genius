@@ -290,9 +290,13 @@ let globalTags = [];
 // This function inserts a section containing a list of prompt templates into the chat interface
 async function insertPromptTemplatesSection(templates = window.prompttemplates, category = "", searchTerm = "") {
   // Get the title element (as a reference point and also for some alteration)
-  document.querySelector("textarea").parentElement.parentElement.firstChild.remove() // remove the annoying built-in prompts
-
   const title = document.querySelector("h1.text-4xl");
+
+  const openAIPrompts = document.querySelector("textarea").parentElement.parentElement.querySelector("div") // remove the annoying built-in prompts
+  if (openAIPrompts && !openAIPrompts.querySelector("#prompt-textarea")){
+    console.warn("removing prompts")
+    openAIPrompts.remove()
+  }
 
   const isMainPage = window.location.href.split("/").length === 4;
   //console.log("Is main" + isMainPage)
@@ -686,16 +690,15 @@ function replaceVariables(str, values) {
 async function getVarsFromModal(varArray, promptText) {
   const t = promptTranslations;
   const template = `  
-        <div id="var-modal" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed items-center inset-0 flex items-center justify-center bg-opacity-50 z-100">
-          <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block">
-              <div class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true"></div>
-              <div style="width: 50%" class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[ma400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:p-6 sm:align-middle" role="dialog">
-                ${varArray
+        <div id="var-modal" style="z-index: 100; background-color: rgb(0 0 0/.5)" class="fixed pg-outer items-center inset-0 flex items-center justify-center bg-opacity-50 z-100">
+          <div class="fixed inset-0 z-10 overflow-y-auto pg-outer">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block pg-outer">
+              <div style="width: 60%" class="dark:bg-gray-900 dark:text-gray-200 dark:border-netural-400 inline-block max-h-[ma400px] transform overflow-hidden rounded-lg border border-gray-300 bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:p-6 sm:align-middle" role="dialog">
+                  ${varArray
                   .map(
                     (variable) => `
                 <div class="text-sm font-bold text-black dark:text-gray-200">${variable}</div>
-                <textarea style="border-color: #8e8ea0" class="pg-variable my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr(
+                <textarea style="border-color: #8e8ea0; height: 45px" class="pg-variable my-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-gray-800 dark:text-neutral-100" placeholder="${tr(
                   "enter_val",
                   t,
                 )} ${variable}..." value=""></textarea>
@@ -722,6 +725,21 @@ async function getVarsFromModal(varArray, promptText) {
       document.removeEventListener("keydown", handleKeyDown);
     }
   }
+
+  function handleClick(e){
+    if (e.target.classList.contains("pg-outer")){
+      closeModal()
+    }
+  }
+
+  function closeModal(){
+    const modal = document.getElementById("var-modal")
+    if (modal) modal.remove()
+  }
+
+  document.querySelectorAll(".pg-outer").forEach(div => {
+    div.addEventListener("click", (e) => handleClick(e))
+  })
 
   document.addEventListener("keydown", handleKeyDown);
   document.getElementById("save-vars").addEventListener("click", submitModal);
@@ -868,3 +886,18 @@ function check_url() {
 }
 
 setInterval(check_url, 1000);
+
+// Function to handle the keydown event
+function handleKeyDown(event) { // new chat keyboard shortcut
+                                // Check if the event's key is 'O' and the appropriate modifier keys are pressed
+  if ((event.key === 'O' || event.key === 'o') &&
+      (event.metaKey || event.ctrlKey) &&
+      (event.shiftKey)) {
+        setTimeout(insertPromptTemplatesSection, 300);
+        let newChatButton = document.querySelector("nav").firstChild;
+        newChatButton.addEventListener("click", () => {
+          setTimeout(insertPromptTemplatesSection, 300);
+        });
+  }
+}
+document.addEventListener('keydown', handleKeyDown);
