@@ -1,3 +1,8 @@
+### 3.2.0 - August 14, 2023
+
+- Fixed how uninstall URL is delivered
+- Bug fixes
+
 ### 3.1.9 - August 11, 2023
 
 - Fixes on the fixes
