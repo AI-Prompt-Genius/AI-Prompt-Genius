@@ -294,8 +294,7 @@ async function insertPromptTemplatesSection(templates = window.prompttemplates, 
 
   const openAIPrompts = document.querySelector("textarea").parentElement.parentElement.querySelector("div") // remove the annoying built-in prompts
   if (openAIPrompts && !openAIPrompts.querySelector("#prompt-textarea")){
-    console.warn("removing prompts")
-    openAIPrompts.remove()
+    openAIPrompts.querySelector(".grow").classList.add("hidden")
   }
 
   const isMainPage = window.location.href.split("/").length === 4;

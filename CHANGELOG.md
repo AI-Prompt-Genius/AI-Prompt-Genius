@@ -1,3 +1,7 @@
+### 3.2.1 - August 14, 2023 
+
+- Fixed regenerate bug being removed
+
 ### 3.2.0 - August 14, 2023
 
 - Fixed how uninstall URL is delivered
