@@ -1,3 +1,7 @@
+### 3.2.2  - August 20, 2023
+
+- Fix #318, #306, & #308 (error cloud syncing when no prompts)
+
 ### 3.2.1 - August 14, 2023 
 
 - Fixed regenerate bug being removed

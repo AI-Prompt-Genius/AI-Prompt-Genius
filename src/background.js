@@ -288,6 +288,10 @@ async function getSheetData(spreadsheetId, range) {
       "time",
       "title",
     ]; // allows user to translate if they want
+    console.log(data)
+    if (!data.values){
+      return []
+    }
     const values = data.values.slice(1);
     const jsonData = values.map((row) => {
       const obj = {};
