@@ -3,7 +3,7 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "permissions": ["storage", "unlimitedStorage", "contextMenus", "identity"],
   "background": {
     "service_worker": "background.js"

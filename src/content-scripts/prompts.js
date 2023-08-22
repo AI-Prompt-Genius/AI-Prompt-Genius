@@ -292,7 +292,7 @@ async function insertPromptTemplatesSection(templates = window.prompttemplates, 
   // Get the title element (as a reference point and also for some alteration)
   const title = document.querySelector("h1.text-4xl");
 
-  const openAIPrompts = document.querySelector("textarea").parentElement.parentElement.querySelector("div") // remove the annoying built-in prompts
+  const openAIPrompts = document.querySelector("textarea").parentElement.parentElement.parentElement.querySelector("div") // remove the annoying built-in prompts
   if (openAIPrompts && !openAIPrompts.querySelector("#prompt-textarea")){
     openAIPrompts.querySelector(".grow").classList.add("hidden")
   }

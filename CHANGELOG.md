@@ -1,3 +1,7 @@
+### 3.2.3 - August 21, 2023
+
+- Fix text div detection
+
 ### 3.2.2  - August 20, 2023
 
 - Fix #318, #306, & #308 (error cloud syncing when no prompts)

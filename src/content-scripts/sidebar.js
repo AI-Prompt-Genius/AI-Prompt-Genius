@@ -773,7 +773,7 @@ async function main() {
             </ul>
         </div>
         `;
-    textDiv.insertAdjacentHTML("beforebegin", html);
+    textDiv.parentElement.insertAdjacentHTML("beforebegin", html);
     const suggestions = document.querySelectorAll(".pg-suggestion");
     suggestions.forEach((s) =>
       s.addEventListener("mouseenter", () =>
