@@ -651,7 +651,7 @@ async function main() {
       const searchTerm = chatInput.value
         .substring(chatInput.value.lastIndexOf("/") + 1)
         .split(" ")[0];
-      textDiv.querySelector("button").disabled = true; // weird jerry rig to stop form from submitting
+      //textDiv.querySelector("button").disabled = true; // weird jerry rig to stop form from submitting
       //console.log(searchTerm)
       removeSuggestion();
       getSuggestedPrompts(searchTerm);
@@ -682,7 +682,7 @@ async function main() {
       autocomplete &&
       document.querySelector(".autocomplete-active")
     ) {
-      textDiv.querySelector("button").disabled = true; // weird jerry rig to stop form from submitting
+      //textDiv.querySelector("button").disabled = true; // weird jerry rig to stop form from submitting
       event.preventDefault();
       event.stopPropagation();
       return false;
