@@ -1,3 +1,7 @@
+### 3.2.4 - September 1, 2023
+
+- Fix #322
+
 ### 3.2.3 - August 21, 2023
 
 - Fix text div detection
