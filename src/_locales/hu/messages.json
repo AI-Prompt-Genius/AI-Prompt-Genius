@@ -450,5 +450,15 @@
   },
   "exported_on": {
     "message": "Exportálva"
+  },
+  "export_csv_md": {
+    "message": "Prompts exportálása - CSV"
+  },
+  "description_export": {
+    "message": "Ezeket a fájlokat használhatja arra, hogy átadja a prompokat máshová, és emberi olvasatra készültek."
+  },
+  "export_csv": {
+    "message": "CSV exportálása"
   }
+
 }

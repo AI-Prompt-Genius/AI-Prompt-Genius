@@ -450,5 +450,14 @@
   },
   "exported_on": {
     "message": "Dışa Aktarıldığı Tarih"
+  },
+  "export_csv_md": {
+    "message": "Dışa Aktarma Prompts - CSV"
+  },
+  "description_export": {
+    "message": "Bu dosyalar, promptlarınızı başka bir yere aktarmak için kullanılabilir ve insanlar tarafından okunabilir olacak şekilde tasarlanmıştır."
+  },
+  "export_csv": {
+    "message": "CSV Dışa Aktar"
   }
 }

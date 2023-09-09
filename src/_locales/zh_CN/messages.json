@@ -432,5 +432,14 @@
   },
   "exported_on": {
     "message": "导出时间"
+  },
+  "export_csv_md": {
+    "message": "导出提示 - CSV"
+  },
+  "description_export": {
+    "message": "这些文件可用于将您的提示传输到其他地方，并且可供人类阅读。"
+  },
+  "export_csv": {
+    "message": "导出 CSV"
   }
 }

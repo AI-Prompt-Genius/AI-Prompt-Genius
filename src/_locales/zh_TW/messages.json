@@ -450,5 +450,14 @@
   },
   "exported_on": {
     "message": "匯出時間"
+  },
+  "export_csv_md": {
+    "message": "匯出提示 - CSV"
+  },
+  "description_export": {
+    "message": "這些檔案可用於將您的提示傳輸到其他地方，並且適合人類閱讀。"
+  },
+  "export_csv": {
+    "message": "匯出 CSV"
   }
 }

@@ -450,5 +450,15 @@
   },
   "exported_on": {
     "message": "Exportado em"
+  },
+  "export_csv_md": {
+    "message": "Exportar Prompts - CSV"
+  },
+  "description_export": {
+    "message": "Estes ficheiros podem ser usados para transferir os seus prompts para outro local e destinam-se a ser legíveis por humanos."
+  },
+  "export_csv": {
+    "message": "Exportar CSV"
   }
+
 }

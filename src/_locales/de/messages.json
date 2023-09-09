@@ -450,5 +450,15 @@
   },
   "exported_on": {
     "message": "Exportiert am"
+  },
+  "export_csv_md": {
+    "message": "Exportieren von Anstoßmöglichkeiten - CSV"
+  },
+  "description_export": {
+    "message": "Diese Dateien können verwendet werden, um Ihre Anstoßmöglichkeiten an einen anderen Ort zu übertragen und sind für Menschen lesbar."
+  },
+  "export_csv": {
+    "message": "CSV exportieren"
   }
+
 }
