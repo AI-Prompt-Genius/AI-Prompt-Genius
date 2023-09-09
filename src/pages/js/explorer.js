@@ -19,7 +19,6 @@ function sliceString(str, num) {
     return `${str.slice(0, num)}...`
       .replace(`<p>`, "")
       .replace(`</p>`, "")
-      .replaceAll("<", "&lt;");
   }
   // If the string is not longer than num characters, return it as is
   return str;
