@@ -1,3 +1,9 @@
+### 3.2.5 - September 9, 2023
+
+- Add option to export prompts to CSV
+- Fix highlighting issue
+- Improve zh_TW translations
+
 ### 3.2.4 - September 1, 2023
 
 - Fix #322
