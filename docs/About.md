@@ -4,6 +4,7 @@ dg-home: true
 ---
 # ChatGPT Prompt Genius
 
+
 <em>Written by ChatGPT, of course</em>
 
 🎉 Welcome to ChatGPT Prompt Genius, a free, open-source browser extension that helps you 🔍 discover, share, import, and use the best prompts for ChatGPT. You can also 💾 save your chat history locally so you can easily review past conversations and refer to them at a later time.
@@ -14,11 +15,12 @@ You can use the extension's prompt templates feature to easily find and add prom
 
 To use the history saving feature, simply open ChatGPT and start chatting 💬 as you normally would. The extension will automatically save your conversation history in your browser. You can access your saved history by clicking on the extension icon 🔍 in the top right corner of your browser. The extension rerenders your conversation in a style that closely matches ChatGPT, including code rendering & copying.
 
-On the explore page, you can 🔖 bookmark threads or 🔍 search through your threads & prompt templates. You can also save the your chats as html/pdf/png 📄 right on ChatGPT.
+On the explore page, you can 🔖 bookmark threads or 🔍 search through your threads & prompt templates. You can also save your chats as html/pdf/png 📄 right on ChatGPT.
 
 We hope you find ChatGPT Prompt Genius useful and enjoy using it to find and save your ChatGPT prompts. If you have any feedback or suggestions for improvement, please don't hesitate to fill out the feedback form. Thank you for using ChatGPT Prompt Genius!
 
 Prompt Creator:
+
 
 <img width="640" alt="Screen Shot 2023-01-07 at 11 34 16 PM" src="https://user-images.githubusercontent.com/12115686/211184017-57b816d8-020b-4cbf-a67b-579b142068f3.png">
 
