@@ -15,5 +15,5 @@ Ho un'idea per una nuova funzionalità!
 Siamo sempre alla ricerca di modi per migliorare la nostra estensione e saremmo felici di ascoltare le tue idee. Ti preghiamo di utilizzare le discussioni sulla nostra repository GitHub (https://github.com/benf2004/ChatGPT-Prompt-Genius/discussions) per condividere i tuoi pensieri.
 Chi siamo noi?
 Questo progetto è open-source e ti incoraggiamo a leggere il codice sulla nostra repository GitHub (https://github.com/benf2004/ChatGPT-Prompt-Genius). Se noti qualcosa che può essere migliorato, sentiti libero di aprire una segnalazione o una pull request.
-Codice sorgente disponibile su: https://github.com/benf2004/ChatGPT-History 💻 Contribuisci o lascia una recensione! 🙏
+Codice sorgente disponibile su: https://github.com/benf2004/ChatGPT-Prompt-Genius 💻 Contribuisci o lascia una recensione! 🙏
 Log delle modifiche disponibile su: https://github.com/benf2004/ChatGPT-Prompt-Genius/blob/master/CHANGELOG.md
