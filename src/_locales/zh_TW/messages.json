@@ -63,7 +63,7 @@
     "message": "精選提示"
   },
   "public_prompts": {
-    "message": "公共提示"
+    "message": "公開提示"
   },
   "history": {
     "message": "歷史紀錄"
@@ -257,7 +257,7 @@
     "message": "我可以刪除我透過連結分享的內容嗎？"
   },
   "faq_sharegpt_data": {
-    "message": "很抱歉，我們使用 ShareGPT 的公共伺服器來提供您的分享服務，因此無法存取這些資料。我們建議您不要分享任何敏感訊息。"
+    "message": "很抱歉，我們使用 ShareGPT 的公用伺服器來提供您的共享服務，因此無法存取這些資料。我們建議您不要分享任何敏感訊息。"
   },
   "faq_data_shared_header": {
     "message": "是否還有其他共享的資料？"
@@ -311,7 +311,7 @@
     "message": "已複製！"
   },
   "no_data": {
-    "message": "當前分支沒有可用的資料。"
+    "message": "目前的分支沒有可用的資料。"
   },
   "language": {
     "message": "語言"
@@ -350,13 +350,13 @@
     "message": "到"
   },
   "of": {
-    "message": "的"
+    "message": "共"
   },
   "entries": {
-    "message": "條目"
+    "message": "條"
   },
   "showing": {
-    "message": "顯示中"
+    "message": "顯示"
   },
   "help_translate": {
     "message": "請幫忙將此翻譯成您的語言或修正自動翻譯的內容。"
@@ -365,7 +365,7 @@
     "message": "以下是我和 ChatGPT 之間的對話記錄，請用於上下文理解。在回答 ChatGPT 提出的問題時，請記得編輯並擴展 ChatGPT 先前給出的回答。如果您理解了上下文，請回答\"ready!\"，請勿回答其他內容。對話記錄：\n"
   },
   "resync_interim": {
-    "message": "此頁面用於臨時隔離重新同步，同時我們正在消除一些錯誤。在導覽列中單擊「全部重新同步」，以重新同步您與ChatGPT之前的所有對話。"
+    "message": "此頁面用於臨時隔離重新同步，同時我們正在消除一些錯誤。在導覽列中點選「全部重新同步」，以重新同步您與ChatGPT之前的所有對話。"
   },
   "cloud_syncing": {
     "message": "雲端同步"
