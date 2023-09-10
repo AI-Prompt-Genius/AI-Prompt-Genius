@@ -29,7 +29,7 @@ Quem é "Somos"?
 
 Este projeto é de código aberto e nós encorajamos você a ler o código em nosso repositório do GitHub. https://github.com/benf2004/ChatGPT-Prompt-Genius. Se você ver algo que precise ser melhorado, sinta-se livre para abrir um problema ou pull request.
 
-Código fonte disponível em: https://github.com/benf2004/ChatGPT-History 💻
+Código fonte disponível em: https://github.com/benf2004/ChatGPT-Prompt-Genius 💻
 Por favor, contribua ou deixe uma avaliação! 🙏
 
 Registo de alterações disponível em:

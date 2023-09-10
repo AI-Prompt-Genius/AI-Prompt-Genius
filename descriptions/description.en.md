@@ -28,7 +28,7 @@ Who is "we"?
 
 This project is open-source and we encourage you to read the code on our GitHub repository https://github.com/benf2004/ChatGPT-Prompt-Genius. If you see anything that needs improvement, feel free to open an issue or pull request.
 
-Source code available at: https://github.com/benf2004/ChatGPT-History 💻
+Source code available at: https://github.com/benf2004/ChatGPT-Prompt-Genius 💻
 Please contribute or leave a review! 🙏
 
 Changelog available at:

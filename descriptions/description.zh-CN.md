@@ -28,7 +28,7 @@
 
 这个项目是开源的，我们鼓励您阅读我们在 GitHub 存储库 https://github.com/benf2004/ChatGPT-Prompt-Genius 上的代码。如果您看到需要改进的地方，请随时打开问题或拉取请求。
 
-源代码可在 https://github.com/benf2004/ChatGPT-History 上获取 💻
+源代码可在 https://github.com/benf2004/ChatGPT-Prompt-Genius 上获取 💻
 请贡献或留下评论！🙏
 
 变更日志可在以下网址获取：

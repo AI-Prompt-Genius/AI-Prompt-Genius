@@ -102,7 +102,7 @@ async function getFromStorage(key, defaultKey = null) {
 }
 
 async function getCurrentAdLocales(){
-  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public`;
   const rando = generateUUID(); // to not get cached version because headers were causing problems.
   const response = await fetch(`${host}/ads/activeLocales.txt?nocache=${rando}`);
   const activeLocales = JSON.parse(`${await response.text()}`);
@@ -117,7 +117,7 @@ chrome.runtime.onMessage.addListener(async function (message) {
     const activeLocalesLangs = await getCurrentAdLocales()
     let adLocale = (activeLocalesLangs.includes(userCountry)) ? userCountry : undefined // if the user's country has a specific ad active, use that one
     if (!adLocale) adLocale = (activeLocalesLangs.includes(userLang)) ? userLang : "US" // if the user's language has a specific ad active, use that one - fallback to US (due to former structuring)
-    const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+    const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public`;
     const rando = generateUUID(); // to not get cached version because headers were causing problems.
     const response = await fetch(`${host}/ads/local/${adLocale}/current.txt?nocache=${rando}`);
     if (!response.ok) {
@@ -452,7 +452,7 @@ async function syncPrompts(
 }
 
 async function setUninstallURL() {
-  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public`;
   const userCountry = await getFromStorage("userCountry", "US")
   const userLang = await getFromStorage("lang", "en")
   const activeLocalesLangs = await getCurrentAdLocales()

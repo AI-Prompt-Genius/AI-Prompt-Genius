@@ -29,7 +29,7 @@ Siempre estamos buscando formas de mejorar nuestra extensión y nos encantaría 
 
 Este proyecto es de código abierto y le animamos a leer el código en nuestro repositorio de GitHub https://github.com/benf2004/ChatGPT-Prompt-Genius. Si ve algo que necesita mejorar, siéntase libre de abrir un problema o una solicitud de extracción.
 
-Código fuente disponible en: https://github.com/benf2004/ChatGPT-History 💻
+Código fuente disponible en: https://github.com/benf2004/ChatGPT-Prompt-Genius 💻
 ¡Por favor, contribuya o deje un comentario! 🙏
 
 Registro de cambios disponible en:

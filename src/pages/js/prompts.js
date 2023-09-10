@@ -654,7 +654,7 @@ function fillAndAppendTemplate(title, text, i, tags = "", category = "") {
 
 let publicTemps;
 function fetch_templates() {
-  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public`;
   fetch(`${host}/csv/prompts.csv`)
     // Convert the response to text
     .then((res) => res.text())
@@ -957,7 +957,7 @@ async function getFromStorage(key, defaultKey = null) {
 }
 
 async function getCurrentAdLocales(){
-  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public`;
   const rando = generateUUID(); // to not get cached version because headers were causing problems.
   const response = await fetch(`${host}/ads/activeLocales.txt?nocache=${rando}`);
   const activeLocales = JSON.parse(`${await response.text()}`);
@@ -966,7 +966,7 @@ async function getCurrentAdLocales(){
 }
 
 async function getAd() {
-  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-History/master/public`;
+  const host = `https://raw.githubusercontent.com/benf2004/ChatGPT-Prompt-Genius/master/public`;
   const userCountry = await getFromStorage("userCountry", "US")
   const userLang = await getFromStorage("lang", "en")
   const activeLocalesLangs = await getCurrentAdLocales()

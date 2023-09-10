@@ -22,5 +22,5 @@ Eklentimizi sürekli geliştirmeye çalışıyoruz ve fikirlerinizi duymaktan mu
 "Biz" kimiz?
 
 Bu proje açık kaynaklıdır ve kodları GitHub deposundan (https://github.com/benf2004/ChatGPT-Prompt-Genius) incelemenizi öneririz. Eksik veya geliştirilmesi gereken bir şey görürseniz, sorunu açmak veya çekme isteği göndermekten çekinmeyin.
-Kaynak kodu şurada bulunabilir: https://github.com/benf2004/ChatGPT-History 💻 Lütfen katkıda bulunun veya bir değerlendirme bırakın! 🙏
+Kaynak kodu şurada bulunabilir: https://github.com/benf2004/ChatGPT-Prompt-Genius 💻 Lütfen katkıda bulunun veya bir değerlendirme bırakın! 🙏
 Değişiklik günlüğü şurada bulunabilir: https://github.com/benf2004/ChatGPT-Prompt-Genius/blob/master/CHANGELOG.md

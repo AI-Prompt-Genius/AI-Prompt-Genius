@@ -31,7 +31,7 @@ Mindig is keresünk lehetőségeket arra, hogy javítsuk az alkalmazásunkat, é
 
 Ez a projekt nyílt forráskódú, és bátorítunk téged, hogy olvasd el a kódot a GitHub tárolónkon (https://github.com/benf2004/ChatGPT-Prompt-Genius). Ha valami javításra szorul, nyugodtan nyiss egy "issue", vagy "pull request"-et.
 
-Forráskód elérhető itt: https://github.com/benf2004/ChatGPT-History 💻
+Forráskód elérhető itt: https://github.com/benf2004/ChatGPT-Prompt-Genius 💻
 Kérlek, segítsd a projektet, vagy csak hagyj egy értékelést! 🙏
 
 Változásnapló elérhető itt:
