@@ -428,8 +428,8 @@ async function insertPromptTemplatesSection(templates = window.prompttemplates, 
         } <span data-i18n="entries">Entries</span></span></a>
       </span>
       <div class="${css`paginationButtonGroup`}">
-        <button onclick="prevPromptTemplatesPage()" class="${css`paginationButton`}" style="border-radius: 6px 0 0 6px" data-i18n="prev">Prev</button>
-        <button onclick="nextPromptTemplatesPage()" class="${css`paginationButton`} border-0 border-l border-gray-500" style="border-radius: 0 6px 6px 0" data-i18n="next">Next</button>
+        <button id="prev-pg" class="${css`paginationButton`}" style="border-radius: 6px 0 0 6px" data-i18n="prev">Prev</button>
+        <button id="next-pg" class="${css`paginationButton`} border-0 border-l border-gray-500" style="border-radius: 0 6px 6px 0" data-i18n="next">Next</button>
       </div>
     </div>
     </ul>
@@ -466,6 +466,8 @@ async function insertPromptTemplatesSection(templates = window.prompttemplates, 
 
   search.value = searchTerm;
   search.addEventListener("input", () => searchAndCat(true));
+  document.getElementById("prev-pg").addEventListener("click", prevPromptTemplatesPage)
+  document.getElementById("next-pg").addEventListener("click", nextPromptTemplatesPage)
 
   function checkForMessages() {
     let messagesRaw = document.querySelector("#pr-messages")?.value;

@@ -1,3 +1,9 @@
+### 3.2.6 - September 15, 2023
+
+- Rename external-js to included-libraries
+- Fix button bug
+- Other minor updates
+
 ### 3.2.5 - September 9, 2023
 
 - Add option to export prompts to CSV

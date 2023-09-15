@@ -24,19 +24,19 @@ function addExportButtons() {
 
             /* libraries */
             injectScript(
-              chrome.runtime.getURL("external-js/html2canvas.js"),
+              chrome.runtime.getURL("included-libraries/html2canvas.js"),
               "body",
             );
             injectScript(
-              chrome.runtime.getURL("external-js/jspdf.umd.js"),
+              chrome.runtime.getURL("included-libraries/jspdf.umd.js"),
               "body",
             );
             injectScript(
-              chrome.runtime.getURL("external-js/turndown.min.js"),
+              chrome.runtime.getURL("included-libraries/turndown.min.js"),
               "body",
             );
             injectScript(
-              chrome.runtime.getURL("external-js/turndown-plugin.min.js"),
+              chrome.runtime.getURL("included-libraries/turndown-plugin.min.js"),
               "body",
             );
 

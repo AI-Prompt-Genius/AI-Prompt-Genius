@@ -3,7 +3,7 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "permissions": ["storage", "unlimitedStorage", "contextMenus", "identity"],
   "background": {
     "service_worker": "background.js"
@@ -21,14 +21,14 @@
         "content-scripts/export-inject.js",
         "content-scripts/themes.js",
         "content-scripts/sidebar.js",
-        "external-js/html2canvas.js",
-        "external-js/jspdf.umd.js"
+        "included-libraries/html2canvas.js",
+        "included-libraries/jspdf.umd.js"
       ],
       "run_at": "document_idle"
     }
   ],
   "web_accessible_resources" : [{
-    "resources": ["content-scripts/*" ,"themes/*", "external-js/*", "_locales/*"],
+    "resources": ["content-scripts/*" ,"themes/*", "included-libraries/*", "_locales/*"],
     "matches": ["https://chat.openai.com/*"]
   }],
   "action": {
