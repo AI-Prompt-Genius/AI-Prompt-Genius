@@ -1,1 +1,1 @@
-["SA", "zh_CN", "zh_TW", "NL", "UK", "US", "fr", "de", "JP", "it", "PL", "pt_BR", "pt_PT", "ru", "es", "SE", "tr"]
+["US"]
