@@ -4,7 +4,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 export const ThemeContext = createContext();
 
 export default function ThemeProvider({ children }) {
-    const [theme, setTheme] = useLocalStorage('theme', 'light');
+    const [theme, setTheme] = useLocalStorage('theme', 'winter');
 
     useEffect(() => {
         // replace setup() function
@@ -13,7 +13,7 @@ export default function ThemeProvider({ children }) {
     }, []);
 
     const switchTheme = () => {
-        const newTheme = theme === 'light' ? 'night' : 'light';
+        const newTheme = theme === 'winter' ? 'night' : 'winter';
         setTheme(newTheme);
         // chrome.storage.local.set({'theme': newTheme});
     };
