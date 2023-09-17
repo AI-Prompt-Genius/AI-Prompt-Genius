@@ -1,6 +1,8 @@
 import CategorySelect from "./CategorySelect.jsx";
 import ThemeToggle from "./ThemeToggle.jsx";
+import Template from "./Template.jsx";
 export default function MainContent(props) {
+    const templates = props.prompts
     return (
         <div className="flex flex-col w-4/5">
             <div className="sticky flex p-4 align-middle justify-center">
@@ -14,7 +16,11 @@ export default function MainContent(props) {
 
             <div className="h-full overflow-y-auto">
                 <ul className="flex flex-col mr-8" id="templates">
-                    {/* Templates here */}
+                    {templates.map(
+                        (template) => (
+                            <Template template={template} key={template.id}></Template>
+                        )
+                    )}
                 </ul>
             </div>
         </div>
