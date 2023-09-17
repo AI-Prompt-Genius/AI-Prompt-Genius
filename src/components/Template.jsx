@@ -1,7 +1,7 @@
 export default function Template(props){
     const template = props.template
     return (
-        <div
+        <div onClick={() => props.onClick()}
             id={template.id}
             className="card w-full bg-base-200/50 shadow-md template mb-3 cursor-pointer hover:bg-base-300/50 transition-colors"
         >
