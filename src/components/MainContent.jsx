@@ -84,16 +84,17 @@ export default function MainContent(props) {
                     <ThemeToggle />
                 </div>
             </div>
-
-            <div className="h-full overflow-y-auto">
-                <ul className="flex flex-col mr-8" id="templates">
-                    {templates.map(
-                        (template) => (
-                            <Template onClick={() => usePrompt(template.text)} template={template} key={template.id}></Template>
-                        )
-                    )}
-                </ul>
-            </div>
+            {templates && (
+                <div className="h-full overflow-y-auto">
+                    <ul className="flex flex-col mr-8" id="templates">
+                        {templates.map(
+                            (template) => (
+                                <Template setPrompts={props.setPrompts} categories={props.categories} onClick={() => usePrompt(template.text)} template={template} key={template.id}></Template>
+                            )
+                        )}
+                    </ul>
+                </div>
+            )}
         </div>
 
         {modalVisible && (
@@ -103,12 +104,12 @@ export default function MainContent(props) {
                 <div className="modal-box">
                     {variables.map((variable, index) => (
                         <div key={index}>
-                        <div className="text-sm font-bold p-3">
+                        <div className="text-sm font-bold py-3">
                             {variable}
                         </div>
                         <textarea
                             autoFocus={index===0}
-                            className="textarea textarea-bordered w-full"
+                            className="textarea textarea-bordered w-full h-[25px]"
                             placeholder={`Enter value for ${variable}...`}
                             value={textareaValues[index]} // Use value instead of defaultValue
                             onChange={(e) => {

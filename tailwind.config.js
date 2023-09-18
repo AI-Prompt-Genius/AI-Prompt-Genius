@@ -9,5 +9,8 @@ export default {
   },
   // eslint-disable-next-line no-undef
   plugins: [require("daisyui")],
+  variants: {
+    borderWidth: ['responsive', 'first', 'hover', 'focus'],
+  },
 }
 

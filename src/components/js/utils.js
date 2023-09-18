@@ -9,6 +9,46 @@ export function findVariables(str) {
     return Array.from(matches);
 }
 
+function getObjectIndexByID(id, list) {
+    // created by ChatGPT
+    // Iterate over the list of objects
+    for (let i = 0; i < list.length; i++) {
+        const obj = list[i];
+
+        // Check if the object has an `id` property that matches the given id
+        if (obj.id && obj.id === id) {
+            // If a match is found, return the object
+            return i;
+        }
+    }
+
+    // If no match is found, return null
+    return null;
+}
+
+export function getCurrentTimestamp() {
+    const currentDate = new Date();
+    return currentDate.getTime(); // Returns the timestamp in milliseconds since January 1, 1970 (Unix timestamp).
+}
+
+export function newBlankPrompt(){
+    let promptList = localStorage.getItem("prompts");
+    let prompts = JSON.parse(JSON.parse(promptList));
+    prompts.unshift({title:"", text:"", tags:[], category:"", id: uuid(),
+        lastEdited: getCurrentTimestamp()})
+    return JSON.stringify(prompts);
+}
+
+
+export function editPrompt(id, promptObj){
+    let promptList = localStorage.getItem("prompts");
+    let prompts = JSON.parse(JSON.parse(promptList))
+    let promptIndex = getObjectIndexByID(id, prompts)
+    prompts[promptIndex] = promptObj
+    console.log(prompts)
+    return JSON.stringify(prompts)
+}
+
 function escapeRegExp(string) {
     return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
