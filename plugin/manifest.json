@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "AI Prompt Genius v4",
+  "version": "1.0",
+  "description": "v4 babbbyyy",
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
