@@ -8,7 +8,6 @@ export default function Sidebar(props) {
 
     function newPrompt(){
         props.setPrompts(newBlankPrompt())
-        document.querySelector(".edit").click()
     }
 
     return (

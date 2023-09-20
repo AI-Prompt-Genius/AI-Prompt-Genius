@@ -31,11 +31,24 @@ export function getCurrentTimestamp() {
     return currentDate.getTime(); // Returns the timestamp in milliseconds since January 1, 1970 (Unix timestamp).
 }
 
+export function deletePrompt(id) {
+    let promptList = localStorage.getItem("prompts");
+    let prompts = JSON.parse(JSON.parse(promptList));
+
+    let promptIndex = getObjectIndexByID(id, prompts);
+
+    if (promptIndex !== -1) {
+        prompts.splice(promptIndex, 1); // Remove the prompt at the specified index
+    }
+
+    return JSON.stringify(prompts);
+}
+
+
 export function newBlankPrompt(){
     let promptList = localStorage.getItem("prompts");
     let prompts = JSON.parse(JSON.parse(promptList));
-    prompts.unshift({title:"", text:"", tags:[], category:"", id: uuid(),
-        lastEdited: getCurrentTimestamp()})
+    prompts.unshift({title:"", text:"", tags:[], category:"", id: uuid(), lastEdited: getCurrentTimestamp()})
     return JSON.stringify(prompts);
 }
 
@@ -45,7 +58,6 @@ export function editPrompt(id, promptObj){
     let prompts = JSON.parse(JSON.parse(promptList))
     let promptIndex = getObjectIndexByID(id, prompts)
     prompts[promptIndex] = promptObj
-    console.log(prompts)
     return JSON.stringify(prompts)
 }
 

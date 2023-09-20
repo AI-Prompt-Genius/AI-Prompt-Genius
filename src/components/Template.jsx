@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {editPrompt, getCurrentTimestamp, uuid} from "./js/utils.js";
+import {deletePrompt, editPrompt, getCurrentTimestamp, uuid} from "./js/utils.js";
 import CategorySelect from "./CategorySelect.jsx";
 import {EditIcon, TrashIcon} from "./icons/Icons.jsx";
 
@@ -31,6 +31,13 @@ export default function Template(props){
         closeModal()
     };
 
+    function removePrompt(id){
+        const newPrompts = deletePrompt(id)
+        props.setPrompts(newPrompts)
+    }
+
+
+
     return (
         <>
         <div onClick={(e) => {if (e.target.classList.contains("mainClick")) props.onClick()}}
@@ -46,7 +53,7 @@ export default function Template(props){
                 </div>
                 <div className="mainClick buttons flex">
                     <button onClick={showModal} className="edit my-1 border-none btn p-1 bg-inherit"><EditIcon></EditIcon></button>
-                    <button className="my-1 border-none btn p-1 bg-inherit"><TrashIcon></TrashIcon></button>
+                    <button onClick={() => removePrompt(template.id)} className="my-1 border-none btn p-1 bg-inherit"><TrashIcon></TrashIcon></button>
                 </div>
             </div>
         </div>
