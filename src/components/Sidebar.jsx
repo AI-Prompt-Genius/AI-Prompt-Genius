@@ -8,6 +8,7 @@ export default function Sidebar(props) {
 
     function newPrompt(){
         props.setPrompts(newBlankPrompt())
+        setTimeout(() => document.querySelector(".edit").click(), 50)
     }
 
     return (
