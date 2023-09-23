@@ -52,6 +52,14 @@ export function newBlankPrompt(){
     return JSON.stringify(prompts);
 }
 
+export function newFolder(name){
+    let folderList = localStorage.getItem("folders")
+    if (!folderList) folderList = "'[]'"
+    let folders = JSON.parse(JSON.parse(folderList))
+    folders.push({name, id: uuid()})
+    return JSON.stringify(folders)
+}
+
 
 export function editPrompt(id, promptObj){
     let promptList = localStorage.getItem("prompts");

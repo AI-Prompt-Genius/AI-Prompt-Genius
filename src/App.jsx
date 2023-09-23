@@ -15,7 +15,7 @@ function App() {
 
     return (
       <div data-theme={theme} className={`flex bg-base-100 w-[100vw] h-[100vh] overflow-hidden`}>
-        <Sidebar setPrompts={setPrompts} folders={folderArray}/>
+        <Sidebar setPrompts={setPrompts} setFolders={setFolders} folders={folderArray}/>
         <MainContent setPrompts={setPrompts} prompts={promptArray} categories={categories}/>
       </div>
   );
