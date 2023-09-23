@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.menu > .selected, .selected > a:hover {
+    color: hsl(var(--a));
+}
+
+.toggle, .toggle:checked, .toggle[aria-checked=true], .toggle[checked=true] {
+    @apply border-opacity-30
+}

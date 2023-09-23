@@ -1,7 +1,7 @@
 import Logo from "./Logo.jsx"
 import Folder from "./Folder.jsx"
 import {newBlankPrompt} from "./js/utils.js";
-import {HomeIcon} from "./icons/Icons.jsx";
+import {HomeIcon, PlusDoc, PlusFolder} from "./icons/Icons.jsx";
 
 export default function Sidebar(props) {
     let folders = props.folders;
@@ -29,9 +29,10 @@ export default function Sidebar(props) {
                     ))}
                 </ul>
             </div>
-            <div className="flex flex-col border-t-2 border-base-400">
-                <button onClick={newPrompt} className="btn">New Prompt</button>
-            </div>
+            <ul className="menu p-3 text-base-content flex flex-col border-t-2 border-base-300">
+                <li><a onClick={newPrompt}><PlusDoc/> New Prompt</a></li>
+                <li><a><PlusFolder/> New Folder</a></li>
+            </ul>
             </div>
         </div>
     );

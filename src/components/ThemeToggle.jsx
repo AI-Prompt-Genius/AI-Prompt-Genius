@@ -15,7 +15,7 @@ export default function ThemeToggle() {
                     id="theme-toggle"
                     type="checkbox"
                     checked={theme === "night"}
-                    className={`toggle bg-transparent col-start-1 row-start-1 col-span-2 [--b1:219_14%_80%] checked:[--b1:215_28%_17%] ${theme}`}
+                    className={`toggle col-start-1 bg-transparent border-solid border-base-content row-start-1 col-span-2 ${theme}`}
                     onChange={switchTheme}
                 />
             </div>
