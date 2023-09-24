@@ -5,7 +5,7 @@ import {newBlankPrompt} from "./js/utils.js";
 import {HomeIcon, PlusDoc, PlusFolder} from "./icons/Icons.jsx";
 import {useState} from "react";
 
-export default function Sidebar({setPrompts, setFolders, folders}) {
+export default function Sidebar({setPrompts, setFolders, folders, setFilteredPrompts, setSelectedFolder, prompts}) {
     const [folderModal, setFolderModal] = useState(false)
 
     function newPrompt(){
@@ -19,6 +19,16 @@ export default function Sidebar({setPrompts, setFolders, folders}) {
 
     function closeFolderModal(){
         setFolderModal(false)
+    }
+
+    function selectFolder(id){
+        console.log("SELECTED!")
+        setSelectedFolder(id)
+        setFilteredPrompts(prompts.filter(obj => obj.folder === id))
+        document.querySelectorAll(".folder").forEach(folder => {
+            folder.classList.remove("selected")
+        })
+        document.getElementById(`folder-${id}`).classList.add("selected")
     }
 
     return (
@@ -36,7 +46,7 @@ export default function Sidebar({setPrompts, setFolders, folders}) {
                             </a>
                         </li>
                         {folders.map((folder) => (
-                            <Folder key={folder.id} folder={folder}></Folder>
+                            <Folder id={`folder-${folder.id}`} key={folder.id} folder={folder} onClick={() => selectFolder(folder.id)}></Folder>
                         ))}
                     </ul>
                 </div>

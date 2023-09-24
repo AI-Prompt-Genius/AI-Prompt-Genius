@@ -4,7 +4,7 @@ import {copyTextToClipboard, findVariables, replaceVariables} from "./js/utils.j
 import {useEffect, useRef, useState} from "react";
 import Toast from "./Toast";
 
-export default function MainContent({prompts, setPrompts, categories, folders}) {
+export default function MainContent({prompts, setPrompts, categories, folders, filteredPrompts, setFilteredPrompts}) {
     const templates = prompts;
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -82,16 +82,16 @@ export default function MainContent({prompts, setPrompts, categories, folders}) 
                     <ThemeToggle />
                 </div>
             </div>
-            {templates && (
+            {filteredPrompts && (
                 <div className="h-full overflow-y-auto">
                     <ul className="flex flex-col mr-8" id="templates">
-                        {templates.map(
-                            (template) => (
+                        {filteredPrompts.map(
+                            (prompt) => (
                                 <Template setPrompts={setPrompts}
                                           categories={categories}
-                                          onClick={() => usePrompt(template.text)}
-                                          template={template}
-                                          key={template.id}
+                                          onClick={() => usePrompt(prompt.text)}
+                                          template={prompt}
+                                          key={prompt.id}
                                           folders={folders}
                                 >
                                 </Template>
