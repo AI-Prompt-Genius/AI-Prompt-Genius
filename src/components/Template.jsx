@@ -1,12 +1,14 @@
 import {useState} from "react";
 import {deletePrompt, editPrompt, getCurrentTimestamp, uuid} from "./js/utils.js";
 import {EditIcon, TrashIcon} from "./icons/Icons.jsx";
+import FolderSelect from "./FolderSelect.jsx";
 
-export default function Template({template, setPrompts, onClick}){
+export default function Template({template, setPrompts, onClick, folders}){
     const [editModalVisible, setEditModalVisible] = useState(false)
     const [title, setTitle] = useState(template.title ?? "");
     const [text, setText] = useState(template.text ?? "");
-    const [tags, setTags] = useState(template.tags ?? "");
+    const [tags, setTags] = useState(template.tags ?? []);
+    const [folder, setFolder] = useState(template.folder ?? null)
 
     function showModal(){
         setEditModalVisible(true)
@@ -18,8 +20,15 @@ export default function Template({template, setPrompts, onClick}){
     }
 
     const handleSave = () => {
-        let newPrompts = editPrompt(template.id, {title, text, tags, id: template.id ?? uuid(),
-            lastEdited: getCurrentTimestamp()})
+        let newPrompts = editPrompt(template.id,
+            {
+                title,
+                text,
+                tags,
+                id: template.id ?? uuid(),
+                lastEdited: getCurrentTimestamp(),
+                folder: folder
+            })
         setPrompts(newPrompts)
 
         // Close the modal if needed
@@ -32,7 +41,10 @@ export default function Template({template, setPrompts, onClick}){
         setPrompts(newPrompts)
     }
 
-
+    function saveFolder(folder){
+        console.log(folder)
+        setFolder(folder)
+    }
 
     return (
         <>
@@ -95,9 +107,10 @@ export default function Template({template, setPrompts, onClick}){
                                       placeholder="Tags for your prompt. Separate with a comma & no space."
                             ></textarea>
                             <div className="text-sm font-bold py-3">
-                                Category
+                                Folder
                             </div>
                             <div>
+                                <FolderSelect folders={folders} selectedFolder={folder} onChange={(value) => saveFolder(value)}/>
                             </div>
                         </div>
                         <div className="modal-action">

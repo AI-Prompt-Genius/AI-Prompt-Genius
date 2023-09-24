@@ -1,12 +1,11 @@
-import CategorySelect from "./CategorySelect.jsx";
 import ThemeToggle from "./ThemeToggle.jsx";
 import Template from "./Template.jsx";
 import {copyTextToClipboard, findVariables, replaceVariables} from "./js/utils.js";
 import {useEffect, useRef, useState} from "react";
 import Toast from "./Toast";
 
-export default function MainContent(props) {
-    const templates = props.prompts;
+export default function MainContent({prompts, setPrompts, categories, folders}) {
+    const templates = prompts;
 
     const [modalVisible, setModalVisible] = useState(false);
     const [variables, setVariables] = useState([]);
@@ -88,7 +87,14 @@ export default function MainContent(props) {
                     <ul className="flex flex-col mr-8" id="templates">
                         {templates.map(
                             (template) => (
-                                <Template setPrompts={props.setPrompts} categories={props.categories} onClick={() => usePrompt(template.text)} template={template} key={template.id}></Template>
+                                <Template setPrompts={setPrompts}
+                                          categories={categories}
+                                          onClick={() => usePrompt(template.text)}
+                                          template={template}
+                                          key={template.id}
+                                          folders={folders}
+                                >
+                                </Template>
                             )
                         )}
                     </ul>
