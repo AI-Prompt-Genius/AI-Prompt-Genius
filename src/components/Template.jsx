@@ -1,6 +1,5 @@
 import {useState} from "react";
 import {deletePrompt, editPrompt, getCurrentTimestamp, uuid} from "./js/utils.js";
-import CategorySelect from "./CategorySelect.jsx";
 import {EditIcon, TrashIcon} from "./icons/Icons.jsx";
 
 export default function Template(props){
@@ -10,7 +9,6 @@ export default function Template(props){
     const [title, setTitle] = useState(template.title ?? "");
     const [text, setText] = useState(template.text ?? "");
     const [tags, setTags] = useState(template.tags ?? "");
-    const [category, setCategory] = useState(template.category ?? "");
 
     function showModal(){
         setEditModalVisible(true)
@@ -22,7 +20,7 @@ export default function Template(props){
     }
 
     const handleSave = () => {
-        let newPrompts = editPrompt(template.id, {title, text, tags, category, id: template.id ?? uuid(),
+        let newPrompts = editPrompt(template.id, {title, text, tags, id: template.id ?? uuid(),
             lastEdited: getCurrentTimestamp()})
         props.setPrompts(newPrompts)
 
@@ -102,7 +100,6 @@ export default function Template(props){
                                 Category
                             </div>
                             <div>
-                                <CategorySelect onChange={(value) => setCategory(value)} categories={props.categories} defaultValue={template.category ?? "all"}/>
                             </div>
                         </div>
                         <div className="modal-action">

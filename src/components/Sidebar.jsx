@@ -17,6 +17,10 @@ export default function Sidebar({setPrompts, setFolders, folders}) {
         setFolderModal(true)
     }
 
+    function closeFolderModal(){
+        setFolderModal(false)
+    }
+
     return (
         <>
             <div className="z-30 flex w-[230px] mr-[25px] flex-col overflow-hidden h-full">
@@ -43,7 +47,7 @@ export default function Sidebar({setPrompts, setFolders, folders}) {
                 </div>
             </div>
 
-            {folderModal && <FolderModal setFolders={setFolders} onClose={() => setFolderModal(false)} />}
+            {folderModal && <FolderModal setFolders={setFolders} onClose={closeFolderModal} />}
         </>
     );
 }
