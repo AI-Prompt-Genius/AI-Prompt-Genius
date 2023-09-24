@@ -38,12 +38,12 @@ export default function MainContent(props) {
     }
     function usePrompt(text, varsFilledIn = true){
         const vars = varsFilledIn ? findVariables(text) : []; // so if the chosen prompt has a variable within {{}}
-        console.log(vars)
         if (vars.length > 0) {
             getVarsFromModal(vars, text);
             return "";
         }
         copyTextToClipboard(text)
+        setVariables([])
         showToast("Prompt Copied to Clipboard")
     }
 

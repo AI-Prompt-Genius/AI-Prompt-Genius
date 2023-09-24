@@ -2,9 +2,7 @@ import {useState} from "react";
 import {deletePrompt, editPrompt, getCurrentTimestamp, uuid} from "./js/utils.js";
 import {EditIcon, TrashIcon} from "./icons/Icons.jsx";
 
-export default function Template(props){
-    const template = props.template;
-
+export default function Template({template, setPrompts, onClick}){
     const [editModalVisible, setEditModalVisible] = useState(false)
     const [title, setTitle] = useState(template.title ?? "");
     const [text, setText] = useState(template.text ?? "");
@@ -22,7 +20,7 @@ export default function Template(props){
     const handleSave = () => {
         let newPrompts = editPrompt(template.id, {title, text, tags, id: template.id ?? uuid(),
             lastEdited: getCurrentTimestamp()})
-        props.setPrompts(newPrompts)
+        setPrompts(newPrompts)
 
         // Close the modal if needed
         // You can add your logic here to close the modal.
@@ -31,14 +29,14 @@ export default function Template(props){
 
     function removePrompt(id){
         const newPrompts = deletePrompt(id)
-        props.setPrompts(newPrompts)
+        setPrompts(newPrompts)
     }
 
 
 
     return (
         <>
-        <div onClick={(e) => {if (e.target.classList.contains("mainClick")) props.onClick()}}
+        <div onClick={(e) => {if (e.target.classList.contains("mainClick")) onClick()}}
             id={template.id}
             className="mainClick card w-full bg-base-200/50 shadow-md template mb-3 cursor-pointer transition-colors hover:bg-base-300/50"
         >

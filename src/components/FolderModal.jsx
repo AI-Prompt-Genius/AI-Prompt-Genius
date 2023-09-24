@@ -28,10 +28,10 @@ export default function FolderModal({onClose, setFolders}){
                     </div>
                     <input
                         autoFocus
-                        maxLength="20"
+                        maxLength="18"
                         className="textarea textarea-bordered w-full h-[25px]"
                         value={folderVal}
-                        placeholder={"folder name"}
+                        placeholder={"Folder name"}
                         onChange={(e) => {
                             setFolderVal(e.target.value)
                         }}

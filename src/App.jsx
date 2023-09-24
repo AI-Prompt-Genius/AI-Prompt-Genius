@@ -11,12 +11,12 @@ function App() {
     const [folders, setFolders] = useLocalStorage("folders", JSON.stringify([]))
     const promptArray = JSON.parse(prompts)
     const folderArray = JSON.parse(folders)
-    const tags = promptArray.length > 0 ? [...new Set(promptArray.map(obj => obj.category))].filter(Boolean) : [];
+    const tags = promptArray.length > 0 ? new Set(promptArray.flatMap(obj => obj.tags)) : [];
 
     return (
       <div data-theme={theme} className={`flex bg-base-100 w-[100vw] h-[100vh] overflow-hidden`}>
         <Sidebar setPrompts={setPrompts} setFolders={setFolders} folders={folderArray}/>
-        <MainContent setPrompts={setPrompts} prompts={promptArray}/>
+        <MainContent setPrompts={setPrompts} prompts={promptArray} tags={tags}/>
       </div>
   );
 }
