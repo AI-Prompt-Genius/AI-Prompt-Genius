@@ -1,9 +1,9 @@
 import {useState} from "react";
-import {deletePrompt, editPrompt, getCurrentTimestamp, uuid} from "./js/utils.js";
+import {deletePrompt, editFilteredPrompts, editPrompt, getCurrentTimestamp, uuid} from "./js/utils.js";
 import {EditIcon, TrashIcon} from "./icons/Icons.jsx";
 import FolderSelect from "./FolderSelect.jsx";
 
-export default function Template({template, setPrompts, onClick, folders}){
+export default function Template({template, setPrompts, onClick, folders, filteredPrompts, setFilteredPrompts}){
     const [editModalVisible, setEditModalVisible] = useState(false)
     const [title, setTitle] = useState(template.title ?? "");
     const [text, setText] = useState(template.text ?? "");
@@ -20,16 +20,19 @@ export default function Template({template, setPrompts, onClick, folders}){
     }
 
     const handleSave = () => {
-        let newPrompts = editPrompt(template.id,
-            {
-                title,
-                text,
-                tags,
-                id: template.id ?? uuid(),
-                lastEdited: getCurrentTimestamp(),
-                folder: folder
-            })
+        const editedPrompt = {
+            title,
+            text,
+            tags,
+            id: template.id ?? uuid(),
+            lastEdited: getCurrentTimestamp(),
+            folder: folder
+        }
+        let newPrompts = editPrompt(template.id, editedPrompt)
         setPrompts(newPrompts)
+        const my_filtered = editFilteredPrompts(template.id, editedPrompt, filteredPrompts)
+        console.log(my_filtered)
+        setFilteredPrompts(my_filtered)
 
         // Close the modal if needed
         // You can add your logic here to close the modal.
@@ -39,10 +42,10 @@ export default function Template({template, setPrompts, onClick, folders}){
     function removePrompt(id){
         const newPrompts = deletePrompt(id)
         setPrompts(newPrompts)
+        setFilteredPrompts(deletePrompt(id, filteredPrompts))
     }
 
     function saveFolder(folder){
-        console.log(folder)
         setFolder(folder)
     }
 

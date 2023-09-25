@@ -4,7 +4,7 @@ export default function Folder(props){
     let folder = props.folder
     return (
     <li className="folder" id={`folder-${folder.id}`} data-folder-name={folder.name}>
-        <a>
+        <a onClick={() => props.onClick()}>
             <FolderIcon></FolderIcon>
             {folder.name}
         </a>

@@ -31,9 +31,15 @@ export function getCurrentTimestamp() {
     return currentDate.getTime(); // Returns the timestamp in milliseconds since January 1, 1970 (Unix timestamp).
 }
 
-export function deletePrompt(id) {
-    let promptList = localStorage.getItem("prompts");
-    let prompts = JSON.parse(JSON.parse(promptList));
+export function deletePrompt(id, prompts=null) {
+    let directStorage;
+    directStorage = false
+    if (!prompts) {
+        let promptList = localStorage.getItem("prompts");
+        prompts = JSON.parse(JSON.parse(promptList));
+        directStorage = true;
+    }
+
 
     let promptIndex = getObjectIndexByID(id, prompts);
 
@@ -41,15 +47,25 @@ export function deletePrompt(id) {
         prompts.splice(promptIndex, 1); // Remove the prompt at the specified index
     }
 
-    return JSON.stringify(prompts);
+    if (directStorage) {
+        return JSON.stringify(prompts);
+    }
+    else {
+        return prompts
+    }
 }
 
 
-export function newBlankPrompt(){
+export function newBlankPrompt(folder=""){
     let promptList = localStorage.getItem("prompts");
     let prompts = JSON.parse(JSON.parse(promptList));
-    prompts.unshift({title:"", text:"", tags:[], category:"", id: uuid(), lastEdited: getCurrentTimestamp()})
+    prompts.unshift({title:"", text:"", tags:[], folder, id: uuid(), lastEdited: getCurrentTimestamp()})
     return JSON.stringify(prompts);
+}
+
+export function newFilteredPrompt(folder="", prompts){
+    prompts.unshift({title:"", text:"", tags:[], folder, id: uuid(), lastEdited: getCurrentTimestamp()})
+    return prompts
 }
 
 export function newFolder(name){
@@ -60,6 +76,11 @@ export function newFolder(name){
     return JSON.stringify(folders)
 }
 
+export function editFilteredPrompts(id, editedPrompt, promptList){
+    let promptIndex = getObjectIndexByID(id, promptList)
+    promptList[promptIndex] = editedPrompt
+    return promptList
+}
 
 export function editPrompt(id, promptObj){
     let promptList = localStorage.getItem("prompts");

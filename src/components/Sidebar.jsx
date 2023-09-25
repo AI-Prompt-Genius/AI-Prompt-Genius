@@ -1,16 +1,17 @@
 import Logo from "./Logo.jsx"
 import Folder from "./Folder.jsx"
 import FolderModal from "./FolderModal.jsx";
-import {newBlankPrompt} from "./js/utils.js";
+import {newBlankPrompt, newFilteredPrompt} from "./js/utils.js";
 import {HomeIcon, PlusDoc, PlusFolder} from "./icons/Icons.jsx";
 import {useState} from "react";
 
-export default function Sidebar({setPrompts, setFolders, folders, setFilteredPrompts, setSelectedFolder, prompts}) {
+export default function Sidebar({setPrompts, setFolders, folders, filteredPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, prompts}) {
     const [folderModal, setFolderModal] = useState(false)
 
     function newPrompt(){
-        setPrompts(newBlankPrompt())
-        setTimeout(() => document.querySelector(".edit").click(), 50)
+        setPrompts(newBlankPrompt(selectedFolder))
+        setFilteredPrompts(newFilteredPrompt(selectedFolder, filteredPrompts))
+        setTimeout(() => {const btn = document.querySelector(".edit").click(); if (btn) btn.click()}, 50)
     }
 
     function openFolderModal(){
@@ -22,9 +23,13 @@ export default function Sidebar({setPrompts, setFolders, folders, setFilteredPro
     }
 
     function selectFolder(id){
-        console.log("SELECTED!")
         setSelectedFolder(id)
-        setFilteredPrompts(prompts.filter(obj => obj.folder === id))
+        if (id === "") {
+            setFilteredPrompts(prompts)
+        }
+        else {
+            setFilteredPrompts(prompts.filter(obj => obj.folder === id))
+        }
         document.querySelectorAll(".folder").forEach(folder => {
             folder.classList.remove("selected")
         })
@@ -39,14 +44,18 @@ export default function Sidebar({setPrompts, setFolders, folders, setFilteredPro
                     <Logo />
                     <ul id="folderList" className="menu p-4 text-base-content sticky">
                         {/* Sidebar content here */}
-                        <li className="selected folder" data-folder-name="all" id="all">
-                            <a>
+                        <li className="selected folder" data-folder-name="all" id="folder-">
+                            <a onClick={() => selectFolder("")}>
                                 <HomeIcon></HomeIcon>
                                 All Prompts
                             </a>
                         </li>
                         {folders.map((folder) => (
-                            <Folder id={`folder-${folder.id}`} key={folder.id} folder={folder} onClick={() => selectFolder(folder.id)}></Folder>
+                            <Folder id={`folder-${folder.id}`}
+                                    key={folder.id}
+                                    folder={folder}
+                                    onClick={() => selectFolder(folder.id)}>
+                            </Folder>
                         ))}
                     </ul>
                 </div>

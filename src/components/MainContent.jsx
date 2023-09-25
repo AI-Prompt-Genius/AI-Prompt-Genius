@@ -88,6 +88,8 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
                         {filteredPrompts.map(
                             (prompt) => (
                                 <Template setPrompts={setPrompts}
+                                          filteredPrompts={filteredPrompts}
+                                          setFilteredPrompts={setFilteredPrompts}
                                           categories={categories}
                                           onClick={() => usePrompt(prompt.text)}
                                           template={prompt}
