@@ -1,15 +1,19 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {deletePrompt, editFilteredPrompts, editPrompt, getCurrentTimestamp, uuid} from "./js/utils.js";
 import {EditIcon, TrashIcon} from "./icons/Icons.jsx";
 import FolderSelect from "./FolderSelect.jsx";
 import RemoveTag from "./RemoveTag.jsx";
+import Tag from "./Tag.jsx";
 
 export default function Template({template, setPrompts, onClick, folders, filteredPrompts, setFilteredPrompts}){
     const [editModalVisible, setEditModalVisible] = useState(false)
     const [title, setTitle] = useState(template.title ?? "");
     const [text, setText] = useState(template.text ?? "");
     const [tags, setTags] = useState(template.tags ?? []);
+    const [description, setDescription] = useState(template.description ?? "")
     const [folder, setFolder] = useState(template.folder ?? null)
+
+    const tagRef = React.createRef();
 
     function showModal(){
         setEditModalVisible(true)
@@ -25,6 +29,7 @@ export default function Template({template, setPrompts, onClick, folders, filter
             title,
             text,
             tags,
+            description,
             id: template.id ?? uuid(),
             lastEdited: getCurrentTimestamp(),
             folder: folder
@@ -50,6 +55,36 @@ export default function Template({template, setPrompts, onClick, folders, filter
         setFolder(folder)
     }
 
+    function removeTag(tag){
+        setTags((prevTags) => {
+            const tagsSet = new Set(prevTags)
+            tagsSet.delete(tag)
+            return Array.from(tagsSet)
+        })
+    }
+
+    function filterByTag(tag) {
+        setFilteredPrompts((prevFilteredPrompts) => {
+            const newFiltered = prevFilteredPrompts.filter((prompt) => prompt.tags.includes(tag))
+            return newFiltered;
+        })
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevents the default behavior of the Enter key (e.g., form submission)
+            const newTag = e.target.value.trim();
+            if (newTag) {
+                setTags((prevTags) => {
+                    const tagsSet = new Set(prevTags); // Create a Set from the previous tags array
+                    tagsSet.add(newTag); // Add the new tag to the Set
+                    return Array.from(tagsSet); // Convert the Set back to an array
+                });
+                e.target.value = ""; // Clear the input field
+            }
+        }
+    };
+
     return (
         <>
         <div onClick={(e) => {if (e.target.classList.contains("mainClick")) onClick()}}
@@ -60,8 +95,13 @@ export default function Template({template, setPrompts, onClick, folders, filter
                 <div className="mainClick flex flex-col">
                     <h2 className="card-title mainClick flex">{template.title ?? ""}</h2>
                     <p className="text-base mainClick">
-                        {template.description ?? template.text ?? ""}
+                        {(template.description && template.description !== "") ? template.description : (template.text ?? "")}
                     </p>
+                    <div className={"flex flex-wrap"}>
+                        {template.tags && template.tags.map((tag, i) => (
+                            <Tag key={i} tag={tag} onClick={() => filterByTag(tag)}/>
+                        ))}
+                    </div>
                 </div>
                 <div className="mainClick buttons flex">
                     <button onClick={showModal} className="edit my-1 border-none btn p-1 bg-inherit"><EditIcon></EditIcon></button>
@@ -96,7 +136,7 @@ export default function Template({template, setPrompts, onClick, folders, filter
                             <div className="text-sm font-bold py-3">
                                 Description
                             </div>
-                            <textarea onChange={(e) => setText(e.target.value)}
+                            <textarea onChange={(e) => setDescription(e.target.value)}
                                       className="textarea textarea-bordered w-full h-[50px]"
                                       defaultValue={template.description ?? ""}
                                       placeholder="A breif description of the prompt."
@@ -109,15 +149,17 @@ export default function Template({template, setPrompts, onClick, folders, filter
                             <div className="flex flex-wrap mb-2">
                                 {template.tags && (
                                     // eslint-disable-next-line react/prop-types
-                                    template.tags.map((tag) => (
-                                        <RemoveTag tag={tag} key={tag}></RemoveTag>
+                                    tags.map((tag, i) => (
+                                        <RemoveTag tag={tag} key={i}
+                                                   onClick={() => removeTag(tag)}
+                                        ></RemoveTag>
                                     ))
                                 )}
                             </div>
-                            <input onChange={(e) => setTags(template.tags.push(e.target.value.strip()))}
-                                      className="input w-full h-[40px]"
-                                      defaultValue={template.tags ? template.tags : ""}
-                                      placeholder="Press enter to add a tag"
+                            <input  className="input input-bordered w-full h-[40px]"
+                                    placeholder="Press enter to add a tag"
+                                    ref={tagRef}
+                                    onKeyDown={handleKeyDown}
                             ></input>
                             <div className="text-sm font-bold py-3">
                                 Folder

@@ -5,8 +5,6 @@ import {useEffect, useRef, useState} from "react";
 import Toast from "./Toast";
 
 export default function MainContent({prompts, setPrompts, categories, folders, filteredPrompts, setFilteredPrompts}) {
-    const templates = prompts;
-
     const [modalVisible, setModalVisible] = useState(false);
     const [variables, setVariables] = useState([]);
     const [promptText, setPromptText] = useState("");
