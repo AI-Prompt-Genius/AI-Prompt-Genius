@@ -105,7 +105,15 @@ export default function Template({template, setPrompts, onClick, folders, filter
                             <div className="text-sm font-bold py-3">
                                 Tags
                             </div>
-                            <RemoveTag tag={"hey"}></RemoveTag>
+                            {/* eslint-disable-next-line react/prop-types */}
+                            <div className="flex flex-wrap">
+                                {template.tags && (
+                                    // eslint-disable-next-line react/prop-types
+                                    template.tags.map((tag) => (
+                                        <RemoveTag tag={tag} key={tag}></RemoveTag>
+                                    ))
+                                )}
+                            </div>
                             <textarea onChange={(e) => setTags(e.target.value.split(","))}
                                       className="textarea textarea-bordered w-full h-[25px]"
                                       defaultValue={template.tags ? template.tags : ""}

@@ -2,8 +2,8 @@ import {XMark} from "./icons/Icons.jsx";
 
 export default function RemoveTag({tag}){
     return (
-        <span className={"inline-block justify-center border border-hsl-[var(--n)] rounded-full px-2 py-1 cursor-pointer text-xs leading-4 mr-1 mb-1"}>
-           <XMark /> {tag}
-        </span>
+        <div className={"flex items-center w-fit justify-center border border-base-300 hover:border-accent rounded-full px-[0.65em] py-[0.2em] cursor-pointer text-xs leading-4 mr-1 mb-1"}>
+            <div className="mr-1"><XMark /></div> <div>{tag}</div>
+        </div>
     )
 }
