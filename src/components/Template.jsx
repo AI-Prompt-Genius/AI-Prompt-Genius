@@ -106,7 +106,7 @@ export default function Template({template, setPrompts, onClick, folders, filter
                                 Tags
                             </div>
                             {/* eslint-disable-next-line react/prop-types */}
-                            <div className="flex flex-wrap">
+                            <div className="flex flex-wrap mb-2">
                                 {template.tags && (
                                     // eslint-disable-next-line react/prop-types
                                     template.tags.map((tag) => (
@@ -114,11 +114,11 @@ export default function Template({template, setPrompts, onClick, folders, filter
                                     ))
                                 )}
                             </div>
-                            <textarea onChange={(e) => setTags(e.target.value.split(","))}
-                                      className="textarea textarea-bordered w-full h-[25px]"
+                            <input onChange={(e) => setTags(template.tags.push(e.target.value.strip()))}
+                                      className="input w-full h-[40px]"
                                       defaultValue={template.tags ? template.tags : ""}
-                                      placeholder="Tags for your prompt. Separate with a comma & no space."
-                            ></textarea>
+                                      placeholder="Press enter to add a tag"
+                            ></input>
                             <div className="text-sm font-bold py-3">
                                 Folder
                             </div>
