@@ -31,7 +31,7 @@ export default function Template({template, setPrompts, onClick, folders, filter
         let newPrompts = editPrompt(template.id, editedPrompt)
         setPrompts(newPrompts)
         const my_filtered = editFilteredPrompts(template.id, editedPrompt, filteredPrompts)
-        console.log(my_filtered)
+        setFilteredPrompts(my_filtered)
         setFilteredPrompts(my_filtered)
 
         // Close the modal if needed

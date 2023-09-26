@@ -85,7 +85,11 @@ export function editFilteredPrompts(id, editedPrompt, promptList){
 export function editPrompt(id, promptObj){
     let promptList = localStorage.getItem("prompts");
     let prompts = JSON.parse(JSON.parse(promptList))
+    console.log(prompts)
     let promptIndex = getObjectIndexByID(id, prompts)
+    if (!promptIndex){
+        console.error("NO Prompt found!")
+    }
     prompts[promptIndex] = promptObj
     return JSON.stringify(prompts)
 }
