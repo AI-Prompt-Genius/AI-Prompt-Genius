@@ -1,7 +1,7 @@
 import Logo from "./Logo.jsx"
 import Folder from "./Folder.jsx"
 import FolderModal from "./FolderModal.jsx";
-import {newBlankPrompt, newFilteredPrompt} from "./js/utils.js";
+import {getCurrentTimestamp, newBlankPrompt, newFilteredPrompt, uuid} from "./js/utils.js";
 import {HomeIcon, PlusDoc, PlusFolder} from "./icons/Icons.jsx";
 import {useState} from "react";
 
@@ -9,8 +9,10 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
     const [folderModal, setFolderModal] = useState(false)
 
     function newPrompt(){
-        setPrompts(newBlankPrompt(selectedFolder))
-        setFilteredPrompts(newFilteredPrompt(selectedFolder, filteredPrompts))
+        const folder = selectedFolder
+        const promptObj = {title:"", text:"", tags:[], folder, id: uuid(), lastEdited: getCurrentTimestamp()}
+        setPrompts(newBlankPrompt(promptObj))
+        setFilteredPrompts(newFilteredPrompt(promptObj, filteredPrompts))
         setTimeout(() => {const btn = document.querySelector(".edit").click(); if (btn) btn.click()}, 50)
     }
 

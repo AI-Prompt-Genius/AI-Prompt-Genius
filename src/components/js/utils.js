@@ -56,15 +56,15 @@ export function deletePrompt(id, prompts=null) {
 }
 
 
-export function newBlankPrompt(folder=""){
+export function newBlankPrompt(promptObj){
     let promptList = localStorage.getItem("prompts");
     let prompts = JSON.parse(JSON.parse(promptList));
-    prompts.unshift({title:"", text:"", tags:[], folder, id: uuid(), lastEdited: getCurrentTimestamp()})
+    prompts.unshift(promptObj)
     return JSON.stringify(prompts);
 }
 
-export function newFilteredPrompt(folder="", prompts){
-    prompts.unshift({title:"", text:"", tags:[], folder, id: uuid(), lastEdited: getCurrentTimestamp()})
+export function newFilteredPrompt(promptObj, prompts){
+    prompts.unshift(promptObj)
     return prompts
 }
 
@@ -85,11 +85,7 @@ export function editFilteredPrompts(id, editedPrompt, promptList){
 export function editPrompt(id, promptObj){
     let promptList = localStorage.getItem("prompts");
     let prompts = JSON.parse(JSON.parse(promptList))
-    console.log(prompts)
     let promptIndex = getObjectIndexByID(id, prompts)
-    if (!promptIndex){
-        console.error("NO Prompt found!")
-    }
     prompts[promptIndex] = promptObj
     return JSON.stringify(prompts)
 }
