@@ -2,6 +2,7 @@ import {useState} from "react";
 import {deletePrompt, editFilteredPrompts, editPrompt, getCurrentTimestamp, uuid} from "./js/utils.js";
 import {EditIcon, TrashIcon} from "./icons/Icons.jsx";
 import FolderSelect from "./FolderSelect.jsx";
+import RemoveTag from "./RemoveTag.jsx";
 
 export default function Template({template, setPrompts, onClick, folders, filteredPrompts, setFilteredPrompts}){
     const [editModalVisible, setEditModalVisible] = useState(false)
@@ -104,6 +105,7 @@ export default function Template({template, setPrompts, onClick, folders, filter
                             <div className="text-sm font-bold py-3">
                                 Tags
                             </div>
+                            <RemoveTag tag={"hey"}></RemoveTag>
                             <textarea onChange={(e) => setTags(e.target.value.split(","))}
                                       className="textarea textarea-bordered w-full h-[25px]"
                                       defaultValue={template.tags ? template.tags : ""}
