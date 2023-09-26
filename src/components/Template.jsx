@@ -5,7 +5,7 @@ import FolderSelect from "./FolderSelect.jsx";
 import RemoveTag from "./RemoveTag.jsx";
 import Tag from "./Tag.jsx";
 
-export default function Template({template, setPrompts, onClick, folders, filteredPrompts, setFilteredPrompts}){
+export default function Template({template, setPrompts, onClick, folders, filteredPrompts, setFilteredPrompts, filterTags, setFilterTags, filterPrompts, selectedFolder}){
     const [editModalVisible, setEditModalVisible] = useState(false)
     const [title, setTitle] = useState(template.title ?? "");
     const [text, setText] = useState(template.text ?? "");
@@ -64,10 +64,16 @@ export default function Template({template, setPrompts, onClick, folders, filter
     }
 
     function filterByTag(tag) {
-        setFilteredPrompts((prevFilteredPrompts) => {
-            const newFiltered = prevFilteredPrompts.filter((prompt) => prompt.tags.includes(tag))
-            return newFiltered;
-        })
+        let newFiltered = new Set(filterTags)
+        if (filterTags.includes(tag)) {
+            newFiltered.delete(tag)
+            setFilterTags(Array.from(newFiltered))
+        }
+        else {
+            newFiltered.add(tag)
+            setFilterTags(Array.from(newFiltered))
+        }
+        filterPrompts(selectedFolder, Array.from(newFiltered))
     }
 
     const handleKeyDown = (e) => {
@@ -99,7 +105,7 @@ export default function Template({template, setPrompts, onClick, folders, filter
                     </p>
                     <div className={"flex flex-wrap"}>
                         {template.tags && template.tags.map((tag, i) => (
-                            <Tag key={i} tag={tag} onClick={() => filterByTag(tag)}/>
+                            <Tag filterTags={filterTags} key={i} tag={tag} onClick={() => filterByTag(tag)}/>
                         ))}
                     </div>
                 </div>

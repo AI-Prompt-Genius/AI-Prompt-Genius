@@ -4,7 +4,7 @@ import {copyTextToClipboard, findVariables, replaceVariables} from "./js/utils.j
 import {useEffect, useRef, useState} from "react";
 import Toast from "./Toast";
 
-export default function MainContent({prompts, setPrompts, categories, folders, filteredPrompts, setFilteredPrompts}) {
+export default function MainContent({prompts, setPrompts, categories, folders, filteredPrompts, setFilteredPrompts, filterTags, setFilterTags, filterPrompts, setSelectedFolder, selectedFolder}) {
     const [modalVisible, setModalVisible] = useState(false);
     const [variables, setVariables] = useState([]);
     const [promptText, setPromptText] = useState("");
@@ -93,6 +93,10 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
                                           template={prompt}
                                           key={prompt.id}
                                           folders={folders}
+                                          filterTags={filterTags}
+                                          setFilterTags={setFilterTags}
+                                          filterPrompts={filterPrompts}
+                                          selectedFolder={selectedFolder}
                                 >
                                 </Template>
                             )

@@ -4,6 +4,7 @@ import MainContent from "./components/MainContent.jsx";
 import React, {useState} from "react";
 import {ThemeContext} from "./components/ThemeContext.jsx";
 import {useLocalStorage} from "@uidotdev/usehooks";
+import {newFilteredPrompt} from "./components/js/utils.js";
 
 function App() {
     const { theme } = React.useContext(ThemeContext);
@@ -16,26 +17,49 @@ function App() {
 
     const [filteredPrompts, setFilteredPrompts] = useState(promptArray)
     const [selectedFolder, setSelectedfolder] = useState("")
+    const [filterTags, setFilterTags] = useState([])
+
+    function filterPrompts(folder="", tags=[]){
+        let newFiltered = promptArray;
+        if (tags.length > 0){
+             newFiltered = newFiltered.filter((prompt) => {
+                // Check if all tags in the filterTags array are included in each prompt's tags array
+                return tags.every((filterTag) => prompt.tags.includes(filterTag));
+            });
+        }
+        console.log(folder)
+        if (folder !== ""){
+            newFiltered = newFiltered.filter(obj => obj.folder === folder)
+        }
+        setFilteredPrompts(newFiltered)
+    }
+
 
     return (
       <div data-theme={theme} className={`flex bg-base-100 w-[100vw] h-[100vh] overflow-hidden`}>
         <Sidebar
             filteredPrompts={filteredPrompts}
             setFilteredPrompts={setFilteredPrompts}
+            filterPrompts={filterPrompts}
             setPrompts={setPrompts}
             setFolders={setFolders}
             folders={folderArray}
-            prompts={promptArray}
             setSelectedFolder={setSelectedfolder}
             selectedFolder={selectedFolder}
+            filterTags={filterTags}
         />
         <MainContent
             filteredPrompts={filteredPrompts}
             setFilteredPrompts={setFilteredPrompts}
+            filterPrompts={filterPrompts}
             setPrompts={setPrompts}
             prompts={promptArray}
             tags={tags}
             folders={folderArray}
+            filterTags={filterTags}
+            setFilterTags={setFilterTags}
+            setSelectedFolder={setSelectedfolder}
+            selectedFolder={selectedFolder}
         />
       </div>
   );

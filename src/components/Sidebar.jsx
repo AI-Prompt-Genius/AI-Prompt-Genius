@@ -5,7 +5,7 @@ import {getCurrentTimestamp, newBlankPrompt, newFilteredPrompt, uuid} from "./js
 import {HomeIcon, PlusDoc, PlusFolder} from "./icons/Icons.jsx";
 import {useState} from "react";
 
-export default function Sidebar({setPrompts, setFolders, folders, filteredPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, prompts}) {
+export default function Sidebar({setPrompts, setFolders, folders, filteredPrompts, filterPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, filterTags}) {
     const [folderModal, setFolderModal] = useState(false)
 
     function newPrompt(){
@@ -26,12 +26,7 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
 
     function selectFolder(id){
         setSelectedFolder(id)
-        if (id === "") {
-            setFilteredPrompts(prompts)
-        }
-        else {
-            setFilteredPrompts(prompts.filter(obj => obj.folder === id))
-        }
+        filterPrompts(id, filterTags)
         document.querySelectorAll(".folder").forEach(folder => {
             folder.classList.remove("selected")
         })
