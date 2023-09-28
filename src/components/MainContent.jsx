@@ -75,6 +75,9 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
         <div className="flex flex-col w-4/5">
             <div className="sticky flex p-4 align-middle justify-center">
                 <div className="grow mr-3">
+                    <div className="join">
+                        <input type="text" className="input w-full max-w-xs" placeholder="Search prompts" />
+                    </div>
                 </div>
                 <div className="flex flex-col justify-center align-middle">
                     <ThemeToggle />
