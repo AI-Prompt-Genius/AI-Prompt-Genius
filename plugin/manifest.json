@@ -3,7 +3,11 @@
   "name": "AI Prompt Genius v4",
   "version": "1.0",
   "description": "v4 babbbyyy",
+  "permissions": ["tabs"],
   "action": {
     "default_popup": "popup.html"
+  },
+  "background": {
+    "service-worker": "background.js"
   }
 }
