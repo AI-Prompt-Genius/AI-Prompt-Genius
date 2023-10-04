@@ -1,3 +1,5 @@
+import {uuid} from "./utils.js";
+
 function convertToCSV(data) {
     const headers = Object.keys(data[0]); // Get the headers from the first object
 
@@ -27,6 +29,42 @@ function convertToCSV(data) {
     return csvLines.join('\n');
 }
 
+function csvToJson(csv) {
+    const lines = csv.split('\n');
+    const headers = lines[0].split(',');
+
+    const result = [];
+
+    for(let i = 1; i < lines.length; i++) {
+        const obj = {};
+        const currentLine = lines[i].split(',');
+
+        for(let j = 0; j < headers.length; j++) {
+            if (headers[j] === "tags") {
+                obj[headers[j]] = currentLine[j].split(';').forEach(tag => {return tag.trim()});
+            } else {
+                obj[headers[j]] = currentLine[j];
+            }
+        }
+
+        obj["id"] = uuid();
+        obj["lastEdited"] = new Date().getTime();
+
+        result.push(obj);
+    }
+
+    return JSON.stringify(result);
+}
+
+export function downloadCSVTemplate(){
+    // Encode the CSV string as a Blob
+    const blob = encodeStringAsBlob("Title,Content,Description,Folder,Tags - Separated with semicolons");
+
+    const filename = "AI_Prompt_Genius_Template.csv"
+    // Download the Blob as a CSV file
+    downloadBlobAsFile(blob, filename);
+}
+
 export function exportCsv(){
     const promptStr = localStorage.getItem("prompts")
     const promptArray = JSON.parse(JSON.parse(promptStr))
@@ -39,8 +77,8 @@ export function exportCsv(){
             title: prompt.title,
             content: prompt.text,
             description: prompt.description,
-            folder: folders.filter(folder => folder.id === prompt.folder) ,
-            tags: prompt.tags.join(",")
+            folder: folders.find(folder => folder.id === prompt.folder)?.name || "",
+            tags: prompt.tags.join(";")
         };
     });
     const currentTimeString = new Date().toJSON();
@@ -52,6 +90,16 @@ export function exportCsv(){
     const blob = encodeStringAsBlob(csv);
 
     // Download the Blob as a CSV file
+    downloadBlobAsFile(blob, filename);
+}
+
+export function exportJson(){
+    const prompts = JSON.parse(JSON.parse(localStorage.getItem("prompts")))
+    const folders = JSON.parse(JSON.parse(localStorage.getItem("folders")))
+    prompts.forEach(prompt => prompt.folder = folders.find(folder => folder.id === prompt.folder)?.name || "")
+    const blob = encodeStringAsBlob(JSON.stringify(prompts));
+    const currentTimeString = new Date().toJSON();
+    const filename = `AI-Prompt-Genius-Prompts_${currentTimeString}.json`;
     downloadBlobAsFile(blob, filename);
 }
 

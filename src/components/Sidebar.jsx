@@ -90,7 +90,7 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
 
             {folderModal && <FolderModal setFolders={setFolders} onClose={closeFolderModal} />}
 
-            {settingsModal && <SettingsModal setSettingsVisible={setSettingsModal} />}
+            {settingsModal && <SettingsModal setSettingsVisible={setSettingsModal} setFilteredPrompts={setFilteredPrompts} />}
         </>
     );
 }

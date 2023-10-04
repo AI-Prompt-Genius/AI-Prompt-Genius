@@ -9,3 +9,13 @@
 .toggle, .toggle:checked, .toggle[aria-checked=true], .toggle[checked=true] {
     @apply border-opacity-30
 }
+
+.z-1000 {
+    z-index: 1000;
+}
+
+.hidden-trick {
+    position: fixed;
+    pointer-events: none;
+    opacity: 0;
+}

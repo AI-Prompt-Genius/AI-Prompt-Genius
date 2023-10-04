@@ -15,7 +15,7 @@ function Toast({ message }) {
     }, []);
 
     return (
-        <div className={`toast ${visible ? "show" : "hide"}`}>
+        <div className={`toast bordernone z-1000 ${visible ? "show" : "hide"}`}>
             <div className="alert bg-accent text-[#ffffff]">
                 <CheckIcon></CheckIcon>
                 <span>{message}</span>
