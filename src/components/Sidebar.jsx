@@ -6,7 +6,7 @@ import {ArrowNewWindow, Cog, HomeIcon, PlusDoc, PlusFolder} from "./icons/Icons.
 import {useState} from "react";
 import SettingsModal from "./SettingsModal.jsx";
 
-export default function Sidebar({setPrompts, setFolders, folders, filteredPrompts, filterPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, filterTags, searchTerm}) {
+export default function Sidebar({setPrompts, setFolders, folders, filteredPrompts, filterPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, filterTags, setFilterTags, searchTerm, setSearchTerm}) {
     const [folderModal, setFolderModal] = useState(false)
     const [settingsModal, setSettingsModal] = useState(false)
 
@@ -64,7 +64,7 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
                     <Logo />
                     <ul id="folderList" className="menu p-4 text-base-content sticky">
                         {/* Sidebar content here */}
-                        <li className="selected folder" data-folder-name="all" id="folder-">
+                        <li key="" className="selected folder" data-folder-name="all" id="folder-">
                             <a onClick={() => selectFolder("")}>
                                 <HomeIcon></HomeIcon>
                                 All Prompts
@@ -90,7 +90,13 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
 
             {folderModal && <FolderModal setFolders={setFolders} onClose={closeFolderModal} />}
 
-            {settingsModal && <SettingsModal setSettingsVisible={setSettingsModal} setFilteredPrompts={setFilteredPrompts} />}
+            {settingsModal && <SettingsModal setSettingsVisible={setSettingsModal}
+                                             setSelectedFolder={setSelectedFolder}
+                                             setFilterTags={setFilterTags}
+                                             setSearchTerm={setSearchTerm}
+                                             setFolders={setFolders}
+                                             setFilteredPrompts={setFilteredPrompts}/>
+            }
         </>
     );
 }

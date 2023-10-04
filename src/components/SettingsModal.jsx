@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import {exportCsv, exportJson, downloadCSVTemplate} from "./js/export.js";
+import {exportCsv, exportJson, downloadCSVTemplate, csvToJson, combineJSONArrays} from "./js/export.js";
 import Toast from "./Toast.jsx";
+import {checkProperties, newFolder} from "./js/utils.js";
 
-export default function SettingsModal({setSettingsVisible, setFilteredPrompts}){
+export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, setFolders}){
     const [currentPage, setCurrentPage] = useState("General");
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [settingsToast, setSettingsToast] = useState(false)
@@ -20,13 +21,71 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts}){
         downloadCSVTemplate()
     }
 
+    function clearFilters(){
+        setSelectedFolder("")
+        setFilterTags([])
+        setSearchTerm("")
+    }
+
+    function importAny() {
+        let input = document.querySelector("#import");
+        let file = input.files[0];
+        if (!file) {
+            console.warn(`unable to find a valid file`);
+            showToast("File not found")
+            return;
+        }
+
+        let reader = new FileReader();
+        reader.onload = function (event) {
+            const string = event.target.result;
+            const convertedJson = csvToJson(string)
+            const newJSON = convertedJson.result;
+            const newFolders = convertedJson.folders;
+            console.log(newFolders)
+
+            if (!checkProperties(newJSON[0], ["title", "content", "description", "folder", "tags", "id"])){
+                showToast("Invalid CSV")
+                return;
+            }
+            const oldFolders = JSON.parse(JSON.parse(localStorage.getItem("folders")))
+
+            const combinedFolders = combineJSONArrays(newFolders, oldFolders)
+            setFolders(combinedFolders)
+            console.warn(combinedFolders)
+
+            const currentPrompts = JSON.parse(JSON.parse((localStorage.getItem("prompts"))))
+            const newPrompts = JSON.stringify(combineJSONArrays(newJSON, currentPrompts))
+            localStorage.setItem("prompts", newPrompts)
+            setFilteredPrompts(JSON.parse(JSON.parse(newPrompts)))
+            clearFilters()
+            showToast("Successfully imported prompts")
+        };
+        reader.onerror = function (event) {
+            console.error(`Error occurred in file reader: `);
+            console.error(event);
+            showToast("Invalid File")
+        };
+        reader.readAsText(file);
+    }
+
+    function showToast(message){
+        setSettingsToast(true)
+        setToastMessage(message)
+    }
+
+    function openFileSelect(){
+        document.getElementById("import").click()
+    }
+
     function deletePrompts(){
         localStorage.removeItem("prompts")
         localStorage.removeItem("folders")
         setFilteredPrompts([])
+        clearFilters()
         setConfirmDelete(false)
-        setSettingsToast(true)
-        setToastMessage("Deleted All Prompts and Folders")
+        showToast("Deleted All Prompts and Folders")
+        location.reload()
     }
 
     function closeModal() {
@@ -63,9 +122,9 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts}){
                                         <div className="card-body pb-1 pt-1">
                                             <h2 className="card-title">Import Prompts</h2>
                                             <p>Use this <a className="link link-primary" onClick={downloadTemplate}>CSV template</a> to import prompts.</p>
-                                            <button className="m-2 btn">
+                                            <button className="m-2 btn" onClick={openFileSelect}>
                                                 <label id="import-label" className="clickable" htmlFor="import-any">Import CSV</label>
-                                                <input type="file" id="import-any" className="hidden-trick"/>
+                                                <input onChange={importAny} type="file" accept=".csv" id="import" className="hidden-trick"/>
                                             </button>
                                         </div>
                                     </div>

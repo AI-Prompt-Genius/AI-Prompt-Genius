@@ -1,4 +1,5 @@
 import {uuid} from "./utils.js";
+import Papa from 'papaparse';
 
 function convertToCSV(data) {
     const headers = Object.keys(data[0]); // Get the headers from the first object
@@ -29,21 +30,63 @@ function convertToCSV(data) {
     return csvLines.join('\n');
 }
 
-function csvToJson(csv) {
-    const lines = csv.split('\n');
-    const headers = lines[0].split(',');
+export function combineJSONArrays(array1, array2) {
 
+    try {
+        if (array1.length === 0) return JSON.stringify(array2)
+        if (array2.length === 0) return JSON.stringify(array1)
+
+        // Combine the arrays into one
+        const combinedArray = array1.concat(array2);
+
+        // Stringify the combined array
+        const combinedJSON = JSON.stringify(combinedArray);
+
+        return combinedJSON;
+    } catch (error) {
+        // Handle parsing errors
+        console.error('Error combining JSON arrays:', error);
+        return null;
+    }
+}
+
+export function csvToJson(csv) {
     const result = [];
+    const folders = [];
+    const folderMap = new Map();
+    const headers = ["title", "content", "description", "folder", "tags"];
 
-    for(let i = 1; i < lines.length; i++) {
+    const data = Papa.parse(csv, {
+        header: false,
+        skipEmptyLines: true,
+    }).data;
+
+    for(let i = 1; i < data.length; i++) {
         const obj = {};
-        const currentLine = lines[i].split(',');
 
         for(let j = 0; j < headers.length; j++) {
-            if (headers[j] === "tags") {
-                obj[headers[j]] = currentLine[j].split(';').forEach(tag => {return tag.trim()});
+            if (headers[j] === "folder") {
+                let folderName = data[i][j];
+                let folderID = ""
+                if (folderName !== "" && folderName !== " ") {
+                    if (folderMap.has(folderName)) {
+                        folderID = folderMap.get(folderName);
+                    } else {
+                        folderID = uuid();
+                        folderMap.set(folderName, folderID);
+                        folders.push({name: folderName, id: folderID});
+                    }
+                }
+
+                obj[headers[j]] = folderID;
+            } else if (headers[j] === "tags") {
+                if (data[i][j]) {
+                    obj[headers[j]] = data[i][j].split(';').map(tag => tag.trim());
+                } else {
+                    obj[headers[j]] = [];
+                }
             } else {
-                obj[headers[j]] = currentLine[j];
+                obj[headers[j]] = data[i][j] || '';
             }
         }
 
@@ -53,7 +96,7 @@ function csvToJson(csv) {
         result.push(obj);
     }
 
-    return JSON.stringify(result);
+    return {result, folders};
 }
 
 export function downloadCSVTemplate(){

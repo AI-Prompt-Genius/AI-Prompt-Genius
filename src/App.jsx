@@ -22,6 +22,7 @@ function App() {
 
     function filterPrompts(folder="", tags=[], searchTerm = ""){
         let newFiltered = promptArray;
+        console.log(newFiltered)
         if (tags.length > 0){
             newFiltered = newFiltered.filter((prompt) => {
                 // Check if all tags in the filterTags array are included in each prompt's tags array
@@ -57,6 +58,7 @@ function App() {
             folders={folderArray}
             setSelectedFolder={setSelectedfolder}
             selectedFolder={selectedFolder}
+            setFilterTags={setFilterTags}
             filterTags={filterTags}
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}

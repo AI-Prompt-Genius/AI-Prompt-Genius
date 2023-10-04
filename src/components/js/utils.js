@@ -68,11 +68,16 @@ export function newFilteredPrompt(promptObj, prompts){
     return prompts
 }
 
-export function newFolder(name){
+export function newFolder(name, id=null){
     let folderList = localStorage.getItem("folders")
     if (!folderList) folderList = "'[]'"
     let folders = JSON.parse(JSON.parse(folderList))
-    folders.push({name, id: uuid()})
+    if (!id) {
+        folders.push({name, id: uuid()})
+    }
+    else {
+        folders.push({name: name, id: id})
+    }
     return JSON.stringify(folders)
 }
 
@@ -80,6 +85,12 @@ export function editFilteredPrompts(id, editedPrompt, promptList){
     let promptIndex = getObjectIndexByID(id, promptList)
     promptList[promptIndex] = editedPrompt
     return promptList
+}
+
+export function checkProperties(obj, properties) {
+    console.log(obj)
+    console.log(properties)
+    return properties.every(prop => Object.prototype.hasOwnProperty.call(obj, prop));
 }
 
 export function editPrompt(id, promptObj){
