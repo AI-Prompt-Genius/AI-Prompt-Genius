@@ -14,7 +14,7 @@ function exportCsv() {
     });
 
     let currentTimeString = new Date().toJSON();
-    let filename = `ChatGPT-Prompt-Genius-Prompts_${currentTimeString}.csv`;
+    let filename = `AI-Prompt-Genius-Prompts_${currentTimeString}.csv`;
 
     // Convert the prompts to CSV format
     let csv = convertToCSV(new_prompts);
