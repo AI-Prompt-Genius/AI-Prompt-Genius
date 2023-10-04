@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {exportCsv} from "./js/export.js";
 
 export default function SettingsModal({setSettingsVisible}){
     const [currentPage, setCurrentPage] = useState("General");
@@ -18,11 +19,11 @@ export default function SettingsModal({setSettingsVisible}){
             <div className="modal">
                 <div className="modal-box max-w-[1000px] h-full">
                         <div className="flex flex-col">
-                            <div className="flex-grow overflow-auto">
+                            <div className="flex-grow overflow-hidden">
                                 <ul className="tabs w-full flex justify-between">
                                     <a onClick={() => handlePageChange('General')} className={`p-2 grow tab tab-lifted ${currentPage === "General" ? "tab-active" : ""}`}>General Settings</a>
                                     <a onClick={() => handlePageChange('Folders')} className={`p-2 grow tab tab-lifted ${currentPage === "Folders" ? "tab-active" : ""}`}>Manage Folders</a>
-                                    <a onClick={() => handlePageChange('Export')} className={`p-2 grow tab tab-lifted ${currentPage === "Export" ? "tab-active" : ""}`}>Export</a>
+                                    <a onClick={() => handlePageChange('Export')} className={`p-2 grow tab tab-lifted ${currentPage === "Export" ? "tab-active" : ""}`}>Export & Delete</a>
                                     <a onClick={() => handlePageChange('Cloud')} className={`p-2 grow tab tab-lifted ${currentPage === "Cloud" ? "tab-active" : ""}`}>Cloud Syncing</a>
                                 </ul>
                             </div>
@@ -30,10 +31,10 @@ export default function SettingsModal({setSettingsVisible}){
                             {currentPage === "Export" &&
                                 <>
                                     <div className="card mt-3 mb-3">
-                                        <div className="card-body">
+                                        <div className="card-body pb-1 pt-1">
                                             <h2 className="card-title">Export Prompts</h2>
                                             <p>These files can be used to transfer your prompts somewhere else.</p>
-                                            <button className="btn"> Export CSV </button>
+                                            <button className="btn" onClick={() => exportCsv()}> Export CSV </button>
                                             <button className="btn"> Export JSON </button>
                                         </div>
                                     </div>
