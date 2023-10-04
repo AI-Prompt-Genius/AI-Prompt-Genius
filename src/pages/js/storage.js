@@ -83,7 +83,7 @@ function exportFiles(h = true, p = true, s = true) {
       let string = JSON.stringify(data);
       let blob = encodeStringAsBlob(string);
       let currentTimeString = new Date().toJSON();
-      let filename = `ChatGPT-Prompt-Genius-Archive${title}_${currentTimeString}.txt`;
+      let filename = `AI-Prompt-Genius-Archive${title}_${currentTimeString}.txt`;
       downloadBlobAsFile(blob, filename);
     },
   );
