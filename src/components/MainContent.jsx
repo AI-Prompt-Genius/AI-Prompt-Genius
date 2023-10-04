@@ -4,7 +4,7 @@ import {copyTextToClipboard, findVariables, replaceVariables} from "./js/utils.j
 import {useEffect, useRef, useState} from "react";
 import Toast from "./Toast";
 
-export default function MainContent({prompts, setPrompts, categories, folders, filteredPrompts, setFilteredPrompts, filterTags, setFilterTags, filterPrompts, setSelectedFolder, selectedFolder}) {
+export default function MainContent({prompts, setPrompts, categories, folders, filteredPrompts, setFilteredPrompts, filterTags, setFilterTags, filterPrompts, setSelectedFolder, selectedFolder, setSearchTerm, searchTerm}) {
     const [modalVisible, setModalVisible] = useState(false);
     const [variables, setVariables] = useState([]);
     const [promptText, setPromptText] = useState("");
@@ -12,6 +12,8 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
 
     const [showToastMessage, setShowToastMessage] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
+
+    const searchInputRef = useRef();
 
     function getVarsFromModal(vars, text) {
         setVariables(vars);
@@ -47,6 +49,23 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
     const modalRef = useRef(null);
 
     useEffect(() => {
+        function handleKeyDown(event) {
+            // 75 is the key code for 'k'
+            if (event.keyCode === 75 && (event.ctrlKey || event.metaKey)) {
+                event.preventDefault();
+                searchInputRef.current.focus();
+            }
+        }
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Clean up the event listener on unmount
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+    useEffect(() => {
         const handleKeyDown = (e) => {
             if (modalVisible && e.key === "Enter") {
                 // Check if Enter key is pressed
@@ -75,8 +94,17 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
         <div className="flex flex-col w-4/5">
             <div className="sticky flex p-4 align-middle justify-center">
                 <div className="grow mr-3">
-                    <div className="join">
-                        <input type="text" className="input w-full max-w-xs" placeholder="Search prompts" />
+                    <div className="join w-full">
+                        <input
+                            type="text"
+                            className="input w-full"
+                            placeholder="Search prompts"
+                            onChange={(event) => {
+                                setSearchTerm(event.target.value);
+                                filterPrompts(selectedFolder, filterTags, event.target.value);
+                            }}
+                            ref={searchInputRef}
+                        />
                     </div>
                 </div>
                 <div className="flex flex-col justify-center align-middle">
@@ -100,6 +128,7 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
                                           setFilterTags={setFilterTags}
                                           filterPrompts={filterPrompts}
                                           selectedFolder={selectedFolder}
+                                          searchTerm={searchTerm}
                                 >
                                 </Template>
                             )

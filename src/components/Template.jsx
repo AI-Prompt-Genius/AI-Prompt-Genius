@@ -5,7 +5,7 @@ import FolderSelect from "./FolderSelect.jsx";
 import RemoveTag from "./RemoveTag.jsx";
 import Tag from "./Tag.jsx";
 
-export default function Template({template, setPrompts, onClick, folders, filteredPrompts, setFilteredPrompts, filterTags, setFilterTags, filterPrompts, selectedFolder}){
+export default function Template({template, setPrompts, onClick, folders, filteredPrompts, setFilteredPrompts, filterTags, setFilterTags, filterPrompts, selectedFolder, searchTerm}){
     const [editModalVisible, setEditModalVisible] = useState(false)
     const [title, setTitle] = useState(template.title ?? "");
     const [text, setText] = useState(template.text ?? "");
@@ -73,7 +73,7 @@ export default function Template({template, setPrompts, onClick, folders, filter
             newFiltered.add(tag)
             setFilterTags(Array.from(newFiltered))
         }
-        filterPrompts(selectedFolder, Array.from(newFiltered))
+        filterPrompts(selectedFolder, Array.from(newFiltered), searchTerm)
     }
 
     const handleKeyDown = (e) => {

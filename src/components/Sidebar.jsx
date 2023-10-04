@@ -2,11 +2,13 @@ import Logo from "./Logo.jsx"
 import Folder from "./Folder.jsx"
 import FolderModal from "./FolderModal.jsx";
 import {getCurrentTimestamp, newBlankPrompt, newFilteredPrompt, uuid} from "./js/utils.js";
-import {ArrowNewWindow, HomeIcon, PlusDoc, PlusFolder} from "./icons/Icons.jsx";
+import {ArrowNewWindow, Cog, HomeIcon, PlusDoc, PlusFolder} from "./icons/Icons.jsx";
 import {useState} from "react";
+import SettingsModal from "./SettingsModal.jsx";
 
-export default function Sidebar({setPrompts, setFolders, folders, filteredPrompts, filterPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, filterTags}) {
+export default function Sidebar({setPrompts, setFolders, folders, filteredPrompts, filterPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, filterTags, searchTerm}) {
     const [folderModal, setFolderModal] = useState(false)
+    const [settingsModal, setSettingsModal] = useState(false)
 
     function newPrompt(){
         const folder = selectedFolder
@@ -28,9 +30,13 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
         setFolderModal(false)
     }
 
+    function openSettings(){
+        setSettingsModal(true)
+    }
+
     function selectFolder(id){
         setSelectedFolder(id)
-        filterPrompts(id, filterTags)
+        filterPrompts(id, filterTags, searchTerm)
         document.querySelectorAll(".folder").forEach(folder => {
             folder.classList.remove("selected")
         })
@@ -74,14 +80,17 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
                     </ul>
                 </div>
                 <ul className="menu p-3 text-base-content flex flex-col border-t-2 border-base-300">
+                    <li><a onClick={newPrompt}><PlusDoc /> New Prompt</a></li>
+                    <li><a onClick={openFolderModal}><PlusFolder /> New Folder</a></li>
                     {!isFullScreen && <li><a onClick={openFullscreen}> <ArrowNewWindow /> Open Fullscreen</a></li>}
-                    <li><a onClick={newPrompt}><PlusDoc/> New Prompt</a></li>
-                    <li><a onClick={openFolderModal}><PlusFolder/> New Folder</a></li>
+                    <li><a onClick={openSettings}><Cog /> Settings</a></li>
                 </ul>
                 </div>
             </div>
 
             {folderModal && <FolderModal setFolders={setFolders} onClose={closeFolderModal} />}
+
+            {settingsModal && <SettingsModal />}
         </>
     );
 }

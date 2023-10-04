@@ -18,19 +18,30 @@ function App() {
     const [filteredPrompts, setFilteredPrompts] = useState(promptArray)
     const [selectedFolder, setSelectedfolder] = useState("")
     const [filterTags, setFilterTags] = useState([])
+    const [searchTerm, setSearchTerm] = useState("")
 
-    function filterPrompts(folder="", tags=[]){
+    function filterPrompts(folder="", tags=[], searchTerm = ""){
         let newFiltered = promptArray;
         if (tags.length > 0){
-             newFiltered = newFiltered.filter((prompt) => {
+            newFiltered = newFiltered.filter((prompt) => {
                 // Check if all tags in the filterTags array are included in each prompt's tags array
                 return tags.every((filterTag) => prompt.tags.includes(filterTag));
             });
         }
-        console.log(folder)
+
         if (folder !== ""){
             newFiltered = newFiltered.filter(obj => obj.folder === folder)
         }
+
+        if (searchTerm !== ""){
+            searchTerm = searchTerm.toLowerCase(); // convert search term to lowercase
+            newFiltered = newFiltered.filter(prompt =>
+                prompt.text?.toLowerCase().includes(searchTerm) ||
+                prompt.description?.toLowerCase().includes(searchTerm) ||
+                prompt.title?.toLowerCase().includes(searchTerm)
+            );
+        }
+
         setFilteredPrompts(newFiltered)
     }
 
@@ -47,6 +58,8 @@ function App() {
             setSelectedFolder={setSelectedfolder}
             selectedFolder={selectedFolder}
             filterTags={filterTags}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
         />
         <MainContent
             filteredPrompts={filteredPrompts}
@@ -60,6 +73,8 @@ function App() {
             setFilterTags={setFilterTags}
             setSelectedFolder={setSelectedfolder}
             selectedFolder={selectedFolder}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
         />
       </div>
   );
