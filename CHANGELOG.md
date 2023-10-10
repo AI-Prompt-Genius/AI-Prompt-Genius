@@ -1,3 +1,8 @@
+### 3.2.7 - October 2, 2023
+
+- Include JSpdf object locally
+- Fix extension warning
+
 ### 3.2.6 - September 15, 2023
 
 - Rename external-js to included-libraries
