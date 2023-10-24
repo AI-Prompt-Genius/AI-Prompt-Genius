@@ -113,16 +113,16 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                         <div className="flex flex-col">
                             <div className="flex-grow overflow-hidden">
                                 <ul className="tabs w-full flex justify-between">
-                                    <a onClick={() => handlePageChange('General')} className={`p-2 grow tab tab-lifted ${currentPage === "General" ? "tab-active" : ""}`}>
+                                    <a onClick={() => handlePageChange('General')} className={`p-1 grow tab tab-lifted ${currentPage === "General" ? "tab-active" : ""}`}>
                                         <div className={"pb-3"}>General Settings</div>
                                     </a>
-                                    <a onClick={() => handlePageChange('Folders')} className={`p-2 grow tab tab-lifted ${currentPage === "Folders" ? "tab-active" : ""}`}>
+                                    <a onClick={() => handlePageChange('Folders')} className={`p-1 grow tab tab-lifted ${currentPage === "Folders" ? "tab-active" : ""}`}>
                                         Manage Folders
                                     </a>
-                                    <a onClick={() => handlePageChange('Export')} className={`p-2 grow tab tab-lifted ${currentPage === "Export" ? "tab-active" : ""}`}>
+                                    <a onClick={() => handlePageChange('Export')} className={`p-1 grow tab tab-lifted ${currentPage === "Export" ? "tab-active" : ""}`}>
                                         Import & Export
                                     </a>
-                                    <a onClick={() => handlePageChange('Cloud')} className={`p-2 grow tab tab-lifted ${currentPage === "Cloud" ? "tab-active" : ""}`}>
+                                    <a onClick={() => handlePageChange('Cloud')} className={`p-1 grow tab tab-lifted ${currentPage === "Cloud" ? "tab-active" : ""}`}>
                                         Cloud Syncing
                                     </a>
                                 </ul>
