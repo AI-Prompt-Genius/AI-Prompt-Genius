@@ -70,7 +70,7 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
 
     return (
         <>
-            <div className="z-30 flex w-[230px] mr-[25px] flex-col overflow-hidden h-full">
+            <div className="max-[500px]:hidden z-30 flex w-[230px] mr-[25px] flex-col overflow-hidden h-full">
                 <div className="flex flex-col justify-between h-full border-r border-base-200 bg-base-200">
                 <div className="flex grow flex-col overflow-y-auto">
                     <Logo />

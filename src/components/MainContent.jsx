@@ -95,7 +95,7 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
 
     return (
         <>
-        <div className="flex flex-col w-4/5">
+        <div className="flex flex-col w-4/5 max-[500px]:w-full max-[500px]:ml-2">
             <div className="sticky flex p-4 align-middle justify-center">
                 <div className="grow mr-3">
                     <div className="join w-full">
@@ -117,7 +117,7 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
             </div>
             {filteredPrompts && (
                 <div className="h-full overflow-y-auto">
-                    <ul className="flex flex-col mr-8" id="templates">
+                    <ul className="flex flex-col mr-8 max-[500px]:mr-2" id="templates">
                         {filteredPrompts.map(
                             (prompt) => (
                                 <Template setPrompts={setPrompts}
