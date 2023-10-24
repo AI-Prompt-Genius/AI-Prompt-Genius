@@ -27,8 +27,58 @@ function convertToCSV(data) {
     }
 
     // Join all the CSV lines with newline characters
-    return csvLines.join('\n');
+    return csvLines.join('\n')
 }
+
+export function removeDuplicatesByName(array1, array2, propName="title") { // created by ChatGPT
+    // Create a set to store unique names from array1
+    const namesSet = new Set(array1.map(obj => obj[propName]));
+    console.log(namesSet)
+
+    // Filter array2 to remove duplicates by checking if obj.name is in namesSet
+    const filteredArray2 = array2.filter(obj => !namesSet.has(obj[propName]));
+
+    return filteredArray2;
+}
+
+export function getDuplicateFolders(oldArray, newArray) {
+    let duplicateFolders = [];
+
+    for (let i = 0; i < oldArray.length; i++) {
+        for (let j = 0; j < newArray.length; j++) {
+            if (oldArray[i].name === newArray[j].name) {
+                duplicateFolders.push({
+                    oldFolderId: oldArray[i].id,
+                    newFolderId: newArray[j].id,
+                });
+            }
+        }
+    }
+
+    return duplicateFolders;
+}
+
+
+export function sanitizeNewPrompts(prompts, duplicateFolders) { // created by ChatGPT
+    // Create a map of newFolderId to oldFolderId for efficient lookup
+    const folderIdMap = new Map();
+    duplicateFolders.forEach(({ oldFolderId, newFolderId }) => {
+        folderIdMap.set(newFolderId, oldFolderId);
+    });
+    // Iterate through the prompts and replace newFolderId with oldFolderId if necessary
+    const sanitizedPrompts = prompts.map((prompt) => {
+        const oldFolderId = folderIdMap.get(prompt.folder);
+        if (oldFolderId !== undefined) {
+            return { ...prompt, folder: oldFolderId };
+        }
+        return prompt;
+    });
+
+    console.warn(sanitizedPrompts)
+
+    return sanitizedPrompts;
+}
+
 
 export function combineJSONArrays(array1, array2) {
 

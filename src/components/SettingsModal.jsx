@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import {exportCsv, exportJson, downloadCSVTemplate, csvToJson, combineJSONArrays} from "./js/export.js";
+import {
+    exportCsv,
+    exportJson,
+    downloadCSVTemplate,
+    csvToJson,
+    combineJSONArrays,
+    removeDuplicatesByName, getDuplicateFolders, sanitizeNewPrompts
+} from "./js/export.js";
 import Toast from "./Toast.jsx";
 import {checkProperties, newFolder} from "./js/utils.js";
 
@@ -40,26 +47,30 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
         reader.onload = function (event) {
             const string = event.target.result;
             const convertedJson = csvToJson(string)
-            const newJSON = convertedJson.result;
-            const newFolders = convertedJson.folders;
-            console.log(newFolders)
+            let newPrompts = convertedJson.result;
+            let newFolders = convertedJson.folders;
 
-            if (!checkProperties(newJSON[0], ["title", "content", "description", "folder", "tags", "id"])){
-                showToast("Invalid CSV")
+            if (!checkProperties(newPrompts[0], ["title", "content", "description", "folder", "tags", "id"])){
+                showToast("Invalid CSV - Match Template")
                 return;
             }
-            const oldFolders = JSON.parse(JSON.parse(localStorage.getItem("folders")))
+            let oldFolders = JSON.parse(JSON.parse(localStorage.getItem("folders")))
+            const duplicateFolders = getDuplicateFolders(oldFolders, newFolders)
+            newFolders = removeDuplicatesByName(oldFolders, newFolders, "name")
 
-            const combinedFolders = combineJSONArrays(newFolders, oldFolders)
+            const combinedFolders = combineJSONArrays(newFolders, oldFolders) // removes folders with duplicate title
             setFolders(combinedFolders)
-            console.warn(combinedFolders)
 
-            const currentPrompts = JSON.parse(JSON.parse((localStorage.getItem("prompts"))))
-            const newPrompts = JSON.stringify(combineJSONArrays(newJSON, currentPrompts))
-            localStorage.setItem("prompts", newPrompts)
-            setFilteredPrompts(JSON.parse(JSON.parse(newPrompts)))
+            newPrompts = sanitizeNewPrompts(newPrompts, duplicateFolders);
+
+            let currentPrompts = JSON.parse(JSON.parse((localStorage.getItem("prompts"))))
+            currentPrompts = removeDuplicatesByName(newPrompts, currentPrompts)
+            const combinedPrompts = JSON.stringify(combineJSONArrays(newPrompts, currentPrompts))
+            localStorage.setItem("prompts", combinedPrompts)
+            setFilteredPrompts(JSON.parse(JSON.parse(combinedPrompts)))
             clearFilters()
             showToast("Successfully imported prompts")
+            document.querySelector("#close_modal").click()
         };
         reader.onerror = function (event) {
             console.error(`Error occurred in file reader: `);
@@ -141,7 +152,7 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                         </div>
                 </div>
                 <div className="modal-backdrop">
-                    <button onClick={closeModal}>Close</button>
+                    <button id="close_modal" onClick={closeModal}>Close</button>
                 </div>
             </div>
             {settingsToast && <Toast message={toastMessage} /> }
