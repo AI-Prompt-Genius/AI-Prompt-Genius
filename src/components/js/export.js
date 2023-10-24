@@ -33,7 +33,6 @@ function convertToCSV(data) {
 export function removeDuplicatesByName(array1, array2, propName="title") { // created by ChatGPT
     // Create a set to store unique names from array1
     const namesSet = new Set(array1.map(obj => obj[propName]));
-    console.log(namesSet)
 
     // Filter array2 to remove duplicates by checking if obj.name is in namesSet
     const filteredArray2 = array2.filter(obj => !namesSet.has(obj[propName]));
@@ -74,8 +73,6 @@ export function sanitizeNewPrompts(prompts, duplicateFolders) { // created by Ch
         return prompt;
     });
 
-    console.warn(sanitizedPrompts)
-
     return sanitizedPrompts;
 }
 
@@ -95,7 +92,6 @@ export function combineJSONArrays(array1, array2) {
         return combinedJSON;
     } catch (error) {
         // Handle parsing errors
-        console.error('Error combining JSON arrays:', error);
         return null;
     }
 }

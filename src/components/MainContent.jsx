@@ -41,6 +41,10 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
             getVarsFromModal(vars, text);
             return "";
         }
+        if (text == undefined){
+            showToast("No Prompt Text")
+            return;
+        }
         copyTextToClipboard(text)
         setVariables([])
         showToast("Prompt Copied to Clipboard")

@@ -9,12 +9,11 @@ import {
 } from "./js/export.js";
 import Toast from "./Toast.jsx";
 import {checkProperties, newFolder} from "./js/utils.js";
+import LanguageSelect from "./LanguageSelect.jsx";
 
-export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, setFolders}){
+export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, setFolders, showToast}){
     const [currentPage, setCurrentPage] = useState("General");
     const [confirmDelete, setConfirmDelete] = useState(false)
-    const [settingsToast, setSettingsToast] = useState(false)
-    const [toastMessage, setToastMessage] = useState("")
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -80,10 +79,6 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
         reader.readAsText(file);
     }
 
-    function showToast(message){
-        setSettingsToast(true)
-        setToastMessage(message)
-    }
 
     function openFileSelect(){
         document.getElementById("import").click()
@@ -149,13 +144,21 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                                     </div>
                                 </>
                             }
+
+                            {currentPage === "General" &&
+                                <div className="card mt-3 mb-3">
+                                    <div className="card-body pt-2">
+                                        <h5 className="card-title">Language</h5>
+                                        <LanguageSelect />
+                                    </div>
+                                </div>
+                            }
                         </div>
                 </div>
                 <div className="modal-backdrop">
                     <button id="close_modal" onClick={closeModal}>Close</button>
                 </div>
             </div>
-            {settingsToast && <Toast message={toastMessage} /> }
         </>
     );
 };

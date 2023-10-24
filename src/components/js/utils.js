@@ -88,8 +88,6 @@ export function editFilteredPrompts(id, editedPrompt, promptList){
 }
 
 export function checkProperties(obj, properties) {
-    console.log(obj)
-    console.log(properties)
     return properties.every(prop => Object.prototype.hasOwnProperty.call(obj, prop));
 }
 
