@@ -99,6 +99,25 @@ export function editPrompt(id, promptObj){
     return JSON.stringify(prompts)
 }
 
+export function removeFolderFromPrompts(id){
+    let prompts = JSON.parse(JSON.parse(localStorage.getItem("prompts")))
+    for (let prompt of prompts){
+        if (prompt.id === id){
+            prompt.id = ""
+        }
+    }
+    return JSON.stringify(prompts)
+}
+
+export function removeFolder(id){
+    let folders = JSON.parse(JSON.parse(localStorage.getItem("folders")));
+    const folderIndex = getObjectIndexByID(id, folders)
+    if (folderIndex !== -1){
+        folders.splice(folderIndex, 1)
+    }
+    return JSON.stringify(folders)
+}
+
 function escapeRegExp(string) {
     return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }

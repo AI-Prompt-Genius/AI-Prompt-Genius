@@ -109,6 +109,8 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
                                              setFolders={setFolders}
                                              setFilteredPrompts={setFilteredPrompts}
                                              showToast={showToast}
+                                             folders={folders}
+                                             setPrompts={setPrompts}
             />
             }
 

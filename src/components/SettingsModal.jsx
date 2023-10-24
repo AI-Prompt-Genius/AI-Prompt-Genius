@@ -8,10 +8,11 @@ import {
     removeDuplicatesByName, getDuplicateFolders, sanitizeNewPrompts
 } from "./js/export.js";
 import Toast from "./Toast.jsx";
-import {checkProperties, newFolder} from "./js/utils.js";
+import {checkProperties, newFolder, removeFolder, removeFolderFromPrompts} from "./js/utils.js";
 import LanguageSelect from "./LanguageSelect.jsx";
+import {TrashIcon} from "./icons/Icons.jsx";
 
-export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, setFolders, showToast}){
+export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, folders, setFolders, showToast, setPrompts}){
     const [currentPage, setCurrentPage] = useState("General");
     const [confirmDelete, setConfirmDelete] = useState(false)
 
@@ -99,6 +100,11 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
         setTimeout(()=> setSettingsVisible(false), 100); // to allow for cool animation
     }
 
+    function deleteFolder(id){
+        setFolders(removeFolder(id))
+        setPrompts(removeFolderFromPrompts(id))
+    }
+
     return (
         <>
             <input defaultChecked type="checkbox" id="settings-modal" className="modal-toggle hidden" />
@@ -107,12 +113,59 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                         <div className="flex flex-col">
                             <div className="flex-grow overflow-hidden">
                                 <ul className="tabs w-full flex justify-between">
-                                    <a onClick={() => handlePageChange('General')} className={`p-2 grow tab tab-lifted ${currentPage === "General" ? "tab-active" : ""}`}>General Settings</a>
-                                    <a onClick={() => handlePageChange('Folders')} className={`p-2 grow tab tab-lifted ${currentPage === "Folders" ? "tab-active" : ""}`}>Manage Folders</a>
-                                    <a onClick={() => handlePageChange('Export')} className={`p-2 grow tab tab-lifted ${currentPage === "Export" ? "tab-active" : ""}`}>Import & Export</a>
-                                    <a onClick={() => handlePageChange('Cloud')} className={`p-2 grow tab tab-lifted ${currentPage === "Cloud" ? "tab-active" : ""}`}>Cloud Syncing</a>
+                                    <a onClick={() => handlePageChange('General')} className={`p-2 grow tab tab-lifted ${currentPage === "General" ? "tab-active" : ""}`}>
+                                        <div className={"pb-3"}>General Settings</div>
+                                    </a>
+                                    <a onClick={() => handlePageChange('Folders')} className={`p-2 grow tab tab-lifted ${currentPage === "Folders" ? "tab-active" : ""}`}>
+                                        Manage Folders
+                                    </a>
+                                    <a onClick={() => handlePageChange('Export')} className={`p-2 grow tab tab-lifted ${currentPage === "Export" ? "tab-active" : ""}`}>
+                                        Import & Export
+                                    </a>
+                                    <a onClick={() => handlePageChange('Cloud')} className={`p-2 grow tab tab-lifted ${currentPage === "Cloud" ? "tab-active" : ""}`}>
+                                        Cloud Syncing
+                                    </a>
                                 </ul>
                             </div>
+
+                            {currentPage === "General" &&
+                                <div className="card mt-3 mb-3">
+                                    <div className="card-body pt-2">
+                                        <h5 className="card-title">Language</h5>
+                                        <LanguageSelect />
+                                    </div>
+                                </div>
+                            }
+
+                            {currentPage === "Folders" && folders.length > 0 &&
+                                <div className="card mt-3 mb-3">
+                                    <div className="card-body pt-2">
+                                        <h5 className="card-title">Delete Folders</h5>
+                                        <table className="table w-full">
+                                            <tbody>
+                                                <tr className="justify-between">
+                                                    <th>Folder Name</th>
+                                                    <th className="w-16 text-center"><div className="my-1 disabled hover:bg-none border-none px-3 bg-inherit"><TrashIcon /></div></th>
+                                                </tr>
+                                                {folders.map((folder) =>
+                                                    <tr key={folder.id}>
+                                                        <td>{folder.name}</td>
+                                                        <td><button onClick={() => deleteFolder(folder.id)} className="my-1 btn p-3 bg-inherit"><TrashIcon /></button></td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+
+                            {currentPage === "Folders" && folders.length === 0 &&
+                                <div className="card mt-3 mb-3">
+                                    <div className="card-body pt-2">
+                                        <h5 className="card-title">To get started, create a folder in the sidebar</h5>
+                                    </div>
+                                </div>
+                            }
 
                             {currentPage === "Export" &&
                                 <>
@@ -143,15 +196,6 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                                         </div>
                                     </div>
                                 </>
-                            }
-
-                            {currentPage === "General" &&
-                                <div className="card mt-3 mb-3">
-                                    <div className="card-body pt-2">
-                                        <h5 className="card-title">Language</h5>
-                                        <LanguageSelect />
-                                    </div>
-                                </div>
                             }
                         </div>
                 </div>
