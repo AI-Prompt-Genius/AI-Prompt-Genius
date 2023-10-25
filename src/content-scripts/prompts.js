@@ -450,6 +450,7 @@ async function insertPromptTemplatesSection(templates = window.prompttemplates, 
   }
 
   wrapper.innerHTML = html;
+  wrapper.parentElement.parentElement.classList.add("overflow-auto")
 
   // scroll to top of page
   let scrollContainer = document.querySelector("main > div > div > div");
