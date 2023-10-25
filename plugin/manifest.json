@@ -3,7 +3,11 @@
   "name": "AI Prompt Genius v4",
   "version": "1.0",
   "description": "v4 babbbyyy",
-  "permissions": ["tabs", "sidePanel"],
+  "permissions": [
+    "tabs",
+    "sidePanel",
+    "commands"
+  ],
   "action": {
     "default_popup": "popup.html"
   },
@@ -11,6 +15,15 @@
     "service-worker": "background.js"
   },
   "side_panel": {
-    "default_path": "fullscreen.html"
+    "default_path": "sidebar.html"
+  },
+  "commands": {
+    "open-sidebar": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U",
+        "mac": "Command+Shift+U"
+      },
+      "description": "Open the sidebar"
+    }
   }
 }

@@ -56,6 +56,7 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
     }
 
     function openFullscreen() {
+        console.log("OPENING!")
         // Create the message object
         var message = {
             message: "openFullScreen"
@@ -70,7 +71,8 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
 
     return (
         <>
-            <div className="max-[500px]:hidden z-30 flex w-[230px] mr-[25px] flex-col overflow-hidden h-full">
+            <div>
+            <div className="max-[400px]:hidden z-30 flex w-fit min-w-[150px] max-w-[230px] mr-[25px] flex-col overflow-hidden h-full">
                 <div className="flex flex-col justify-between h-full border-r border-base-200 bg-base-200">
                 <div className="flex grow flex-col overflow-y-auto">
                     <Logo />
@@ -98,6 +100,11 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
                     <li><a onClick={openSettings}><Cog /> Settings</a></li>
                 </ul>
                 </div>
+            </div>
+            <div className="min-[400px]:hidden menu menu-horizontal bg-base-200 opacity-100 z-10 w-full flex absolute bottom-0">
+                <li className="w-1/2"><a onClick={newPrompt}><PlusDoc /> New Prompt</a></li>
+                <li className="w-1/2"><a onClick={openFullscreen}> <ArrowNewWindow /> Open Fullscreen</a></li>
+            </div>
             </div>
 
             {folderModal && <FolderModal setFolders={setFolders} onClose={closeFolderModal} />}

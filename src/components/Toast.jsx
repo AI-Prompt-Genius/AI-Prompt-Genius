@@ -15,9 +15,9 @@ function Toast({ message }) {
     }, []);
 
     return (
-        <div className={`toast bordernone z-1000 ${visible ? "show" : "hide"}`}>
-            <div className="alert bg-accent text-[#ffffff]">
-                <CheckIcon></CheckIcon>
+        <div className={`toast bordernone w-fit z-1000 ${visible ? "show" : "hide"}`}>
+            <div className="alert flex bg-accent text-[#ffffff]">
+                <span><CheckIcon></CheckIcon></span>
                 <span>{message}</span>
             </div>
         </div>

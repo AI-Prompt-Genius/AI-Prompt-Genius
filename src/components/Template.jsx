@@ -109,7 +109,7 @@ export default function Template({template, setPrompts, onClick, folders, filter
                         ))}
                     </div>
                 </div>
-                <div className="mainClick buttons flex">
+                <div className="mainClick buttons flex max-[600px]:flex-col">
                     <button onClick={showModal} className="edit my-1 border-none btn p-1 bg-inherit"><EditIcon></EditIcon></button>
                     <button onClick={() => removePrompt(template.id)} className="my-1 border-none btn p-1 bg-inherit"><TrashIcon></TrashIcon></button>
                 </div>

@@ -190,7 +190,7 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                                     <div className="card mt-3 mb-3">
                                         <div className="card-body pt-0">
                                             <h5 className="card-title">Danger Zone - Mass Delete</h5>
-                                            <p>Mass delete your prompts and threads. We recommend exporting first.</p>
+                                            <p>Mass delete your prompts and folders. We recommend exporting first.</p>
                                             <button className="btn" onClick={showConfirm}> Delete All Prompts & Folders </button>
                                             {confirmDelete && <button onClick={deletePrompts} className="btn bg-warning">Confirm Delete</button>}
                                         </div>
