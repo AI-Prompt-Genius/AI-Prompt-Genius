@@ -1,3 +1,7 @@
+### 3.2.8 - October 24, 2023
+
+- Fix scrolling issue
+
 ### 3.2.7 - October 2, 2023
 
 - Include JSpdf object locally
