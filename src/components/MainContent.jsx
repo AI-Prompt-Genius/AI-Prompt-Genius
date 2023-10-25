@@ -117,7 +117,7 @@ export default function MainContent({prompts, setPrompts, categories, folders, f
             </div>
             {filteredPrompts && (
                 <div className="h-full overflow-y-auto">
-                    <ul className="flex flex-col mr-8 max-[500px]:mr-2" id="templates">
+                    <ul className="flex flex-col mr-8 max-[500px]:mr-2 max-[500px]:mb-28" id="templates">
                         {filteredPrompts.map(
                             (prompt) => (
                                 <Template setPrompts={setPrompts}
