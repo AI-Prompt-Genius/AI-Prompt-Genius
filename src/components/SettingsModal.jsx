@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     exportCsv,
     exportJson,
@@ -10,11 +10,13 @@ import {
 import Toast from "./Toast.jsx";
 import {checkProperties, newFolder, removeFolder, removeFolderFromPrompts} from "./js/utils.js";
 import LanguageSelect from "./LanguageSelect.jsx";
-import {TrashIcon} from "./icons/Icons.jsx";
+import {GoogleDriveIcon, TrashIcon} from "./icons/Icons.jsx";
 
 export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, folders, setFolders, showToast, setPrompts}){
     const [currentPage, setCurrentPage] = useState("General");
     const [confirmDelete, setConfirmDelete] = useState(false)
+
+    const cloudSyncingEnabled = false;
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -103,6 +105,30 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
     function deleteFolder(id){
         setFolders(removeFolder(id))
         setPrompts(removeFolderFromPrompts(id))
+    }
+
+    useEffect(() => {
+        const handleMessage = async function(event) {
+            const data = JSON.parse(event.data);
+            if (data.message === "newAuthToken") {
+                console.log(data.token);
+            }
+            console.log("MESSAGE!");
+        };
+
+        window.addEventListener("message", handleMessage, false);
+
+        return () => {
+            // Clean up the event listener when the component unmounts
+            window.removeEventListener("message", handleMessage);
+        };
+    }, []);
+
+        function openAuth(){
+        const message = {message: "openAuth"}
+        const messageStr = JSON.stringify(message)
+        window.parent.postMessage(messageStr, "*");
+        console.log("Sent message to parent")
     }
 
     return (
@@ -196,6 +222,17 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                                         </div>
                                     </div>
                                 </>
+                            }
+
+                            {currentPage === "Cloud" &&
+                                <div className="card mt-3 mb-3">
+                                    {cloudSyncingEnabled === false &&
+                                        <div className="card-body pt-2">
+                                            <h5 className="card-title">Sync Prompts via Google Sheets</h5>
+                                            <button onClick={openAuth} className="btn">Link Google Sheets <GoogleDriveIcon /></button>
+                                    </div>
+                                    }
+                                </div>
                             }
                         </div>
                 </div>

@@ -1,4 +1,4 @@
-window.addEventListener("message", function(event) {
+window.addEventListener("message", async function(event) {
     // Check the origin of the message
 
     // Parse the received message
@@ -8,4 +8,26 @@ window.addEventListener("message", function(event) {
         // Forward the message to the background script
         chrome.tabs.create({ url: `${chrome.runtime.getURL("fullscreen.html")}` });
     }
+    else if (message.message === "openAuth"){
+        const authToken = await getAuthToken()
+        const response = {message: "newAuthToken", token: authToken}
+        const responseStr = JSON.stringify(response)
+        document.getElementById("window").contentWindow.postMessage(responseStr)
+        console.log(response)
+        console.log("SENT MESSAGE TO CHILD")
+    }
+
 }, false);
+
+async function getAuthToken() {
+    return new Promise((resolve, reject) => {
+        chrome.identity.getAuthToken({ interactive: true }, function (token) {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            } else {
+                //chrome.storage.local.set({ token: token });
+                resolve(token);
+            }
+        });
+    });
+}

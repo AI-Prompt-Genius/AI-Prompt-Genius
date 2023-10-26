@@ -6,7 +6,8 @@
   "permissions": [
     "tabs",
     "sidePanel",
-    "commands"
+    "commands",
+    "identity"
   ],
   "action": {
     "default_popup": "popup.html"
@@ -25,5 +26,9 @@
       },
       "description": "Open the sidebar"
     }
+  },
+  "oauth2": {
+    "client_id": "608311790441-qf9qj8u78kegpqr27k9kdpuhduops3af.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/drive.file"]
   }
 }
