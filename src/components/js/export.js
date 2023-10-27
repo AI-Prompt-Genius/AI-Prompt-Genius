@@ -1,4 +1,4 @@
-import {uuid} from "./utils.js";
+import {getObject, uuid} from "./utils.js";
 import Papa from 'papaparse';
 
 function convertToCSV(data) {
@@ -80,14 +80,14 @@ export function sanitizeNewPrompts(prompts, duplicateFolders) { // created by Ch
 export function combineJSONArrays(array1, array2) {
 
     try {
-        if (array1.length === 0) return JSON.stringify(array2)
-        if (array2.length === 0) return JSON.stringify(array1)
+        if (array1.length === 0) return array2
+        else if (array2.length === 0) return array1
 
         // Combine the arrays into one
         const combinedArray = array1.concat(array2);
 
         // Stringify the combined array
-        const combinedJSON = JSON.stringify(combinedArray);
+        const combinedJSON = combinedArray;
 
         return combinedJSON;
     } catch (error) {
@@ -155,11 +155,9 @@ export function downloadCSVTemplate(){
 }
 
 export function exportCsv(){
-    const promptStr = localStorage.getItem("prompts")
-    const promptArray = JSON.parse(JSON.parse(promptStr))
+    const promptArray = getObject("prompts", [])
 
-    const folderStr = localStorage.getItem("folders")
-    const folders = JSON.parse(JSON.parse(folderStr))
+    const folders = getObject("folders", [])
 
     const newPrompts = promptArray.map((prompt) => {
         return {
@@ -183,8 +181,8 @@ export function exportCsv(){
 }
 
 export function exportJson(){
-    const prompts = JSON.parse(JSON.parse(localStorage.getItem("prompts")))
-    const folders = JSON.parse(JSON.parse(localStorage.getItem("folders")))
+    const prompts = getObject("prompts", [])
+    const folders = getObject("folders", [])
     prompts.forEach(prompt => prompt.folder = folders.find(folder => folder.id === prompt.folder)?.name || "")
     const blob = encodeStringAsBlob(JSON.stringify(prompts));
     const currentTimeString = new Date().toJSON();

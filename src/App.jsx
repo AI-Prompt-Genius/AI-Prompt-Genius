@@ -2,26 +2,26 @@ import './App.css'
 import Sidebar from "./components/Sidebar.jsx";
 import MainContent from "./components/MainContent.jsx";
 import React, {useEffect, useState} from "react";
-import {ThemeContext} from "./components/ThemeContext.jsx";
 import {useLocalStorage} from "@uidotdev/usehooks";
+import {ThemeContext} from "./components/ThemeContext.jsx";
 import {finishAuth} from "./components/js/CloudSyncing.js";
+import {setObject} from "./components/js/utils.js";
 
 function App() {
     const { theme } = React.useContext(ThemeContext);
-    const [prompts, setPrompts] = useLocalStorage("prompts", JSON.stringify([]))
-    const [folders, setFolders] = useLocalStorage("folders", JSON.stringify([]))
 
-    const promptArray = JSON.parse(prompts)
-    const folderArray = JSON.parse(folders)
-    const tags = promptArray.length > 0 ? new Set(promptArray.flatMap(obj => obj.tags)) : [];
+    const [prompts, setPrompts] = useLocalStorage("prompts", [])
+    const [folders, setFolders] = useLocalStorage("folders", [])
 
-    const [filteredPrompts, setFilteredPrompts] = useState(promptArray)
+    const tags = prompts.length > 0 ? new Set(prompts.flatMap(obj => obj.tags)) : [];
+
+    const [filteredPrompts, setFilteredPrompts] = useState(prompts)
     const [selectedFolder, setSelectedfolder] = useState("")
     const [filterTags, setFilterTags] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
 
     function filterPrompts(folder="", tags=[], searchTerm = ""){
-        let newFiltered = promptArray;
+        let newFiltered = prompts;
         if (tags.length > 0){
             newFiltered = newFiltered.filter((prompt) => {
                 // Check if all tags in the filterTags array are included in each prompt's tags array
@@ -49,7 +49,7 @@ function App() {
         const handleMessage = async function(event) {
             const data = JSON.parse(event.data);
             if (data.message === "newAuthToken") {
-                localStorage.setItem("GOOGLE_API_TOKEN", data.token)
+                setObject("GOOGLE_API_TOKEN", data.token)
                 console.log("API TOKEN UPDATED")
                 finishAuth()
             }
@@ -72,7 +72,7 @@ function App() {
             filterPrompts={filterPrompts}
             setPrompts={setPrompts}
             setFolders={setFolders}
-            folders={folderArray}
+            folders={folders}
             setSelectedFolder={setSelectedfolder}
             selectedFolder={selectedFolder}
             setFilterTags={setFilterTags}
@@ -85,9 +85,9 @@ function App() {
             setFilteredPrompts={setFilteredPrompts}
             filterPrompts={filterPrompts}
             setPrompts={setPrompts}
-            prompts={promptArray}
+            prompts={prompts}
             tags={tags}
-            folders={folderArray}
+            folders={folders}
             filterTags={filterTags}
             setFilterTags={setFilterTags}
             setSelectedFolder={setSelectedfolder}

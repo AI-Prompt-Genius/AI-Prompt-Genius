@@ -8,7 +8,7 @@ import {
     removeDuplicatesByName, getDuplicateFolders, sanitizeNewPrompts
 } from "./js/export.js";
 import Toast from "./Toast.jsx";
-import {checkProperties, newFolder, removeFolder, removeFolderFromPrompts} from "./js/utils.js";
+import {checkProperties, getObject, newFolder, removeFolder, removeFolderFromPrompts, setObject} from "./js/utils.js";
 import LanguageSelect from "./LanguageSelect.jsx";
 import {GoogleDriveIcon, TrashIcon} from "./icons/Icons.jsx";
 
@@ -16,7 +16,7 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
     const [currentPage, setCurrentPage] = useState("General");
     const [confirmDelete, setConfirmDelete] = useState(false)
 
-    const cloudSyncingEnabled = localStorage.getItem("cloudSyncing") === "true";
+    const cloudSyncingEnabled = getObject("cloudSyncing", false) === true;
     const sheetID = localStorage.getItem("sheetID")
 
     const handlePageChange = (page) => {
@@ -57,7 +57,7 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                 showToast("Invalid CSV - Match Template")
                 return;
             }
-            let oldFolders = JSON.parse(JSON.parse(localStorage.getItem("folders")))
+            let oldFolders = getObject("folders", [])
             const duplicateFolders = getDuplicateFolders(oldFolders, newFolders)
             newFolders = removeDuplicatesByName(oldFolders, newFolders, "name")
 
@@ -66,11 +66,11 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
 
             newPrompts = sanitizeNewPrompts(newPrompts, duplicateFolders);
 
-            let currentPrompts = JSON.parse(JSON.parse((localStorage.getItem("prompts"))))
+            let currentPrompts = getObject("prompts", [])
             currentPrompts = removeDuplicatesByName(newPrompts, currentPrompts)
-            const combinedPrompts = JSON.stringify(combineJSONArrays(newPrompts, currentPrompts))
-            localStorage.setItem("prompts", combinedPrompts)
-            setFilteredPrompts(JSON.parse(JSON.parse(combinedPrompts)))
+            const combinedPrompts = combineJSONArrays(newPrompts, currentPrompts)
+            setObject("prompts", combinedPrompts)
+            setFilteredPrompts(combinedPrompts)
             clearFilters()
             showToast("Successfully imported prompts")
             document.querySelector("#close_modal").click()

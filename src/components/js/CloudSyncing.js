@@ -1,3 +1,5 @@
+import {getObject, setObject} from "./utils.js";
+
 export function finishAuth(){
     // checks localstorage for current auth task and then uses fresh API token to do it
     const authTask = localStorage.getItem("authTask")
@@ -16,15 +18,12 @@ async function linkSheet(token) {
         const existing = data.files.length > 0;
         if (existing) {
             const sheetId = data.files[0].id;
-            localStorage.setItem("cloudSyncing", "true")
+            setObject("cloudSyncing", true)
             localStorage.setItem("sheetID", sheetId)
             const prompts = getPrompts()
             let promptIDList = prompts.length > 0 ? prompts.map((obj) => obj.id) : [];
             // TODO recreate resync function
-            chrome.runtime.sendMessage({
-                params: [[], [], promptIDList, prompts, sheetId],
-                type: "resync",
-            });
+            syncPrompts([], [], promptIDList, prompts, sheetId)
         } else {
             await newSheet(token);
         }
@@ -61,7 +60,7 @@ async function checkForExisting(token) {
 }
 
 function getPrompts(){
-    return JSON.parse(JSON.parse(localStorage.getItem("prompts")))
+    return getObject("prompts", [])
 }
 
 
@@ -98,12 +97,139 @@ async function newSheet(token) {
             throw new Error("Failed to populate spreadsheet");
         }
         //console.log("Successfully populated the spreadsheet with the prompts list!");
-        localStorage.setItem("cloudSyncing", "true")
+        setObject("cloudSyncing", true)
         localStorage.setItem("sheetID", spreadsheetId)
         chrome.runtime.sendMessage({
             params: [[], [], prompts, prompts, spreadsheetId],
             type: "resync",
         });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getSheetData(spreadsheetId, range) {
+    try {
+        const mumboJumbo = "AIzaSyAjjnHsq4rkzK7jtjZ_zvs62lT8nqeQVoU"; // this isn't dangerous but you can ignore it
+        const token = await getAuthToken();
+        const endpointUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${mumboJumbo}`;
+        const headers = new Headers();
+        headers.append("Authorization", `Bearer ${token}`);
+        const response = await fetch(endpointUrl, {
+            method: "GET",
+            headers: headers,
+        });
+        if (!response.ok) {
+            throw new Error("Failed to fetch data from endpoint");
+        }
+        const data = await response.json();
+        const headersRow = [
+            "category",
+            "date",
+            "id",
+            "lastChanged",
+            "tags",
+            "text",
+            "time",
+            "title",
+        ]; // allows user to translate if they want
+        console.log(data)
+        if (!data.values){
+            return []
+        }
+        const values = data.values.slice(1);
+        const jsonData = values.map((row) => {
+            const obj = {};
+            headersRow.forEach((header, index) => {
+                if (header === "tags") {
+                    obj[header] = row[index].split(";");
+                    if (obj[header][0] === "") {
+                        obj[header] = [];
+                    }
+                } else {
+                    obj[header] = row[index];
+                }
+            });
+            return obj;
+        });
+        return jsonData.reverse();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetId) {
+    try {
+        // Get prompts from the Google Sheets version
+        const syncedPrompts = await getSheetData(sheetId, "Sheet1!A1:Z");
+
+        // Remove deleted prompts from the cloud version
+        deletedPrompts.forEach((id) => {
+            const index = syncedPrompts.findIndex((prompt) => prompt.id === id);
+            if (index !== -1) {
+                syncedPrompts.splice(index, 1);
+            }
+        });
+
+        // Add new/revised prompts to the cloud version
+        newPrompts.concat(changedPrompts).forEach((id) => {
+            let localPrompt = localPrompts.find((prompt) => prompt.id === id);
+            let cloudPrompt = syncedPrompts.find((prompt) => prompt.id === id);
+
+            if (localPrompt) {
+                if (!cloudPrompt) {
+                    syncedPrompts.push(localPrompt);
+                } else {
+                    // Merge the two prompts
+                    if (
+                        cloudPrompt?.lastChanged === undefined ||
+                        localPrompt?.lastChanged > cloudPrompt?.lastChanged
+                    ) {
+                        let newLastChanged
+                        if (!localPrompt?.lastChanged && !cloudPrompt?.lastChanged) {
+                            newLastChanged = new Date().getTime();
+                        } else if (localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
+                            newLastChanged = localPrompt.lastChanged;
+                        } else {
+                            newLastChanged = new Date().getTime();
+                        }
+                        cloudPrompt.tags = localPrompt.tags.join(";");
+                        cloudPrompt = {...localPrompt, tags: localPrompt.tags.join(";"), lastChanged: newLastChanged}
+                    }
+
+                    // Find the index of the merged prompt in the sheetData array
+                    const index = syncedPrompts.findIndex((prompt) => prompt.id === id);
+
+                    // Replace the old prompt with the merged prompt
+                    if (index !== -1) {
+                        syncedPrompts[index] = cloudPrompt;
+                    } else {
+                        syncedPrompts.push(cloudPrompt);
+                    }
+                }
+            }
+        });
+
+        // Update the Chrome storage version with the merged data
+        const correctTags = [];
+        for (let prompt of syncedPrompts) {
+            if (typeof prompt.tags === "string") {
+                if (prompt?.tags[0] && prompt?.tags !== "") {
+                    prompt.tags = prompt.tags.split(";");
+                }
+            }
+            correctTags.push(prompt);
+        }
+
+        setObject("prompts", correctTags)
+        setObject("deletedPrompts", [])
+        setObject("changedPrompts", [])
+        setObject("newPrompts", [])
+
+        const time = new Date().getTime();
+        setObject("lastSynced", time)
+        // Update the Google Sheets version with the merged data
+        await updateSheetData(sheetId, "Sheet1!A1:Z", syncedPrompts);
     } catch (error) {
         console.error(error);
     }

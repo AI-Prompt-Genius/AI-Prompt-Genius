@@ -26,6 +26,15 @@ function getObjectIndexByID(id, list) {
     return null;
 }
 
+export function setObject(key, value) {
+    localStorage.setItem(key, JSON.stringify(value))
+}
+
+export function getObject(key, defaultValue) {
+    var value = localStorage.getItem(key);
+    return value ? (value && JSON.parse(value)) : defaultValue;
+}
+
 export function getCurrentTimestamp() {
     const currentDate = new Date();
     return currentDate.getTime(); // Returns the timestamp in milliseconds since January 1, 1970 (Unix timestamp).
@@ -35,8 +44,7 @@ export function deletePrompt(id, prompts=null) {
     let directStorage;
     directStorage = false
     if (!prompts) {
-        let promptList = localStorage.getItem("prompts");
-        prompts = JSON.parse(JSON.parse(promptList));
+        prompts = getObject("prompts", [])
         directStorage = true;
     }
 
@@ -47,20 +55,15 @@ export function deletePrompt(id, prompts=null) {
         prompts.splice(promptIndex, 1); // Remove the prompt at the specified index
     }
 
-    if (directStorage) {
-        return JSON.stringify(prompts);
-    }
-    else {
-        return prompts
-    }
+    return prompts
 }
 
 
 export function newBlankPrompt(promptObj){
-    let promptList = localStorage.getItem("prompts");
-    let prompts = JSON.parse(JSON.parse(promptList));
+    let prompts = getObject("prompts", [])
+    console.log(prompts)
     prompts.unshift(promptObj)
-    return JSON.stringify(prompts);
+    return prompts;
 }
 
 export function newFilteredPrompt(promptObj, prompts){
@@ -69,16 +72,14 @@ export function newFilteredPrompt(promptObj, prompts){
 }
 
 export function newFolder(name, id=null){
-    let folderList = localStorage.getItem("folders")
-    if (!folderList) folderList = "'[]'"
-    let folders = JSON.parse(JSON.parse(folderList))
+    let folders = getObject("folders", [])
     if (!id) {
         folders.push({name, id: uuid()})
     }
     else {
         folders.push({name: name, id: id})
     }
-    return JSON.stringify(folders)
+    return folders
 }
 
 export function editFilteredPrompts(id, editedPrompt, promptList){
@@ -92,30 +93,29 @@ export function checkProperties(obj, properties) {
 }
 
 export function editPrompt(id, promptObj){
-    let promptList = localStorage.getItem("prompts");
-    let prompts = JSON.parse(JSON.parse(promptList))
+    let prompts = getObject("prompts", [])
     let promptIndex = getObjectIndexByID(id, prompts)
     prompts[promptIndex] = promptObj
-    return JSON.stringify(prompts)
+    return prompts
 }
 
 export function removeFolderFromPrompts(id){
-    let prompts = JSON.parse(JSON.parse(localStorage.getItem("prompts")))
+    let prompts = getObject("prompts", [])
     for (let prompt of prompts){
         if (prompt.id === id){
             prompt.id = ""
         }
     }
-    return JSON.stringify(prompts)
+    return prompts
 }
 
 export function removeFolder(id){
-    let folders = JSON.parse(JSON.parse(localStorage.getItem("folders")));
+    let folders = getObject("folders", []);
     const folderIndex = getObjectIndexByID(id, folders)
     if (folderIndex !== -1){
         folders.splice(folderIndex, 1)
     }
-    return JSON.stringify(folders)
+    return folders
 }
 
 function escapeRegExp(string) {
