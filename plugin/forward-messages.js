@@ -12,16 +12,16 @@ window.addEventListener("message", async function(event) {
         const authToken = await getAuthToken()
         const response = {message: "newAuthToken", token: authToken}
         const responseStr = JSON.stringify(response)
-        document.getElementById("window").contentWindow.postMessage(responseStr)
+        document.getElementById("window").contentWindow.postMessage(responseStr, "*")
         console.log(response)
         console.log("SENT MESSAGE TO CHILD")
     }
 
 }, false);
 
-async function getAuthToken() {
+async function getAuthToken(interactive=true) {
     return new Promise((resolve, reject) => {
-        chrome.identity.getAuthToken({ interactive: true }, function (token) {
+        chrome.identity.getAuthToken({ interactive: interactive }, function (token) {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
             } else {

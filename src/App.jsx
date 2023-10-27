@@ -1,10 +1,10 @@
 import './App.css'
 import Sidebar from "./components/Sidebar.jsx";
 import MainContent from "./components/MainContent.jsx";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ThemeContext} from "./components/ThemeContext.jsx";
 import {useLocalStorage} from "@uidotdev/usehooks";
-import {newFilteredPrompt} from "./components/js/utils.js";
+import {finishAuth} from "./components/js/CloudSyncing.js";
 
 function App() {
     const { theme } = React.useContext(ThemeContext);
@@ -44,6 +44,24 @@ function App() {
 
         setFilteredPrompts(newFiltered)
     }
+
+    useEffect(() => {
+        const handleMessage = async function(event) {
+            const data = JSON.parse(event.data);
+            if (data.message === "newAuthToken") {
+                localStorage.setItem("GOOGLE_API_TOKEN", data.token)
+                console.log("API TOKEN UPDATED")
+                finishAuth()
+            }
+        };
+
+        window.addEventListener("message", handleMessage);
+
+        return () => {
+            // Clean up the event listener when the component unmounts
+            window.removeEventListener("message", handleMessage);
+        };
+    }, []);
 
 
     return (
