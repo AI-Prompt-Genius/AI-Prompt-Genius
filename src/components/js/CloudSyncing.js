@@ -15,9 +15,10 @@ export function finishAuth(){
 async function linkSheet(token) {
     try {
         const data = await checkForExisting(token);
-        const existing = data.files.length > 0;
+        const existing = data.files.length > 0; // keep old prompt file
         if (existing) {
             const sheetId = data.files[0].id;
+            console.log(data.files)
             setObject("cloudSyncing", true)
             localStorage.setItem("sheetID", sheetId)
             const prompts = getPrompts()
@@ -99,10 +100,7 @@ async function newSheet(token) {
         //console.log("Successfully populated the spreadsheet with the prompts list!");
         setObject("cloudSyncing", true)
         localStorage.setItem("sheetID", spreadsheetId)
-        chrome.runtime.sendMessage({
-            params: [[], [], prompts, prompts, spreadsheetId],
-            type: "resync",
-        });
+        syncPrompts([], [], prompts, prompts, spreadsheetId)
     } catch (error) {
         console.error(error);
     }
@@ -111,7 +109,7 @@ async function newSheet(token) {
 async function getSheetData(spreadsheetId, range) {
     try {
         const mumboJumbo = "AIzaSyAjjnHsq4rkzK7jtjZ_zvs62lT8nqeQVoU"; // this isn't dangerous but you can ignore it
-        const token = await getAuthToken();
+        const token = localStorage.getItem("GOOGLE_API_TOKEN")
         const endpointUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${mumboJumbo}`;
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${token}`);
@@ -132,6 +130,7 @@ async function getSheetData(spreadsheetId, range) {
             "text",
             "time",
             "title",
+            "description"
         ]; // allows user to translate if they want
         console.log(data)
         if (!data.values){
@@ -142,8 +141,13 @@ async function getSheetData(spreadsheetId, range) {
             const obj = {};
             headersRow.forEach((header, index) => {
                 if (header === "tags") {
-                    obj[header] = row[index].split(";");
-                    if (obj[header][0] === "") {
+                    if (row[index]){
+                        obj[header] = row[index].split(";");
+                        if (obj[header][0] === "") {
+                            obj[header] = [];
+                        }
+                    }
+                    else {
                         obj[header] = [];
                     }
                 } else {
@@ -210,7 +214,7 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
             }
         });
 
-        // Update the Chrome storage version with the merged data
+        // Update the locstorage version with the merged data
         const correctTags = [];
         for (let prompt of syncedPrompts) {
             if (typeof prompt.tags === "string") {
@@ -235,6 +239,45 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
     }
 }
 
+async function getAuthToken(){
+    return localStorage.getItem("GOOGLE_API_TOKEN")
+}
+
+
+async function updateSheetData(spreadsheetId, range, data) {
+    try {
+        const token = await getAuthToken();
+        const clearUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:clear`;
+        const clearResponse = await fetch(clearUrl, {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        });
+        if (!clearResponse.ok) {
+            throw new Error("Failed to clear sheet");
+        }
+        const values = JSONtoNestedList(data);
+        const requestBody = {
+            values: values,
+        };
+        const valueInputOption = "USER_ENTERED";
+        const endpointUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=${valueInputOption}`;
+        const response = await fetch(endpointUrl, {
+            method: "PUT",
+            headers: {
+                Authorization: "Bearer " + token,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to update spreadsheet");
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 async function createSpreadsheet(token) {
     // creates a new Google Sheet for Syncing
@@ -252,7 +295,7 @@ async function createSpreadsheet(token) {
             body: JSON.stringify(metadata),
         });
         if (!response.ok) {
-            await linkSheet();
+            await linkSheet(token);
             throw new Error("Failed to create new spreadsheet");
         }
         const jsonResponse = await response.json();
@@ -266,13 +309,15 @@ function JSONtoNestedList(prompts) {
     if (prompts.length === 0) {
         return [
             [
-                "description",
-                "folder",
+                "category",
+                "date",
                 "id",
                 "lastChanged",
                 "tags",
                 "text",
+                "time",
                 "title",
+                "description"
             ],
         ];
     }
@@ -281,14 +326,17 @@ function JSONtoNestedList(prompts) {
     //prompts = prompts.reverse();
 
     const headers = [
-        "description",
-        "folder",
+        "category",
+        "date",
         "id",
         "lastChanged",
         "tags",
         "text",
+        "time",
         "title",
-    ];
+        "description"
+    ]
+
     const values = [];
 
     // Add headers to the values array

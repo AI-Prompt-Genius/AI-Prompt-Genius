@@ -24,6 +24,7 @@ async function getAuthToken(interactive=true) {
         chrome.identity.getAuthToken({ interactive: interactive }, function (token) {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
+                chrome.identity.clearAllCachedAuthTokens();
             } else {
                 //chrome.storage.local.set({ token: token });
                 resolve(token);
