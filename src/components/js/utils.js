@@ -73,16 +73,16 @@ export function newFilteredPrompt(promptObj, prompts){
     return prompts
 }
 
-export function newFolder(name, id=null){
-    let folders = getObject("folders", [])
-    if (!id) {
-        folders.push({name, id: uuid()})
+export function newFolder(name){
+    let folders = getObject("folders", []);
+
+    if (!folders.includes(name)) {
+        folders.push(name);
     }
-    else {
-        folders.push({name: name, id: id})
-    }
-    return folders
+
+    return folders;
 }
+
 
 export function editFilteredPrompts(id, editedPrompt, promptList){
     let promptIndex = getObjectIndexByID(id, promptList)
@@ -106,21 +106,24 @@ export function editPrompt(id, promptObj){
     return prompts
 }
 
-export function removeFolderFromPrompts(id){
+export function removeFolderFromPrompts(name){
     let prompts = getObject("prompts", [])
     for (let prompt of prompts){
-        if (prompt.id === id){
-            prompt.id = ""
+        if (prompt.folder === name){
+            prompt.folder = ""
         }
     }
     return prompts
 }
 
-export function removeFolder(id){
+export function removeFolder(name){
     let folders = getObject("folders", []);
-    const folderIndex = getObjectIndexByID(id, folders)
-    if (folderIndex !== -1){
-        folders.splice(folderIndex, 1)
+    let i = 0
+    for (const folder of folders){
+        if (folder === name){
+            folders.splice(i, 1)
+        }
+        i += 1
     }
     return folders
 }

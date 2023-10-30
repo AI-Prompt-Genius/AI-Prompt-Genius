@@ -30,12 +30,12 @@ function convertToCSV(data) {
     return csvLines.join('\n')
 }
 
-export function removeDuplicatesByName(array1, array2, propName="title") { // created by ChatGPT
+export function removeDuplicatesByName(array1, array2) { // created by ChatGPT
     // Create a set to store unique names from array1
-    const namesSet = new Set(array1.map(obj => obj[propName]));
+    const namesSet = new Set(array1.map(obj => obj));
 
     // Filter array2 to remove duplicates by checking if obj.name is in namesSet
-    const filteredArray2 = array2.filter(obj => !namesSet.has(obj[propName]));
+    const filteredArray2 = array2.filter(obj => !namesSet.has(obj));
 
     return filteredArray2;
 }
@@ -45,35 +45,13 @@ export function getDuplicateFolders(oldArray, newArray) {
 
     for (let i = 0; i < oldArray.length; i++) {
         for (let j = 0; j < newArray.length; j++) {
-            if (oldArray[i].name === newArray[j].name) {
-                duplicateFolders.push({
-                    oldFolderId: oldArray[i].id,
-                    newFolderId: newArray[j].id,
-                });
+            if (oldArray[i] === newArray[j]) {
+                duplicateFolders.push(oldArray[i]);
             }
         }
     }
 
     return duplicateFolders;
-}
-
-
-export function sanitizeNewPrompts(prompts, duplicateFolders) { // created by ChatGPT
-    // Create a map of newFolderId to oldFolderId for efficient lookup
-    const folderIdMap = new Map();
-    duplicateFolders.forEach(({ oldFolderId, newFolderId }) => {
-        folderIdMap.set(newFolderId, oldFolderId);
-    });
-    // Iterate through the prompts and replace newFolderId with oldFolderId if necessary
-    const sanitizedPrompts = prompts.map((prompt) => {
-        const oldFolderId = folderIdMap.get(prompt.folder);
-        if (oldFolderId !== undefined) {
-            return { ...prompt, folder: oldFolderId };
-        }
-        return prompt;
-    });
-
-    return sanitizedPrompts;
 }
 
 
@@ -99,7 +77,6 @@ export function combineJSONArrays(array1, array2) {
 export function csvToJson(csv) {
     const result = [];
     const folders = [];
-    const folderMap = new Map();
     const headers = ["title", "content", "description", "folder", "tags"];
 
     const data = Papa.parse(csv, {
@@ -111,21 +88,7 @@ export function csvToJson(csv) {
         const obj = {};
 
         for(let j = 0; j < headers.length; j++) {
-            if (headers[j] === "folder") {
-                let folderName = data[i][j];
-                let folderID = ""
-                if (folderName !== "" && folderName !== " ") {
-                    if (folderMap.has(folderName)) {
-                        folderID = folderMap.get(folderName);
-                    } else {
-                        folderID = uuid();
-                        folderMap.set(folderName, folderID);
-                        folders.push({name: folderName, id: folderID});
-                    }
-                }
-
-                obj[headers[j]] = folderID;
-            } else if (headers[j] === "tags") {
+            if (headers[j] === "tags") {
                 if (data[i][j]) {
                     obj[headers[j]] = data[i][j].split(';').map(tag => tag.trim());
                 } else {
@@ -157,14 +120,12 @@ export function downloadCSVTemplate(){
 export function exportCsv(){
     const promptArray = getObject("prompts", [])
 
-    const folders = getObject("folders", [])
-
     const newPrompts = promptArray.map((prompt) => {
         return {
             title: prompt.title,
             content: prompt.text,
             description: prompt.description,
-            folder: folders.find(folder => folder.id === prompt.folder)?.name || "",
+            folder: prompt.folder,
             tags: prompt.tags.join(";")
         };
     });
@@ -182,8 +143,6 @@ export function exportCsv(){
 
 export function exportJson(){
     const prompts = getObject("prompts", [])
-    const folders = getObject("folders", [])
-    prompts.forEach(prompt => prompt.folder = folders.find(folder => folder.id === prompt.folder)?.name || "")
     const blob = encodeStringAsBlob(JSON.stringify(prompts));
     const currentTimeString = new Date().toJSON();
     const filename = `AI-Prompt-Genius-Prompts_${currentTimeString}.json`;

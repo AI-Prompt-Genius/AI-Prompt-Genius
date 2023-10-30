@@ -5,13 +5,13 @@ import {
     downloadCSVTemplate,
     csvToJson,
     combineJSONArrays,
-    removeDuplicatesByName, getDuplicateFolders, sanitizeNewPrompts
+    removeDuplicatesByName, getDuplicateFolders
 } from "./js/export.js";
 import Toast from "./Toast.jsx";
-import {checkProperties, getObject, newFolder, removeFolder, removeFolderFromPrompts, setObject} from "./js/utils.js";
+import {checkProperties, getObject, removeFolder, removeFolderFromPrompts, setObject} from "./js/utils.js";
 import LanguageSelect from "./LanguageSelect.jsx";
 import {GoogleDriveIcon, TrashIcon} from "./icons/Icons.jsx";
-import {checkForResync, newToken, resyncStuff} from "./js/cloudSyncing.js";
+import {checkForResync, newToken} from "./js/cloudSyncing.js";
 
 export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, folders, setFolders, showToast, setPrompts}){
     const [currentPage, setCurrentPage] = useState("General");
@@ -60,12 +60,10 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
             }
             let oldFolders = getObject("folders", [])
             const duplicateFolders = getDuplicateFolders(oldFolders, newFolders)
-            newFolders = removeDuplicatesByName(oldFolders, newFolders, "name")
+            newFolders = removeDuplicatesByName(oldFolders, newFolders)
 
             const combinedFolders = combineJSONArrays(newFolders, oldFolders) // removes folders with duplicate title
             setFolders(combinedFolders)
-
-            newPrompts = sanitizeNewPrompts(newPrompts, duplicateFolders);
 
             let currentPrompts = getObject("prompts", [])
             currentPrompts = removeDuplicatesByName(newPrompts, currentPrompts)
@@ -104,9 +102,9 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
         setTimeout(()=> setSettingsVisible(false), 100); // to allow for cool animation
     }
 
-    function deleteFolder(id){
-        setFolders(removeFolder(id))
-        setPrompts(removeFolderFromPrompts(id))
+    function deleteFolder(name){
+        setFolders(removeFolder(name))
+        setPrompts(removeFolderFromPrompts(name))
     }
 
     function authThenResync(){
@@ -163,9 +161,9 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                                                     <th className="w-16 text-center"><div className="my-1 disabled hover:bg-none border-none px-3 bg-inherit"><TrashIcon /></div></th>
                                                 </tr>
                                                 {folders.map((folder) =>
-                                                    <tr key={folder.id}>
-                                                        <td>{folder.name}</td>
-                                                        <td><button onClick={() => deleteFolder(folder.id)} className="my-1 btn p-3 bg-inherit"><TrashIcon /></button></td>
+                                                    <tr key={folder}>
+                                                        <td>{folder}</td>
+                                                        <td><button onClick={() => deleteFolder(folder)} className="my-1 btn p-3 bg-inherit"><TrashIcon /></button></td>
                                                     </tr>
                                                 )}
                                             </tbody>

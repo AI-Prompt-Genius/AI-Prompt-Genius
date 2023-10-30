@@ -46,13 +46,13 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
         }, 3000);
     }
 
-    function selectFolder(id){
-        setSelectedFolder(id)
-        filterPrompts(id, filterTags, searchTerm)
+    function selectFolder(name){
+        setSelectedFolder(name)
+        filterPrompts(name, filterTags, searchTerm)
         document.querySelectorAll(".folder").forEach(folder => {
             folder.classList.remove("selected")
         })
-        document.getElementById(`folder-${id}`).classList.add("selected")
+        document.getElementById(`folder-${name}`).classList.add("selected")
     }
 
     function openFullscreen() {
@@ -85,10 +85,10 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
                             </a>
                         </li>
                         {folders.map((folder) => (
-                            <Folder id={`folder-${folder.id}`}
-                                    key={folder.id}
+                            <Folder id={`folder-${folder}`}
+                                    key={folder}
                                     folder={folder}
-                                    onClick={() => selectFolder(folder.id)}>
+                                    onClick={() => selectFolder(folder)}>
                             </Folder>
                         ))}
                     </ul>
