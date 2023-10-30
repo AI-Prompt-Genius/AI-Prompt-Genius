@@ -5,7 +5,7 @@ import {
     downloadCSVTemplate,
     csvToJson,
     combineJSONArrays,
-    removeDuplicatesByName, getDuplicateFolders
+    removeDuplicatesByName
 } from "./js/export.js";
 import {checkProperties, getObject, removeFolder, removeFolderFromPrompts, setObject} from "./js/utils.js";
 import LanguageSelect from "./LanguageSelect.jsx";
@@ -58,7 +58,6 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                 return;
             }
             let oldFolders = getObject("folders", [])
-            const duplicateFolders = getDuplicateFolders(oldFolders, newFolders)
             newFolders = removeDuplicatesByName(oldFolders, newFolders)
 
             const combinedFolders = combineJSONArrays(newFolders, oldFolders) // removes folders with duplicate title
@@ -106,7 +105,7 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
         setPrompts(removeFolderFromPrompts(name))
     }
 
-    function authThenResync(){
+    async function authThenResync(){
         localStorage.setItem("lastSynced", "0")
         checkForResync()
     }
