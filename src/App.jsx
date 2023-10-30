@@ -5,7 +5,6 @@ import React, {useEffect, useState} from "react";
 import {useLocalStorage} from "@uidotdev/usehooks";
 import {ThemeContext} from "./components/ThemeContext.jsx";
 import {checkForResync, finishAuth} from "./components/js/cloudSyncing.js";
-import {setObject} from "./components/js/utils.js";
 import Toast from "./components/Toast.jsx";
 
 function App() {
@@ -84,7 +83,7 @@ function App() {
             // Clean up the event listener when the component unmounts
             window.removeEventListener("message", handleMessage);
         };
-    }, []);
+    });
 
     function showToast(message){
         setToast(true)
