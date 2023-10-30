@@ -423,3 +423,19 @@ function moreThan5Min(timestamp) {
     const fiveMinuteInMs = 5 * 60 * 1000; // 5 minutes in milliseconds
     return timeDiff > fiveMinuteInMs;
 }
+
+export async function unlinkGsheet() {
+    const message = {message: "clearCachedTokens"}
+    const messageStr = JSON.stringify(message)
+    window.parent.postMessage(messageStr, "*");
+    const current_token = localStorage.getItem("GOOGLE_API_TOKEN")
+    fetch(
+        "https://accounts.google.com/o/oauth2/revoke?token=" + encodeURIComponent(current_token),
+        {
+            method: "GET",
+        },
+    );
+    await new Promise((r) => setTimeout(r, 800));
+    setObject("cloudSyncing", false)
+    localStorage.removeItem("sheetID")
+}

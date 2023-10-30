@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {
     exportCsv,
     exportJson,
@@ -10,7 +10,7 @@ import {
 import {checkProperties, getObject, removeFolder, removeFolderFromPrompts, setObject} from "./js/utils.js";
 import LanguageSelect from "./LanguageSelect.jsx";
 import {GoogleDriveIcon, TrashIcon} from "./icons/Icons.jsx";
-import {checkForResync, newToken} from "./js/cloudSyncing.js";
+import {checkForResync, newToken, unlinkGsheet} from "./js/cloudSyncing.js";
 
 export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, folders, setFolders, showToast, setPrompts}){
     const [currentPage, setCurrentPage] = useState("General");
@@ -222,9 +222,9 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                                     {cloudSyncingEnabled &&
                                         <div className="card-body pt-2">
                                             <h5 className="card-title">Cloud Syncing</h5>
-                                            <a className={"link link-primary"} href={`https://docs.google.com/spreadsheets/d/${sheetID}`} target="_blank">View linked sheet</a>
                                             <button className={"btn"} onClick={authThenResync}>Manually Resync</button>
-                                            <button className="btn">Disable Cloud Syncing</button>
+                                            <button className="btn" onClick={unlinkGsheet}>Disable Cloud Syncing</button>
+                                            <a className={"link link-primary"} href={`https://docs.google.com/spreadsheets/d/${sheetID}`} target="_blank">View linked sheet</a>
                                         </div>
                                         }
                                 </div>

@@ -16,6 +16,9 @@ window.addEventListener("message", async function(event) {
         console.log(response)
         console.log("SENT MESSAGE TO CHILD")
     }
+    else if (message.message === "clearCachedTokens"){
+        chrome.identity.clearAllCachedAuthTokens();
+    }
 
 }, false);
 
