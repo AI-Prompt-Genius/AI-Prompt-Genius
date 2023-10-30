@@ -100,7 +100,7 @@ export function csvToJson(csv) {
         }
 
         obj["id"] = uuid();
-        obj["lastEdited"] = new Date().getTime();
+        obj["lastChanged"] = new Date().getTime();
 
         result.push(obj);
     }

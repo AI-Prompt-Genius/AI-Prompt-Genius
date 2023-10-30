@@ -7,7 +7,6 @@ import {
     combineJSONArrays,
     removeDuplicatesByName, getDuplicateFolders
 } from "./js/export.js";
-import Toast from "./Toast.jsx";
 import {checkProperties, getObject, removeFolder, removeFolderFromPrompts, setObject} from "./js/utils.js";
 import LanguageSelect from "./LanguageSelect.jsx";
 import {GoogleDriveIcon, TrashIcon} from "./icons/Icons.jsx";

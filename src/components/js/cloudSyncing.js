@@ -159,7 +159,7 @@ async function getSheetData(spreadsheetId, range) {
             });
             return obj;
         });
-        return jsonData.reverse();
+        return jsonData;
     } catch (error) {
         console.error(error);
     }
@@ -186,12 +186,10 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
             if (localPrompt) {
                 if (!cloudPrompt) {
                     syncedPrompts.push(localPrompt);
-                } else {
+                }
+                else {
                     // Merge the two prompts
-                    if (
-                        cloudPrompt?.lastChanged === undefined ||
-                        localPrompt?.lastChanged > cloudPrompt?.lastChanged
-                    ) {
+                    if (cloudPrompt?.lastChanged === undefined || (Number(localPrompt?.lastChanged) > Number(cloudPrompt?.lastChanged))) {
                         let newLastChanged
                         if (!localPrompt?.lastChanged && !cloudPrompt?.lastChanged) {
                             newLastChanged = new Date().getTime();
@@ -201,6 +199,7 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
                             newLastChanged = new Date().getTime();
                         }
                         cloudPrompt.tags = localPrompt.tags ? localPrompt.tags.join(";"): "";
+                        console.log(localPrompt)
                         cloudPrompt = {...localPrompt, lastChanged: newLastChanged}
                     }
 
@@ -217,21 +216,32 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
             }
         });
 
+
         // Update the locstorage version with the merged data
         const correctTags = [];
+        const allFolders = new Set()
         for (let prompt of syncedPrompts) {
             if (typeof prompt.tags === "string") {
                 if (prompt?.tags[0] && prompt?.tags !== "") {
                     prompt.tags = prompt.tags.split(";");
                 }
+                else if (prompt?.tags === ""){
+                    prompt.tags = []
+                }
+            }
+            if (prompt.folder !== "" && prompt.folder !== " "){
+                allFolders.add(prompt.folder)
             }
             correctTags.push(prompt);
         }
+
+        console.log(correctTags)
 
         setObject("prompts", correctTags)
         setObject("deletedPrompts", [])
         setObject("changedPrompts", [])
         setObject("newPrompts", [])
+        setObject("folders", Array.from(allFolders))
 
         const time = new Date().getTime();
         localStorage.setItem("lastSynced", time.toString())

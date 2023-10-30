@@ -15,7 +15,7 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
 
     function newPrompt(){
         const folder = selectedFolder
-        const promptObj = {title:"", text:"", tags:[], folder, id: uuid(), lastEdited: getCurrentTimestamp()}
+        const promptObj = {title:"", text:"", tags:[], folder, id: uuid(), lastChanged: getCurrentTimestamp()}
         setPrompts(newBlankPrompt(promptObj))
         setFilteredPrompts(newFilteredPrompt(promptObj, filteredPrompts))
         setTimeout(() => {const btn = document.querySelector(".edit"); if (btn) btn.click()}, 50)

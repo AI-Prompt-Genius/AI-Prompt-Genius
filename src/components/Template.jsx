@@ -31,7 +31,7 @@ export default function Template({template, setPrompts, onClick, folders, filter
             tags,
             description,
             id: template.id ?? uuid(),
-            lastEdited: getCurrentTimestamp(),
+            lastChanged: getCurrentTimestamp(),
             folder: folder
         }
         let newPrompts = editPrompt(template.id, editedPrompt)
