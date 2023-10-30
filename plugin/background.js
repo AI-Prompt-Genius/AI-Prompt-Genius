@@ -1,7 +1,6 @@
-chrome.commands.onCommand.addListener((command) => {
-    console.log(`Command: ${command}`);
+chrome.commands.onCommand.addListener((command, tab) => {
+    console.error(`Command: ${command}`);
     if (command === "open-sidebar"){
-        console.warn("HEYYY")
-        sidePanel.open()
+        chrome.sidePanel.open({ windowId: tab.windowId })
     }
 });

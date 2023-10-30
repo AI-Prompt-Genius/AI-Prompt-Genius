@@ -4,7 +4,7 @@ import MainContent from "./components/MainContent.jsx";
 import React, {useEffect, useState} from "react";
 import {useLocalStorage} from "@uidotdev/usehooks";
 import {ThemeContext} from "./components/ThemeContext.jsx";
-import {finishAuth} from "./components/js/CloudSyncing.js";
+import {checkForResync, finishAuth} from "./components/js/cloudSyncing.js";
 import {setObject} from "./components/js/utils.js";
 
 function App() {
@@ -19,6 +19,8 @@ function App() {
     const [selectedFolder, setSelectedfolder] = useState("")
     const [filterTags, setFilterTags] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
+
+    checkForResync()
 
     function filterPrompts(folder="", tags=[], searchTerm = ""){
         let newFiltered = prompts;

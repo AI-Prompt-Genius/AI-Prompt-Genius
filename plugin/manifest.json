@@ -4,7 +4,6 @@
   "version": "1.0",
   "description": "v4 babbbyyy",
   "permissions": [
-    "tabs",
     "sidePanel",
     "commands",
     "identity"

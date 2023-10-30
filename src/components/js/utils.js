@@ -41,15 +41,14 @@ export function getCurrentTimestamp() {
 }
 
 export function deletePrompt(id, prompts=null) {
-    let directStorage;
-    directStorage = false
     if (!prompts) {
         prompts = getObject("prompts", [])
-        directStorage = true;
     }
 
-
     let promptIndex = getObjectIndexByID(id, prompts);
+
+    let deletedPrompts = getObject("deletedPrompts", [])
+    setObject("deletedPrompts", [...deletedPrompts, id])
 
     if (promptIndex !== -1) {
         prompts.splice(promptIndex, 1); // Remove the prompt at the specified index
@@ -61,7 +60,10 @@ export function deletePrompt(id, prompts=null) {
 
 export function newBlankPrompt(promptObj){
     let prompts = getObject("prompts", [])
-    console.log(prompts)
+
+    const newPrompts = getObject("newPrompts", [])
+    setObject("newPrompts", [...newPrompts, promptObj.id])
+
     prompts.unshift(promptObj)
     return prompts;
 }
@@ -96,6 +98,11 @@ export function editPrompt(id, promptObj){
     let prompts = getObject("prompts", [])
     let promptIndex = getObjectIndexByID(id, prompts)
     prompts[promptIndex] = promptObj
+    prompts[promptIndex].lastEdited = getCurrentTimestamp()
+
+    let changedPrompts = getObject("changedPrompts", [])
+    setObject("changedPrompts", [...changedPrompts, id])
+
     return prompts
 }
 

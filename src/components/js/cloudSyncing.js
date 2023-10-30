@@ -7,9 +7,12 @@ export function finishAuth(){
 
     if (authTask === "setupSync"){
         linkSheet(token)
-        clearAuthTask()
+    }
+    else if (authTask === "resyncPrompts"){
+        resyncStuff()
     }
 
+    clearAuthTask()
 }
 
 async function linkSheet(token) {
@@ -366,4 +369,40 @@ function JSONtoNestedList(prompts) {
     }
 
     return values;
+}
+
+export function checkForResync() {
+    const lastSynced = localStorage.getItem("lastSynced") ?? 0
+    if (moreThan5Min(lastSynced)){
+        localStorage.setItem("authTask", "resyncPrompts")
+        getAuthToken()
+    }
+}
+
+function resyncStuff() {
+    const deletedPrompts = getObject("deletedPrompts", [])
+    const newPrompts = getObject("newPrompts", [])
+    const changedPrompts = getObject("changedPrompts", [])
+    const localPrompts = getPrompts();
+    const sheetID = localStorage.getItem("sheetID")
+    syncPrompts(
+        deletedPrompts,
+        newPrompts,
+        changedPrompts,
+        localPrompts,
+        sheetID,
+    );
+}
+
+function moreThan5Min(timestamp) {
+    timestamp = Number(timestamp)
+    // Get the current time in milliseconds
+    const currentTime = new Date().getTime();
+
+    // Calculate the time difference in milliseconds
+    const timeDiff = currentTime - timestamp;
+
+    // Check if the time difference is less than 5 minutes (in milliseconds)
+    const fifteenMinutesInMs = 5 * 60 * 1000; // 5 minutes in milliseconds
+    return timeDiff > fifteenMinutesInMs;
 }
