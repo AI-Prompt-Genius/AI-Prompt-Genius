@@ -12,7 +12,7 @@ import LanguageSelect from "./LanguageSelect.jsx";
 import {GoogleDriveIcon, TrashIcon} from "./icons/Icons.jsx";
 import {checkForResync, newToken, unlinkGsheet} from "./js/cloudSyncing.js";
 
-export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, folders, setFolders, showToast, setPrompts}){
+export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, folders, setFolders, showToast, setPrompts, filterPrompts}){
     const [currentPage, setCurrentPage] = useState("General");
     const [confirmDelete, setConfirmDelete] = useState(false)
 
@@ -108,6 +108,11 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
     async function authThenResync(){
         localStorage.setItem("lastSynced", "0")
         checkForResync()
+    }
+
+    async function authThenUnlink(){
+        newToken()
+        localStorage.setItem("authTask", "unlinkGsheet")
     }
 
 
@@ -222,7 +227,7 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                                         <div className="card-body pt-2">
                                             <h5 className="card-title">Cloud Syncing</h5>
                                             <button className={"btn"} onClick={authThenResync}>Manually Resync</button>
-                                            <button className="btn" onClick={unlinkGsheet}>Disable Cloud Syncing</button>
+                                            <button className="btn" onClick={authThenUnlink}>Disable Cloud Syncing</button>
                                             <a className={"link link-primary"} href={`https://docs.google.com/spreadsheets/d/${sheetID}`} target="_blank">View linked sheet</a>
                                         </div>
                                         }

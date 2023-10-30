@@ -6,6 +6,7 @@ import {useLocalStorage} from "@uidotdev/usehooks";
 import {ThemeContext} from "./components/ThemeContext.jsx";
 import {checkForResync, finishAuth} from "./components/js/cloudSyncing.js";
 import {setObject} from "./components/js/utils.js";
+import Toast from "./components/Toast.jsx";
 
 function App() {
     const { theme } = React.useContext(ThemeContext);
@@ -19,6 +20,8 @@ function App() {
     const [selectedFolder, setSelectedfolder] = useState("")
     const [filterTags, setFilterTags] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
+    const [toast, setToast] = useState(false)
+    const [toastMessage, setToastMessage] = useState("")
 
     checkForResync()
 
@@ -47,13 +50,31 @@ function App() {
         setFilteredPrompts(newFiltered)
     }
 
+    function pollLocalStorage() {
+        const intervalId = setInterval(() => {
+            // Get value from localStorage
+            const finishedAuthValue = localStorage.getItem("finishedAuthEvent");
+
+            // Check if the value exists and is not an empty string
+            if (finishedAuthValue && finishedAuthValue !== "") {
+                // Do your desired code here
+                filterPrompts()
+                showToast(finishedAuthValue)
+                localStorage.setItem("finishedAuthEvent", "")
+                // Optionally, clear the interval if you want to stop checking after finding the value
+                clearInterval(intervalId);
+            }
+        }, 1000); // Polls every 1000ms or 1 second
+    }
+
     useEffect(() => {
         const handleMessage = async function(event) {
             const data = JSON.parse(event.data);
             if (data.message === "newAuthToken") {
-                setObject("GOOGLE_API_TOKEN", data.token)
+                localStorage.setItem("GOOGLE_API_TOKEN", data.token)
                 console.log("API TOKEN UPDATED")
                 finishAuth()
+                pollLocalStorage();
             }
         };
 
@@ -64,6 +85,15 @@ function App() {
             window.removeEventListener("message", handleMessage);
         };
     }, []);
+
+    function showToast(message){
+        setToast(true)
+        setToastMessage(message)
+        setTimeout(() => {
+            setToast(false);
+            setToastMessage("");
+        }, 3000);
+    }
 
 
     return (
@@ -81,6 +111,7 @@ function App() {
             filterTags={filterTags}
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
+            showToast={showToast}
         />
         <MainContent
             filteredPrompts={filteredPrompts}
@@ -97,8 +128,10 @@ function App() {
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
         />
+      {toast && <Toast message={toastMessage} /> }
       </div>
-  );
+
+);
 }
 
 export default App

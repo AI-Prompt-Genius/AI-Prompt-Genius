@@ -7,11 +7,9 @@ import React, {useState} from "react";
 import SettingsModal from "./SettingsModal.jsx";
 import Toast from "./Toast.jsx";
 
-export default function Sidebar({setPrompts, setFolders, folders, filteredPrompts, filterPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, filterTags, setFilterTags, searchTerm, setSearchTerm}) {
+export default function Sidebar({setPrompts, setFolders, folders, filteredPrompts, filterPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, filterTags, setFilterTags, searchTerm, setSearchTerm, showToast}) {
     const [folderModal, setFolderModal] = useState(false)
     const [settingsModal, setSettingsModal] = useState(false)
-    const [settingsToast, setSettingsToast] = useState(false)
-    const [toastMessage, setToastMessage] = useState("")
 
     function newPrompt(){
         const folder = selectedFolder
@@ -35,15 +33,6 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
 
     function openSettings(){
         setSettingsModal(true)
-    }
-
-    function showToast(message){
-        setSettingsToast(true)
-        setToastMessage(message)
-        setTimeout(() => {
-            setSettingsToast(false);
-            setToastMessage("");
-        }, 3000);
     }
 
     function selectFolder(name){
@@ -118,10 +107,10 @@ export default function Sidebar({setPrompts, setFolders, folders, filteredPrompt
                                              showToast={showToast}
                                              folders={folders}
                                              setPrompts={setPrompts}
+                                             filterPrompts={filterPrompts}
             />
             }
 
-            {settingsToast && <Toast message={toastMessage} /> }
         </>
     );
 }

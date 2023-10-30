@@ -11,6 +11,9 @@ export function finishAuth(){
     else if (authTask === "resyncPrompts"){
         resyncStuff()
     }
+    else if (authTask === "unlinkGsheet"){
+        unlinkGsheet()
+    }
 
     clearAuthTask()
 }
@@ -249,6 +252,7 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
         await updateSheetData(sheetId, "Sheet1!A1:Z", syncedPrompts);
     } catch (error) {
         console.error(error);
+        localStorage.setItem("finishedAuthEvent", "Error resyncing prompts:" + error)
     }
 }
 
@@ -285,7 +289,11 @@ async function updateSheetData(spreadsheetId, range, data) {
             body: JSON.stringify(requestBody),
         });
         if (!response.ok) {
+            localStorage.setItem("finishedAuthEvent", "Error resyncing, please try again")
             throw new Error("Failed to update spreadsheet");
+        }
+        else {
+            localStorage.setItem("finishedAuthEvent", "Successfully resynced prompts")
         }
     } catch (error) {
         console.error(error);
@@ -401,14 +409,7 @@ export function resyncStuff() {
     const changedPrompts = getObject("changedPrompts", [])
     const localPrompts = getPrompts();
     const sheetID = localStorage.getItem("sheetID")
-    syncPrompts(
-        deletedPrompts,
-        newPrompts,
-        changedPrompts,
-        localPrompts,
-        sheetID,
-    );
-
+    syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetID);
 }
 
 function moreThan5Min(timestamp) {
@@ -429,13 +430,25 @@ export async function unlinkGsheet() {
     const messageStr = JSON.stringify(message)
     window.parent.postMessage(messageStr, "*");
     const current_token = localStorage.getItem("GOOGLE_API_TOKEN")
-    fetch(
-        "https://accounts.google.com/o/oauth2/revoke?token=" + encodeURIComponent(current_token),
+    console.log(current_token)
+    const response = await fetch(
+        `https://accounts.google.com/o/oauth2/revoke?token=${encodeURIComponent(current_token)}`,
         {
             method: "GET",
         },
     );
-    await new Promise((r) => setTimeout(r, 800));
+
     setObject("cloudSyncing", false)
+    setObject("deletedPrompts", [])
+    setObject("changedPrompts", [])
+    setObject("newPrompts", [])
+
+    if (response.ok) {
+        localStorage.setItem("finishedAuthEvent", "Successfully disabled cloud syncing")
+    }
+    else {
+        localStorage.setItem("finishedAuthEvent", "Error disabling cloud syncing")
+    }
+
     localStorage.removeItem("sheetID")
 }
