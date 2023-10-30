@@ -11,6 +11,7 @@ import Toast from "./Toast.jsx";
 import {checkProperties, getObject, newFolder, removeFolder, removeFolderFromPrompts, setObject} from "./js/utils.js";
 import LanguageSelect from "./LanguageSelect.jsx";
 import {GoogleDriveIcon, TrashIcon} from "./icons/Icons.jsx";
+import {checkForResync, newToken, resyncStuff} from "./js/cloudSyncing.js";
 
 export default function SettingsModal({setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, folders, setFolders, showToast, setPrompts}){
     const [currentPage, setCurrentPage] = useState("General");
@@ -108,10 +109,14 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
         setPrompts(removeFolderFromPrompts(id))
     }
 
+    function authThenResync(){
+        localStorage.setItem("lastSynced", "0")
+        checkForResync()
+    }
+
+
     function setupSync(){
-        const message = {message: "openAuth"}
-        const messageStr = JSON.stringify(message)
-        window.parent.postMessage(messageStr, "*");
+        newToken()
         localStorage.setItem("authTask", "setupSync")
     }
 
@@ -221,7 +226,7 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
                                         <div className="card-body pt-2">
                                             <h5 className="card-title">Cloud Syncing</h5>
                                             <a className={"link link-primary"} href={`https://docs.google.com/spreadsheets/d/${sheetID}`} target="_blank">View linked sheet</a>
-                                            <button className={"btn"}>Manually Resync</button>
+                                            <button className={"btn"} onClick={authThenResync}>Manually Resync</button>
                                             <button className="btn">Disable Cloud Syncing</button>
                                         </div>
                                         }

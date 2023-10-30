@@ -125,7 +125,7 @@ async function getSheetData(spreadsheetId, range) {
         }
         const data = await response.json();
         const headersRow = [
-            "category",
+            "folder",
             "date",
             "id",
             "lastChanged",
@@ -200,8 +200,8 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
                         } else {
                             newLastChanged = new Date().getTime();
                         }
-                        cloudPrompt.tags = localPrompt.tags.join(";");
-                        cloudPrompt = {...localPrompt, tags: localPrompt.tags.join(";"), lastChanged: newLastChanged}
+                        cloudPrompt.tags = localPrompt.tags ? localPrompt.tags.join(";"): "";
+                        cloudPrompt = {...localPrompt, lastChanged: newLastChanged}
                     }
 
                     // Find the index of the merged prompt in the sheetData array
@@ -234,7 +234,7 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
         setObject("newPrompts", [])
 
         const time = new Date().getTime();
-        setObject("lastSynced", time)
+        localStorage.setItem("lastSynced", time.toString())
         // Update the Google Sheets version with the merged data
         await updateSheetData(sheetId, "Sheet1!A1:Z", syncedPrompts);
     } catch (error) {
@@ -312,7 +312,7 @@ function JSONtoNestedList(prompts) {
     if (prompts.length === 0) {
         return [
             [
-                "category",
+                "folder",
                 "date",
                 "id",
                 "lastChanged",
@@ -329,7 +329,7 @@ function JSONtoNestedList(prompts) {
     //prompts = prompts.reverse();
 
     const headers = [
-        "category",
+        "folder",
         "date",
         "id",
         "lastChanged",
@@ -371,15 +371,21 @@ function JSONtoNestedList(prompts) {
     return values;
 }
 
+export function newToken(){
+    const message = {message: "openAuth"}
+    const messageStr = JSON.stringify(message)
+    window.parent.postMessage(messageStr, "*");
+}
+
 export function checkForResync() {
-    const lastSynced = localStorage.getItem("lastSynced") ?? 0
+    const lastSynced = Number(localStorage.getItem("lastSynced"))?? 0
     if (moreThan5Min(lastSynced)){
         localStorage.setItem("authTask", "resyncPrompts")
-        getAuthToken()
+        newToken()
     }
 }
 
-function resyncStuff() {
+export function resyncStuff() {
     const deletedPrompts = getObject("deletedPrompts", [])
     const newPrompts = getObject("newPrompts", [])
     const changedPrompts = getObject("changedPrompts", [])
@@ -392,6 +398,7 @@ function resyncStuff() {
         localPrompts,
         sheetID,
     );
+
 }
 
 function moreThan5Min(timestamp) {
@@ -403,6 +410,6 @@ function moreThan5Min(timestamp) {
     const timeDiff = currentTime - timestamp;
 
     // Check if the time difference is less than 5 minutes (in milliseconds)
-    const fifteenMinutesInMs = 5 * 60 * 1000; // 5 minutes in milliseconds
-    return timeDiff > fifteenMinutesInMs;
+    const fiveMinuteInMs = 5 * 60 * 1000; // 5 minutes in milliseconds
+    return timeDiff > fiveMinuteInMs;
 }
