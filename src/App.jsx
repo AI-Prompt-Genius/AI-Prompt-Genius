@@ -6,6 +6,7 @@ import {useLocalStorage} from "@uidotdev/usehooks";
 import {ThemeContext} from "./components/ThemeContext.jsx";
 import {checkForResync, finishAuth} from "./components/js/cloudSyncing.js";
 import Toast from "./components/Toast.jsx";
+import {getObject} from "./components/js/utils.js";
 
 function App() {
     const { theme } = React.useContext(ThemeContext);
@@ -22,7 +23,11 @@ function App() {
     const [toast, setToast] = useState(false)
     const [toastMessage, setToastMessage] = useState("")
 
-    checkForResync()
+
+    const cloudSyncing = getObject("cloudSyncing", false)
+    if (cloudSyncing){
+        checkForResync()
+    }
 
     function filterPrompts(folder="", tags=[], searchTerm = ""){
         let newFiltered = prompts;
