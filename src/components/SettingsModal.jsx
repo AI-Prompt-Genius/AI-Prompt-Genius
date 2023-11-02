@@ -86,6 +86,11 @@ export default function SettingsModal({setSettingsVisible, setFilteredPrompts, s
     }
 
     function deletePrompts(){
+        const prompts = getObject("prompts", [])
+        setObject("deletedPrompts", prompts.map(prompt => prompt.id))
+        setObject("newPrompts", [])
+        setObject("changedPrompts", [])
+
         localStorage.removeItem("prompts")
         localStorage.removeItem("folders")
         setFilteredPrompts([])

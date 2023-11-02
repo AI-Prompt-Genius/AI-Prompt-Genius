@@ -71,6 +71,13 @@ function getPrompts(){
 }
 
 
+function handleError(response) {
+    if (response.status === 401) {
+        setObject("cloudSyncing", false)
+        unlinkGsheet()
+    }
+}
+
 async function newSheet(token) {
     try {
         const spreadsheetId = await createSpreadsheet(token);
@@ -101,6 +108,7 @@ async function newSheet(token) {
             },
         );
         if (!response.ok) {
+            handleError(response)
             throw new Error("Failed to populate spreadsheet");
         }
         //console.log("Successfully populated the spreadsheet with the prompts list!");
@@ -124,6 +132,8 @@ async function getSheetData(spreadsheetId, range) {
             headers: headers,
         });
         if (!response.ok) {
+            // if code is 401, disable error
+            handleError(response)
             throw new Error("Failed to fetch data from endpoint");
         }
         const data = await response.json();
@@ -182,42 +192,42 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
         });
 
         // Add new/revised prompts to the cloud version
-        newPrompts.concat(changedPrompts).forEach((id) => {
+        // Add new/revised prompts to the cloud version
+        newPrompts.forEach((id) => {
+            let localPrompt = localPrompts.find((prompt) => prompt.id === id);
+            if (localPrompt) {
+                syncedPrompts.unshift(localPrompt);
+            }
+        });
+
+        changedPrompts.forEach((id) => {
             let localPrompt = localPrompts.find((prompt) => prompt.id === id);
             let cloudPrompt = syncedPrompts.find((prompt) => prompt.id === id);
-
-            if (localPrompt) {
-                if (!cloudPrompt) {
-                    syncedPrompts.push(localPrompt);
-                }
-                else {
-                    // Merge the two prompts
-                    if (cloudPrompt?.lastChanged === undefined || (Number(localPrompt?.lastChanged) > Number(cloudPrompt?.lastChanged))) {
-                        let newLastChanged
-                        if (!localPrompt?.lastChanged && !cloudPrompt?.lastChanged) {
-                            newLastChanged = new Date().getTime();
-                        } else if (localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
-                            newLastChanged = localPrompt.lastChanged;
-                        } else {
-                            newLastChanged = new Date().getTime();
-                        }
-                        cloudPrompt.tags = localPrompt.tags ? localPrompt.tags.join(";"): "";
-                        console.log(localPrompt)
-                        cloudPrompt = {...localPrompt, lastChanged: newLastChanged}
+            if (localPrompt && cloudPrompt) {
+                if (cloudPrompt?.lastChanged === undefined || (Number(localPrompt?.lastChanged) > Number(cloudPrompt?.lastChanged))) {
+                    let newLastChanged;
+                    if (!localPrompt?.lastChanged && !cloudPrompt?.lastChanged) {
+                        newLastChanged = new Date().getTime();
+                    } else if (localPrompt?.lastChanged > cloudPrompt?.lastChanged) {
+                        newLastChanged = localPrompt.lastChanged;
+                    } else {
+                        newLastChanged = new Date().getTime();
                     }
+                    cloudPrompt.tags = localPrompt.tags ? localPrompt.tags.join(";") : "";
+                    console.log(localPrompt);
+                    cloudPrompt = {...localPrompt, lastChanged: newLastChanged};
 
-                    // Find the index of the merged prompt in the sheetData array
+                    // Find the index of the merged prompt in the syncedPrompts array
                     const index = syncedPrompts.findIndex((prompt) => prompt.id === id);
 
                     // Replace the old prompt with the merged prompt
                     if (index !== -1) {
                         syncedPrompts[index] = cloudPrompt;
-                    } else {
-                        syncedPrompts.push(cloudPrompt);
                     }
                 }
             }
         });
+
 
 
         // Update the locstorage version with the merged data
@@ -272,6 +282,7 @@ async function updateSheetData(spreadsheetId, range, data) {
             },
         });
         if (!clearResponse.ok) {
+            handleError(clearResponse)
             throw new Error("Failed to clear sheet");
         }
         const values = JSONtoNestedList(data);
@@ -289,6 +300,7 @@ async function updateSheetData(spreadsheetId, range, data) {
             body: JSON.stringify(requestBody),
         });
         if (!response.ok) {
+            handleError(response)
             localStorage.setItem("finishedAuthEvent", "Error resyncing, please try again")
             throw new Error("Failed to update spreadsheet");
         }
@@ -316,6 +328,7 @@ async function createSpreadsheet(token) {
             body: JSON.stringify(metadata),
         });
         if (!response.ok) {
+            handleError(response)
             await linkSheet(token);
             throw new Error("Failed to create new spreadsheet");
         }
@@ -343,8 +356,7 @@ function JSONtoNestedList(prompts) {
         ];
     }
 
-    // TODO: re-add this??
-    //prompts = prompts.reverse();
+    prompts = prompts;
 
     const headers = [
         "folder",
@@ -444,6 +456,7 @@ export async function unlinkGsheet() {
     setObject("newPrompts", [])
 
     if (response.ok) {
+        handleError(response)
         localStorage.setItem("finishedAuthEvent", "Successfully disabled cloud syncing")
     }
     else {

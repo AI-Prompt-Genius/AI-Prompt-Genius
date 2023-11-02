@@ -63,9 +63,9 @@ function App() {
             if (finishedAuthValue && finishedAuthValue !== "") {
                 // Do your desired code here
                 filterPrompts()
+                setFilteredPrompts(getObject("prompts", []))
                 showToast(finishedAuthValue)
                 localStorage.setItem("finishedAuthEvent", "")
-                // Optionally, clear the interval if you want to stop checking after finding the value
                 clearInterval(intervalId);
             }
         }, 1000); // Polls every 1000ms or 1 second
