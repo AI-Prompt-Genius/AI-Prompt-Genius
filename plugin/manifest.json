@@ -6,7 +6,8 @@
   "permissions": [
     "sidePanel",
     "commands",
-    "identity"
+    "identity",
+    "storage"
   ],
   "action": {
     "default_popup": "popup.html"
