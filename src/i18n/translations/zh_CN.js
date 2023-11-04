@@ -1,4 +1,4 @@
-import {k} from "../keys.js"
+import { k } from "../keys.js";
 
 export const zh_CN = {
   [k.FOLDER]: `文件夹-`,
@@ -57,8 +57,7 @@ export const zh_CN = {
   [k.DESCRIPTION]: `描述`,
   [k.TAGS]: `标签`,
   [k.FOLDER1]: `文件夹`,
-  [k._1]: ``
+  [k._1]: ``,
 };
 
-
-export default zh_CN
+export default zh_CN;

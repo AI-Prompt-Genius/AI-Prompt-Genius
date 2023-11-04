@@ -1,4 +1,4 @@
-import {k} from "../keys.js"
+import { k } from "../keys.js";
 
 export const en = {
   [k.FOLDER]: `folder-`,
@@ -57,7 +57,7 @@ export const en = {
   [k.DESCRIPTION]: `Description`,
   [k.TAGS]: `Tags`,
   [k.FOLDER1]: `Folder`,
-  [k._1]: ``
+  [k._1]: ``,
 };
 
-export default en
+export default en;

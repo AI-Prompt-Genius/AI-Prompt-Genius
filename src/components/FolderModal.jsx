@@ -1,4 +1,4 @@
-import i18n from 'i18next';
+import i18n from "i18next";
 import k from "./../i18n/keys";
 import { useState } from "react";
 import { newFolder, uuid } from "./js/utils.js";
@@ -9,7 +9,6 @@ export default function FolderModal({ onClose, setFolders }) {
   const id = uuid();
 
   const t = i18n.t;
-
 
   function closeModal() {
     document.getElementById(id).checked = false;
@@ -23,15 +22,18 @@ export default function FolderModal({ onClose, setFolders }) {
 
   return (
     <div className="folder-modal-wrapper">
-            <input defaultChecked type="checkbox" id={id} className="modal-toggle hidden" />
-            <div className="modal">
-                <div className="modal-box">
-                    <div>
-                        <div className="text-sm font-bold py-3">
-                            {t(k.FOLDER_NAME)}
-                        </div>
-                    </div>
-                    <input
+      <input
+        defaultChecked
+        type="checkbox"
+        id={id}
+        className="modal-toggle hidden"
+      />
+      <div className="modal">
+        <div className="modal-box">
+          <div>
+            <div className="text-sm font-bold py-3">{t(k.FOLDER_NAME)}</div>
+          </div>
+          <input
             autoFocus
             maxLength="18"
             className="textarea textarea-bordered w-full h-[25px]"
@@ -39,18 +41,18 @@ export default function FolderModal({ onClose, setFolders }) {
             placeholder={"Folder name"}
             onChange={(e) => {
               setFolderVal(e.target.value);
-            }}>
-          </input>
-                    <div className="modal-action">
-                        <button onClick={saveFolder} className="btn">
-                            {t(k.SAVE)}
-                        </button>
-                    </div>
-                </div>
-                <div className="modal-backdrop">
-                    <button onClick={closeModal}>{t(k.CLOSE)}</button>
-                </div>
-            </div>
-        </div>);
-
+            }}
+          ></input>
+          <div className="modal-action">
+            <button onClick={saveFolder} className="btn">
+              {t(k.SAVE)}
+            </button>
+          </div>
+        </div>
+        <div className="modal-backdrop">
+          <button onClick={closeModal}>{t(k.CLOSE)}</button>
+        </div>
+      </div>
+    </div>
+  );
 }
