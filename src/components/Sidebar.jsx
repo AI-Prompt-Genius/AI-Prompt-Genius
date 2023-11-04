@@ -1,4 +1,6 @@
-import i18n from 'i18next';import k from "./../i18n/keys";import Logo from "./Logo.jsx";
+import i18n from 'i18next';
+import k from "./../i18n/keys";
+import Logo from "./Logo.jsx";
 import Folder from "./Folder.jsx";
 import FolderModal from "./FolderModal.jsx";
 import { getCurrentTimestamp, newBlankPrompt, newFilteredPrompt, uuid } from "./js/utils.js";
@@ -8,8 +10,10 @@ import SettingsModal from "./SettingsModal.jsx";
 import Toast from "./Toast.jsx";
 
 export default function Sidebar({ setPrompts, setFolders, folders, filteredPrompts, filterPrompts, setFilteredPrompts, setSelectedFolder, selectedFolder, filterTags, setFilterTags, searchTerm, setSearchTerm, showToast }) {
-  const [folderModal, setFolderModal] = useState(false);
-  const [settingsModal, setSettingsModal] = useState(false);
+    const t = i18n.t;
+
+    const [folderModal, setFolderModal] = useState(false);
+    const [settingsModal, setSettingsModal] = useState(false);
 
   function newPrompt() {
     const folder = selectedFolder;
@@ -70,11 +74,11 @@ export default function Sidebar({ setPrompts, setFolders, folders, filteredPromp
                         <li key="" className="selected folder" data-folder-name="all" id="folder-">
                             <a onClick={() => selectFolder("")}>
                                 <HomeIcon></HomeIcon>
-                                {i18n.t(k.ALL_PROMPTS)}
+                                {t(k.ALL_PROMPTS)}
                             </a>
                         </li>
                         {folders.map((folder) =>
-                <Folder id={`${i18n.t(k.FOLDER)}${folder}`}
+                <Folder id={`${t(k.FOLDER)}${folder}`}
                 key={folder}
                 folder={folder}
                 onClick={() => selectFolder(folder)}>
@@ -83,16 +87,16 @@ export default function Sidebar({ setPrompts, setFolders, folders, filteredPromp
                     </ul>
                 </div>
                 <ul className="menu p-3 text-base-content flex flex-col border-t-2 border-base-300">
-                    <li><a onClick={newPrompt}><PlusDoc /> {i18n.t(k.NEW_PROMPT)}</a></li>
-                    <li><a onClick={openFolderModal}><PlusFolder /> {i18n.t(k.NEW_FOLDER)}</a></li>
-                    {!isFullScreen && <li><a onClick={openFullscreen}> <ArrowNewWindow /> {i18n.t(k.OPEN_FULLSCREEN)}</a></li>}
-                    <li><a onClick={openSettings}><Cog /> {i18n.t(k.SETTINGS)}</a></li>
+                    <li><a onClick={newPrompt}><PlusDoc /> {t(k.NEW_PROMPT)}</a></li>
+                    <li><a onClick={openFolderModal}><PlusFolder /> {t(k.NEW_FOLDER)}</a></li>
+                    {!isFullScreen && <li><a onClick={openFullscreen}> <ArrowNewWindow /> {t(k.OPEN_FULLSCREEN)}</a></li>}
+                    <li><a onClick={openSettings}><Cog /> {t(k.SETTINGS)}</a></li>
                 </ul>
                 </div>
             </div>
             <div className="min-[400px]:hidden menu menu-horizontal bg-base-200 opacity-100 z-10 w-full flex absolute bottom-0">
-                <li className="w-1/2"><a onClick={newPrompt}><PlusDoc /> {i18n.t(k.NEW_PROMPT)}</a></li>
-                <li className="w-1/2"><a onClick={openFullscreen}> <ArrowNewWindow /> {i18n.t(k.OPEN_FULLSCREEN)}</a></li>
+                <li className="w-1/2"><a onClick={newPrompt}><PlusDoc /> {t(k.NEW_PROMPT)}</a></li>
+                <li className="w-1/2"><a onClick={openFullscreen}> <ArrowNewWindow /> {t(k.OPEN_FULLSCREEN)}</a></li>
             </div>
             </div>
 

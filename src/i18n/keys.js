@@ -1,4 +1,4 @@
-const k = {
+export const k = {
   "FOLDER": "FOLDER",
   "FOLDER_NAME": "FOLDER_NAME",
   "SAVE": "SAVE",

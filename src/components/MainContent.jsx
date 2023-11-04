@@ -1,10 +1,14 @@
-import i18n from 'i18next';import k from "./../i18n/keys";import ThemeToggle from "./ThemeToggle.jsx";
+import i18n from 'i18next';
+import k from "./../i18n/keys";
+import ThemeToggle from "./ThemeToggle.jsx";
 import Template from "./Template.jsx";
 import { copyTextToClipboard, findVariables, replaceVariables } from "./js/utils.js";
 import { useEffect, useRef, useState } from "react";
 import Toast from "./Toast";
 
 export default function MainContent({ prompts, setPrompts, categories, folders, filteredPrompts, setFilteredPrompts, filterTags, setFilterTags, filterPrompts, setSelectedFolder, selectedFolder, setSearchTerm, searchTerm }) {
+  const t = i18n.t;
+
   const [modalVisible, setModalVisible] = useState(false);
   const [variables, setVariables] = useState([]);
   const [promptText, setPromptText] = useState("");
@@ -155,7 +159,7 @@ export default function MainContent({ prompts, setPrompts, categories, folders, 
                         <textarea
                 autoFocus={index === 0}
                 className="textarea textarea-bordered w-full h-[25px]"
-                placeholder={`${i18n.t(k.ENTER_VALUE_FOR)} ${variable}${i18n.t(k._)}`}
+                placeholder={`${t(k.ENTER_VALUE_FOR)} ${variable}${t(k._)}`}
                 value={textareaValues[index]} // Use value instead of defaultValue
                 onChange={(e) => {
                   const newValues = [...textareaValues];
@@ -167,12 +171,12 @@ export default function MainContent({ prompts, setPrompts, categories, folders, 
             )}
                     <div className="modal-action">
                         <button onClick={() => {usePrompt(replaceVariables(promptText, textareaValues), false);closeModal();}} id="save-vars" className="btn">
-                            {i18n.t(k.COPY)}
+                            {t(k.COPY)}
                         </button>
                     </div>
                 </div>
                 <div className="modal-backdrop">
-                    <button onClick={closeModal}>{i18n.t(k.CLOSE)}</button>
+                    <button onClick={closeModal}>{t(k.CLOSE)}</button>
                 </div>
             </div>
             </>}

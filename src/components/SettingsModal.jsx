@@ -13,6 +13,9 @@ import { GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx";
 import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js";
 
 export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, folders, setFolders, showToast, setPrompts, filterPrompts }) {
+  const t = i18n.t;
+
+
   const [currentPage, setCurrentPage] = useState("General");
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -135,16 +138,16 @@ export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, 
                             <div className="flex-grow overflow-hidden">
                                 <ul className="tabs w-full flex justify-between">
                                     <a onClick={() => handlePageChange('General')} className={`p-1 grow tab tab-lifted ${currentPage === "General" ? "tab-active" : ""}`}>
-                                        <div className={"pb-3"}>{i18n.t(k.GENERAL_SETTINGS)}</div>
+                                        <div className={"pb-3"}>{t(k.GENERAL_SETTINGS)}</div>
                                     </a>
                                     <a onClick={() => handlePageChange('Folders')} className={`p-1 grow tab tab-lifted ${currentPage === "Folders" ? "tab-active" : ""}`}>
-                                        {i18n.t(k.MANAGE_FOLDERS)}
+                                        {t(k.MANAGE_FOLDERS)}
                                     </a>
                                     <a onClick={() => handlePageChange('Export')} className={`p-1 grow tab tab-lifted ${currentPage === "Export" ? "tab-active" : ""}`}>
-                                        {i18n.t(k.IMPORT_EXPORT)}
+                                        {t(k.IMPORT_EXPORT)}
                                     </a>
                                     <a onClick={() => handlePageChange('Cloud')} className={`p-1 grow tab tab-lifted ${currentPage === "Cloud" ? "tab-active" : ""}`}>
-                                        {i18n.t(k.CLOUD_SYNCING)}
+                                        {t(k.CLOUD_SYNCING)}
                                     </a>
                                 </ul>
                             </div>
@@ -152,7 +155,7 @@ export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, 
                             {currentPage === "General" &&
             <div className="card mt-3 mb-3">
                                     <div className="card-body pt-2">
-                                        <h5 className="card-title">{i18n.t(k.LANGUAGE)}</h5>
+                                        <h5 className="card-title">{t(k.LANGUAGE)}</h5>
                                         <LanguageSelect />
                                     </div>
                                 </div>}
@@ -161,11 +164,11 @@ export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, 
                             {currentPage === "Folders" && folders.length > 0 &&
             <div className="card mt-3 mb-3">
                                     <div className="card-body pt-2">
-                                        <h5 className="card-title">{i18n.t(k.DELETE_FOLDERS)}</h5>
+                                        <h5 className="card-title">{t(k.DELETE_FOLDERS)}</h5>
                                         <table className="table w-full">
                                             <tbody>
                                                 <tr className="justify-between">
-                                                    <th>{i18n.t(k.FOLDER_NAME)}</th>
+                                                    <th>{t(k.FOLDER_NAME)}</th>
                                                     <th className="w-16 text-center"><div className="my-1 disabled hover:bg-none border-none px-3 bg-inherit"><TrashIcon /></div></th>
                                                 </tr>
                                                 {folders.map((folder) =>
@@ -183,7 +186,7 @@ export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, 
                             {currentPage === "Folders" && folders.length === 0 &&
             <div className="card mt-3 mb-3">
                                     <div className="card-body pt-2">
-                                        <h5 className="card-title">{i18n.t(k.TO_GET_STARTED_CREATE_A_FOLDE)}</h5>
+                                        <h5 className="card-title">{t(k.TO_GET_STARTED_CREATE_A_FOLDE)}</h5>
                                     </div>
                                 </div>}
 
@@ -192,28 +195,28 @@ export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, 
             <>
                                     <div className="card mt-3 mb-3">
                                         <div className="card-body pb-1 pt-1">
-                                            <h2 className="card-title">{i18n.t(k.EXPORT_PROMPTS)}</h2>
-                                            <p>{i18n.t(k.THESE_FILES_CAN_BE_USED_TO_TRA)}</p>
-                                            <button className="btn" onClick={() => exportCsv()}> {i18n.t(k.EXPORT_CSV)} </button>
-                                            <button className="btn" onClick={exportJson}> {i18n.t(k.EXPORT_JSON)} </button>
+                                            <h2 className="card-title">{t(k.EXPORT_PROMPTS)}</h2>
+                                            <p>{t(k.THESE_FILES_CAN_BE_USED_TO_TRA)}</p>
+                                            <button className="btn" onClick={() => exportCsv()}> {t(k.EXPORT_CSV)} </button>
+                                            <button className="btn" onClick={exportJson}> {t(k.EXPORT_JSON)} </button>
                                         </div>
                                     </div>
                                     <div className="card mt-3 mb-3">
                                         <div className="card-body pb-1 pt-1">
-                                            <h2 className="card-title">{i18n.t(k.IMPORT_PROMPTS)}</h2>
-                                            <p>{i18n.t(k.USE_THIS)} <a className="link link-primary" onClick={downloadTemplate}>{i18n.t(k.CSV_TEMPLATE)}</a> {i18n.t(k.TO_IMPORT_PROMPTS)}</p>
+                                            <h2 className="card-title">{t(k.IMPORT_PROMPTS)}</h2>
+                                            <p>{t(k.USE_THIS)} <a className="link link-primary" onClick={downloadTemplate}>{t(k.CSV_TEMPLATE)}</a> {t(k.TO_IMPORT_PROMPTS)}</p>
                                             <button className="m-2 btn" onClick={openFileSelect}>
-                                                <label id="import-label" className="clickable" htmlFor="import-any">{i18n.t(k.IMPORT_CSV)}</label>
+                                                <label id="import-label" className="clickable" htmlFor="import-any">{t(k.IMPORT_CSV)}</label>
                                                 <input onChange={importAny} type="file" accept=".csv" id="import" className="hidden-trick" />
                                             </button>
                                         </div>
                                     </div>
                                     <div className="card mt-3 mb-3">
                                         <div className="card-body pt-0">
-                                            <h5 className="card-title">{i18n.t(k.DANGER_ZONE_MASS_DELETE)}</h5>
-                                            <p>{i18n.t(k.MASS_DELETE_YOUR_PROMPTS_AND_F)}</p>
-                                            <button className="btn" onClick={showConfirm}> {i18n.t(k.DELETE_ALL_PROMPTS_FOLDERS)} </button>
-                                            {confirmDelete && <button onClick={deletePrompts} className="btn bg-warning">{i18n.t(k.CONFIRM_DELETE)}</button>}
+                                            <h5 className="card-title">{t(k.DANGER_ZONE_MASS_DELETE)}</h5>
+                                            <p>{t(k.MASS_DELETE_YOUR_PROMPTS_AND_F)}</p>
+                                            <button className="btn" onClick={showConfirm}> {t(k.DELETE_ALL_PROMPTS_FOLDERS)} </button>
+                                            {confirmDelete && <button onClick={deletePrompts} className="btn bg-warning">{t(k.CONFIRM_DELETE)}</button>}
                                         </div>
                                     </div>
                                 </>}
@@ -223,17 +226,17 @@ export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, 
             <div className="card mt-3 mb-3">
                                     {!cloudSyncingEnabled &&
               <div className="card-body pt-2">
-                                            <h5 className="card-title">{i18n.t(k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS)}</h5>
-                                            <button onClick={setupSync} className="btn">{i18n.t(k.LINK_GOOGLE_SHEETS)} <GoogleDriveIcon /></button>
+                                            <h5 className="card-title">{t(k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS)}</h5>
+                                            <button onClick={setupSync} className="btn">{t(k.LINK_GOOGLE_SHEETS)} <GoogleDriveIcon /></button>
                                         </div>}
 
 
                                     {cloudSyncingEnabled &&
               <div className="card-body pt-2">
-                                            <h5 className="card-title">{i18n.t(k.CLOUD_SYNCING)}</h5>
-                                            <button className={"btn"} onClick={authThenResync}>{i18n.t(k.MANUALLY_RESYNC)}</button>
-                                            <button className="btn" onClick={authThenUnlink}>{i18n.t(k.DISABLE_CLOUD_SYNCING)}</button>
-                                            <a className={"link link-primary"} href={`https://docs.google.com/spreadsheets/d/${sheetID}`} target="_blank">{i18n.t(k.VIEW_LINKED_SHEET)}</a>
+                                            <h5 className="card-title">{t(k.CLOUD_SYNCING)}</h5>
+                                            <button className={"btn"} onClick={authThenResync}>{t(k.MANUALLY_RESYNC)}</button>
+                                            <button className="btn" onClick={authThenUnlink}>{t(k.DISABLE_CLOUD_SYNCING)}</button>
+                                            <a className={"link link-primary"} href={`https://docs.google.com/spreadsheets/d/${sheetID}`} target="_blank">{t(k.VIEW_LINKED_SHEET)}</a>
                                         </div>}
 
                                 </div>}
@@ -241,7 +244,7 @@ export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, 
                         </div>
                 </div>
                 <div className="modal-backdrop">
-                    <button id="close_modal" onClick={closeModal}>{i18n.t(k.CLOSE)}</button>
+                    <button id="close_modal" onClick={closeModal}>{t(k.CLOSE)}</button>
                 </div>
             </div>
         </>);

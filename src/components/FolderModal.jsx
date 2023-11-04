@@ -8,6 +8,9 @@ export default function FolderModal({ onClose, setFolders }) {
   const [folderVal, setFolderVal] = useState("");
   const id = uuid();
 
+  const t = i18n.t;
+
+
   function closeModal() {
     document.getElementById(id).checked = false;
     setTimeout(() => onClose(), 100); // to allow for cool animation
@@ -25,7 +28,7 @@ export default function FolderModal({ onClose, setFolders }) {
                 <div className="modal-box">
                     <div>
                         <div className="text-sm font-bold py-3">
-                            {i18n.t(k.FOLDER_NAME)}
+                            {t(k.FOLDER_NAME)}
                         </div>
                     </div>
                     <input
@@ -40,12 +43,12 @@ export default function FolderModal({ onClose, setFolders }) {
           </input>
                     <div className="modal-action">
                         <button onClick={saveFolder} className="btn">
-                            {i18n.t(k.SAVE)}
+                            {t(k.SAVE)}
                         </button>
                     </div>
                 </div>
                 <div className="modal-backdrop">
-                    <button onClick={closeModal}>{i18n.t(k.CLOSE)}</button>
+                    <button onClick={closeModal}>{t(k.CLOSE)}</button>
                 </div>
             </div>
         </div>);

@@ -1,6 +1,6 @@
-import {k} from "keys.js"
+import {k} from "./keys.js"
 
-export const english = {
+export const en = {
   [k.FOLDER]: `folder-`,
   [k.FOLDER_NAME]: `Folder Name`,
   [k.SAVE]: `Save`,
@@ -59,3 +59,5 @@ export const english = {
   [k.FOLDER1]: `Folder`,
   [k._1]: ``
 };
+
+export default en

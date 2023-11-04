@@ -1,4 +1,6 @@
-import i18n from 'i18next';import k from "./../i18n/keys";import React, { useState } from "react";
+import i18n from 'i18next';
+import k from "./../i18n/keys";
+import React, { useState } from "react";
 import { deletePrompt, editFilteredPrompts, editPrompt, getCurrentTimestamp, uuid } from "./js/utils.js";
 import { EditIcon, TrashIcon } from "./icons/Icons.jsx";
 import FolderSelect from "./FolderSelect.jsx";
@@ -6,6 +8,9 @@ import RemoveTag from "./RemoveTag.jsx";
 import Tag from "./Tag.jsx";
 
 export default function Template({ template, setPrompts, onClick, folders, filteredPrompts, setFilteredPrompts, filterTags, setFilterTags, filterPrompts, selectedFolder, searchTerm }) {
+  const t = i18n.t;
+
+
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [title, setTitle] = useState(template.title ?? "");
   const [text, setText] = useState(template.text ?? "");
@@ -86,7 +91,7 @@ export default function Template({ template, setPrompts, onClick, folders, filte
           tagsSet.add(newTag); // Add the new tag to the Set
           return Array.from(tagsSet); // Convert the Set back to an array
         });
-        e.target.value = i18n.t(k._1); // Clear the input field
+        e.target.value = t(k._1); // Clear the input field
       }
     }
   };
@@ -123,7 +128,7 @@ export default function Template({ template, setPrompts, onClick, folders, filte
                     <div className="modal-box">
                         <div>
                             <div className="text-sm font-bold py-3">
-                                {i18n.t(k.TITLE)}
+                                {t(k.TITLE)}
                             </div>
                             <textarea onChange={(e) => setTitle(e.target.value)}
               className="textarea textarea-bordered w-full h-[25px]" autoFocus
@@ -132,7 +137,7 @@ export default function Template({ template, setPrompts, onClick, folders, filte
 
                             </textarea>
                             <div className="text-sm font-bold py-3">
-                                {i18n.t(k.TEXT)}
+                                {t(k.TEXT)}
                             </div>
                             <textarea
                 onChange={(e) => setText(e.target.value)}
@@ -140,7 +145,7 @@ export default function Template({ template, setPrompts, onClick, folders, filte
                 placeholder="Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}">
               </textarea>
                             <div className="text-sm font-bold py-3">
-                                {i18n.t(k.DESCRIPTION)}
+                                {t(k.DESCRIPTION)}
                             </div>
                             <textarea onChange={(e) => setDescription(e.target.value)}
               className="textarea textarea-bordered w-full h-[50px]"
@@ -149,7 +154,7 @@ export default function Template({ template, setPrompts, onClick, folders, filte
 
                             </textarea>
                             <div className="text-sm font-bold py-3">
-                                {i18n.t(k.TAGS)}
+                                {t(k.TAGS)}
                             </div>
                             {/* eslint-disable-next-line react/prop-types */}
                             <div className="flex flex-wrap mb-2">
@@ -168,7 +173,7 @@ export default function Template({ template, setPrompts, onClick, folders, filte
               onKeyDown={handleKeyDown}>
               </input>
                             <div className="text-sm font-bold py-3">
-                                {i18n.t(k.FOLDER1)}
+                                {t(k.FOLDER1)}
                             </div>
                             <div>
                                 <FolderSelect folders={folders} selectedFolder={folder} onChange={(value) => saveFolder(value)} />
@@ -176,12 +181,12 @@ export default function Template({ template, setPrompts, onClick, folders, filte
                         </div>
                         <div className="modal-action">
                             <button className="btn" onClick={handleSave}>
-                                {i18n.t(k.SAVE)}
+                                {t(k.SAVE)}
                             </button>
                         </div>
                     </div>
                     <div className="modal-backdrop">
-                        <button onClick={closeModal}>{i18n.t(k.CLOSE)}</button>
+                        <button onClick={closeModal}>{t(k.CLOSE)}</button>
                     </div>
                 </div>
             </>}

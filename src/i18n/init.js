@@ -1,14 +1,16 @@
 import i18next from 'i18next';
+import {en} from "./english.js"
+import {zh} from "./chinese.js";
 
-const english = require('./english');
-const chinese = require('./chinese');
+const english = en;
+const chinese = zh;
 
 i18next.init({
-  lng: localStorage.getItem('lng') || 'en',
+  lng: localStorage.getItem('lng') || 'zh_CN',
   debug: true,
   resources: {
     en: { translation: english },
-    'zh-Hans': { translation: chinese },
+    'zh_CN': { translation: chinese },
   },
 });
 
