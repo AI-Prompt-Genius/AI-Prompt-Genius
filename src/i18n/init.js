@@ -1,17 +1,18 @@
 import i18next from 'i18next';
-import {en} from "./english.js"
-import {zh} from "./chinese.js";
+import { initReactI18next } from 'react-i18next';
+import {en} from "./translations/en.js"
+import {zh_CN} from "./translations/zh_CN.js";
 
-const english = en;
-const chinese = zh;
-
-i18next.init({
+i18next
+    .use(initReactI18next)
+    .init({
   lng: localStorage.getItem('lng') || 'zh_CN',
   debug: true,
   resources: {
-    en: { translation: english },
-    'zh_CN': { translation: chinese },
+    en: { translation: en },
+    zh_CN: { translation: zh_CN },
   },
+  fallbackLng: ["en"]
 });
 
 // Add this line to your app entrypoint. Usually it is src/index.js

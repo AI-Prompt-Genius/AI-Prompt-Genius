@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 import {useState} from "react";
 
-export default function LanguageSelect() {
+export default function LanguageSelect({onLangUpdate}) {
     const selectedLang = localStorage.getItem("lng") ?? "en"
     const [selectedLanguage, setSelectedLanguage] = useState(selectedLang);
 
@@ -25,7 +25,9 @@ export default function LanguageSelect() {
         const language = event.target.value;
         setSelectedLanguage(language);
         localStorage.setItem("lng", language)
-        i18next.changeLanguage(language)
+        i18next.changeLanguage(language, (err) => {
+            if (err) return console.log('something went wrong loading', err);
+        })
     }
 
 

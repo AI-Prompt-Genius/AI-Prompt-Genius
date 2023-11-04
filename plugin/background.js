@@ -1,30 +1,24 @@
 chrome.runtime.onInstalled.addListener(function(details) {
-    console.log(details)
+    console.log(details);
     if (details.reason === "install") {
-        chrome.tabs.create({ url: chrome.runtime.getURL("fullscreen.html") });
+        chrome.tabs.create({ url: chrome.runtime.getURL("pages/onboarding.html") });
     }
     else if (details.reason === "update") {
-        // Handle update logic if needed
-        chrome.storage.local.get({"isCompact": null}, function (re){
-            if (re.isCompact !== null){
-                chrome.tabs.create({ url: chrome.runtime.getURL("fullscreen.html") });
-            }
-            else {
-                //
-                console.error("HEYYY")
-                return null;
-            }
-        })
+        console.log(details.previousVersion);
+        // Get the first character of the previous version string
+        const firstChar = details.previousVersion.charAt(0);
+        // Check if the first character is 3, 2, or 1
+        if (firstChar === '3' || firstChar === '2' || firstChar === '1') {
+            chrome.tabs.create({ url: chrome.runtime.getURL("pages/transfer.html") });
+        }
     }
-    chrome.tabs.create({ url: chrome.runtime.getURL("fullscreen.html") });
 });
-console.error("HEYYY")
 
 
-/*chrome.commands.onCommand.addListener((command, tab) => {
-    console.error(`Command: ${command}`);
+
+chrome.commands.onCommand.addListener((command, tab) => {
     if (command === "open-sidebar"){
         chrome.sidePanel.open({ windowId: tab.windowId })
     }
-});*/
+});
 

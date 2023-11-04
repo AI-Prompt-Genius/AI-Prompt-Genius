@@ -1,4 +1,7 @@
-import i18n from 'i18next';import k from "./../i18n/keys";import React, { useState } from "react";
+import i18n from 'i18next';
+import k from "./../i18n/keys";
+import { useTranslation } from 'react-i18next';
+import React, { useState } from "react";
 import {
   exportCsv,
   exportJson,
@@ -13,7 +16,7 @@ import { GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx";
 import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js";
 
 export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, setSelectedFolder, setFilterTags, setSearchTerm, folders, setFolders, showToast, setPrompts, filterPrompts }) {
-  const t = i18n.t;
+  const { t, i18n } = useTranslation();
 
 
   const [currentPage, setCurrentPage] = useState("General");
@@ -32,6 +35,12 @@ export default function SettingsModal({ setSettingsVisible, setFilteredPrompts, 
 
   function downloadTemplate() {
     downloadCSVTemplate();
+  }
+
+  function onLangUpdate(newT){
+    t = newT;
+    setCurrentPage("Folders")
+    setCurrentPage("General")
   }
 
   function clearFilters() {

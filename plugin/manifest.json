@@ -10,13 +10,22 @@
     "storage"
   ],
   "background": {
-    "service-worker": "background.js"
+    "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "pages/popup.html"
   },
   "side_panel": {
-    "default_path": "sidebar.html"
+    "default_path": "pages/sidebar.html"
+  },
+  "commands": {
+    "open-sidebar": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U",
+        "mac": "Command+Shift+U"
+      },
+      "description": "Open the sidebar"
+    }
   },
   "oauth2": {
     "client_id": "608311790441-pkkhjmm1qclhqd9nh6k6ophn8eimrafh.apps.googleusercontent.com",

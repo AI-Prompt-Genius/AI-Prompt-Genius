@@ -1,6 +1,6 @@
-import {k} from "./keys.js"
+import {k} from "../keys.js"
 
-export const zh = {
+export const zh_CN = {
   [k.FOLDER]: `文件夹-`,
   [k.FOLDER_NAME]: `文件夹名称`,
   [k.SAVE]: `保存`,
@@ -61,4 +61,4 @@ export const zh = {
 };
 
 
-export default zh
+export default zh_CN
