@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import {useState} from "react";
 
 export default function LanguageSelect({onLangUpdate}) {
-    const selectedLang = localStorage.getItem("lng") ?? "en"
+    const selectedLang = i18next.language ?? "en"
     const [selectedLanguage, setSelectedLanguage] = useState(selectedLang);
 
     const languages = {

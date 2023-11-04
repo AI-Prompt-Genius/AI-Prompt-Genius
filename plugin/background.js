@@ -18,7 +18,10 @@ chrome.runtime.onInstalled.addListener(function(details) {
 
 chrome.commands.onCommand.addListener((command, tab) => {
     if (command === "open-sidebar"){
-        chrome.sidePanel.open({ windowId: tab.windowId })
+        const chromeVersion=(/Chrome\/([0-9]+)/.exec(navigator.userAgent)||[,0])[1];
+        if (chromeVersion >= 116){
+            chrome.sidePanel.open({ windowId: tab.windowId })
+        }
     }
 });
 
