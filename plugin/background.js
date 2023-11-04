@@ -5,7 +5,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
     }
     else if (details.reason === "update") {
         // Handle update logic if needed
-        chrome.storage.local.get({"isCompact": "nahhh"}, function (re){
+        chrome.storage.local.get({"isCompact": null}, function (re){
             if (re.isCompact !== null){
                 chrome.tabs.create({ url: chrome.runtime.getURL("fullscreen.html") });
             }
