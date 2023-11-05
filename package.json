@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "css": "npx tailwindcss -i ./input.css -o ./src/App.css --minify",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "npx prettier src/ --write",
     "preview": "vite preview"
   },
   "dependencies": {
