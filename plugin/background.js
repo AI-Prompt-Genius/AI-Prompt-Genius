@@ -14,8 +14,6 @@ chrome.runtime.onInstalled.addListener(function(details) {
     }
 });
 
-
-
 chrome.commands.onCommand.addListener((command, tab) => {
     if (command === "open-sidebar"){
         const chromeVersion=(/Chrome\/([0-9]+)/.exec(navigator.userAgent)||[,0])[1];

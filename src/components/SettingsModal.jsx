@@ -53,12 +53,6 @@ export default function SettingsModal({
     downloadCSVTemplate();
   }
 
-  function onLangUpdate(newT) {
-    t = newT;
-    setCurrentPage("Folders");
-    setCurrentPage("General");
-  }
-
   function clearFilters() {
     setSelectedFolder("");
     setFilterTags([]);

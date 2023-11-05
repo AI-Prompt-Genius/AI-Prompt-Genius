@@ -6,7 +6,7 @@ window.addEventListener("message", async function(event) {
 
     if (message.message === "openFullScreen") {
         // Forward the message to the background script
-        chrome.tabs.create({ url: `${chrome.runtime.getURL("fullscreen.html")}` });
+        chrome.tabs.create({ url: `${chrome.runtime.getURL("pages/fullscreen.html")}` });
     }
     else if (message.message === "openAuth"){
         const authToken = await getAuthToken()
