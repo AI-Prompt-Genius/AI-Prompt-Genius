@@ -27,8 +27,7 @@ async function linkSheet(token) {
       localStorage.setItem("sheetID", sheetId);
       const prompts = getPrompts();
       let promptIDList = prompts.length > 0 ? prompts.map((obj) => obj.id) : [];
-      // TODO recreate resync function
-      syncPrompts([], [], promptIDList, prompts, sheetId);
+      syncPrompts([], promptIDList, [], prompts, sheetId);
     } else {
       await newSheet(token);
     }
@@ -111,7 +110,8 @@ async function newSheet(token) {
     //console.log("Successfully populated the spreadsheet with the prompts list!");
     setObject("cloudSyncing", true);
     localStorage.setItem("sheetID", spreadsheetId);
-    syncPrompts([], [], prompts, prompts, spreadsheetId);
+    const promptIDList = prompts.length > 0 ? prompts.map((obj) => obj.id) : [];
+    syncPrompts([], promptIDList, [], prompts, spreadsheetId);
   } catch (error) {
     console.error(error);
   }
@@ -182,6 +182,11 @@ async function syncPrompts(
   sheetId,
 ) {
   try {
+    // prevent duplicates
+    newPrompts = Array.from(new Set(newPrompts));
+    deletedPrompts = Array.from(new Set(deletedPrompts));
+    changedPrompts = Array.from(new Set(changedPrompts));
+
     // Get prompts from the Google Sheets version
     const syncedPrompts = await getSheetData(sheetId, "Sheet1!A1:Z");
 

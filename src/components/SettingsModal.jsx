@@ -97,6 +97,14 @@ export default function SettingsModal({
       let currentPrompts = getObject("prompts", []);
       currentPrompts = removeDuplicatesByName(newPrompts, currentPrompts);
       const combinedPrompts = combineJSONArrays(newPrompts, currentPrompts);
+
+      // for cloud syncing
+      let newPromptIds = getObject(newPrompts, []);
+      for (const prompt of newPrompts) {
+        newPromptIds.push(prompt.id);
+      }
+      setObject("newPrompts", newPromptIds);
+
       setObject("prompts", combinedPrompts);
       setFilteredPrompts(combinedPrompts);
       clearFilters();
