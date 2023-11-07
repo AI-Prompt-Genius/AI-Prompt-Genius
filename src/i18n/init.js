@@ -4,7 +4,7 @@ import { en } from "./translations/en.js";
 import { zh_CN } from "./translations/zh_CN.js";
 
 i18next.use(initReactI18next).init({
-  lng: localStorage.getItem("lng") || "zh_CN",
+  lng: localStorage.getItem("lng") || "en",
   debug: true,
   resources: {
     en: { translation: en },
