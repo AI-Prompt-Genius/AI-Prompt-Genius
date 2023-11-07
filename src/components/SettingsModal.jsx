@@ -78,7 +78,7 @@ export default function SettingsModal({
       if (
         !checkProperties(newPrompts[0], [
           "title",
-          "content",
+          "text",
           "description",
           "folder",
           "tags",

@@ -79,7 +79,7 @@ export function combineJSONArrays(array1, array2) {
 export function csvToJson(csv) {
   const result = [];
   const folders = [];
-  const headers = ["title", "content", "description", "folder", "tags"];
+  const headers = ["title", "text", "description", "folder", "tags"];
 
   const data = Papa.parse(csv, {
     header: false,
@@ -113,7 +113,7 @@ export function csvToJson(csv) {
 export function downloadCSVTemplate() {
   // Encode the CSV string as a Blob
   const blob = encodeStringAsBlob(
-    "Title,Content,Description,Folder,Tags - Separated with semicolons",
+    "Title,Text,Description,Folder,Tags - Separated with semicolons",
   );
 
   const filename = "AI_Prompt_Genius_Template.csv";
