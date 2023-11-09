@@ -1,6 +1,7 @@
 import "./App.css";
 import Sidebar from "./components/Sidebar.jsx";
 import MainContent from "./components/MainContent.jsx";
+import TransferModal from "./components/TransferModal.jsx";
 import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { ThemeContext } from "./components/ThemeContext.jsx";
@@ -28,6 +29,9 @@ function App() {
   if (cloudSyncing) {
     checkForResync();
   }
+
+  // get the "transfer" URL parameter
+  const transferring = new URLSearchParams(window.location.search).get('transfer') ?? false;
 
   function filterPrompts(folder = "", tags = [], searchTerm = "") {
     let newFiltered = prompts;
@@ -136,6 +140,7 @@ function App() {
         setSearchTerm={setSearchTerm}
       />
       {toast && <Toast message={toastMessage} />}
+      {transferring && <TransferModal />}
     </div>
   );
 }
