@@ -115,7 +115,7 @@ function bigWrapper() {
 }
 
 chrome.storage.local.get({ settings: {} }, function (result) {
-  let dontInject = result.settings?.dont_inject_prompts ?? false;
+  let dontInject = true;
   let isPlus = result.settings?.is_plus ?? false;
   //console.log("DONT INJECT " + dontInject)
   if (!dontInject) {
