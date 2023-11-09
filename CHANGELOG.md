@@ -1,3 +1,7 @@
+### 3.2.9 -November 9, 2023
+
+- Stop injecting prompts while I finish v4
+
 ### 3.2.8 - October 24, 2023
 
 - Fix scrolling issue
