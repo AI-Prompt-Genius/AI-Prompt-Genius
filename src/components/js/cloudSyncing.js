@@ -27,7 +27,7 @@ async function linkSheet(token) {
       localStorage.setItem("sheetID", sheetId);
       const prompts = getPrompts();
       let promptIDList = prompts.length > 0 ? prompts.map((obj) => obj.id) : [];
-      syncPrompts([], promptIDList, [], prompts, sheetId);
+      syncPrompts([], [], promptIDList, prompts, sheetId);
     } else {
       await newSheet(token);
     }
@@ -111,7 +111,7 @@ async function newSheet(token) {
     setObject("cloudSyncing", true);
     localStorage.setItem("sheetID", spreadsheetId);
     const promptIDList = prompts.length > 0 ? prompts.map((obj) => obj.id) : [];
-    syncPrompts([], promptIDList, [], prompts, spreadsheetId);
+    syncPrompts([], [], promptIDList, prompts, spreadsheetId);
   } catch (error) {
     console.error(error);
   }
@@ -236,10 +236,13 @@ async function syncPrompts(
           }
         }
       }
+      else if (localPrompt && !cloudPrompt){
+        syncedPrompts.unshift(localPrompt);
+      }
     });
 
     // Update the locstorage version with the merged data
-    const correctTags = [];
+    let correctTags = [];
     const allFolders = new Set();
     for (let prompt of syncedPrompts) {
       if (typeof prompt.tags === "string") {
@@ -255,7 +258,7 @@ async function syncPrompts(
       correctTags.push(prompt);
     }
 
-    console.log(correctTags);
+    correctTags = Array.from(new Set(correctTags))
 
     setObject("prompts", correctTags);
     setObject("deletedPrompts", []);

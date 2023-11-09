@@ -7,7 +7,7 @@ export default function LanguageSelect({ onLangUpdate }) {
 
   const languages = {
     de: "German - Deutsch",
-    en: "English - English",
+    en: "English",
     es: "Spanish - Español",
     fr: "French - Français",
     hu: "Hungarian - Magyar",
