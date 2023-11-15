@@ -130,7 +130,7 @@ export default function Template({
             <h2 className="card-title mainClick flex">
               {template.title ?? ""}
             </h2>
-            <p className="text-base mainClick">
+            <p className="text-base mainClick mb-1">
               {template.description && template.description !== ""
                 ? template.description
                 : template.text ?? ""}

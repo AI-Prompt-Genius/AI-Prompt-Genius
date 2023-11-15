@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AI Prompt Genius v4",
-  "version": "4.0",
+  "version": "3.9.9",
   "description": "v4 babbbyyy",
   "permissions": [
     "sidePanel",
