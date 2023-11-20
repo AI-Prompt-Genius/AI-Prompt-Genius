@@ -7,7 +7,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { ThemeContext } from "./components/ThemeContext.jsx";
 import { checkForResync, finishAuth } from "./components/js/cloudSyncing.js";
 import Toast from "./components/Toast.jsx";
-import { getObject } from "./components/js/utils.js";
+import { getObject, setObject } from "./components/js/utils.js";
 
 function App() {
   const { theme } = React.useContext(ThemeContext);
@@ -85,6 +85,11 @@ function App() {
         console.log("API TOKEN UPDATED");
         finishAuth();
         pollLocalStorage();
+      } else if (data.message === "transfer") {
+        console.log(data.prompts);
+        console.log("recieved transfer prompts");
+        const prompts = data.prompts;
+        setObject("transferPrompts", prompts);
       }
     };
 

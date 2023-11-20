@@ -49,6 +49,7 @@ export default function Sidebar({
       folder,
       id: uuid(),
       lastChanged: getCurrentTimestamp(),
+      description: "",
     };
     setPrompts(newBlankPrompt(promptObj));
     setFilteredPrompts(newFilteredPrompt(promptObj, filteredPrompts));

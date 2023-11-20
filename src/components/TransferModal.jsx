@@ -5,18 +5,75 @@ import Logo from "./Logo.jsx";
 import LanguageSelect from "./LanguageSelect.jsx";
 import Head4 from "./Head4.jsx";
 import Head2 from "./Head2.jsx";
+import {
+  getCurrentTimestamp,
+  getObject,
+  newFolder,
+  setObject,
+} from "./js/utils.js";
 
 function TransferModal() {
   const { t, i18n } = useTranslation();
   const [page, setPage] = useState(1);
   const MAX_PAGE_NUM = 4;
 
+  const [categoryMode, setCategoryMode] = useState("none");
+
   function nextPage() {
+    if (page + 1 === 2) {
+      updatePrompts(categoryMode);
+    }
     setPage(page + 1);
   }
 
   function prevPage() {
     setPage(page - 1);
+  }
+
+  const handleSelectChange = (event) => {
+    setCategoryMode(event.target.value);
+    updatePrompts(event.target.value);
+  };
+
+  function updatePrompts(categoryMode = categoryMode) {
+    const oldPrompts = getObject("transferPrompts", null);
+    if (oldPrompts) {
+      const newPrompts = oldPrompts.map((prompt) => {
+        const { title, text, id, category } = prompt;
+        let tags = prompt.tags;
+        let folder = "";
+
+        if (categoryMode === "tag") {
+          tags = [...new Set([...tags, category])];
+          folder = "";
+          setObject("folders", []);
+        } else if (
+          categoryMode === "folder" &&
+          category !== "" &&
+          category !== " "
+        ) {
+          folder = category;
+          setObject("folders", newFolder(folder));
+        } else {
+          setObject("folders", []);
+        }
+        return {
+          title,
+          text,
+          tags,
+          folder,
+          id,
+          lastChanged: getCurrentTimestamp(),
+          description: "",
+        };
+      });
+      console.log(newPrompts);
+      setObject("prompts", newPrompts);
+    } else {
+      console.error("ERROR TRANSFERRING PROMPTS!");
+      // call transfer prompts after three second timeout
+      setTimeout(updatePrompts, 3000);
+    }
   }
 
   return (
@@ -86,10 +143,14 @@ function TransferModal() {
                 <div className={"inline mr-3"}>
                   <Head4>Import categories as</Head4>
                 </div>
-                <select className={"select select-bordered"}>
-                  <option selected>None</option>
-                  <option>Folder</option>
-                  <option>Tag</option>
+                <select
+                  className="select select-bordered"
+                  value={categoryMode}
+                  onChange={handleSelectChange}
+                >
+                  <option value={"none"}>None</option>
+                  <option value={"folder"}>Folder</option>
+                  <option value={"tag"}>Tag</option>
                 </select>
               </div>
               <p>

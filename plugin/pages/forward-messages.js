@@ -13,8 +13,6 @@ window.addEventListener("message", async function(event) {
         const response = {message: "newAuthToken", token: authToken}
         const responseStr = JSON.stringify(response)
         document.getElementById("window").contentWindow.postMessage(responseStr, "*")
-        console.log(response)
-        console.log("SENT MESSAGE TO CHILD")
     }
     else if (message.message === "clearCachedTokens"){
         chrome.identity.clearAllCachedAuthTokens();
