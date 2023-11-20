@@ -10,7 +10,7 @@ import { getCurrentTimestamp, getObject, newFolder, setObject } from "./js/utils
 function TransferModal() {
     const { t, i18n } = useTranslation()
     const [page, setPage] = useState(1)
-    const MAX_PAGE_NUM = 4
+    const MAX_PAGE_NUM = 3
 
     const [categoryMode, setCategoryMode] = useState("none")
 
@@ -80,11 +80,15 @@ function TransferModal() {
                     <Logo className="w-20 h-20 mx-auto my-4"> </Logo>
                     {page === 1 && (
                         <div className={"mb-4"}>
-                            <Head2>Welcome to the new AI Prompt Genius</Head2>
+                            <h2 className="text-2xl font-bold text-center text-gray-800 mt-6 mb-3">
+                                Welcome to the new AI Prompt Genius
+                            </h2>
                             <p className="text-center text-xl text-gray-600 mb-4">
                                 Prompt Genius just got an update
                             </p>
-                            <Head4>{t(k.SELECT_LANG)}</Head4>
+                            <h4 className="text-lg font-medium text-gray-700 mt-4 mb-2">
+                                {t(k.SELECT_LANG)}
+                            </h4>
                             <LanguageSelect />
                         </div>
                     )}
@@ -112,9 +116,9 @@ function TransferModal() {
                             <Head4>New sleek UI</Head4>
                             <p>The new UI is more cohesive and modern.</p>
 
-                            <Head4>History, themes, and chat export are being retired</Head4>
+                            <Head4>History, themes, and chat export are being separated</Head4>
                             <p className={"text-gray-600 mb-4"}>
-                                You can download a copy of your data{" "}
+                                You can download a copy of your{" "}
                                 <span className={"link-primary link"}> JSON here.</span> You can{" "}
                                 <a className="link link-primary" target={"_blank"} href={""}>
                                     click here
@@ -146,13 +150,12 @@ function TransferModal() {
                             <Head4>Setup keyboard shortcuts</Head4>
                             <p>
                                 Setup keyboard shortcuts to open the sidebar (Chrome 116+) or open
-                                the popup panel with your prompts. Go to
-                                <a
-                                    className={"link link-primary"}
-                                    href={"chrome://extensions/shortcuts"}
-                                    target={"_blank"}>
+                                the popup panel with your prompts. Go to{" "}
+                                <span
+                                    className={"link link-primary"
+                                }
                                     chrome://extensions/shortcuts
-                                </a>
+                                </span>{" "}
                                 to get started.
                             </p>
                         </div>

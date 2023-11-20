@@ -8,6 +8,9 @@ window.addEventListener("message", async function(event) {
         // Forward the message to the background script
         chrome.tabs.create({ url: `${chrome.runtime.getURL("pages/fullscreen.html")}` });
     }
+    else if (message.message === "openShortcuts") {
+        chrome.tabs.create({ url: `chrome://extensions/shortcuts` });
+    }
     else if (message.message === "openAuth"){
         const authToken = await getAuthToken()
         const response = {message: "newAuthToken", token: authToken}
