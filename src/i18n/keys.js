@@ -56,6 +56,7 @@ export const k = {
   TAGS: "TAGS",
   FOLDER1: "FOLDER1",
   _1: "_1",
+  SELECT_LANG: "SELECT_LANG",
 };
 
 export default k;

@@ -58,6 +58,7 @@ export const en = {
   [k.TAGS]: `Tags`,
   [k.FOLDER1]: `Folder`,
   [k._1]: ``,
+  [k.SELECT_LANG]: `Select a language to continue`,
 };
 
 export default en;

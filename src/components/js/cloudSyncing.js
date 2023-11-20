@@ -235,8 +235,7 @@ async function syncPrompts(
             syncedPrompts[index] = cloudPrompt;
           }
         }
-      }
-      else if (localPrompt && !cloudPrompt){
+      } else if (localPrompt && !cloudPrompt) {
         syncedPrompts.unshift(localPrompt);
       }
     });
@@ -258,7 +257,7 @@ async function syncPrompts(
       correctTags.push(prompt);
     }
 
-    correctTags = Array.from(new Set(correctTags))
+    correctTags = Array.from(new Set(correctTags));
 
     setObject("prompts", correctTags);
     setObject("deletedPrompts", []);

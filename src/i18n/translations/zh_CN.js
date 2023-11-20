@@ -58,6 +58,7 @@ export const zh_CN = {
   [k.TAGS]: `标签`,
   [k.FOLDER1]: `文件夹`,
   [k._1]: ``,
+  [k.SELECT_LANG]: `选择一种语言继续`,
 };
 
 export default zh_CN;

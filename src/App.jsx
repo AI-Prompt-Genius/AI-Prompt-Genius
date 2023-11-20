@@ -31,7 +31,8 @@ function App() {
   }
 
   // get the "transfer" URL parameter
-  const transferring = new URLSearchParams(window.location.search).get('transfer') ?? false;
+  const transferring =
+    new URLSearchParams(window.location.search).get("transfer") ?? false;
 
   function filterPrompts(folder = "", tags = [], searchTerm = "") {
     let newFiltered = prompts;
