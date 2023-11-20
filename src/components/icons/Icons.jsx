@@ -8,7 +8,8 @@ export function HomeIcon() {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-6 h-6">
+            className="w-6 h-6"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -26,7 +27,8 @@ export function FolderIcon() {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-6 h-6">
+            className="w-6 h-6"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -44,7 +46,8 @@ export function EditIcon() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-5 h-5">
+            className="w-5 h-5"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -62,7 +65,8 @@ export function TrashIcon() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-5 h-5">
+            className="w-5 h-5"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -80,7 +84,8 @@ export function CheckIcon() {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-6 h-6">
+            className="w-6 h-6"
+        >
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
         </svg>
     )
@@ -92,7 +97,8 @@ export function SunIcon() {
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4 m-1 col-start-1 row-start-1 stroke-base-content"
             fill="none"
-            viewBox="0 0 24 24">
+            viewBox="0 0 24 24"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -109,7 +115,8 @@ export function MoonIcon() {
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4 m-1 col-start-2 row-start-1 stroke-base-content"
             fill="none"
-            viewBox="0 0 24 24">
+            viewBox="0 0 24 24"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -128,7 +135,8 @@ export function PlusDoc() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6">
+            className="w-6 h-6"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -146,7 +154,8 @@ export function PlusFolder() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6">
+            className="w-6 h-6"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -164,7 +173,8 @@ export function XMark() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-3 h-3">
+            className="w-3 h-3"
+        >
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
     )
@@ -178,7 +188,8 @@ export function ArrowNewWindow() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6">
+            className="w-6 h-6"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -196,7 +207,8 @@ export function Cog() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6">
+            className="w-6 h-6"
+        >
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

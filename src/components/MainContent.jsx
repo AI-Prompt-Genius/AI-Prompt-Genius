@@ -136,7 +136,8 @@ export default function MainContent({
                     <div className="h-full overflow-y-auto">
                         <ul
                             className="flex flex-col mx-4 max-[500px]:mx-2 max-[500px]:mb-28"
-                            id="templates">
+                            id="templates"
+                        >
                             {filteredPrompts.map(prompt => (
                                 <Template
                                     setPrompts={setPrompts}
@@ -151,7 +152,8 @@ export default function MainContent({
                                     setFilterTags={setFilterTags}
                                     filterPrompts={filterPrompts}
                                     selectedFolder={selectedFolder}
-                                    searchTerm={searchTerm}></Template>
+                                    searchTerm={searchTerm}
+                                ></Template>
                             ))}
                         </ul>
                     </div>
@@ -180,7 +182,8 @@ export default function MainContent({
                                             const newValues = [...textareaValues]
                                             newValues[index] = e.target.value
                                             setTextareaValues(newValues)
-                                        }}></textarea>
+                                        }}
+                                    ></textarea>
                                 </div>
                             ))}
                             <div className="modal-action">
@@ -193,7 +196,8 @@ export default function MainContent({
                                         closeModal()
                                     }}
                                     id="save-vars"
-                                    className="btn">
+                                    className="btn"
+                                >
                                     {t(k.COPY)}
                                 </button>
                             </div>

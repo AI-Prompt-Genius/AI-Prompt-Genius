@@ -183,28 +183,32 @@ export default function SettingsModal({
                                     onClick={() => handlePageChange("General")}
                                     className={`p-1 grow tab tab-lifted ${
                                         currentPage === "General" ? "tab-active" : ""
-                                    }`}>
+                                    }`}
+                                >
                                     <div className={"pb-3"}>{t(k.GENERAL_SETTINGS)}</div>
                                 </a>
                                 <a
                                     onClick={() => handlePageChange("Folders")}
                                     className={`p-1 grow tab tab-lifted ${
                                         currentPage === "Folders" ? "tab-active" : ""
-                                    }`}>
+                                    }`}
+                                >
                                     {t(k.MANAGE_FOLDERS)}
                                 </a>
                                 <a
                                     onClick={() => handlePageChange("Export")}
                                     className={`p-1 grow tab tab-lifted ${
                                         currentPage === "Export" ? "tab-active" : ""
-                                    }`}>
+                                    }`}
+                                >
                                     {t(k.IMPORT_EXPORT)}
                                 </a>
                                 <a
                                     onClick={() => handlePageChange("Cloud")}
                                     className={`p-1 grow tab tab-lifted ${
                                         currentPage === "Cloud" ? "tab-active" : ""
-                                    }`}>
+                                    }`}
+                                >
                                     {t(k.CLOUD_SYNCING)}
                                 </a>
                             </ul>
@@ -239,7 +243,8 @@ export default function SettingsModal({
                                                     <td>
                                                         <button
                                                             onClick={() => deleteFolder(folder)}
-                                                            className="my-1 btn p-3 bg-inherit">
+                                                            className="my-1 btn p-3 bg-inherit"
+                                                        >
                                                             <TrashIcon />
                                                         </button>
                                                     </td>
@@ -284,7 +289,8 @@ export default function SettingsModal({
                                             {t(k.USE_THIS)}{" "}
                                             <a
                                                 className="link link-primary"
-                                                onClick={downloadTemplate}>
+                                                onClick={downloadTemplate}
+                                            >
                                                 {t(k.CSV_TEMPLATE)}
                                             </a>{" "}
                                             {t(k.TO_IMPORT_PROMPTS)}
@@ -293,7 +299,8 @@ export default function SettingsModal({
                                             <label
                                                 id="import-label"
                                                 className="clickable"
-                                                htmlFor="import-any">
+                                                htmlFor="import-any"
+                                            >
                                                 {t(k.IMPORT_CSV)}
                                             </label>
                                             <input
@@ -319,7 +326,8 @@ export default function SettingsModal({
                                         {confirmDelete && (
                                             <button
                                                 onClick={deletePrompts}
-                                                className="btn bg-warning">
+                                                className="btn bg-warning"
+                                            >
                                                 {t(k.CONFIRM_DELETE)}
                                             </button>
                                         )}
@@ -353,7 +361,8 @@ export default function SettingsModal({
                                         <a
                                             className={"link link-primary"}
                                             href={`https://docs.google.com/spreadsheets/d/${sheetID}`}
-                                            target="_blank">
+                                            target="_blank"
+                                        >
                                             {t(k.VIEW_LINKED_SHEET)}
                                         </a>
                                     </div>

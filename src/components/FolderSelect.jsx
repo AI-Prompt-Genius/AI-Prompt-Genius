@@ -8,7 +8,8 @@ export default function FolderSelect({ folders, onChange, selectedFolder }) {
             onChange={e => onChange(e.target.value)}
             id="categories"
             defaultValue={selectedFolder ?? ""}
-            className="select select-bordered w-full">
+            className="select select-bordered w-full"
+        >
             <option value="">{t(k.NO_FOLDER)}</option>
             {folders.map(folder => (
                 <option value={folder} key={folder}>

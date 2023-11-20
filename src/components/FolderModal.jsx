@@ -36,7 +36,8 @@ export default function FolderModal({ onClose, setFolders }) {
                         placeholder={"Folder name"}
                         onChange={e => {
                             setFolderVal(e.target.value)
-                        }}></input>
+                        }}
+                    ></input>
                     <div className="modal-action">
                         <button onClick={saveFolder} className="btn">
                             {t(k.SAVE)}

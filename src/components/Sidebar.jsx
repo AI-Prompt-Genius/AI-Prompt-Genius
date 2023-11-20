@@ -98,7 +98,8 @@ export default function Sidebar({
                                 key=""
                                 className="selected folder"
                                 data-folder-name="all"
-                                id="folder-">
+                                id="folder-"
+                            >
                                 <a onClick={() => selectFolder("")}>
                                     <HomeIcon></HomeIcon>
                                     {t(k.ALL_PROMPTS)}
@@ -109,7 +110,8 @@ export default function Sidebar({
                                     id={`${t(k.FOLDER)}${folder}`}
                                     key={folder}
                                     folder={folder}
-                                    onClick={() => selectFolder(folder)}></Folder>
+                                    onClick={() => selectFolder(folder)}
+                                ></Folder>
                             ))}
                         </ul>
                     </div>
