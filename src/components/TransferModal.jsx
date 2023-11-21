@@ -103,7 +103,7 @@ function TransferModal() {
 
     function closeModal() {
         document.getElementById("transferModal").checked = false
-        document.location.href = "http://localhost:5173/?fullscreen=true"
+        document.location.href = "https://lib.aipromptgenius.app/?fullscreen=true"
     }
 
     return (
