@@ -9,6 +9,7 @@ import { checkForResync, finishAuth } from "./components/js/cloudSyncing.js"
 import Toast from "./components/Toast.jsx"
 import { getObject, setObject } from "./components/js/utils.js"
 import OnboardingModal from "./components/OnboardingModal.jsx"
+import {changeLanguage} from "i18next";
 
 function App() {
     const { theme } = React.useContext(ThemeContext)
@@ -88,8 +89,10 @@ function App() {
             } else if (data.message === "transfer") {
                 console.log(data.prompts)
                 console.log("recieved transfer prompts")
+                i18next.changeLanguage(data.lang)
                 const prompts = data.prompts
                 setObject("transferPrompts", prompts)
+                setObject("transferred", true)
             }
         }
 

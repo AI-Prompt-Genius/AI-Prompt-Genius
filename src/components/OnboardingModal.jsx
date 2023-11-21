@@ -5,12 +5,14 @@ import React, { useState } from "react"
 import Head2 from "./Head2.jsx"
 import Head4 from "./Head4.jsx"
 import ShortcutInfo from "./ShortcutInfo.jsx"
+import LanguageSelect from "./LanguageSelect.jsx";
+import {useTranslation} from "react-i18next";
 
 function OnboardingModal() {
     const [page, setPage] = useState(1)
     const MAX_PAGE_NUM = 2
 
-    const t = i18n.t
+    const { t } = useTranslation()
 
     function prevPage() {
         setPage(page - 1)
@@ -36,11 +38,15 @@ function OnboardingModal() {
                     <Logo className="w-20 h-20 mx-auto my-4"> </Logo>
                     {page === 1 && (
                         <div className={"p-4"}>
-                            <h2 className="text-2xl font-bold text-center text-gray-800 mt-6 mb-3">
+                            <h2 className="text-2xl font-bold text-center text-gray-800 mt-0 mb-3">
                                 {t(k.WELCOME_TO_AI_PROMPT_GENIUS)}
                             </h2>
+                            <h4 className="text-lg font-medium text-gray-700 mt-4 mb-2">
+                                {t(k.SELECT_LANG)}
+                            </h4>
+                            <LanguageSelect />
                             <Head4>{t(k.GET_STARTED_WITH_THIS_VIDEO)}</Head4>
-                            {t(k.INSERT_VIDEO)}
+                            <iframe width="470" height="281" src="https://www.youtube-nocookie.com/embed/R9m3wWOlIAY?si=2q2weUV9dP3guoh1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                         </div>
                     )}
 
