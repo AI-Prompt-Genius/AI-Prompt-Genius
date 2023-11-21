@@ -1,6 +1,4 @@
 window.addEventListener("message", async function(event) {
-    // Check the origin of the message
-
     // Parse the received message
     const message = JSON.parse(event.data);
 
