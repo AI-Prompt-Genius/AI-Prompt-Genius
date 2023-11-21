@@ -99,9 +99,10 @@ export const zh_CN = {
     [k.IF_YOU_WANT_TO_CONTINUE_USING]: `如果您想继续使用传统类别，您可以选择将它们导入为标签或文件夹。`,
     [k.SEARCH_PROMPTS]: "搜索提示",
     [k.NAME_FOR_YOUR_PROMPT]: "您提示的名称。",
-    [k.PROMPT_CONTENT_PLACEHOLDER]: "提示内容。使用 {{}} 来表示变量。例如：{{名字}} 是一个 {{形容词}} {{名词}}",
+    [k.PROMPT_CONTENT_PLACEHOLDER]:
+        "提示内容。使用 {{}} 来表示变量。例如：{{名字}} 是一个 {{形容词}} {{名词}}",
     [k.DESCRIPTION_PLACEHOLDER]: "提示的简要描述。",
-    [k.ENTER_TAG]: "按 Enter 添加标签"
+    [k.ENTER_TAG]: "按 Enter 添加标签",
 }
 
 export default zh_CN

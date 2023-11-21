@@ -95,10 +95,10 @@ export const en = {
                                 to import them as tags or folders.`,
     [k.SEARCH_PROMPTS]: "Search prompts",
     [k.NAME_FOR_YOUR_PROMPT]: "A name for your prompt.",
-    [k.PROMPT_CONTENT_PLACEHOLDER]: "Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}",
+    [k.PROMPT_CONTENT_PLACEHOLDER]:
+        "Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}",
     [k.DESCRIPTION_PLACEHOLDER]: "A brief description of the prompt.",
-    [k.ENTER_TAG]: "Press enter to add a tag"
-
+    [k.ENTER_TAG]: "Press enter to add a tag",
 }
 
 export default en

@@ -10,6 +10,8 @@ function OnboardingModal() {
     const [page, setPage] = useState(1)
     const MAX_PAGE_NUM = 2
 
+    const t = i18n.t
+
     function prevPage() {
         setPage(page - 1)
     }
@@ -35,21 +37,21 @@ function OnboardingModal() {
                     {page === 1 && (
                         <div className={"p-4"}>
                             <h2 className="text-2xl font-bold text-center text-gray-800 mt-6 mb-3">
-                                {i18n.t(k.WELCOME_TO_AI_PROMPT_GENIUS)}
+                                {t(k.WELCOME_TO_AI_PROMPT_GENIUS)}
                             </h2>
-                            <Head4>{i18n.t(k.GET_STARTED_WITH_THIS_VIDEO)}</Head4>
-                            {i18n.t(k.INSERT_VIDEO)}
+                            <Head4>{t(k.GET_STARTED_WITH_THIS_VIDEO)}</Head4>
+                            {t(k.INSERT_VIDEO)}
                         </div>
                     )}
 
                     {page === 2 && (
                         <div className={"p-4"}>
-                            <Head2>{i18n.t(k.NEXT_STEPS)}</Head2>
+                            <Head2>{t(k.NEXT_STEPS)}</Head2>
                             <ShortcutInfo />
-                            <Head4>{i18n.t(k.SETUP_CLOUD_SYNCING_EXPLORE)}</Head4>
-                            <p>{i18n.t(k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO)}</p>
-                            <Head4>{i18n.t(k.CREATE_YOUR_FIRST_PROMPT_AND_F)}</Head4>
-                            <p>{i18n.t(k.CLOSE_THIS_POPUP_WINDOW_AND_CL)}</p>
+                            <Head4>{t(k.SETUP_CLOUD_SYNCING_EXPLORE)}</Head4>
+                            <p>{t(k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO)}</p>
+                            <Head4>{t(k.CREATE_YOUR_FIRST_PROMPT_AND_F)}</Head4>
+                            <p>{t(k.CLOSE_THIS_POPUP_WINDOW_AND_CL)}</p>
                         </div>
                     )}
 
@@ -59,21 +61,21 @@ function OnboardingModal() {
                             className={"btn mr-3 disabled:hidden"}
                             onClick={prevPage}
                         >
-                            {i18n.t(k.BACK)}
+                            {t(k.BACK)}
                         </button>
                         <button
                             disabled={page === MAX_PAGE_NUM}
                             className={"btn disabled:hidden"}
                             onClick={nextPage}
                         >
-                            {i18n.t(k.NEXT)}
+                            {t(k.NEXT)}
                         </button>
                         <button
                             disabled={page !== MAX_PAGE_NUM}
                             className={"btn disabled:hidden"}
                             onClick={closeModal}
                         >
-                            {i18n.t(k.CLOSE)}
+                            {t(k.CLOSE)}
                         </button>
                     </div>
                 </div>

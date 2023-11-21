@@ -18,15 +18,17 @@ const ShortcutInfo = () => {
         window.parent.postMessage(messageString, "*")
     }
 
+    const t = i18n.t
+
     return (
         <div>
-            <Head4>{i18n.t(k.SETUP_KEYBOARD_SHORTCUTS)}</Head4>
+            <Head4>{t(k.SETUP_KEYBOARD_SHORTCUTS)}</Head4>
             <p>
-                {i18n.t(k.SETUP_KEYBOARD_SHORTCUTS_TO_OP)}{" "}
+                {t(k.SETUP_KEYBOARD_SHORTCUTS_TO_OP)}{" "}
                 <span className={"link link-primary"} onClick={openKeyboardShortcuts}>
-                    {i18n.t(k.CHROME_EXTENSIONS_SHORTCUTS)}
+                    {t(k.CHROME_EXTENSIONS_SHORTCUTS)}
                 </span>{" "}
-                {i18n.t(k.TO_GET_STARTED)}
+                {t(k.TO_GET_STARTED)}
             </p>
         </div>
     )

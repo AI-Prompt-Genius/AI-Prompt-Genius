@@ -1,4 +1,3 @@
-import i18n from "i18next"
 import React, { useState } from "react"
 import k from "../i18n/keys.js"
 import { useTranslation } from "react-i18next"
@@ -10,7 +9,7 @@ import { getCurrentTimestamp, getObject, newFolder, setObject } from "./js/utils
 import ShortcutInfo from "./ShortcutInfo.jsx"
 
 function TransferModal() {
-    const { t, i18n } = useTranslation()
+    const { t} = useTranslation()
     const [page, setPage] = useState(1)
     const MAX_PAGE_NUM = 3
 
@@ -122,10 +121,10 @@ function TransferModal() {
                     {page === 1 && (
                         <div className={"mb-4"}>
                             <h2 className="text-2xl font-bold text-center text-gray-800 mt-6 mb-3">
-                                {i18n.t(k.WELCOME_TO_THE_NEW_AI_PROMPT_G)}
+                                {t(k.WELCOME_TO_THE_NEW_AI_PROMPT_G)}
                             </h2>
                             <p className="text-center text-xl text-gray-600 mb-4">
-                                {i18n.t(k.PROMPT_GENIUS_JUST_GOT_AN_UPDA)}
+                                {t(k.PROMPT_GENIUS_JUST_GOT_AN_UPDA)}
                             </p>
                             <h4 className="text-lg font-medium text-gray-700 mt-4 mb-2">
                                 {t(k.SELECT_LANG)}
@@ -136,39 +135,39 @@ function TransferModal() {
 
                     {page === 2 && (
                         <div className="p-4">
-                            <Head2>{i18n.t(k.WHAT_S_NEW)}</Head2>
-                            <Head4>{i18n.t(k.CATEGORIES_ARE_NOW_FOLDERS)}</Head4>
+                            <Head2>{t(k.WHAT_S_NEW)}</Head2>
+                            <Head4>{t(k.CATEGORIES_ARE_NOW_FOLDERS)}</Head4>
                             <p className="text-gray-600 mb-4">
-                                {i18n.t(k.YOU_NOW_GET_TO_PICK_YOUR_OWN_C)}
+                                {t(k.YOU_NOW_GET_TO_PICK_YOUR_OWN_C)}
                             </p>
 
-                            <Head4>{i18n.t(k.USE_AI_PROMPT_GENIUS_ANYWHERE)}</Head4>
+                            <Head4>{t(k.USE_AI_PROMPT_GENIUS_ANYWHERE)}</Head4>
                             <p className="text-gray-600 mb-4">
-                                {i18n.t(k.AI_PROMPT_GENIUS_IS_NOW_SELF_C)}
+                                {t(k.AI_PROMPT_GENIUS_IS_NOW_SELF_C)}
                             </p>
 
-                            <Head4>{i18n.t(k.MORE_ROBUST_IMPORT_AND_CLOUD_S)}</Head4>
-                            <p>{i18n.t(k.YOU_CAN_MASS_IMPORT_PROMPTS_US)}</p>
+                            <Head4>{t(k.MORE_ROBUST_IMPORT_AND_CLOUD_S)}</Head4>
+                            <p>{t(k.YOU_CAN_MASS_IMPORT_PROMPTS_US)}</p>
 
-                            <Head4>{i18n.t(k.NEW_SLEEK_UI)}</Head4>
-                            <p>{i18n.t(k.THE_NEW_UI_IS_MORE_COHESIVE_AN)}</p>
+                            <Head4>{t(k.NEW_SLEEK_UI)}</Head4>
+                            <p>{t(k.THE_NEW_UI_IS_MORE_COHESIVE_AN)}</p>
 
-                            <Head4>{i18n.t(k.HISTORY_THEMES_AND_CHAT_EXPO)}</Head4>
+                            <Head4>{t(k.HISTORY_THEMES_AND_CHAT_EXPO)}</Head4>
                             <p className={"text-gray-600 mb-4"}>
-                                {i18n.t(k.YOU_CAN_DOWNLOAD_A_COPY_OF_YOU)}{" "}
+                                {t(k.YOU_CAN_DOWNLOAD_A_COPY_OF_YOU)}{" "}
                                 <span className={"link-primary link"} onClick={downloadArchive}>
                                     {" "}
-                                    {i18n.t(k.DATA_IN_JSON_HERE)}
+                                    {t(k.DATA_IN_JSON_HERE)}
                                 </span>{" "}
-                                {i18n.t(k.CLICK)}{" "}
+                                {t(k.CLICK)}{" "}
                                 <a
                                     className="link link-primary"
                                     target={"_blank"}
                                     href={"https://link.aipromptgenius.app/mJ0gg6"}
                                 >
-                                    {i18n.t(k.HERE)}
+                                    {t(k.HERE)}
                                 </a>{" "}
-                                {i18n.t(k.TO_LEARN_MORE_ABOUT_THE_FUTURE)}
+                                {t(k.TO_LEARN_MORE_ABOUT_THE_FUTURE)}
                             </p>
                         </div>
                     )}
@@ -177,23 +176,23 @@ function TransferModal() {
                         <div className="p-4">
                             <div className={"flex align-middle"}>
                                 <div className={"inline mr-3"}>
-                                    <Head4>{i18n.t(k.IMPORT_CATEGORIES_AS)}</Head4>
+                                    <Head4>{t(k.IMPORT_CATEGORIES_AS)}</Head4>
                                 </div>
                                 <select
                                     className="select select-bordered"
                                     value={categoryMode}
                                     onChange={handleSelectChange}
                                 >
-                                    <option value={"none"}>{i18n.t(k.NONE)}</option>
-                                    <option value={"folder"}>{i18n.t(k.FOLDER1)}</option>
-                                    <option value={"tag"}>{i18n.t(k.TAG)}</option>
+                                    <option value={"none"}>{t(k.NONE)}</option>
+                                    <option value={"folder"}>{t(k.FOLDER1)}</option>
+                                    <option value={"tag"}>{t(k.TAG)}</option>
                                 </select>
                             </div>
-                            <p className={"mb-5"}>{i18n.t(k.IF_YOU_WANT_TO_CONTINUE_USING)}</p>
-                            <Head2>{i18n.t(k.NEXT_STEPS)}</Head2>
+                            <p className={"mb-5"}>{t(k.IF_YOU_WANT_TO_CONTINUE_USING)}</p>
+                            <Head2>{t(k.NEXT_STEPS)}</Head2>
                             <ShortcutInfo />
-                            <Head4>{i18n.t(k.SETUP_CLOUD_SYNCING_EXPLORE)}</Head4>
-                            <p>{i18n.t(k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO)}</p>
+                            <Head4>{t(k.SETUP_CLOUD_SYNCING_EXPLORE)}</Head4>
+                            <p>{t(k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO)}</p>
                         </div>
                     )}
 
@@ -203,21 +202,21 @@ function TransferModal() {
                             className={"btn mr-3 disabled:hidden"}
                             onClick={prevPage}
                         >
-                            {i18n.t(k.BACK)}
+                            {t(k.BACK)}
                         </button>
                         <button
                             disabled={page === MAX_PAGE_NUM}
                             className={"btn disabled:hidden"}
                             onClick={nextPage}
                         >
-                            {i18n.t(k.NEXT)}
+                            {t(k.NEXT)}
                         </button>
                         <button
                             disabled={page !== MAX_PAGE_NUM}
                             className={"btn disabled:hidden"}
                             onClick={closeModal}
                         >
-                            {i18n.t(k.CLOSE)}
+                            {t(k.CLOSE)}
                         </button>
                     </div>
                 </div>
