@@ -5,7 +5,7 @@ window.addEventListener("message", async function(event) {
     const message = JSON.parse(event.data);
 
     if (message.message === "getTransfer") {
-        sendMessage(message)
+        setTimeout(() => sendMessage(message), 500)
     }
 }, false)
 
