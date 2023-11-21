@@ -5,8 +5,8 @@ import React, { useState } from "react"
 import Head2 from "./Head2.jsx"
 import Head4 from "./Head4.jsx"
 import ShortcutInfo from "./ShortcutInfo.jsx"
-import LanguageSelect from "./LanguageSelect.jsx";
-import {useTranslation} from "react-i18next";
+import LanguageSelect from "./LanguageSelect.jsx"
+import { useTranslation } from "react-i18next"
 
 function OnboardingModal() {
     const [page, setPage] = useState(1)
@@ -46,7 +46,15 @@ function OnboardingModal() {
                             </h4>
                             <LanguageSelect />
                             <Head4>{t(k.GET_STARTED_WITH_THIS_VIDEO)}</Head4>
-                            <iframe width="470" height="281" src="https://www.youtube-nocookie.com/embed/R9m3wWOlIAY?si=2q2weUV9dP3guoh1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                            <iframe
+                                width="470"
+                                height="281"
+                                src="https://www.youtube-nocookie.com/embed/R9m3wWOlIAY?si=2q2weUV9dP3guoh1"
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                            ></iframe>
                         </div>
                     )}
 

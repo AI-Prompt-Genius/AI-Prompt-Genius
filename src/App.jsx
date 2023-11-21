@@ -9,7 +9,7 @@ import { checkForResync, finishAuth } from "./components/js/cloudSyncing.js"
 import Toast from "./components/Toast.jsx"
 import { getObject, setObject } from "./components/js/utils.js"
 import OnboardingModal from "./components/OnboardingModal.jsx"
-import {changeLanguage} from "i18next";
+import { changeLanguage } from "i18next"
 
 function App() {
     const { theme } = React.useContext(ThemeContext)

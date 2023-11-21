@@ -24,9 +24,9 @@ function TransferModal() {
         setPage(page + 1)
     }
 
-    if (page === 1){
+    if (page === 1) {
         const recievedTransfer = getObject("transferred", false)
-        if (!recievedTransfer){
+        if (!recievedTransfer) {
             var message = {
                 message: "getTransfer",
             }
@@ -144,8 +144,18 @@ function TransferModal() {
                             <h4 className="text-lg font-medium text-gray-700 mt-4 mb-2">
                                 {t(k.SELECT_LANG)}
                             </h4>
-                            <div className={"mb-4"}><LanguageSelect /></div>
-                            <iframe width="470" height="281" src="https://www.youtube-nocookie.com/embed/R9m3wWOlIAY?si=2q2weUV9dP3guoh1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                            <div className={"mb-4"}>
+                                <LanguageSelect />
+                            </div>
+                            <iframe
+                                width="470"
+                                height="281"
+                                src="https://www.youtube-nocookie.com/embed/R9m3wWOlIAY?si=2q2weUV9dP3guoh1"
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                            ></iframe>
                         </div>
                     )}
 
