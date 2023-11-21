@@ -175,6 +175,7 @@ export default function SettingsModal({
                 id="settings-modal"
                 className="modal-toggle hidden"
             />
+
             <div className="modal">
                 <div className="modal-box max-w-[1000px] h-full">
                     <div className="flex flex-col">
