@@ -2,4 +2,7 @@
   "appName": {
     "message": "AI Prompt Genius"
   },
+  "appDesc": {
+    "message": "Создайте собственную библиотеку приглашений для ИИ"
+  }
 }

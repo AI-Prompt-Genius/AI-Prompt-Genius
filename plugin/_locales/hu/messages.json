@@ -2,4 +2,7 @@
   "appName": {
     "message": "AI Prompt Genius"
   },
+  "appDesc": {
+    "message": "Hozzon létre egyéni AI-kérés könyvtárat"
+  }
 }
