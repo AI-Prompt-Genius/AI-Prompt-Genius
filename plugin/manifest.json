@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "AI Prompt Genius",
+  "name": "__MSG_appName__",
   "version": "4.0.0",
-  "description": "Craft a custom library of AI Prompts",
+  "description": "__MSG_appDesc__",
   "permissions": [
     "sidePanel",
     "commands",

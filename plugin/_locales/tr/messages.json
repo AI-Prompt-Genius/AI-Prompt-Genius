@@ -4,5 +4,8 @@
   },
   "appDesc": {
     "message": "Özel bir AI İstemi Kütüphanesi oluşturun"
+  },
+  "openSidebar": {
+    "message": "Yan çubuğunu aç"
   }
 }

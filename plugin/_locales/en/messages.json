@@ -4,5 +4,8 @@
   },
   "appDesc": {
     "message": "Craft a custom library of AI Prompts"
+  },
+  "openSidebar": {
+    "message": "Open the sidebar"
   }
 }

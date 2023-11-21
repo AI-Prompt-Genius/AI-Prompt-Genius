@@ -4,5 +4,8 @@
   },
   "appDesc": {
     "message": "Créez une bibliothèque personnalisée d'invites d'IA"
+  },
+  "openSidebar": {
+    "message": "Ouvrir la barre latérale"
   }
 }

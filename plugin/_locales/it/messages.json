@@ -4,5 +4,8 @@
   },
   "appDesc": {
     "message": "Crea una libreria personalizzata di prompt AI"
+  },
+  "openSidebar": {
+    "message": "Apri la barra laterale"
   }
 }

@@ -4,5 +4,8 @@
   },
   "appDesc": {
     "message": "Crie uma biblioteca personalizada de instruções de IA"
+  },
+  "openSidebar": {
+    "message": "Abrir a barra lateral"
   }
 }

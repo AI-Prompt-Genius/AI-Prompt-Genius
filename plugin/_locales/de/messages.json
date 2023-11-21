@@ -4,5 +4,9 @@
   },
   "appDesc": {
     "message": "Erstellen Sie eine benutzerdefinierte Bibliothek mit KI-Prompts"
-  }
+  },
+  "openSidebar": {
+    "message": "Öffne die Seitenleiste"
+  },
+
 }
