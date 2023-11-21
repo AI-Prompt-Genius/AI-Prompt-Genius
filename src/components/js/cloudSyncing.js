@@ -26,7 +26,7 @@ async function linkSheet(token) {
             setObject("cloudSyncing", true)
             localStorage.setItem("sheetID", sheetId)
             const prompts = getPrompts()
-            let promptIDList = prompts.length > 0 ? prompts.map(obj => obj.id) : []
+            let promptIDList = prompts.length > 0 ? prompts.map(obj => obj.id).reverse() : []
             syncPrompts([], [], promptIDList, prompts, sheetId)
         } else {
             await newSheet(token)
