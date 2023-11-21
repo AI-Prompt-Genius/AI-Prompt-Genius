@@ -145,6 +145,7 @@ async function getSheetData(spreadsheetId, range) {
             "title",
             "description",
         ]
+
         // allows user to translate if they want
         console.log(data)
         if (!data.values) {

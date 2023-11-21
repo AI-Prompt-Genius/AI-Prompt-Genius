@@ -1,3 +1,5 @@
+import i18n from "i18next"
+import k from "./../i18n/keys"
 import React from "react"
 import Head4 from "./Head4.jsx"
 
@@ -18,14 +20,13 @@ const ShortcutInfo = () => {
 
     return (
         <div>
-            <Head4>Setup keyboard shortcuts</Head4>
+            <Head4>{i18n.t(k.SETUP_KEYBOARD_SHORTCUTS)}</Head4>
             <p>
-                Setup keyboard shortcuts to open the sidebar (Chrome 116+) or open the popup panel
-                with your prompts. Go to{" "}
+                {i18n.t(k.SETUP_KEYBOARD_SHORTCUTS_TO_OP)}{" "}
                 <span className={"link link-primary"} onClick={openKeyboardShortcuts}>
-                    chrome://extensions/shortcuts
+                    {i18n.t(k.CHROME_EXTENSIONS_SHORTCUTS)}
                 </span>{" "}
-                to get started.
+                {i18n.t(k.TO_GET_STARTED)}
             </p>
         </div>
     )

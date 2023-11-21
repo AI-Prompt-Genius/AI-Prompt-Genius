@@ -91,5 +91,5 @@ export const k = {
     _1: "_1",
     SELECT_LANG: "SELECT_LANG",
     FOLDER_NAME: "FOLDER_NAME",
-    SAVE: "SAVE"
+    SAVE: "SAVE",
 }
