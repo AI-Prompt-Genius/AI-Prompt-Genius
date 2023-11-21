@@ -9,7 +9,7 @@ import { getCurrentTimestamp, getObject, newFolder, setObject } from "./js/utils
 import ShortcutInfo from "./ShortcutInfo.jsx"
 
 function TransferModal() {
-    const { t} = useTranslation()
+    const { t } = useTranslation()
     const [page, setPage] = useState(1)
     const MAX_PAGE_NUM = 3
 

@@ -1,0 +1,35 @@
+🎉 Welcome to AI Prompt Genius! A free, open-source browser extension with features like:
+
+- 💾 Sync chat history locally for easy access and searching
+- 📄 Save chats as markdown, HTML, PDF, or PNG
+- 🎨 Customize ChatGPT with themes like SMS, cozy fireplace, and hacker
+- 🔍 Discover, share, import, and use the best prompts for ChatGPT
+
+Find and add prompt templates to your collection, categorize, and select them easily right on ChatGPT. The history saving feature automatically stores your conversation history in your browser.
+
+**Access saved history & prompt templates by clicking on the extension icon**
+
+Explore and 🔖 bookmark threads, or 🔍 search through threads & prompt templates. Provide feedback or suggestions through our feedback form. Thank you for using ChatGPT Prompt Genius!
+
+**Not affiliated with OpenAI or ChatGPT**
+
+FAQ
+What do you do with my data?
+We understand that your data is important to you, and we want to assure you that it is completely under your control. All of your data is stored locally on your device, and we do not claim any ownership over it. Additionally, we do not have access to your data (we do not have servers), as it is stored solely on your device's local storage. If you choose to share a chat, it will be uploaded to a ShareGPT server, but you will still retain the rights to your data. You can export your data at any time in its raw Markdown format, and we are also working on adding more export formats for your convenience.
+
+I found a bug!
+We're sorry to hear that you've encountered a bug. If you could please raise an issue on our GitHub repository (https://github.com/benf2004/ChatGPT-Prompt-Genius/issues), we'll work on resolving the problem as soon as possible. If you're feeling adventurous, you can also open a pull request to fix the bug yourself and be the change you want to see in the world!
+
+I have a feature idea!
+
+We're always looking for ways to improve our extension, and we would love to hear your ideas. Please use the discussions on our GitHub repository https://github.com/benf2004/ChatGPT-Prompt-Genius/discussions to share your thoughts.
+
+Who is "we"?
+
+This project is open-source and we encourage you to read the code on our GitHub repository https://github.com/benf2004/ChatGPT-Prompt-Genius. If you see anything that needs improvement, feel free to open an issue or pull request.
+
+Source code available at: https://github.com/benf2004/ChatGPT-Prompt-Genius 💻
+Please contribute or leave a review! 🙏
+
+Changelog available at:
+https://github.com/benf2004/ChatGPT-Prompt-Genius/blob/master/CHANGELOG.md
