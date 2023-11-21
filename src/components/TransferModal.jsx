@@ -19,8 +19,27 @@ function TransferModal() {
     function nextPage() {
         if (page + 1 === 2) {
             updatePrompts(categoryMode)
+        } else if (page + 1 === 2) {
+            clearStorage()
         }
         setPage(page + 1)
+    }
+
+    function clearStorage() {
+        const prompts = getObject("prompts", [])
+        if (prompts !== []) {
+            console.log("Clearing storage")
+            // Create the message object
+            var message = {
+                message: "clearStorage",
+            }
+
+            // Stringify the object to send via postMessage
+            var messageString = JSON.stringify(message)
+
+            // Send the message to the parent window
+            window.parent.postMessage(messageString, "*")
+        }
     }
 
     function prevPage() {

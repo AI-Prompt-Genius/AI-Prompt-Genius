@@ -25,7 +25,7 @@ function OnboardingModal() {
             <input
                 defaultChecked
                 type="checkbox"
-                id="onnboardingModal"
+                id="onboardingModal"
                 className="modal-toggle hidden"
             />
 

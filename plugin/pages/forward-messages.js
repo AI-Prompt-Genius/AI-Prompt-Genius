@@ -15,6 +15,10 @@ window.addEventListener("message", async function(event) {
     else if (message.message === "downloadArchive"){
         exportFiles()
     }
+    else if (message.message === "clearStorage"){
+        chrome.storage.local.clear()
+        chrome.storage.sync.clear()
+    }
     else if (message.message === "openAuth"){
         const authToken = await getAuthToken()
         const response = {message: "newAuthToken", token: authToken}
