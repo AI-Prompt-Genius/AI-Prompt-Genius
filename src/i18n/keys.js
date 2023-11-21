@@ -93,3 +93,5 @@ export const k = {
     FOLDER_NAME: "FOLDER_NAME",
     SAVE: "SAVE",
 }
+
+export default k
