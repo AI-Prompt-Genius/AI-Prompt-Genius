@@ -10,7 +10,7 @@ window.addEventListener("message", async function(event) {
 let response;
 async function main(){
     const promptObj = await chrome.storage.local.get({prompts: []})
-    const prompts = await promptObj.prompts;
+    const prompts = await promptObj.prompts.reverse();
 
     const langObj = await chrome.storage.local.get({lang: "en"})
     const lang = await langObj.lang
