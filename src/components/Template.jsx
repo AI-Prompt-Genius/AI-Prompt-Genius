@@ -176,21 +176,21 @@ export default function Template({
                                     className="textarea textarea-bordered w-full h-[25px]"
                                     autoFocus
                                     defaultValue={template.title ?? ""}
-                                    placeholder="A name for your prompt."
+                                    placeholder={t(k.NAME_FOR_YOUR_PROMPT)}
                                 ></textarea>
                                 <div className="text-sm font-bold py-3">{t(k.TEXT)}</div>
                                 <textarea
                                     onChange={e => setText(e.target.value)}
                                     className="textarea textarea-bordered w-full h-[100px]"
                                     defaultValue={template.text ?? ""}
-                                    placeholder="Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}"
+                                    placeholder={t(k.PROMPT_CONTENT_PLACEHOLDER)}
                                 ></textarea>
                                 <div className="text-sm font-bold py-3">{t(k.DESCRIPTION)}</div>
                                 <textarea
                                     onChange={e => setDescription(e.target.value)}
                                     className="textarea textarea-bordered w-full h-[50px]"
                                     defaultValue={template.description ?? ""}
-                                    placeholder="A breif description of the prompt."
+                                    placeholder={t(k.DESCRIPTION_PLACEHOLDER)}
                                 ></textarea>
                                 <div className="text-sm font-bold py-3">{t(k.TAGS)}</div>
                                 {/* eslint-disable-next-line react/prop-types */}
@@ -207,7 +207,7 @@ export default function Template({
                                 </div>
                                 <input
                                     className="input input-bordered w-full h-[40px]"
-                                    placeholder="Press enter to add a tag"
+                                    placeholder={t(k.ENTER_TAG)}
                                     ref={tagRef}
                                     onKeyDown={handleKeyDown}
                                 ></input>

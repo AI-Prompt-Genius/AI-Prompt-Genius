@@ -119,7 +119,7 @@ export default function MainContent({
                             <input
                                 type="text"
                                 className="input w-full"
-                                placeholder="Search prompts"
+                                placeholder={t(k.SEARCH_PROMPTS)}
                                 onChange={event => {
                                     setSearchTerm(event.target.value)
                                     filterPrompts(selectedFolder, filterTags, event.target.value)

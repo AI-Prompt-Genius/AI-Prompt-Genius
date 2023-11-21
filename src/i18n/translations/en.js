@@ -6,19 +6,6 @@ export const en = {
     [k.SAVE]: `Save`,
     [k.CLOSE]: `Close`,
     [k.NO_FOLDER]: `No Folder`,
-    [k.DE]: `de`,
-    [k.EN]: `en`,
-    [k.ES]: `es`,
-    [k.FR]: `fr`,
-    [k.HU]: `hu`,
-    [k.IT]: `it`,
-    [k.PT_BR]: `pt_BR`,
-    [k.PT_PT]: `pt_PT`,
-    [k.RU]: `ru`,
-    [k.TR]: `tr`,
-    [k.UK]: `uk`,
-    [k.ZH_CN]: `zh_CN`,
-    [k.ZH_TW]: `zh_TW`,
     [k.ENTER_VALUE_FOR]: `Enter value for`,
     [k._]: `...`,
     [k.COPY]: `Copy`,
@@ -106,6 +93,12 @@ export const en = {
     [k.TAG]: `Tag`,
     [k.IF_YOU_WANT_TO_CONTINUE_USING]: `If you want to continue using the legacy categories, you can choose
                                 to import them as tags or folders.`,
+    [k.SEARCH_PROMPTS]: "Search prompts",
+    [k.NAME_FOR_YOUR_PROMPT]: "A name for your prompt.",
+    [k.PROMPT_CONTENT_PLACEHOLDER]: "Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}",
+    [k.DESCRIPTION_PLACEHOLDER]: "A brief description of the prompt.",
+    [k.ENTER_TAG]: "Press enter to add a tag"
+
 }
 
 export default en

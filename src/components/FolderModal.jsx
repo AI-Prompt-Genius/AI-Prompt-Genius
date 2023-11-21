@@ -33,7 +33,7 @@ export default function FolderModal({ onClose, setFolders }) {
                         maxLength="18"
                         className="textarea textarea-bordered w-full h-[25px]"
                         value={folderVal}
-                        placeholder={"Folder name"}
+                        placeholder={t(k.FOLDER_NAME)}
                         onChange={e => {
                             setFolderVal(e.target.value)
                         }}
