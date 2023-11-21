@@ -80,6 +80,7 @@ function App() {
 
     useEffect(() => {
         const handleMessage = async function (event) {
+            console.log(event)
             const data = JSON.parse(event.data)
             if (data.message === "newAuthToken") {
                 localStorage.setItem("GOOGLE_API_TOKEN", data.token)

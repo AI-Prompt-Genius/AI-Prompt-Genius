@@ -23,7 +23,7 @@ window.addEventListener("message", async function(event) {
         const authToken = await getAuthToken()
         const response = {message: "newAuthToken", token: authToken}
         const responseStr = JSON.stringify(response)
-        document.getElementById("window").contentWindow.postMessage(responseStr, "*")
+        document.getElementById("window").contentWindow.postMessage(responseStr, "https://lib.aipromptgenius.app")
     }
     else if (message.message === "clearCachedTokens"){
         chrome.identity.clearAllCachedAuthTokens();
