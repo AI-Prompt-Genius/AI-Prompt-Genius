@@ -1,9 +1,10 @@
+import i18next from "i18next"
 import { useState } from "react"
 import {useTranslation} from "react-i18next";
 
 export default function LanguageSelect({ onLangUpdate }) {
     const { t, i18n } = useTranslation()
-    const selectedLang = i18n.language ?? "en"
+    const selectedLang = i18next.language ?? "en"
     const [selectedLanguage, setSelectedLanguage] = useState(selectedLang)
 
     const languages = {
