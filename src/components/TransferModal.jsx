@@ -6,6 +6,7 @@ import LanguageSelect from "./LanguageSelect.jsx"
 import Head4 from "./Head4.jsx"
 import Head2 from "./Head2.jsx"
 import { getCurrentTimestamp, getObject, newFolder, setObject } from "./js/utils.js"
+import ShortcutInfo from "./ShortcutInfo.jsx"
 
 function TransferModal() {
     const { t, i18n } = useTranslation()
@@ -28,20 +29,6 @@ function TransferModal() {
     const handleSelectChange = event => {
         setCategoryMode(event.target.value)
         updatePrompts(event.target.value)
-    }
-
-    function openKeyboardShortcuts() {
-        console.log("OPENING!")
-        // Create the message object
-        var message = {
-            message: "openShortcuts",
-        }
-
-        // Stringify the object to send via postMessage
-        var messageString = JSON.stringify(message)
-
-        // Send the message to the parent window
-        window.parent.postMessage(messageString, "*")
     }
 
     function downloadArchive() {
@@ -189,18 +176,7 @@ function TransferModal() {
                                 to import them as tags or folders.
                             </p>
                             <Head2>Next Steps</Head2>
-                            <Head4>Setup keyboard shortcuts</Head4>
-                            <p>
-                                Setup keyboard shortcuts to open the sidebar (Chrome 116+) or open
-                                the popup panel with your prompts. Go to{" "}
-                                <span
-                                    className={"link link-primary"}
-                                    onClick={openKeyboardShortcuts}
-                                >
-                                    chrome://extensions/shortcuts
-                                </span>{" "}
-                                to get started.
-                            </p>
+                            <ShortcutInfo />
                             <Head4>Setup Cloud Syncing & Explore Settings</Head4>
                             <p>
                                 Want to sync your prompts across multiple devices or just have a

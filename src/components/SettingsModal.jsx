@@ -20,6 +20,7 @@ import {
 import LanguageSelect from "./LanguageSelect.jsx"
 import { GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx"
 import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js"
+import ShortcutInfo from "./ShortcutInfo.jsx"
 
 export default function SettingsModal({
     setSettingsVisible,
@@ -219,6 +220,7 @@ export default function SettingsModal({
                                 <div className="card-body pt-2">
                                     <h5 className="card-title">{t(k.LANGUAGE)}</h5>
                                     <LanguageSelect />
+                                    <ShortcutInfo />
                                 </div>
                             </div>
                         )}
