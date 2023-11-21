@@ -2,7 +2,7 @@
 dist_mv2/
 dist_mv3/
 releases/
-/src/manifest.json
+/plugin/manifest.json
 .DS_Store
 docs/.obsidian
 docs/Private
