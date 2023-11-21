@@ -80,7 +80,6 @@ function App() {
 
     useEffect(() => {
         const handleMessage = async function (event) {
-            console.log(event)
             const data = JSON.parse(event.data)
             if (data.message === "newAuthToken") {
                 localStorage.setItem("GOOGLE_API_TOKEN", data.token)
@@ -90,7 +89,8 @@ function App() {
             } else if (data.message === "transfer") {
                 console.log(data.prompts)
                 console.log("recieved transfer prompts")
-                i18next.changeLanguage(data.lang)
+                await i18next.changeLanguage(data.lang)
+                localStorage.setItem("lng", data.lang)
                 const prompts = data.prompts
                 setObject("transferPrompts", prompts)
                 setObject("transferred", true)
