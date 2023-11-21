@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "AI Prompt Genius v4",
-  "version": "3.9.9",
-  "description": "v4 babbbyyy",
+  "name": "AI Prompt Genius",
+  "version": "4.0.0",
+  "description": "Craft a custom library of AI Prompts",
   "permissions": [
     "sidePanel",
     "commands",

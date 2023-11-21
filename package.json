@@ -8,8 +8,7 @@
     "build": "vite build",
     "css": "npx tailwindcss -i ./input.css -o ./src/App.css --minify",
     "lint": "npx prettier src/ --write",
-    "preview": "vite preview",
-    "prepare": "husky install"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@uidotdev/usehooks": "^2.4.1",
