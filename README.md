@@ -87,10 +87,10 @@ This work is licensed under a
 Proper Attribution (include in the prominent file):  
 
 ```
-/* ChatGPT Prompt Genius - https://github.com/benf2004/ChatGPT-Prompt-Genius
+/* 
+AI Prompt Genius - https://github.com/benf2004/AI-Prompt-Genius
 @benf2004 - https://github.com/benf2004/ - Creator
-@aivct - https://github.com/aivct/ - Major Contributor
-View the full list of contributors at https://github.com/benf2004/ChatGPT-Prompt-Genius/graphs/contributors
+View the full list of contributors at https://github.com/benf2004/AI-Prompt-Genius/graphs/contributors
 */
 ```
 
