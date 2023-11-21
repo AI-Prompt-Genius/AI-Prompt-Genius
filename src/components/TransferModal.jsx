@@ -30,6 +30,34 @@ function TransferModal() {
         updatePrompts(event.target.value)
     }
 
+    function openKeyboardShortcuts() {
+        console.log("OPENING!")
+        // Create the message object
+        var message = {
+            message: "openShortcuts",
+        }
+
+        // Stringify the object to send via postMessage
+        var messageString = JSON.stringify(message)
+
+        // Send the message to the parent window
+        window.parent.postMessage(messageString, "*")
+    }
+
+    function downloadArchive() {
+        console.log("Archive ALL!")
+        // Create the message object
+        var message = {
+            message: "downloadArchive",
+        }
+
+        // Stringify the object to send via postMessage
+        var messageString = JSON.stringify(message)
+
+        // Send the message to the parent window
+        window.parent.postMessage(messageString, "*")
+    }
+
     function updatePrompts(categoryMode = categoryMode) {
         const oldPrompts = getObject("transferPrompts", null)
         if (oldPrompts) {
@@ -38,7 +66,7 @@ function TransferModal() {
                 let tags = prompt.tags
                 let folder = ""
 
-                if (categoryMode === "tag") {
+                if (categoryMode === "tag" && category !== "" && category !== " ") {
                     tags = [...new Set([...tags, category])]
                     folder = ""
                     setObject("folders", [])
@@ -67,12 +95,17 @@ function TransferModal() {
         }
     }
 
+    function closeModal() {
+        document.getElementById("transferModal").checked = false
+        document.location.href = "http://localhost:5173/?fullscreen=true"
+    }
+
     return (
         <>
             <input
                 defaultChecked
                 type="checkbox"
-                id="settings-modal"
+                id="transferModal"
                 className="modal-toggle hidden"
             />
             <div className="modal">
@@ -116,14 +149,22 @@ function TransferModal() {
                             <Head4>New sleek UI</Head4>
                             <p>The new UI is more cohesive and modern.</p>
 
-                            <Head4>History, themes, and chat export are being separated</Head4>
+                            <Head4>History, themes, and chat export are being paused</Head4>
                             <p className={"text-gray-600 mb-4"}>
                                 You can download a copy of your{" "}
-                                <span className={"link-primary link"}> JSON here.</span> You can{" "}
-                                <a className="link link-primary" target={"_blank"} href={""}>
-                                    click here
-                                </a>
-                                to learn more about how to continue using these features.
+                                <span className={"link-primary link"} onClick={downloadArchive}>
+                                    {" "}
+                                    data in JSON here.
+                                </span>{" "}
+                                Click{" "}
+                                <a
+                                    className="link link-primary"
+                                    target={"_blank"}
+                                    href={"https://link.aipromptgenius.app/mJ0gg6"}
+                                >
+                                    here
+                                </a>{" "}
+                                to learn more about the future of these features.
                             </p>
                         </div>
                     )}
@@ -136,13 +177,14 @@ function TransferModal() {
                                 <select
                                     className="select select-bordered"
                                     value={categoryMode}
-                                    onChange={handleSelectChange}>
+                                    onChange={handleSelectChange}
+                                >
                                     <option value={"none"}>None</option>
                                     <option value={"folder"}>Folder</option>
                                     <option value={"tag"}>Tag</option>
                                 </select>
                             </div>
-                            <p className={"mb-3"}>
+                            <p className={"mb-5"}>
                                 If you want to continue using the legacy categories, you can choose
                                 to import them as tags or folders.
                             </p>
@@ -152,11 +194,19 @@ function TransferModal() {
                                 Setup keyboard shortcuts to open the sidebar (Chrome 116+) or open
                                 the popup panel with your prompts. Go to{" "}
                                 <span
-                                    className={"link link-primary"
-                                }
+                                    className={"link link-primary"}
+                                    onClick={openKeyboardShortcuts}
+                                >
                                     chrome://extensions/shortcuts
                                 </span>{" "}
                                 to get started.
+                            </p>
+                            <Head4>Setup Cloud Syncing & Explore Settings</Head4>
+                            <p>
+                                Want to sync your prompts across multiple devices or just have a
+                                cloud backup? You can get started by closing this window and
+                                clicking settings > cloud syncing. You'll need to do this on every
+                                device you want to sync.
                             </p>
                         </div>
                     )}
@@ -164,16 +214,22 @@ function TransferModal() {
                         <button
                             disabled={page === 1}
                             className={"btn mr-3 disabled:hidden"}
-                            onClick={prevPage}>
+                            onClick={prevPage}
+                        >
                             Back
                         </button>
                         <button
                             disabled={page === MAX_PAGE_NUM}
                             className={"btn disabled:hidden"}
-                            onClick={nextPage}>
+                            onClick={nextPage}
+                        >
                             Next
                         </button>
-                        <button disabled={page !== MAX_PAGE_NUM} className={"btn disabled:hidden"}>
+                        <button
+                            disabled={page !== MAX_PAGE_NUM}
+                            className={"btn disabled:hidden"}
+                            onClick={closeModal}
+                        >
                             Close
                         </button>
                     </div>

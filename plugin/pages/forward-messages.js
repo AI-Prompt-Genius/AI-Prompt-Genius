@@ -3,6 +3,7 @@ window.addEventListener("message", async function(event) {
 
     // Parse the received message
     const message = JSON.parse(event.data);
+    console.log(message)
 
     if (message.message === "openFullScreen") {
         // Forward the message to the background script
@@ -10,6 +11,9 @@ window.addEventListener("message", async function(event) {
     }
     else if (message.message === "openShortcuts") {
         chrome.tabs.create({ url: `chrome://extensions/shortcuts` });
+    }
+    else if (message.message === "downloadArchive"){
+        exportFiles()
     }
     else if (message.message === "openAuth"){
         const authToken = await getAuthToken()
@@ -36,3 +40,56 @@ async function getAuthToken(interactive=true) {
         });
     });
 }
+
+function exportFiles(h = true, p = true, s = true) {
+    chrome.storage.local.get(
+        ["threads", "prompts", "settings"],
+        function (result) {
+            let threads = result.threads ?? [];
+            let prompts = result.prompts ?? [];
+            let settings = result.settings ?? [];
+            let title = "";
+
+            let data = {};
+            if (h) {
+                data.threads = threads;
+                title += "-History";
+            }
+            if (p) {
+                data.prompts = prompts;
+                title += "-Prompts";
+            }
+            if (s) {
+                data.settings = settings;
+                title += "-Settings";
+            }
+
+            let string = JSON.stringify(data);
+            let blob = encodeStringAsBlob(string);
+            let currentTimeString = new Date().toJSON();
+            let filename = `AI-Prompt-Genius-Archive${title}_${currentTimeString}.txt`;
+            downloadBlobAsFile(blob, filename);
+        },
+    );
+}
+
+function encodeStringAsBlob(string) {
+    let bytes = new TextEncoder().encode(string);
+    let blob = new Blob([bytes], {
+        type: "application/json;charset=utf-8",
+    });
+    return blob;
+}
+
+const downloadBlobAsFile = (function () {
+    let a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    return function (blob, file_name) {
+        let url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = file_name;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+})();
