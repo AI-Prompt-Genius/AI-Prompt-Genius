@@ -166,6 +166,7 @@ export default function Template({
                         id="prompt-modal"
                         className="modal-toggle hidden"
                     />
+
                     <div className="modal">
                         <div className="modal-box">
                             <div>

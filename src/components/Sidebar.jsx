@@ -134,6 +134,7 @@ export default function Sidebar({
                                 </a>
                             </li>
                         )}
+
                         <li>
                             <a onClick={openSettings}>
                                 <Cog /> {t(k.SETTINGS)}

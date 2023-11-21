@@ -8,6 +8,7 @@ import { ThemeContext } from "./components/ThemeContext.jsx"
 import { checkForResync, finishAuth } from "./components/js/cloudSyncing.js"
 import Toast from "./components/Toast.jsx"
 import { getObject, setObject } from "./components/js/utils.js"
+import OnboardingModal from "./components/OnboardingModal.jsx"
 
 function App() {
     const { theme } = React.useContext(ThemeContext)
@@ -29,8 +30,9 @@ function App() {
         checkForResync()
     }
 
-    // get the "transfer" URL parameter
+    // get the "transfer" and onboarding URL parameters
     const transferring = new URLSearchParams(window.location.search).get("transfer") ?? false
+    const onboarding = new URLSearchParams(window.location.search).get("onboarding") ?? false
 
     function filterPrompts(folder = "", tags = [], searchTerm = "") {
         let newFiltered = prompts
@@ -125,6 +127,7 @@ function App() {
                 setSearchTerm={setSearchTerm}
                 showToast={showToast}
             />
+
             <MainContent
                 filteredPrompts={filteredPrompts}
                 setFilteredPrompts={setFilteredPrompts}
@@ -140,8 +143,10 @@ function App() {
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
             />
+
             {toast && <Toast message={toastMessage} />}
             {transferring && <TransferModal />}
+            {onboarding && <OnboardingModal />}
         </div>
     )
 }

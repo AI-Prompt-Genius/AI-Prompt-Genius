@@ -168,6 +168,7 @@ export default function MainContent({
                         id="var_modal"
                         className="modal-toggle hidden"
                     />
+
                     <div className="modal" ref={modalRef}>
                         <div className="modal-box">
                             {variables.map((variable, index) => (
