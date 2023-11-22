@@ -24,7 +24,7 @@
         "default": "Ctrl+Shift+U",
         "mac": "Command+Shift+U"
       },
-      "description": "Open the sidebar"
+      "description": "__MSG_openSidebar__"
     }
   },
   "oauth2": {
