@@ -3,6 +3,7 @@
   "name": "__MSG_appName__",
   "version": "4.0.0",
   "description": "__MSG_appDesc__",
+  "default_locale": "en",
   "permissions": [
     "sidePanel",
     "commands",
