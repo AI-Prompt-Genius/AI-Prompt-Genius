@@ -1,11 +1,11 @@
 {
-  "appName": {
-    "message": "AI Prompt Genius"
-  },
-  "appDesc": {
-    "message": "Hozzon létre egyéni AI-kérés könyvtárat"
-  },
-  "openSidebar": {
-    "message": "Oldalvarnyit megnyitása"
-  }
+    "appName": {
+        "message": "AI Prompt Genius"
+    },
+    "appDesc": {
+        "message": "Hozzon létre egyéni AI-kérés könyvtárat"
+    },
+    "openSidebar": {
+        "message": "Oldalvarnyit megnyitása"
+    }
 }

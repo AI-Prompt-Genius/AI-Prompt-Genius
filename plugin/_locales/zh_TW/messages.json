@@ -1,11 +1,11 @@
 {
-  "appName": {
-    "message": "AI Prompt Genius"
-  },
-  "appDesc": {
-    "message": "打造自定义 AI 提示库"
-  },
-  "openSidebar": {
-    "message": "打開側邊欄"
-  }
+    "appName": {
+        "message": "AI Prompt Genius"
+    },
+    "appDesc": {
+        "message": "打造自定义 AI 提示库"
+    },
+    "openSidebar": {
+        "message": "打開側邊欄"
+    }
 }

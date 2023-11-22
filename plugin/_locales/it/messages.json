@@ -1,11 +1,11 @@
 {
-  "appName": {
-    "message": "AI Prompt Genius"
-  },
-  "appDesc": {
-    "message": "Crea una libreria personalizzata di prompt AI"
-  },
-  "openSidebar": {
-    "message": "Apri la barra laterale"
-  }
+    "appName": {
+        "message": "AI Prompt Genius"
+    },
+    "appDesc": {
+        "message": "Crea una libreria personalizzata di prompt AI"
+    },
+    "openSidebar": {
+        "message": "Apri la barra laterale"
+    }
 }

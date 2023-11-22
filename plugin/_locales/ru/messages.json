@@ -1,11 +1,11 @@
 {
-  "appName": {
-    "message": "AI Prompt Genius"
-  },
-  "appDesc": {
-    "message": "Создайте собственную библиотеку приглашений для ИИ"
-  },
-  "openSidebar": {
-    "message": "открыть боковую панель"
-  }
+    "appName": {
+        "message": "AI Prompt Genius"
+    },
+    "appDesc": {
+        "message": "Создайте собственную библиотеку приглашений для ИИ"
+    },
+    "openSidebar": {
+        "message": "открыть боковую панель"
+    }
 }

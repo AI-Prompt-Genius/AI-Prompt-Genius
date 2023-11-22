@@ -1,11 +1,11 @@
 {
-  "appName": {
-    "message": "AI Prompt Genius"
-  },
-  "appDesc": {
-    "message": "Створіть власну бібліотеку підказок AI"
-  },
-  "openSidebar": {
-    "message": "бічну панель відкрити"
-  }
+    "appName": {
+        "message": "AI Prompt Genius"
+    },
+    "appDesc": {
+        "message": "Створіть власну бібліотеку підказок AI"
+    },
+    "openSidebar": {
+        "message": "бічну панель відкрити"
+    }
 }

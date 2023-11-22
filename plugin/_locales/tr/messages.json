@@ -1,11 +1,11 @@
 {
-  "appName": {
-    "message": "AI Prompt Genius"
-  },
-  "appDesc": {
-    "message": "Özel bir AI İstemi Kütüphanesi oluşturun"
-  },
-  "openSidebar": {
-    "message": "Yan çubuğunu aç"
-  }
+    "appName": {
+        "message": "AI Prompt Genius"
+    },
+    "appDesc": {
+        "message": "Özel bir AI İstemi Kütüphanesi oluşturun"
+    },
+    "openSidebar": {
+        "message": "Yan çubuğunu aç"
+    }
 }
