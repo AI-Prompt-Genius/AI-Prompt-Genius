@@ -1,35 +1,16 @@
-🎉 欢迎使用 AI Prompt Genius！这是一个免费、开源的浏览器扩展程序，具有以下功能：
+释放人工智能的力量，使用 Prompt Genius
 
-💾 同步本地聊天记录，方便查找和搜索
-📄 将聊天保存为 markdown、HTML、PDF 或 PNG 格式
-🎨 使用 SMS、温馨壁炉或黑客等不同主题来自定义 ChatGPT
-🔍 发现、分享、导入和使用最好的 ChatGPT prompts
-在 ChatGPT 中轻松找到和添加 prompt 模板，对其进行分类和选择。历史保存功能会自动将您的聊天记录保存在浏览器中。
+开始使用，请安装这个扩展并点击扩展图标。
 
-通过单击扩展图标来访问已保存的历史记录和 prompt 模板
+📢 通过定制提示增强您与人工智能的互动
+📁 使用可定制的标签和文件夹轻松组织您的提示
+🔍 利用搜索功能轻松浏览您的集合
+💡 利用我们的提示变量功能为您的人工智能互动增添创造力的火花
+📱 使用我们的 Google Sheets 集成功能，在多个设备上轻松同步您的人工智能提示
+🌐 体验这个扩展在广泛的人工智能代理中的多功能性
+↔ 轻松导入和导出您的人工智能提示，确保在不同平台间的兼容性和可访问性
+🌎 用与您产生共鸣的语言与人工智能沟通。AI Prompt Genius 支持 12 种语言，使您能够无缝地与人工智能互动。
+🆓 拥抱无限制的人工智能力量。AI Prompt Genius 是免费和开源的，为您提供极致的灵活性。
 
-探索并 🔖 标记主题，或 🔍 搜索主题和 prompt 模板。通过我们的反馈表单提供反馈或建议。感谢您使用 ChatGPT Prompt Genius！
-
-常见问题解答
-为什么这个扩展程序需要 Reddit 权限？
-我们唯一需要的权限是我们自己的 subreddit（r/ChatGPTPromptGenius），这仅仅是为了帮助您在提交 prompts 到 subreddit 时格式化。我们还插入了一个按钮，让您快速导入其他人的 prompts。我们不会在任何其他 subreddit 上运行任何脚本，也不会收集 Reddit 的任何数据。如果您仍然担心这个权限，可以在 chrome://extensions/?id=jjdnakkfjnnbbckhifcfchagnpofjffo > 网站访问权限 > reddit.com 中禁用访问权限。
-
-您会对我的数据做什么？
-我们知道您的数据对您很重要，我们想向您保证它完全受到您的控制。您所有的数据都存储在您的设备本地，我们不会对其主张所有权。此外，我们没有访问您的数据的权限（我们没有服务器），因为它仅存储在您的设备本地存储器中。如果您选择分享聊天，它将上传到 ShareGPT 服务器，但您仍将保留对您的数据的所有权利。您可以随时以其原始 Markdown 格式导出您的数据，我们还在努力添加更多的导出格式，以方便您使用。
-
-我发现了一个 bug！
-很抱歉听到您遇到了一个 bug。如果您可以在我们的 GitHub 存储库（https://github.com/benf2004/ChatGPT-Prompt-Genius/issues）上提出一个问题，我们将尽快解决问题。如果您感觉有冒险精神，您也可以打开一个拉取请求来修复 bug，并成为您想在世界上看到的变化。
-
-我有一个功能点子！
-
-我们一直在寻找改进我们的扩展程序的方法，非常乐意听取您的想法。请使用我们在 GitHub 存储库 https://github.com/benf2004/ChatGPT-Prompt-Genius/discussions 中的讨论来分享您的想法。
-
-“我们”是谁？
-
-这个项目是开源的，我们鼓励您阅读我们在 GitHub 存储库 https://github.com/benf2004/ChatGPT-Prompt-Genius 上的代码。如果您看到需要改进的地方，请随时打开问题或拉取请求。
-
-源代码可在 https://github.com/benf2004/ChatGPT-Prompt-Genius 上获取 💻
-请贡献或留下评论！🙏
-
-变更日志可在以下网址获取：
-https://github.com/benf2004/ChatGPT-Prompt-Genius/blob/master/CHANGELOG.md
+在这里查看源代码：
+https://github.com/benf2004/AI-Prompt-Genius
