@@ -19,7 +19,7 @@ function TransferModal() {
         if (page + 1 === 2) {
             updatePrompts(categoryMode)
         } else if (page + 1 === 2) {
-            clearStorage()
+            //clearStorage()
         }
         setPage(page + 1)
     }
