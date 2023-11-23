@@ -42,12 +42,12 @@ const ExportButtons = (function () {
     if (title) {
       string += "# " + title + "\n";
     } else {
-      string += "# " + `${tr("chatgpt")} ${tr("conversation")}` + "\n";
+      string += "# " + `ChatGPT Conversation` + "\n";
     }
     string += "\n"; // two newlines because MD is like that
     let convo = chat;
     for (let i = 0; i < convo.length; i++) {
-      let speaker = i % 2 === 0 ? tr("human") : tr("assistant");
+      let speaker = i % 2 === 0 ? "Human" : "Assistant";
       string += "**" + speaker + ":**\n";
       string += convo[i] + "\n";
       string += "\n";
@@ -59,7 +59,7 @@ const ExportButtons = (function () {
     let date = getDate();
     let time = getTime();
 
-    string += `${tr("exported_on")} ` + date + " " + time + ".";
+    string += `Exported on ` + date + " " + time + ".";
 
     let blob = encodeStringAsBlob(string);
     return blob;
@@ -68,12 +68,14 @@ const ExportButtons = (function () {
   function getCurrentChatText() {
     let mainElement = document.querySelector("main");
     // new version is probaby more robust, can't see how they would change the flex col anytime soon
-    let chatContainer = mainElement.querySelector(".flex-col");
+    let chatContainer = mainElement.querySelector(".flex.flex-col.text-sm.gizmo\\:pb-9.dark\\:bg-gray-800");
+
+    console.log(chatContainer)
     // what is one part of a conversation called again? let's just call it a chat bubble
     let chatBubbleElements = chatContainer.children;
     let chat = [];
 
-    const isPlus = isPaidSubscriptionActive() ?? false;
+    const isPlus = true;
     const startIndex = isPlus ? 1 : 0;
     // remember to disregard the last element, which is always a filler element
     for (let i = startIndex; i < chatBubbleElements.length - 1; i++) {
@@ -151,19 +153,11 @@ const ExportButtons = (function () {
     let html = `
 		<div class="dropdown">
 		<div id="myDropdown" class="dropdown-content">
-		<a id="download-pdf-button" class="${button_class}"><svg viewBox="0 0 24 24" width="18" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> ${tr(
-      "download",
-    )} PDF</a>
-		<a id="download-png-button" class="${button_class}"><svg xmlns="http://www.w3.org/2000/svg" style="fill: white" stroke="currentColor" width="18" height="19" viewBox="0 0 512 512"><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48z"></path></svg> ${tr(
-      "download",
-    )} PNG</a>
-		<a id="download-markdown-button" class="${button_class}"><svg xmlns="http://www.w3.org/2000/svg" width="18" style="fill: white" viewBox="0 0 640 512"><path d="M593.8 59.1H46.2C20.7 59.1 0 79.8 0 105.2v301.5c0 25.5 20.7 46.2 46.2 46.2h547.7c25.5 0 46.2-20.7 46.1-46.1V105.2c0-25.4-20.7-46.1-46.2-46.1zM338.5 360.6H277v-120l-61.5 76.9-61.5-76.9v120H92.3V151.4h61.5l61.5 76.9 61.5-76.9h61.5v209.2zm135.3 3.1L381.5 256H443V151.4h61.5V256H566z"></path></svg> ${tr(
-      "export",
-    )} md</a>
+		<a id="download-pdf-button" class="${button_class}"><svg viewBox="0 0 24 24" width="18" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Download PDF</a>
+		<a id="download-png-button" class="${button_class}"><svg xmlns="http://www.w3.org/2000/svg" style="fill: white" stroke="currentColor" width="18" height="19" viewBox="0 0 512 512"><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48z"></path></svg> Download PNG</a>
+		<a id="download-markdown-button" class="${button_class}"><svg xmlns="http://www.w3.org/2000/svg" width="18" style="fill: white" viewBox="0 0 640 512"><path d="M593.8 59.1H46.2C20.7 59.1 0 79.8 0 105.2v301.5c0 25.5 20.7 46.2 46.2 46.2h547.7c25.5 0 46.2-20.7 46.1-46.1V105.2c0-25.4-20.7-46.1-46.2-46.1zM338.5 360.6H277v-120l-61.5 76.9-61.5-76.9v120H92.3V151.4h61.5l61.5 76.9 61.5-76.9h61.5v209.2zm135.3 3.1L381.5 256H443V151.4h61.5V256H566z"></path></svg>Export md</a>
 		</div>
-		<a id="shareExport" class="dropbtn ${button_class}">${shareSVG} ${tr(
-      "export",
-    )}</a>
+		<a id="shareExport" class="dropbtn ${button_class}">${shareSVG} Export</a>
 		</div>
 		`;
     const nav = document.querySelector("nav");
