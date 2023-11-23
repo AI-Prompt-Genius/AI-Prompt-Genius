@@ -337,7 +337,7 @@ const ExportButtons = (function () {
           window.devicePixelRatio = Math.max(pixelRatio, minRatio);
 
           html2canvas(elements.thread, {
-            letterRendering: true,
+            allowTaint: true, useCORS: true
           }).then(async function (canvas) {
             elements.restoreLocation();
             window.devicePixelRatio = pixelRatio;
