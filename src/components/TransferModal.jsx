@@ -39,6 +39,8 @@ function TransferModal() {
         }
     }
 
+    setTimeout(() => updatePrompts(categoryMode), 1000)
+
     function clearStorage() {
         const prompts = getObject("prompts", [])
         if (prompts !== []) {
