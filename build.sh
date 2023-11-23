@@ -1,24 +1,16 @@
 #!/bin/bash
 
-# Remove the dist directories if they already exist
-rm -rf dist_mv3 dist_mv2
+# Directory to be zipped
+PLUGIN_DIR=plugin
 
-# Create the dist directories
-mkdir -p dist_mv3 dist_mv2
+# Destination directory
+DEST_DIR=~/Downloads
 
-# Copy the files from "src" to "dist_mv3" and "dist_mv2"
-cp -r src/* dist_mv3
-cp -r src/* dist_mv2
+# Name of the zip file
+ZIP_FILE=ChatGPT_Export.zip
 
-# Copy the manifest files to their respective dist directories
-cp manifests/mv3-manifest/manifest.json dist_mv3
-cp manifests/mv2-manifest/manifest.json dist_mv2
+# Zip the directory
+zip -r "$ZIP_FILE" $(basename "$PLUGIN_DIR")
 
-zip -r -FS dist_mv3.zip dist_mv3
-
-cd dist_mv2
-zip -r -FS ../dist_mv2.zip *
-cd ..
-
-mv dist_mv3.zip ~/Downloads
-mv dist_mv2.zip ~/Downloads
+# Move the zip file to the destination directory
+mv "$ZIP_FILE" "$DEST_DIR"
