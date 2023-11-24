@@ -5,6 +5,8 @@ import Template from "./Template.jsx"
 import { copyTextToClipboard, findVariables, replaceVariables } from "./js/utils.js"
 import { useEffect, useRef, useState } from "react"
 import Toast from "./Toast"
+import CompactToggle from "./CompactToggle.jsx"
+import { useLocalStorage } from "@uidotdev/usehooks"
 
 export default function MainContent({
     prompts,
@@ -27,6 +29,7 @@ export default function MainContent({
     const [variables, setVariables] = useState([])
     const [promptText, setPromptText] = useState("")
     const [textareaValues, setTextareaValues] = useState(Array(variables.length).fill(""))
+    const [compact, setCompact] = useLocalStorage("compact", false)
 
     const [showToastMessage, setShowToastMessage] = useState(false)
     const [toastMessage, setToastMessage] = useState("")
@@ -53,6 +56,11 @@ export default function MainContent({
             setToastMessage("")
         }, 3000)
     }
+
+    function changeCompact() {
+        setCompact(!compact)
+    }
+
     function usePrompt(text, varsFilledIn = true) {
         const vars = varsFilledIn ? findVariables(text) : [] // so if the chosen prompt has a variable within {{}}
         if (vars.length > 0) {
@@ -128,7 +136,8 @@ export default function MainContent({
                             />
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center align-middle">
+                    <div className="flex justify-center align-middle">
+                        <CompactToggle compact={compact} changeCompact={changeCompact} />
                         <ThemeToggle />
                     </div>
                 </div>
@@ -153,6 +162,7 @@ export default function MainContent({
                                     filterPrompts={filterPrompts}
                                     selectedFolder={selectedFolder}
                                     searchTerm={searchTerm}
+                                    compact={compact}
                                 ></Template>
                             ))}
                         </ul>

@@ -25,6 +25,7 @@ export default function Template({
     filterPrompts,
     selectedFolder,
     searchTerm,
+    compact,
 }) {
     const t = i18n.t
 
@@ -36,6 +37,8 @@ export default function Template({
     const [folder, setFolder] = useState(template.folder ?? null)
 
     const tagRef = React.createRef()
+
+    const compactBtnClass = compact ? "" : "max-[600px]:flex-col"
 
     function showModal() {
         setEditModalVisible(true)
@@ -124,24 +127,28 @@ export default function Template({
                 <div className="mainClick card-body flex flex-row p-4 justify-between align-top">
                     <div className="mainClick flex flex-col">
                         <h2 className="card-title mainClick flex">{template.title ?? ""}</h2>
-                        <p className="text-base mainClick mb-1">
-                            {template.description && template.description !== ""
-                                ? template.description
-                                : template.text ?? ""}
-                        </p>
-                        <div className={"flex flex-wrap"}>
-                            {template.tags &&
-                                template.tags.map((tag, i) => (
-                                    <Tag
-                                        filterTags={filterTags}
-                                        key={i}
-                                        tag={tag}
-                                        onClick={() => filterByTag(tag)}
-                                    />
-                                ))}
-                        </div>
+                        {!compact && (
+                            <>
+                                <p className="text-base mainClick mb-1">
+                                    {template.description && template.description !== ""
+                                        ? template.description
+                                        : template.text ?? ""}
+                                </p>
+                                <div className={"flex flex-wrap"}>
+                                    {template.tags &&
+                                        template.tags.map((tag, i) => (
+                                            <Tag
+                                                filterTags={filterTags}
+                                                key={i}
+                                                tag={tag}
+                                                onClick={() => filterByTag(tag)}
+                                            />
+                                        ))}
+                                </div>
+                            </>
+                        )}
                     </div>
-                    <div className="mainClick buttons flex max-[600px]:flex-col">
+                    <div className={`mainClick buttons flex ${compactBtnClass}`}>
                         <button
                             onClick={showModal}
                             className="edit my-1 border-none btn p-1 bg-inherit"
