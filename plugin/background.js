@@ -1,5 +1,4 @@
 chrome.runtime.onInstalled.addListener(function (details) {
-    console.log(details)
     if (details.reason === "install") {
         chrome.tabs.create({ url: chrome.runtime.getURL("pages/onboarding.html") })
     } else if (details.reason === "update") {
@@ -11,6 +10,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
             chrome.tabs.create({ url: chrome.runtime.getURL("pages/transfer.html") })
         }
     }
+    chrome.runtime.setUninstallURL({url: "https://link.aipromptgenius.app/general-uninstall"})
 })
 
 chrome.commands.onCommand.addListener((command, tab) => {
