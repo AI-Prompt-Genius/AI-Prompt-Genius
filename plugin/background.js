@@ -20,11 +20,11 @@ chrome.commands.onCommand.addListener((command, tab) => {
             chrome.sidePanel.open({ windowId: tab.windowId })
         }
     }
-    if (command === "launch-search"){
+    if (command === "launch-search") {
         console.log("LAUNCHING SEARCH")
         chrome.scripting.executeScript({
-            target: {tabId: tab.id},
-            files: ["scripts/hotkey.js"]
+            target: { tabId: tab.id },
+            files: ["scripts/hotkey.js"],
         })
     }
 })

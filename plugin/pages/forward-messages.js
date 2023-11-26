@@ -23,7 +23,7 @@ window.addEventListener(
             const responseStr = JSON.stringify(response)
             document
                 .getElementById("window")
-                .contentWindow.postMessage(responseStr, "https://lib.aipromptgenius.app")
+                .contentWindow.postMessage(responseStr, "http://localhost:5173")
         } else if (message.message === "clearCachedTokens") {
             chrome.identity.clearAllCachedAuthTokens()
         }

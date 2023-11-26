@@ -10,6 +10,8 @@ import Toast from "./components/Toast.jsx"
 import { getObject, setObject } from "./components/js/utils.js"
 import OnboardingModal from "./components/OnboardingModal.jsx"
 import i18next from "i18next"
+import SearchScreen from "./components/SearchModal.jsx";
+import SearchModal from "./components/SearchModal.jsx";
 
 function App() {
     const { theme } = React.useContext(ThemeContext)
@@ -34,6 +36,7 @@ function App() {
     // get the "transfer" and onboarding URL parameters
     const transferring = new URLSearchParams(window.location.search).get("transfer") ?? false
     const onboarding = new URLSearchParams(window.location.search).get("onboarding") ?? false
+    const search = new URLSearchParams(window.location.search).get("search") ?? false
 
     function filterPrompts(folder = "", tags = [], searchTerm = "") {
         let newFiltered = prompts
@@ -115,43 +118,51 @@ function App() {
     }
 
     return (
-        <div data-theme={theme} className={`flex bg-base-100 w-[100vw] h-[100vh] overflow-hidden`}>
-            <Sidebar
-                filteredPrompts={filteredPrompts}
-                setFilteredPrompts={setFilteredPrompts}
-                filterPrompts={filterPrompts}
-                setPrompts={setPrompts}
-                setFolders={setFolders}
-                folders={folders}
-                setSelectedFolder={setSelectedfolder}
-                selectedFolder={selectedFolder}
-                setFilterTags={setFilterTags}
-                filterTags={filterTags}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                showToast={showToast}
-            />
+        <>
+            {!search && (
+                <div
+                    data-theme={theme}
+                    className={`flex bg-base-100 w-[100vw] h-[100vh] overflow-hidden`}
+                >
+                    <Sidebar
+                        filteredPrompts={filteredPrompts}
+                        setFilteredPrompts={setFilteredPrompts}
+                        filterPrompts={filterPrompts}
+                        setPrompts={setPrompts}
+                        setFolders={setFolders}
+                        folders={folders}
+                        setSelectedFolder={setSelectedfolder}
+                        selectedFolder={selectedFolder}
+                        setFilterTags={setFilterTags}
+                        filterTags={filterTags}
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                        showToast={showToast}
+                    />
 
-            <MainContent
-                filteredPrompts={filteredPrompts}
-                setFilteredPrompts={setFilteredPrompts}
-                filterPrompts={filterPrompts}
-                setPrompts={setPrompts}
-                prompts={prompts}
-                tags={tags}
-                folders={folders}
-                filterTags={filterTags}
-                setFilterTags={setFilterTags}
-                setSelectedFolder={setSelectedfolder}
-                selectedFolder={selectedFolder}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-            />
+                    <MainContent
+                        filteredPrompts={filteredPrompts}
+                        setFilteredPrompts={setFilteredPrompts}
+                        filterPrompts={filterPrompts}
+                        setPrompts={setPrompts}
+                        prompts={prompts}
+                        tags={tags}
+                        folders={folders}
+                        filterTags={filterTags}
+                        setFilterTags={setFilterTags}
+                        setSelectedFolder={setSelectedfolder}
+                        selectedFolder={selectedFolder}
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                    />
 
-            {toast && <Toast message={toastMessage} />}
-            {transferring && <TransferModal />}
-            {onboarding && <OnboardingModal />}
-        </div>
+                    {toast && <Toast message={toastMessage} />}
+                    {transferring && <TransferModal />}
+                    {onboarding && <OnboardingModal />}
+                </div>
+            )}
+            {search && <SearchScreen prompts={prompts} />}
+        </>
     )
 }
 
