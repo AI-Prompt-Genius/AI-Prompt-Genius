@@ -24,7 +24,7 @@
         },
         "launch-search": {
             "suggested_key": {
-                "default": "Ctrl+Shift+W"
+                "default": "Ctrl+Shift+P"
             },
             "description": "Launch Search"
         }

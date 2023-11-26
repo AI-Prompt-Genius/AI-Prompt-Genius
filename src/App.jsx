@@ -7,11 +7,9 @@ import { useLocalStorage } from "@uidotdev/usehooks"
 import { ThemeContext } from "./components/ThemeContext.jsx"
 import { checkForResync, finishAuth } from "./components/js/cloudSyncing.js"
 import Toast from "./components/Toast.jsx"
-import { getObject, setObject } from "./components/js/utils.js"
+import { getObject, sendMessageToParent, setObject } from "./components/js/utils.js"
 import OnboardingModal from "./components/OnboardingModal.jsx"
 import i18next from "i18next"
-import SearchScreen from "./components/SearchModal.jsx";
-import SearchModal from "./components/SearchModal.jsx";
 
 function App() {
     const { theme } = React.useContext(ThemeContext)
@@ -108,6 +106,26 @@ function App() {
         }
     })
 
+    useEffect(() => {
+        const handleStorageChange = event => {
+            if (event.key === "prompts") {
+                // Parse the new value and send a message to the parent
+                const value = event.newValue
+                if (value) {
+                    sendMessageToParent({ message: "sync_prompts", data: JSON.parse(value) })
+                }
+            }
+        }
+
+        // Add event listener for localStorage changes
+        window.addEventListener("storage", handleStorageChange)
+
+        // Cleanup the event listener
+        return () => {
+            window.removeEventListener("storage", handleStorageChange)
+        }
+    }, [])
+
     function showToast(message) {
         setToast(true)
         setToastMessage(message)
@@ -118,51 +136,43 @@ function App() {
     }
 
     return (
-        <>
-            {!search && (
-                <div
-                    data-theme={theme}
-                    className={`flex bg-base-100 w-[100vw] h-[100vh] overflow-hidden`}
-                >
-                    <Sidebar
-                        filteredPrompts={filteredPrompts}
-                        setFilteredPrompts={setFilteredPrompts}
-                        filterPrompts={filterPrompts}
-                        setPrompts={setPrompts}
-                        setFolders={setFolders}
-                        folders={folders}
-                        setSelectedFolder={setSelectedfolder}
-                        selectedFolder={selectedFolder}
-                        setFilterTags={setFilterTags}
-                        filterTags={filterTags}
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                        showToast={showToast}
-                    />
+        <div data-theme={theme} className={`flex bg-base-100 w-[100vw] h-[100vh] overflow-hidden`}>
+            <Sidebar
+                filteredPrompts={filteredPrompts}
+                setFilteredPrompts={setFilteredPrompts}
+                filterPrompts={filterPrompts}
+                setPrompts={setPrompts}
+                setFolders={setFolders}
+                folders={folders}
+                setSelectedFolder={setSelectedfolder}
+                selectedFolder={selectedFolder}
+                setFilterTags={setFilterTags}
+                filterTags={filterTags}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                showToast={showToast}
+            />
 
-                    <MainContent
-                        filteredPrompts={filteredPrompts}
-                        setFilteredPrompts={setFilteredPrompts}
-                        filterPrompts={filterPrompts}
-                        setPrompts={setPrompts}
-                        prompts={prompts}
-                        tags={tags}
-                        folders={folders}
-                        filterTags={filterTags}
-                        setFilterTags={setFilterTags}
-                        setSelectedFolder={setSelectedfolder}
-                        selectedFolder={selectedFolder}
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                    />
+            <MainContent
+                filteredPrompts={filteredPrompts}
+                setFilteredPrompts={setFilteredPrompts}
+                filterPrompts={filterPrompts}
+                setPrompts={setPrompts}
+                prompts={prompts}
+                tags={tags}
+                folders={folders}
+                filterTags={filterTags}
+                setFilterTags={setFilterTags}
+                setSelectedFolder={setSelectedfolder}
+                selectedFolder={selectedFolder}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+            />
 
-                    {toast && <Toast message={toastMessage} />}
-                    {transferring && <TransferModal />}
-                    {onboarding && <OnboardingModal />}
-                </div>
-            )}
-            {search && <SearchScreen prompts={prompts} />}
-        </>
+            {toast && <Toast message={toastMessage} />}
+            {transferring && <TransferModal />}
+            {onboarding && <OnboardingModal />}
+        </div>
     )
 }
 

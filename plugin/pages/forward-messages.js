@@ -26,6 +26,9 @@ window.addEventListener(
                 .contentWindow.postMessage(responseStr, "http://localhost:5173")
         } else if (message.message === "clearCachedTokens") {
             chrome.identity.clearAllCachedAuthTokens()
+        } else if (message.message === "sync_prompts") {
+            const prompts = message.data
+            chrome.storage.local.set({ currentPrompts: prompts })
         }
     },
     false,

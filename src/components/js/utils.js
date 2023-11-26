@@ -32,7 +32,18 @@ export function setObject(key, value) {
 
 export function getObject(key, defaultValue) {
     var value = localStorage.getItem(key)
+    if (key === "prompts" && value) {
+        sendMessageToParent({ message: "sync_prompts", data: JSON.parse(value) })
+    }
     return value ? value && JSON.parse(value) : defaultValue
+}
+
+export function sendMessageToParent(messageObj) {
+    // Stringify the object to send via postMessage
+    var messageString = JSON.stringify(messageObj)
+
+    // Send the message to the parent window
+    window.parent.postMessage(messageString, "*")
 }
 
 export function getCurrentTimestamp() {
