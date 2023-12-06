@@ -122,7 +122,8 @@ function styles() {
     overflow: hidden; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    font-family: sans-serif;
+    font-family: "Arial", sans-serif;
+    font-size: 14pt;
 }
 .modal-content-pg {
     background-color: #fefefe;
@@ -177,7 +178,8 @@ function styles() {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.4);
-    font-family: sans-serif;
+    font-size: 14pt;
+    font-family: "Arial", sans-serif;
 }
 
 .variable-modal-content {
@@ -199,13 +201,14 @@ function styles() {
 }
 
 .variable-input {
-    width: 100%;
+    width: 95%;
     padding: 8px 10px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     height: 40px;
     overflow: hidden;
+    font-family: "Arial", sans-serif;
 }
 
 .copy-button {
@@ -256,20 +259,21 @@ function filterPrompts() {
 }
 
 function createVariableModal(variables, text) {
-    document.getElementById("modal-pg").style.display = "none"
+    document.getElementById("modal-pg").style.display = "none";
+
     // Generate HTML for variable inputs
     let variableInputs = variables
         .map(
             variable => `
-        <div class="input-group">
-            <label class="input-label">${variable}</label>
-            <textarea type="text" placeholder="Enter value for ${variable}..." class="variable-input" id="input-${variable}"></textarea>
-        </div>
-    `,
+                <div class="input-group">
+                    <label class="input-label" for="input-${variable}">${variable}</label>
+                    <textarea id="input-${variable}" placeholder="Enter value for ${variable}..." class="variable-input"></textarea>
+                </div>
+            `
         )
-        .join("")
+        .join("");
 
-    // Create the modal HTML
+    // Create the variable modal HTML
     let variableModalHTML = `
         <div id="variable-modal" class="variable-modal">
             <div class="variable-modal-content">
@@ -277,16 +281,28 @@ function createVariableModal(variables, text) {
                 <button id="copyButton" class="copy-button">COPY</button>
             </div>
         </div>
-    `
+    `;
 
     // Insert the modal into the DOM
-    document.body.insertAdjacentHTML("beforeend", variableModalHTML)
+    document.body.insertAdjacentHTML("beforeend", variableModalHTML);
 
     // Focus on the first input
-    document.querySelector(".variable-input").focus()
+    document.querySelector(".variable-input").focus();
 
     // Add event listener for the COPY button
-    document.getElementById("copyButton").addEventListener("click", () => copyVariableText(text))
+    document.getElementById("copyButton").addEventListener("click", () => copyVariableText(text));
+
+    // Add keydown event listener to each textarea to listen for the Enter key
+    document.querySelectorAll('.variable-input').forEach(textarea => {
+        textarea.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                // Prevent the default action to avoid a newline in textarea
+                event.preventDefault();
+                // Call the function to copy text
+                copyVariableText(text);
+            }
+        });
+    });
 }
 
 function copyVariableText(text) {
