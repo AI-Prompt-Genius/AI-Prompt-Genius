@@ -187,7 +187,7 @@ function styles() {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 70%;
     border-radius: 10px;
 }
 
@@ -201,7 +201,7 @@ function styles() {
 }
 
 .variable-input {
-    width: 95%;
+    width: 100%;
     padding: 8px 10px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
@@ -226,8 +226,11 @@ function styles() {
 function copyTextToClipboard(text) {
     window.activeInput.focus()
     window.activeInput.value = window.activeInput.value + text
-    if (window.location.href.includes("chat.openai.com") && window.activeInput.id === "prompt-textarea") {
-        window.activeInput.style.height = "200px";
+    if (
+        window.location.href.includes("chat.openai.com") &&
+        window.activeInput.id === "prompt-textarea"
+    ) {
+        window.activeInput.style.height = "200px"
     }
     setTimeout(() => window.activeInput.focus(), 100)
     navigator.clipboard.writeText(text).then(
@@ -259,7 +262,7 @@ function filterPrompts() {
 }
 
 function createVariableModal(variables, text) {
-    document.getElementById("modal-pg").style.display = "none";
+    document.getElementById("modal-pg").style.display = "none"
 
     // Generate HTML for variable inputs
     let variableInputs = variables
@@ -269,9 +272,9 @@ function createVariableModal(variables, text) {
                     <label class="input-label" for="input-${variable}">${variable}</label>
                     <textarea id="input-${variable}" placeholder="Enter value for ${variable}..." class="variable-input"></textarea>
                 </div>
-            `
+            `,
         )
-        .join("");
+        .join("")
 
     // Create the variable modal HTML
     let variableModalHTML = `
@@ -281,28 +284,44 @@ function createVariableModal(variables, text) {
                 <button id="copyButton" class="copy-button">COPY</button>
             </div>
         </div>
-    `;
+    `
 
     // Insert the modal into the DOM
-    document.body.insertAdjacentHTML("beforeend", variableModalHTML);
+    document.body.insertAdjacentHTML("beforeend", variableModalHTML)
 
     // Focus on the first input
-    document.querySelector(".variable-input").focus();
+    document.querySelector(".variable-input").focus()
 
     // Add event listener for the COPY button
-    document.getElementById("copyButton").addEventListener("click", () => copyVariableText(text));
+    document.getElementById("copyButton").addEventListener("click", () => copyVariableText(text))
+    document.getElementById("copyButton").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            copyVariableText(text)
+        }
+    })
 
     // Add keydown event listener to each textarea to listen for the Enter key
-    document.querySelectorAll('.variable-input').forEach(textarea => {
-        textarea.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
+    document.querySelectorAll(".variable-input").forEach(textarea => {
+        textarea.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" && event.shiftKey) {
+                // Add a newline at the current cursor position
+                const start = this.selectionStart
+                const end = this.selectionEnd
+                this.value = this.value.substring(0, start) + "\n" + this.value.substring(end)
+
+                // Move the cursor to the right position after the newline
+                this.selectionStart = this.selectionEnd = start + 1
+
+                // Prevent the default action to avoid moving to the next element
+                event.preventDefault()
+            } else if (event.key === "Enter" && !event.shiftKey) {
                 // Prevent the default action to avoid a newline in textarea
-                event.preventDefault();
+                event.preventDefault()
                 // Call the function to copy text
-                copyVariableText(text);
+                copyVariableText(text)
             }
-        });
-    });
+        })
+    })
 }
 
 function copyVariableText(text) {
