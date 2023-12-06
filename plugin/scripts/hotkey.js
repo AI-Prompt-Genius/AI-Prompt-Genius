@@ -24,19 +24,9 @@ function addEvents() {
     })
 
     // Event listener for arrow keys navigation
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-            event.preventDefault()
-            navigatePrompts(event.key)
-        }
-        if (event.key === "Enter") {
-            event.preventDefault()
-            const active = document.activeElement
-            if (active && active.classList.contains("prompt-item")) {
-                active.click()
-            }
-        }
-    })
+
+    document.addEventListener("keydown", keydownEventListener);
+
     document.getElementById("modal-pg").addEventListener("click", function (event) {
         if (event.target === this) {
             cleanup()
@@ -44,16 +34,31 @@ function addEvents() {
     })
 }
 
+function keydownEventListener(event) {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        navigatePrompts(event.key);
+    }
+    if (event.key === "Enter") {
+        event.preventDefault();
+        const active = document.activeElement;
+        if (active && active.classList.contains("prompt-item")) {
+            active.click();
+        }
+    }
+}
+
 function navigatePrompts(direction) {
     const prompts = document.querySelectorAll(".prompt-item")
-    const active = document.activeElement
-    const currentIndex = Array.from(prompts).indexOf(active)
+    const currentIndex = window.pgActivePrompt ?? -1
 
     if (direction === "ArrowDown" && currentIndex < prompts.length - 1) {
-        const nextElement = prompts[currentIndex + 1]
+        const nextElement = prompts[currentIndex + 1];
+        window.pgActivePrompt = currentIndex + 1
         nextElement.focus()
     } else if (direction === "ArrowUp" && currentIndex > 0) {
-        const prevElement = prompts[currentIndex - 1]
+        const prevElement = prompts[currentIndex - 1];
+        window.pgActivePrompt = currentIndex - 1
         prevElement.focus()
     }
 }
@@ -85,6 +90,9 @@ function handlePromptSelection(text) {
 
 function modal(prompts) {
     // Generates HTML for each prompt without inline event handlers
+    const searchPrompts = chrome.i18n.getMessage("search_prompts")
+
+
     let promptItems = prompts.currentPrompts
         .map(
             (prompt, index) => `
@@ -95,10 +103,11 @@ function modal(prompts) {
         )
         .join("")
 
+
     return `
         <div id="modal-pg" class="modal-pg">
             <div class="modal-content-pg">
-                <input type="text" autocomplete="off" id="searchInput" placeholder="Search prompts..." class="search-input">
+                <input type="text" autocomplete="off" id="searchInput" placeholder="${searchPrompts}" class="search-input">
                 <div id="promptsContainer" class="prompts-container">
                     ${promptItems}
                 </div>
@@ -193,6 +202,8 @@ function styles() {
 
 .input-group {
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .input-label {
@@ -259,6 +270,7 @@ function filterPrompts() {
             prompts[i].style.display = "none"
         }
     }
+    window.pgActivePrompt = 0
 }
 
 function createVariableModal(variables, text) {
@@ -363,6 +375,8 @@ function cleanup() {
     }
 
     // Remove event listeners
-    document.removeEventListener("keydown", navigatePrompts)
+    document.removeEventListener("keydown", keydownEventListener);
     // Remember to remove any other event listeners you have added
+
+    window.pgActivePrompt = null
 }
