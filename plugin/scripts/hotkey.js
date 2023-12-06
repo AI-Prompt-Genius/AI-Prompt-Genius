@@ -26,9 +26,11 @@ function addEvents() {
     // Event listener for arrow keys navigation
     document.addEventListener("keydown", function (event) {
         if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault()
             navigatePrompts(event.key)
         }
         if (event.key === "Enter") {
+            event.preventDefault()
             const active = document.activeElement
             if (active && active.classList.contains("prompt-item")) {
                 active.click()
@@ -112,7 +114,7 @@ function styles() {
 .modal-pg {
     display: block; 
     position: fixed; /* Stay in place */
-    z-index: 10000000; /* Sit on top */
+    z-index: 100000; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -129,7 +131,11 @@ function styles() {
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
     border-radius: 10px;
-    height: 80%;
+    overflow-y: auto
+    height: fit-content;
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
 }
 .search-input {
     height: 40px; /* Set a fixed height */
@@ -157,7 +163,8 @@ function styles() {
     color: #666;
 }
 .prompts-container {
-    height: 80%; /* Adjust the height as necessary */
+    position: relative;
+    height: fit-content;
     overflow-y: auto; /* Enables scrolling within the container */
 }
     /* Variable modal styling */
@@ -197,19 +204,17 @@ function styles() {
     margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    height: 40px;
+    overflow: hidden;
 }
 
 .copy-button {
-    background-color: #007bff;
-    color: white;
+    background-color: #F1F5FE;
+    color: #3E4E68;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.copy-button:hover {
-    background-color: #0056b3;
 }
 </style>
     `
@@ -258,7 +263,7 @@ function createVariableModal(variables, text) {
             variable => `
         <div class="input-group">
             <label class="input-label">${variable}</label>
-            <input type="text" placeholder="Enter value for ${variable}..." class="variable-input" id="input-${variable}">
+            <textarea type="text" placeholder="Enter value for ${variable}..." class="variable-input" id="input-${variable}"></textarea>
         </div>
     `,
         )
