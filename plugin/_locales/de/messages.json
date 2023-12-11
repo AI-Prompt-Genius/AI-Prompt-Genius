@@ -7,5 +7,14 @@
     },
     "openSidebar": {
         "message": "Öffne die Seitenleiste"
+    },
+    "searchPrompts": {
+        "message": "Suchaufforderungen..."
+    },
+    "copy": {
+        "message": "Kopieren"
+    },
+    "enter_val": {
+        "message": "Wert eingeben für"
     }
 }

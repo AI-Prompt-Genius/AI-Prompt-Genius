@@ -7,5 +7,14 @@
     },
     "openSidebar": {
         "message": "открыть боковую панель"
+    },
+    "searchPrompts": {
+        "message": "Поисковые подсказки..."
+    },
+    "copy": {
+        "message": "Копировать"
+    },
+    "enter_val": {
+        "message": "Введите значение для"
     }
 }

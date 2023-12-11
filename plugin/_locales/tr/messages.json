@@ -7,5 +7,14 @@
     },
     "openSidebar": {
         "message": "Yan çubuğunu aç"
+    },
+    "searchPrompts": {
+        "message": "Arama istemleri..."
+    },
+    "copy": {
+        "message": "Kopyala"
+    },
+    "enter_val": {
+        "message": "İçin değer girin"
     }
 }

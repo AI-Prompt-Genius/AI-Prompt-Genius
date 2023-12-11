@@ -7,5 +7,14 @@
     },
     "openSidebar": {
         "message": "打开侧边栏"
+    },
+    "searchPrompts": {
+        "message": "搜索提示..."
+    },
+    "copy": {
+        "message": "复制"
+    },
+    "enter_val": {
+        "message": "输入值"
     }
 }

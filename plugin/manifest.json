@@ -4,7 +4,7 @@
     "version": "4.0.1",
     "description": "__MSG_appDesc__",
     "default_locale": "en",
-    "permissions": ["sidePanel", "identity", "storage"],
+    "permissions": ["sidePanel", "identity", "storage", "activeTab", "scripting"],
     "background": {
         "service_worker": "background.js"
     },
@@ -21,6 +21,12 @@
                 "mac": "Command+Shift+U"
             },
             "description": "__MSG_openSidebar__"
+        },
+        "launch-search": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+P"
+            },
+            "description": "Launch Search"
         }
     },
     "oauth2": {

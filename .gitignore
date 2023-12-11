@@ -13,6 +13,7 @@ dist_mv3
 dist_mv2
 dist-ssr
 *.local
+.vite
 
 # Editor directories and files
 .vscode/*

@@ -7,7 +7,7 @@ import { useLocalStorage } from "@uidotdev/usehooks"
 import { ThemeContext } from "./components/ThemeContext.jsx"
 import { checkForResync, finishAuth } from "./components/js/cloudSyncing.js"
 import Toast from "./components/Toast.jsx"
-import { getObject, setObject } from "./components/js/utils.js"
+import { getObject, sendMessageToParent, setObject } from "./components/js/utils.js"
 import OnboardingModal from "./components/OnboardingModal.jsx"
 import i18next from "i18next"
 
@@ -34,6 +34,7 @@ function App() {
     // get the "transfer" and onboarding URL parameters
     const transferring = new URLSearchParams(window.location.search).get("transfer") ?? false
     const onboarding = new URLSearchParams(window.location.search).get("onboarding") ?? false
+    const search = new URLSearchParams(window.location.search).get("search") ?? false
 
     function filterPrompts(folder = "", tags = [], searchTerm = "") {
         let newFiltered = prompts
@@ -104,6 +105,26 @@ function App() {
             window.removeEventListener("message", handleMessage)
         }
     })
+
+    useEffect(() => {
+        const handleStorageChange = event => {
+            if (event.key === "prompts") {
+                // Parse the new value and send a message to the parent
+                const value = event.newValue
+                if (value) {
+                    sendMessageToParent({ message: "sync_prompts", data: JSON.parse(value) })
+                }
+            }
+        }
+
+        // Add event listener for localStorage changes
+        window.addEventListener("storage", handleStorageChange)
+
+        // Cleanup the event listener
+        return () => {
+            window.removeEventListener("storage", handleStorageChange)
+        }
+    }, [])
 
     function showToast(message) {
         setToast(true)

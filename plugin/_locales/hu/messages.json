@@ -7,5 +7,14 @@
     },
     "openSidebar": {
         "message": "Oldalvarnyit megnyitása"
+    },
+    "searchPrompts": {
+        "message": "Keresési felhívások..."
+    },
+    "copy": {
+        "message": "Másolás"
+    },
+    "enter_val": {
+        "message": "Érték megadása ehhez"
     }
 }

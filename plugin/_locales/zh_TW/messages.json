@@ -7,5 +7,14 @@
     },
     "openSidebar": {
         "message": "打開側邊欄"
+    },
+    "searchPrompts": {
+        "message": "搜索提示..."
+    },
+    "copy": {
+        "message": "複製"
+    },
+    "enter_val": {
+        "message": "輸入值為"
     }
 }

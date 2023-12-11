@@ -10,7 +10,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
             chrome.tabs.create({ url: chrome.runtime.getURL("pages/transfer.html") })
         }
     }
-    chrome.runtime.setUninstallURL({url: "https://link.aipromptgenius.app/general-uninstall"})
+    chrome.runtime.setUninstallURL("https://link.aipromptgenius.app/general-uninstall")
 })
 
 chrome.commands.onCommand.addListener((command, tab) => {
@@ -19,5 +19,12 @@ chrome.commands.onCommand.addListener((command, tab) => {
         if (chromeVersion >= 116) {
             chrome.sidePanel.open({ windowId: tab.windowId })
         }
+    }
+    if (command === "launch-search") {
+        console.log("LAUNCHING SEARCH")
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ["scripts/hotkey.js"],
+        })
     }
 })
