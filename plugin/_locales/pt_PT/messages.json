@@ -7,5 +7,14 @@
     },
     "openSidebar": {
         "message": "Abrir a barra lateral"
+    },
+    "searchPrompts": {
+        "message": "Prompts de pesquisa..."
+    },
+    "copy": {
+        "message": "Copiar"
+    },
+    "enter_val": {
+        "message": "Introduzir valor para"
     }
 }

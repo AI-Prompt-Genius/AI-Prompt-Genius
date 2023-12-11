@@ -7,5 +7,14 @@
     },
     "openSidebar": {
         "message": "Open the sidebar"
+    },
+    "searchPrompts": {
+        "message": "Search prompts..."
+    },
+    "copy": {
+        "message": "COPY"
+    },
+    "enter_val": {
+        "message": "Enter value for"
     }
 }

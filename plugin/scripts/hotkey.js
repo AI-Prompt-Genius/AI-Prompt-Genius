@@ -90,7 +90,7 @@ function handlePromptSelection(text) {
 
 function modal(prompts) {
     // Generates HTML for each prompt without inline event handlers
-    const searchPrompts = chrome.i18n.getMessage("search_prompts")
+    const searchPrompts = chrome.i18n.getMessage("searchPrompts")
 
 
     let promptItems = prompts.currentPrompts
@@ -131,6 +131,7 @@ function styles() {
     overflow: hidden; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    color: black;
     font-family: "Arial", sans-serif;
     font-size: 14pt;
 }
@@ -194,6 +195,7 @@ function styles() {
 
 .variable-modal-content {
     background-color: #fff;
+    color: black;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
@@ -271,11 +273,13 @@ function filterPrompts() {
             prompts[i].style.display = "none"
         }
     }
-    window.pgActivePrompt = 0
+    window.pgActivePrompt = -1
 }
 
 function createVariableModal(variables, text) {
     document.getElementById("modal-pg").style.display = "none"
+    const copyStr = chrome.i18n.getMessage("copy").toUpperCase()
+    const enterVal = chrome.i18n.getMessage("enter_val")
 
     // Generate HTML for variable inputs
     let variableInputs = variables
@@ -283,7 +287,7 @@ function createVariableModal(variables, text) {
             variable => `
                 <div class="input-group">
                     <label class="input-label" for="input-${variable}">${variable}</label>
-                    <textarea id="input-${variable}" placeholder="Enter value for ${variable}..." class="variable-input"></textarea>
+                    <textarea id="input-${variable}" placeholder="${enterVal} ${variable}..." class="variable-input"></textarea>
                 </div>
             `,
         )
@@ -294,7 +298,7 @@ function createVariableModal(variables, text) {
         <div id="variable-modal" class="variable-modal">
             <div class="variable-modal-content">
                 ${variableInputs}
-                <button id="copyButton" class="copy-button">COPY</button>
+                <button id="copyButton" class="copy-button">${copyStr}</button>
             </div>
         </div>
     `

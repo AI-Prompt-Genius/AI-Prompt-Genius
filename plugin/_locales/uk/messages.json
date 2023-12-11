@@ -7,5 +7,14 @@
     },
     "openSidebar": {
         "message": "бічну панель відкрити"
+    },
+    "searchPrompts": {
+        "message": "Запити пошуку..."
+    },
+    "copy": {
+        "message": "Копіювати"
+    },
+    "enter_val": {
+        "message": "Введіть значення для"
     }
 }
