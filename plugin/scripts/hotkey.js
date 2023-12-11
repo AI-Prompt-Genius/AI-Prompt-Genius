@@ -136,6 +136,7 @@ function styles() {
 }
 .modal-content-pg {
     background-color: #fefefe;
+    color: black;
     margin: 10% auto; /* 10% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
