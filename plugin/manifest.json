@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "__MSG_appName__",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "description": "__MSG_appDesc__",
     "default_locale": "en",
     "permissions": ["sidePanel", "identity", "storage", "activeTab", "scripting"],
