@@ -25,7 +25,7 @@ function addEvents() {
 
     // Event listener for arrow keys navigation
 
-    document.addEventListener("keydown", keydownEventListener);
+    document.addEventListener("keydown", keydownEventListener)
 
     document.getElementById("modal-pg").addEventListener("click", function (event) {
         if (event.target === this) {
@@ -36,14 +36,14 @@ function addEvents() {
 
 function keydownEventListener(event) {
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-        event.preventDefault();
-        navigatePrompts(event.key);
+        event.preventDefault()
+        navigatePrompts(event.key)
     }
     if (event.key === "Enter") {
-        event.preventDefault();
-        const active = document.activeElement;
+        event.preventDefault()
+        const active = document.activeElement
         if (active && active.classList.contains("prompt-item")) {
-            active.click();
+            active.click()
         }
     }
 }
@@ -53,11 +53,11 @@ function navigatePrompts(direction) {
     const currentIndex = window.pgActivePrompt ?? -1
 
     if (direction === "ArrowDown" && currentIndex < prompts.length - 1) {
-        const nextElement = prompts[currentIndex + 1];
+        const nextElement = prompts[currentIndex + 1]
         window.pgActivePrompt = currentIndex + 1
         nextElement.focus()
     } else if (direction === "ArrowUp" && currentIndex > 0) {
-        const prevElement = prompts[currentIndex - 1];
+        const prevElement = prompts[currentIndex - 1]
         window.pgActivePrompt = currentIndex - 1
         prevElement.focus()
     }
@@ -92,7 +92,6 @@ function modal(prompts) {
     // Generates HTML for each prompt without inline event handlers
     const searchPrompts = chrome.i18n.getMessage("searchPrompts")
 
-
     let promptItems = prompts.currentPrompts
         .map(
             (prompt, index) => `
@@ -102,7 +101,6 @@ function modal(prompts) {
 `,
         )
         .join("")
-
 
     return `
         <div id="modal-pg" class="modal-pg">
@@ -380,7 +378,7 @@ function cleanup() {
     }
 
     // Remove event listeners
-    document.removeEventListener("keydown", keydownEventListener);
+    document.removeEventListener("keydown", keydownEventListener)
     // Remember to remove any other event listeners you have added
 
     window.pgActivePrompt = null
