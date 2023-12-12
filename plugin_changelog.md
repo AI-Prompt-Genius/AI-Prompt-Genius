@@ -2,6 +2,9 @@
 
 This changelog is for the Chrome extension, not the webapp.
 
+## v4.0.4 - Dec 12, 2023
+- Hotfix to replace localhost with actual host
+
 ## v4.0.3 - Dec 11, 2023
 - Localized "Launch Search" string & added to commands
 
