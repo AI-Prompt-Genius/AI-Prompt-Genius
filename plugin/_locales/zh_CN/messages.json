@@ -16,5 +16,8 @@
     },
     "enter_val": {
         "message": "输入值"
+    },
+    "launchSearch": {
+        "message": "启动搜索"
     }
 }

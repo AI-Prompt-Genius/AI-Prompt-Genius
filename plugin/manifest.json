@@ -26,7 +26,7 @@
             "suggested_key": {
                 "default": "Ctrl+Shift+P"
             },
-            "description": "Launch Search"
+            "description": "__MSG_launchSearch__"
         }
     },
     "oauth2": {

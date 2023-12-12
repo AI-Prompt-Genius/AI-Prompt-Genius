@@ -16,5 +16,8 @@
     },
     "enter_val": {
         "message": "Enter value for"
+    },
+    "launchSearch": {
+        "message": "Launch Search"
     }
 }

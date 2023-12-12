@@ -16,5 +16,8 @@
     },
     "enter_val": {
         "message": "Introduzir valor para"
+    },
+    "launchSearch": {
+        "message": "Iniciar pesquisa"
     }
 }

@@ -16,5 +16,8 @@
     },
     "enter_val": {
         "message": "輸入值為"
+    },
+    "launchSearch": {
+        "message": "啟動搜尋"
     }
 }

@@ -16,5 +16,8 @@
     },
     "enter_val": {
         "message": "Érték megadása ehhez"
+    },
+    "launchSearch": {
+        "message": "Keresés indítása"
     }
 }

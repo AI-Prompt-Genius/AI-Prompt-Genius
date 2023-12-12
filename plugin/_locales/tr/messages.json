@@ -16,5 +16,8 @@
     },
     "enter_val": {
         "message": "İçin değer girin"
+    },
+    "launchSearch": {
+        "message": "Aramayı Başlat"
     }
 }

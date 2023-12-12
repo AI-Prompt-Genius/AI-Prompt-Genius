@@ -16,5 +16,8 @@
     },
     "enter_val": {
         "message": "Введите значение для"
+    },
+    "launchSearch": {
+        "message": "Запустить поиск"
     }
 }

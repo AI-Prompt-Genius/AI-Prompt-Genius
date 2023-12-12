@@ -2,6 +2,9 @@
 
 This changelog is for the Chrome extension, not the webapp.
 
+## v4.0.3 - Dec 11, 2023
+- Localized "Launch Search" string & added to commands
+
 ## v4.0.2 - Dec 10, 2023
 - Added support for hotkey on any page (requires user setup)
 - Prompts now sync with `chrome.storage.local`
