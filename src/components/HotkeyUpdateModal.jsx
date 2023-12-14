@@ -23,10 +23,9 @@ export default function HotkeyUpdateModal() {
     }
 
     function closeModal() {
+        localStorage.setItem("seen_hotkey_update_12_13", "true")
         document.getElementById("hotkeyModal").checked = false
     }
-
-    localStorage.setItem("seen_hotkey_update_12_13", "true")
 
     return (
         <>
