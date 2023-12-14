@@ -10,6 +10,7 @@ import Toast from "./components/Toast.jsx"
 import { getObject, sendMessageToParent, setObject } from "./components/js/utils.js"
 import OnboardingModal from "./components/OnboardingModal.jsx"
 import i18next from "i18next"
+import HotkeyUpdateModal from "./components/HotkeyUpdateModal.jsx"
 
 function App() {
     const { theme } = React.useContext(ThemeContext)
@@ -34,7 +35,11 @@ function App() {
     // get the "transfer" and onboarding URL parameters
     const transferring = new URLSearchParams(window.location.search).get("transfer") ?? false
     const onboarding = new URLSearchParams(window.location.search).get("onboarding") ?? false
-    const search = new URLSearchParams(window.location.search).get("search") ?? false
+
+    // Hotkey Update Modal 12/13
+    const lang = localStorage.getItem("lng") ?? "en"
+    const seenHotkeyUpdate = localStorage.getItem("seen_hotkey_update_12_13") ?? false
+    const showHotkeyUpdate = lang === "en" && !onboarding && !transferring && !seenHotkeyUpdate
 
     function filterPrompts(folder = "", tags = [], searchTerm = "") {
         let newFiltered = prompts
@@ -172,6 +177,7 @@ function App() {
             {toast && <Toast message={toastMessage} />}
             {transferring && <TransferModal />}
             {onboarding && <OnboardingModal />}
+            {!seenHotkeyUpdate && <HotkeyUpdateModal />}
         </div>
     )
 }
