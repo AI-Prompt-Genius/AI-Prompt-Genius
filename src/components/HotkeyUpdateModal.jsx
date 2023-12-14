@@ -69,16 +69,13 @@ export default function HotkeyUpdateModal() {
                         </p>
                         <Head2>Acknowledgement of outage</Head2>
                         <p>
-                            We'd like to apologize for any disruption that may have occurred
-                            Tuesday the 12th. As always, you can reach out to
-                            aipromptgenius@gmail.com for support.
+                            We'd like to apologize for any disruption that may have occurred Tuesday
+                            the 12th. As always, you can reach out to aipromptgenius@gmail.com for
+                            support.
                         </p>
                     </div>
                     <div className={"mb-2 p-3"}>
-                        <button
-                            className={"btn disabled:hidden"}
-                            onClick={closeModal}
-                        >
+                        <button className={"btn disabled:hidden"} onClick={closeModal}>
                             {t(k.CLOSE)}
                         </button>
                     </div>
