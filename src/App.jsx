@@ -35,7 +35,11 @@ function App() {
     // get the "transfer" and onboarding URL parameters
     const transferring = new URLSearchParams(window.location.search).get("transfer") ?? false
     const onboarding = new URLSearchParams(window.location.search).get("onboarding") ?? false
-    const search = new URLSearchParams(window.location.search).get("search") ?? false
+
+    // Hotkey Update Modal 12/13
+    const lang = localStorage.getItem("lng") ?? "en"
+    const seenHotkeyUpdate = localStorage.getItem("seen_hotkey_update_12_13") ?? false
+    const showHotkeyUpdate = lang === "en" && !onboarding && !transferring && !seenHotkeyUpdate
 
     function filterPrompts(folder = "", tags = [], searchTerm = "") {
         let newFiltered = prompts
@@ -173,7 +177,7 @@ function App() {
             {toast && <Toast message={toastMessage} />}
             {transferring && <TransferModal />}
             {onboarding && <OnboardingModal />}
-            <HotkeyUpdateModal />
+            {!seenHotkeyUpdate && <HotkeyUpdateModal />}
         </div>
     )
 }
