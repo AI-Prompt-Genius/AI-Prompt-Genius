@@ -10,6 +10,7 @@ import Toast from "./components/Toast.jsx"
 import { getObject, sendMessageToParent, setObject } from "./components/js/utils.js"
 import OnboardingModal from "./components/OnboardingModal.jsx"
 import i18next from "i18next"
+import HotkeyUpdateModal from "./components/HotkeyUpdateModal.jsx"
 
 function App() {
     const { theme } = React.useContext(ThemeContext)
@@ -172,6 +173,7 @@ function App() {
             {toast && <Toast message={toastMessage} />}
             {transferring && <TransferModal />}
             {onboarding && <OnboardingModal />}
+            <HotkeyUpdateModal />
         </div>
     )
 }
