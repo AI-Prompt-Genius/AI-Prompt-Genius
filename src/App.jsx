@@ -177,7 +177,7 @@ function App() {
             {toast && <Toast message={toastMessage} />}
             {transferring && <TransferModal />}
             {onboarding && <OnboardingModal />}
-            {!seenHotkeyUpdate && <HotkeyUpdateModal />}
+            {showHotkeyUpdate && <HotkeyUpdateModal />}
         </div>
     )
 }
