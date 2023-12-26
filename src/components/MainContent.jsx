@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react"
 import Toast from "./Toast"
 import CompactToggle from "./CompactToggle.jsx"
 import { useLocalStorage } from "@uidotdev/usehooks"
+import Ad from "./js/Ad.jsx"
 
 export default function MainContent({
     prompts,
@@ -141,8 +142,12 @@ export default function MainContent({
                         <ThemeToggle />
                     </div>
                 </div>
+
                 {filteredPrompts && (
                     <div className="h-full overflow-y-auto">
+                        <div className={"flex p-4 pt-0 mx-3"}>
+                            <Ad />
+                        </div>
                         <ul
                             className="flex flex-col mx-4 max-[500px]:mx-2 max-[500px]:mb-28"
                             id="templates"
