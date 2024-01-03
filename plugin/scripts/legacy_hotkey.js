@@ -331,24 +331,24 @@ async function main(prompts) {
         }
     })
 
-    function checkTextBoxDefault(){
+    function checkTextBoxDefault() {
         // detects when page has changed
-        if (document.getElementById("prompt-textarea").placeholder !== placeholder){
-            let suggestions = document.getElementById("suggestions");
+        if (document.getElementById("prompt-textarea").placeholder !== placeholder) {
+            let suggestions = document.getElementById("suggestions")
             function remove() {
-                if (suggestions) suggestions.remove();
+                if (suggestions) suggestions.remove()
             }
-            setTimeout(remove, 300);
+            setTimeout(remove, 300)
             clearInterval(textBoxInterval)
             main(prompts)
         }
     }
     const textBoxInterval = setInterval(checkTextBoxDefault, 1000)
 }
-async function wrapper(){
-    const { currentPrompts } = await chrome.storage.local.get({ currentPrompts: null });
+async function wrapper() {
+    const { currentPrompts } = await chrome.storage.local.get({ currentPrompts: null })
     if (currentPrompts !== null) {
-        setTimeout(() => main(currentPrompts), 500);
+        setTimeout(() => main(currentPrompts), 500)
     }
 }
 wrapper()

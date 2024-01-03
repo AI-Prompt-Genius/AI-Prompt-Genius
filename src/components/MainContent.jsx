@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react"
 import Toast from "./Toast"
 import CompactToggle from "./CompactToggle.jsx"
 import { useLocalStorage } from "@uidotdev/usehooks"
-import Ad from "./js/Ad.jsx"
+import Ad from "./Ad.jsx"
 
 export default function MainContent({
     prompts,
