@@ -180,10 +180,10 @@ export default function SettingsModal({
                 <div className="modal-box max-w-[1000px] h-full">
                     <div className="flex flex-col">
                         <div className="flex-grow overflow-hidden">
-                            <ul className="tabs w-full flex justify-between">
+                            <ul className="tabs tabs-lifted w-full flex justify-between">
                                 <a
                                     onClick={() => handlePageChange("General")}
-                                    className={`p-1 grow tab tab-lifted ${
+                                    className={`p-1 grow tab ${
                                         currentPage === "General" ? "tab-active" : ""
                                     }`}
                                 >
@@ -191,7 +191,7 @@ export default function SettingsModal({
                                 </a>
                                 <a
                                     onClick={() => handlePageChange("Folders")}
-                                    className={`p-1 grow tab tab-lifted ${
+                                    className={`p-1 grow tab ${
                                         currentPage === "Folders" ? "tab-active" : ""
                                     }`}
                                 >
@@ -199,7 +199,7 @@ export default function SettingsModal({
                                 </a>
                                 <a
                                     onClick={() => handlePageChange("Export")}
-                                    className={`p-1 grow tab tab-lifted ${
+                                    className={`p-1 grow tab ${
                                         currentPage === "Export" ? "tab-active" : ""
                                     }`}
                                 >
@@ -207,7 +207,7 @@ export default function SettingsModal({
                                 </a>
                                 <a
                                     onClick={() => handlePageChange("Cloud")}
-                                    className={`p-1 grow tab tab-lifted ${
+                                    className={`p-1 grow tab ${
                                         currentPage === "Cloud" ? "tab-active" : ""
                                     }`}
                                 >

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .menu > .selected, .selected > a:hover {
-    color: hsl(var(--a));
+    color: oklch(var(--a));
 }
 
 .toggle, .toggle:checked, .toggle[aria-checked=true], .toggle[checked=true] {

@@ -6,19 +6,17 @@ export default function ThemeToggle() {
     const { theme, switchTheme } = React.useContext(ThemeContext)
 
     return (
-        <div className="flex flex-col justify-center align-middle">
-            <div className="m-4 inline-grid grid-cols-2">
-                <SunIcon></SunIcon>
-                <MoonIcon></MoonIcon>
-                <label htmlFor="theme-toggle" />
-                <input
-                    id="theme-toggle"
-                    type="checkbox"
-                    checked={theme === "night"}
-                    className={`toggle col-start-1 bg-transparent border-solid border-base-content row-start-1 col-span-2 ${theme}`}
-                    onChange={switchTheme}
-                />
-            </div>
-        </div>
+        <label className="cursor-pointer grid place-items-center ml-1">
+            <input
+                id="theme-toggle"
+                onChange={switchTheme}
+                checked={theme === "night"}
+                type="checkbox"
+                value="synthwave"
+                className="toggle theme-controller bg-base-content row-start-1 col-start-1 col-span-2"
+            />
+            <SunIcon />
+            <MoonIcon />
+        </label>
     )
 }
