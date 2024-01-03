@@ -19,5 +19,11 @@
     },
     "launchSearch": {
         "message": "Iniciar búsqueda"
+    },
+    "submit": {
+        "message": "Enviar"
+    },
+    "placeholder": {
+        "message": "Escribe un mensaje o escribe \"/\" para seleccionar un mensaje predeterminado..."
     }
 }

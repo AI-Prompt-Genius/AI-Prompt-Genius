@@ -2,6 +2,10 @@
 
 This changelog is for the Chrome extension, not the webapp.
 
+## v4.0.5 - Jan 2, 2024
+- Added simplified legacy hotkey script for "/" shortcut
+- Ad
+
 ## v4.0.4 - Dec 12, 2023
 - Hotfix to replace localhost with actual host
 

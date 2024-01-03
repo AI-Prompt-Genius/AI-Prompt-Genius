@@ -1,3 +1,14 @@
+const onExtensionUpdated = () => {
+    chrome.runtime.onInstalled.addListener(async details => {
+        if (details.reason !== chrome.runtime.OnInstalledReason.INSTALL) {
+            await chrome.tabs.create({
+                url: "https://link.aipromptgenius.app/updated", // redirects to https://www.extensions-hub.com/ai-prompt-genius/updated
+                active: true,
+            })
+        }
+    })
+}
+
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === "install") {
         chrome.tabs.create({ url: chrome.runtime.getURL("pages/onboarding.html") })

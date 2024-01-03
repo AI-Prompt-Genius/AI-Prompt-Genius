@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "__MSG_appName__",
-    "version": "4.0.4",
+    "version": "4.0.5",
     "description": "__MSG_appDesc__",
     "default_locale": "en",
     "permissions": ["sidePanel", "identity", "storage", "activeTab", "scripting"],
@@ -14,6 +14,14 @@
     "side_panel": {
         "default_path": "pages/sidebar.html"
     },
+    "content_scripts": [
+        {
+            "matches": ["https://chat.openai.com/*"],
+            "exclude_matches": ["https://chat.openai.com/auth/*"],
+            "js": ["scripts/legacy_hotkey.js"],
+            "run_at": "document_idle"
+        }
+    ],
     "commands": {
         "open-sidebar": {
             "suggested_key": {

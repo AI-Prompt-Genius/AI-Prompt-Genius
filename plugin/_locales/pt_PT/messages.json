@@ -19,5 +19,11 @@
     },
     "launchSearch": {
         "message": "Iniciar pesquisa"
+    },
+    "submit": {
+        "message": "Submeter"
+    },
+    "placeholder": {
+        "message": "Digite uma mensagem ou digite \"/\" para selecionar um prompt..."
     }
 }

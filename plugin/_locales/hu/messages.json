@@ -19,5 +19,11 @@
     },
     "launchSearch": {
         "message": "Keresés indítása"
+    },
+    "submit": {
+        "message": "Beküldés"
+    },
+    "placeholder": {
+        "message": "Írjon egy üzenetet, vagy írjon be egy \"/\" jelet az előre meghatározott üzenet kiválasztásához..."
     }
 }

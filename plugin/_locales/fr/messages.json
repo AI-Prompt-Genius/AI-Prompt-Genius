@@ -19,5 +19,11 @@
     },
     "launchSearch": {
         "message": "Iniciar búsqueda"
+    },
+    "submit": {
+        "message": "Soumettre"
+    },
+    "placeholder": {
+        "message": "Tapez un message ou tapez \"/\" pour sélectionner une invite..."
     }
 }

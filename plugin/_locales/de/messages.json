@@ -19,5 +19,11 @@
     },
     "launchSearch": {
         "message": "Suche starten"
+    },
+    "submit": {
+        "message": "Senden"
+    },
+    "placeholder": {
+        "message": "Geben Sie eine Nachricht ein oder tippen Sie \"/\", um eine Aufforderung auszuwählen..."
     }
 }

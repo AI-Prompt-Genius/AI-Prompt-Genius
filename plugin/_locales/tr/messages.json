@@ -19,5 +19,11 @@
     },
     "launchSearch": {
         "message": "Aramayı Başlat"
+    },
+    "submit": {
+        "message": "Gönder"
+    },
+    "placeholder": {
+        "message": "Bir mesaj yazın veya bir komut seçmek için \"/\" yazın..."
     }
 }

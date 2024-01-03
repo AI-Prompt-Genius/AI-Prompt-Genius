@@ -19,5 +19,11 @@
     },
     "launchSearch": {
         "message": "启动搜索"
+    },
+    "submit": {
+        "message": "提交"
+    },
+    "placeholder": {
+        "message": "输入消息或输入 \"/\" 选择一个提示..."
     }
 }

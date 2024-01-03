@@ -19,5 +19,11 @@
     },
     "launchSearch": {
         "message": "Launch Search"
+    },
+    "submit": {
+        "message": "Submit"
+    },
+    "placeholder": {
+        "message": "Type a message or type \"/\" to select a prompt..."
     }
 }
