@@ -2,6 +2,9 @@
 
 This changelog is for the Chrome extension, not the webapp.
 
+## v4.0.6 - Jan 3, 2024
+- Fix on update advertisement
+
 ## v4.0.5 - Jan 2, 2024
 - Added simplified legacy hotkey script for "/" shortcut
 - Ad
