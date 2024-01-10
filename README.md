@@ -32,3 +32,9 @@ AI Prompt Genius - https://github.com/benf2004/AI-Prompt-Genius
 View the full list of contributors at https://github.com/benf2004/AI-Prompt-Genius/graphs/contributors
 */
 ```
+
+## Starchart
+[![Stargazers over time](https://starchart.cc/benf2004/AI-Prompt-Genius.svg?variant=adaptive)](https://starchart.cc/benf2004/AI-Prompt-Genius)
+
+(see starchart.cc)
+
