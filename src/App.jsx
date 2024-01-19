@@ -11,11 +11,11 @@ import { getObject, sendMessageToParent, setObject } from "./components/js/utils
 import OnboardingModal from "./components/OnboardingModal.jsx"
 import i18next from "i18next"
 import HotkeyUpdateModal from "./components/HotkeyUpdateModal.jsx"
-import ReactGA from "react-ga4";
+import ReactGA from "react-ga4"
 
 function App() {
-    ReactGA.initialize("G-YV9PMGYJDJ");
-    ReactGA.send({ hitType: "pageview", page: "/", title: "Home" });
+    ReactGA.initialize("G-YV9PMGYJDJ")
+    ReactGA.send({ hitType: "pageview", page: "/", title: "Home" })
 
     const { theme } = React.useContext(ThemeContext)
 

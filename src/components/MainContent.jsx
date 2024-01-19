@@ -8,6 +8,7 @@ import Toast from "./Toast"
 import CompactToggle from "./CompactToggle.jsx"
 import { useLocalStorage } from "@uidotdev/usehooks"
 import Ad from "./Ad.jsx"
+import ReactGA from "react-ga4"
 
 export default function MainContent({
     prompts,
@@ -72,6 +73,12 @@ export default function MainContent({
             showToast("No Prompt Text")
             return
         }
+        ReactGA.event({
+            category: "Prompt Action",
+            action: "Prompt Copied",
+            nonInteraction: false, // optional, true/false
+            transport: "xhr", // optional, beacon/xhr/image
+        })
         copyTextToClipboard(text)
         setVariables([])
         showToast("Prompt Copied to Clipboard")

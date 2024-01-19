@@ -21,6 +21,7 @@ import LanguageSelect from "./LanguageSelect.jsx"
 import { GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx"
 import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js"
 import ShortcutInfo from "./ShortcutInfo.jsx"
+import ReactGA from "react-ga4";
 
 export default function SettingsModal({
     setSettingsVisible,
@@ -165,6 +166,12 @@ export default function SettingsModal({
     function setupSync() {
         newToken()
         localStorage.setItem("authTask", "setupSync")
+        ReactGA.event({
+            category: "Settings Action",
+            action: "Cloud Syncing Enabled",
+            nonInteraction: false, // optional, true/false
+            transport: "xhr", // optional, beacon/xhr/image
+        })
     }
 
     return (
