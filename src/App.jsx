@@ -15,6 +15,7 @@ import ReactGA from "react-ga4";
 
 function App() {
     ReactGA.initialize("G-YV9PMGYJDJ");
+    ReactGA.send({ hitType: "pageview", page: "/", title: "Home" });
 
     const { theme } = React.useContext(ThemeContext)
 
