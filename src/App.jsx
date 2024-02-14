@@ -42,7 +42,7 @@ function App() {
 
     // Hotkey Update Modal 12/13
     const lang = localStorage.getItem("lng") ?? "en"
-    const seenHotkeyUpdate = localStorage.getItem("seen_hotkey_update_12_13") ?? false
+    const seenHotkeyUpdate = true
     const showHotkeyUpdate = lang === "en" && !onboarding && !transferring && !seenHotkeyUpdate
 
     function filterPrompts(folder = "", tags = [], searchTerm = "") {
