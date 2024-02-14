@@ -255,6 +255,9 @@ async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localProm
 
         correctTags = Array.from(new Set(correctTags))
 
+        console.log("Resynced prompts:")
+        console.log(correctTags)
+
         setObject("prompts", correctTags)
         setObject("deletedPrompts", [])
         setObject("changedPrompts", [])
@@ -278,7 +281,7 @@ async function getAuthToken() {
 async function updateSheetData(spreadsheetId, range, data) {
     try {
         const token = await getAuthToken()
-        const clearUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:clear`
+        /* const clearUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:clear`
         const clearResponse = await fetch(clearUrl, {
             method: "POST",
             headers: {
@@ -288,7 +291,7 @@ async function updateSheetData(spreadsheetId, range, data) {
         if (!clearResponse.ok) {
             handleError(clearResponse)
             throw new Error("Failed to clear sheet")
-        }
+        }*/
         const values = JSONtoNestedList(data)
         const requestBody = {
             values: values,
@@ -332,7 +335,6 @@ async function createSpreadsheet(token) {
         })
         if (!response.ok) {
             handleError(response)
-            await linkSheet(token)
             throw new Error("Failed to create new spreadsheet")
         }
         const jsonResponse = await response.json()
@@ -452,7 +454,7 @@ export async function unlinkGsheet() {
         handleError(response)
         localStorage.setItem("finishedAuthEvent", "Successfully disabled cloud syncing")
     } else {
-        localStorage.setItem("finishedAuthEvent", "Error disabling cloud syncing")
+        localStorage.setItem("finishedAuthEvent", "Error syncing prompts")
     }
 
     localStorage.removeItem("sheetID")
