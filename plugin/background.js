@@ -1,3 +1,4 @@
+/*
 const onExtensionUpdated = () => {
     chrome.runtime.onInstalled.addListener(async details => {
         if (details.reason !== chrome.runtime.OnInstalledReason.INSTALL) {
@@ -9,6 +10,7 @@ const onExtensionUpdated = () => {
     })
 }
 onExtensionUpdated()
+*/
 
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === "install") {
