@@ -21,7 +21,7 @@ import LanguageSelect from "./LanguageSelect.jsx"
 import { GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx"
 import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js"
 import ShortcutInfo from "./ShortcutInfo.jsx"
-import ReactGA from "react-ga4";
+import ReactGA from "react-ga4"
 
 export default function SettingsModal({
     setSettingsVisible,

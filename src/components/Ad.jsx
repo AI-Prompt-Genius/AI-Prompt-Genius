@@ -2,7 +2,15 @@ export default function Ad() {
     //const lang = localStorage.getItem("lng") ?? "en"
 
     return (
-        <p>
+        <p className={"text-sm"}>
+            <a
+                className={"link link-primary"}
+                href={"https://link.aipromptgenius.app/seo-writing"}
+                target={"_blank"}
+            >
+                Sponsored by SEOWriting.AI
+            </a>{" "}
+            - AI writing tool for 1-click SEO-optimized articles, blog posts & affiliate content.
         </p>
     )
 }
