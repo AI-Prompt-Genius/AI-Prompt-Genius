@@ -5,12 +5,13 @@ export default function Ad() {
         <p className={"text-sm"}>
             <a
                 className={"link link-primary"}
-                href={"https://link.aipromptgenius.app/seo-writing"}
+                href={
+                    "https://chromewebstore.google.com/detail/ai-prompt-genius/jjdnakkfjnnbbckhifcfchagnpofjffo/reviews"
+                }
                 target={"_blank"}
             >
-                Sponsored by SEOWriting.AI
+                Enjoying the extension? Leave a five star review.
             </a>{" "}
-            - AI writing tool for 1-click SEO-optimized articles, blog posts & affiliate content.
         </p>
     )
 }
