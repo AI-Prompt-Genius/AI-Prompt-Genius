@@ -43,7 +43,7 @@ function TransferModal() {
 
     function clearStorage() {
         const prompts = getObject("prompts", [])
-        if (prompts !== []) {
+        if (prompts != []) {
             console.log("Clearing storage")
             // Create the message object
             var message = {
