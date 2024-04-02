@@ -156,7 +156,7 @@ export default function MainContent({
                             <Ad />
                         </div>
                         <ul
-                            className="flex flex-col mx-4 max-[500px]:mx-2 max-[500px]:mb-28"
+                            className="flex flex-col z-0 mx-4 max-[500px]:mx-2 max-[500px]:mb-28"
                             id="templates"
                         >
                             {filteredPrompts.map(prompt => (

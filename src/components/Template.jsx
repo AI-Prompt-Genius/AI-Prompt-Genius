@@ -122,31 +122,29 @@ export default function Template({
                     if (e.target.classList.contains("mainClick")) onClick()
                 }}
                 id={template.id}
-                className="mainClick card w-full bg-base-200/50 shadow-md template mb-3 cursor-pointer transition-colors hover:bg-base-300/50"
+                className="mainClick z-0 card w-full bg-base-200/50 shadow-md template mb-3 cursor-pointer transition-colors hover:bg-base-300/50"
             >
-                <div className="mainClick card-body flex flex-row p-4 justify-between align-top">
+                <div className="mainClick z-0 card-body flex flex-row p-4 justify-between align-top">
                     <div className="mainClick flex flex-col">
                         <h2 className="card-title mainClick flex">{template.title ?? ""}</h2>
                         {!compact && (
-                            <>
-                                <p className="text-base mainClick mb-1">
-                                    {template.description && template.description !== ""
-                                        ? template.description
-                                        : template.text ?? ""}
-                                </p>
-                                <div className={"flex flex-wrap"}>
-                                    {template.tags &&
-                                        template.tags.map((tag, i) => (
-                                            <Tag
-                                                filterTags={filterTags}
-                                                key={i}
-                                                tag={tag}
-                                                onClick={() => filterByTag(tag)}
-                                            />
-                                        ))}
-                                </div>
-                            </>
+                            <p className="text-base mainClick mb-1">
+                                {template.description && template.description !== ""
+                                    ? template.description
+                                    : template.text ?? ""}
+                            </p>
                         )}
+                        <div className={"flex flex-wrap"}>
+                            {template.tags &&
+                                template.tags.map((tag, i) => (
+                                    <Tag
+                                        filterTags={filterTags}
+                                        key={i}
+                                        tag={tag}
+                                        onClick={() => filterByTag(tag)}
+                                    />
+                                ))}
+                        </div>
                     </div>
                     <div className={`mainClick buttons flex ${compactBtnClass}`}>
                         <button
