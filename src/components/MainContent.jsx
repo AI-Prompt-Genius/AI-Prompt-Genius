@@ -129,7 +129,7 @@ export default function MainContent({
     return (
         <>
             <div className="flex flex-col w-full max-[500px]:w-full max-[500px]:ml-2">
-                <div className="sticky flex p-4 align-middle justify-center">
+                <div className="sticky z-10 flex p-4 align-middle justify-center">
                     <div className="grow mr-3">
                         <div className="join w-full">
                             <input

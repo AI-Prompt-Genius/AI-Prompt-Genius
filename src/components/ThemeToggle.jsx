@@ -1,83 +1,50 @@
 import React from "react"
 import { ThemeContext } from "./ThemeContext.jsx"
-import { CarrotDownIcon, MoonIcon, SunIcon } from "./icons/Icons.jsx"
+import { CarrotDownIcon, CrownIcon, MoonIcon, SunIcon } from "./icons/Icons.jsx"
 export default function ThemeToggle() {
     const { theme, switchTheme } = React.useContext(ThemeContext)
 
     // Handler function to switch theme
-    const handleChange = e => {
-        switchTheme(e.target.value)
+    const handleThemeChange = themeValue => {
+        switchTheme(themeValue)
     }
 
     return (
-        <div className="dropdown dropdown-end ">
-            <div tabIndex={0} role="button" className="btn m-1">
-                Theme
-                <CarrotDownIcon />
+        <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost m-1">
+                Theme <CarrotDownIcon />
             </div>
             <ul
                 tabIndex={0}
-                className="dropdown-content p-2 shadow-2xl bg-base-300 rounded-box w-fit"
+                className="dropdown-content z-[100] menu p-2 shadow-2xl bg-base-300 rounded-box w-52"
             >
                 <li>
-                    <input
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="Default"
-                        value="light"
-                        onChange={handleChange}
-                    />
+                    <a onClick={() => handleThemeChange("winter")}>Default</a>
                 </li>
                 <li>
-                    <input
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="Night"
-                        value="night"
-                        onChange={handleChange}
-                    />
+                    <a onClick={() => handleThemeChange("night")}>
+                        Dark <MoonIcon />{" "}
+                    </a>
                 </li>
                 <li>
-                    <input
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="Retro"
-                        value="retro"
-                        onChange={handleChange}
-                    />
+                    <a onClick={() => handleThemeChange("retro")}>
+                        Retro <CrownIcon />{" "}
+                    </a>
                 </li>
                 <li>
-                    <input
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="Cyberpunk"
-                        value="cyberpunk"
-                        onChange={handleChange}
-                    />
+                    <a onClick={() => handleThemeChange("cyberpunk")}>
+                        Cyberpunk <CrownIcon />{" "}
+                    </a>
                 </li>
                 <li>
-                    <input
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="Valentine"
-                        value="valentine"
-                        onChange={handleChange}
-                    />
+                    <a onClick={() => handleThemeChange("valentine")}>
+                        Valentine <CrownIcon />
+                    </a>
                 </li>
                 <li>
-                    <input
-                        type="radio"
-                        name="theme-dropdown"
-                        className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-                        aria-label="Aqua"
-                        value="aqua"
-                        onChange={handleChange}
-                    />
+                    <a onClick={() => handleThemeChange("aqua")}>
+                        Aqua <CrownIcon />
+                    </a>
                 </li>
             </ul>
         </div>
