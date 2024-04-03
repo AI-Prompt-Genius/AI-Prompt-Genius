@@ -238,21 +238,21 @@ export default function SettingsModal({
                                     <ShortcutInfo />
                                     <div className={"mt-3"}>
                                         {!isPro && <div>
-                                            <Head2>Upgrade to Pro</Head2>
-                                            <Head4>Features:</Head4>
+                                            <Head2>{t(k.UPGRADE_TO_PRO)}</Head2>
+                                            <Head4>{t(k.FEATURES)}</Head4>
                                             <ul className={"list-disc ml-6"}>
-                                                <li>No ads! Removes bimonthly popup windows & text ads.</li>
+                                                <li>{t(k.NO_ADS)}</li>
                                                 <li>
-                                                    Get access to new themes, including cyberpunk, luxury, and more!
+                                                    {t(k.ACCESS_TO_NEW_THEMES)}
                                                 </li>
-                                                <li>Support a small developer</li>
+                                                <li>{t(k.SUPPORT_A_SMALL_DEVELOPER)}</li>
                                             </ul>
                                             <a
                                                 href={"https://link.aipromptgenius.app/upgrade-pro"}
                                                 target={"_blank"}
                                                 className={"btn btn-outline my-3"}
                                             >
-                                                BUY A PRO LICENSE
+                                                {t(k.BUY_A_PRO_LICENSE)}
                                             </a>
                                         </div>}
                                        <div className={"mt-3"}>

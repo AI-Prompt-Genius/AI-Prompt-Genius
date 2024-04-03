@@ -1,8 +1,12 @@
 import React from "react"
 import { ThemeContext } from "./ThemeContext.jsx"
 import { CarrotDownIcon, CrownIcon, MoonIcon, SunIcon } from "./icons/Icons.jsx"
+import k from "../i18n/keys.js"
+import {useTranslation} from "react-i18next";
+
 export default function ThemeToggle() {
     const { theme, switchTheme } = React.useContext(ThemeContext)
+    const { t } = useTranslation()
 
     // Handler function to switch theme
     const handleThemeChange = themeValue => {
@@ -12,66 +16,66 @@ export default function ThemeToggle() {
     return (
         <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost ml-2">
-                Theme <CarrotDownIcon />
+                {t(k.THEME)} <CarrotDownIcon />
             </div>
             <ul
                 tabIndex={0}
                 className="dropdown-content max-h-[65vh] overflow-y-auto flex-nowrap menu p-2 shadow-2xl bg-base-300 rounded-box w-52"
             >
                 <li>
-                    <a onClick={() => handleThemeChange("winter")}>Winter</a>
+                    <a onClick={() => handleThemeChange("winter")}>{t(k.WINTER)}</a>
                 </li>
                 <li>
-                    <a onClick={() => handleThemeChange("light")}>Light</a>
+                    <a onClick={() => handleThemeChange("light")}>{t(k.LIGHT)}</a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("dark")}>
-                        Dark <MoonIcon />{" "}
+                        {t(k.DARK)} <MoonIcon />{" "}
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("night")}>
-                        Night <MoonIcon />{" "}
+                        {t(k.NIGHT)} <MoonIcon />{" "}
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("cyberpunk")}>
-                        Cyberpunk <CrownIcon />{" "}
+                        {t(k.CYBERPUNK)} <CrownIcon />{" "}
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("retro")}>
-                        Retro <CrownIcon />{" "}
+                        {t(k.RETRO)} <CrownIcon />{" "}
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("valentine")}>
-                        Valentine <CrownIcon />
+                        {t(k.VALENTINE)} <CrownIcon />
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("aqua")}>
-                        Aqua <CrownIcon />
+                        {t(k.AQUA)} <CrownIcon />
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("nord")}>
-                        Nord <CrownIcon />
+                        {t(k.NORD)} <CrownIcon />
                     </a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("lemonade")}>
-                        Lemonade <CrownIcon />
+                        {t(k.LEMONADE)} <CrownIcon />
                     </a>
                 </li>
                 <li>
                     <a className={"flex"} onClick={() => handleThemeChange("forest")}>
-                        Forest <MoonIcon /> <CrownIcon />
+                        {t(k.FOREST)} <MoonIcon /> <CrownIcon />
                     </a>
                 </li>
                 <li>
                     <a className={"flex"} onClick={() => handleThemeChange("luxury")}>
-                        Luxury <MoonIcon /> <CrownIcon />
+                        {t(k.LUXURY)} <MoonIcon /> <CrownIcon />
                     </a>
                 </li>
             </ul>

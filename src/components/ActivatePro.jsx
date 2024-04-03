@@ -3,8 +3,11 @@ import Head4 from "./Head4.jsx"
 import { activateLicense, getProStatus } from "./js/pro.js"
 import { useState } from "react"
 import {CrownIcon} from "./icons/Icons.jsx";
-
+import {useTranslation} from "react-i18next";
+import k from "./../i18n/keys";
 export function ActivatePro(props) {
+    const { t, i18n } = useTranslation()
+
     const [isPro, setPro] = useState(getProStatus())
     const licenseKey = localStorage.getItem("pro_key") ?? ""
 
@@ -12,31 +15,31 @@ export function ActivatePro(props) {
         const key = document.getElementById("licenseKey").value
         const success = await activateLicense(key)
         if (success) {
-            props.showToast("Successfully Activated Pro!")
+            props.showToast(t(k.SUCCESSFULLY_ACTIVATED_PRO))
             document.getElementById("licenseKey").disabled = true
             setPro(true)
         } else {
-            props.showToast("Error activating pro. Make sure your license key is accurate")
+            props.showToast(t(k.ERROR_ACTIVATING_PRO))
         }
     }
 
     return (
         <div>
-            {!isPro ? <Head2>Activate Pro License</Head2> : <Head2>Manage Pro Subscription</Head2>}
-            {!props.in_settings && !isPro && <p>You can also activate your license anytime in settings</p>}
+            {!isPro ? <Head2>{t(k.ACTIVATE_PRO_LICENSE)}</Head2> : <Head2>{t(k.MANAGE_PRO_SUBSCRIPTION)}</Head2>}
+            {!props.in_settings && !isPro && <p>{t(k.ACTIVATE_LICENSE_IN_SETTINGS)}</p>}
             <div className="join my-2">
                 {isPro ? (
                     <input
                         id={"licenseKey"}
                         defaultValue={licenseKey}
                         className={`input input-bordered join-item input-disabled`}
-                        placeholder="License Key"
+                        placeholder={t(k.LICENSE_KEY)}
                     />
                 ) : (
                     <input
                         id={"licenseKey"}
                         className={`input input-bordered join-item`}
-                        placeholder="License Key"
+                        placeholder={t(k.LICENSE_KEY)}
                     />
                 )}
                 <button
@@ -45,7 +48,7 @@ export function ActivatePro(props) {
                     }`}
                     onClick={activatePro}
                 >
-                    Activate
+                    {t(k.ACTIVATE)}
                 </button>
             </div>
             {isPro &&
@@ -56,7 +59,7 @@ export function ActivatePro(props) {
                            "https://customers.gumroad.com/article/192-how-do-i-cancel-my-subscription-membership"
                        }
                     >
-                        Cancel my Subscription
+                        {t(k.CANCEL_MY_SUBSCRIPTION)}
                     </a>
                 </p>
             }
