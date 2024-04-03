@@ -17,17 +17,16 @@ export default function ThemeProvider({ children }) {
         if (freeThemes.includes(newTheme)) {
             setTheme(newTheme)
         } else {
-            const proUser = await getProStatus()
-            console.log("not free")
+            const proUser = getProStatus()
             if (proUser) {
                 setTheme(newTheme)
             } else {
                 // show pro modal
-                let currentTheme = "winter";
-                if (freeThemes.includes(theme)){
-                    currentTheme = theme; // fixes weird double click hack
+                let currentTheme = "winter"
+                if (freeThemes.includes(theme)) {
+                    currentTheme = theme // fixes weird double click hack
                 }
-                setTheme(newTheme);
+                setTheme(newTheme)
                 setTimeout(() => {
                     setTheme(currentTheme)
                     document.getElementById("proUpgradeModal").checked = true
