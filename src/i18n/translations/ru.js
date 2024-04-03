@@ -127,6 +127,9 @@ export const ru = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Приглашения успешно импортированы",
     [k.INVALID_FILE]: "Неверный файл",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Все приглашения и папки удалены",
+    [k.CONFIRM_DELETE_PROMPT]: "Вы уверены, что хотите удалить этот запрос?",
+    [k.CANCEL]: "Отмена",
+    [k.DELETE_PROMPT]: "Удалить запрос",
 }
 
 export default ru

@@ -125,6 +125,9 @@ export const zh_TW = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "成功導入提示",
     [k.INVALID_FILE]: "無效文件",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "已刪除所有提示和文件夾",
+    [k.CONFIRM_DELETE_PROMPT]: "您確定要刪除此提示嗎？",
+    [k.CANCEL]: "取消",
+    [k.DELETE_PROMPT]: "刪除提示",
 }
 
 export default zh_TW

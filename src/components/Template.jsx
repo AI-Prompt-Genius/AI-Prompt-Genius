@@ -30,6 +30,7 @@ export default function Template({
     const t = i18n.t
 
     const [editModalVisible, setEditModalVisible] = useState(false)
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false)
     const [title, setTitle] = useState(template.title ?? "")
     const [text, setText] = useState(template.text ?? "")
     const [tags, setTags] = useState(template.tags ?? [])
@@ -68,6 +69,14 @@ export default function Template({
         // Close the modal if needed
         // You can add your logic here to close the modal.
         closeModal()
+    }
+
+    function confirmRemove() {
+        setDeleteModalVisible(true)
+        setTimeout(
+            () => (document.getElementById(`delete_prompt_modal_${template.id}`).checked = true),
+            300,
+        )
     }
 
     function removePrompt(id) {
@@ -154,7 +163,7 @@ export default function Template({
                             <EditIcon></EditIcon>
                         </button>
                         <button
-                            onClick={() => removePrompt(template.id)}
+                            onClick={() => confirmRemove(template.id)}
                             className="my-1 border-none btn p-1 bg-inherit"
                         >
                             <TrashIcon></TrashIcon>
@@ -233,6 +242,38 @@ export default function Template({
                         </div>
                         <div className="modal-backdrop">
                             <button onClick={closeModal}>{t(k.CLOSE)}</button>
+                        </div>
+                    </div>
+                </>
+            )}
+
+            {deleteModalVisible && (
+                <>
+                    {/* Put this part before </body> tag */}
+                    <input
+                        type="checkbox"
+                        id={`delete_prompt_modal_${template.id}`}
+                        className="modal-toggle"
+                        defaultChecked
+                    />
+                    <div className="modal" role="dialog">
+                        <div className="modal-box">
+                            <h3 className="font-bold text-lg">{t(k.CONFIRM_DELETE_PROMPT)}</h3>
+                            <div className="modal-action">
+                                <label
+                                    htmlFor={`delete_prompt_modal_${template.id}`}
+                                    className="btn"
+                                >
+                                    {t(k.CANCEL)}
+                                </label>
+                                <label
+                                    htmlFor={`delete_prompt_modal_${template.id}`}
+                                    className="btn btn-warning"
+                                    onClick={() => removePrompt(template.id)}
+                                >
+                                    {t(k.DELETE_PROMPT)}
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </>

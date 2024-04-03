@@ -138,6 +138,9 @@ export const zh_CN = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "成功导入提示",
     [k.INVALID_FILE]: "无效文件",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "已删除所有提示和文件夹",
+    [k.CONFIRM_DELETE_PROMPT]: "您确定要删除此提示吗？",
+    [k.CANCEL]: "取消",
+    [k.DELETE_PROMPT]: "删除提示",
 }
 
 export default zh_CN

@@ -128,6 +128,10 @@ export const de = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Aufforderungen erfolgreich importiert",
     [k.INVALID_FILE]: "Ungültige Datei",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Alle Aufforderungen und Ordner gelöscht",
+    [k.CONFIRM_DELETE_PROMPT]:
+        "Sind Sie sicher, dass Sie diesen Aufforderungstext löschen möchten?",
+    [k.CANCEL]: "Abbrechen",
+    [k.DELETE_PROMPT]: "Aufforderungstext löschen",
 }
 
 export default de

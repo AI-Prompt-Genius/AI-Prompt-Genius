@@ -128,6 +128,9 @@ export const uk = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Запрошення успішно імпортовано",
     [k.INVALID_FILE]: "Недійсний файл",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Всі запрошення та теки видалено",
+    [k.CONFIRM_DELETE_PROMPT]: "Ви впевнені, що хочете видалити цей запит?",
+    [k.CANCEL]: "Скасувати",
+    [k.DELETE_PROMPT]: "Видалити запит",
 }
 
 export default uk

@@ -136,6 +136,9 @@ export const es = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Prompts importados con éxito",
     [k.INVALID_FILE]: "Archivo inválido",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Todos los prompts y carpetas eliminados",
+    [k.CONFIRM_DELETE_PROMPT]: "¿Estás seguro de que quieres eliminar este mensaje?",
+    [k.CANCEL]: "Cancelar",
+    [k.DELETE_PROMPT]: "Eliminar mensaje",
 }
 
 export default es

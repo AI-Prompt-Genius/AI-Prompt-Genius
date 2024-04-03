@@ -128,6 +128,9 @@ export const tr = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Başarıyla içe aktarılan komutlar",
     [k.INVALID_FILE]: "Geçersiz Dosya",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Tüm komutlar ve klasörler silindi",
+    [k.CONFIRM_DELETE_PROMPT]: "Bu istemi silmek istediğinizden emin misiniz?",
+    [k.CANCEL]: "İptal",
+    [k.DELETE_PROMPT]: "İstemi Sil",
 }
 
 export default tr
