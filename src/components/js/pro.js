@@ -41,10 +41,17 @@ export async function activateLicense(license_key) {
     localStorage.setItem("last_checked_pro", currentTime.toString())
 
     if (data.success) {
-        localStorage.setItem("pro_key", license_key)
-        localStorage.setItem("pro", "true")
-        sendMessageToParent({ message: "pro_status", pro: true })
-        return true
+        if (data.uses > 8){ // caps users at 8 devices
+            sendMessageToParent({ message: "pro_status", pro: false })
+            localStorage.setItem("pro", "false")
+            return "full";
+        }
+        else {
+            localStorage.setItem("pro_key", license_key)
+            localStorage.setItem("pro", "true")
+            sendMessageToParent({ message: "pro_status", pro: true })
+            return true
+        }
     } else {
         localStorage.removeItem("pro_key")
         localStorage.setItem("pro", "false")

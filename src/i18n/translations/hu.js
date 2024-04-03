@@ -139,6 +139,7 @@ export const hu = {
     [k.CONFIRM_DELETE_PROMPT]: "Biztos benne, hogy törölni szeretné ezt az üzenetet?",
     [k.CANCEL]: "Mégse",
     [k.DELETE_PROMPT]: "Üzenet törlése",
+    [k.OUT_OF_SEATS]: "Elfogytak a helyek ezzel a licenckulccsal. Kérjük, vásároljon egy másikat további 8 eszközhöz."
 }
 
 export default hu

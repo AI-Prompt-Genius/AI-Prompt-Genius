@@ -141,6 +141,7 @@ export const zh_CN = {
     [k.CONFIRM_DELETE_PROMPT]: "您确定要删除此提示吗？",
     [k.CANCEL]: "取消",
     [k.DELETE_PROMPT]: "删除提示",
+    [k.OUT_OF_SEATS]: "您的这个许可证密钥已无剩余座位。请再购买一个以获得额外的8个设备。"
 }
 
 export default zh_CN
