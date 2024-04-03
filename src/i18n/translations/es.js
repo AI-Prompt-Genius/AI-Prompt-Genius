@@ -139,7 +139,8 @@ export const es = {
     [k.CONFIRM_DELETE_PROMPT]: "¿Estás seguro de que quieres eliminar este mensaje?",
     [k.CANCEL]: "Cancelar",
     [k.DELETE_PROMPT]: "Eliminar mensaje",
-    [k.OUT_OF_SEATS]: "Se ha quedado sin licencias con esta clave de licencia. Por favor, compre otra para 8 dispositivos adicionales."
+    [k.OUT_OF_SEATS]:
+        "Se ha quedado sin licencias con esta clave de licencia. Por favor, compre otra para 8 dispositivos adicionales.",
 }
 
 export default es

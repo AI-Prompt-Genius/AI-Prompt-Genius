@@ -128,7 +128,7 @@ export const zh_TW = {
     [k.CONFIRM_DELETE_PROMPT]: "您確定要刪除此提示嗎？",
     [k.CANCEL]: "取消",
     [k.DELETE_PROMPT]: "刪除提示",
-    [k.OUT_OF_SEATS]: "您的這個許可證密鑰已無剩餘座位。請再購買一個以獲得額外的8個設備。"
+    [k.OUT_OF_SEATS]: "您的這個許可證密鑰已無剩餘座位。請再購買一個以獲得額外的8個設備。",
 }
 
 export default zh_TW
