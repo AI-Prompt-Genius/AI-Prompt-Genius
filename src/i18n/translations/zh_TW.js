@@ -118,6 +118,13 @@ export const zh_TW = {
     [k.LEMONADE]: "檸檬水",
     [k.FOREST]: "森林",
     [k.LUXURY]: "奢華",
+    [k.NO_PROMPT_TEXT]: "無提示文本",
+    [k.PROMPT_COPIED]: "提示已複製到剪貼板",
+    [k.FILE_NOT_FOUND]: "文件未找到",
+    [k.INVALID_CSV_TEMPLATE]: "無效CSV - 模板不匹配",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "成功導入提示",
+    [k.INVALID_FILE]: "無效文件",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "已刪除所有提示和文件夾",
 }
 
 export default zh_TW

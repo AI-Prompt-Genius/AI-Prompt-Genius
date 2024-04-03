@@ -93,18 +93,21 @@ export const tr = {
     [k.UPGRADE_TO_PRO]: "Pro'ya Yükselt",
     [k.FEATURES]: "Özellikler:",
     [k.NO_ADS]: "Reklamsız! İki aylık popup pencerelerini ve metin reklamlarını kaldırır.",
-    [k.ACCESS_TO_NEW_THEMES]: "Cyberpunk, lüks ve daha fazlası dahil olmak üzere yeni temalara erişim sağlayın!",
+    [k.ACCESS_TO_NEW_THEMES]:
+        "Cyberpunk, lüks ve daha fazlası dahil olmak üzere yeni temalara erişim sağlayın!",
     [k.SUPPORT_A_SMALL_DEVELOPER]: "Küçük bir geliştiriciyi destekleyin",
     [k.BUY_A_PRO_LICENSE]: "PRO LİSANSI SATIN AL",
     [k.LIKED_THEME]: "Bu temayı mı beğendiniz? Pro'ya yükseltin!",
     [k.ACTIVATE_PRO_LICENSE]: "Pro Lisansı Etkinleştir",
     [k.MANAGE_PRO_SUBSCRIPTION]: "Pro Aboneliğini Yönet",
-    [k.ACTIVATE_LICENSE_IN_SETTINGS]: "Lisansınızı ayarlarda istediğiniz zaman da aktive edebilirsiniz",
+    [k.ACTIVATE_LICENSE_IN_SETTINGS]:
+        "Lisansınızı ayarlarda istediğiniz zaman da aktive edebilirsiniz",
     [k.LICENSE_KEY]: "Lisans Anahtarı",
     [k.ACTIVATE]: "Etkinleştir",
     [k.CANCEL_MY_SUBSCRIPTION]: "Aboneliğimi İptal Et",
     [k.SUCCESSFULLY_ACTIVATED_PRO]: "Pro Başarıyla Etkinleştirildi!",
-    [k.ERROR_ACTIVATING_PRO]: "Pro etkinleştirilirken hata. Lisans anahtarınızın doğru olduğundan emin olun",
+    [k.ERROR_ACTIVATING_PRO]:
+        "Pro etkinleştirilirken hata. Lisans anahtarınızın doğru olduğundan emin olun",
     [k.THEME]: "Tema",
     [k.WINTER]: "Kış",
     [k.LIGHT]: "Aydınlık",
@@ -118,6 +121,13 @@ export const tr = {
     [k.LEMONADE]: "Limonata",
     [k.FOREST]: "Orman",
     [k.LUXURY]: "Lüks",
+    [k.NO_PROMPT_TEXT]: "Komut metni yok",
+    [k.PROMPT_COPIED]: "Komut panoya kopyalandı",
+    [k.FILE_NOT_FOUND]: "Dosya bulunamadı",
+    [k.INVALID_CSV_TEMPLATE]: "Geçersiz CSV - Şablon eşleşmiyor",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Başarıyla içe aktarılan komutlar",
+    [k.INVALID_FILE]: "Geçersiz Dosya",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Tüm komutlar ve klasörler silindi",
 }
 
 export default tr

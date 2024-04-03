@@ -109,7 +109,7 @@ export const en = {
     [k.ACTIVATE_PRO_LICENSE]: "Activate Pro License",
     [k.MANAGE_PRO_SUBSCRIPTION]: "Manage Pro Subscription",
     [k.ACTIVATE_LICENSE_IN_SETTINGS]: "You can also activate your license anytime in settings",
-    [k.LICENSE_KEY]: "License Key",  // Assuming you want the placeholder translated as well
+    [k.LICENSE_KEY]: "License Key", // Assuming you want the placeholder translated as well
     [k.ACTIVATE]: "Activate",
     [k.CANCEL_MY_SUBSCRIPTION]: "Cancel my Subscription",
     [k.SUCCESSFULLY_ACTIVATED_PRO]: "Successfully Activated Pro!",
@@ -127,6 +127,13 @@ export const en = {
     [k.LEMONADE]: "Lemonade",
     [k.FOREST]: "Forest",
     [k.LUXURY]: "Luxury",
+    [k.NO_PROMPT_TEXT]: "No Prompt Text",
+    [k.PROMPT_COPIED]: "Prompt Copied to Clipboard",
+    [k.FILE_NOT_FOUND]: "File not found",
+    [k.INVALID_CSV_TEMPLATE]: "Invalid CSV - Match Template",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Successfully imported prompts",
+    [k.INVALID_FILE]: "Invalid File",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Deleted All Prompts and Folders",
 }
 
 export default en

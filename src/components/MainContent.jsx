@@ -80,7 +80,7 @@ export default function MainContent({
             return ""
         }
         if (text == undefined) {
-            showToast("No Prompt Text")
+            showToast(t(k.NO_PROMPT_TEXT))
             return
         }
         ReactGA.event({
@@ -91,7 +91,7 @@ export default function MainContent({
         })
         copyTextToClipboard(text)
         setVariables([])
-        showToast("Prompt Copied to Clipboard")
+        showToast(t(k.PROMPT_COPIED))
     }
 
     const modalRef = useRef(null)

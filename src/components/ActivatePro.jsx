@@ -2,9 +2,9 @@ import Head2 from "./Head2.jsx"
 import Head4 from "./Head4.jsx"
 import { activateLicense, getProStatus } from "./js/pro.js"
 import { useState } from "react"
-import {CrownIcon} from "./icons/Icons.jsx";
-import {useTranslation} from "react-i18next";
-import k from "./../i18n/keys";
+import { CrownIcon } from "./icons/Icons.jsx"
+import { useTranslation } from "react-i18next"
+import k from "./../i18n/keys"
 export function ActivatePro(props) {
     const { t, i18n } = useTranslation()
 
@@ -25,7 +25,11 @@ export function ActivatePro(props) {
 
     return (
         <div>
-            {!isPro ? <Head2>{t(k.ACTIVATE_PRO_LICENSE)}</Head2> : <Head2>{t(k.MANAGE_PRO_SUBSCRIPTION)}</Head2>}
+            {!isPro ? (
+                <Head2>{t(k.ACTIVATE_PRO_LICENSE)}</Head2>
+            ) : (
+                <Head2>{t(k.MANAGE_PRO_SUBSCRIPTION)}</Head2>
+            )}
             {!props.in_settings && !isPro && <p>{t(k.ACTIVATE_LICENSE_IN_SETTINGS)}</p>}
             <div className="join my-2">
                 {isPro ? (
@@ -52,18 +56,19 @@ export function ActivatePro(props) {
                     {t(k.ACTIVATE)}
                 </button>
             </div>
-            {isPro &&
+            {isPro && (
                 <p className={"my-3"}>
-                    <a className={"link link-primary"}
-                       target={"_blank"}
-                       href={
-                           "https://customers.gumroad.com/article/192-how-do-i-cancel-my-subscription-membership"
-                       }
+                    <a
+                        className={"link link-primary"}
+                        target={"_blank"}
+                        href={
+                            "https://customers.gumroad.com/article/192-how-do-i-cancel-my-subscription-membership"
+                        }
                     >
                         {t(k.CANCEL_MY_SUBSCRIPTION)}
                     </a>
                 </p>
-            }
+            )}
         </div>
     )
 }

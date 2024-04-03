@@ -100,8 +100,10 @@ export const hu = {
     [k.ENTER_TAG]: "Nyomja meg az entert egy címke hozzáadásához",
     [k.UPGRADE_TO_PRO]: "Frissítés Pro verzióra",
     [k.FEATURES]: "Jellemzők:",
-    [k.NO_ADS]: "Nincs hirdetés! Eltávolítja a kéthavonta megjelenő felugró ablakokat és szöveges hirdetéseket.",
-    [k.ACCESS_TO_NEW_THEMES]: "Hozzáférés az új témákhoz, beleértve a cyberpunk, luxus és több témát!",
+    [k.NO_ADS]:
+        "Nincs hirdetés! Eltávolítja a kéthavonta megjelenő felugró ablakokat és szöveges hirdetéseket.",
+    [k.ACCESS_TO_NEW_THEMES]:
+        "Hozzáférés az új témákhoz, beleértve a cyberpunk, luxus és több témát!",
     [k.SUPPORT_A_SMALL_DEVELOPER]: "Támogass egy kis fejlesztőt",
     [k.BUY_A_PRO_LICENSE]: "PRO LICENC VÁSÁRLÁSA",
     [k.LIKED_THEME]: "Tetszett ez a téma? Frissíts Pro verzióra!",
@@ -112,7 +114,8 @@ export const hu = {
     [k.ACTIVATE]: "Aktiválás",
     [k.CANCEL_MY_SUBSCRIPTION]: "Előfizetés lemondása",
     [k.SUCCESSFULLY_ACTIVATED_PRO]: "A Pro sikeresen aktiválva!",
-    [k.ERROR_ACTIVATING_PRO]: "Hiba a pro aktiválásakor. Győződjön meg róla, hogy a licenckulcsa pontos",
+    [k.ERROR_ACTIVATING_PRO]:
+        "Hiba a pro aktiválásakor. Győződjön meg róla, hogy a licenckulcsa pontos",
     [k.THEME]: "Téma",
     [k.WINTER]: "Tél",
     [k.LIGHT]: "Világos",
@@ -125,7 +128,14 @@ export const hu = {
     [k.NORD]: "Nord",
     [k.LEMONADE]: "Limonádé",
     [k.FOREST]: "Erdő",
-    [k.LUXURY]: "Luxus"
+    [k.LUXURY]: "Luxus",
+    [k.NO_PROMPT_TEXT]: "Nincs felkérő szöveg",
+    [k.PROMPT_COPIED]: "Prompt vágólapra másolva",
+    [k.FILE_NOT_FOUND]: "Fájl nem található",
+    [k.INVALID_CSV_TEMPLATE]: "Érvénytelen CSV - Nem megfelelő sablon",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Sikeresen importált prompts",
+    [k.INVALID_FILE]: "Érvénytelen fájl",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Minden prompt és mappa törölve",
 }
 
 export default hu
