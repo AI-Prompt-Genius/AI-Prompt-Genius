@@ -38,7 +38,7 @@ export default function Template({
 
     const tagRef = React.createRef()
 
-    const compactBtnClass = compact ? "" : "max-[600px]:flex-col"
+    const compactBtnClass = compact ? "" : "max-[600px]:flex-col lg:flex-col"
 
     function showModal() {
         setEditModalVisible(true)

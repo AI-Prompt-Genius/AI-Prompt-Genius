@@ -11,7 +11,7 @@ export default function ThemeToggle() {
 
     return (
         <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-ghost m-1">
+            <div tabIndex={0} role="button" className="btn btn-ghost ml-2">
                 Theme <CarrotDownIcon />
             </div>
             <ul
@@ -19,11 +19,14 @@ export default function ThemeToggle() {
                 className="dropdown-content z-[100] menu p-2 shadow-2xl bg-base-300 rounded-box w-52"
             >
                 <li>
-                    <a onClick={() => handleThemeChange("winter")}>Default</a>
+                    <a onClick={() => handleThemeChange("winter")}>Winter</a>
+                </li>
+                <li>
+                    <a onClick={() => handleThemeChange("light")}>Light</a>
                 </li>
                 <li>
                     <a onClick={() => handleThemeChange("night")}>
-                        Dark <MoonIcon />{" "}
+                        Night <MoonIcon />{" "}
                     </a>
                 </li>
                 <li>
