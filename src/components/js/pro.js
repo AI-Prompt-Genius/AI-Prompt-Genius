@@ -1,8 +1,8 @@
-import {sendMessageToParent} from "./utils.js";
+import { sendMessageToParent } from "./utils.js"
 
 export function getProStatus() {
     let isPro = localStorage.getItem("pro") ?? false
-    return isPro === "true";
+    return isPro === "true"
 }
 
 export async function updateProStatus() {
@@ -13,12 +13,12 @@ export async function updateProStatus() {
         const verifyPro = await notFirstCheck(proKey)
         if (verifyPro) {
             localStorage.setItem("pro", "true")
-            sendMessageToParent({message: "pro_status", pro: true})
+            sendMessageToParent({ message: "pro_status", pro: true })
             return true
         } else {
             localStorage.removeItem("pro_key")
             localStorage.setItem("pro", "false")
-            sendMessageToParent({message: "pro_status", pro: false})
+            sendMessageToParent({ message: "pro_status", pro: false })
             return false
         }
     } else {
@@ -43,12 +43,12 @@ export async function activateLicense(license_key) {
     if (data.success) {
         localStorage.setItem("pro_key", license_key)
         localStorage.setItem("pro", "true")
-        sendMessageToParent({message: "pro_status", pro: true})
+        sendMessageToParent({ message: "pro_status", pro: true })
         return true
     } else {
         localStorage.removeItem("pro_key")
         localStorage.setItem("pro", "false")
-        sendMessageToParent({message: "pro_status", pro: false})
+        sendMessageToParent({ message: "pro_status", pro: false })
         return false
     }
 }

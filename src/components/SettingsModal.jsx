@@ -22,6 +22,7 @@ import { GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx"
 import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js"
 import ShortcutInfo from "./ShortcutInfo.jsx"
 import ReactGA from "react-ga4"
+import { ActivatePro } from "./ActivatePro.jsx"
 
 export default function SettingsModal({
     setSettingsVisible,
@@ -229,6 +230,7 @@ export default function SettingsModal({
                                     <h5 className="card-title">{t(k.LANGUAGE)}</h5>
                                     <LanguageSelect />
                                     <ShortcutInfo />
+                                    <ActivatePro in_settings={true} />
                                 </div>
                             </div>
                         )}
