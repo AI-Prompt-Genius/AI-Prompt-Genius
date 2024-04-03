@@ -14,10 +14,9 @@ export function ActivatePro(props) {
     async function activatePro() {
         const key = document.getElementById("licenseKey").value
         const success = await activateLicense(key)
-        if (success === "full"){
+        if (success === "full") {
             props.showToast(t(k.OUT_OF_SEATS))
-        }
-        else if (success) {
+        } else if (success) {
             props.showToast(t(k.SUCCESSFULLY_ACTIVATED_PRO))
             document.getElementById("licenseKey").disabled = true
             setPro(true)

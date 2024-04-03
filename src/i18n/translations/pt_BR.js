@@ -139,7 +139,8 @@ export const pt_BR = {
     [k.CONFIRM_DELETE_PROMPT]: "Tem certeza de que deseja excluir este prompt?",
     [k.CANCEL]: "Cancelar",
     [k.DELETE_PROMPT]: "Excluir Prompt",
-    [k.OUT_OF_SEATS]: "Você esgotou os assentos disponíveis com esta chave de licença. Por favor, compre outra para mais 8 dispositivos."
+    [k.OUT_OF_SEATS]:
+        "Você esgotou os assentos disponíveis com esta chave de licença. Por favor, compre outra para mais 8 dispositivos.",
 }
 
 export default pt_BR

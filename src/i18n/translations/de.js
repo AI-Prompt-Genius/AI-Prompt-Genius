@@ -132,7 +132,8 @@ export const de = {
         "Sind Sie sicher, dass Sie diesen Aufforderungstext löschen möchten?",
     [k.CANCEL]: "Abbrechen",
     [k.DELETE_PROMPT]: "Aufforderungstext löschen",
-    [k.OUT_OF_SEATS]: "Sie haben keine Lizenzen mehr übrig. Bitte erwerben Sie eine weitere für 8 zusätzliche Geräte."
+    [k.OUT_OF_SEATS]:
+        "Sie haben keine Lizenzen mehr übrig. Bitte erwerben Sie eine weitere für 8 zusätzliche Geräte.",
 }
 
 export default de
