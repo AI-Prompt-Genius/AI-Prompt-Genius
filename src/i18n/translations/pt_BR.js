@@ -136,6 +136,9 @@ export const pt_BR = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Prompts importados com sucesso",
     [k.INVALID_FILE]: "Arquivo inválido",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Todos os prompts e pastas deletados",
+    [k.CONFIRM_DELETE_PROMPT]: "Tem certeza de que deseja excluir este prompt?",
+    [k.CANCEL]: "Cancelar",
+    [k.DELETE_PROMPT]: "Excluir Prompt",
 }
 
 export default pt_BR

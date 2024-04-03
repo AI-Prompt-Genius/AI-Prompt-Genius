@@ -136,6 +136,9 @@ export const fr = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Prompts importés avec succès",
     [k.INVALID_FILE]: "Fichier invalide",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Tous les prompts et dossiers supprimés",
+    [k.CONFIRM_DELETE_PROMPT]: "Êtes-vous sûr de vouloir supprimer cette invite ?",
+    [k.CANCEL]: "Annuler",
+    [k.DELETE_PROMPT]: "Supprimer l'invite",
 }
 
 export default fr

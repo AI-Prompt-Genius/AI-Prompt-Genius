@@ -136,6 +136,9 @@ export const it = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Prompt importati con successo",
     [k.INVALID_FILE]: "File non valido",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Tutti i prompt e le cartelle eliminati",
+    [k.CONFIRM_DELETE_PROMPT]: "Sei sicuro di voler eliminare questo prompt?",
+    [k.CANCEL]: "Annulla",
+    [k.DELETE_PROMPT]: "Elimina Prompt",
 }
 
 export default it

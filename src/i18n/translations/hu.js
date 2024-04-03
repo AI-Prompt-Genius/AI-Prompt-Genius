@@ -136,6 +136,9 @@ export const hu = {
     [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Sikeresen importált prompts",
     [k.INVALID_FILE]: "Érvénytelen fájl",
     [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Minden prompt és mappa törölve",
+    [k.CONFIRM_DELETE_PROMPT]: "Biztos benne, hogy törölni szeretné ezt az üzenetet?",
+    [k.CANCEL]: "Mégse",
+    [k.DELETE_PROMPT]: "Üzenet törlése",
 }
 
 export default hu
