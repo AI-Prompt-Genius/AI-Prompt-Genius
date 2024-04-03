@@ -9,6 +9,7 @@ import CompactToggle from "./CompactToggle.jsx"
 import { useLocalStorage } from "@uidotdev/usehooks"
 import Ad from "./Ad.jsx"
 import ReactGA from "react-ga4"
+import { ProUpgradeModal } from "./ProUpgradeModal.jsx"
 
 export default function MainContent({
     prompts,
@@ -233,6 +234,8 @@ export default function MainContent({
             )}
 
             {showToastMessage && <Toast message={toastMessage} />}
+
+            <ProUpgradeModal />
         </>
     )
 }

@@ -16,7 +16,7 @@ export default function ThemeToggle() {
             </div>
             <ul
                 tabIndex={0}
-                className="dropdown-content z-[100] menu p-2 shadow-2xl bg-base-300 rounded-box w-52"
+                className="dropdown-content max-h-[65vh] overflow-y-auto flex-nowrap menu p-2 shadow-2xl bg-base-300 rounded-box w-52"
             >
                 <li>
                     <a onClick={() => handleThemeChange("winter")}>Winter</a>
