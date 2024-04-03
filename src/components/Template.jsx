@@ -122,7 +122,7 @@ export default function Template({
                     if (e.target.classList.contains("mainClick")) onClick()
                 }}
                 id={template.id}
-                className="mainClick z-0 card w-full bg-base-200/50 shadow-md template mb-3 cursor-pointer transition-colors hover:bg-base-300/50"
+                className="mainClick z-0 card w-full lg:mb-0 bg-base-200/50 shadow-md template mb-3 cursor-pointer transition-colors hover:bg-base-300/50"
             >
                 <div className="mainClick z-0 card-body flex flex-row p-4 justify-between align-top">
                     <div className="mainClick flex flex-col">
