@@ -136,6 +136,7 @@ export const k = {
     CONFIRM_DELETE_PROMPT: "CONFIRM_DELETE_PROMPT",
     CANCEL: "CANCEL",
     DELETE_PROMPT: "DELETE_PROMPT",
+    OUT_OF_SEATS: "OUT_OF_SEATS",
 }
 
 export default k

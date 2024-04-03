@@ -139,6 +139,7 @@ export const fr = {
     [k.CONFIRM_DELETE_PROMPT]: "Êtes-vous sûr de vouloir supprimer cette invite ?",
     [k.CANCEL]: "Annuler",
     [k.DELETE_PROMPT]: "Supprimer l'invite",
+    [k.OUT_OF_SEATS]: "Vous avez épuisé les sièges disponibles avec cette clé de licence. Veuillez en acheter une autre pour 8 appareils supplémentaires."
 }
 
 export default fr

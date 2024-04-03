@@ -131,6 +131,7 @@ export const tr = {
     [k.CONFIRM_DELETE_PROMPT]: "Bu istemi silmek istediğinizden emin misiniz?",
     [k.CANCEL]: "İptal",
     [k.DELETE_PROMPT]: "İstemi Sil",
+    [k.OUT_OF_SEATS]: "Bu lisans anahtarı ile koltuklarınız doldu. Lütfen 8 ek cihaz için başka bir tane satın alın."
 }
 
 export default tr

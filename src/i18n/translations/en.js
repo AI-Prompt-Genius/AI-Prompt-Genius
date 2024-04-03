@@ -137,6 +137,7 @@ export const en = {
     [k.CONFIRM_DELETE_PROMPT]: "Are you sure you want to delete this prompt?",
     [k.CANCEL]: "Cancel",
     [k.DELETE_PROMPT]: "Delete Prompt",
+    [k.OUT_OF_SEATS]: "You are out of seats with this license key. Please purchase another for an additional 8 devices.",
 }
 
 export default en
