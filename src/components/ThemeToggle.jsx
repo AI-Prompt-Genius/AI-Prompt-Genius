@@ -49,6 +49,26 @@ export default function ThemeToggle() {
                         Aqua <CrownIcon />
                     </a>
                 </li>
+                <li>
+                    <a onClick={() => handleThemeChange("nord")}>
+                        Nord <CrownIcon />
+                    </a>
+                </li>
+                <li>
+                    <a onClick={() => handleThemeChange("lemonade")}>
+                        Lemonade <CrownIcon />
+                    </a>
+                </li>
+                <li>
+                    <a className={"flex"} onClick={() => handleThemeChange("forest")}>
+                        Forest <MoonIcon /> <CrownIcon />
+                    </a>
+                </li>
+                <li>
+                    <a className={"flex"} onClick={() => handleThemeChange("luxury")}>
+                        Luxury <MoonIcon /> <CrownIcon />
+                    </a>
+                </li>
             </ul>
         </div>
     )
