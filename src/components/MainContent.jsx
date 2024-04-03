@@ -41,7 +41,7 @@ export default function MainContent({
     const searchInputRef = useRef()
 
     const currentTime = new Date().getTime()
-    const lastCheckedPro = localStorage.getItem("last_checked_pro") ?? currentTime
+    const lastCheckedPro = localStorage.getItem("last_checked_pro") ?? 0
     const hasBeen24Hours = currentTime - lastCheckedPro > 24 * 60 * 60 * 1000
 
     if (hasBeen24Hours) {
