@@ -83,14 +83,15 @@ export default function MainContent({
             showToast(t(k.NO_PROMPT_TEXT))
             return
         }
-        ReactGA.event({
+        /* ReactGA.event({
             category: "Prompt Action",
             action: "Prompt Copied",
             nonInteraction: false, // optional, true/false
             transport: "xhr", // optional, beacon/xhr/image
-        })
-        copyTextToClipboard(text)
+        }) */
         setVariables([])
+        setTextareaValues([])
+        copyTextToClipboard(text)
         showToast(t(k.PROMPT_COPIED))
     }
 
