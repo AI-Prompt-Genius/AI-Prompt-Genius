@@ -30,6 +30,7 @@ export function ActivatePro(props) {
             <div className="join my-2">
                 {isPro ? (
                     <input
+                        disabled
                         id={"licenseKey"}
                         defaultValue={licenseKey}
                         className={`input input-bordered join-item input-disabled`}
