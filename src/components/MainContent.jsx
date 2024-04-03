@@ -10,6 +10,7 @@ import { useLocalStorage } from "@uidotdev/usehooks"
 import Ad from "./Ad.jsx"
 import ReactGA from "react-ga4"
 import { ProUpgradeModal } from "./ProUpgradeModal.jsx"
+import {updateProStatus} from "./js/pro.js";
 
 export default function MainContent({
     prompts,
@@ -38,6 +39,14 @@ export default function MainContent({
     const [toastMessage, setToastMessage] = useState("")
 
     const searchInputRef = useRef()
+
+    const currentTime = new Date().getTime()
+    const lastCheckedPro = localStorage.getItem("last_checked_pro") ?? currentTime
+    const hasBeen24Hours = (currentTime - lastCheckedPro) > 24 * 60 * 60 * 1000;
+
+    if (hasBeen24Hours){
+        updateProStatus()
+    }
 
     function getVarsFromModal(vars, text) {
         setVariables(vars)
@@ -235,7 +244,7 @@ export default function MainContent({
 
             {showToastMessage && <Toast message={toastMessage} />}
 
-            <ProUpgradeModal />
+            <ProUpgradeModal showToast={showToast}/>
         </>
     )
 }
