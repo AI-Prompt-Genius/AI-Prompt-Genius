@@ -93,13 +93,15 @@ export const ru = {
     [k.UPGRADE_TO_PRO]: "Перейти на Pro",
     [k.FEATURES]: "Функции:",
     [k.NO_ADS]: "Без рекламы! Убирает всплывающие окна и текстовую рекламу каждые два месяца.",
-    [k.ACCESS_TO_NEW_THEMES]: "Получите доступ к новым темам, включая киберпанк, роскошь и многое другое!",
+    [k.ACCESS_TO_NEW_THEMES]:
+        "Получите доступ к новым темам, включая киберпанк, роскошь и многое другое!",
     [k.SUPPORT_A_SMALL_DEVELOPER]: "Поддержите независимого разработчика",
     [k.BUY_A_PRO_LICENSE]: "КУПИТЬ ЛИЦЕНЗИЮ PRO",
     [k.LIKED_THEME]: "Понравилась тема? Перейдите на Pro!",
     [k.ACTIVATE_PRO_LICENSE]: "Активировать лицензию Pro",
     [k.MANAGE_PRO_SUBSCRIPTION]: "Управление подпиской Pro",
-    [k.ACTIVATE_LICENSE_IN_SETTINGS]: "Вы также можете активировать вашу лицензию в любое время в настройках",
+    [k.ACTIVATE_LICENSE_IN_SETTINGS]:
+        "Вы также можете активировать вашу лицензию в любое время в настройках",
     [k.LICENSE_KEY]: "Лицензионный ключ",
     [k.ACTIVATE]: "Активировать",
     [k.CANCEL_MY_SUBSCRIPTION]: "Отменить мою подписку",
@@ -117,7 +119,14 @@ export const ru = {
     [k.NORD]: "Норд",
     [k.LEMONADE]: "Лимонад",
     [k.FOREST]: "Лес",
-    [k.LUXURY]: "Роскошь"
+    [k.LUXURY]: "Роскошь",
+    [k.NO_PROMPT_TEXT]: "Текст приглашения отсутствует",
+    [k.PROMPT_COPIED]: "Текст приглашения скопирован в буфер обмена",
+    [k.FILE_NOT_FOUND]: "Файл не найден",
+    [k.INVALID_CSV_TEMPLATE]: "Неверный CSV - Шаблон не соответствует",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Приглашения успешно импортированы",
+    [k.INVALID_FILE]: "Неверный файл",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Все приглашения и папки удалены",
 }
 
 export default ru

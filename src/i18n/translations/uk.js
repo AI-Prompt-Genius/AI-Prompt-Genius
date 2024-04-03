@@ -93,18 +93,21 @@ export const uk = {
     [k.UPGRADE_TO_PRO]: "Оновити до Pro",
     [k.FEATURES]: "Особливості:",
     [k.NO_ADS]: "Без реклами! Видаляє попап-вікна двічі на місяць та текстові оголошення.",
-    [k.ACCESS_TO_NEW_THEMES]: "Отримайте доступ до нових тем, включаючи кіберпанк, розкіш та багато іншого!",
+    [k.ACCESS_TO_NEW_THEMES]:
+        "Отримайте доступ до нових тем, включаючи кіберпанк, розкіш та багато іншого!",
     [k.SUPPORT_A_SMALL_DEVELOPER]: "Підтримайте невеликого розробника",
     [k.BUY_A_PRO_LICENSE]: "ПРИДБАТИ ЛІЦЕНЗІЮ PRO",
     [k.LIKED_THEME]: "Сподобалась тема? Оновіть до Pro!",
     [k.ACTIVATE_PRO_LICENSE]: "Активувати ліцензію Pro",
     [k.MANAGE_PRO_SUBSCRIPTION]: "Керування підпискою Pro",
-    [k.ACTIVATE_LICENSE_IN_SETTINGS]: "Ви також можете активувати свою ліцензію в будь-який час у налаштуваннях",
+    [k.ACTIVATE_LICENSE_IN_SETTINGS]:
+        "Ви також можете активувати свою ліцензію в будь-який час у налаштуваннях",
     [k.LICENSE_KEY]: "Ліцензійний ключ",
     [k.ACTIVATE]: "Активувати",
     [k.CANCEL_MY_SUBSCRIPTION]: "Скасувати мою підписку",
     [k.SUCCESSFULLY_ACTIVATED_PRO]: "Pro успішно активовано!",
-    [k.ERROR_ACTIVATING_PRO]: "Помилка активації pro. Переконайтеся, що ваш ліцензійний ключ вірний",
+    [k.ERROR_ACTIVATING_PRO]:
+        "Помилка активації pro. Переконайтеся, що ваш ліцензійний ключ вірний",
     [k.THEME]: "Тема",
     [k.WINTER]: "Зима",
     [k.LIGHT]: "Світло",
@@ -118,6 +121,13 @@ export const uk = {
     [k.LEMONADE]: "Лимонад",
     [k.FOREST]: "Ліс",
     [k.LUXURY]: "Розкіш",
+    [k.NO_PROMPT_TEXT]: "Текст запрошення відсутній",
+    [k.PROMPT_COPIED]: "Запрошення скопійовано до буфера обміну",
+    [k.FILE_NOT_FOUND]: "Файл не знайдено",
+    [k.INVALID_CSV_TEMPLATE]: "Недійсний CSV - Шаблон не відповідає",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Запрошення успішно імпортовано",
+    [k.INVALID_FILE]: "Недійсний файл",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Всі запрошення та теки видалено",
 }
 
 export default uk

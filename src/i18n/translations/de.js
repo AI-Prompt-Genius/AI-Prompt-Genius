@@ -93,18 +93,21 @@ export const de = {
     [k.UPGRADE_TO_PRO]: "Auf Pro upgraden",
     [k.FEATURES]: "Funktionen:",
     [k.NO_ADS]: "Keine Werbung! Entfernt zweimonatliche Popup-Fenster & Textanzeigen.",
-    [k.ACCESS_TO_NEW_THEMES]: "Zugang zu neuen Themen erhalten, einschließlich Cyberpunk, Luxus und mehr!",
+    [k.ACCESS_TO_NEW_THEMES]:
+        "Zugang zu neuen Themen erhalten, einschließlich Cyberpunk, Luxus und mehr!",
     [k.SUPPORT_A_SMALL_DEVELOPER]: "Unterstütze einen kleinen Entwickler",
     [k.BUY_A_PRO_LICENSE]: "PRO-LIZENZ KAUFEN",
     [k.LIKED_THEME]: "Hat dir das Thema gefallen? Auf Pro upgraden!",
     [k.ACTIVATE_PRO_LICENSE]: "Pro-Lizenz aktivieren",
     [k.MANAGE_PRO_SUBSCRIPTION]: "Pro-Abonnement verwalten",
-    [k.ACTIVATE_LICENSE_IN_SETTINGS]: "Sie können Ihre Lizenz auch jederzeit in den Einstellungen aktivieren",
+    [k.ACTIVATE_LICENSE_IN_SETTINGS]:
+        "Sie können Ihre Lizenz auch jederzeit in den Einstellungen aktivieren",
     [k.LICENSE_KEY]: "Lizenzschlüssel",
     [k.ACTIVATE]: "Aktivieren",
     [k.CANCEL_MY_SUBSCRIPTION]: "Mein Abonnement kündigen",
     [k.SUCCESSFULLY_ACTIVATED_PRO]: "Pro erfolgreich aktiviert!",
-    [k.ERROR_ACTIVATING_PRO]: "Fehler bei der Aktivierung von Pro. Stellen Sie sicher, dass Ihr Lizenzschlüssel korrekt ist",
+    [k.ERROR_ACTIVATING_PRO]:
+        "Fehler bei der Aktivierung von Pro. Stellen Sie sicher, dass Ihr Lizenzschlüssel korrekt ist",
     [k.THEME]: "Thema",
     [k.WINTER]: "Winter",
     [k.LIGHT]: "Hell",
@@ -118,6 +121,13 @@ export const de = {
     [k.LEMONADE]: "Limonade",
     [k.FOREST]: "Wald",
     [k.LUXURY]: "Luxus",
+    [k.NO_PROMPT_TEXT]: "Kein Aufforderungstext",
+    [k.PROMPT_COPIED]: "Aufforderung in Zwischenablage kopiert",
+    [k.FILE_NOT_FOUND]: "Datei nicht gefunden",
+    [k.INVALID_CSV_TEMPLATE]: "Ungültiges CSV - Vorlage entspricht nicht",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Aufforderungen erfolgreich importiert",
+    [k.INVALID_FILE]: "Ungültige Datei",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Alle Aufforderungen und Ordner gelöscht",
 }
 
 export default de

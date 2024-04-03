@@ -2,7 +2,7 @@ import React from "react"
 import { ThemeContext } from "./ThemeContext.jsx"
 import { CarrotDownIcon, CrownIcon, MoonIcon, SunIcon } from "./icons/Icons.jsx"
 import k from "../i18n/keys.js"
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next"
 
 export default function ThemeToggle() {
     const { theme, switchTheme } = React.useContext(ThemeContext)

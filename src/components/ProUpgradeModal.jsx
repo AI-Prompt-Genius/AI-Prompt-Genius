@@ -5,7 +5,7 @@ import Head4 from "./Head4.jsx"
 import k from "../i18n/keys.js"
 import { useTranslation } from "react-i18next"
 import { ActivatePro } from "./ActivatePro.jsx"
-import {ProFeatures} from "./ProFeatures.jsx";
+import { ProFeatures } from "./ProFeatures.jsx"
 
 export function ProUpgradeModal(props) {
     const { t } = useTranslation()

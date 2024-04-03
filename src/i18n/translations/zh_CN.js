@@ -131,6 +131,13 @@ export const zh_CN = {
     [k.LEMONADE]: "柠檬水",
     [k.FOREST]: "森林",
     [k.LUXURY]: "奢华",
+    [k.NO_PROMPT_TEXT]: "无提示文本",
+    [k.PROMPT_COPIED]: "提示已复制到剪贴板",
+    [k.FILE_NOT_FOUND]: "文件未找到",
+    [k.INVALID_CSV_TEMPLATE]: "无效CSV - 模板不匹配",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "成功导入提示",
+    [k.INVALID_FILE]: "无效文件",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "已删除所有提示和文件夹",
 }
 
 export default zh_CN

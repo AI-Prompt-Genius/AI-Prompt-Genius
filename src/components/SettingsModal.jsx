@@ -18,15 +18,15 @@ import {
     setObject,
 } from "./js/utils.js"
 import LanguageSelect from "./LanguageSelect.jsx"
-import {CrownIcon, GoogleDriveIcon, TrashIcon} from "./icons/Icons.jsx"
+import { CrownIcon, GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx"
 import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js"
 import ShortcutInfo from "./ShortcutInfo.jsx"
 import ReactGA from "react-ga4"
 import { ActivatePro } from "./ActivatePro.jsx"
-import {ProFeatures} from "./ProFeatures.jsx";
-import Head2 from "./Head2.jsx";
-import Head4 from "./Head4.jsx";
-import {getProStatus} from "./js/pro.js";
+import { ProFeatures } from "./ProFeatures.jsx"
+import Head2 from "./Head2.jsx"
+import Head4 from "./Head4.jsx"
+import { getProStatus } from "./js/pro.js"
 
 export default function SettingsModal({
     setSettingsVisible,
@@ -48,7 +48,7 @@ export default function SettingsModal({
     const cloudSyncingEnabled = getObject("cloudSyncing", false) === true
     const sheetID = localStorage.getItem("sheetID")
 
-    const isPro = getProStatus();
+    const isPro = getProStatus()
 
     const handlePageChange = page => {
         setCurrentPage(page)
@@ -73,7 +73,7 @@ export default function SettingsModal({
         let file = input.files[0]
         if (!file) {
             console.warn(`unable to find a valid file`)
-            showToast("File not found")
+            showToast(t(k.FILE_NOT_FOUND)) // Modified to use i18n key
             return
         }
 
@@ -94,20 +94,19 @@ export default function SettingsModal({
                     "id",
                 ])
             ) {
-                showToast("Invalid CSV - Match Template")
+                showToast(t(k.INVALID_CSV_TEMPLATE)) // Modified to use i18n key
                 return
             }
             let oldFolders = getObject("folders", [])
             newFolders = removeDuplicatesByName(oldFolders, newFolders)
 
-            const combinedFolders = combineJSONArrays(newFolders, oldFolders) // removes folders with duplicate title
+            const combinedFolders = combineJSONArrays(newFolders, oldFolders)
             setFolders(combinedFolders)
 
             let currentPrompts = getObject("prompts", [])
             currentPrompts = removeDuplicatesByName(newPrompts, currentPrompts)
             const combinedPrompts = combineJSONArrays(newPrompts, currentPrompts)
 
-            // for cloud syncing
             let newPromptIds = getObject(newPrompts, [])
             for (const prompt of newPrompts) {
                 newPromptIds.push(prompt.id)
@@ -117,13 +116,13 @@ export default function SettingsModal({
             setObject("prompts", combinedPrompts)
             setFilteredPrompts(combinedPrompts)
             clearFilters()
-            showToast("Successfully imported prompts")
+            showToast(t(k.SUCCESSFULLY_IMPORTED_PROMPTS)) // Modified to use i18n key
             document.querySelector("#close_modal").click()
         }
         reader.onerror = function (event) {
             console.error(`Error occurred in file reader: `)
             console.error(event)
-            showToast("Invalid File")
+            showToast(t(k.INVALID_FILE)) // Modified to use i18n key
         }
         reader.readAsText(file)
     }
@@ -146,7 +145,7 @@ export default function SettingsModal({
         setFilteredPrompts([])
         clearFilters()
         setConfirmDelete(false)
-        showToast("Deleted All Prompts and Folders")
+        showToast(t(k.DELETED_ALL_PROMPTS_AND_FOLDERS)) // Modified to use i18n key
         location.reload()
     }
 
@@ -237,27 +236,29 @@ export default function SettingsModal({
                                     <LanguageSelect />
                                     <ShortcutInfo />
                                     <div className={"mt-3"}>
-                                        {!isPro && <div>
-                                            <Head2>{t(k.UPGRADE_TO_PRO)}</Head2>
-                                            <Head4>{t(k.FEATURES)}</Head4>
-                                            <ul className={"list-disc ml-6"}>
-                                                <li>{t(k.NO_ADS)}</li>
-                                                <li>
-                                                    {t(k.ACCESS_TO_NEW_THEMES)}
-                                                </li>
-                                                <li>{t(k.SUPPORT_A_SMALL_DEVELOPER)}</li>
-                                            </ul>
-                                            <a
-                                                href={"https://link.aipromptgenius.app/upgrade-pro"}
-                                                target={"_blank"}
-                                                className={"btn btn-outline my-3"}
-                                            >
-                                                {t(k.BUY_A_PRO_LICENSE)}
-                                            </a>
-                                        </div>}
-                                       <div className={"mt-3"}>
-                                           <ActivatePro in_settings={true} showToast={showToast} />
-                                       </div>
+                                        {!isPro && (
+                                            <div>
+                                                <Head2>{t(k.UPGRADE_TO_PRO)}</Head2>
+                                                <Head4>{t(k.FEATURES)}</Head4>
+                                                <ul className={"list-disc ml-6"}>
+                                                    <li>{t(k.NO_ADS)}</li>
+                                                    <li>{t(k.ACCESS_TO_NEW_THEMES)}</li>
+                                                    <li>{t(k.SUPPORT_A_SMALL_DEVELOPER)}</li>
+                                                </ul>
+                                                <a
+                                                    href={
+                                                        "https://link.aipromptgenius.app/upgrade-pro"
+                                                    }
+                                                    target={"_blank"}
+                                                    className={"btn btn-outline my-3"}
+                                                >
+                                                    {t(k.BUY_A_PRO_LICENSE)}
+                                                </a>
+                                            </div>
+                                        )}
+                                        <div className={"mt-3"}>
+                                            <ActivatePro in_settings={true} showToast={showToast} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -1,10 +1,10 @@
-import Head2 from "./Head2.jsx";
-import Head4 from "./Head4.jsx";
-import React from "react";
-import {useTranslation} from "react-i18next";
+import Head2 from "./Head2.jsx"
+import Head4 from "./Head4.jsx"
+import React from "react"
+import { useTranslation } from "react-i18next"
 import k from "../i18n/keys.js"
 
-export function ProFeatures(){
+export function ProFeatures() {
     const { t } = useTranslation()
 
     return (
@@ -13,9 +13,7 @@ export function ProFeatures(){
             <Head4>{t(k.FEATURES)}</Head4>
             <ul className={"list-disc ml-6"}>
                 <li>{t(k.NO_ADS)}</li>
-                <li>
-                    {t(k.ACCESS_TO_NEW_THEMES)}
-                </li>
+                <li>{t(k.ACCESS_TO_NEW_THEMES)}</li>
                 <li>{t(k.SUPPORT_A_SMALL_DEVELOPER)}</li>
             </ul>
             <a

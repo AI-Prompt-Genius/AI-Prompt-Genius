@@ -101,18 +101,21 @@ export const fr = {
     [k.UPGRADE_TO_PRO]: "Passer à Pro",
     [k.FEATURES]: "Fonctionnalités :",
     [k.NO_ADS]: "Pas de pubs ! Supprime les fenêtres popup bimensuelles & les annonces textuelles.",
-    [k.ACCESS_TO_NEW_THEMES]: "Accédez à de nouveaux thèmes, y compris cyberpunk, luxe, et plus encore !",
+    [k.ACCESS_TO_NEW_THEMES]:
+        "Accédez à de nouveaux thèmes, y compris cyberpunk, luxe, et plus encore !",
     [k.SUPPORT_A_SMALL_DEVELOPER]: "Soutenez un petit développeur",
     [k.BUY_A_PRO_LICENSE]: "ACHETER UNE LICENCE PRO",
     [k.LIKED_THEME]: "Vous avez aimé ce thème ? Passez à Pro !",
     [k.ACTIVATE_PRO_LICENSE]: "Activer la Licence Pro",
     [k.MANAGE_PRO_SUBSCRIPTION]: "Gérer l'Abonnement Pro",
-    [k.ACTIVATE_LICENSE_IN_SETTINGS]: "Vous pouvez également activer votre licence à tout moment dans les paramètres",
+    [k.ACTIVATE_LICENSE_IN_SETTINGS]:
+        "Vous pouvez également activer votre licence à tout moment dans les paramètres",
     [k.LICENSE_KEY]: "Clé de Licence",
     [k.ACTIVATE]: "Activer",
     [k.CANCEL_MY_SUBSCRIPTION]: "Annuler mon Abonnement",
     [k.SUCCESSFULLY_ACTIVATED_PRO]: "Pro activé avec succès !",
-    [k.ERROR_ACTIVATING_PRO]: "Erreur lors de l'activation de pro. Assurez-vous que votre clé de licence est exacte",
+    [k.ERROR_ACTIVATING_PRO]:
+        "Erreur lors de l'activation de pro. Assurez-vous que votre clé de licence est exacte",
     [k.THEME]: "Thème",
     [k.WINTER]: "Hiver",
     [k.LIGHT]: "Clair",
@@ -126,6 +129,13 @@ export const fr = {
     [k.LEMONADE]: "Limonade",
     [k.FOREST]: "Forêt",
     [k.LUXURY]: "Luxe",
+    [k.NO_PROMPT_TEXT]: "Pas de texte d'invite",
+    [k.PROMPT_COPIED]: "Prompt copié dans le presse-papiers",
+    [k.FILE_NOT_FOUND]: "Fichier non trouvé",
+    [k.INVALID_CSV_TEMPLATE]: "CSV invalide - Ne correspond pas au modèle",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Prompts importés avec succès",
+    [k.INVALID_FILE]: "Fichier invalide",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Tous les prompts et dossiers supprimés",
 }
 
 export default fr

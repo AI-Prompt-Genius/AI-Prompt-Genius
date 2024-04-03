@@ -108,12 +108,14 @@ export const it = {
     [k.LIKED_THEME]: "Ti è piaciuto quel tema? Passa a Pro!",
     [k.ACTIVATE_PRO_LICENSE]: "Attiva Licenza Pro",
     [k.MANAGE_PRO_SUBSCRIPTION]: "Gestisci Abbonamento Pro",
-    [k.ACTIVATE_LICENSE_IN_SETTINGS]: "Puoi anche attivare la tua licenza in qualsiasi momento nelle impostazioni",
+    [k.ACTIVATE_LICENSE_IN_SETTINGS]:
+        "Puoi anche attivare la tua licenza in qualsiasi momento nelle impostazioni",
     [k.LICENSE_KEY]: "Chiave di Licenza",
     [k.ACTIVATE]: "Attiva",
     [k.CANCEL_MY_SUBSCRIPTION]: "Annulla il mio abbonamento",
     [k.SUCCESSFULLY_ACTIVATED_PRO]: "Pro attivato con successo!",
-    [k.ERROR_ACTIVATING_PRO]: "Errore nell'attivazione di Pro. Assicurati che la tua chiave di licenza sia corretta",
+    [k.ERROR_ACTIVATING_PRO]:
+        "Errore nell'attivazione di Pro. Assicurati che la tua chiave di licenza sia corretta",
     [k.THEME]: "Tema",
     [k.WINTER]: "Inverno",
     [k.LIGHT]: "Chiaro",
@@ -126,7 +128,14 @@ export const it = {
     [k.NORD]: "Nord",
     [k.LEMONADE]: "Limonata",
     [k.FOREST]: "Foresta",
-    [k.LUXURY]: "Lusso"
+    [k.LUXURY]: "Lusso",
+    [k.NO_PROMPT_TEXT]: "Nessun testo del prompt",
+    [k.PROMPT_COPIED]: "Prompt copiato negli appunti",
+    [k.FILE_NOT_FOUND]: "File non trovato",
+    [k.INVALID_CSV_TEMPLATE]: "CSV non valido - Non corrisponde al modello",
+    [k.SUCCESSFULLY_IMPORTED_PROMPTS]: "Prompt importati con successo",
+    [k.INVALID_FILE]: "File non valido",
+    [k.DELETED_ALL_PROMPTS_AND_FOLDERS]: "Tutti i prompt e le cartelle eliminati",
 }
 
 export default it
