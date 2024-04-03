@@ -18,11 +18,15 @@ import {
     setObject,
 } from "./js/utils.js"
 import LanguageSelect from "./LanguageSelect.jsx"
-import { GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx"
+import {CrownIcon, GoogleDriveIcon, TrashIcon} from "./icons/Icons.jsx"
 import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js"
 import ShortcutInfo from "./ShortcutInfo.jsx"
 import ReactGA from "react-ga4"
 import { ActivatePro } from "./ActivatePro.jsx"
+import {ProFeatures} from "./ProFeatures.jsx";
+import Head2 from "./Head2.jsx";
+import Head4 from "./Head4.jsx";
+import {getProStatus} from "./js/pro.js";
 
 export default function SettingsModal({
     setSettingsVisible,
@@ -43,6 +47,8 @@ export default function SettingsModal({
 
     const cloudSyncingEnabled = getObject("cloudSyncing", false) === true
     const sheetID = localStorage.getItem("sheetID")
+
+    const isPro = getProStatus();
 
     const handlePageChange = page => {
         setCurrentPage(page)
@@ -230,7 +236,29 @@ export default function SettingsModal({
                                     <h5 className="card-title">{t(k.LANGUAGE)}</h5>
                                     <LanguageSelect />
                                     <ShortcutInfo />
-                                    <ActivatePro in_settings={true} />
+                                    <div className={"mt-3"}>
+                                        {!isPro && <div>
+                                            <Head2>Upgrade to Pro</Head2>
+                                            <Head4>Features:</Head4>
+                                            <ul className={"list-disc ml-6"}>
+                                                <li>No ads! Removes bimonthly popup windows & text ads.</li>
+                                                <li>
+                                                    Get access to new themes, including cyberpunk, luxury, and more!
+                                                </li>
+                                                <li>Support a small developer</li>
+                                            </ul>
+                                            <a
+                                                href={"https://link.aipromptgenius.app/upgrade-pro"}
+                                                target={"_blank"}
+                                                className={"btn btn-outline my-3"}
+                                            >
+                                                BUY A PRO LICENSE
+                                            </a>
+                                        </div>}
+                                       <div className={"mt-3"}>
+                                           <ActivatePro in_settings={true} showToast={showToast} />
+                                       </div>
+                                    </div>
                                 </div>
                             </div>
                         )}

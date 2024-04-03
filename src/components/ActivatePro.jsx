@@ -2,6 +2,7 @@ import Head2 from "./Head2.jsx"
 import Head4 from "./Head4.jsx"
 import { activateLicense, getProStatus } from "./js/pro.js"
 import { useState } from "react"
+import {CrownIcon} from "./icons/Icons.jsx";
 
 export function ActivatePro(props) {
     const [isPro, setPro] = useState(getProStatus())
@@ -20,9 +21,9 @@ export function ActivatePro(props) {
     }
 
     return (
-        <div className={""}>
-            <Head2>Activate Pro License</Head2>
-            {!props.in_settings && <p>You can also activate your license anytime in settings</p>}
+        <div>
+            {!isPro ? <Head2>Activate Pro License</Head2> : <Head2>Manage Pro Subscription</Head2>}
+            {!props.in_settings && !isPro && <p>You can also activate your license anytime in settings</p>}
             <div className="join my-2">
                 {isPro ? (
                     <input
@@ -47,16 +48,18 @@ export function ActivatePro(props) {
                     Activate
                 </button>
             </div>
-            <p>
-                <a className={"link link-primary"}
-                   target={"_blank"}
-                    href={
-                        "https://customers.gumroad.com/article/192-how-do-i-cancel-my-subscription-membership"
-                    }
-                >
-                    Cancel my Subscription
-                </a>
-            </p>
+            {isPro &&
+                <p className={"my-3"}>
+                    <a className={"link link-primary"}
+                       target={"_blank"}
+                       href={
+                           "https://customers.gumroad.com/article/192-how-do-i-cancel-my-subscription-membership"
+                       }
+                    >
+                        Cancel my Subscription
+                    </a>
+                </p>
+            }
         </div>
     )
 }
