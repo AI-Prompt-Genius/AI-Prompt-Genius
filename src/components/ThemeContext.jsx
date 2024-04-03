@@ -23,7 +23,10 @@ export default function ThemeProvider({ children }) {
                 setTheme(newTheme)
             } else {
                 // show pro modal
-                const currentTheme = theme;
+                let currentTheme = "winter";
+                if (freeThemes.includes(theme)){
+                    currentTheme = theme; // fixes weird double click hack
+                }
                 setTheme(newTheme);
                 setTimeout(() => {
                     setTheme(currentTheme)
