@@ -9,7 +9,6 @@ import { ActivatePro } from "./ActivatePro.jsx"
 export function ProUpgradeModal(props) {
     const { t } = useTranslation()
 
-
     return (
         <>
             <input type="checkbox" id="proUpgradeModal" className="modal-toggle hidden" />
@@ -34,7 +33,9 @@ export function ProUpgradeModal(props) {
                             BUY A PRO LICENSE
                         </a>
                     </div>
-                    <ActivatePro in_settings={false} showToast={props.showToast} />
+                    <div className={"px-4"}>
+                        <ActivatePro in_settings={false} showToast={props.showToast} />
+                    </div>
                 </div>
                 <label className="modal-backdrop" htmlFor="proUpgradeModal">
                     {t(k.CLOSE)}

@@ -10,7 +10,7 @@ import { useLocalStorage } from "@uidotdev/usehooks"
 import Ad from "./Ad.jsx"
 import ReactGA from "react-ga4"
 import { ProUpgradeModal } from "./ProUpgradeModal.jsx"
-import {updateProStatus} from "./js/pro.js";
+import { updateProStatus } from "./js/pro.js"
 
 export default function MainContent({
     prompts,
@@ -42,9 +42,9 @@ export default function MainContent({
 
     const currentTime = new Date().getTime()
     const lastCheckedPro = localStorage.getItem("last_checked_pro") ?? currentTime
-    const hasBeen24Hours = (currentTime - lastCheckedPro) > 24 * 60 * 60 * 1000;
+    const hasBeen24Hours = currentTime - lastCheckedPro > 24 * 60 * 60 * 1000
 
-    if (hasBeen24Hours){
+    if (hasBeen24Hours) {
         updateProStatus()
     }
 
@@ -244,7 +244,7 @@ export default function MainContent({
 
             {showToastMessage && <Toast message={toastMessage} />}
 
-            <ProUpgradeModal showToast={showToast}/>
+            <ProUpgradeModal showToast={showToast} />
         </>
     )
 }

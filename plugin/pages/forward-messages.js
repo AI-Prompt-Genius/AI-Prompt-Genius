@@ -29,10 +29,9 @@ window.addEventListener(
         } else if (message.message === "sync_prompts") {
             const prompts = message.data
             chrome.storage.local.set({ currentPrompts: prompts })
-        }
-        else if (message.message === "pro_status"){
-            const proStatus = message.pro;
-            chrome.storage.local.set({pro: proStatus})
+        } else if (message.message === "pro_status") {
+            const proStatus = message.pro
+            chrome.storage.local.set({ pro: proStatus })
         }
     },
     false,
