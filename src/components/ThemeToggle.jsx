@@ -25,18 +25,23 @@ export default function ThemeToggle() {
                     <a onClick={() => handleThemeChange("light")}>Light</a>
                 </li>
                 <li>
+                    <a onClick={() => handleThemeChange("dark")}>
+                        Dark <MoonIcon />{" "}
+                    </a>
+                </li>
+                <li>
                     <a onClick={() => handleThemeChange("night")}>
                         Night <MoonIcon />{" "}
                     </a>
                 </li>
                 <li>
-                    <a onClick={() => handleThemeChange("retro")}>
-                        Retro <CrownIcon />{" "}
+                    <a onClick={() => handleThemeChange("cyberpunk")}>
+                        Cyberpunk <CrownIcon />{" "}
                     </a>
                 </li>
                 <li>
-                    <a onClick={() => handleThemeChange("cyberpunk")}>
-                        Cyberpunk <CrownIcon />{" "}
+                    <a onClick={() => handleThemeChange("retro")}>
+                        Retro <CrownIcon />{" "}
                     </a>
                 </li>
                 <li>
