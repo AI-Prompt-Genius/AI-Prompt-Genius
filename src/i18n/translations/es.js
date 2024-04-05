@@ -141,6 +141,10 @@ export const es = {
     [k.DELETE_PROMPT]: "Eliminar mensaje",
     [k.OUT_OF_SEATS]:
         "Se ha quedado sin licencias con esta clave de licencia. Por favor, compre otra para 8 dispositivos adicionales.",
+    [k.OTHER_SETTINGS]: "Otros Ajustes",
+    [k.PERSIST_VARIABLES]: "Persistir Variables",
+    [k.PERSIST_VARIABLES_DESCRIPTION]:
+        "Seleccionar esta opción hace que tus entradas de variables no se borren entre usos y a través de solicitudes.",
 }
 
 export default es

@@ -90,7 +90,10 @@ export default function MainContent({
             transport: "xhr", // optional, beacon/xhr/image
         }) */
         setVariables([])
-        setTextareaValues([])
+        const persist = localStorage.getItem("persist_variables") === "true" ?? false
+        if (!persist) {
+            setTextareaValues([])
+        }
         copyTextToClipboard(text)
         showToast(t(k.PROMPT_COPIED))
     }

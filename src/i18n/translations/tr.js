@@ -133,6 +133,10 @@ export const tr = {
     [k.DELETE_PROMPT]: "İstemi Sil",
     [k.OUT_OF_SEATS]:
         "Bu lisans anahtarı ile koltuklarınız doldu. Lütfen 8 ek cihaz için başka bir tane satın alın.",
+    [k.OTHER_SETTINGS]: "Diğer Ayarlar",
+    [k.PERSIST_VARIABLES]: "Değişkenleri Koru",
+    [k.PERSIST_VARIABLES_DESCRIPTION]:
+        "Bu seçeneği seçmek, değişken girişlerinizin kullanımlar arasında ve komutlar arası silinmemesini sağlar.",
 }
 
 export default tr

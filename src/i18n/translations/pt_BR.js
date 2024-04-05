@@ -141,6 +141,10 @@ export const pt_BR = {
     [k.DELETE_PROMPT]: "Excluir Prompt",
     [k.OUT_OF_SEATS]:
         "Você esgotou os assentos disponíveis com esta chave de licença. Por favor, compre outra para mais 8 dispositivos.",
+    [k.OTHER_SETTINGS]: "Outras Configurações",
+    [k.PERSIST_VARIABLES]: "Persistir Variáveis",
+    [k.PERSIST_VARIABLES_DESCRIPTION]:
+        "Selecionando esta opção faz com que as suas entradas de variáveis não sejam limpas entre os usos e entre os prompts.",
 }
 
 export default pt_BR

@@ -134,6 +134,10 @@ export const de = {
     [k.DELETE_PROMPT]: "Aufforderungstext löschen",
     [k.OUT_OF_SEATS]:
         "Sie haben keine Lizenzen mehr übrig. Bitte erwerben Sie eine weitere für 8 zusätzliche Geräte.",
+    [k.OTHER_SETTINGS]: "Andere Einstellungen",
+    [k.PERSIST_VARIABLES]: "Variablen beibehalten",
+    [k.PERSIST_VARIABLES_DESCRIPTION]:
+        "Wenn Sie diese Option wählen, bleiben Ihre Variableneingaben zwischen den Verwendungen und über Aufforderungen hinweg erhalten.",
 }
 
 export default de

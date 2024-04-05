@@ -141,6 +141,10 @@ export const pt_PT = {
     [k.DELETE_PROMPT]: "Eliminar Prompt",
     [k.OUT_OF_SEATS]:
         "Esgotou os lugares disponíveis com esta chave de licença. Por favor, adquira outra para mais 8 dispositivos.",
+    [k.OTHER_SETTINGS]: "Outras Definições",
+    [k.PERSIST_VARIABLES]: "Persistir Variáveis",
+    [k.PERSIST_VARIABLES_DESCRIPTION]:
+        "Selecionar esta opção faz com que as suas entradas de variáveis não sejam apagadas entre utilizações e através de prompts.",
 }
 
 export default pt_PT

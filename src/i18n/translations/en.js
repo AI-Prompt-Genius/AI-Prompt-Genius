@@ -139,6 +139,10 @@ export const en = {
     [k.DELETE_PROMPT]: "Delete Prompt",
     [k.OUT_OF_SEATS]:
         "You are out of seats with this license key. Please purchase another for an additional 8 devices.",
+    [k.OTHER_SETTINGS]: "Other Settings",
+    [k.PERSIST_VARIABLES]: "Persist Variables",
+    [k.PERSIST_VARIABLES_DESCRIPTION]:
+        "Selecting this option makes it so that your variable inputs don't get cleared between uses & across prompts.",
 }
 
 export default en

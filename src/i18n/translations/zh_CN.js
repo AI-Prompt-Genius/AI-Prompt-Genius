@@ -142,6 +142,9 @@ export const zh_CN = {
     [k.CANCEL]: "取消",
     [k.DELETE_PROMPT]: "删除提示",
     [k.OUT_OF_SEATS]: "您的这个许可证密钥已无剩余座位。请再购买一个以获得额外的8个设备。",
+    [k.OTHER_SETTINGS]: "其他设置",
+    [k.PERSIST_VARIABLES]: "持久化变量",
+    [k.PERSIST_VARIABLES_DESCRIPTION]: "选择此选项将使您的变量输入在使用之间和跨提示时不会被清除。",
 }
 
 export default zh_CN
