@@ -141,6 +141,10 @@ export const fr = {
     [k.DELETE_PROMPT]: "Supprimer l'invite",
     [k.OUT_OF_SEATS]:
         "Vous avez épuisé les sièges disponibles avec cette clé de licence. Veuillez en acheter une autre pour 8 appareils supplémentaires.",
+    [k.OTHER_SETTINGS]: "Autres Paramètres",
+    [k.PERSIST_VARIABLES]: "Persister les Variables",
+    [k.PERSIST_VARIABLES_DESCRIPTION]:
+        "Sélectionner cette option permet de conserver vos entrées de variables entre les utilisations et à travers les invites.",
 }
 
 export default fr

@@ -129,6 +129,9 @@ export const zh_TW = {
     [k.CANCEL]: "取消",
     [k.DELETE_PROMPT]: "刪除提示",
     [k.OUT_OF_SEATS]: "您的這個許可證密鑰已無剩餘座位。請再購買一個以獲得額外的8個設備。",
+    [k.OTHER_SETTINGS]: "其他設定",
+    [k.PERSIST_VARIABLES]: "持久化變量",
+    [k.PERSIST_VARIABLES_DESCRIPTION]: "選擇此選項將使您的變量輸入在使用之間和跨提示時不會被清除。",
 }
 
 export default zh_TW

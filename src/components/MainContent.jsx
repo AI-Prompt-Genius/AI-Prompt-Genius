@@ -90,7 +90,10 @@ export default function MainContent({
             transport: "xhr", // optional, beacon/xhr/image
         }) */
         setVariables([])
-        setTextareaValues([])
+        const persist = localStorage.getItem("persist_variables") === "true" ?? false
+        if (!persist) {
+            setTextareaValues(Array(variables.length).fill(""))
+        }
         copyTextToClipboard(text)
         showToast(t(k.PROMPT_COPIED))
     }
@@ -214,13 +217,28 @@ export default function MainContent({
                                         value={textareaValues[index]} // Use value instead of defaultValue
                                         onChange={e => {
                                             const newValues = [...textareaValues]
-                                            newValues[index] = e.target.value
+                                            newValues[index] = e.target.value;
+                                            console.log(newValues[index])
                                             setTextareaValues(newValues)
                                         }}
                                     ></textarea>
                                 </div>
                             ))}
+
                             <div className="modal-action">
+                                {(localStorage.getItem("persist_variables") === "true") &&
+                                    <div>
+                                        <button
+                                            className={"btn"}
+                                            onClick={() => {
+                                                console.log("clearing!")
+                                                setTextareaValues(Array(variables.length).fill(""))
+                                            }}>
+                                            Clear
+                                        </button>
+                                    </div>
+                                }
+
                                 <button
                                     onClick={() => {
                                         usePrompt(

@@ -141,6 +141,10 @@ export const hu = {
     [k.DELETE_PROMPT]: "Üzenet törlése",
     [k.OUT_OF_SEATS]:
         "Elfogytak a helyek ezzel a licenckulccsal. Kérjük, vásároljon egy másikat további 8 eszközhöz.",
+    [k.OTHER_SETTINGS]: "Egyéb Beállítások",
+    [k.PERSIST_VARIABLES]: "Változók Megőrzése",
+    [k.PERSIST_VARIABLES_DESCRIPTION]:
+        "Ezen opció kiválasztásával a változókra vonatkozó beviteli értékek nem törlődnek a használatok között és a kéréseken át.",
 }
 
 export default hu

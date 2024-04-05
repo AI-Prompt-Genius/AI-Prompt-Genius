@@ -180,6 +180,11 @@ export default function SettingsModal({
         })
     }
 
+    function updatePersist() {
+        const checked = document.getElementById("persist-toggle").checked
+        localStorage.setItem("persist_variables", checked)
+    }
+
     return (
         <>
             <input
@@ -234,11 +239,15 @@ export default function SettingsModal({
                                 <div className="card-body pt-2">
                                     <h5 className="card-title">{t(k.LANGUAGE)}</h5>
                                     <LanguageSelect />
-                                    <ShortcutInfo />
                                     <div className={"mt-3"}>
                                         {!isPro && (
                                             <div>
-                                                <Head2>{t(k.UPGRADE_TO_PRO)}</Head2>
+                                                <div className={"flex items-center"}>
+                                                    <h2 className={"text-xl font-semibold"}>
+                                                        {t(k.UPGRADE_TO_PRO)} &nbsp;
+                                                    </h2>
+                                                    <CrownIcon />
+                                                </div>
                                                 <Head4>{t(k.FEATURES)}</Head4>
                                                 <ul className={"list-disc ml-6"}>
                                                     <li>{t(k.NO_ADS)}</li>
@@ -259,6 +268,30 @@ export default function SettingsModal({
                                         <div className={"mt-3"}>
                                             <ActivatePro in_settings={true} showToast={showToast} />
                                         </div>
+                                        <div className={"mb-2"}>
+                                            <h2 className={"text-xl font-semibold my-3"}>
+                                                {t(k.OTHER_SETTINGS)}
+                                            </h2>
+                                            <div className={"flex items-center"}>
+                                                <h4 className={"text-lg font-medium"}>
+                                                    {t(k.PERSIST_VARIABLES)}
+                                                </h4>{" "}
+                                                &nbsp;
+                                                <input
+                                                    id={"persist-toggle"}
+                                                    type="checkbox"
+                                                    className="toggle"
+                                                    defaultChecked={
+                                                        localStorage.getItem(
+                                                            "persist_variables",
+                                                        ) === "true"
+                                                    }
+                                                    onChange={() => updatePersist()}
+                                                />
+                                            </div>
+                                            <p>{t(k.PERSIST_VARIABLES_DESCRIPTION)}</p>
+                                        </div>
+                                        <ShortcutInfo />
                                     </div>
                                 </div>
                             </div>

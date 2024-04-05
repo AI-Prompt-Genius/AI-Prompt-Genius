@@ -141,6 +141,10 @@ export const it = {
     [k.DELETE_PROMPT]: "Elimina Prompt",
     [k.OUT_OF_SEATS]:
         "Hai esaurito i posti disponibili con questa chiave di licenza. Si prega di acquistarne un'altra per ulteriori 8 dispositivi.",
+    [k.OTHER_SETTINGS]: "Altre Impostazioni",
+    [k.PERSIST_VARIABLES]: "Persisti Variabili",
+    [k.PERSIST_VARIABLES_DESCRIPTION]:
+        "Selezionando questa opzione, le tue immissioni di variabili non verranno cancellate tra un utilizzo e l'altro e tra le richieste.",
 }
 
 export default it
