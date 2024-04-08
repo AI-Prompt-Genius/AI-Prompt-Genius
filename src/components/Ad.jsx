@@ -7,7 +7,11 @@ export default function Ad() {
 
     return (
         <>
-            {!isPro && (
+        </>
+    )
+}
+/* 
+{!isPro && (
                 <p className={"text-sm"}>
                     <a
                         className={"link link-primary"}
@@ -20,18 +24,4 @@ export default function Ad() {
                     </a>{" "}
                 </p>
             )}
-        </>
-    )
-}
-/* 
-<p>
-            <a
-                className={"link link-primary"}
-                href={"https://link.aipromptgenius.app/max-ai-me-jan2"}
-                target={"_blank"}
-            >
-                Sponsored by MaxAI.me
-            </a>{" "}
-            - Use 1-click AI Anywhere
-        </p>
  */
