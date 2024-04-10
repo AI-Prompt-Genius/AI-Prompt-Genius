@@ -1,16 +1,74 @@
-/*
+// update this with
+const promos = [
+    {
+        url: "https://link.aipromptgenius.app/updated",
+        promoStart: "4/10/2023", // month/day/year
+        promoEnd: "4/25/2023", // WARNING: make sure start & end dates don't overlap!!
+        id: "Example Dead Promo 4/10/23 - 4/25/23" // give a unique name for all promos (unique from past campaigns as well)
+    },
+    {
+        url: "https://link.aipromptgenius.app/max-ai-4-10",
+        promoStart: "4/10/2024", // month/day/year
+        promoEnd: "4/25/2024", // WARNING: make sure start & end dates don't overlap!!
+        id: "MaxAI.me campaign 4/10/2024 - 4/25/2024" // give a unique name for all promos - even "dead" ones
+    },
+    {
+        url: "https://link.aipromptgenius.app/max-ai-5-2",
+        promoStart: "5/2/2024", // month/day/year
+        promoEnd: "5/16/2024", // WARNING: make sure start & end dates don't overlap!!
+        id: "MaxAI.me campaign 5/2/2024 - 5/16/2024" // give a unique name for all promos - even "dead" ones
+    },
+    // Add more promotions as needed
+];
+
+// Helper function to convert date string to Date object
+function parseDate(dateString) {
+    const [month, day, year] = dateString.split('/');
+    return new Date(year, month - 1, day); // JavaScript months are 0-based
+}
+
+function hasSeenPromo(promoId, callback){
+    chrome.storage.sync.get({seenPromos: []}, function(items) {
+        // Check if the promoId is in the array of seen promos
+        const hasSeen = items.seenPromos.includes(promoId);
+        callback(hasSeen);
+    });
+}
+
+function promoInBounds(promo) {
+    const now = new Date();
+    const promoStartDate = parseDate(promo.promoStart);
+    const promoEndDate = parseDate(promo.promoEnd);
+
+    return now >= promoStartDate && now <= promoEndDate;
+}
+
 const onExtensionUpdated = () => {
     chrome.runtime.onInstalled.addListener(async details => {
-        if (details.reason !== chrome.runtime.OnInstalledReason.INSTALL) {
-            await chrome.tabs.create({
-                url: "https://link.aipromptgenius.app/updated", // redirects to https://www.extensions-hub.com/ai-prompt-genius/updated
-                active: true,
-            })
-        }
-    })
-}
-onExtensionUpdated()
-*/
+        if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) return;
+
+        promos.forEach(promo => {
+            if (promoInBounds(promo)) {
+                hasSeenPromo(promo.id, async (seen) => {
+                    if (!seen) {
+                        await chrome.tabs.create({
+                            url: promo.url,
+                            active: true,
+                        });
+
+                        // Mark the promo as seen by adding its id to the seenPromos array
+                        chrome.storage.sync.get({seenPromos: []}, function(items) {
+                            const updatedSeenPromos = [...items.seenPromos, promo.id];
+                            chrome.storage.sync.set({seenPromos: updatedSeenPromos});
+                        });
+                    }
+                });
+            }
+        });
+    });
+};
+
+onExtensionUpdated();
 
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === "install") {
