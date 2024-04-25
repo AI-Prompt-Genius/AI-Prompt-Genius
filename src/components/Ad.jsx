@@ -13,9 +13,8 @@ export default function Ad() {
                         href={"https://link.aipromptgenius.app/merlin-apr-25"}
                         target={"_blank"}
                     >
-                        Sponsored by Merlin
+                        Sponsored by Merlin - AI Chatbot, Wherever you need
                     </a>{" "}
-                    - AI Chatbot, Wherever you need
                 </p>
             )}
         </>
