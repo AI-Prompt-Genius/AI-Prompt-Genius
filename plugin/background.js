@@ -9,12 +9,18 @@ const promos = [
     {
         url: "https://link.aipromptgenius.app/max-ai-4-10",
         promoStart: "4/10/2024", // month/day/year
-        promoEnd: "4/25/2024", // WARNING: make sure start & end dates don't overlap!!
+        promoEnd: "4/24/2024", // WARNING: make sure start & end dates don't overlap!!
         id: "MaxAI.me campaign 4/10/2024 - 4/25/2024", // give a unique name for all promos - even "dead" ones
     },
     {
+        url: "https://link.aipromptgenius.app/merlin-apr-25",
+        promoStart: "4/25/2024", // month/day/year
+        promoEnd: "5/2/2024", // WARNING: make sure start & end dates don't overlap!!
+        id: "Merlin campaign 4/25 - 5/2", // give a unique name for all promos - even "dead" ones
+    },
+    {
         url: "https://link.aipromptgenius.app/max-ai-5-2",
-        promoStart: "5/2/2024", // month/day/year
+        promoStart: "5/3/2024", // month/day/year
         promoEnd: "5/16/2024", // WARNING: make sure start & end dates don't overlap!!
         id: "MaxAI.me campaign 5/2/2024 - 5/16/2024", // give a unique name for all promos - even "dead" ones
     },
@@ -28,7 +34,7 @@ function parseDate(dateString) {
 }
 
 function hasSeenPromo(promoId, callback) {
-    chrome.storage.sync.get({ seenPromos: [] }, function (items) {
+    chrome.storage.local.get({ seenPromos: [] }, function (items) {
         // Check if the promoId is in the array of seen promos
         const hasSeen = items.seenPromos.includes(promoId)
         callback(hasSeen)
@@ -44,28 +50,24 @@ function promoInBounds(promo) {
 }
 
 const onExtensionUpdated = () => {
-    chrome.storage.local.get({ pro: false }, function (result) {
-        const pro = result.pro
-        if (pro) return
-        chrome.runtime.onInstalled.addListener(async details => {
+    chrome.runtime.onInstalled.addListener(async details => {
+        chrome.storage.local.get({ pro: false }, function (result) {
+            const pro = result.pro
+            if (pro) return
             if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) return
 
             promos.forEach(promo => {
                 if (promoInBounds(promo)) {
-                    hasSeenPromo(promo.id, async seen => {
-                        if (!seen) {
-                            await chrome.tabs.create({
-                                url: promo.url,
-                                active: true,
-                            })
-
-                            // Mark the promo as seen by adding its id to the seenPromos array
-                            chrome.storage.sync.get({ seenPromos: [] }, function (items) {
-                                const updatedSeenPromos = [...items.seenPromos, promo.id]
-                                chrome.storage.sync.set({ seenPromos: updatedSeenPromos })
-                            })
-                        }
+                    chrome.tabs.create({
+                        url: promo.url,
+                        active: true,
                     })
+
+                    /* Mark the promo as seen by adding its id to the seenPromos array
+                    chrome.storage.local.get({ seenPromos: [] }, function (items) {
+                        const updatedSeenPromos = [...items.seenPromos, promo.id]
+                        chrome.storage.local.set({ seenPromos: updatedSeenPromos })
+                    })*/
                 }
             })
         })
