@@ -10,7 +10,7 @@ export default function Ad() {
                 <p className={"text-sm"}>
                     <a
                         className={"link link-primary"}
-                        href={"https://link.aipromptgenius.app/merlin-apr-25"}
+                        href={"https://link.aipromptgenius.app/merlin-text"}
                         target={"_blank"}
                     >
                         Sponsored by Merlin - AI Chatbot, Wherever you need
