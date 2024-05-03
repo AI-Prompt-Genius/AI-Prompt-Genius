@@ -10,11 +10,12 @@ export default function Ad() {
                 <p className={"text-sm"}>
                     <a
                         className={"link link-primary"}
-                        href={"https://link.aipromptgenius.app/merlin-text"}
+                        href={"https://link.aipromptgenius.app/max-ai-5-2"}
                         target={"_blank"}
                     >
-                        Sponsored by Merlin - AI Chatbot, Wherever you need
+                        Sponsored by MaxAI.me
                     </a>{" "}
+                    - Use 1-click AI Anywhere
                 </p>
             )}
         </>
