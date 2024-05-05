@@ -2,6 +2,10 @@
 
 This changelog is for the Chrome extension, not the webapp.
 
+## v4.1.2 - May 5, 2024
+
+- Change content script url from chat.openai.com to chatgpt.com
+
 ## v4.0.6 - Jan 3, 2024
 - Fix on update advertisement
 

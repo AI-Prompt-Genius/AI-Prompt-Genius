@@ -239,7 +239,7 @@ function copyTextToClipboard(text) {
     window.activeInput.focus()
     window.activeInput.value = window.activeInput.value + text
     if (
-        window.location.href.includes("chat.openai.com") &&
+        window.location.href.includes("chatgpt.com") &&
         window.activeInput.id === "prompt-textarea"
     ) {
         window.activeInput.style.height = "200px"

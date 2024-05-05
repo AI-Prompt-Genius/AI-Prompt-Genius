@@ -16,8 +16,7 @@
     },
     "content_scripts": [
         {
-            "matches": ["https://chat.openai.com/*"],
-            "exclude_matches": ["https://chat.openai.com/auth/*"],
+            "matches": ["https://chatgpt.com/*"],
             "js": ["scripts/legacy_hotkey.js"],
             "run_at": "document_idle"
         }
