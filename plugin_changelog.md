@@ -1,4 +1,3 @@
-Edit
 *See the legacy branch for `v2.x.x` or `v3.x.x`*
 
 This changelog is for the Chrome extension, not the webapp.
