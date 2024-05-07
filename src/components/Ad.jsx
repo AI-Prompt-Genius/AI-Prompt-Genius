@@ -10,7 +10,7 @@ export default function Ad() {
                 <p className={"text-sm"}>
                     <a
                         className={"link link-primary"}
-                        href={"https://link.aipromptgenius.app/max-ai-5-2"}
+                        href={"https://link.aipromptgenius.app/max-ai-text"}
                         target={"_blank"}
                     >
                         Sponsored by MaxAI.me
