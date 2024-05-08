@@ -1,11 +1,12 @@
 import { createContext, useEffect } from "react"
 import { useLocalStorage } from "@uidotdev/usehooks"
 import { getProStatus } from "./js/pro.js"
+import useChromeStorage from "./js/useChromeStorage.js"
 
 export const ThemeContext = createContext()
 
 export default function ThemeProvider({ children }) {
-    const [theme, setTheme] = useLocalStorage("theme", "winter")
+    const [theme, setTheme] = useChromeStorage("theme", "winter")
 
     const freeThemes = ["winter", "light", "dark", "night"]
 

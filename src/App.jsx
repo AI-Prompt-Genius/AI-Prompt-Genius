@@ -12,6 +12,7 @@ import OnboardingModal from "./components/OnboardingModal.jsx"
 import i18next from "i18next"
 import HotkeyUpdateModal from "./components/HotkeyUpdateModal.jsx"
 import ReactGA from "react-ga4"
+import useChromeStorage from "./components/js/useChromeStorage.js"
 
 function App() {
     ReactGA.initialize("G-YV9PMGYJDJ")
@@ -19,8 +20,8 @@ function App() {
 
     const { theme } = React.useContext(ThemeContext)
 
-    const [prompts, setPrompts] = useLocalStorage("prompts", [])
-    const [folders, setFolders] = useLocalStorage("folders", [])
+    const [prompts, setPrompts] = useChromeStorage("prompts", [])
+    const [folders, setFolders] = useChromeStorage("folders", [])
 
     const tags = prompts.length > 0 ? new Set(prompts.flatMap(obj => obj.tags)) : []
 

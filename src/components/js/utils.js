@@ -32,7 +32,8 @@ export function setObject(key, value) {
 
 export function getObject(key, defaultValue) {
     var value = localStorage.getItem(key)
-    if (key === "prompts" && value) {
+    if (key === "prompts" && value && value.length > 0) {
+        console.log("newValue")
         sendMessageToParent({ message: "sync_prompts", data: JSON.parse(value) })
     }
     return value ? value && JSON.parse(value) : defaultValue

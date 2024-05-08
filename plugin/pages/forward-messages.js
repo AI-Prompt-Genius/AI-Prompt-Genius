@@ -7,7 +7,18 @@ window.addEventListener(
         const message = JSON.parse(event.data)
         console.log(message)
 
-        if (message.message === "openFullScreen") {
+        if (message.type === "GET") {
+            chrome.storage.local.get(message.key, data => {
+                document
+                    .getElementById("window")
+                    .contentWindow.postMessage(
+                        { type: "SET", key: message.key, value: data[message.key] },
+                        "*",
+                    )
+            })
+        } else if (message.type === "SET") {
+            chrome.storage.local.set({ [message.key]: message.value })
+        } else if (message.message === "openFullScreen") {
             // Forward the message to the background script
             chrome.tabs.create({ url: `${chrome.runtime.getURL("pages/fullscreen.html")}` })
         } else if (message.message === "openShortcuts") {

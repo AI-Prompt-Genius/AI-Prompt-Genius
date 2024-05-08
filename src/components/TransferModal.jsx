@@ -81,7 +81,7 @@ function TransferModal() {
         window.parent.postMessage(messageString, "*")
     }
 
-    function updatePrompts(categoryMode = categoryMode) {
+    async function updatePrompts(categoryMode = categoryMode) {
         const oldPrompts = getObject("transferPrompts", null)
         if (oldPrompts) {
             const newPrompts = oldPrompts.map(prompt => {
