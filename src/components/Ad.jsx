@@ -13,9 +13,8 @@ export default function Ad() {
                         href={"https://link.aipromptgenius.app/max-ai-text"}
                         target={"_blank"}
                     >
-                        Sponsored by MaxAI.me
+                        Sponsored by MaxAI. - Use 1-click AI Anywhere
                     </a>{" "}
-                    - Use 1-click AI Anywhere
                 </p>
             )}
         </>
