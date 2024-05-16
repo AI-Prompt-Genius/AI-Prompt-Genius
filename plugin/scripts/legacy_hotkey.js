@@ -91,7 +91,7 @@ async function main(prompts) {
     }
 
     async function selectPrompt(promptText, hasVars = true) {
-        let chatInput = document.querySelector("#prompt-textarea")
+        let chatInput = document.getElementById("prompt-textarea")
         removeSuggestion()
         const vars = hasVars ? findVariables(promptText) : [] // so if the chosen variable has a variable within {{}}
         if (vars.length > 0) {
@@ -103,10 +103,13 @@ async function main(prompts) {
             .split(" ")[0]
         const lastSlashIndex = chatInput.value.lastIndexOf("/")
         const lastSearchTermIndex = lastSlashIndex + searchTerm.length + 1
-        chatInput.style.height = "200px"
-        chatInput.parentElement.querySelector("button").addEventListener("click", () => {
-            chatInput.style.height = "24px"
-        })
+        const submit_btn = chatInput.parentElement.parentElement.querySelector("button")
+        if (submit_btn) {
+            chatInput.style.height = "200px"
+            submit_btn.addEventListener("click", () => {
+                chatInput.style.height = "24px"
+            })
+        }
         const newText =
             chatInput.value.substring(0, lastSlashIndex) +
             promptText +
