@@ -91,7 +91,7 @@ async function main(prompts) {
     }
 
     async function selectPrompt(promptText, hasVars = true) {
-        let chatInput = document.querySelector("#prompt-textarea")
+        let chatInput = document.getElementById("prompt-textarea")
         removeSuggestion()
         const vars = hasVars ? findVariables(promptText) : [] // so if the chosen variable has a variable within {{}}
         if (vars.length > 0) {
@@ -103,10 +103,13 @@ async function main(prompts) {
             .split(" ")[0]
         const lastSlashIndex = chatInput.value.lastIndexOf("/")
         const lastSearchTermIndex = lastSlashIndex + searchTerm.length + 1
-        chatInput.style.height = "200px"
-        chatInput.parentElement.querySelector("button").addEventListener("click", () => {
-            chatInput.style.height = "24px"
-        })
+        const submit_btn = chatInput.parentElement.parentElement.querySelector("button")
+        if (submit_btn) {
+            chatInput.style.height = "200px"
+            submit_btn.addEventListener("click", () => {
+                chatInput.style.height = "24px"
+            })
+        }
         const newText =
             chatInput.value.substring(0, lastSlashIndex) +
             promptText +
@@ -293,7 +296,7 @@ async function main(prompts) {
 
         const html = `
         <div id="suggestions" class="w-full suggestions" style="position: relative">
-            <ul id="scrollSuggest" class="rounded bg-white dark:bg-gray-700" style="border-color: rgba(0,0,0,.1); border-width: 1px; font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 1; max-height: 13rem; width: 100%; overflow: auto; ">
+            <ul id="scrollSuggest" class="bg-white dark:bg-gray-700" style="border-color: rgba(0,0,0,.1); border-radius: 15px; border-width: 1px; font-size: .875rem; line-height: 1.25rem; color: rgb(255 255 255); box-sizing: border-box; list-style: none; margin: 0; padding: 0; z-index: 1; max-height: 13rem; width: 100%; overflow: auto; ">
                 ${filtered
                     .map(
                         (prompt, idx) => `
@@ -304,7 +307,7 @@ async function main(prompts) {
             </ul>
         </div>
         `
-        textDiv.parentElement.insertAdjacentHTML("beforebegin", html)
+        textDiv.parentElement.parentElement.parentElement.insertAdjacentHTML("beforebegin", html)
         const suggestions = document.querySelectorAll(".pg-suggestion")
         suggestions.forEach(s =>
             s.addEventListener("mouseenter", () => focusEl(s.getAttribute("data-idx"))),
