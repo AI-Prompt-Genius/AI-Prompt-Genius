@@ -15,8 +15,11 @@ function convertToCSV(data) {
         const values = headers.map(header => {
             let value = item[header]
 
-            // Check if the value contains a comma or a double quote and enclose it in double quotes if needed
-            if (typeof value === "string" && (value.includes(",") || value.includes('"'))) {
+            // Check if the value contains a comma, double quote, or newline and enclose it in double quotes if needed
+            if (
+                typeof value === "string" &&
+                (value.includes(",") || value.includes('"') || value.includes("\n"))
+            ) {
                 value = `"${value.replace(/"/g, '""')}"` // Double up double quotes inside the value
             }
 
@@ -63,10 +66,7 @@ export function combineJSONArrays(array1, array2) {
         // Combine the arrays into one
         const combinedArray = array1.concat(array2)
 
-        // Stringify the combined array
-        const combinedJSON = combinedArray
-
-        return combinedJSON
+        return combinedArray
     } catch (error) {
         // Handle parsing errors
         return null
@@ -110,7 +110,7 @@ export function csvToJson(csv) {
 export function downloadCSVTemplate() {
     // Encode the CSV string as a Blob
     const blob = encodeStringAsBlob(
-        "Title,Text,Description,Folder,Tags - Separated with semicolons",
+        "Title,Text,Description,Folder,Tags - Separated with semicolons\n",
     )
 
     const filename = "AI_Prompt_Genius_Template.csv"
