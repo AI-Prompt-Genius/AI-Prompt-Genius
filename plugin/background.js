@@ -30,6 +30,13 @@ const promos = [
         promoEnd: "5/26/2024", // WARNING: make sure start & end dates don't overlap!!
         id: "Merlin campaign 5/19/2024 - 5/26/2024", // give a unique name for all promos - even "dead" ones
     },
+    {
+        url: "https://link.aipromptgenius.app/FurtureTools",
+        promoStart: "5/27/2024", // month/day/year
+        promoEnd: "6/09/2024", // WARNING: make sure start & end dates don't overlap!!
+        id: "FutureTools campaign 5/27/2024 - 6/09/2024", // give a unique name for all promos - even "dead" ones
+    },
+    
     // Add more promotions as needed
 ]
 

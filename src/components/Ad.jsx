@@ -13,7 +13,7 @@ export default function Ad() {
                         href={"https://link.aipromptgenius.app/FurtureTools"}
                         target={"_blank"}
                     >
-                        Sponsored by Future Tools
+                        Sponsored by Max.ai
                     </a>{" "}
                     
                 </p>
