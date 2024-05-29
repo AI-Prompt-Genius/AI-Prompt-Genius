@@ -179,9 +179,9 @@ async function getSheetData(spreadsheetId, range) {
 async function syncPrompts(deletedPrompts, newPrompts, changedPrompts, localPrompts, sheetId) {
     try {
         // prevent duplicates
-        if (!Array.isArray(deletedPrompts)) deletedPrompts = [];
-        if (!Array.isArray(newPrompts)) newPrompts = [];
-        if (!Array.isArray(changedPrompts)) changedPrompts = [];
+        if (!Array.isArray(deletedPrompts)) deletedPrompts = []
+        if (!Array.isArray(newPrompts)) newPrompts = []
+        if (!Array.isArray(changedPrompts)) changedPrompts = []
         newPrompts = Array.from(new Set(newPrompts))
         deletedPrompts = Array.from(new Set(deletedPrompts))
         changedPrompts = Array.from(new Set(changedPrompts))
