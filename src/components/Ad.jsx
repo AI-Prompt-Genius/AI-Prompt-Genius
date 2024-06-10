@@ -10,12 +10,12 @@ export default function Ad() {
                 <p className={"text-sm"}>
                     <a
                         className={"link link-primary"}
-                        href={"https://link.aipromptgenius.app/FurtureTools"}
+                        href={"https://link.aipromptgenius.app/ChatPlayground"}
                         target={"_blank"}
                     >
-                        Sponsored by Max.ai
+                        Sponsored by Chat Playground
                     </a>{" "}
-                    
+                    Achieve Better AI Answers 73% of the Time with Multiple Chatbots
                 </p>
             )}
         </>
