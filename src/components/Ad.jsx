@@ -4,24 +4,24 @@ import { getProStatus } from "./js/pro.js"
 export default function Ad() {
     const isPro = getProStatus()
 
-    return (
-        <>
-            {!isPro && (
-                <p className={"text-sm"}>
-                    <a
-                        className={"link link-primary"}
-                        href={"https://link.aipromptgenius.app/ChatPlayground"}
-                        target={"_blank"}
-                    >
-                        Sponsored by Chat Playground
-                    </a>{" "}
-                    Achieve Better AI Answers 73% of the Time with Multiple Chatbots
-                </p>
-            )}
-        </>
-    )
-}
-/* 
+//     return (
+//         <>
+//             {!isPro && (
+//                 <p className={"text-sm"}>
+//                     <a
+//                         className={"link link-primary"}
+//                         href={"https://link.aipromptgenius.app/ChatPlayground"}
+//                         target={"_blank"}
+//                     >
+//                         Sponsored by Chat Playground
+//                     </a>{" "}
+//                     Achieve Better AI Answers 73% of the Time with Multiple Chatbots
+//                 </p>
+//             )}
+//         </>
+//     )
+// }
+
 {!isPro && (
                 <p className={"text-sm"}>
                     <a
@@ -35,4 +35,4 @@ export default function Ad() {
                     </a>{" "}
                 </p>
             )}
- */
+    }
