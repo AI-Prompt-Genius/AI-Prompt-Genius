@@ -39,9 +39,9 @@ const promos = [
     },
     {
         url: "https://link.aipromptgenius.app/Max-ai-new",
-        promoStart: "6/1/2024", // month/day/year
-        promoEnd: "6/14/2024", // WARNING: make sure start & end dates don't overlap!!
-        id: "MaxAI.me campaign 6/1/2024 - 6/14/2024", // give a unique name for all promos - even "dead" ones
+        promoStart: "7/1/2024", // month/day/year
+        promoEnd: "7/14/2024", // WARNING: make sure start & end dates don't overlap!!
+        id: "MaxAI.me campaign 7/1/2024 - 7/14/2024", // give a unique name for all promos - even "dead" ones
     },
     
     // Add more promotions as needed
