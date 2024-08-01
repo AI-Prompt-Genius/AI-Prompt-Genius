@@ -6,19 +6,18 @@ export default function Ad() {
 
     return (
         <>
-        {!isPro && (
-            <p className={"text-sm"}>
-                <a
-                    className={"link link-primary"}
-                    href={
-                        "https://chromewebstore.google.com/detail/ai-prompt-genius/jjdnakkfjnnbbckhifcfchagnpofjffo/reviews"
-                    }
-                    target={"_blank"}
-                >
-                    Enjoying the extension? Leave a five star review.
-                </a>{" "}
-            </p>
-        )}
+             {!isPro && (
+                 <p className={"text-sm"}>
+                     <a
+                         className={"link link-primary"}
+                         href={"https://link.aipromptgenius.app/ChatPlayground 8-/1-8/4"}
+                         target={"_blank"}
+                     >
+                         Sponsored by Chat Playground Ai
+                     </a>{" "}
+                     Access and Compare Top AI Models & AI Browser Copilot:
+                 </p>
+             )}
          </>
      )
  }
