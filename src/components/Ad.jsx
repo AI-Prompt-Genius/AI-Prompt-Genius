@@ -13,7 +13,7 @@ export default function Ad() {
                          href={"https://link.aipromptgenius.app/ChatPlayground 8-/1-8/4"}
                          target={"_blank"}
                      >
-                         Sponsored by Chat Playground Ai
+                         Sponsored by ChatPlayground AI
                      </a>{" "}
                      Access and Compare Top AI Models & AI Browser Copilot:
                  </p>
