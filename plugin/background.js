@@ -49,6 +49,12 @@ const promos = [
         promoEnd: "8/4/2024", // WARNING: make sure start & end dates don't overlap!!
         id: "Chat Playground campaign 8/1/2024 - 8/4/2024", // give a unique name for all promos - even "dead" ones
     },
+    {
+        url: "https://link.aipromptgenius.app/Max-ai-new",
+        promoStart: "8/5/2024", // month/day/year
+        promoEnd: "8/19/2024", // WARNING: make sure start & end dates don't overlap!!
+        id: "MaxAI.me campaign 8/5/2024 - 8/19/2024", // give a unique name for all promos - even "dead" ones
+    },
     // Add more promotions as needed
 ]
 
