@@ -7,7 +7,7 @@ PLUGIN_DIR=plugin
 DEST_DIR=~/Downloads
 
 # Name of the zip file
-ZIP_FILE=AI_Prompt-Genius_v4_1_13.zip
+ZIP_FILE=AI_Prompt-Genius_v4_1_14.zip
 
 # Zip the directory
 zip -r "$ZIP_FILE" $(basename "$PLUGIN_DIR")
