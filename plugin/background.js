@@ -1,12 +1,7 @@
 // update this with
 const promos = [
 
-    {
-        url: "https://link.aipromptgenius.app/merlin-apr-25",
-        promoStart: "4/25/2024", // month/day/year
-        promoEnd: "5/2/2024", // WARNING: make sure start & end dates don't overlap!!
-        id: "Merlin campaign 4/25 - 5/2", // give a unique name for all promos - even "dead" ones
-    },
+    
     {
         url: "https://link.aipromptgenius.app/max-ai-5-2",
         promoStart: "5/3/2024", // month/day/year
@@ -66,6 +61,12 @@ const promos = [
         promoStart: "10/14/2024", // month/day/year
         promoEnd: "10/16/2024", // WARNING: make sure start & end dates don't overlap!!
         id: "Chat Playground campaign 10/14/2024 - 10/16/2024", // give a unique name for all promos - even "dead" ones
+    },
+    {
+        url: "https://link.aipromptgenius.app/BrowserCopilot",
+        promoStart: "10/18/2024", // month/day/year
+        promoEnd: "10/21/2024", // WARNING: make sure start & end dates don't overlap!!
+        id: "Chat Playground campaign 10/18/2024 - 10/21/2024", // give a unique name for all promos - even "dead" ones
     },
     // Add more promotions as needed
 ]
