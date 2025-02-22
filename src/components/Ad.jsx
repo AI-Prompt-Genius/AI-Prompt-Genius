@@ -10,10 +10,10 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://link.aipromptgenius.app/t58o4k"}
+                         href={"https://link.aipromptgenius.app/BrowserCopilotadwAL"}
                          target={"_blank"}
                      >
-                         Sponsored by MaxAi
+                         Create custom AI workflows on your browser with AI Browser Copilot
                      </a>{" "}
                      Access AI with any webpage
                  </p>
