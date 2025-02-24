@@ -10,10 +10,10 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://link.aipromptgenius.app/BrowserCopilotadwAL"}
+                         href={"https://link.aipromptgenius.app/chatPlayground2-24"}
                          target={"_blank"}
                      >
-                         Create custom AI workflows on your browser with AI Browser Copilot
+                         Use ChatGPT-4o, Gemini Pro, Claude 3.5 Sonnet, and more chatbots simultaneously
                      </a>{" "}
                      Access AI with any webpage
                  </p>
