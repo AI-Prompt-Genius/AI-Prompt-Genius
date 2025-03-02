@@ -13,7 +13,7 @@ export default function Ad() {
                          href={"https://www.aipromptgenius.app/advertise-with-us/"}
                          target={"_blank"}
                      >
-                         Interested in seeing your buisness grow? Contact us to advertise here
+                         Interested in seeing your buisness grow? Contact us to advertise here!
                      </a>{" "}
                      Access AI with any webpage
                  </p>
