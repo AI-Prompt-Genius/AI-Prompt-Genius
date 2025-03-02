@@ -15,7 +15,7 @@ export default function Ad() {
                      >
                          Interested in seeing your buisness grow? Contact us to advertise here!
                      </a>{" "}
-                     Access AI with any webpage
+                     
                  </p>
              )}
          </>
