@@ -10,10 +10,10 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://link.aipromptgenius.app/chatPlayground2-24"}
+                         href={"https://www.aipromptgenius.app/advertise-with-us/"}
                          target={"_blank"}
                      >
-                         Use ChatGPT-4o, Gemini Pro, Claude 3.5 Sonnet, and more chatbots simultaneously
+                         Interested in seeing your buisness grow? Contact us to advertise here
                      </a>{" "}
                      Access AI with any webpage
                  </p>
