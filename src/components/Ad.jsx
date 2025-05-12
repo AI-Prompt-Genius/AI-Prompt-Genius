@@ -13,7 +13,7 @@ export default function Ad() {
                          href={"https://www.aipromptgenius.app/advertise-with-us/"}
                          target={"_blank"}
                      >
-                         Access and Compare The Best AI Models (25+ Models)
+                         Write 7x Faster with AI Speech-to-Text
                      </a>{"https://link.aipromptgenius.app/chatPlayground5/24"}
                      
                  </p>
