@@ -10,11 +10,11 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://www.aipromptgenius.app/advertise-with-us/"}
+                         href={"https://link.aipromptgenius.app/chatPlayground5/24"}
                          target={"_blank"}
                      >
                          Write 7x Faster with AI Speech-to-Text
-                     </a>{"https://link.aipromptgenius.app/chatPlayground5/24"}
+                     </a>
                      
                  </p>
              )}
