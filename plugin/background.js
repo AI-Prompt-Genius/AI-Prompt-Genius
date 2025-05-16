@@ -3,10 +3,10 @@ const promos = [
 
 
     {
-        url: "hhttps://link.aipromptgenius.app/voicetype",
+        url: "https://link.aipromptgenius.app/voicetype",
         promoStart: "5/12/2025", // month/day/year
-        promoEnd: "5/19/2025", // WARNING: make sure start & end dates don't overlap!!
-        id: "Browser Ai voice campaign 5/12/2025 - 5/19/2025", // give a unique name for all promos - even "dead" ones
+        promoEnd: "5/23/2025", // WARNING: make sure start & end dates don't overlap!!
+        id: "Browser Ai voice campaign 5/12/2025 - 5/23/2025", // give a unique name for all promos - even "dead" ones
     },
     {
         url: "https://link.aipromptgenius.app/chatPlayground5/24",
