@@ -10,7 +10,7 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://voicetype.com/download"}
+                         href={"https://go.voicetype.com/promptg2"}
                          target={"_blank"}
                      >
                          Write 9x Faster with AI Speech-to-Text

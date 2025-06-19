@@ -1,7 +1,12 @@
-// update this with
+
 
 const promos = [
-
+    {
+        url: "https://go.voicetype.com/promptg2",
+        promoStart: "6/18/2025", // month/day/year
+        promoEnd: "6/25/2025", // WARNING: make sure start & end dates don't overlap!!
+        id: "Browser Ai voice campaign 6/18/2025 - 6/25/2025", // give a unique name for all promos - even "dead" ones
+    },
     {
         url: "https://voicetype.com/download",
         promoStart: "6/11/2025", // month/day/year
