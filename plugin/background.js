@@ -1,12 +1,11 @@
 
-
 const promos = [
     
     {
-        url: "https://voicetype.com/?dub_id=ZNjk7XxwTXuBmlxz",
-        promoStart: "6/28/2025", // month/day/year
-        promoEnd: "7/6/2025", // WARNING: make sure start & end dates don't overlap!!
-        id: "Browser Ai voice campaign 6/28/2025 - 7/6/2025", // give a unique name for all promos - even "dead" ones
+        url: "https://go.voicetype.com/promptgenius",
+        promoStart: "6/30/2025", // month/day/year
+        promoEnd: "7/8/2025", // WARNING: make sure start & end dates don't overlap!!
+        id: "Browser Ai voice campaign 6/30/2025 - 7/8/2025", // give a unique name for all promos - even "dead" ones
     },
     {
         url: "https://go.voicetype.com/promptg2",
