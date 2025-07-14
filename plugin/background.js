@@ -1,5 +1,12 @@
 
 const promos = [
+
+    {
+        url: "https://voicetype.com/download",
+        promoStart: "7/14/2025", // month/day/year
+        promoEnd: "7/21/2025", // WARNING: make sure start & end dates don't overlap!!
+        id: "Voice Type Ai campaign 7/14/2025 - 7/21/2025", // give a unique name for all promos - even "dead" ones
+    },
     
     {
         url: "https://go.voicetype.com/promptgenius",
