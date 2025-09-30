@@ -10,10 +10,10 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://www.aipromptgenius.app/advertise-with-us/"}
+                         href={"https://www.rivervoice.ai/"}
                          target={"_blank"}
                      >
-                         Advertise with Us!
+                         Save 1-2 hours a day on writing tasks with AI speech-to-text!
                      </a>
                      
                  </p>
