@@ -2,10 +2,10 @@
 const promos = [
 
     {
-        url: "https://www.rivervoice.ai/",
-        promoStart: "10/07/2025", // month/day/year
-        promoEnd: "10/14/2025", // WARNING: make sure start & end dates don't overlap!!
-        id: "Rivervoice AI campaign", // give a unique name for all promos - even "dead" ones
+        url: "https://go.chatplayground.ai/prompt-genius",
+        promoStart: "10/20/2025", // month/day/year
+        promoEnd: "10/27/2025", // WARNING: make sure start & end dates don't overlap!!
+        id: "Chatplayground AI campaign Oct 20 2025", // give a unique name for all promos - even "dead" ones
     },
 
     // Add more promotions as needed
