@@ -10,10 +10,10 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://www.rivervoice.ai/"}
+                         href={"https://go.chatplayground.ai/prompt-genius"}
                          target={"_blank"}
                      >
-                         Save 1-2 hours a day on writing tasks with AI speech-to-text!
+                         The #1 Platform for Comparing AI Models
                      </a>
                      
                  </p>
