@@ -13,7 +13,7 @@ export default function Ad() {
                          href={"https://prompt.short.gy/ai-video-generator "}
                          target={"_blank"}
                      >
-                         AI video generator
+                         AI Video Generator
                      </a>
                      
                  </p>
