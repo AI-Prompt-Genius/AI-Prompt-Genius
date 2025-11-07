@@ -10,10 +10,10 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://prompt.short.gy/ai-video-generator "}
+                         href={"https://go.chatplayground.ai/prompt-genius "}
                          target={"_blank"}
                      >
-                         AI Video Generator
+                         The #1 Platform for Comparing AI Models
                      </a>
                      
                  </p>
