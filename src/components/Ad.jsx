@@ -10,10 +10,10 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://go.chatplayground.ai/prompt-genius "}
+                         href={"https://worththat.io"}
                          target={"_blank"}
                      >
-                         The #1 Platform for Comparing AI Models
+                         You won't guess the price! Wordle-like game
                      </a>
                      
                  </p>

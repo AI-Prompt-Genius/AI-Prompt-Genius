@@ -2,10 +2,10 @@
 const promos = [
 
     {
-        url: "https://go.chatplayground.ai/prompt-genius ",
-        promoStart: "11/07/2025", // month/day/year
-        promoEnd: "11/14/2025", // WARNING: make sure start & end dates don't overlap!!
-        id: "Chat Playground Ad Nov 7, 2025", // give a unique name for all promos - even "dead" ones
+        url: "https://worththat.io ",
+        promoStart: "11/24/2025", // month/day/year
+        promoEnd: "12/1/2025", // WARNING: make sure start & end dates don't overlap!!
+        id: "Worth That Add 11/24/25", // give a unique name for all promos - even "dead" ones
     },
 
     // Add more promotions as needed
