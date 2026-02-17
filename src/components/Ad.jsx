@@ -10,10 +10,10 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://worththat.io"}
+                         href={"https://www.stacksocial.com/sales/voicetype-ai-voice-to-text-lifetime-subscription-unlimited-words-month"}
                          target={"_blank"}
                      >
-                         You won't guess the price! Wordle-like game
+                         VoiceType AI Voice-to-Text: Lifetime Subscription-- Unlimited Words/Month
                      </a>
                      
                  </p>
