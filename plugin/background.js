@@ -2,10 +2,10 @@
 const promos = [
 
     {
-        url: "https://worththat.io ",
-        promoStart: "11/24/2025", // month/day/year
-        promoEnd: "12/1/2025", // WARNING: make sure start & end dates don't overlap!!
-        id: "Worth That Add 11/24/25", // give a unique name for all promos - even "dead" ones
+        url: "https://www.stacksocial.com/sales/voicetype-ai-voice-to-text-lifetime-subscription-unlimited-words-month",
+        promoStart: "02/17/2026", // month/day/year
+        promoEnd: "02/25/2026", // WARNING: make sure start & end dates don't overlap!!
+        id: "Stack Social Ad", // give a unique name for all promos - even "dead" ones
     },
 
     // Add more promotions as needed
