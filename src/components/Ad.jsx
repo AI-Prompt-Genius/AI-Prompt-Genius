@@ -10,10 +10,10 @@ export default function Ad() {
                  <p className={"text-sm"}>
                      <a
                          className={"link link-primary"}
-                         href={"https://www.stacksocial.com/sales/voicetype-ai-voice-to-text-lifetime-subscription-unlimited-words-month"}
+                         href={"https://link.aipromptgenius.app/ads"}
                          target={"_blank"}
                      >
-                         VoiceType AI Voice-to-Text: Lifetime Subscription-- Unlimited Words/Month
+                         Your ad here! Click to learn more.
                      </a>
                      
                  </p>
