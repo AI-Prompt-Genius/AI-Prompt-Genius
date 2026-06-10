@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@adsonbread/react": "^0.2.0",
     "@uidotdev/usehooks": "^2.4.1",
     "i18next": "^23.6.0",
     "papaparse": "^5.4.1",

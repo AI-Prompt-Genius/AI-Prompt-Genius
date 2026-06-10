@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { getProStatus } from "./js/pro.js"
+import { AdsOnBreadSlot } from '@adsonbread/react'
+
 
 export default function Ad() {
     const isPro = getProStatus()
@@ -7,16 +9,12 @@ export default function Ad() {
     return (
         <>
              {!isPro && (
-                 <p className={"text-sm"}>
-                     <a
-                         className={"link link-primary"}
-                         href={"https://link.aipromptgenius.app/ads"}
-                         target={"_blank"}
-                     >
-                         Your ad here! Click to learn more.
-                     </a>
-                     
-                 </p>
+                 <AdsOnBreadSlot
+                apiKey="5359f1e7-dfd6-4611-a186-8b3ae59e7c76"
+                placement="banner"
+                theme="light"
+                edgeUrl='https://edge-staging.adsonbread.com'
+                />
              )}
          </>
      )
