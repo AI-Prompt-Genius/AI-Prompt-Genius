@@ -1,22 +1,28 @@
-import { useState } from "react"
+import React from "react"
 import { getProStatus } from "./js/pro.js"
+import { AdsOnBreadSlot } from '@adsonbread/react'
+import { ThemeContext } from "./ThemeContext.jsx"
+
+function getAdsTheme(theme) {
+    const darkThemes = ["dark", "night", "forest", "luxury"]
+    return darkThemes.includes(theme) ? "dark" : "light"
+}
 
 export default function Ad() {
     const isPro = getProStatus()
+    const { theme } = React.useContext(ThemeContext)
+    const lang = localStorage.getItem("lng") ?? "en"
+    const adTheme = getAdsTheme(theme)
 
     return (
         <>
              {!isPro && (
-                 <p className={"text-sm"}>
-                     <a
-                         className={"link link-primary"}
-                         href={"https://link.aipromptgenius.app/ads"}
-                         target={"_blank"}
-                     >
-                         Your ad here! Click to learn more.
-                     </a>
-                     
-                 </p>
+                 <AdsOnBreadSlot
+                apiKey="a164501b-2c0f-4ce1-a646-b680633f08ed"
+                placement="banner"
+                theme={adTheme}
+                language={lang}
+                />
              )}
          </>
      )
