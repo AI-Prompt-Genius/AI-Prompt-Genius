@@ -1,0 +1,21 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "description": "Deployable Cloudflare Worker + D1 backend that replaces the Google-Sheets sync with a per-user **delta** protocol (push only changed/deleted records, pull changes since your last `rev`). This is a **scaffold** — it needs your Cloudflare account to deploy and cannot be verified from the repo.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260701.1",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.106.0"
+  },
+  "dependencies": {
+    "jose": "^6.2.3"
+  }
+}

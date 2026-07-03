@@ -1,4 +1,6 @@
-import { getObject, setObject } from "./utils.js"
+// @ts-nocheck — Google Sheets sync is slated for deletion in Phase E (replaced by Cloudflare
+// sync). Not worth fully typing doomed code; keep it running as-is until then.
+import { getObject, setObject } from "./utils"
 
 export function finishAuth() {
     // checks localstorage for current auth task and then uses fresh API token to do it

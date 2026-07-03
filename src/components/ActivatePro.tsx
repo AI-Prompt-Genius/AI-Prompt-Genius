@@ -1,24 +1,24 @@
-import Head2 from "./Head2.jsx"
-import Head4 from "./Head4.jsx"
-import { activateLicense, getProStatus } from "./js/pro.js"
+import Head2 from "./Head2"
+import Head4 from "./Head4"
+import { activateLicense, getProStatus } from "./js/pro"
 import { useState } from "react"
-import { CrownIcon } from "./icons/Icons.jsx"
+import { CrownIcon } from "./icons/Icons"
 import { useTranslation } from "react-i18next"
 import k from "./../i18n/keys"
-export function ActivatePro(props) {
+export function ActivatePro(props: { in_settings: boolean; showToast: (message: string) => void }) {
     const { t, i18n } = useTranslation()
 
     const [isPro, setPro] = useState(getProStatus())
     const licenseKey = localStorage.getItem("pro_key") ?? ""
 
     async function activatePro() {
-        const key = document.getElementById("licenseKey").value
+        const key = (document.getElementById("licenseKey") as HTMLInputElement).value
         const success = await activateLicense(key)
         if (success === "full") {
             props.showToast(t(k.OUT_OF_SEATS))
         } else if (success) {
             props.showToast(t(k.SUCCESSFULLY_ACTIVATED_PRO))
-            document.getElementById("licenseKey").disabled = true
+            ;(document.getElementById("licenseKey") as HTMLInputElement).disabled = true
             setPro(true)
         } else {
             props.showToast(t(k.ERROR_ACTIVATING_PRO))

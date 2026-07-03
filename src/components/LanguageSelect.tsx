@@ -1,8 +1,12 @@
 import i18next from "i18next"
-import { useState } from "react"
+import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 
-export default function LanguageSelect({ onLangUpdate }) {
+export default function LanguageSelect({
+    onLangUpdate,
+}: {
+    onLangUpdate?: () => void
+} = {}) {
     const { t, i18n } = useTranslation()
     const selectedLang = i18next.language ?? "en"
     const [selectedLanguage, setSelectedLanguage] = useState(selectedLang)
@@ -23,7 +27,7 @@ export default function LanguageSelect({ onLangUpdate }) {
         zh_TW: "Chinese (Traditional) - 中文（繁體)",
     }
 
-    function updateLang(event) {
+    function updateLang(event: React.ChangeEvent<HTMLSelectElement>) {
         const language = event.target.value
         setSelectedLanguage(language)
         localStorage.setItem("lng", language)

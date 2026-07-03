@@ -1,16 +1,17 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
-import Logo from "./Logo.jsx"
+import Logo from "./Logo"
 import React, { useState } from "react"
-import Head2 from "./Head2.jsx"
-import Head4 from "./Head4.jsx"
-import ShortcutInfo from "./ShortcutInfo.jsx"
-import LanguageSelect from "./LanguageSelect.jsx"
+import Head2 from "./Head2"
+import Head4 from "./Head4"
+import ShortcutInfo from "./ShortcutInfo"
+import LanguageSelect from "./LanguageSelect"
+import SyncChoice from "./SyncChoice"
 import { useTranslation } from "react-i18next"
 
 function OnboardingModal() {
     const [page, setPage] = useState(1)
-    const MAX_PAGE_NUM = 2
+    const MAX_PAGE_NUM = 3
 
     const { t } = useTranslation()
 
@@ -22,7 +23,7 @@ function OnboardingModal() {
     }
 
     function closeModal() {
-        document.getElementById("onboardingModal").checked = false
+        ;(document.getElementById("onboardingModal") as HTMLInputElement).checked = false
     }
     return (
         <>
@@ -59,6 +60,12 @@ function OnboardingModal() {
                     )}
 
                     {page === 2 && (
+                        <div className={"p-4"} id="sync-choice-page">
+                            <SyncChoice />
+                        </div>
+                    )}
+
+                    {page === 3 && (
                         <div className={"p-4"}>
                             <Head2>{t(k.NEXT_STEPS)}</Head2>
                             <ShortcutInfo />

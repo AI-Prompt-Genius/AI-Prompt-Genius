@@ -1,9 +1,9 @@
-import Logo from "./Logo.jsx"
+import Logo from "./Logo"
 import React from "react"
-import Head2 from "./Head2.jsx"
-import Head4 from "./Head4.jsx"
+import Head2 from "./Head2"
+import Head4 from "./Head4"
 import hotkey from "../images/hotkeydemo.webp"
-import k from "../i18n/keys.js"
+import k from "../i18n/keys"
 import { useTranslation } from "react-i18next"
 
 export default function HotkeyUpdateModal() {
@@ -23,7 +23,7 @@ export default function HotkeyUpdateModal() {
     }
 
     function closeModal() {
-        document.getElementById("hotkeyModal").checked = false
+        ;(document.getElementById("hotkeyModal") as HTMLInputElement).checked = false
     }
 
     localStorage.setItem("seen_hotkey_update_12_13", "true")

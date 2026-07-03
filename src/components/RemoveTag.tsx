@@ -1,6 +1,6 @@
-import { XMark } from "./icons/Icons.jsx"
+import { XMark } from "./icons/Icons"
 
-export default function RemoveTag({ tag, onClick }) {
+export default function RemoveTag({ tag, onClick }: { tag: string; onClick: () => void }) {
     return (
         <div
             onClick={() => onClick()}

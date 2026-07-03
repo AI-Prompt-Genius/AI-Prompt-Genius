@@ -1,15 +1,17 @@
-export function findVariables(str) {
+import type { LegacyPrompt } from "../../types"
+
+export function findVariables(str: string): string[] {
     // thanks chatgpt
     const regex = /{{(.+?)}}/g
-    const matches = new Set()
-    let match
+    const matches = new Set<string>()
+    let match: RegExpExecArray | null
     while ((match = regex.exec(str))) {
         matches.add(match[1])
     }
     return Array.from(matches)
 }
 
-function getObjectIndexByID(id, list) {
+function getObjectIndexByID(id: string, list: Array<{ id?: string }>): number {
     // created by ChatGPT
     // Iterate over the list of objects
     for (let i = 0; i < list.length; i++) {
@@ -22,23 +24,22 @@ function getObjectIndexByID(id, list) {
         }
     }
 
-    // If no match is found, return null
-    return null
+    // If no match is found, return null (preserved legacy behavior)
+    return null as unknown as number
 }
 
-export function setObject(key, value) {
+export function setObject(key: string, value: unknown): void {
     localStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getObject(key, defaultValue) {
+export function getObject(key: string, defaultValue: any): any {
+    // Reads are pure. The Ctrl+Shift+P picker mirror (`sync_prompts`) is now posted on write
+    // and on store init/reload (see usePromptStore), not as a hidden read side effect.
     var value = localStorage.getItem(key)
-    if (key === "prompts" && value) {
-        sendMessageToParent({ message: "sync_prompts", data: JSON.parse(value) })
-    }
     return value ? value && JSON.parse(value) : defaultValue
 }
 
-export function sendMessageToParent(messageObj) {
+export function sendMessageToParent(messageObj: unknown): void {
     // Stringify the object to send via postMessage
     var messageString = JSON.stringify(messageObj)
 
@@ -46,29 +47,29 @@ export function sendMessageToParent(messageObj) {
     window.parent.postMessage(messageString, "*")
 }
 
-export function getCurrentTimestamp() {
+export function getCurrentTimestamp(): number {
     const currentDate = new Date()
     return currentDate.getTime() // Returns the timestamp in milliseconds since January 1, 1970 (Unix timestamp).
 }
 
-export function deletePrompt(id, prompts = null) {
+export function deletePrompt(id: string, prompts: LegacyPrompt[] | null = null): LegacyPrompt[] {
     if (!prompts) {
         prompts = getObject("prompts", [])
     }
 
-    let promptIndex = getObjectIndexByID(id, prompts)
+    let promptIndex = getObjectIndexByID(id, prompts as LegacyPrompt[])
 
     let deletedPrompts = getObject("deletedPrompts", [])
     setObject("deletedPrompts", [...deletedPrompts, id])
 
     if (promptIndex !== -1) {
-        prompts.splice(promptIndex, 1) // Remove the prompt at the specified index
+        ;(prompts as LegacyPrompt[]).splice(promptIndex, 1) // Remove the prompt at the specified index
     }
 
-    return prompts
+    return prompts as LegacyPrompt[]
 }
 
-export function newBlankPrompt(promptObj) {
+export function newBlankPrompt(promptObj: LegacyPrompt): LegacyPrompt[] {
     let prompts = getObject("prompts", [])
 
     const newPrompts = getObject("newPrompts", [])
@@ -78,13 +79,16 @@ export function newBlankPrompt(promptObj) {
     return prompts
 }
 
-export function newFilteredPrompt(promptObj, prompts) {
+export function newFilteredPrompt(
+    promptObj: LegacyPrompt,
+    prompts: LegacyPrompt[],
+): LegacyPrompt[] {
     prompts.unshift(promptObj)
     return prompts
 }
 
-export function newFolder(name) {
-    let folders = getObject("folders", [])
+export function newFolder(name: string): string[] {
+    let folders: string[] = getObject("folders", [])
 
     if (!folders.includes(name)) {
         folders.push(name)
@@ -93,18 +97,22 @@ export function newFolder(name) {
     return folders
 }
 
-export function editFilteredPrompts(id, editedPrompt, promptList) {
+export function editFilteredPrompts(
+    id: string,
+    editedPrompt: LegacyPrompt,
+    promptList: LegacyPrompt[],
+): LegacyPrompt[] {
     let promptIndex = getObjectIndexByID(id, promptList)
     promptList[promptIndex] = editedPrompt
     return promptList
 }
 
-export function checkProperties(obj, properties) {
+export function checkProperties(obj: unknown, properties: string[]): boolean {
     return properties.every(prop => Object.prototype.hasOwnProperty.call(obj, prop))
 }
 
-export function editPrompt(id, promptObj) {
-    let prompts = getObject("prompts", [])
+export function editPrompt(id: string, promptObj: LegacyPrompt): LegacyPrompt[] {
+    let prompts: LegacyPrompt[] = getObject("prompts", [])
     let promptIndex = getObjectIndexByID(id, prompts)
     prompts[promptIndex] = promptObj
     prompts[promptIndex].lastChanged = getCurrentTimestamp()
@@ -115,8 +123,8 @@ export function editPrompt(id, promptObj) {
     return prompts
 }
 
-export function removeFolderFromPrompts(name) {
-    let prompts = getObject("prompts", [])
+export function removeFolderFromPrompts(name: string): LegacyPrompt[] {
+    let prompts: LegacyPrompt[] = getObject("prompts", [])
     let editedPrompts = getObject("changedPrompts", [])
     for (let prompt of prompts) {
         if (prompt.folder === name) {
@@ -129,8 +137,8 @@ export function removeFolderFromPrompts(name) {
     return prompts
 }
 
-export function removeFolder(name) {
-    let folders = getObject("folders", [])
+export function removeFolder(name: string): string[] {
+    let folders: string[] = getObject("folders", [])
     let i = 0
     for (const folder of folders) {
         if (folder === name) {
@@ -141,11 +149,11 @@ export function removeFolder(name) {
     return folders
 }
 
-function escapeRegExp(string) {
+function escapeRegExp(string: string): string {
     return string.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&") // $& means the whole matched string
 }
 
-export function replaceVariables(str, values) {
+export function replaceVariables(str: string, values: string[]): string {
     const variables = findVariables(str)
     variables.forEach((variable, index) => {
         let value = values[index % values.length]
@@ -156,7 +164,7 @@ export function replaceVariables(str, values) {
     return str
 }
 
-export function copyTextToClipboard(text) {
+export function copyTextToClipboard(text: string): void {
     navigator.clipboard.writeText(text).then(
         function () {
             //console.log('Async: Copying to clipboard was successful!');
@@ -167,8 +175,8 @@ export function copyTextToClipboard(text) {
     )
 }
 
-export function uuid() {
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+export function uuid(): string {
+    return ("" + [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c: any) =>
         (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16),
     )
 }

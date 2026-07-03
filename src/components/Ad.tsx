@@ -1,9 +1,9 @@
 import React from "react"
-import { getProStatus } from "./js/pro.js"
-import { AdsOnBreadSlot } from '@adsonbread/react'
-import { ThemeContext } from "./ThemeContext.jsx"
+import { getProStatus } from "./js/pro"
+import { AdsOnBreadSlot } from "@adsonbread/react"
+import { ThemeContext } from "./ThemeContext"
 
-function getAdsTheme(theme) {
+function getAdsTheme(theme: string) {
     const darkThemes = ["dark", "night", "forest", "luxury"]
     return darkThemes.includes(theme) ? "dark" : "light"
 }
@@ -16,17 +16,17 @@ export default function Ad() {
 
     return (
         <>
-             {!isPro && (
-                 <AdsOnBreadSlot
-                apiKey="a164501b-2c0f-4ce1-a646-b680633f08ed"
-                placement="banner"
-                theme={adTheme}
-                language={lang}
+            {!isPro && (
+                <AdsOnBreadSlot
+                    apiKey="a164501b-2c0f-4ce1-a646-b680633f08ed"
+                    placement="banner"
+                    theme={adTheme}
+                    {...({ language: lang } as Record<string, unknown>)}
                 />
-             )}
-         </>
-     )
- }
+            )}
+        </>
+    )
+}
 /* 
 {!isPro && (
                 <p className={"text-sm"}>
@@ -42,7 +42,6 @@ export default function Ad() {
                 </p>
             )}
  */
-
 
 //             {!isPro && (
 //                 <p className={"text-sm"}>

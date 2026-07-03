@@ -1,0 +1,17 @@
+# Cloudflare Worker for AI Prompt Genius sync (Feature 2 / Phase E scaffold).
+# Deploy:  cd worker && npm i && npx wrangler d1 create aipromptgenius
+#          (paste the returned database_id below), then:
+#          npx wrangler d1 execute aipromptgenius --file=schema.sql
+#          npx wrangler deploy
+name = "aipromptgenius-sync"
+main = "src/index.ts"
+compatibility_date = "2024-05-01"
+
+[vars]
+# WorkOS Client ID (public, not a secret) — from the WorkOS dashboard, per environment.
+WORKOS_CLIENT_ID = "client_01KWG824DCYF7FGD93HWCYCMX7"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "aipromptgenius"
+database_id = "4b6f5963-1c80-4525-934e-11fdcd5fc8f8"

@@ -1,32 +1,40 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
 import React, { useState } from "react"
-import {
-    deletePrompt,
-    editFilteredPrompts,
-    editPrompt,
-    getCurrentTimestamp,
-    uuid,
-} from "./js/utils.js"
-import { EditIcon, TrashIcon } from "./icons/Icons.jsx"
-import FolderSelect from "./FolderSelect.jsx"
-import RemoveTag from "./RemoveTag.jsx"
-import Tag from "./Tag.jsx"
+import { createPortal } from "react-dom"
+import { deletePrompt, editPrompt, getCurrentTimestamp, uuid } from "./js/utils"
+import { EditIcon, TrashIcon } from "./icons/Icons"
+import FolderSelect from "./FolderSelect"
+import RemoveTag from "./RemoveTag"
+import Tag from "./Tag"
+import type { LegacyPrompt } from "../types"
 
-export default function Template({
+interface TemplateProps {
+    template: LegacyPrompt
+    setPrompts: (...args: any[]) => void
+    onClick: () => void
+    folders: string[]
+    filterTags: string[]
+    setFilterTags: (...args: any[]) => void
+    filterPrompts: (folder?: string, tags?: string[], searchTerm?: string) => void
+    selectedFolder: string
+    searchTerm: string
+    compact: boolean
+    categories?: any
+}
+
+function Template({
     template,
     setPrompts,
     onClick,
     folders,
-    filteredPrompts,
-    setFilteredPrompts,
     filterTags,
     setFilterTags,
     filterPrompts,
     selectedFolder,
     searchTerm,
     compact,
-}) {
+}: TemplateProps) {
     const t = i18n.t
 
     const [editModalVisible, setEditModalVisible] = useState(false)
@@ -37,7 +45,7 @@ export default function Template({
     const [description, setDescription] = useState(template.description ?? "")
     const [folder, setFolder] = useState(template.folder ?? null)
 
-    const tagRef = React.createRef()
+    const tagRef = React.createRef<HTMLInputElement>()
 
     const compactBtnClass = compact ? "" : "max-[600px]:flex-col lg:flex-col"
 
@@ -46,7 +54,7 @@ export default function Template({
     }
 
     function closeModal() {
-        document.getElementById("prompt-modal").checked = false
+        ;(document.getElementById("prompt-modal") as HTMLInputElement).checked = false
         setTimeout(() => setEditModalVisible(false), 100) // to allow for cool animation
     }
 
@@ -60,36 +68,33 @@ export default function Template({
             lastChanged: getCurrentTimestamp(),
             folder: folder,
         }
-        let newPrompts = editPrompt(template.id, editedPrompt)
-        setPrompts(newPrompts)
-        const my_filtered = editFilteredPrompts(template.id, editedPrompt, filteredPrompts)
-        setFilteredPrompts(my_filtered)
-        setFilteredPrompts(my_filtered)
-
-        // Close the modal if needed
-        // You can add your logic here to close the modal.
+        // Single source of truth: update the store; the filtered list re-derives automatically.
+        setPrompts(editPrompt(template.id, editedPrompt))
         closeModal()
     }
 
-    function confirmRemove() {
+    function confirmRemove(_id?: string) {
         setDeleteModalVisible(true)
         setTimeout(
-            () => (document.getElementById(`delete_prompt_modal_${template.id}`).checked = true),
+            () =>
+                ((
+                    document.getElementById(
+                        `delete_prompt_modal_${template.id}`,
+                    ) as HTMLInputElement
+                ).checked = true),
             300,
         )
     }
 
-    function removePrompt(id) {
-        const newPrompts = deletePrompt(id)
-        setPrompts(newPrompts)
-        setFilteredPrompts(deletePrompt(id, filteredPrompts))
+    function removePrompt(id: string) {
+        setPrompts(deletePrompt(id))
     }
 
-    function saveFolder(folder) {
+    function saveFolder(folder: string | null) {
         setFolder(folder)
     }
 
-    function removeTag(tag) {
+    function removeTag(tag: string) {
         setTags(prevTags => {
             const tagsSet = new Set(prevTags)
             tagsSet.delete(tag)
@@ -97,7 +102,7 @@ export default function Template({
         })
     }
 
-    function filterByTag(tag) {
+    function filterByTag(tag: string) {
         let newFiltered = new Set(filterTags)
         if (filterTags.includes(tag)) {
             newFiltered.delete(tag)
@@ -109,17 +114,18 @@ export default function Template({
         filterPrompts(selectedFolder, Array.from(newFiltered), searchTerm)
     }
 
-    const handleKeyDown = e => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             e.preventDefault() // Prevents the default behavior of the Enter key (e.g., form submission)
-            const newTag = e.target.value.trim()
+            const target = e.target as HTMLInputElement
+            const newTag = target.value.trim()
             if (newTag) {
                 setTags(prevTags => {
                     const tagsSet = new Set(prevTags) // Create a Set from the previous tags array
                     tagsSet.add(newTag) // Add the new tag to the Set
                     return Array.from(tagsSet) // Convert the Set back to an array
                 })
-                e.target.value = t(k._1) // Clear the input field
+                target.value = t(k._1) // Clear the input field
             }
         }
     }
@@ -128,14 +134,20 @@ export default function Template({
         <>
             <div
                 onClick={e => {
-                    if (e.target.classList.contains("mainClick")) onClick()
+                    if ((e.target as HTMLElement).classList.contains("mainClick")) onClick()
                 }}
                 id={template.id}
                 className="mainClick z-0 card w-full lg:mb-0 bg-base-200/50 shadow-md template mb-3 cursor-pointer transition-colors hover:bg-base-300/50"
             >
                 <div className="mainClick z-0 card-body flex flex-row p-4 justify-between align-top">
                     <div className="mainClick flex flex-col">
-                        <h2 className="card-title mainClick flex">{template.title ?? ""}</h2>
+                        {template.title ? (
+                            <h2 className="card-title mainClick flex">{template.title}</h2>
+                        ) : (
+                            <h2 className="card-title mainClick flex italic opacity-60">
+                                Untitled prompt
+                            </h2>
+                        )}
                         {!compact && (
                             <p className="text-base mainClick mb-1">
                                 {template.description && template.description !== ""
@@ -172,112 +184,122 @@ export default function Template({
                 </div>
             </div>
 
-            {editModalVisible && (
-                <>
-                    <input
-                        defaultChecked
-                        type="checkbox"
-                        id="prompt-modal"
-                        className="modal-toggle hidden"
-                    />
+            {/* Modals are portaled to <body>: the cards live inside virtua's transformed row
+                wrappers, and a transformed ancestor re-anchors position:fixed — without the
+                portal the modal opens clipped inside the row and is effectively invisible. */}
+            {editModalVisible &&
+                createPortal(
+                    <>
+                        <input
+                            defaultChecked
+                            type="checkbox"
+                            id="prompt-modal"
+                            className="modal-toggle hidden"
+                        />
 
-                    <div className="modal">
-                        <div className="modal-box">
-                            <div>
-                                <div className="text-sm font-bold py-3">{t(k.TITLE)}</div>
-                                <textarea
-                                    onChange={e => setTitle(e.target.value)}
-                                    className="textarea textarea-bordered w-full h-[25px]"
-                                    autoFocus
-                                    defaultValue={template.title ?? ""}
-                                    placeholder={t(k.NAME_FOR_YOUR_PROMPT)}
-                                ></textarea>
-                                <div className="text-sm font-bold py-3">{t(k.TEXT)}</div>
-                                <textarea
-                                    onChange={e => setText(e.target.value)}
-                                    className="textarea textarea-bordered w-full h-[100px]"
-                                    defaultValue={template.text ?? ""}
-                                    placeholder={t(k.PROMPT_CONTENT_PLACEHOLDER)}
-                                ></textarea>
-                                <div className="text-sm font-bold py-3">{t(k.DESCRIPTION)}</div>
-                                <textarea
-                                    onChange={e => setDescription(e.target.value)}
-                                    className="textarea textarea-bordered w-full h-[50px]"
-                                    defaultValue={template.description ?? ""}
-                                    placeholder={t(k.DESCRIPTION_PLACEHOLDER)}
-                                ></textarea>
-                                <div className="text-sm font-bold py-3">{t(k.TAGS)}</div>
-                                {/* eslint-disable-next-line react/prop-types */}
-                                <div className="flex flex-wrap mb-2">
-                                    {template.tags &&
-                                        // eslint-disable-next-line react/prop-types
-                                        tags.map((tag, i) => (
-                                            <RemoveTag
-                                                tag={tag}
-                                                key={i}
-                                                onClick={() => removeTag(tag)}
-                                            ></RemoveTag>
-                                        ))}
-                                </div>
-                                <input
-                                    className="input input-bordered w-full h-[40px]"
-                                    placeholder={t(k.ENTER_TAG)}
-                                    ref={tagRef}
-                                    onKeyDown={handleKeyDown}
-                                ></input>
-                                <div className="text-sm font-bold py-3">{t(k.FOLDER1)}</div>
+                        <div className="modal">
+                            <div className="modal-box">
                                 <div>
-                                    <FolderSelect
-                                        folders={folders}
-                                        selectedFolder={folder}
-                                        onChange={value => saveFolder(value)}
-                                    />
+                                    <div className="text-sm font-bold py-3">{t(k.TITLE)}</div>
+                                    <textarea
+                                        onChange={e => setTitle(e.target.value)}
+                                        className="textarea textarea-bordered w-full h-[25px]"
+                                        autoFocus
+                                        defaultValue={template.title ?? ""}
+                                        placeholder={t(k.NAME_FOR_YOUR_PROMPT)}
+                                    ></textarea>
+                                    <div className="text-sm font-bold py-3">{t(k.TEXT)}</div>
+                                    <textarea
+                                        onChange={e => setText(e.target.value)}
+                                        className="textarea textarea-bordered w-full h-[100px]"
+                                        defaultValue={template.text ?? ""}
+                                        placeholder={t(k.PROMPT_CONTENT_PLACEHOLDER)}
+                                    ></textarea>
+                                    <div className="text-sm font-bold py-3">{t(k.DESCRIPTION)}</div>
+                                    <textarea
+                                        onChange={e => setDescription(e.target.value)}
+                                        className="textarea textarea-bordered w-full h-[50px]"
+                                        defaultValue={template.description ?? ""}
+                                        placeholder={t(k.DESCRIPTION_PLACEHOLDER)}
+                                    ></textarea>
+                                    <div className="text-sm font-bold py-3">{t(k.TAGS)}</div>
+                                    {/* eslint-disable-next-line react/prop-types */}
+                                    <div className="flex flex-wrap mb-2">
+                                        {template.tags &&
+                                            // eslint-disable-next-line react/prop-types
+                                            tags.map((tag, i) => (
+                                                <RemoveTag
+                                                    tag={tag}
+                                                    key={i}
+                                                    onClick={() => removeTag(tag)}
+                                                ></RemoveTag>
+                                            ))}
+                                    </div>
+                                    <input
+                                        className="input input-bordered w-full h-[40px]"
+                                        placeholder={t(k.ENTER_TAG)}
+                                        ref={tagRef}
+                                        onKeyDown={handleKeyDown}
+                                    ></input>
+                                    <div className="text-sm font-bold py-3">{t(k.FOLDER1)}</div>
+                                    <div>
+                                        <FolderSelect
+                                            folders={folders}
+                                            selectedFolder={folder}
+                                            onChange={value => saveFolder(value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="modal-action">
+                                    <button className="btn" onClick={handleSave}>
+                                        {t(k.SAVE)}
+                                    </button>
                                 </div>
                             </div>
-                            <div className="modal-action">
-                                <button className="btn" onClick={handleSave}>
-                                    {t(k.SAVE)}
-                                </button>
+                            <div className="modal-backdrop">
+                                <button onClick={closeModal}>{t(k.CLOSE)}</button>
                             </div>
                         </div>
-                        <div className="modal-backdrop">
-                            <button onClick={closeModal}>{t(k.CLOSE)}</button>
-                        </div>
-                    </div>
-                </>
-            )}
+                    </>,
+                    document.body,
+                )}
 
-            {deleteModalVisible && (
-                <>
-                    {/* Put this part before </body> tag */}
-                    <input
-                        type="checkbox"
-                        id={`delete_prompt_modal_${template.id}`}
-                        className="modal-toggle"
-                        defaultChecked
-                    />
-                    <div className="modal" role="dialog">
-                        <div className="modal-box">
-                            <h3 className="font-bold text-lg">{t(k.CONFIRM_DELETE_PROMPT)}</h3>
-                            <div className="modal-action">
-                                <label
-                                    htmlFor={`delete_prompt_modal_${template.id}`}
-                                    className="btn"
-                                >
-                                    {t(k.CANCEL)}
-                                </label>
-                                <label
-                                    htmlFor={`delete_prompt_modal_${template.id}`}
-                                    className="btn btn-warning"
-                                    onClick={() => removePrompt(template.id)}
-                                >
-                                    {t(k.DELETE_PROMPT)}
-                                </label>
+            {deleteModalVisible &&
+                createPortal(
+                    <>
+                        <input
+                            type="checkbox"
+                            id={`delete_prompt_modal_${template.id}`}
+                            className="modal-toggle"
+                            defaultChecked
+                        />
+                        <div className="modal" role="dialog">
+                            <div className="modal-box">
+                                <h3 className="font-bold text-lg">{t(k.CONFIRM_DELETE_PROMPT)}</h3>
+                                <div className="modal-action">
+                                    <label
+                                        htmlFor={`delete_prompt_modal_${template.id}`}
+                                        className="btn"
+                                    >
+                                        {t(k.CANCEL)}
+                                    </label>
+                                    <label
+                                        htmlFor={`delete_prompt_modal_${template.id}`}
+                                        className="btn btn-warning"
+                                        onClick={() => removePrompt(template.id)}
+                                    >
+                                        {t(k.DELETE_PROMPT)}
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </>
-            )}
+                    </>,
+                    document.body,
+                )}
         </>
     )
 }
+
+// Memoized so unrelated store/filter changes don't re-render every visible card. Prompt object
+// references are stable across filtering (filter doesn't clone), so unchanged cards skip re-render.
+export default React.memo(Template)

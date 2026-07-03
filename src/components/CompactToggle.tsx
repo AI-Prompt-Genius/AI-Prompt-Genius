@@ -1,6 +1,12 @@
 import React from "react"
-import { ContractIcon, ExpandIcon } from "./icons/Icons.jsx"
-export default function CompactToggle({ compact, changeCompact }) {
+import { ContractIcon, ExpandIcon } from "./icons/Icons"
+export default function CompactToggle({
+    compact,
+    changeCompact,
+}: {
+    compact: boolean
+    changeCompact: () => void
+}) {
     function flipCheck() {
         changeCompact()
     }

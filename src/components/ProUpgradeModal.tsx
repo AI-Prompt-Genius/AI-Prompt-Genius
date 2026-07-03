@@ -1,13 +1,13 @@
 import React from "react"
-import Logo from "./Logo.jsx"
-import Head2 from "./Head2.jsx"
-import Head4 from "./Head4.jsx"
-import k from "../i18n/keys.js"
+import Logo from "./Logo"
+import Head2 from "./Head2"
+import Head4 from "./Head4"
+import k from "../i18n/keys"
 import { useTranslation } from "react-i18next"
-import { ActivatePro } from "./ActivatePro.jsx"
-import { ProFeatures } from "./ProFeatures.jsx"
+import { ActivatePro } from "./ActivatePro"
+import { ProFeatures } from "./ProFeatures"
 
-export function ProUpgradeModal(props) {
+export function ProUpgradeModal(props: { showToast: (message: string) => void }) {
     const { t } = useTranslation()
 
     return (

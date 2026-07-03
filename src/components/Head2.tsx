@@ -1,6 +1,6 @@
 import React from "react"
 
-const Head2 = ({ children }) => {
+const Head2 = ({ children }: { children?: React.ReactNode }) => {
     return <h2 className="text-xl font-semibold mb-4">{children}</h2>
 }
 

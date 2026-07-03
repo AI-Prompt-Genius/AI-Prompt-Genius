@@ -1,6 +1,14 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
-export default function FolderSelect({ folders, onChange, selectedFolder }) {
+export default function FolderSelect({
+    folders,
+    onChange,
+    selectedFolder,
+}: {
+    folders: string[]
+    onChange: (value: string) => void
+    selectedFolder: string | null
+}) {
     const t = i18n.t
 
     return (

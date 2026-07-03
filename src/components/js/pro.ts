@@ -1,4 +1,4 @@
-import { sendMessageToParent } from "./utils.js"
+import { sendMessageToParent } from "./utils"
 
 export function getProStatus() {
     let isPro = localStorage.getItem("pro") ?? false
@@ -27,7 +27,7 @@ export async function updateProStatus() {
     }
 }
 
-export async function activateLicense(license_key) {
+export async function activateLicense(license_key: string) {
     const response = await fetch("https://api.gumroad.com/v2/licenses/verify", {
         method: "POST",
         headers: {
@@ -60,7 +60,7 @@ export async function activateLicense(license_key) {
     }
 }
 
-async function notFirstCheck(license_key) {
+async function notFirstCheck(license_key: string) {
     const response = await fetch("https://api.gumroad.com/v2/licenses/verify", {
         method: "POST",
         headers: {

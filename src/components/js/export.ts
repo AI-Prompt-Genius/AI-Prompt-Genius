@@ -1,11 +1,11 @@
-import { getObject, uuid } from "./utils.js"
+import { getObject, uuid } from "./utils"
 import Papa from "papaparse"
 
-function convertToCSV(data) {
+function convertToCSV(data: Array<Record<string, any>>) {
     const headers = Object.keys(data[0]) // Get the headers from the first object
 
     // Create an array to hold the CSV lines
-    const csvLines = []
+    const csvLines: string[] = []
 
     // Push the header line to the array
     csvLines.push(headers.join(","))
@@ -33,7 +33,7 @@ function convertToCSV(data) {
     return csvLines.join("\n")
 }
 
-export function removeDuplicatesByName(array1, array2) {
+export function removeDuplicatesByName(array1: any[], array2: any[]) {
     // created by ChatGPT
     // Create a set to store unique names from array1
     const namesSet = new Set(array1.map(obj => obj))
@@ -44,8 +44,8 @@ export function removeDuplicatesByName(array1, array2) {
     return filteredArray2
 }
 
-export function getDuplicateFolders(oldArray, newArray) {
-    let duplicateFolders = []
+export function getDuplicateFolders(oldArray: any[], newArray: any[]) {
+    let duplicateFolders: any[] = []
 
     for (let i = 0; i < oldArray.length; i++) {
         for (let j = 0; j < newArray.length; j++) {
@@ -58,7 +58,7 @@ export function getDuplicateFolders(oldArray, newArray) {
     return duplicateFolders
 }
 
-export function combineJSONArrays(array1, array2) {
+export function combineJSONArrays(array1: any[], array2: any[]) {
     try {
         if (array1.length === 0) return array2
         else if (array2.length === 0) return array1
@@ -73,23 +73,23 @@ export function combineJSONArrays(array1, array2) {
     }
 }
 
-export function csvToJson(csv) {
-    const result = []
-    const folders = []
+export function csvToJson(csv: string) {
+    const result: Array<Record<string, any>> = []
+    const folders: string[] = []
     const headers = ["title", "text", "description", "folder", "tags"]
 
-    const data = Papa.parse(csv, {
+    const data = Papa.parse<string[]>(csv, {
         header: false,
         skipEmptyLines: true,
     }).data
 
     for (let i = 1; i < data.length; i++) {
-        const obj = {}
+        const obj: Record<string, any> = {}
 
         for (let j = 0; j < headers.length; j++) {
             if (headers[j] === "tags") {
                 if (data[i][j]) {
-                    obj[headers[j]] = data[i][j].split(";").map(tag => tag.trim())
+                    obj[headers[j]] = data[i][j].split(";").map((tag: string) => tag.trim())
                 } else {
                     obj[headers[j]] = []
                 }
@@ -121,7 +121,7 @@ export function downloadCSVTemplate() {
 export function exportCsv() {
     const promptArray = getObject("prompts", [])
 
-    const newPrompts = promptArray.map(prompt => {
+    const newPrompts = promptArray.map((prompt: any) => {
         return {
             title: prompt.title,
             content: prompt.text,
@@ -150,7 +150,7 @@ export function exportJson() {
     downloadBlobAsFile(blob, filename)
 }
 
-function encodeStringAsBlob(string) {
+function encodeStringAsBlob(string: string) {
     let bytes = new TextEncoder().encode(string)
     let blob = new Blob([bytes], {
         type: "application/json;charset=utf-8",
@@ -161,8 +161,8 @@ function encodeStringAsBlob(string) {
 const downloadBlobAsFile = (function () {
     let a = document.createElement("a")
     document.body.appendChild(a)
-    a.style = "display: none"
-    return function (blob, file_name) {
+    a.style.display = "none"
+    return function (blob: Blob, file_name: string) {
         let url = window.URL.createObjectURL(blob)
         a.href = url
         a.download = file_name

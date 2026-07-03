@@ -1,6 +1,6 @@
-import { FolderIcon } from "./icons/Icons.jsx"
+import { FolderIcon } from "./icons/Icons"
 
-export default function Folder(props) {
+export default function Folder(props: { folder: string; onClick: () => void; id?: string }) {
     let folder = props.folder
     return (
         <li className="folder" id={`folder-${folder}`} data-folder-name={folder}>

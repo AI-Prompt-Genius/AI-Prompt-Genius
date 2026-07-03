@@ -1,4 +1,4 @@
-import { k } from "../keys.js"
+import { k } from "../keys"
 
 export const zh_TW = {
     [k.FOLDER]: `資料夾-`,

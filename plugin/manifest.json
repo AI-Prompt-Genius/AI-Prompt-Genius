@@ -1,26 +1,17 @@
 {
     "manifest_version": 3,
     "name": "__MSG_appName__",
-    "version": "4.3.5",
+    "version": "4.4.0",
     "description": "__MSG_appDesc__",
     "default_locale": "en",
     "permissions": ["sidePanel", "identity", "storage", "activeTab", "scripting"],
     "background": {
         "service_worker": "background.js"
     },
-    "action": {
-        "default_popup": "pages/popup.html"
-    },
+    "action": {},
     "side_panel": {
         "default_path": "pages/sidebar.html"
     },
-    "content_scripts": [
-        {
-            "matches": ["https://chatgpt.com/*"],
-            "js": ["scripts/legacy_hotkey.js"],
-            "run_at": "document_idle"
-        }
-    ],
     "commands": {
         "open-sidebar": {
             "suggested_key": {

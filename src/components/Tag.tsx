@@ -1,4 +1,10 @@
-export default function Tag({ tag, onClick, filterTags }) {
+interface TagProps {
+    tag: string
+    onClick: () => void
+    filterTags: string[]
+}
+
+export default function Tag({ tag, onClick, filterTags }: TagProps) {
     const tagborder = filterTags.includes(tag) ? "border-accent" : "border-base-300"
     return (
         <div

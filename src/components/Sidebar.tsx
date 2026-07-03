@@ -1,21 +1,45 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
-import Logo from "./Logo.jsx"
-import Folder from "./Folder.jsx"
-import FolderModal from "./FolderModal.jsx"
-import { getCurrentTimestamp, newBlankPrompt, newFilteredPrompt, uuid } from "./js/utils.js"
-import { ArrowNewWindow, Cog, HomeIcon, PlusDoc, PlusFolder } from "./icons/Icons.jsx"
-import React, { useState } from "react"
-import SettingsModal from "./SettingsModal.jsx"
-import Toast from "./Toast.jsx"
+import Logo from "./Logo"
+import Folder from "./Folder"
+import FolderModal from "./FolderModal"
+import { getCurrentTimestamp, newBlankPrompt, uuid } from "./js/utils"
+import {
+    ArrowNewWindow,
+    Cog,
+    HomeIcon,
+    PlusDoc,
+    PlusFolder,
+    SignOutIcon,
+    UserIcon,
+} from "./icons/Icons"
+import React, { useEffect, useState } from "react"
+import SettingsModal from "./SettingsModal"
+import Toast from "./Toast"
+import type { LegacyPrompt } from "../types"
+import { isSignedIn, signOut } from "../auth/customAuth"
+import { OPEN_AUTH_EVENT } from "./AuthModal"
+import { OPEN_ACCOUNT_EVENT } from "./ManageAccountModal"
+
+interface SidebarProps {
+    setPrompts: (...args: any[]) => void
+    setFolders: (...args: any[]) => void
+    folders: string[]
+    filterPrompts: (folder?: string, tags?: string[], searchTerm?: string) => void
+    setSelectedFolder: (...args: any[]) => void
+    selectedFolder: string
+    filterTags: string[]
+    setFilterTags: (...args: any[]) => void
+    searchTerm: string
+    setSearchTerm: (...args: any[]) => void
+    showToast: (message: string) => void
+}
 
 export default function Sidebar({
     setPrompts,
     setFolders,
     folders,
-    filteredPrompts,
     filterPrompts,
-    setFilteredPrompts,
     setSelectedFolder,
     selectedFolder,
     filterTags,
@@ -23,11 +47,31 @@ export default function Sidebar({
     searchTerm,
     setSearchTerm,
     showToast,
-}) {
+}: SidebarProps) {
     const t = i18n.t
 
     const [folderModal, setFolderModal] = useState(false)
     const [settingsModal, setSettingsModal] = useState(false)
+
+    // Account state — sign-in may complete in another same-origin context (fullscreen tab), so
+    // track both local writes (custom event) and cross-context writes (storage event).
+    const [signedIn, setSignedIn] = useState(isSignedIn())
+    useEffect(() => {
+        const update = () => setSignedIn(isSignedIn())
+        window.addEventListener("storage", update)
+        window.addEventListener("auth-changed", update)
+        return () => {
+            window.removeEventListener("storage", update)
+            window.removeEventListener("auth-changed", update)
+        }
+    }, [])
+
+    async function handleSignOut() {
+        await signOut()
+        setSignedIn(false)
+        window.dispatchEvent(new Event("auth-changed"))
+        showToast("Signed out — your prompts stay on this device")
+    }
 
     function newPrompt() {
         const folder = selectedFolder
@@ -41,11 +85,19 @@ export default function Sidebar({
             description: "",
         }
         setPrompts(newBlankPrompt(promptObj))
-        setFilteredPrompts(newFilteredPrompt(promptObj, filteredPrompts))
+        // The new card is index 0 in the virtualized grid — scroll to top so it's mounted, then
+        // open ITS editor by id (a bare ".edit" query could hit whichever card happens to be
+        // mounted first).
+        const scroller = Array.from(document.querySelectorAll("#templates *")).find(
+            el => getComputedStyle(el).overflowY === "auto",
+        )
+        if (scroller) scroller.scrollTop = 0
         setTimeout(() => {
-            const btn = document.querySelector(".edit")
-            if (btn) btn.click()
-        }, 50)
+            const btn = document
+                .getElementById(promptObj.id)
+                ?.querySelector(".edit") as HTMLElement | null
+            btn?.click()
+        }, 120)
     }
 
     const urlParams = new URLSearchParams(window.location.search)
@@ -63,13 +115,13 @@ export default function Sidebar({
         setSettingsModal(true)
     }
 
-    function selectFolder(name) {
+    function selectFolder(name: string) {
         setSelectedFolder(name)
         filterPrompts(name, filterTags, searchTerm)
         document.querySelectorAll(".folder").forEach(folder => {
             folder.classList.remove("selected")
         })
-        document.getElementById(`folder-${name}`).classList.add("selected")
+        document.getElementById(`folder-${name}`)?.classList.add("selected")
     }
 
     function openFullscreen() {
@@ -105,7 +157,7 @@ export default function Sidebar({
                                     {t(k.ALL_PROMPTS)}
                                 </a>
                             </li>
-                            {folders.map(folder => (
+                            {folders.map((folder: string) => (
                                 <Folder
                                     id={`${t(k.FOLDER)}${folder}`}
                                     key={folder}
@@ -140,6 +192,35 @@ export default function Sidebar({
                                 <Cog /> {t(k.SETTINGS)}
                             </a>
                         </li>
+                        {!signedIn && (
+                            <li>
+                                <a
+                                    id="sidebar-signin"
+                                    onClick={() => window.dispatchEvent(new Event(OPEN_AUTH_EVENT))}
+                                >
+                                    <UserIcon /> Sign in
+                                </a>
+                            </li>
+                        )}
+                        {signedIn && (
+                            <>
+                                <li>
+                                    <a
+                                        id="sidebar-account"
+                                        onClick={() =>
+                                            window.dispatchEvent(new Event(OPEN_ACCOUNT_EVENT))
+                                        }
+                                    >
+                                        <UserIcon /> Manage account
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="sidebar-signout" onClick={handleSignOut}>
+                                        <SignOutIcon /> Sign out
+                                    </a>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </div>
             </div>
@@ -165,7 +246,6 @@ export default function Sidebar({
                     setFilterTags={setFilterTags}
                     setSearchTerm={setSearchTerm}
                     setFolders={setFolders}
-                    setFilteredPrompts={setFilteredPrompts}
                     showToast={showToast}
                     folders={folders}
                     setPrompts={setPrompts}

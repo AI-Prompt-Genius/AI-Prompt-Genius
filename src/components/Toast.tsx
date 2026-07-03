@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import { CheckIcon } from "./icons/Icons.jsx"
+import { CheckIcon } from "./icons/Icons"
 
-function Toast({ message }) {
+function Toast({ message }: { message: string }) {
     const [visible, setVisible] = useState(true)
 
     useEffect(() => {

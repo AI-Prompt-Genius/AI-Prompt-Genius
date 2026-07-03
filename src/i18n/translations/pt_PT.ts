@@ -1,4 +1,4 @@
-import { k } from "../keys.js"
+import { k } from "../keys"
 
 export const pt_PT = {
     [k.FOLDER]: `pasta-`,

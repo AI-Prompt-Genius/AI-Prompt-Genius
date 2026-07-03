@@ -1,10 +1,12 @@
 import { createContext, useEffect } from "react"
+import type { ReactNode } from "react"
 import { useLocalStorage } from "@uidotdev/usehooks"
-import { getProStatus } from "./js/pro.js"
+import { getProStatus } from "./js/pro"
+import type { ThemeContextValue } from "../types"
 
-export const ThemeContext = createContext()
+export const ThemeContext = createContext<ThemeContextValue>({} as ThemeContextValue)
 
-export default function ThemeProvider({ children }) {
+export default function ThemeProvider({ children }: { children: ReactNode }) {
     const [theme, setTheme] = useLocalStorage("theme", "winter")
 
     const freeThemes = ["winter", "light", "dark", "night"]
@@ -13,7 +15,7 @@ export default function ThemeProvider({ children }) {
         setTheme(theme)
     }, [])
 
-    async function handleThemeChange(newTheme) {
+    async function handleThemeChange(newTheme: string) {
         if (freeThemes.includes(newTheme)) {
             setTheme(newTheme)
         } else {
@@ -29,13 +31,13 @@ export default function ThemeProvider({ children }) {
                 setTheme(newTheme)
                 setTimeout(() => {
                     setTheme(currentTheme)
-                    document.getElementById("proUpgradeModal").checked = true
+                    ;(document.getElementById("proUpgradeModal") as HTMLInputElement).checked = true
                 }, 900)
             }
         }
     }
 
-    const switchTheme = newTheme => {
+    const switchTheme = (newTheme: string) => {
         handleThemeChange(newTheme)
     }
 

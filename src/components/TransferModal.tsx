@@ -1,12 +1,12 @@
 import React, { useState } from "react"
-import k from "../i18n/keys.js"
+import k from "../i18n/keys"
 import { useTranslation } from "react-i18next"
-import Logo from "./Logo.jsx"
-import LanguageSelect from "./LanguageSelect.jsx"
-import Head4 from "./Head4.jsx"
-import Head2 from "./Head2.jsx"
-import { getCurrentTimestamp, getObject, newFolder, setObject } from "./js/utils.js"
-import ShortcutInfo from "./ShortcutInfo.jsx"
+import Logo from "./Logo"
+import LanguageSelect from "./LanguageSelect"
+import Head4 from "./Head4"
+import Head2 from "./Head2"
+import { getCurrentTimestamp, getObject, newFolder, setObject } from "./js/utils"
+import ShortcutInfo from "./ShortcutInfo"
 
 function TransferModal() {
     const { t } = useTranslation()
@@ -43,6 +43,7 @@ function TransferModal() {
 
     function clearStorage() {
         const prompts = getObject("prompts", [])
+        // @ts-expect-error legacy always-true comparison preserved verbatim
         if (prompts != []) {
             console.log("Clearing storage")
             // Create the message object
@@ -62,7 +63,7 @@ function TransferModal() {
         setPage(page - 1)
     }
 
-    const handleSelectChange = event => {
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setCategoryMode(event.target.value)
         updatePrompts(event.target.value)
     }
@@ -81,19 +82,19 @@ function TransferModal() {
         window.parent.postMessage(messageString, "*")
     }
 
-    function updatePrompts(categoryMode = categoryMode) {
+    function updatePrompts(mode: string = categoryMode) {
         const oldPrompts = getObject("transferPrompts", null)
         if (oldPrompts) {
-            const newPrompts = oldPrompts.map(prompt => {
+            const newPrompts = oldPrompts.map((prompt: any) => {
                 const { title, text, id, category } = prompt
                 let tags = prompt.tags
                 let folder = ""
 
-                if (categoryMode === "tag" && category !== "" && category !== " ") {
+                if (mode === "tag" && category !== "" && category !== " ") {
                     tags = [...new Set([...tags, category])]
                     folder = ""
                     setObject("folders", [])
-                } else if (categoryMode === "folder" && category !== "" && category !== " ") {
+                } else if (mode === "folder" && category !== "" && category !== " ") {
                     folder = category
                     setObject("folders", newFolder(folder))
                 } else {
@@ -119,7 +120,7 @@ function TransferModal() {
     }
 
     function closeModal() {
-        document.getElementById("transferModal").checked = false
+        ;(document.getElementById("transferModal") as HTMLInputElement).checked = false
         document.location.href = "https://lib.aipromptgenius.app/?fullscreen=true"
     }
 

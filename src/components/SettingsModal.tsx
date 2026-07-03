@@ -9,28 +9,43 @@ import {
     csvToJson,
     combineJSONArrays,
     removeDuplicatesByName,
-} from "./js/export.js"
+} from "./js/export"
 import {
     checkProperties,
     getObject,
     removeFolder,
     removeFolderFromPrompts,
     setObject,
-} from "./js/utils.js"
-import LanguageSelect from "./LanguageSelect.jsx"
-import { CrownIcon, GoogleDriveIcon, TrashIcon } from "./icons/Icons.jsx"
-import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing.js"
-import ShortcutInfo from "./ShortcutInfo.jsx"
+} from "./js/utils"
+import LanguageSelect from "./LanguageSelect"
+import { CrownIcon, GoogleDriveIcon, TrashIcon } from "./icons/Icons"
+import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing"
+import ShortcutInfo from "./ShortcutInfo"
 import ReactGA from "react-ga4"
-import { ActivatePro } from "./ActivatePro.jsx"
-import { ProFeatures } from "./ProFeatures.jsx"
-import Head2 from "./Head2.jsx"
-import Head4 from "./Head4.jsx"
-import { getProStatus } from "./js/pro.js"
+import { ActivatePro } from "./ActivatePro"
+import { ProFeatures } from "./ProFeatures"
+import Head2 from "./Head2"
+import Head4 from "./Head4"
+import { getProStatus } from "./js/pro"
+import { usePromptStore } from "../store/usePromptStore"
+import { cloudSignOut, cloudSyncNow, isCloudSynced } from "../sync/syncClient"
+import { userEmail } from "../auth/customAuth"
+import { OPEN_AUTH_EVENT } from "./AuthModal"
+
+interface SettingsModalProps {
+    setSettingsVisible: (...args: any[]) => void
+    setSelectedFolder: (...args: any[]) => void
+    setFilterTags: (...args: any[]) => void
+    setSearchTerm: (...args: any[]) => void
+    folders: string[]
+    setFolders: (...args: any[]) => void
+    showToast: (message: string) => void
+    setPrompts: (...args: any[]) => void
+    filterPrompts: (folder?: string, tags?: string[], searchTerm?: string) => void
+}
 
 export default function SettingsModal({
     setSettingsVisible,
-    setFilteredPrompts,
     setSelectedFolder,
     setFilterTags,
     setSearchTerm,
@@ -39,18 +54,50 @@ export default function SettingsModal({
     showToast,
     setPrompts,
     filterPrompts,
-}) {
+}: SettingsModalProps) {
     const { t, i18n } = useTranslation()
 
     const [currentPage, setCurrentPage] = useState("General")
     const [confirmDelete, setConfirmDelete] = useState(false)
+
+    // Account sync via WorkOS AuthKit (optional — no account means fully local).
+    const [cfSignedIn, setCfSignedIn] = useState(isCloudSynced())
+    const [cfBusy, setCfBusy] = useState(false)
+
+    // Sign-in may complete inline (modal) or in the fullscreen tab (same origin) — track both.
+    React.useEffect(() => {
+        const update = () => setCfSignedIn(isCloudSynced())
+        window.addEventListener("storage", update)
+        window.addEventListener("auth-changed", update)
+        return () => {
+            window.removeEventListener("storage", update)
+            window.removeEventListener("auth-changed", update)
+        }
+    }, [])
+
+    function cfSignInHandler() {
+        window.dispatchEvent(new Event(OPEN_AUTH_EVENT))
+    }
+
+    async function cfSyncNowHandler() {
+        setCfBusy(true)
+        const ok = await cloudSyncNow()
+        setCfBusy(false)
+        showToast(ok ? "Synced" : "Sync failed — try again")
+    }
+
+    async function cfSignOutHandler() {
+        await cloudSignOut()
+        setCfSignedIn(false)
+        showToast("Cloud Sync disabled — your prompts stay on this device")
+    }
 
     const cloudSyncingEnabled = getObject("cloudSyncing", false) === true
     const sheetID = localStorage.getItem("sheetID")
 
     const isPro = getProStatus()
 
-    const handlePageChange = page => {
+    const handlePageChange = (page: string) => {
         setCurrentPage(page)
     }
 
@@ -69,8 +116,8 @@ export default function SettingsModal({
     }
 
     function importAny() {
-        let input = document.querySelector("#import")
-        let file = input.files[0]
+        let input = document.querySelector("#import") as HTMLInputElement | null
+        let file = input?.files?.[0]
         if (!file) {
             console.warn(`unable to find a valid file`)
             showToast(t(k.FILE_NOT_FOUND)) // Modified to use i18n key
@@ -79,7 +126,7 @@ export default function SettingsModal({
 
         let reader = new FileReader()
         reader.onload = function (event) {
-            const string = event.target.result
+            const string = (event.target?.result as string) ?? ""
             const convertedJson = csvToJson(string)
             let newPrompts = convertedJson.result
             let newFolders = convertedJson.folders
@@ -107,17 +154,16 @@ export default function SettingsModal({
             currentPrompts = removeDuplicatesByName(newPrompts, currentPrompts)
             const combinedPrompts = combineJSONArrays(newPrompts, currentPrompts)
 
-            let newPromptIds = getObject(newPrompts, [])
+            let newPromptIds = getObject(newPrompts as any, [])
             for (const prompt of newPrompts) {
                 newPromptIds.push(prompt.id)
             }
             setObject("newPrompts", newPromptIds)
 
-            setObject("prompts", combinedPrompts)
-            setFilteredPrompts(combinedPrompts)
+            setPrompts(combinedPrompts)
             clearFilters()
             showToast(t(k.SUCCESSFULLY_IMPORTED_PROMPTS)) // Modified to use i18n key
-            document.querySelector("#close_modal").click()
+            ;(document.querySelector("#close_modal") as HTMLElement).click()
         }
         reader.onerror = function (event) {
             console.error(`Error occurred in file reader: `)
@@ -128,21 +174,12 @@ export default function SettingsModal({
     }
 
     function openFileSelect() {
-        document.getElementById("import").click()
+        ;(document.getElementById("import") as HTMLElement).click()
     }
 
     function deletePrompts() {
-        const prompts = getObject("prompts", [])
-        setObject(
-            "deletedPrompts",
-            prompts.map(prompt => prompt.id),
-        )
-        setObject("newPrompts", [])
-        setObject("changedPrompts", [])
-
-        localStorage.removeItem("prompts")
-        localStorage.removeItem("folders")
-        setFilteredPrompts([])
+        // Mass delete: store clears prompts/folders, records tombstones, and wipes IndexedDB.
+        usePromptStore.getState().clearAll()
         clearFilters()
         setConfirmDelete(false)
         showToast(t(k.DELETED_ALL_PROMPTS_AND_FOLDERS)) // Modified to use i18n key
@@ -150,13 +187,23 @@ export default function SettingsModal({
     }
 
     function closeModal() {
-        document.getElementById("settings-modal").checked = false
+        ;(document.getElementById("settings-modal") as HTMLInputElement).checked = false
         setTimeout(() => setSettingsVisible(false), 100) // to allow for cool animation
     }
 
-    function deleteFolder(name) {
+    function deleteFolder(name: string) {
         setFolders(removeFolder(name))
         setPrompts(removeFolderFromPrompts(name))
+    }
+
+    function renameFolderHandler(oldName: string) {
+        const input = document.getElementById(`rename-input-${oldName}`) as HTMLInputElement | null
+        const newName = input?.value.trim() ?? ""
+        if (!newName || newName === oldName) return
+        usePromptStore.getState().renameFolder(oldName, newName)
+        // The old name may be the active filter — reset so the list doesn't go blank.
+        clearFilters()
+        showToast(newName)
     }
 
     async function authThenResync() {
@@ -181,8 +228,8 @@ export default function SettingsModal({
     }
 
     function updatePersist() {
-        const checked = document.getElementById("persist-toggle").checked
-        localStorage.setItem("persist_variables", checked)
+        const checked = (document.getElementById("persist-toggle") as HTMLInputElement).checked
+        localStorage.setItem("persist_variables", String(checked))
     }
 
     return (
@@ -300,7 +347,7 @@ export default function SettingsModal({
                         {currentPage === "Folders" && folders.length > 0 && (
                             <div className="card mt-3 mb-3">
                                 <div className="card-body pt-2">
-                                    <h5 className="card-title">{t(k.DELETE_FOLDERS)}</h5>
+                                    <h5 className="card-title">{t(k.MANAGE_FOLDERS)}</h5>
                                     <table className="table w-full">
                                         <tbody>
                                             <tr className="justify-between">
@@ -313,7 +360,28 @@ export default function SettingsModal({
                                             </tr>
                                             {folders.map(folder => (
                                                 <tr key={folder}>
-                                                    <td>{folder}</td>
+                                                    <td>
+                                                        <div className="join w-full">
+                                                            <input
+                                                                id={`rename-input-${folder}`}
+                                                                defaultValue={folder}
+                                                                maxLength={18}
+                                                                className="input input-bordered input-sm join-item w-full"
+                                                                onKeyDown={e => {
+                                                                    if (e.key === "Enter")
+                                                                        renameFolderHandler(folder)
+                                                                }}
+                                                            />
+                                                            <button
+                                                                onClick={() =>
+                                                                    renameFolderHandler(folder)
+                                                                }
+                                                                className="btn btn-sm join-item"
+                                                            >
+                                                                {t(k.SAVE)}
+                                                            </button>
+                                                        </div>
+                                                    </td>
                                                     <td>
                                                         <button
                                                             onClick={() => deleteFolder(folder)}
@@ -412,12 +480,71 @@ export default function SettingsModal({
 
                         {currentPage === "Cloud" && (
                             <div className="card mt-3 mb-3">
+                                <div className="card-body pt-2" id="account-sync-section">
+                                    <h5 className="card-title">{t(k.CLOUD_SYNCING)}</h5>
+                                    {!cfSignedIn ? (
+                                        <>
+                                            <p>
+                                                Signing in is optional — it backs up your prompts
+                                                and syncs them to every device. Email & password,
+                                                Google, and passkeys are supported; two-factor
+                                                authentication can be enabled at sign-in.
+                                            </p>
+                                            <button
+                                                id="account-signin"
+                                                className="btn btn-primary w-fit"
+                                                disabled={cfBusy}
+                                                onClick={cfSignInHandler}
+                                            >
+                                                {cfBusy
+                                                    ? "Opening sign-in…"
+                                                    : "Sign in / Create account"}
+                                            </button>
+                                            <div className="alert alert-warning text-sm">
+                                                <span>
+                                                    <strong>Local-only right now.</strong> Your
+                                                    prompts live only in this browser — clearing
+                                                    browsing data or switching devices will lose
+                                                    them. Export a backup from Import/Export
+                                                    anytime.
+                                                </span>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p id="account-email">
+                                                Signed in as <strong>{userEmail()}</strong> — your
+                                                prompts sync automatically. Passkeys and two-factor
+                                                settings are managed on the sign-in page.
+                                            </p>
+                                            <div className="flex gap-2">
+                                                <button
+                                                    id="account-sync-now"
+                                                    className="btn"
+                                                    disabled={cfBusy}
+                                                    onClick={cfSyncNowHandler}
+                                                >
+                                                    {cfBusy ? "Syncing…" : "Sync now"}
+                                                </button>
+                                                <button
+                                                    id="account-signout"
+                                                    className="btn btn-outline"
+                                                    onClick={cfSignOutHandler}
+                                                >
+                                                    Sign out
+                                                </button>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+
                                 {!cloudSyncingEnabled && (
                                     <div className="card-body pt-2">
-                                        <h5 className="card-title">
+                                        <h5 className="card-title text-sm opacity-70">
+                                            Legacy (being retired):{" "}
                                             {t(k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS)}
                                         </h5>
-                                        <button onClick={setupSync} className="btn">
+                                        <button onClick={setupSync} className="btn btn-sm w-fit">
                                             {t(k.LINK_GOOGLE_SHEETS)} <GoogleDriveIcon />
                                         </button>
                                     </div>

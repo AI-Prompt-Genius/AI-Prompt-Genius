@@ -1,8 +1,8 @@
-import Head2 from "./Head2.jsx"
-import Head4 from "./Head4.jsx"
+import Head2 from "./Head2"
+import Head4 from "./Head4"
 import React from "react"
 import { useTranslation } from "react-i18next"
-import k from "../i18n/keys.js"
+import k from "../i18n/keys"
 
 export function ProFeatures() {
     const { t } = useTranslation()

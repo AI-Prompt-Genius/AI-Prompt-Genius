@@ -1,17 +1,23 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
 import { useState } from "react"
-import { newFolder, uuid } from "./js/utils.js"
+import { newFolder, uuid } from "./js/utils"
 
 // eslint-disable-next-line react/prop-types
-export default function FolderModal({ onClose, setFolders }) {
+export default function FolderModal({
+    onClose,
+    setFolders,
+}: {
+    onClose: () => void
+    setFolders: (folders: string[]) => void
+}) {
     const [folderVal, setFolderVal] = useState("")
     const id = uuid()
 
     const t = i18n.t
 
     function closeModal() {
-        document.getElementById(id).checked = false
+        ;(document.getElementById(id) as HTMLInputElement).checked = false
         setTimeout(() => onClose(), 100) // to allow for cool animation
     }
 
@@ -30,7 +36,7 @@ export default function FolderModal({ onClose, setFolders }) {
                     </div>
                     <input
                         autoFocus
-                        maxLength="18"
+                        maxLength={18}
                         className="textarea textarea-bordered w-full h-[25px]"
                         value={folderVal}
                         placeholder={t(k.FOLDER_NAME)}

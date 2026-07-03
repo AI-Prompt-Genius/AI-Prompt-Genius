@@ -1,7 +1,7 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
 import React from "react"
-import Head4 from "./Head4.jsx"
+import Head4 from "./Head4"
 
 const ShortcutInfo = () => {
     function openKeyboardShortcuts() {
