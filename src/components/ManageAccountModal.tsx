@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import Head2 from "./Head2"
-import { mfaEnroll, userEmail } from "../auth/customAuth"
+import { mfaChallenge, mfaEnroll, mfaVerifyEnroll, userEmail } from "../auth/customAuth"
 import { cloudSyncNow } from "../sync/syncClient"
 
 // Account management: shows the signed-in identity, manual sync, and TOTP 2FA enrollment
@@ -15,6 +15,9 @@ export default function ManageAccountModal() {
     const [error, setError] = useState("")
     const [qrCode, setQrCode] = useState<string | null>(null)
     const [secret, setSecret] = useState<string | null>(null)
+    const [factorId, setFactorId] = useState<string | null>(null)
+    const [code, setCode] = useState("")
+    const [activated, setActivated] = useState(false)
     const [syncMsg, setSyncMsg] = useState("")
 
     useEffect(() => {
@@ -38,8 +41,31 @@ export default function ManageAccountModal() {
         if (step.status === "ok" && step.qrCode) {
             setQrCode(step.qrCode)
             setSecret(step.secret ?? null)
+            setFactorId(step.factorId ?? null)
         } else {
             setError(step.message ?? "Couldn't start 2FA enrollment.")
+        }
+    }
+
+    // Confirm the authenticator works before 2FA is treated as active: challenge the new factor,
+    // then verify the 6-digit code the user typed.
+    async function confirm2fa() {
+        if (busy || code.trim().length < 6 || !factorId) return
+        setBusy(true)
+        setError("")
+        const ch = await mfaChallenge(factorId)
+        if (ch.status !== "ok" || !ch.authenticationChallengeId) {
+            setBusy(false)
+            setError(ch.message ?? "Couldn't verify the code — try again.")
+            return
+        }
+        const res = await mfaVerifyEnroll(ch.authenticationChallengeId, code.trim())
+        setBusy(false)
+        if (res.status === "ok") {
+            setActivated(true)
+            setError("")
+        } else {
+            setError(res.message ?? "That code didn't match. Try again.")
         }
     }
 
@@ -95,11 +121,18 @@ export default function ManageAccountModal() {
                                 Set up 2FA
                             </button>
                         </>
+                    ) : activated ? (
+                        <div className="alert alert-success text-sm" id="account-2fa-done">
+                            <span>
+                                Two-factor authentication is on. You&apos;ll be asked for a code
+                                from your authenticator app at your next sign-in.
+                            </span>
+                        </div>
                     ) : (
                         <div className="text-sm">
                             <p className="mb-2">
-                                Scan this QR code with your authenticator app. It takes effect at
-                                your next sign-in.
+                                Scan this QR code with your authenticator app, then enter the
+                                6-digit code it shows to confirm and turn on 2FA.
                             </p>
                             <img
                                 id="account-2fa-qr"
@@ -108,10 +141,30 @@ export default function ManageAccountModal() {
                                 className="w-40 h-40 mx-auto my-2"
                             />
                             {secret && (
-                                <p className="text-xs opacity-70 break-all">
+                                <p className="text-xs opacity-70 break-all mb-3">
                                     Manual entry key: {secret}
                                 </p>
                             )}
+                            <input
+                                id="account-2fa-code"
+                                inputMode="numeric"
+                                className="input input-bordered w-full mb-3 tracking-widest text-center"
+                                placeholder="123456"
+                                value={code}
+                                maxLength={6}
+                                onChange={e => setCode(e.target.value.replace(/\D/g, ""))}
+                                onKeyDown={e => {
+                                    if (e.key === "Enter") confirm2fa()
+                                }}
+                            />
+                            <button
+                                id="account-2fa-confirm"
+                                className="btn btn-primary btn-sm w-full"
+                                disabled={busy || code.length < 6}
+                                onClick={confirm2fa}
+                            >
+                                {busy ? "Verifying…" : "Confirm & turn on 2FA"}
+                            </button>
                         </div>
                     )}
 

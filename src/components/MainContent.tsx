@@ -3,7 +3,9 @@ import k from "./../i18n/keys"
 import ThemeToggle from "./ThemeToggle"
 import Template from "./Template"
 import PromptGrid from "./PromptGrid"
-import { copyTextToClipboard, findVariables, replaceVariables } from "./js/utils"
+import { copyTextToClipboard } from "./js/utils"
+import { hasVariables } from "./js/variables"
+import VariableFillModal from "./VariableFillModal"
 import { useEffect, useRef, useState } from "react"
 import Toast from "./Toast"
 import CompactToggle from "./CompactToggle"
@@ -46,10 +48,8 @@ export default function MainContent({
 }: MainContentProps) {
     const t = i18n.t
 
-    const [modalVisible, setModalVisible] = useState(false)
-    const [variables, setVariables] = useState<string[]>([])
-    const [promptText, setPromptText] = useState("")
-    const [textareaValues, setTextareaValues] = useState<string[]>(Array(variables.length).fill(""))
+    // The prompt whose variables are currently being filled in (null = modal closed).
+    const [activePrompt, setActivePrompt] = useState<string | null>(null)
     const [compact, setCompact] = useLocalStorage("compact", false)
 
     const [showToastMessage, setShowToastMessage] = useState(false)
@@ -65,15 +65,10 @@ export default function MainContent({
         updateProStatus()
     }
 
-    function getVarsFromModal(vars: string[], text: string) {
-        setVariables(vars)
-        setPromptText(text)
-        setModalVisible(true)
-    }
-
     function closeModal() {
-        ;(document.getElementById("var_modal") as HTMLInputElement).checked = false
-        setTimeout(() => setModalVisible(false), 100) // to allow for cool animation
+        const el = document.getElementById("var_modal") as HTMLInputElement | null
+        if (el) el.checked = false
+        setTimeout(() => setActivePrompt(null), 100) // to allow for cool animation
     }
 
     function showToast(message: string) {
@@ -90,32 +85,20 @@ export default function MainContent({
         setCompact(!compact)
     }
 
-    function usePrompt(text: string | undefined, varsFilledIn = true) {
-        const vars = varsFilledIn ? findVariables(text ?? "") : [] // so if the chosen prompt has a variable within {{}}
-        if (vars.length > 0) {
-            getVarsFromModal(vars, text ?? "")
-            return ""
-        }
+    // `openModal` distinguishes the initial click (parse & maybe open the fill-in form) from the
+    // post-fill copy (text already resolved — copy straight to clipboard).
+    function usePrompt(text: string | undefined, openModal = true) {
         if (text == undefined) {
             showToast(t(k.NO_PROMPT_TEXT))
             return
         }
-        /* ReactGA.event({
-            category: "Prompt Action",
-            action: "Prompt Copied",
-            nonInteraction: false, // optional, true/false
-            transport: "xhr", // optional, beacon/xhr/image
-        }) */
-        setVariables([])
-        const persist = localStorage.getItem("persist_variables") === "true"
-        if (!persist) {
-            setTextareaValues(Array(variables.length).fill(""))
+        if (openModal && hasVariables(text)) {
+            setActivePrompt(text)
+            return
         }
         copyTextToClipboard(text)
         showToast(t(k.PROMPT_COPIED))
     }
-
-    const modalRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
@@ -133,29 +116,6 @@ export default function MainContent({
             window.removeEventListener("keydown", handleKeyDown)
         }
     }, [])
-
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (modalVisible && e.key === "Enter") {
-                // Check if Enter key is pressed
-                e.preventDefault() // Prevent the default Enter behavior (e.g., form submission)
-                usePrompt(replaceVariables(promptText, textareaValues), false)
-                closeModal()
-            }
-        }
-
-        const modalContainer = modalRef.current
-
-        if (modalContainer) {
-            modalContainer.addEventListener("keydown", handleKeyDown)
-        }
-
-        return () => {
-            if (modalContainer) {
-                modalContainer.removeEventListener("keydown", handleKeyDown)
-            }
-        }
-    }, [modalVisible, textareaValues])
 
     return (
         <>
@@ -211,70 +171,12 @@ export default function MainContent({
                 )}
             </div>
 
-            {modalVisible && (
-                <>
-                    <input
-                        defaultChecked
-                        type="checkbox"
-                        id="var_modal"
-                        className="modal-toggle hidden"
-                    />
-
-                    <div className="modal" ref={modalRef}>
-                        <div className="modal-box">
-                            {variables.map((variable, index) => (
-                                <div key={index}>
-                                    <div className="text-sm font-bold py-3">{variable}</div>
-                                    <textarea
-                                        autoFocus={index === 0}
-                                        className="textarea textarea-bordered w-full h-[25px]"
-                                        placeholder={`${t(k.ENTER_VALUE_FOR)} ${variable}${t(k._)}`}
-                                        value={textareaValues[index]} // Use value instead of defaultValue
-                                        onChange={e => {
-                                            const newValues = [...textareaValues]
-                                            newValues[index] = e.target.value
-                                            console.log(newValues[index])
-                                            setTextareaValues(newValues)
-                                        }}
-                                    ></textarea>
-                                </div>
-                            ))}
-
-                            <div className="modal-action">
-                                {localStorage.getItem("persist_variables") === "true" && (
-                                    <div>
-                                        <button
-                                            className={"btn"}
-                                            onClick={() => {
-                                                console.log("clearing!")
-                                                setTextareaValues(Array(variables.length).fill(""))
-                                            }}
-                                        >
-                                            Clear
-                                        </button>
-                                    </div>
-                                )}
-
-                                <button
-                                    onClick={() => {
-                                        usePrompt(
-                                            replaceVariables(promptText, textareaValues),
-                                            false,
-                                        )
-                                        closeModal()
-                                    }}
-                                    id="save-vars"
-                                    className="btn"
-                                >
-                                    {t(k.COPY)}
-                                </button>
-                            </div>
-                        </div>
-                        <div className="modal-backdrop">
-                            <button onClick={closeModal}>{t(k.CLOSE)}</button>
-                        </div>
-                    </div>
-                </>
+            {activePrompt !== null && (
+                <VariableFillModal
+                    promptText={activePrompt}
+                    onClose={closeModal}
+                    onSubmit={resolved => usePrompt(resolved, false)}
+                />
             )}
 
             {showToastMessage && <Toast message={toastMessage} />}

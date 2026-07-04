@@ -19,6 +19,7 @@ import { initAuth } from "./auth/customAuth"
 import { cloudSyncIfDue } from "./sync/syncClient"
 import AuthModal from "./components/AuthModal"
 import ManageAccountModal from "./components/ManageAccountModal"
+import OptionSetsModal from "./components/OptionSetsModal"
 
 function applyFilters(
     prompts: LegacyPrompt[],
@@ -214,6 +215,7 @@ function App() {
             {toast && <Toast message={toastMessage} />}
             <AuthModal />
             <ManageAccountModal />
+            <OptionSetsModal />
             {transferring && <TransferModal />}
             {onboarding && <OnboardingModal />}
             {showHotkeyUpdate && <HotkeyUpdateModal />}

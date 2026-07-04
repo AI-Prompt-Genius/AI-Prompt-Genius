@@ -214,6 +214,37 @@ export async function handleAuth(
             })
         }
 
+        case "/auth/mfa/verify-enroll": {
+            // Confirm a freshly-enrolled TOTP factor by verifying a code from the user's app,
+            // so 2FA isn't treated as active until they've proven the authenticator works.
+            // Counterpart to /user_management/authentication_factors/{id}/challenge above.
+            if (!verifiedUserId) return json({ status: "error", message: "unauthorized" }, 401)
+            const res = await fetch(
+                `${WORKOS}/user_management/authentication_challenges/${body.authenticationChallengeId}/verify`,
+                {
+                    method: "POST",
+                    headers: {
+                        authorization: `Bearer ${env.WORKOS_API_KEY}`,
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({ code: body.code }),
+                },
+            )
+            const data = (await res.json()) as any
+            // A wrong code can surface as a non-2xx or as a 200 with valid:false, depending on
+            // the failure — treat both as "didn't match".
+            if (!res.ok || data.valid === false) {
+                return json(
+                    {
+                        status: "error",
+                        message: data.message ?? "That code didn't match. Try again.",
+                    },
+                    400,
+                )
+            }
+            return json({ status: "ok" })
+        }
+
         default:
             return json({ status: "error", message: "not found" }, 404)
     }

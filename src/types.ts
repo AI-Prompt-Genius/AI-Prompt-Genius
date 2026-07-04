@@ -42,6 +42,48 @@ export interface LegacyPrompt {
     [key: string]: unknown
 }
 
+// --- Typed variables (complex variable feature) ---------------------------------
+// The prompt `text` string remains the single source of truth; these shapes are what
+// `variables.ts` parses tokens *into* at fill time. Nothing here is persisted on a Prompt.
+
+export type VarType = "legacy" | "text" | "largeText" | "number" | "dropdown"
+
+export interface ParsedVar {
+    name: string
+    type: VarType
+    default?: string // literal or expression, resolved by the mini-evaluator
+    options?: string[] // inline dropdown options ({{n::list-a; b; c}})
+    optionSetRef?: string // saved-set name ({{n::list@setName}})
+    raw: string // exact source token incl. braces, used for substitution
+}
+
+// A conditional branch body: the literal text inside the branch braces plus the
+// tokens ({vardef} groups, possibly nested conditionals) found within it.
+export interface Branch {
+    raw: string // body text inside the branch's { }, used for substitution
+    tokens: Token[]
+}
+
+export interface Conditional {
+    kind: "conditional"
+    expr: string
+    then: Branch
+    else: Branch | null // null when there is no else clause
+    raw: string // exact source token incl. {{ }}
+}
+
+export type Token = ParsedVar | Conditional
+
+// A globally-saved, reusable dropdown option list, synced app-wide like prompts.
+export interface OptionSet {
+    id: string
+    name: string
+    options: string[]
+    createdAt: number
+    updatedAt: number
+    deletedAt: number | null
+}
+
 export type Theme = string
 
 export interface ThemeContextValue {

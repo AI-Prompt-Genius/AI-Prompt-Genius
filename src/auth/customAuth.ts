@@ -163,6 +163,16 @@ export async function mfaEnroll(): Promise<AuthStep> {
     return post("/auth/mfa/enroll", {}, token)
 }
 
+/** Confirm a just-enrolled TOTP factor with a code from the user's authenticator app. */
+export async function mfaVerifyEnroll(
+    authenticationChallengeId: string,
+    code: string,
+): Promise<AuthStep> {
+    const token = await getAccessToken()
+    if (!token) return { status: "error", message: "Not signed in" }
+    return post("/auth/mfa/verify-enroll", { authenticationChallengeId, code }, token)
+}
+
 function tap(step: AuthStep): AuthStep {
     storeSession(step)
     return step

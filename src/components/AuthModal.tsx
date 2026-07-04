@@ -24,6 +24,7 @@ export default function AuthModal() {
     const [mode, setMode] = useState<"signin" | "signup">("signin")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
     const [code, setCode] = useState("")
     const [busy, setBusy] = useState(false)
     const [error, setError] = useState("")
@@ -46,6 +47,7 @@ export default function AuthModal() {
     function close() {
         setOpen(false)
         setPassword("")
+        setConfirmPassword("")
         setCode("")
         setError("")
     }
@@ -88,6 +90,10 @@ export default function AuthModal() {
 
     async function submitForm() {
         if (busy || !email.includes("@") || password.length < 1) return
+        if (mode === "signup" && password !== confirmPassword) {
+            setError("Passwords don't match — please re-enter them.")
+            return
+        }
         setBusy(true)
         setError("")
         const step =
@@ -154,6 +160,19 @@ export default function AuthModal() {
                                     if (e.key === "Enter") submitForm()
                                 }}
                             />
+                            {mode === "signup" && (
+                                <input
+                                    id="auth-password-confirm"
+                                    type="password"
+                                    className="input input-bordered w-full mb-3"
+                                    placeholder="Confirm password"
+                                    value={confirmPassword}
+                                    onChange={e => setConfirmPassword(e.target.value)}
+                                    onKeyDown={e => {
+                                        if (e.key === "Enter") submitForm()
+                                    }}
+                                />
+                            )}
                             <button
                                 id="auth-submit"
                                 className="btn btn-primary w-full"
@@ -173,7 +192,11 @@ export default function AuthModal() {
                                         <a
                                             className="link link-primary"
                                             id="auth-switch-signup"
-                                            onClick={() => setMode("signup")}
+                                            onClick={() => {
+                                                setMode("signup")
+                                                setConfirmPassword("")
+                                                setError("")
+                                            }}
                                         >
                                             Create an account
                                         </a>
@@ -184,7 +207,11 @@ export default function AuthModal() {
                                         <a
                                             className="link link-primary"
                                             id="auth-switch-signin"
-                                            onClick={() => setMode("signin")}
+                                            onClick={() => {
+                                                setMode("signin")
+                                                setConfirmPassword("")
+                                                setError("")
+                                            }}
                                         >
                                             Sign in
                                         </a>

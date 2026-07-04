@@ -31,6 +31,7 @@ import { usePromptStore } from "../store/usePromptStore"
 import { cloudSignOut, cloudSyncNow, isCloudSynced } from "../sync/syncClient"
 import { userEmail } from "../auth/customAuth"
 import { OPEN_AUTH_EVENT } from "./AuthModal"
+import { OPEN_OPTION_SETS_EVENT } from "./OptionSetsModal"
 
 interface SettingsModalProps {
     setSettingsVisible: (...args: any[]) => void
@@ -337,6 +338,22 @@ export default function SettingsModal({
                                                 />
                                             </div>
                                             <p>{t(k.PERSIST_VARIABLES_DESCRIPTION)}</p>
+                                        </div>
+                                        <div className={"mb-3"}>
+                                            <h4 className={"text-lg font-medium mb-1"}>
+                                                {t(k.OPTION_SETS)}
+                                            </h4>
+                                            <p className={"mb-2"}>{t(k.OPTION_SETS_DESCRIPTION)}</p>
+                                            <button
+                                                className={"btn btn-outline btn-sm"}
+                                                onClick={() =>
+                                                    window.dispatchEvent(
+                                                        new Event(OPEN_OPTION_SETS_EVENT),
+                                                    )
+                                                }
+                                            >
+                                                {t(k.MANAGE_OPTION_SETS)}
+                                            </button>
                                         </div>
                                         <ShortcutInfo />
                                     </div>

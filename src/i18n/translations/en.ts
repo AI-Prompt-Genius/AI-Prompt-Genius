@@ -96,7 +96,7 @@ export const en = {
     [k.SEARCH_PROMPTS]: "Search prompts",
     [k.NAME_FOR_YOUR_PROMPT]: "A name for your prompt.",
     [k.PROMPT_CONTENT_PLACEHOLDER]:
-        "Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}",
+        "Prompt content. Use {{name}} for a variable, or a typed one like {{tone::list-happy; sad}}, {{count::number-0}}, {{bio::largeText}}. Use the Insert Variable button to build them.",
     [k.DESCRIPTION_PLACEHOLDER]: "A brief description of the prompt.",
     [k.ENTER_TAG]: "Press enter to add a tag",
     [k.UPGRADE_TO_PRO]: "Upgrade to Pro",
@@ -143,6 +143,27 @@ export const en = {
     [k.PERSIST_VARIABLES]: "Persist Variables",
     [k.PERSIST_VARIABLES_DESCRIPTION]:
         "Selecting this option makes it so that your variable inputs don't get cleared between uses & across prompts.",
+    [k.ADD]: "Add",
+    [k.DELETE]: "Delete",
+    [k.OPTION_SETS]: "Dropdown Option Sets",
+    [k.OPTION_SETS_DESCRIPTION]:
+        "Reusable dropdown lists you can reference from any prompt with {{name::list@SetName}}.",
+    [k.MANAGE_OPTION_SETS]: "Manage Option Sets",
+    [k.NO_OPTION_SETS_YET]: "No option sets yet. Create one below.",
+    [k.NEW_OPTION_SET]: "New option set",
+    [k.OPTION_SET_NAME]: "Set name (e.g. Tones)",
+    [k.OPTION_SET_OPTIONS_PLACEHOLDER]: "One option per line",
+    [k.INSERT_VARIABLE]: "Insert Variable",
+    [k.VARIABLE_NAME]: "Variable name",
+    [k.VARIABLE_TYPE]: "Type",
+    [k.DEFAULT_VALUE]: "Default (optional)",
+    [k.OPTIONS]: "Options",
+    [k.INLINE_OPTIONS]: "Custom options",
+    [k.USE_SAVED_SET]: "Saved set",
+    [k.INSERT]: "Insert",
+    [k.CONDITION]: "Condition",
+    [k.THEN_INSERT]: "Then insert",
+    [k.ELSE_INSERT]: "Else insert",
 }
 
 export default en

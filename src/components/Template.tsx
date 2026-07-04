@@ -5,6 +5,7 @@ import { createPortal } from "react-dom"
 import { deletePrompt, editPrompt, getCurrentTimestamp, uuid } from "./js/utils"
 import { EditIcon, TrashIcon } from "./icons/Icons"
 import FolderSelect from "./FolderSelect"
+import PromptEditor from "./PromptEditor"
 import RemoveTag from "./RemoveTag"
 import Tag from "./Tag"
 import type { LegacyPrompt } from "../types"
@@ -209,12 +210,11 @@ function Template({
                                         placeholder={t(k.NAME_FOR_YOUR_PROMPT)}
                                     ></textarea>
                                     <div className="text-sm font-bold py-3">{t(k.TEXT)}</div>
-                                    <textarea
-                                        onChange={e => setText(e.target.value)}
-                                        className="textarea textarea-bordered w-full h-[100px]"
-                                        defaultValue={template.text ?? ""}
+                                    <PromptEditor
+                                        value={text}
+                                        onChange={setText}
                                         placeholder={t(k.PROMPT_CONTENT_PLACEHOLDER)}
-                                    ></textarea>
+                                    />
                                     <div className="text-sm font-bold py-3">{t(k.DESCRIPTION)}</div>
                                     <textarea
                                         onChange={e => setDescription(e.target.value)}
