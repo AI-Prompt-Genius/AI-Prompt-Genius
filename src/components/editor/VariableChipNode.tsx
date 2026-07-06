@@ -1,5 +1,4 @@
 import {
-    $createTextNode,
     $getNodeByKey,
     DecoratorNode,
     type LexicalNode,
@@ -10,6 +9,7 @@ import {
 import { useEffect, useRef } from "react"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
 import { parseVar } from "../js/variables"
+import { $createRawTokenNode } from "./RawTokenNode"
 import { TYPE_INFO, TypeIcon, iconKeyFor } from "./varTypeMeta"
 
 // A Lexical decorator node that renders a `{{…}}` variable token as an inline chip. Its text
@@ -47,7 +47,9 @@ function VariableChip({ token, nodeKey }: { token: string; nodeKey: NodeKey }) {
             editor.update(() => {
                 const node = $getNodeByKey(nodeKey)
                 if (!$isVariableChipNode(node)) return
-                const raw = $createTextNode(node.__token)
+                // A RawTokenNode (not plain text) so it stays isolated from neighbours: "caret in
+                // the token" is then just "caret in this node".
+                const raw = $createRawTokenNode(node.__token)
                 node.replace(raw)
                 raw.select(node.__token.length, node.__token.length) // caret at end of the source
             })

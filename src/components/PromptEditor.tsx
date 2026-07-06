@@ -10,8 +10,6 @@ import {
     $getSelection,
     $isRangeSelection,
     $setSelection,
-    BLUR_COMMAND,
-    COMMAND_PRIORITY_LOW,
     ElementNode,
     type BaseSelection,
     type LexicalEditor,
@@ -31,6 +29,7 @@ import {
     type EditVariableDetail,
     VariableChipNode,
 } from "./editor/VariableChipNode"
+import { $createRawTokenNode, $isRawTokenNode, RawTokenNode } from "./editor/RawTokenNode"
 import InsertVariableMenu from "./InsertVariableMenu"
 
 // Notion-style inline chip editor. It's a thin view over a plain string: variable tokens render as
@@ -42,11 +41,8 @@ import InsertVariableMenu from "./InsertVariableMenu"
 
 // Matches a whole simple/typed token but not a conditional (conditionals contain `{`).
 const CHIP_RE = /\{\{[^{}]+\}\}/g
-
-// While the visual builder is open editing a token, keep its revealed raw source visible instead
-// of re-chipping it on blur (focusing the builder's inputs blurs the editor). Module-scoped because
-// only one edit modal is ever open at a time.
-let suppressBlurRechip = false
+// A full, single token — used to decide whether an edited raw source is still a valid variable.
+const FULL_TOKEN_RE = /^\{\{[^{}]+\}\}$/
 
 interface PromptEditorProps {
     value: string
@@ -120,71 +116,102 @@ function ChipPlugin() {
     return null
 }
 
-// Drives the re-chip: when the caret leaves the text node it was in, re-run the transform on that
-// node (it's no longer under the caret, so any `{{…}}` in it becomes a chip). Blur re-chips too.
+// All RawTokenNodes currently in the document (usually zero or one).
+function $collectRawTokens(): RawTokenNode[] {
+    const out: RawTokenNode[] = []
+    const walk = (node: LexicalNode) => {
+        if ($isRawTokenNode(node)) out.push(node)
+        else if (node instanceof ElementNode) node.getChildren().forEach(walk)
+    }
+    walk($getRoot())
+    return out
+}
+
+// True when a collapsed caret is inside the raw token or sitting exactly on either edge of it. The
+// edge cases matter: after reveal the caret lands at the token's trailing edge, which Lexical
+// normalizes onto the *next* node — without this it would look like the caret already left.
+function $caretTouchesRaw(anchor: { key: NodeKey; offset: number }, raw: RawTokenNode): boolean {
+    if (anchor.key === raw.getKey()) return true
+    const next = raw.getNextSibling()
+    if (next && anchor.key === next.getKey() && anchor.offset === 0) return true
+    const prev = raw.getPreviousSibling()
+    if (prev && anchor.key === prev.getKey() && anchor.offset === prev.getTextContentSize()) {
+        return true
+    }
+    return false
+}
+
+// Turn a raw source node back into a chip (or plain text if the user edited it into something that
+// is no longer a valid `{{…}}`). `exceptKey` keeps the one the caret is currently inside.
+function $commitRawTokens(exceptKey?: NodeKey | null): void {
+    for (const raw of $collectRawTokens()) {
+        if (raw.getKey() === exceptKey) continue
+        const text = raw.getTextContent()
+        raw.replace(
+            FULL_TOKEN_RE.test(text) ? $createVariableChipNode(text) : $createTextNode(text),
+        )
+    }
+}
+
+// Typed-token re-chip: when the caret leaves a *plain* text node, re-run the transform on it so any
+// `{{…}}` the user typed becomes a chip. (Revealed sources are RawTokenNodes, handled separately.)
 function RevealPlugin() {
     const [editor] = useLexicalComposerContext()
     useEffect(() => {
         let lastKey: NodeKey | null = null
-        const rechip = (key: NodeKey | null) => {
-            if (!key) return
-            queueMicrotask(() => editor.update(() => $getNodeByKey(key)?.markDirty()))
-        }
-        const unregisterUpdate = editor.registerUpdateListener(({ editorState }) => {
+        return editor.registerUpdateListener(({ editorState }) => {
             editorState.read(() => {
                 const sel = $getSelection()
                 const cur = $isRangeSelection(sel) ? sel.anchor.key : null
                 if (cur !== lastKey) {
-                    // While the builder is open, keep the source raw so it stays editable and the
-                    // Update can still find it; otherwise re-chip the node the caret just left.
-                    if (!suppressBlurRechip) rechip(lastKey)
+                    const key = lastKey
                     lastKey = cur
+                    if (key)
+                        queueMicrotask(() => editor.update(() => $getNodeByKey(key)?.markDirty()))
                 }
             })
         })
-        const unregisterBlur = editor.registerCommand(
-            BLUR_COMMAND,
-            () => {
-                if (suppressBlurRechip) return false // builder is open — keep the source visible
-                const key = lastKey
-                lastKey = null
-                // On blur the selection still points at the revealed node, so the transform would
-                // keep it raw. Clear the selection first, then re-chip it.
-                if (key) {
-                    queueMicrotask(() =>
-                        editor.update(() => {
-                            $setSelection(null)
-                            $getNodeByKey(key)?.markDirty()
-                        }),
-                    )
-                }
-                return false
-            },
-            COMMAND_PRIORITY_LOW,
-        )
-        return () => {
-            unregisterUpdate()
-            unregisterBlur()
-        }
     }, [editor])
     return null
 }
 
-// Finds the raw source text node that currently holds `token`. After a chip is clicked its token
-// lives in a plain TextNode (all other tokens are decorator chips, not text), so this uniquely
-// locates the revealed one without tracking fragile node keys across merges.
-function $findTokenTextNode(token: string): TextNode | null {
-    let found: TextNode | null = null
-    const walk = (node: LexicalNode) => {
-        if (found) return
-        if (node instanceof TextNode) {
-            if (node.getTextContent().includes(token)) found = node
-            return
-        }
-        if (node instanceof ElementNode) node.getChildren().forEach(walk)
-    }
-    walk($getRoot())
-    return found
+// Obsidian live-preview core: while the caret is inside a revealed token (a RawTokenNode) it stays
+// editable source; the moment the caret sits elsewhere in the editor, that token snaps back to a
+// chip. Blur (e.g. focusing the builder or clicking another field) leaves the source alone — those
+// paths are handled by the builder, so you can edit a token's settings without it re-chipping.
+function RawTokenPlugin() {
+    const [editor] = useLexicalComposerContext()
+    useEffect(() => {
+        return editor.registerUpdateListener(() => {
+            let toCommit: NodeKey[] = []
+            editor.getEditorState().read(() => {
+                const raws = $collectRawTokens()
+                if (raws.length === 0) return
+                const sel = $getSelection()
+                if (!$isRangeSelection(sel) || !sel.isCollapsed()) return // blur / range select → keep
+                toCommit = raws
+                    .filter(raw => !$caretTouchesRaw(sel.anchor, raw))
+                    .map(r => r.getKey())
+            })
+            if (toCommit.length) {
+                queueMicrotask(() =>
+                    editor.update(() => {
+                        for (const key of toCommit) {
+                            const node = $getNodeByKey(key)
+                            if (!$isRawTokenNode(node)) continue
+                            const text = node.getTextContent()
+                            node.replace(
+                                FULL_TOKEN_RE.test(text)
+                                    ? $createVariableChipNode(text)
+                                    : $createTextNode(text),
+                            )
+                        }
+                    }),
+                )
+            }
+        })
+    }, [editor])
+    return null
 }
 
 // Hosts the visual builder for both "insert a new variable" (toolbar button) and "edit this one"
@@ -203,26 +230,30 @@ function VariableMenuHost() {
     useEffect(() => {
         const onEdit = (e: Event) => {
             const detail = (e as CustomEvent<EditVariableDetail>).detail
-            suppressBlurRechip = true // keep the raw source visible behind the builder
             setMode({ kind: "edit", token: detail.token })
         }
         window.addEventListener(EDIT_VARIABLE_EVENT, onEdit)
         return () => window.removeEventListener(EDIT_VARIABLE_EVENT, onEdit)
     }, [])
 
+    // The builder is open exactly while a raw source exists. When the caret leaves the token (the
+    // RawTokenPlugin re-chips it), close the builder too.
+    useEffect(() => {
+        if (mode.kind !== "edit") return
+        return editor.registerUpdateListener(() => {
+            let hasRaw = false
+            editor.getEditorState().read(() => (hasRaw = $collectRawTokens().length > 0))
+            if (!hasRaw) setMode({ kind: "closed" })
+        })
+    }, [editor, mode.kind])
+
     function closeMenu() {
-        suppressBlurRechip = false
         setMode({ kind: "closed" })
     }
 
-    // Cancel from edit mode: leave the token as-is, just re-chip the revealed source.
-    function cancelEdit(token: string) {
-        suppressBlurRechip = false
-        editor.update(() => {
-            const node = $findTokenTextNode(token)
-            $setSelection(null)
-            node?.markDirty()
-        })
+    // Cancel from edit mode: commit the (possibly edited) raw source back to a chip.
+    function cancelEdit() {
+        editor.update(() => $commitRawTokens())
         setMode({ kind: "closed" })
     }
 
@@ -252,19 +283,10 @@ function VariableMenuHost() {
         closeMenu()
     }
 
-    function updateToken(oldToken: string, newToken: string) {
-        suppressBlurRechip = false
+    function updateToken(newToken: string) {
         editor.update(() => {
-            const node = $findTokenTextNode(oldToken)
-            if (node) {
-                const txt = node.getTextContent()
-                const i = txt.indexOf(oldToken)
-                if (i >= 0) {
-                    node.setTextContent(txt.slice(0, i) + newToken + txt.slice(i + oldToken.length))
-                }
-            }
-            // Clear the selection so the transform re-chips the (new) token on this update.
-            $setSelection(null)
+            const [raw] = $collectRawTokens()
+            if (raw) raw.replace($createVariableChipNode(newToken))
         })
         setMode({ kind: "closed" })
     }
@@ -286,8 +308,8 @@ function VariableMenuHost() {
             {mode.kind === "edit" && (
                 <InsertVariableMenu
                     initialToken={mode.token}
-                    onInsert={newToken => updateToken(mode.token, newToken)}
-                    onClose={() => cancelEdit(mode.token)}
+                    onInsert={updateToken}
+                    onClose={cancelEdit}
                 />
             )}
         </div>
@@ -297,7 +319,7 @@ function VariableMenuHost() {
 export default function PromptEditor({ value, onChange, placeholder }: PromptEditorProps) {
     const initialConfig = {
         namespace: "PromptEditor",
-        nodes: [VariableChipNode],
+        nodes: [VariableChipNode, RawTokenNode],
         editorState: (_editor: LexicalEditor) => populate(value),
         onError: (error: Error) => console.error("PromptEditor", error),
         theme: {},
@@ -320,6 +342,7 @@ export default function PromptEditor({ value, onChange, placeholder }: PromptEdi
             </div>
             <ChipPlugin />
             <RevealPlugin />
+            <RawTokenPlugin />
             <OnChangePlugin
                 onChange={editorState => editorState.read(() => onChange(serialize()))}
             />
