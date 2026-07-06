@@ -8,9 +8,8 @@ import {
 } from "lexical"
 import { useEffect, useRef } from "react"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
-import { parseVar } from "../js/variables"
 import { $createRawTokenNode } from "./RawTokenNode"
-import { TYPE_INFO, TypeIcon, iconKeyFor } from "./varTypeMeta"
+import VariablePill from "../VariablePill"
 
 // A Lexical decorator node that renders a `{{…}}` variable token as an inline chip. Its text
 // content is the exact raw token, so serializing the editor (root.getTextContent()) round-trips
@@ -36,8 +35,6 @@ export interface EditVariableDetail {
 function VariableChip({ token, nodeKey }: { token: string; nodeKey: NodeKey }) {
     const [editor] = useLexicalComposerContext()
     const ref = useRef<HTMLSpanElement>(null)
-    const v = parseVar(token.slice(2, -2), token)
-    const typeLabel = TYPE_INFO[iconKeyFor(v.type)].label
 
     useEffect(() => {
         const el = ref.current
@@ -63,15 +60,12 @@ function VariableChip({ token, nodeKey }: { token: string; nodeKey: NodeKey }) {
     }, [editor, nodeKey])
 
     return (
-        <span
+        <VariablePill
             ref={ref}
-            className="group mx-px inline-flex cursor-text select-none items-center gap-1 rounded-full border border-accent/25 bg-accent/10 py-0.5 pl-1.5 pr-2 align-middle text-sm font-medium leading-5 text-accent shadow-sm transition-colors hover:border-accent/50 hover:bg-accent/20"
+            token={token}
             contentEditable={false}
-            title={`${v.name || "variable"} · ${typeLabel} — click to edit`}
-        >
-            <TypeIcon type={v.type} className="h-3.5 w-3.5 opacity-70" />
-            {v.name || "variable"}
-        </span>
+            className="cursor-text transition-colors hover:border-accent/50 hover:bg-accent/20"
+        />
     )
 }
 

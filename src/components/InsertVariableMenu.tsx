@@ -1,14 +1,46 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { useOptionSetStore } from "../store/useOptionSetStore"
-import { parseVar } from "./js/variables"
+import { optionsForSet, useOptionSetStore } from "../store/useOptionSetStore"
+import {
+    buildConditionExpr,
+    COMPARISON_OPERATORS,
+    type ComparisonOperator,
+    parseVar,
+} from "./js/variables"
 import { type BuilderType, TYPE_INFO, TypeIcon } from "./editor/varTypeMeta"
+import type { OptionSet, VarType } from "../types"
 
 // The "Insert Variable" builder. Pure UI: it assembles a canonical `{{…}}` token string and hands
 // it to `onInsert`. It never touches the editor directly, so it's reusable from anywhere.
 
 const BUILDER_TYPES: BuilderType[] = ["text", "largeText", "number", "dropdown", "conditional"]
+
+// A variable already declared in the prompt — the If/Else condition builder picks from these.
+export interface PromptVar {
+    name: string
+    type: VarType
+    options?: string[]
+    optionSetRef?: string
+}
+
+// The condition's structured state: `<variable> <operator> <value>`, or a bare truthy check when
+// operator is "". `raw` backs the Advanced (free-text expression) escape hatch.
+interface CondState {
+    mode: "simple" | "advanced"
+    variable: string
+    operator: ComparisonOperator | ""
+    value: string
+    raw: string
+}
+
+const emptyCond = (): CondState => ({
+    mode: "simple",
+    variable: "",
+    operator: "",
+    value: "",
+    raw: "",
+})
 
 interface Def {
     name: string
@@ -77,12 +109,15 @@ interface InsertVariableMenuProps {
     onClose: () => void
     /** When set, the builder opens pre-filled to edit this token and the button reads "Update". */
     initialToken?: string
+    /** Variables already declared in the prompt — offered in the If/Else condition's variable picker. */
+    promptVars?: PromptVar[]
 }
 
 export default function InsertVariableMenu({
     onInsert,
     onClose,
     initialToken,
+    promptVars = [],
 }: InsertVariableMenuProps) {
     const t = i18n.t
     const optionSets = useOptionSetStore(s => s.optionSets)
@@ -110,16 +145,25 @@ export default function InsertVariableMenu({
 
     const [builderType, setBuilderType] = useState<BuilderType>(initial.builderType)
     const [main, setMain] = useState<Def>(initial.def)
-    const [cond, setCond] = useState("")
+    const [cond, setCond] = useState<CondState>(emptyCond)
     const [thenDef, setThenDef] = useState<Def>(emptyDef)
     const [elseEnabled, setElseEnabled] = useState(false)
     const [elseDef, setElseDef] = useState<Def>(emptyDef)
+
+    function conditionExpr(): string {
+        if (cond.mode === "advanced") return cond.raw.trim()
+        return buildConditionExpr({
+            variable: cond.variable,
+            operator: cond.operator,
+            value: cond.value,
+        })
+    }
 
     function insert() {
         let token: string
         if (builderType === "conditional") {
             const elseClause = elseEnabled ? `;else {${buildInner(elseDef)}}` : ""
-            token = `{{if ${cond.trim()} {${buildInner(thenDef)}}${elseClause}}}`
+            token = `{{if ${conditionExpr()} {${buildInner(thenDef)}}${elseClause}}}`
         } else {
             token = `{{${buildInner({ ...main, type: builderType })}}}`
         }
@@ -173,11 +217,11 @@ export default function InsertVariableMenu({
 
                 {builderType === "conditional" ? (
                     <>
-                        <LabeledInput
-                            label={t(k.CONDITION)}
-                            placeholder='e.g. role == "dev"'
-                            value={cond}
-                            onChange={setCond}
+                        <ConditionBuilder
+                            cond={cond}
+                            setCond={setCond}
+                            promptVars={promptVars}
+                            optionSets={optionSets}
                         />
                         <div className="mt-2 rounded-lg border border-base-300 p-2">
                             <div className="mb-1 text-xs font-semibold opacity-60">
@@ -245,6 +289,125 @@ function LabeledInput({
                 placeholder={placeholder}
                 onChange={e => onChange(e.target.value)}
             />
+        </div>
+    )
+}
+
+// The If/Else condition editor. In "simple" mode it's three dropdowns — variable, operator, and a
+// value that itself becomes a dropdown when the chosen variable is a dropdown type. "Advanced" mode
+// swaps in a raw expression box so conditions the structured UI can't express (&&, ||, parens…)
+// stay possible. The assembled expression is produced by the parent via buildConditionExpr.
+function ConditionBuilder({
+    cond,
+    setCond,
+    promptVars,
+    optionSets,
+}: {
+    cond: CondState
+    setCond: (updater: (prev: CondState) => CondState) => void
+    promptVars: PromptVar[]
+    optionSets: OptionSet[]
+}) {
+    const t = i18n.t
+    const patch = (p: Partial<CondState>) => setCond(prev => ({ ...prev, ...p }))
+    const selectedVar = promptVars.find(v => v.name === cond.variable)
+    const valueOptions =
+        selectedVar?.type === "dropdown"
+            ? selectedVar.optionSetRef
+                ? optionsForSet(optionSets, selectedVar.optionSetRef)
+                : selectedVar.options ?? []
+            : null
+
+    const header = (
+        <div className="mb-1 flex items-center justify-between">
+            <div className="text-xs font-bold">{t(k.CONDITION)}</div>
+            <button
+                type="button"
+                className="text-xs text-primary hover:underline"
+                onClick={() =>
+                    patch({ mode: cond.mode === "simple" ? "advanced" : "simple" })
+                }
+            >
+                {cond.mode === "simple" ? t(k.USE_RAW_EXPRESSION) : t(k.USE_SIMPLE_CONDITION)}
+            </button>
+        </div>
+    )
+
+    if (cond.mode === "advanced") {
+        return (
+            <div className="mb-2">
+                {header}
+                <input
+                    className="input input-bordered input-sm w-full"
+                    placeholder='e.g. role == "dev" && level > 2'
+                    value={cond.raw}
+                    onChange={e => patch({ raw: e.target.value })}
+                />
+            </div>
+        )
+    }
+
+    return (
+        <div className="mb-2">
+            {header}
+            {promptVars.length === 0 ? (
+                <div className="rounded-lg border border-dashed border-base-300 px-2 py-2 text-xs opacity-60">
+                    {t(k.NO_VARIABLES_YET)}
+                </div>
+            ) : (
+                <div className="flex flex-col gap-1.5">
+                    <select
+                        className="select select-bordered select-sm w-full"
+                        value={cond.variable}
+                        onChange={e => patch({ variable: e.target.value })}
+                    >
+                        <option value="">{t(k.SELECT_VARIABLE)}</option>
+                        {promptVars.map(v => (
+                            <option key={v.name} value={v.name}>
+                                {v.name}
+                            </option>
+                        ))}
+                    </select>
+                    <div className="flex gap-1.5">
+                        <select
+                            className="select select-bordered select-sm w-32 shrink-0"
+                            value={cond.operator}
+                            onChange={e =>
+                                patch({ operator: e.target.value as ComparisonOperator | "" })
+                            }
+                        >
+                            <option value="">{t(k.CONDITION_ANY_VALUE)}</option>
+                            {COMPARISON_OPERATORS.map(op => (
+                                <option key={op} value={op}>
+                                    {op}
+                                </option>
+                            ))}
+                        </select>
+                        {cond.operator !== "" &&
+                            (valueOptions ? (
+                                <select
+                                    className="select select-bordered select-sm w-full"
+                                    value={cond.value}
+                                    onChange={e => patch({ value: e.target.value })}
+                                >
+                                    <option value="">{t(k.CONDITION_VALUE)}</option>
+                                    {valueOptions.map(opt => (
+                                        <option key={opt} value={opt}>
+                                            {opt}
+                                        </option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <input
+                                    className="input input-bordered input-sm w-full"
+                                    placeholder={t(k.CONDITION_VALUE)}
+                                    value={cond.value}
+                                    onChange={e => patch({ value: e.target.value })}
+                                />
+                            ))}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

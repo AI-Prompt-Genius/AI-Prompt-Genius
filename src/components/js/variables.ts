@@ -235,7 +235,7 @@ interface ExprToken {
 
 const OPERATORS = ["==", "!=", "<=", ">=", "&&", "||", "<", ">", "+", "!", "(", ")"]
 
-function lexExpr(expr: string): ExprToken[] {
+export function lexExpr(expr: string): ExprToken[] {
     const out: ExprToken[] = []
     let i = 0
     while (i < expr.length) {
@@ -404,6 +404,74 @@ function truthy(v: ExprValue): boolean {
 function looseEquals(a: ExprValue, b: ExprValue): boolean {
     if (isNumeric(a) && isNumeric(b)) return num(a) === num(b)
     return str(a) === str(b)
+}
+
+// ---------------------------------------------------------------------------------
+// Structured conditions: the shape the visual builder can round-trip
+// ---------------------------------------------------------------------------------
+
+/** Comparison operators the structured condition builder offers (shared with the UI). */
+export const COMPARISON_OPERATORS = ["==", "!=", "<", ">", "<=", ">="] as const
+
+export type ComparisonOperator = (typeof COMPARISON_OPERATORS)[number]
+
+/**
+ * A single simple condition the visual builder can express: `variable operator value`,
+ * or — when `operator` is "" — a bare truthy check (`variable` has any value).
+ */
+export interface SimpleCondition {
+    variable: string
+    operator: ComparisonOperator | ""
+    value: string
+}
+
+/** A value can be emitted bare (unquoted) when it's numeric or a boolean literal. */
+function isBareLiteral(value: string): boolean {
+    const trimmed = value.trim()
+    if (trimmed === "true" || trimmed === "false") return true
+    return trimmed !== "" && !isNaN(Number(trimmed))
+}
+
+/**
+ * Assemble a condition expression from structured parts. Numeric / boolean values are
+ * emitted bare; everything else is double-quoted (with embedded quotes escaped) so the
+ * evaluator reads it as a string literal rather than a variable reference.
+ */
+export function buildConditionExpr(c: SimpleCondition): string {
+    const variable = c.variable.trim()
+    if (c.operator === "") return variable
+    const value = c.value.trim()
+    const rhs = isBareLiteral(value) ? value : `"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`
+    return `${variable} ${c.operator} ${rhs}`
+}
+
+/**
+ * Parse an expression back into a `SimpleCondition`, or null when it's too complex for the
+ * structured builder (logic operators, parentheses, arithmetic, comparisons between two
+ * variables, etc.). Only two shapes qualify: `[ident]` (truthy) and `[ident, cmp, literal]`.
+ */
+export function parseSimpleCondition(expr: string): SimpleCondition | null {
+    let toks: ExprToken[]
+    try {
+        toks = lexExpr(expr)
+    } catch {
+        return null
+    }
+    if (toks.length === 1 && toks[0].type === "ident") {
+        const ident = toks[0].value
+        if (ident === "true" || ident === "false") return null
+        return { variable: ident, operator: "", value: "" }
+    }
+    if (toks.length === 3) {
+        const [lhs, op, rhs] = toks
+        const isCmp = op.type === "op" && (COMPARISON_OPERATORS as readonly string[]).includes(op.value)
+        const lhsIsVar = lhs.type === "ident" && lhs.value !== "true" && lhs.value !== "false"
+        const rhsIsLiteral = rhs.type === "num" || rhs.type === "str"
+        if (isCmp && lhsIsVar && rhsIsLiteral) {
+            return { variable: lhs.value, operator: op.value as ComparisonOperator, value: rhs.value }
+        }
+    }
+    return null
 }
 
 // ---------------------------------------------------------------------------------

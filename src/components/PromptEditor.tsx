@@ -1,6 +1,6 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import {
     $createLineBreakNode,
     $createParagraphNode,
@@ -30,7 +30,8 @@ import {
     VariableChipNode,
 } from "./editor/VariableChipNode"
 import { $createRawTokenNode, $isRawTokenNode, RawTokenNode } from "./editor/RawTokenNode"
-import InsertVariableMenu from "./InsertVariableMenu"
+import InsertVariableMenu, { type PromptVar } from "./InsertVariableMenu"
+import { collectAllVars, tokenize } from "./js/variables"
 
 // Notion-style inline chip editor. It's a thin view over a plain string: variable tokens render as
 // chips but serialize back to their exact `{{…}}` text, so the store still holds a string and every
@@ -218,7 +219,25 @@ function RawTokenPlugin() {
 // (clicking a chip fires EDIT_VARIABLE_EVENT). In edit mode it replaces the exact revealed token.
 type MenuMode = { kind: "closed" } | { kind: "insert" } | { kind: "edit"; token: string }
 
-function VariableMenuHost() {
+// Deduped (by name) list of every variable declared anywhere in the prompt — feeds the
+// If/Else builder's variable picker so conditions reference real, existing variables.
+function collectPromptVars(text: string): PromptVar[] {
+    const out: PromptVar[] = []
+    const seen = new Set<string>()
+    for (const v of collectAllVars(tokenize(text))) {
+        if (!v.name || seen.has(v.name)) continue
+        seen.add(v.name)
+        out.push({
+            name: v.name,
+            type: v.type,
+            options: v.options,
+            optionSetRef: v.optionSetRef,
+        })
+    }
+    return out
+}
+
+function VariableMenuHost({ promptVars }: { promptVars: PromptVar[] }) {
     const t = i18n.t
     const [editor] = useLexicalComposerContext()
     const [mode, setMode] = useState<MenuMode>({ kind: "closed" })
@@ -303,7 +322,11 @@ function VariableMenuHost() {
                 + {t(k.INSERT_VARIABLE)}
             </button>
             {mode.kind === "insert" && (
-                <InsertVariableMenu onInsert={insertToken} onClose={closeMenu} />
+                <InsertVariableMenu
+                    onInsert={insertToken}
+                    onClose={closeMenu}
+                    promptVars={promptVars}
+                />
             )}
             {mode.kind === "edit" && (
                 <InsertVariableMenu
@@ -311,6 +334,7 @@ function VariableMenuHost() {
                     initialToken={mode.token}
                     onInsert={updateToken}
                     onClose={cancelEdit}
+                    promptVars={promptVars}
                 />
             )}
         </div>
@@ -318,6 +342,7 @@ function VariableMenuHost() {
 }
 
 export default function PromptEditor({ value, onChange, placeholder }: PromptEditorProps) {
+    const promptVars = useMemo(() => collectPromptVars(value), [value])
     const initialConfig = {
         namespace: "PromptEditor",
         nodes: [VariableChipNode, RawTokenNode],
@@ -347,7 +372,7 @@ export default function PromptEditor({ value, onChange, placeholder }: PromptEdi
             <OnChangePlugin
                 onChange={editorState => editorState.read(() => onChange(serialize()))}
             />
-            <VariableMenuHost />
+            <VariableMenuHost promptVars={promptVars} />
         </LexicalComposer>
     )
 }

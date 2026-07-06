@@ -166,6 +166,14 @@ export const en = {
     [k.CONDITION]: "Condition",
     [k.THEN_INSERT]: "Then insert",
     [k.ELSE_INSERT]: "Else insert",
+    [k.CONDITION_VARIABLE]: "Variable",
+    [k.CONDITION_OPERATOR]: "Operator",
+    [k.CONDITION_VALUE]: "Value",
+    [k.CONDITION_ANY_VALUE]: "has any value",
+    [k.USE_RAW_EXPRESSION]: "Advanced expression",
+    [k.USE_SIMPLE_CONDITION]: "Simple condition",
+    [k.NO_VARIABLES_YET]: "Add a variable to the prompt first",
+    [k.SELECT_VARIABLE]: "Select a variable",
 }
 
 export default en

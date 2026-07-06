@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest"
 import {
+    buildConditionExpr,
     evalExpression,
     hasVariables,
+    parseSimpleCondition,
     parseVar,
     resolveActiveVars,
     resolveText,
@@ -140,5 +142,44 @@ describe("hasVariables", () => {
         expect(hasVariables("no vars here")).toBe(false)
         expect(hasVariables("{{name}}")).toBe(true)
         expect(hasVariables("{{if x {a::text}}}")).toBe(true)
+    })
+})
+
+describe("buildConditionExpr / parseSimpleCondition", () => {
+    it("quotes string values and leaves numbers/booleans bare", () => {
+        expect(buildConditionExpr({ variable: "role", operator: "==", value: "dev" })).toBe(
+            'role == "dev"',
+        )
+        expect(buildConditionExpr({ variable: "n", operator: ">", value: "2" })).toBe("n > 2")
+        expect(buildConditionExpr({ variable: "flag", operator: "==", value: "true" })).toBe(
+            "flag == true",
+        )
+    })
+    it("escapes embedded quotes and backslashes", () => {
+        expect(buildConditionExpr({ variable: "x", operator: "==", value: 'a"b' })).toBe(
+            'x == "a\\"b"',
+        )
+    })
+    it("emits a bare variable for the truthy (has-any-value) case", () => {
+        expect(buildConditionExpr({ variable: "role", operator: "", value: "" })).toBe("role")
+    })
+    it("round-trips string and numeric comparisons", () => {
+        for (const c of [
+            { variable: "role", operator: "==" as const, value: "dev" },
+            { variable: "count", operator: ">=" as const, value: "5" },
+            { variable: "role", operator: "" as const, value: "" },
+        ]) {
+            expect(parseSimpleCondition(buildConditionExpr(c))).toEqual(c)
+        }
+    })
+    it("parses the truthy shape", () => {
+        expect(parseSimpleCondition("role")).toEqual({ variable: "role", operator: "", value: "" })
+    })
+    it("returns null for expressions the structured builder can't express", () => {
+        expect(parseSimpleCondition('a > 2 && b == "x"')).toBeNull()
+        expect(parseSimpleCondition("a == b")).toBeNull() // rhs is a variable, not a literal
+        expect(parseSimpleCondition("(a)")).toBeNull()
+        expect(parseSimpleCondition("true")).toBeNull()
+        expect(parseSimpleCondition("")).toBeNull()
     })
 })

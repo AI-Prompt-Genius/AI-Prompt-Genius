@@ -8,6 +8,7 @@ import FolderSelect from "./FolderSelect"
 import PromptEditor from "./PromptEditor"
 import RemoveTag from "./RemoveTag"
 import Tag from "./Tag"
+import { renderWithPills } from "./VariablePill"
 import type { LegacyPrompt } from "../types"
 
 interface TemplateProps {
@@ -161,7 +162,7 @@ function Template({
                             <p className="text-base mainClick mb-1">
                                 {template.description && template.description !== ""
                                     ? template.description
-                                    : template.text ?? ""}
+                                    : renderWithPills(template.text ?? "")}
                             </p>
                         )}
                         <div className={"flex flex-wrap"}>
