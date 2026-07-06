@@ -307,6 +307,7 @@ function VariableMenuHost() {
             )}
             {mode.kind === "edit" && (
                 <InsertVariableMenu
+                    key={mode.token}
                     initialToken={mode.token}
                     onInsert={updateToken}
                     onClose={cancelEdit}

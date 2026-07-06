@@ -93,6 +93,10 @@ export default function InsertVariableMenu({
     // — after the click that opened the builder — so it can't self-close. Clicks inside the builder
     // or inside the editor (editing the variable's source inline, or clicking another chip) are
     // exempt; only clicking somewhere else entirely (another field, the backdrop) closes it.
+    //
+    // Capture phase matters: clicking another chip reveals it, which synchronously replaces that
+    // chip's DOM. By the bubbling phase the event target is detached and `closest` can't tell it was
+    // in the editor — so we check during capture, before that mutation happens.
     useEffect(() => {
         const onPointerDown = (e: MouseEvent) => {
             const target = e.target as HTMLElement
@@ -100,8 +104,8 @@ export default function InsertVariableMenu({
             if (target.closest?.('[contenteditable="true"]')) return
             onClose()
         }
-        document.addEventListener("mousedown", onPointerDown)
-        return () => document.removeEventListener("mousedown", onPointerDown)
+        document.addEventListener("mousedown", onPointerDown, true)
+        return () => document.removeEventListener("mousedown", onPointerDown, true)
     }, [onClose])
 
     const [builderType, setBuilderType] = useState<BuilderType>(initial.builderType)
