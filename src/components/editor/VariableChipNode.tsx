@@ -1,27 +1,71 @@
 import {
+    $createTextNode,
+    $getNodeByKey,
     DecoratorNode,
     type LexicalNode,
     type NodeKey,
     type SerializedLexicalNode,
     type Spread,
 } from "lexical"
+import { useEffect, useRef } from "react"
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
 import { parseVar } from "../js/variables"
 import { TYPE_INFO, TypeIcon, iconKeyFor } from "./varTypeMeta"
 
 // A Lexical decorator node that renders a `{{…}}` variable token as an inline chip. Its text
 // content is the exact raw token, so serializing the editor (root.getTextContent()) round-trips
 // back to the plain-text prompt the store persists — the editor stays a view over a string.
+//
+// Live-preview (Obsidian-style): clicking a chip replaces it with a raw text node (its `{{…}}`
+// source) and drops the caret into it, so you edit in place. The editor only chips text nodes the
+// caret is *not* in (see $chipTransform in PromptEditor), so it re-renders as a pill the moment the
+// caret leaves. We attach the click as a native listener because decorator DOM sits outside React's
+// delegated event tree, so an `onMouseDown` prop never fires.
+//
+// A click also fires `EDIT_VARIABLE_EVENT` so PromptEditor can pop the visual builder pre-filled
+// with this token; the event carries the raw source node's key so the builder can replace it.
 
 export type SerializedVariableChipNode = Spread<{ token: string }, SerializedLexicalNode>
 
-function VariableChip({ token }: { token: string }) {
+export const EDIT_VARIABLE_EVENT = "promptvar:edit"
+
+export interface EditVariableDetail {
+    token: string
+}
+
+function VariableChip({ token, nodeKey }: { token: string; nodeKey: NodeKey }) {
+    const [editor] = useLexicalComposerContext()
+    const ref = useRef<HTMLSpanElement>(null)
     const v = parseVar(token.slice(2, -2), token)
     const typeLabel = TYPE_INFO[iconKeyFor(v.type)].label
+
+    useEffect(() => {
+        const el = ref.current
+        if (!el) return
+        const onMouseDown = (e: MouseEvent) => {
+            e.preventDefault()
+            editor.update(() => {
+                const node = $getNodeByKey(nodeKey)
+                if (!$isVariableChipNode(node)) return
+                const raw = $createTextNode(node.__token)
+                node.replace(raw)
+                raw.select(node.__token.length, node.__token.length) // caret at end of the source
+            })
+            // Also pop the visual builder pre-filled with this token (the builder finds the revealed
+            // source node by the token text, so no fragile node key needs to travel with the event).
+            const detail: EditVariableDetail = { token }
+            window.dispatchEvent(new CustomEvent(EDIT_VARIABLE_EVENT, { detail }))
+        }
+        el.addEventListener("mousedown", onMouseDown)
+        return () => el.removeEventListener("mousedown", onMouseDown)
+    }, [editor, nodeKey])
+
     return (
         <span
-            className="group mx-px inline-flex select-none items-center gap-1 rounded-full border border-accent/25 bg-accent/10 py-0.5 pl-1.5 pr-2 align-middle text-sm font-medium leading-5 text-accent shadow-sm transition-colors hover:border-accent/50 hover:bg-accent/20"
+            ref={ref}
+            className="group mx-px inline-flex cursor-text select-none items-center gap-1 rounded-full border border-accent/25 bg-accent/10 py-0.5 pl-1.5 pr-2 align-middle text-sm font-medium leading-5 text-accent shadow-sm transition-colors hover:border-accent/50 hover:bg-accent/20"
             contentEditable={false}
-            title={`${v.name || "variable"} · ${typeLabel}`}
+            title={`${v.name || "variable"} · ${typeLabel} — click to edit`}
         >
             <TypeIcon type={v.type} className="h-3.5 w-3.5 opacity-70" />
             {v.name || "variable"}
@@ -77,7 +121,7 @@ export class VariableChipNode extends DecoratorNode<JSX.Element> {
     }
 
     decorate(): JSX.Element {
-        return <VariableChip token={this.__token} />
+        return <VariableChip token={this.__token} nodeKey={this.getKey()} />
     }
 }
 

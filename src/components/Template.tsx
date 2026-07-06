@@ -2,7 +2,7 @@ import i18n from "i18next"
 import k from "./../i18n/keys"
 import React, { useState } from "react"
 import { createPortal } from "react-dom"
-import { deletePrompt, editPrompt, getCurrentTimestamp, uuid } from "./js/utils"
+import { deletePrompt, editPrompt, getCurrentTimestamp, promptLimitError, uuid } from "./js/utils"
 import { EditIcon, TrashIcon } from "./icons/Icons"
 import FolderSelect from "./FolderSelect"
 import PromptEditor from "./PromptEditor"
@@ -45,6 +45,9 @@ function Template({
     const [tags, setTags] = useState(template.tags ?? [])
     const [description, setDescription] = useState(template.description ?? "")
     const [folder, setFolder] = useState(template.folder ?? null)
+    const [saveError, setSaveError] = useState<string | null>(null)
+
+    const isFullScreen = new URLSearchParams(window.location.search).get("fullscreen") === "true"
 
     const tagRef = React.createRef<HTMLInputElement>()
 
@@ -60,6 +63,11 @@ function Template({
     }
 
     const handleSave = () => {
+        const limitError = promptLimitError(text, template.id)
+        if (limitError) {
+            setSaveError(limitError)
+            return
+        }
         const editedPrompt = {
             title,
             text,
@@ -199,20 +207,27 @@ function Template({
                         />
 
                         <div className="modal">
-                            <div className="modal-box">
+                            <div
+                                className={`modal-box ${
+                                    isFullScreen ? "w-11/12 max-w-4xl" : "max-w-2xl"
+                                }`}
+                            >
                                 <div>
                                     <div className="text-sm font-bold py-3">{t(k.TITLE)}</div>
-                                    <textarea
+                                    <input
                                         onChange={e => setTitle(e.target.value)}
-                                        className="textarea textarea-bordered w-full h-[25px]"
+                                        className="input input-bordered w-full"
                                         autoFocus
                                         defaultValue={template.title ?? ""}
                                         placeholder={t(k.NAME_FOR_YOUR_PROMPT)}
-                                    ></textarea>
+                                    />
                                     <div className="text-sm font-bold py-3">{t(k.TEXT)}</div>
                                     <PromptEditor
                                         value={text}
-                                        onChange={setText}
+                                        onChange={v => {
+                                            setText(v)
+                                            if (saveError) setSaveError(null)
+                                        }}
                                         placeholder={t(k.PROMPT_CONTENT_PLACEHOLDER)}
                                     />
                                     <div className="text-sm font-bold py-3">{t(k.DESCRIPTION)}</div>
@@ -250,6 +265,11 @@ function Template({
                                         />
                                     </div>
                                 </div>
+                                {saveError && (
+                                    <div className="alert alert-error mt-3 py-2 text-sm">
+                                        {saveError}
+                                    </div>
+                                )}
                                 <div className="modal-action">
                                     <button className="btn" onClick={handleSave}>
                                         {t(k.SAVE)}

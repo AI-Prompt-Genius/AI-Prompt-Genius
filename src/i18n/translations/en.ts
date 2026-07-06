@@ -161,6 +161,8 @@ export const en = {
     [k.INLINE_OPTIONS]: "Custom options",
     [k.USE_SAVED_SET]: "Saved set",
     [k.INSERT]: "Insert",
+    [k.UPDATE]: "Update",
+    [k.EDIT_VARIABLE]: "Edit Variable",
     [k.CONDITION]: "Condition",
     [k.THEN_INSERT]: "Then insert",
     [k.ELSE_INSERT]: "Else insert",

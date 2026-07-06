@@ -27,6 +27,19 @@ describe("parseVar / spec parsing", () => {
         expect(parseVar("n::number-0", "")).toMatchObject({ type: "number", default: "0" })
         expect(parseVar("n::number-3+x", "")).toMatchObject({ type: "number", default: "3+x" })
     })
+    it("parses optional defaults for text and largeText", () => {
+        expect(parseVar("greeting::text-Hello", "")).toMatchObject({
+            type: "text",
+            default: "Hello",
+        })
+        expect(parseVar("bio::largeText-write here", "")).toMatchObject({
+            type: "largeText",
+            default: "write here",
+        })
+        // bare largeText must not be read as text with a default
+        expect(parseVar("bio::largeText", "").type).toBe("largeText")
+        expect(parseVar("bio::largeText", "").default).toBeUndefined()
+    })
     it("parses inline dropdown options split on ;", () => {
         const v = parseVar("tone::list-happy; very, sad; neutral", "")
         expect(v.type).toBe("dropdown")

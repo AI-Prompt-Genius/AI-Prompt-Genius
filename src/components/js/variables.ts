@@ -101,8 +101,13 @@ function parseSpec(spec: string): {
     optionSetRef?: string
     def?: string
 } {
-    if (spec === "text" || spec === "") return { type: "text" }
+    // `largeText` before `text` so the `text-` prefix check can't swallow it.
     if (spec === "largeText") return { type: "largeText" }
+    if (spec.startsWith("largeText-")) {
+        return { type: "largeText", def: spec.slice("largeText-".length) }
+    }
+    if (spec === "text" || spec === "") return { type: "text" }
+    if (spec.startsWith("text-")) return { type: "text", def: spec.slice("text-".length) }
     if (spec === "number" || spec.startsWith("number-")) {
         const def = spec.startsWith("number-") ? spec.slice("number-".length) : undefined
         return { type: "number", def }

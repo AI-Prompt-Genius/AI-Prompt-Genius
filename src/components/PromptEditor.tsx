@@ -5,13 +5,18 @@ import {
     $createLineBreakNode,
     $createParagraphNode,
     $createTextNode,
+    $getNodeByKey,
     $getRoot,
     $getSelection,
     $isRangeSelection,
     $setSelection,
+    BLUR_COMMAND,
+    COMMAND_PRIORITY_LOW,
+    ElementNode,
     type BaseSelection,
-    type ElementNode,
     type LexicalEditor,
+    type LexicalNode,
+    type NodeKey,
     TextNode,
 } from "lexical"
 import { LexicalComposer } from "@lexical/react/LexicalComposer"
@@ -20,7 +25,12 @@ import { ContentEditable } from "@lexical/react/LexicalContentEditable"
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary"
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
-import { $createVariableChipNode, VariableChipNode } from "./editor/VariableChipNode"
+import {
+    $createVariableChipNode,
+    EDIT_VARIABLE_EVENT,
+    type EditVariableDetail,
+    VariableChipNode,
+} from "./editor/VariableChipNode"
 import InsertVariableMenu from "./InsertVariableMenu"
 
 // Notion-style inline chip editor. It's a thin view over a plain string: variable tokens render as
@@ -32,6 +42,11 @@ import InsertVariableMenu from "./InsertVariableMenu"
 
 // Matches a whole simple/typed token but not a conditional (conditionals contain `{`).
 const CHIP_RE = /\{\{[^{}]+\}\}/g
+
+// While the visual builder is open editing a token, keep its revealed raw source visible instead
+// of re-chipping it on blur (focusing the builder's inputs blurs the editor). Module-scoped because
+// only one edit modal is ever open at a time.
+let suppressBlurRechip = false
 
 interface PromptEditorProps {
     value: string
@@ -73,9 +88,18 @@ function serialize(): string {
         .join("\n")
 }
 
-// Live transform: when the user types a complete `{{…}}` token, swap it for a chip.
+// Live transform: turn a complete `{{…}}` token into a chip — but never the text node the caret is
+// currently in. That "skip the node under the caret" rule is what gives the Obsidian live-preview
+// feel: the token you're editing shows its raw source, every other token renders as a pill.
 function $chipTransform(node: TextNode): void {
     if (!node.isSimpleText()) return
+    const sel = $getSelection()
+    if (
+        $isRangeSelection(sel) &&
+        (sel.anchor.key === node.getKey() || sel.focus.key === node.getKey())
+    ) {
+        return // caret is in this node — leave the source visible for editing
+    }
     const text = node.getTextContent()
     const match = CHIP_RE.exec(text)
     CHIP_RE.lastIndex = 0
@@ -96,20 +120,122 @@ function ChipPlugin() {
     return null
 }
 
-function InsertToolbar() {
+// Drives the re-chip: when the caret leaves the text node it was in, re-run the transform on that
+// node (it's no longer under the caret, so any `{{…}}` in it becomes a chip). Blur re-chips too.
+function RevealPlugin() {
+    const [editor] = useLexicalComposerContext()
+    useEffect(() => {
+        let lastKey: NodeKey | null = null
+        const rechip = (key: NodeKey | null) => {
+            if (!key) return
+            queueMicrotask(() => editor.update(() => $getNodeByKey(key)?.markDirty()))
+        }
+        const unregisterUpdate = editor.registerUpdateListener(({ editorState }) => {
+            editorState.read(() => {
+                const sel = $getSelection()
+                const cur = $isRangeSelection(sel) ? sel.anchor.key : null
+                if (cur !== lastKey) {
+                    // While the builder is open, keep the source raw so it stays editable and the
+                    // Update can still find it; otherwise re-chip the node the caret just left.
+                    if (!suppressBlurRechip) rechip(lastKey)
+                    lastKey = cur
+                }
+            })
+        })
+        const unregisterBlur = editor.registerCommand(
+            BLUR_COMMAND,
+            () => {
+                if (suppressBlurRechip) return false // builder is open — keep the source visible
+                const key = lastKey
+                lastKey = null
+                // On blur the selection still points at the revealed node, so the transform would
+                // keep it raw. Clear the selection first, then re-chip it.
+                if (key) {
+                    queueMicrotask(() =>
+                        editor.update(() => {
+                            $setSelection(null)
+                            $getNodeByKey(key)?.markDirty()
+                        }),
+                    )
+                }
+                return false
+            },
+            COMMAND_PRIORITY_LOW,
+        )
+        return () => {
+            unregisterUpdate()
+            unregisterBlur()
+        }
+    }, [editor])
+    return null
+}
+
+// Finds the raw source text node that currently holds `token`. After a chip is clicked its token
+// lives in a plain TextNode (all other tokens are decorator chips, not text), so this uniquely
+// locates the revealed one without tracking fragile node keys across merges.
+function $findTokenTextNode(token: string): TextNode | null {
+    let found: TextNode | null = null
+    const walk = (node: LexicalNode) => {
+        if (found) return
+        if (node instanceof TextNode) {
+            if (node.getTextContent().includes(token)) found = node
+            return
+        }
+        if (node instanceof ElementNode) node.getChildren().forEach(walk)
+    }
+    walk($getRoot())
+    return found
+}
+
+// Hosts the visual builder for both "insert a new variable" (toolbar button) and "edit this one"
+// (clicking a chip fires EDIT_VARIABLE_EVENT). In edit mode it replaces the exact revealed token.
+type MenuMode = { kind: "closed" } | { kind: "insert" } | { kind: "edit"; token: string }
+
+function VariableMenuHost() {
     const t = i18n.t
     const [editor] = useLexicalComposerContext()
-    const [menuOpen, setMenuOpen] = useState(false)
+    const [mode, setMode] = useState<MenuMode>({ kind: "closed" })
     // The caret at the moment the menu opened — restored on insert, since typing into the menu's
     // own inputs blurs the editor and clears its live selection.
     const savedSelection = useRef<BaseSelection | null>(null)
 
-    function toggleMenu() {
+    // Open the builder pre-filled when a chip is clicked.
+    useEffect(() => {
+        const onEdit = (e: Event) => {
+            const detail = (e as CustomEvent<EditVariableDetail>).detail
+            suppressBlurRechip = true // keep the raw source visible behind the builder
+            setMode({ kind: "edit", token: detail.token })
+        }
+        window.addEventListener(EDIT_VARIABLE_EVENT, onEdit)
+        return () => window.removeEventListener(EDIT_VARIABLE_EVENT, onEdit)
+    }, [])
+
+    function closeMenu() {
+        suppressBlurRechip = false
+        setMode({ kind: "closed" })
+    }
+
+    // Cancel from edit mode: leave the token as-is, just re-chip the revealed source.
+    function cancelEdit(token: string) {
+        suppressBlurRechip = false
+        editor.update(() => {
+            const node = $findTokenTextNode(token)
+            $setSelection(null)
+            node?.markDirty()
+        })
+        setMode({ kind: "closed" })
+    }
+
+    function toggleInsert() {
+        if (mode.kind !== "closed") {
+            closeMenu()
+            return
+        }
         editor.getEditorState().read(() => {
             const sel = $getSelection()
             savedSelection.current = sel ? sel.clone() : null
         })
-        setMenuOpen(o => !o)
+        setMode({ kind: "insert" })
     }
 
     function insertToken(token: string) {
@@ -123,6 +249,24 @@ function InsertToolbar() {
             const selection = $getSelection()
             if ($isRangeSelection(selection)) selection.insertText(token)
         })
+        closeMenu()
+    }
+
+    function updateToken(oldToken: string, newToken: string) {
+        suppressBlurRechip = false
+        editor.update(() => {
+            const node = $findTokenTextNode(oldToken)
+            if (node) {
+                const txt = node.getTextContent()
+                const i = txt.indexOf(oldToken)
+                if (i >= 0) {
+                    node.setTextContent(txt.slice(0, i) + newToken + txt.slice(i + oldToken.length))
+                }
+            }
+            // Clear the selection so the transform re-chips the (new) token on this update.
+            $setSelection(null)
+        })
+        setMode({ kind: "closed" })
     }
 
     return (
@@ -132,12 +276,19 @@ function InsertToolbar() {
                 className="btn btn-xs btn-outline mt-1"
                 // Keep the editor's caret while opening the menu.
                 onMouseDown={e => e.preventDefault()}
-                onClick={toggleMenu}
+                onClick={toggleInsert}
             >
                 + {t(k.INSERT_VARIABLE)}
             </button>
-            {menuOpen && (
-                <InsertVariableMenu onInsert={insertToken} onClose={() => setMenuOpen(false)} />
+            {mode.kind === "insert" && (
+                <InsertVariableMenu onInsert={insertToken} onClose={closeMenu} />
+            )}
+            {mode.kind === "edit" && (
+                <InsertVariableMenu
+                    initialToken={mode.token}
+                    onInsert={newToken => updateToken(mode.token, newToken)}
+                    onClose={() => cancelEdit(mode.token)}
+                />
             )}
         </div>
     )
@@ -168,10 +319,11 @@ export default function PromptEditor({ value, onChange, placeholder }: PromptEdi
                 />
             </div>
             <ChipPlugin />
+            <RevealPlugin />
             <OnChangePlugin
                 onChange={editorState => editorState.read(() => onChange(serialize()))}
             />
-            <InsertToolbar />
+            <VariableMenuHost />
         </LexicalComposer>
     )
 }

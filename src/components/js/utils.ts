@@ -1,5 +1,32 @@
 import type { LegacyPrompt } from "../../types"
 
+// Generous storage caps to discourage abuse without getting in a normal user's way. Prompts are
+// mirrored into localStorage (a few MB quota), so these keep the whole library well under it.
+export const MAX_PROMPT_TEXT_LENGTH = 50_000 // characters in a single prompt's body
+export const MAX_PROMPTS = 5_000 // total prompts
+export const MAX_PROMPTS_TOTAL_BYTES = 4_000_000 // ~4 MB of serialized prompts
+
+/**
+ * Returns a human-readable reason the given prompt can't be saved (too long / too many / library
+ * too big), or null when it's within limits. `editingId` excludes the prompt being edited from the
+ * count so re-saving an existing prompt never trips the count cap.
+ */
+export function promptLimitError(text: string, editingId?: string): string | null {
+    if ((text?.length ?? 0) > MAX_PROMPT_TEXT_LENGTH) {
+        return `This prompt is too long (limit ${MAX_PROMPT_TEXT_LENGTH.toLocaleString()} characters).`
+    }
+    const prompts: LegacyPrompt[] = getObject("prompts", [])
+    const others = prompts.filter(p => p.id !== editingId)
+    if (others.length + 1 > MAX_PROMPTS) {
+        return `You've reached the maximum of ${MAX_PROMPTS.toLocaleString()} prompts.`
+    }
+    const bytes = JSON.stringify(others).length + (text?.length ?? 0)
+    if (bytes > MAX_PROMPTS_TOTAL_BYTES) {
+        return "Storage limit reached. Please delete some prompts before adding more."
+    }
+    return null
+}
+
 export function findVariables(str: string): string[] {
     // thanks chatgpt
     const regex = /{{(.+?)}}/g

@@ -172,7 +172,7 @@ function VariableField({
                     <input
                         autoFocus={autoFocus}
                         className="input input-bordered w-full"
-                        placeholder={`${t(k.ENTER_VALUE_FOR)} ${variable.name}`}
+                        placeholder={placeholder || `${t(k.ENTER_VALUE_FOR)} ${variable.name}`}
                         value={value}
                         onChange={e => onChange(e.target.value)}
                     />
@@ -186,7 +186,7 @@ function VariableField({
                     <textarea
                         autoFocus={autoFocus}
                         className="textarea textarea-bordered w-full"
-                        placeholder={`${t(k.ENTER_VALUE_FOR)} ${variable.name}`}
+                        placeholder={placeholder || `${t(k.ENTER_VALUE_FOR)} ${variable.name}`}
                         value={value}
                         onChange={e => onChange(e.target.value)}
                     />

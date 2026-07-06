@@ -3,7 +3,7 @@ import k from "./../i18n/keys"
 import Logo from "./Logo"
 import Folder from "./Folder"
 import FolderModal from "./FolderModal"
-import { getCurrentTimestamp, newBlankPrompt, uuid } from "./js/utils"
+import { getCurrentTimestamp, getObject, MAX_PROMPTS, newBlankPrompt, uuid } from "./js/utils"
 import {
     ArrowNewWindow,
     Cog,
@@ -74,6 +74,10 @@ export default function Sidebar({
     }
 
     function newPrompt() {
+        if (getObject("prompts", []).length >= MAX_PROMPTS) {
+            showToast(`You've reached the maximum of ${MAX_PROMPTS.toLocaleString()} prompts.`)
+            return
+        }
         const folder = selectedFolder
         const promptObj = {
             title: "",

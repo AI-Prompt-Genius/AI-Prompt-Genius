@@ -1,7 +1,8 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
-import { useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useOptionSetStore } from "../store/useOptionSetStore"
+import { parseVar } from "./js/variables"
 import { type BuilderType, TYPE_INFO, TypeIcon } from "./editor/varTypeMeta"
 
 // The "Insert Variable" builder. Pure UI: it assembles a canonical `{{…}}` token string and hands
@@ -12,7 +13,7 @@ const BUILDER_TYPES: BuilderType[] = ["text", "largeText", "number", "dropdown",
 interface Def {
     name: string
     type: "text" | "largeText" | "number" | "dropdown"
-    numberDefault: string
+    defaultValue: string // optional default for text / largeText / number
     optionMode: "inline" | "saved"
     inlineOptions: string // one per line
     savedSet: string
@@ -21,7 +22,7 @@ interface Def {
 const emptyDef = (): Def => ({
     name: "",
     type: "text",
-    numberDefault: "",
+    defaultValue: "",
     optionMode: "inline",
     inlineOptions: "",
     savedSet: "",
@@ -34,18 +35,17 @@ function inlineOptionsToList(raw: string): string[] {
         .filter(o => o.length > 0)
 }
 
-/** Build the inner (brace-less) definition, e.g. `Name::number-0`. */
+/** Build the inner (brace-less) definition, e.g. `Name::number-0` or `Name::text-Hi`. */
 function buildInner(def: Def): string {
     const name = def.name.trim() || "variable"
+    const dflt = def.defaultValue.trim()
     switch (def.type) {
         case "text":
-            return `${name}::text`
+            return dflt ? `${name}::text-${dflt}` : `${name}::text`
         case "largeText":
-            return `${name}::largeText`
+            return dflt ? `${name}::largeText-${dflt}` : `${name}::largeText`
         case "number":
-            return def.numberDefault.trim()
-                ? `${name}::number-${def.numberDefault.trim()}`
-                : `${name}::number`
+            return dflt ? `${name}::number-${dflt}` : `${name}::number`
         case "dropdown":
             return def.optionMode === "saved"
                 ? `${name}::list@${def.savedSet.trim()}`
@@ -53,17 +53,59 @@ function buildInner(def: Def): string {
     }
 }
 
+// Prefill the builder from an existing simple-variable token (chips are only ever simple vars —
+// conditionals stay as raw text and never open this in edit mode).
+function tokenToInitial(token?: string): { builderType: BuilderType; def: Def } {
+    if (!token) return { builderType: "text", def: emptyDef() }
+    const v = parseVar(token.slice(2, -2), token)
+    const type = (v.type === "legacy" ? "text" : v.type) as Def["type"]
+    return {
+        builderType: type,
+        def: {
+            name: v.name,
+            type,
+            defaultValue: v.default ?? "",
+            optionMode: v.optionSetRef ? "saved" : "inline",
+            inlineOptions: (v.options ?? []).join("\n"),
+            savedSet: v.optionSetRef ?? "",
+        },
+    }
+}
+
 interface InsertVariableMenuProps {
     onInsert: (token: string) => void
     onClose: () => void
+    /** When set, the builder opens pre-filled to edit this token and the button reads "Update". */
+    initialToken?: string
 }
 
-export default function InsertVariableMenu({ onInsert, onClose }: InsertVariableMenuProps) {
+export default function InsertVariableMenu({
+    onInsert,
+    onClose,
+    initialToken,
+}: InsertVariableMenuProps) {
     const t = i18n.t
     const optionSets = useOptionSetStore(s => s.optionSets)
+    const initial = useMemo(() => tokenToInitial(initialToken), [initialToken])
+    const rootRef = useRef<HTMLDivElement>(null)
 
-    const [builderType, setBuilderType] = useState<BuilderType>("text")
-    const [main, setMain] = useState<Def>(emptyDef)
+    // Dismiss when the user clicks fully away from the editing area. The listener is added on mount
+    // — after the click that opened the builder — so it can't self-close. Clicks inside the builder
+    // or inside the editor (editing the variable's source inline, or clicking another chip) are
+    // exempt; only clicking somewhere else entirely (another field, the backdrop) closes it.
+    useEffect(() => {
+        const onPointerDown = (e: MouseEvent) => {
+            const target = e.target as HTMLElement
+            if (rootRef.current?.contains(target)) return
+            if (target.closest?.('[contenteditable="true"]')) return
+            onClose()
+        }
+        document.addEventListener("mousedown", onPointerDown)
+        return () => document.removeEventListener("mousedown", onPointerDown)
+    }, [onClose])
+
+    const [builderType, setBuilderType] = useState<BuilderType>(initial.builderType)
+    const [main, setMain] = useState<Def>(initial.def)
     const [cond, setCond] = useState("")
     const [thenDef, setThenDef] = useState<Def>(emptyDef)
     const [elseEnabled, setElseEnabled] = useState(false)
@@ -82,9 +124,14 @@ export default function InsertVariableMenu({ onInsert, onClose }: InsertVariable
     }
 
     return (
-        <div className="absolute z-20 mt-2 w-80 overflow-hidden rounded-xl border border-base-300 bg-base-100 shadow-2xl">
+        <div
+            ref={rootRef}
+            className="absolute z-20 mt-2 w-80 overflow-hidden rounded-xl border border-base-300 bg-base-100 shadow-2xl"
+        >
             <div className="flex items-center justify-between border-b border-base-300 bg-base-200/50 px-3 py-2">
-                <span className="text-sm font-semibold">{t(k.INSERT_VARIABLE)}</span>
+                <span className="text-sm font-semibold">
+                    {initialToken ? t(k.EDIT_VARIABLE) : t(k.INSERT_VARIABLE)}
+                </span>
                 <button
                     className="btn btn-circle btn-ghost btn-xs"
                     onClick={onClose}
@@ -166,7 +213,7 @@ export default function InsertVariableMenu({ onInsert, onClose }: InsertVariable
                         {t(k.CANCEL)}
                     </button>
                     <button className="btn btn-primary btn-sm" onClick={insert}>
-                        {t(k.INSERT)}
+                        {initialToken ? t(k.UPDATE) : t(k.INSERT)}
                     </button>
                 </div>
             </div>
@@ -217,11 +264,11 @@ function DefFields({
                 value={def.name}
                 onChange={v => setDef(prev => ({ ...prev, name: v }))}
             />
-            {def.type === "number" && (
+            {(def.type === "text" || def.type === "largeText" || def.type === "number") && (
                 <LabeledInput
                     label={t(k.DEFAULT_VALUE)}
-                    value={def.numberDefault}
-                    onChange={v => setDef(prev => ({ ...prev, numberDefault: v }))}
+                    value={def.defaultValue}
+                    onChange={v => setDef(prev => ({ ...prev, defaultValue: v }))}
                 />
             )}
             {def.type === "dropdown" && (
