@@ -1,13 +1,14 @@
-import { sendMessageToParent } from "../components/js/utils"
-
 // Custom-UI auth (WorkOS User Management, proxied through our worker so the secret API key never
 // reaches the browser). Signing in is optional — no tokens means the app stays fully local.
 //
-// Methods: email/password (inline, works inside the sidebar iframe) and Google OAuth (initiated
-// from our UI; the consent screen can't render inside the extension iframe, so from the sidebar
-// it routes through the fullscreen tab via the `pendingAuth` flag — same origin, shared
-// localStorage). Passkeys are deliberately not offered (WorkOS only supports them on the hosted
-// page we no longer use).
+// Methods: email/password (inline, works inside the sidebar iframe) and Google OAuth. The Google
+// consent screen can't render inside the extension iframe, so it opens in a POPUP. Crucially, a
+// full-tab redirect would land the callback on a standalone first-party lib.aipromptgenius.app tab,
+// whose storage is a DIFFERENT bucket from the embedded app (Chrome partitions the embedded iframe's
+// storage under the extension) — the tokens would strand away from the user's prompts. The popup
+// keeps `window.opener` pointed at the embedded app, so the callback hands the OAuth code back into
+// the correct bucket to finish there (see `initAuth` + the `googleAuthCode` handler in App.tsx).
+// Passkeys are deliberately not offered (WorkOS only supports them on the hosted page we dropped).
 //
 // Tokens live in localStorage — deliberate: shared across the sidebar iframe and fullscreen tab,
 // and immune to the third-party-cookie restrictions of the extension context. Tradeoff: XSS in
@@ -42,14 +43,6 @@ export interface AuthStep {
     factorId?: string
     qrCode?: string
     secret?: string
-}
-
-function isInIframe(): boolean {
-    try {
-        return window.self !== window.top
-    } catch {
-        return true
-    }
 }
 
 async function post(path: string, body: unknown, token?: string): Promise<AuthStep> {
@@ -205,19 +198,39 @@ export function googleAuthUrl(): string {
     return `https://api.workos.com/user_management/authorize?${params}`
 }
 
-/** Start Google sign-in. Inside the sidebar iframe this routes through the fullscreen tab. */
+/**
+ * Start Google sign-in in a popup. The popup keeps `window.opener` pointed at this (embedded) app,
+ * so the callback can hand the OAuth code back into our storage bucket instead of stranding the
+ * tokens on a standalone first-party tab (see the module header). If the popup is blocked we fall
+ * back to a full-tab redirect — it completes the sign-in but lands first-party; the user can retry
+ * to get the in-place popup.
+ */
 export function startGoogleSignIn(): void {
-    if (isInIframe()) {
-        localStorage.setItem(PENDING_AUTH_KEY, "google")
-        sendMessageToParent({ message: "openFullScreen" })
-        return
+    const popup = window.open(
+        googleAuthUrl(),
+        "workos_google_signin",
+        "width=500,height=650,menubar=no,toolbar=no,location=no,status=no",
+    )
+    if (!popup) {
+        // Escape the iframe for the fallback — WorkOS's authorize page refuses to render framed.
+        ;(window.top ?? window).location.href = googleAuthUrl()
     }
-    window.location.href = googleAuthUrl()
 }
 
 // ---------- bootstrap (App load) ----------
 
-/** Handle the Google ?code= callback and any sign-in handed over from the sidebar. */
+/**
+ * Exchange a Google `?code=` for a session. Returns the step so the caller can react — a
+ * non-`complete` status (email-verification / MFA to link the Google login onto an existing
+ * password account, or a hard error) is handed to AuthModal rather than stored.
+ */
+export async function completeGoogleCode(code: string): Promise<AuthStep> {
+    const step = await post("/auth/callback", { code })
+    if (step.status === "complete") storeSession(step)
+    return step
+}
+
+/** Handle the Google ?code= callback (and the emailed password-reset ?token=) on app load. */
 export async function initAuth(): Promise<void> {
     const params = new URLSearchParams(window.location.search)
     // The emailed password-reset link lands here with ?token=. Stash it (localStorage is shared
@@ -230,29 +243,23 @@ export async function initAuth(): Promise<void> {
     }
     const code = params.get("code")
     if (code) {
-        const step = await post("/auth/callback", { code })
-        if (step.status === "complete") {
-            storeSession(step)
-        } else {
-            // WorkOS didn't finish the sign-in: most often the Google email matches an existing,
-            // still-unverified password account, so it can't be safely linked until the user
-            // verifies (returns email_verification_required); MFA and hard errors land here too.
-            // Stash the step so AuthModal can resume on mount — completing it links the two
-            // credentials onto the one account.
+        // Google sign-in runs in a popup so its tokens land in the embedded app's storage bucket,
+        // not this throwaway first-party one. If we're that popup, hand the code back to the opener
+        // (the embedded app — same origin, correct bucket) and close; it finishes the exchange.
+        if (window.opener && window.opener !== window) {
+            window.opener.postMessage(
+                JSON.stringify({ message: "googleAuthCode", code }),
+                window.location.origin,
+            )
+            window.close()
+            return
+        }
+        // Fallback path (popup was blocked → full-tab redirect): exchange here and, if WorkOS needs
+        // another step, stash it so AuthModal resumes on mount after this page settles.
+        const step = await completeGoogleCode(code)
+        if (step.status !== "complete") {
             localStorage.setItem(PENDING_AUTH_STEP_KEY, JSON.stringify(step))
         }
         window.history.replaceState({}, "", "/")
-        return
-    }
-    // The fullscreen tab (plugin/pages/fullscreen.html) still nests the SPA in its own iframe, so
-    // isInIframe() alone can't tell "escaped the sidebar" from "still framed" — the ?fullscreen=true
-    // param (set by the escape-hatch tab/link) disambiguates it.
-    const isFullscreenTab = params.get("fullscreen") === "true"
-    if ((!isInIframe() || isFullscreenTab) && localStorage.getItem(PENDING_AUTH_KEY) === "google") {
-        localStorage.removeItem(PENDING_AUTH_KEY)
-        // In the fullscreen tab we're still framed (see above), and WorkOS's authorize page
-        // refuses to render inside any iframe — navigate the real top-level tab, not just this
-        // nested frame, or the browser shows a blocked/"forbidden" page instead of Google's UI.
-        if (!isSignedIn()) window.top!.location.href = googleAuthUrl()
     }
 }

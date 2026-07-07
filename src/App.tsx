@@ -15,9 +15,9 @@ import ReactGA from "react-ga4"
 import type { LegacyPrompt } from "./types"
 import { usePromptStore } from "./store/usePromptStore"
 import { migrateLegacyToIDB } from "./data/migrate"
-import { initAuth } from "./auth/customAuth"
-import { cloudSyncIfDue } from "./sync/syncClient"
-import AuthModal from "./components/AuthModal"
+import { completeGoogleCode, initAuth } from "./auth/customAuth"
+import { cloudSyncIfDue, cloudSyncNow } from "./sync/syncClient"
+import AuthModal, { RESUME_AUTH_STEP_EVENT } from "./components/AuthModal"
 import ManageAccountModal from "./components/ManageAccountModal"
 import OptionSetsModal from "./components/OptionSetsModal"
 
@@ -142,6 +142,19 @@ function App() {
                 localStorage.setItem("GOOGLE_API_TOKEN", data.token)
                 finishAuth()
                 pollLocalStorage()
+            } else if (data.message === "googleAuthCode") {
+                // The Google sign-in popup handed us the OAuth code. We're the embedded app, so
+                // completing the exchange here lands the tokens in the same storage bucket as the
+                // user's prompts (a full-tab redirect would have stranded them first-party).
+                const step = await completeGoogleCode(data.code)
+                if (step.status === "complete") {
+                    window.dispatchEvent(new Event("auth-changed"))
+                    cloudSyncNow() // push the local library up immediately
+                } else {
+                    // Needs email verification / MFA (account linking) or errored — resume in the
+                    // live modal (no page reload happens in the popup flow).
+                    window.dispatchEvent(new CustomEvent(RESUME_AUTH_STEP_EVENT, { detail: step }))
+                }
             } else if (data.message === "transfer") {
                 await i18next.changeLanguage(data.lang)
                 localStorage.setItem("lng", data.lang)

@@ -20,6 +20,10 @@ import {
 // when framed. Opened from anywhere via: window.dispatchEvent(new Event("open-auth-modal")).
 
 export const OPEN_AUTH_EVENT = "open-auth-modal"
+// Dispatched by App when a Google sign-in popup returns a step that needs another interaction
+// (email verification / MFA) — the live app can't rely on the mount-time PENDING_AUTH_STEP read
+// because there's no page reload, so it hands the step straight to the modal via this event.
+export const RESUME_AUTH_STEP_EVENT = "resume-auth-step"
 
 type Screen =
     | "form"
@@ -66,18 +70,28 @@ export default function AuthModal() {
     }, [])
 
     // A Google sign-in came back needing another step (usually email verification to link the
-    // Google login onto an existing password account): initAuth stashed the step — resume it.
+    // Google login onto an existing password account): the fallback full-tab flow stashed the step
+    // for this mount-time read; the live popup flow hands it over via RESUME_AUTH_STEP_EVENT.
     useEffect(() => {
-        const raw = localStorage.getItem(PENDING_AUTH_STEP_KEY)
-        if (!raw) return
-        localStorage.removeItem(PENDING_AUTH_STEP_KEY)
-        try {
-            const step = JSON.parse(raw) as AuthStep
+        const resume = (step: AuthStep) => {
             setOpen(true)
             void handleStep(step)
-        } catch {
-            /* malformed stash — ignore */
         }
+        const raw = localStorage.getItem(PENDING_AUTH_STEP_KEY)
+        if (raw) {
+            localStorage.removeItem(PENDING_AUTH_STEP_KEY)
+            try {
+                resume(JSON.parse(raw) as AuthStep)
+            } catch {
+                /* malformed stash — ignore */
+            }
+        }
+        const eventHandler = (e: Event) => {
+            const step = (e as CustomEvent<AuthStep>).detail
+            if (step) resume(step)
+        }
+        window.addEventListener(RESUME_AUTH_STEP_EVENT, eventHandler)
+        return () => window.removeEventListener(RESUME_AUTH_STEP_EVENT, eventHandler)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
