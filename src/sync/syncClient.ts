@@ -2,6 +2,7 @@ import type { LegacyPrompt } from "../types"
 import { getObject, setObject } from "../components/js/utils"
 import { usePromptStore } from "../store/usePromptStore"
 import { getAccessToken, isSignedIn, signOut } from "../auth/customAuth"
+import { mergePulledPrompts, type ServerPromptRow } from "./merge"
 
 // Cloudflare sync client (Feature 2). Pushes only the changed/new/deleted records the app already
 // tracks (changedPrompts / newPrompts / deletedPrompts), pulls rows changed since our last-seen
@@ -14,17 +15,6 @@ const REV_KEY = "cf_sync_rev"
 const LAST_SYNCED_KEY = "cf_last_synced"
 const SYNC_INTERVAL_MS = 5 * 60 * 1000
 
-interface ServerPromptRow {
-    id: string
-    title: string
-    text: string
-    description: string
-    tags: string // semicolon-joined on the wire
-    folder: string
-    updated_at: number
-    deleted_at: number | null
-}
-
 export function isCloudSynced(): boolean {
     return isSignedIn()
 }
@@ -34,18 +24,6 @@ export async function cloudSignOut(): Promise<void> {
     localStorage.removeItem(REV_KEY)
     localStorage.removeItem(LAST_SYNCED_KEY)
     localStorage.setItem("syncPreference", "local")
-}
-
-function rowToPrompt(row: ServerPromptRow): LegacyPrompt {
-    return {
-        id: row.id,
-        title: row.title ?? "",
-        text: row.text ?? "",
-        description: row.description ?? "",
-        tags: row.tags ? row.tags.split(";").filter(t => t !== "") : [],
-        folder: row.folder ?? "",
-        lastChanged: row.updated_at,
-    }
 }
 
 async function postSync(token: string, payload: unknown): Promise<Response> {
@@ -84,7 +62,11 @@ export async function cloudSyncNow(): Promise<boolean> {
             sinceRev,
             prompts: toPush,
             deletedPromptIds: deletedIds,
-            folders: store.folders,
+            // Folders use replace-set semantics server-side (it tombstones anything omitted).
+            // On the first sync after sign-in an empty local folder list would therefore wipe
+            // folders already in the cloud from another device — so don't assert our folder set
+            // until we actually have one. (Subsequent syncs send it as-is so deletes propagate.)
+            folders: sinceRev === 0 && store.folders.length === 0 ? undefined : store.folders,
         }
         let res = await postSync(token, payload)
         if (res.status === 401) {
@@ -101,13 +83,10 @@ export async function cloudSyncNow(): Promise<boolean> {
             folders: string[]
         }
 
-        // Merge server rows into the local library (tombstones delete, others upsert).
-        const byId = new Map(localPrompts.map(p => [p.id, p]))
-        for (const row of data.prompts) {
-            if (row.deleted_at) byId.delete(row.id)
-            else byId.set(row.id, rowToPrompt(row))
-        }
-        const merged = Array.from(byId.values())
+        // Merge server rows into the local library with last-writer-wins (see merge.ts) so a
+        // stale cloud tombstone can't delete a newer local prompt and a stale cloud row can't
+        // clobber a newer local edit — the "sign in and lose my prompts" failure mode.
+        const merged = mergePulledPrompts(localPrompts, data.prompts)
         const mergedFolders = Array.from(new Set([...store.folders, ...data.folders]))
 
         // Persist merged state through the store (localStorage + IndexedDB + picker mirror),
