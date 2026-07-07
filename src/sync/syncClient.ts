@@ -20,6 +20,11 @@ const WORKER_URL = "https://aipromptgenius-sync.aipromptgenius.workers.dev"
 
 const REV_KEY = "cf_sync_rev"
 const LAST_SYNCED_KEY = "cf_last_synced"
+// Ids of prompts the server has acknowledged (pushed by us or pulled from it). Any local prompt
+// NOT in this set is pushed regardless of rev — this is what recovers prompts that were written
+// straight to localStorage without delta bookkeeping (e.g. the old-extension TransferModal import),
+// which would otherwise only ever upload during a rev-0 first sync.
+const SYNCED_IDS_KEY = "cf_synced_ids"
 const SYNC_INTERVAL_MS = 5 * 60 * 1000
 
 export function isCloudSynced(): boolean {
@@ -30,6 +35,7 @@ export async function cloudSignOut(): Promise<void> {
     await signOut()
     localStorage.removeItem(REV_KEY)
     localStorage.removeItem(LAST_SYNCED_KEY)
+    localStorage.removeItem(SYNCED_IDS_KEY)
     localStorage.removeItem("cf_settings_synced")
     localStorage.removeItem("cf_settings_updated_at")
     localStorage.setItem("syncPreference", "local")
@@ -63,9 +69,12 @@ export async function cloudSyncNow(): Promise<boolean> {
         const deletedIds: string[] = Array.from(new Set(getObject("deletedPrompts", [])))
         const sinceRev = Number(localStorage.getItem(REV_KEY) ?? 0)
 
-        // First sync after sign-in (rev 0): push the whole library so nothing is stranded local.
-        const toPush =
-            sinceRev === 0 ? localPrompts : localPrompts.filter(p => changedIds.has(p.id))
+        // Push every prompt that is either explicitly changed OR not yet known to the server.
+        // The latter clause is what recovers prompts written straight to localStorage without
+        // bookkeeping (old-extension transfer import): they'd otherwise only ever upload during
+        // the rev-0 first sync, and would be stranded forever if the rev had already advanced.
+        const syncedIds = new Set<string>(getObject(SYNCED_IDS_KEY, []))
+        const toPush = localPrompts.filter(p => changedIds.has(p.id) || !syncedIds.has(p.id))
 
         const payload = {
             sinceRev,
@@ -115,6 +124,12 @@ export async function cloudSyncNow(): Promise<boolean> {
         setObject("changedPrompts", [])
         setObject("newPrompts", [])
         setObject("deletedPrompts", [])
+        // Everything in the merged library is now on the server (we pushed all unsynced local
+        // prompts above, and the rest came from the server), so record it as the acknowledged set.
+        setObject(
+            SYNCED_IDS_KEY,
+            merged.map(p => p.id),
+        )
         localStorage.setItem(REV_KEY, String(data.rev))
         localStorage.setItem(LAST_SYNCED_KEY, String(Date.now()))
         return true
