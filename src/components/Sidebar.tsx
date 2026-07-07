@@ -191,39 +191,53 @@ export default function Sidebar({
                             </li>
                         )}
 
-                        <li>
-                            <a onClick={openSettings}>
-                                <Cog /> {t(k.SETTINGS)}
-                            </a>
-                        </li>
                         {!signedIn && (
-                            <li>
-                                <a
-                                    id="sidebar-signin"
-                                    onClick={() => window.dispatchEvent(new Event(OPEN_AUTH_EVENT))}
-                                >
-                                    <UserIcon /> Sign in
-                                </a>
-                            </li>
-                        )}
-                        {signedIn && (
                             <>
                                 <li>
-                                    <a
-                                        id="sidebar-account"
-                                        onClick={() =>
-                                            window.dispatchEvent(new Event(OPEN_ACCOUNT_EVENT))
-                                        }
-                                    >
-                                        <UserIcon /> Manage account
+                                    <a onClick={openSettings}>
+                                        <Cog /> {t(k.SETTINGS)}
                                     </a>
                                 </li>
                                 <li>
-                                    <a id="sidebar-signout" onClick={handleSignOut}>
-                                        <SignOutIcon /> Sign out
+                                    <a
+                                        id="sidebar-signin"
+                                        onClick={() => window.dispatchEvent(new Event(OPEN_AUTH_EVENT))}
+                                    >
+                                        <UserIcon /> Sign in
                                     </a>
                                 </li>
                             </>
+                        )}
+                        {signedIn && (
+                            <li>
+                                <details>
+                                    <summary id="sidebar-account-menu">
+                                        <UserIcon /> Account
+                                    </summary>
+                                    <ul>
+                                        <li>
+                                            <a
+                                                id="sidebar-account"
+                                                onClick={() =>
+                                                    window.dispatchEvent(new Event(OPEN_ACCOUNT_EVENT))
+                                                }
+                                            >
+                                                <UserIcon /> Manage account
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a onClick={openSettings}>
+                                                <Cog /> {t(k.SETTINGS)}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a id="sidebar-signout" onClick={handleSignOut}>
+                                                <SignOutIcon /> Sign out
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </details>
+                            </li>
                         )}
                     </ul>
                 </div>
