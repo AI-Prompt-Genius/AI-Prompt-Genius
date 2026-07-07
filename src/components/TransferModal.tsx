@@ -5,7 +5,7 @@ import Logo from "./Logo"
 import LanguageSelect from "./LanguageSelect"
 import Head4 from "./Head4"
 import Head2 from "./Head2"
-import { getCurrentTimestamp, getObject, newFolder, setObject } from "./js/utils"
+import { getCurrentTimestamp, getObject, newFolder, setObject, uuid } from "./js/utils"
 import ShortcutInfo from "./ShortcutInfo"
 
 function TransferModal() {
@@ -86,7 +86,11 @@ function TransferModal() {
         const oldPrompts = getObject("transferPrompts", null)
         if (oldPrompts) {
             const newPrompts = oldPrompts.map((prompt: any) => {
-                const { title, text, id, category } = prompt
+                // Some legacy records predate the `id` field entirely — without a fallback here,
+                // every prompt missing one collapses into a single survivor in cloudSyncNow's
+                // id-keyed merge the moment the user first signs in and syncs.
+                const { title, text, category } = prompt
+                const id = prompt.id ?? uuid()
                 let tags = prompt.tags
                 let folder = ""
 
