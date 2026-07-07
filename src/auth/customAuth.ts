@@ -15,7 +15,7 @@ import { sendMessageToParent } from "../components/js/utils"
 
 export const WORKER_URL = "https://aipromptgenius-sync.aipromptgenius.workers.dev"
 const WORKOS_CLIENT_ID =
-    import.meta.env.VITE_WORKOS_CLIENT_ID ?? "client_01KWG824DCYF7FGD93HWCYCMX7"
+    import.meta.env.VITE_WORKOS_CLIENT_ID ?? "client_01KWG8251AYSWRAXXKVHKZGSXN"
 
 const ACCESS_KEY = "auth_access_token"
 const REFRESH_KEY = "auth_refresh_token"
@@ -23,6 +23,10 @@ const SIGNED_IN_KEY = "authkit_signed_in" // kept from the previous flow so UI l
 const EMAIL_KEY = "authkit_email"
 const USER_ID_KEY = "auth_user_id"
 const PENDING_AUTH_KEY = "pendingAuth"
+export const PENDING_RESET_KEY = "pendingResetToken"
+// A Google callback that didn't complete in one shot (email verification / MFA) is stashed here
+// for AuthModal to resume — localStorage is shared with the sidebar iframe, same as the reset flow.
+export const PENDING_AUTH_STEP_KEY = "pendingAuthStep"
 
 export interface AuthStep {
     status: "complete" | "email_verification_required" | "mfa_challenge" | "error" | "ok"
@@ -30,6 +34,7 @@ export interface AuthStep {
     refreshToken?: string
     user?: { id: string; email: string }
     pendingAuthenticationToken?: string
+    email?: string
     factors?: Array<{ id: string; type: string }>
     authenticationChallengeId?: string
     code?: string
@@ -141,6 +146,16 @@ export function verifyEmail(pendingAuthenticationToken: string, code: string): P
     return post("/auth/verify-email", { pendingAuthenticationToken, code }).then(tap)
 }
 
+/** Ask WorkOS to email a reset link. Resolves { status: "ok" } even for unknown emails. */
+export function requestPasswordReset(email: string): Promise<AuthStep> {
+    return post("/auth/password-reset", { email })
+}
+
+/** Set a new password via the token from the emailed link, landing in a signed-in session. */
+export function confirmPasswordReset(token: string, newPassword: string): Promise<AuthStep> {
+    return post("/auth/password-reset/confirm", { token, newPassword }).then(tap)
+}
+
 export function mfaChallenge(authenticationFactorId: string): Promise<AuthStep> {
     return post("/auth/mfa/challenge", { authenticationFactorId })
 }
@@ -205,10 +220,27 @@ export function startGoogleSignIn(): void {
 /** Handle the Google ?code= callback and any sign-in handed over from the sidebar. */
 export async function initAuth(): Promise<void> {
     const params = new URLSearchParams(window.location.search)
+    // The emailed password-reset link lands here with ?token=. Stash it (localStorage is shared
+    // with the sidebar iframe) and clear the URL; AuthModal opens the reset screen on mount.
+    const resetToken = params.get("token")
+    if (resetToken) {
+        localStorage.setItem(PENDING_RESET_KEY, resetToken)
+        window.history.replaceState({}, "", "/")
+        return
+    }
     const code = params.get("code")
     if (code) {
         const step = await post("/auth/callback", { code })
-        storeSession(step)
+        if (step.status === "complete") {
+            storeSession(step)
+        } else {
+            // WorkOS didn't finish the sign-in: most often the Google email matches an existing,
+            // still-unverified password account, so it can't be safely linked until the user
+            // verifies (returns email_verification_required); MFA and hard errors land here too.
+            // Stash the step so AuthModal can resume on mount — completing it links the two
+            // credentials onto the one account.
+            localStorage.setItem(PENDING_AUTH_STEP_KEY, JSON.stringify(step))
+        }
         window.history.replaceState({}, "", "/")
         return
     }

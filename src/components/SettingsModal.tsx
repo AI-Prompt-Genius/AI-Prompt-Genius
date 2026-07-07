@@ -18,19 +18,14 @@ import {
     setObject,
 } from "./js/utils"
 import LanguageSelect from "./LanguageSelect"
-import { CrownIcon, GoogleDriveIcon, TrashIcon } from "./icons/Icons"
-import { checkForResync, newToken, unlinkGsheet } from "./js/cloudSyncing"
+import { CrownIcon, TrashIcon } from "./icons/Icons"
 import ShortcutInfo from "./ShortcutInfo"
-import ReactGA from "react-ga4"
 import { ActivatePro } from "./ActivatePro"
 import { ProFeatures } from "./ProFeatures"
 import Head2 from "./Head2"
 import Head4 from "./Head4"
 import { getProStatus } from "./js/pro"
 import { usePromptStore } from "../store/usePromptStore"
-import { cloudSignOut, cloudSyncNow, isCloudSynced } from "../sync/syncClient"
-import { userEmail } from "../auth/customAuth"
-import { OPEN_AUTH_EVENT } from "./AuthModal"
 import { OPEN_OPTION_SETS_EVENT } from "./OptionSetsModal"
 
 interface SettingsModalProps {
@@ -60,41 +55,6 @@ export default function SettingsModal({
 
     const [currentPage, setCurrentPage] = useState("General")
     const [confirmDelete, setConfirmDelete] = useState(false)
-
-    // Account sync via WorkOS AuthKit (optional — no account means fully local).
-    const [cfSignedIn, setCfSignedIn] = useState(isCloudSynced())
-    const [cfBusy, setCfBusy] = useState(false)
-
-    // Sign-in may complete inline (modal) or in the fullscreen tab (same origin) — track both.
-    React.useEffect(() => {
-        const update = () => setCfSignedIn(isCloudSynced())
-        window.addEventListener("storage", update)
-        window.addEventListener("auth-changed", update)
-        return () => {
-            window.removeEventListener("storage", update)
-            window.removeEventListener("auth-changed", update)
-        }
-    }, [])
-
-    function cfSignInHandler() {
-        window.dispatchEvent(new Event(OPEN_AUTH_EVENT))
-    }
-
-    async function cfSyncNowHandler() {
-        setCfBusy(true)
-        const ok = await cloudSyncNow()
-        setCfBusy(false)
-        showToast(ok ? "Synced" : "Sync failed — try again")
-    }
-
-    async function cfSignOutHandler() {
-        await cloudSignOut()
-        setCfSignedIn(false)
-        showToast("Cloud Sync disabled — your prompts stay on this device")
-    }
-
-    const cloudSyncingEnabled = getObject("cloudSyncing", false) === true
-    const sheetID = localStorage.getItem("sheetID")
 
     const isPro = getProStatus()
 
@@ -207,27 +167,6 @@ export default function SettingsModal({
         showToast(newName)
     }
 
-    async function authThenResync() {
-        localStorage.setItem("lastSynced", "0")
-        checkForResync()
-    }
-
-    async function authThenUnlink() {
-        newToken()
-        localStorage.setItem("authTask", "unlinkGsheet")
-    }
-
-    function setupSync() {
-        newToken()
-        localStorage.setItem("authTask", "setupSync")
-        ReactGA.event({
-            category: "Settings Action",
-            action: "Cloud Syncing Enabled",
-            nonInteraction: false, // optional, true/false
-            transport: "xhr", // optional, beacon/xhr/image
-        })
-    }
-
     function updatePersist() {
         const checked = (document.getElementById("persist-toggle") as HTMLInputElement).checked
         localStorage.setItem("persist_variables", String(checked))
@@ -270,14 +209,6 @@ export default function SettingsModal({
                                     }`}
                                 >
                                     {t(k.IMPORT_EXPORT)}
-                                </a>
-                                <a
-                                    onClick={() => handlePageChange("Cloud")}
-                                    className={`p-1 grow tab ${
-                                        currentPage === "Cloud" ? "tab-active" : ""
-                                    }`}
-                                >
-                                    {t(k.CLOUD_SYNCING)}
                                 </a>
                             </ul>
                         </div>
@@ -493,99 +424,6 @@ export default function SettingsModal({
                                     </div>
                                 </div>
                             </>
-                        )}
-
-                        {currentPage === "Cloud" && (
-                            <div className="card mt-3 mb-3">
-                                <div className="card-body pt-2" id="account-sync-section">
-                                    <h5 className="card-title">{t(k.CLOUD_SYNCING)}</h5>
-                                    {!cfSignedIn ? (
-                                        <>
-                                            <p>
-                                                Signing in is optional — it backs up your prompts
-                                                and syncs them to every device. Email & password,
-                                                Google, and passkeys are supported; two-factor
-                                                authentication can be enabled at sign-in.
-                                            </p>
-                                            <button
-                                                id="account-signin"
-                                                className="btn btn-primary w-fit"
-                                                disabled={cfBusy}
-                                                onClick={cfSignInHandler}
-                                            >
-                                                {cfBusy
-                                                    ? "Opening sign-in…"
-                                                    : "Sign in / Create account"}
-                                            </button>
-                                            <div className="alert alert-warning text-sm">
-                                                <span>
-                                                    <strong>Local-only right now.</strong> Your
-                                                    prompts live only in this browser — clearing
-                                                    browsing data or switching devices will lose
-                                                    them. Export a backup from Import/Export
-                                                    anytime.
-                                                </span>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <p id="account-email">
-                                                Signed in as <strong>{userEmail()}</strong> — your
-                                                prompts sync automatically. Passkeys and two-factor
-                                                settings are managed on the sign-in page.
-                                            </p>
-                                            <div className="flex gap-2">
-                                                <button
-                                                    id="account-sync-now"
-                                                    className="btn"
-                                                    disabled={cfBusy}
-                                                    onClick={cfSyncNowHandler}
-                                                >
-                                                    {cfBusy ? "Syncing…" : "Sync now"}
-                                                </button>
-                                                <button
-                                                    id="account-signout"
-                                                    className="btn btn-outline"
-                                                    onClick={cfSignOutHandler}
-                                                >
-                                                    Sign out
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-
-                                {!cloudSyncingEnabled && (
-                                    <div className="card-body pt-2">
-                                        <h5 className="card-title text-sm opacity-70">
-                                            Legacy (being retired):{" "}
-                                            {t(k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS)}
-                                        </h5>
-                                        <button onClick={setupSync} className="btn btn-sm w-fit">
-                                            {t(k.LINK_GOOGLE_SHEETS)} <GoogleDriveIcon />
-                                        </button>
-                                    </div>
-                                )}
-
-                                {cloudSyncingEnabled && (
-                                    <div className="card-body pt-2">
-                                        <h5 className="card-title">{t(k.CLOUD_SYNCING)}</h5>
-                                        <button className={"btn"} onClick={authThenResync}>
-                                            {t(k.MANUALLY_RESYNC)}
-                                        </button>
-                                        <button className="btn" onClick={authThenUnlink}>
-                                            {t(k.DISABLE_CLOUD_SYNCING)}
-                                        </button>
-                                        <a
-                                            className={"link link-primary"}
-                                            href={`https://docs.google.com/spreadsheets/d/${sheetID}`}
-                                            target="_blank"
-                                        >
-                                            {t(k.VIEW_LINKED_SHEET)}
-                                        </a>
-                                    </div>
-                                )}
-                            </div>
                         )}
                     </div>
                 </div>

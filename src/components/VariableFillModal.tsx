@@ -165,7 +165,9 @@ function VariableField({
                 </div>
             )
         }
+        // Untyped (legacy) variables render a single-line text field, same as `text`.
         case "text":
+        case "legacy":
             return (
                 <div>
                     {label}
@@ -178,7 +180,7 @@ function VariableField({
                     />
                 </div>
             )
-        // largeText and legacy both render a textarea (legacy preserves today's behavior).
+        // Only largeText renders a textarea.
         default:
             return (
                 <div>

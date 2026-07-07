@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react"
 import Head2 from "./Head2"
+import { GoogleIcon } from "./icons/Icons"
 import {
+    confirmPasswordReset,
     mfaChallenge,
     mfaVerify,
+    PENDING_AUTH_STEP_KEY,
+    PENDING_RESET_KEY,
+    requestPasswordReset,
     signInPassword,
     signUpPassword,
     startGoogleSignIn,
@@ -16,7 +21,13 @@ import {
 
 export const OPEN_AUTH_EVENT = "open-auth-modal"
 
-type Screen = "form" | "verify-email" | "mfa"
+type Screen =
+    | "form"
+    | "verify-email"
+    | "mfa"
+    | "reset-request"
+    | "reset-sent"
+    | "reset-confirm"
 
 export default function AuthModal() {
     const [open, setOpen] = useState(false)
@@ -31,6 +42,7 @@ export default function AuthModal() {
     // Interstitial state carried between steps
     const [pendingToken, setPendingToken] = useState("")
     const [challengeId, setChallengeId] = useState("")
+    const [resetToken, setResetToken] = useState("")
 
     useEffect(() => {
         const openHandler = () => {
@@ -42,6 +54,33 @@ export default function AuthModal() {
         return () => window.removeEventListener(OPEN_AUTH_EVENT, openHandler)
     }, [])
 
+    // A password-reset link was followed: initAuth stashed the token, so open on the reset screen.
+    useEffect(() => {
+        const token = localStorage.getItem(PENDING_RESET_KEY)
+        if (!token) return
+        localStorage.removeItem(PENDING_RESET_KEY)
+        setResetToken(token)
+        setScreen("reset-confirm")
+        setError("")
+        setOpen(true)
+    }, [])
+
+    // A Google sign-in came back needing another step (usually email verification to link the
+    // Google login onto an existing password account): initAuth stashed the step — resume it.
+    useEffect(() => {
+        const raw = localStorage.getItem(PENDING_AUTH_STEP_KEY)
+        if (!raw) return
+        localStorage.removeItem(PENDING_AUTH_STEP_KEY)
+        try {
+            const step = JSON.parse(raw) as AuthStep
+            setOpen(true)
+            void handleStep(step)
+        } catch {
+            /* malformed stash — ignore */
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     if (!open) return null
 
     function close() {
@@ -50,6 +89,7 @@ export default function AuthModal() {
         setConfirmPassword("")
         setCode("")
         setError("")
+        setResetToken("")
     }
 
     async function handleStep(step: AuthStep) {
@@ -62,6 +102,9 @@ export default function AuthModal() {
         }
         if (step.status === "email_verification_required") {
             setPendingToken(step.pendingAuthenticationToken ?? "")
+            // On a Google-link resume the user never typed their email; use the one WorkOS returns
+            // so the "we sent a code to …" copy isn't blank.
+            if (step.email) setEmail(step.email)
             setScreen("verify-email")
             setCode("")
             setError("")
@@ -104,6 +147,29 @@ export default function AuthModal() {
         await handleStep(step)
     }
 
+    async function submitResetRequest() {
+        if (busy || !email.includes("@")) return
+        setBusy(true)
+        setError("")
+        await requestPasswordReset(email.trim())
+        setBusy(false)
+        // Always advance — the worker never reveals whether the address has an account.
+        setScreen("reset-sent")
+    }
+
+    async function submitResetConfirm() {
+        if (busy || password.length < 1) return
+        if (password !== confirmPassword) {
+            setError("Passwords don't match — please re-enter them.")
+            return
+        }
+        setBusy(true)
+        setError("")
+        const step = await confirmPasswordReset(resetToken, password)
+        setBusy(false)
+        await handleStep(step)
+    }
+
     async function submitCode() {
         if (busy || code.trim().length < 6) return
         setBusy(true)
@@ -130,12 +196,13 @@ export default function AuthModal() {
                             </p>
                             <button
                                 id="auth-google"
-                                className="btn btn-outline w-full mb-3"
+                                className="btn btn-outline w-full mb-3 gap-2"
                                 onClick={() => {
                                     startGoogleSignIn()
                                     close()
                                 }}
                             >
+                                <GoogleIcon />
                                 Continue with Google
                             </button>
                             <div className="divider text-xs">or use email</div>
@@ -185,6 +252,20 @@ export default function AuthModal() {
                                     ? "Sign in"
                                     : "Create account"}
                             </button>
+                            {mode === "signin" && (
+                                <p className="text-sm mt-3 text-center">
+                                    <a
+                                        className="link link-primary"
+                                        id="auth-forgot-password"
+                                        onClick={() => {
+                                            setScreen("reset-request")
+                                            setError("")
+                                        }}
+                                    >
+                                        Forgot your password?
+                                    </a>
+                                </p>
+                            )}
                             <p className="text-sm mt-3 text-center">
                                 {mode === "signin" ? (
                                     <>
@@ -221,7 +302,7 @@ export default function AuthModal() {
                         </>
                     )}
 
-                    {screen !== "form" && (
+                    {(screen === "verify-email" || screen === "mfa") && (
                         <>
                             <Head2>
                                 {screen === "verify-email"
@@ -253,6 +334,106 @@ export default function AuthModal() {
                                 onClick={submitCode}
                             >
                                 {busy ? "Verifying…" : "Verify"}
+                            </button>
+                        </>
+                    )}
+
+                    {screen === "reset-request" && (
+                        <>
+                            <Head2>Reset your password</Head2>
+                            <p className="text-sm mb-3">
+                                Enter your account email and we'll send you a link to set a new
+                                password.
+                            </p>
+                            <input
+                                id="auth-reset-email"
+                                type="email"
+                                autoFocus
+                                className="input input-bordered w-full mb-3"
+                                placeholder="you@example.com"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                onKeyDown={e => {
+                                    if (e.key === "Enter") submitResetRequest()
+                                }}
+                            />
+                            <button
+                                id="auth-reset-submit"
+                                className="btn btn-primary w-full"
+                                disabled={busy || !email.includes("@")}
+                                onClick={submitResetRequest}
+                            >
+                                {busy ? "Sending…" : "Send reset link"}
+                            </button>
+                            <p className="text-sm mt-3 text-center">
+                                <a
+                                    className="link link-primary"
+                                    id="auth-reset-back"
+                                    onClick={() => {
+                                        setScreen("form")
+                                        setError("")
+                                    }}
+                                >
+                                    Back to sign in
+                                </a>
+                            </p>
+                        </>
+                    )}
+
+                    {screen === "reset-sent" && (
+                        <>
+                            <Head2>Check your email</Head2>
+                            <p className="text-sm mb-3">
+                                If an account exists for {email}, we've sent a link to reset your
+                                password. It may take a minute to arrive — check your spam folder
+                                too.
+                            </p>
+                            <button
+                                id="auth-reset-done"
+                                className="btn btn-primary w-full"
+                                onClick={() => {
+                                    setScreen("form")
+                                    setError("")
+                                }}
+                            >
+                                Back to sign in
+                            </button>
+                        </>
+                    )}
+
+                    {screen === "reset-confirm" && (
+                        <>
+                            <Head2>Set a new password</Head2>
+                            <p className="text-sm mb-3">
+                                Choose a new password for your account.
+                            </p>
+                            <input
+                                id="auth-reset-password"
+                                type="password"
+                                autoFocus
+                                className="input input-bordered w-full mb-2"
+                                placeholder="New password (10+ chars)"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                            />
+                            <input
+                                id="auth-reset-password-confirm"
+                                type="password"
+                                className="input input-bordered w-full mb-3"
+                                placeholder="Confirm new password"
+                                value={confirmPassword}
+                                onChange={e => setConfirmPassword(e.target.value)}
+                                onKeyDown={e => {
+                                    if (e.key === "Enter") submitResetConfirm()
+                                }}
+                            />
+                            <button
+                                id="auth-reset-confirm-submit"
+                                className="btn btn-primary w-full"
+                                disabled={busy || password.length < 1}
+                                onClick={submitResetConfirm}
+                            >
+                                {busy ? "Saving…" : "Save new password"}
                             </button>
                         </>
                     )}

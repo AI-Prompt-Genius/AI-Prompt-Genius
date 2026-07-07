@@ -9,7 +9,7 @@ compatibility_date = "2024-05-01"
 
 [vars]
 # WorkOS Client ID (public, not a secret) — from the WorkOS dashboard, per environment.
-WORKOS_CLIENT_ID = "client_01KWG824DCYF7FGD93HWCYCMX7"
+WORKOS_CLIENT_ID = "client_01KWG8251AYSWRAXXKVHKZGSXN"
 
 [[d1_databases]]
 binding = "DB"

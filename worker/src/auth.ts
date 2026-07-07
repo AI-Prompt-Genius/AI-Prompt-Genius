@@ -142,9 +142,48 @@ export async function handleAuth(
                 }),
             )
 
+        case "/auth/password-reset": {
+            // WorkOS creates the token and emails the reset link (using the "Password reset"
+            // redirect URL + email template configured in the dashboard). Always report success —
+            // surfacing whether an account exists would be an enumeration primitive.
+            await workos(env, "/user_management/password_reset", { email: body.email })
+            return json({ status: "ok" })
+        }
+
+        case "/auth/password-reset/confirm": {
+            // The `token` comes from the ?token= param on the emailed link. Confirming also
+            // verifies the user's email and revokes their other sessions (WorkOS behaviour).
+            const res = await workos(env, "/user_management/password_reset/confirm", {
+                token: body.token,
+                new_password: body.newPassword,
+            })
+            const data = (await res.json()) as any
+            if (!res.ok) {
+                return json(
+                    {
+                        status: "error",
+                        code: data.code,
+                        message:
+                            data.message ??
+                            "Couldn't reset your password — the link may have expired.",
+                    },
+                    400,
+                )
+            }
+            // Hand straight off to a signed-in session with the new password.
+            return relayAuthResult(
+                await workos(env, "/user_management/authenticate", {
+                    client_id: env.WORKOS_CLIENT_ID,
+                    grant_type: "password",
+                    email: data.user?.email,
+                    password: body.newPassword,
+                }),
+            )
+        }
+
         case "/auth/mfa/challenge": {
             const res = await fetch(
-                `${WORKOS}/user_management/authentication_factors/${body.authenticationFactorId}/challenge`,
+                `${WORKOS}/auth/factors/${body.authenticationFactorId}/challenge`,
                 {
                     method: "POST",
                     headers: { authorization: `Bearer ${env.WORKOS_API_KEY}` },
@@ -220,7 +259,7 @@ export async function handleAuth(
             // Counterpart to /user_management/authentication_factors/{id}/challenge above.
             if (!verifiedUserId) return json({ status: "error", message: "unauthorized" }, 401)
             const res = await fetch(
-                `${WORKOS}/user_management/authentication_challenges/${body.authenticationChallengeId}/verify`,
+                `${WORKOS}/auth/challenges/${body.authenticationChallengeId}/verify`,
                 {
                     method: "POST",
                     headers: {
