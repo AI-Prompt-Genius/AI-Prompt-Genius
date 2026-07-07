@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
+import k from "../i18n/keys"
 import Head2 from "./Head2"
 import { GoogleIcon } from "./icons/Icons"
 import {
@@ -36,6 +38,7 @@ type Screen =
     | "reset-confirm"
 
 export default function AuthModal() {
+    const { t } = useTranslation()
     const [open, setOpen] = useState(false)
     const [screen, setScreen] = useState<Screen>("form")
     const [mode, setMode] = useState<"signin" | "signup">("signin")
@@ -142,7 +145,7 @@ export default function AuthModal() {
         if (step.status === "mfa_challenge") {
             const totp = (step.factors ?? []).find(f => f.type === "totp")
             if (!totp) {
-                setError("This account requires 2FA, but no authenticator factor was found.")
+                setError(t(k.AUTH_ERR_NO_FACTOR))
                 return
             }
             setPendingToken(step.pendingAuthenticationToken ?? "")
@@ -153,17 +156,17 @@ export default function AuthModal() {
                 setCode("")
                 setError("")
             } else {
-                setError(ch.message ?? "Couldn't start the 2FA challenge.")
+                setError(ch.message ?? t(k.AUTH_ERR_CHALLENGE_START))
             }
             return
         }
-        setError(step.message ?? "Something went wrong — please try again.")
+        setError(step.message ?? t(k.AUTH_ERR_GENERIC))
     }
 
     async function submitForm() {
         if (busy || !email.includes("@") || password.length < 1) return
         if (mode === "signup" && password !== confirmPassword) {
-            setError("Passwords don't match — please re-enter them.")
+            setError(t(k.AUTH_ERR_PASSWORD_MISMATCH))
             return
         }
         setBusy(true)
@@ -189,7 +192,7 @@ export default function AuthModal() {
     async function submitResetConfirm() {
         if (busy || password.length < 1) return
         if (password !== confirmPassword) {
-            setError("Passwords don't match — please re-enter them.")
+            setError(t(k.AUTH_ERR_PASSWORD_MISMATCH))
             return
         }
         setBusy(true)
@@ -218,11 +221,12 @@ export default function AuthModal() {
                 <div className="modal-box max-w-md" id="auth-modal-box">
                     {screen === "form" && (
                         <>
-                            <Head2>{mode === "signin" ? "Sign in" : "Create your account"}</Head2>
-                            <p className="text-sm mb-3">
-                                Sync your prompts to every device. Signing in is optional — you can
-                                keep using AI Prompt Genius locally without an account.
-                            </p>
+                            <Head2>
+                                {mode === "signin"
+                                    ? t(k.AUTH_SIGN_IN)
+                                    : t(k.AUTH_CREATE_YOUR_ACCOUNT)}
+                            </Head2>
+                            <p className="text-sm mb-3">{t(k.AUTH_SUBTITLE)}</p>
                             <button
                                 id="auth-google"
                                 className="btn btn-outline w-full mb-3 gap-2"
@@ -232,9 +236,9 @@ export default function AuthModal() {
                                 }}
                             >
                                 <GoogleIcon />
-                                Continue with Google
+                                {t(k.AUTH_CONTINUE_WITH_GOOGLE)}
                             </button>
-                            <div className="divider text-xs">or use email</div>
+                            <div className="divider text-xs">{t(k.AUTH_OR_USE_EMAIL)}</div>
                             <input
                                 id="auth-email"
                                 type="email"
@@ -248,7 +252,9 @@ export default function AuthModal() {
                                 type="password"
                                 className="input input-bordered w-full mb-3"
                                 placeholder={
-                                    mode === "signin" ? "Password" : "Choose a password (10+ chars)"
+                                    mode === "signin"
+                                        ? t(k.AUTH_PASSWORD)
+                                        : t(k.AUTH_CHOOSE_PASSWORD)
                                 }
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
@@ -261,7 +267,7 @@ export default function AuthModal() {
                                     id="auth-password-confirm"
                                     type="password"
                                     className="input input-bordered w-full mb-3"
-                                    placeholder="Confirm password"
+                                    placeholder={t(k.AUTH_CONFIRM_PASSWORD)}
                                     value={confirmPassword}
                                     onChange={e => setConfirmPassword(e.target.value)}
                                     onKeyDown={e => {
@@ -276,10 +282,10 @@ export default function AuthModal() {
                                 onClick={submitForm}
                             >
                                 {busy
-                                    ? "Working…"
+                                    ? t(k.AUTH_WORKING)
                                     : mode === "signin"
-                                    ? "Sign in"
-                                    : "Create account"}
+                                    ? t(k.AUTH_SIGN_IN)
+                                    : t(k.AUTH_CREATE_ACCOUNT)}
                             </button>
                             {mode === "signin" && (
                                 <p className="text-sm mt-3 text-center">
@@ -291,14 +297,14 @@ export default function AuthModal() {
                                             setError("")
                                         }}
                                     >
-                                        Forgot your password?
+                                        {t(k.AUTH_FORGOT_PASSWORD)}
                                     </a>
                                 </p>
                             )}
                             <p className="text-sm mt-3 text-center">
                                 {mode === "signin" ? (
                                     <>
-                                        New here?{" "}
+                                        {t(k.AUTH_NEW_HERE)}{" "}
                                         <a
                                             className="link link-primary"
                                             id="auth-switch-signup"
@@ -308,12 +314,12 @@ export default function AuthModal() {
                                                 setError("")
                                             }}
                                         >
-                                            Create an account
+                                            {t(k.AUTH_CREATE_AN_ACCOUNT)}
                                         </a>
                                     </>
                                 ) : (
                                     <>
-                                        Already have an account?{" "}
+                                        {t(k.AUTH_ALREADY_HAVE_ACCOUNT)}{" "}
                                         <a
                                             className="link link-primary"
                                             id="auth-switch-signin"
@@ -323,7 +329,7 @@ export default function AuthModal() {
                                                 setError("")
                                             }}
                                         >
-                                            Sign in
+                                            {t(k.AUTH_SIGN_IN)}
                                         </a>
                                     </>
                                 )}
@@ -335,13 +341,13 @@ export default function AuthModal() {
                         <>
                             <Head2>
                                 {screen === "verify-email"
-                                    ? "Check your email"
-                                    : "Two-factor authentication"}
+                                    ? t(k.AUTH_CHECK_YOUR_EMAIL)
+                                    : t(k.AUTH_TWO_FACTOR)}
                             </Head2>
                             <p className="text-sm mb-3">
                                 {screen === "verify-email"
-                                    ? `We sent a 6-digit code to ${email}. Enter it below to finish signing in.`
-                                    : "Enter the 6-digit code from your authenticator app."}
+                                    ? t(k.AUTH_EMAIL_CODE_SENT, { email })
+                                    : t(k.AUTH_ENTER_AUTH_CODE)}
                             </p>
                             <input
                                 id="auth-code"
@@ -362,18 +368,15 @@ export default function AuthModal() {
                                 disabled={busy || code.length < 6}
                                 onClick={submitCode}
                             >
-                                {busy ? "Verifying…" : "Verify"}
+                                {busy ? t(k.AUTH_VERIFYING) : t(k.AUTH_VERIFY)}
                             </button>
                         </>
                     )}
 
                     {screen === "reset-request" && (
                         <>
-                            <Head2>Reset your password</Head2>
-                            <p className="text-sm mb-3">
-                                Enter your account email and we'll send you a link to set a new
-                                password.
-                            </p>
+                            <Head2>{t(k.AUTH_RESET_YOUR_PASSWORD)}</Head2>
+                            <p className="text-sm mb-3">{t(k.AUTH_RESET_SUBTITLE)}</p>
                             <input
                                 id="auth-reset-email"
                                 type="email"
@@ -392,7 +395,7 @@ export default function AuthModal() {
                                 disabled={busy || !email.includes("@")}
                                 onClick={submitResetRequest}
                             >
-                                {busy ? "Sending…" : "Send reset link"}
+                                {busy ? t(k.AUTH_SENDING) : t(k.AUTH_SEND_RESET_LINK)}
                             </button>
                             <p className="text-sm mt-3 text-center">
                                 <a
@@ -403,7 +406,7 @@ export default function AuthModal() {
                                         setError("")
                                     }}
                                 >
-                                    Back to sign in
+                                    {t(k.AUTH_BACK_TO_SIGN_IN)}
                                 </a>
                             </p>
                         </>
@@ -411,12 +414,8 @@ export default function AuthModal() {
 
                     {screen === "reset-sent" && (
                         <>
-                            <Head2>Check your email</Head2>
-                            <p className="text-sm mb-3">
-                                If an account exists for {email}, we've sent a link to reset your
-                                password. It may take a minute to arrive — check your spam folder
-                                too.
-                            </p>
+                            <Head2>{t(k.AUTH_CHECK_YOUR_EMAIL)}</Head2>
+                            <p className="text-sm mb-3">{t(k.AUTH_RESET_SENT, { email })}</p>
                             <button
                                 id="auth-reset-done"
                                 className="btn btn-primary w-full"
@@ -425,23 +424,21 @@ export default function AuthModal() {
                                     setError("")
                                 }}
                             >
-                                Back to sign in
+                                {t(k.AUTH_BACK_TO_SIGN_IN)}
                             </button>
                         </>
                     )}
 
                     {screen === "reset-confirm" && (
                         <>
-                            <Head2>Set a new password</Head2>
-                            <p className="text-sm mb-3">
-                                Choose a new password for your account.
-                            </p>
+                            <Head2>{t(k.AUTH_SET_NEW_PASSWORD)}</Head2>
+                            <p className="text-sm mb-3">{t(k.AUTH_SET_NEW_PASSWORD_SUBTITLE)}</p>
                             <input
                                 id="auth-reset-password"
                                 type="password"
                                 autoFocus
                                 className="input input-bordered w-full mb-2"
-                                placeholder="New password (10+ chars)"
+                                placeholder={t(k.AUTH_NEW_PASSWORD_PLACEHOLDER)}
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                             />
@@ -449,7 +446,7 @@ export default function AuthModal() {
                                 id="auth-reset-password-confirm"
                                 type="password"
                                 className="input input-bordered w-full mb-3"
-                                placeholder="Confirm new password"
+                                placeholder={t(k.AUTH_CONFIRM_NEW_PASSWORD)}
                                 value={confirmPassword}
                                 onChange={e => setConfirmPassword(e.target.value)}
                                 onKeyDown={e => {
@@ -462,7 +459,7 @@ export default function AuthModal() {
                                 disabled={busy || password.length < 1}
                                 onClick={submitResetConfirm}
                             >
-                                {busy ? "Saving…" : "Save new password"}
+                                {busy ? t(k.AUTH_SAVING) : t(k.AUTH_SAVE_NEW_PASSWORD)}
                             </button>
                         </>
                     )}
@@ -474,7 +471,7 @@ export default function AuthModal() {
                     )}
                 </div>
                 <div className="modal-backdrop">
-                    <button onClick={close}>Close</button>
+                    <button onClick={close}>{t(k.CLOSE)}</button>
                 </div>
             </div>
         </>

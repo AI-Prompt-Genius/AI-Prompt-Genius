@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
+import k from "../i18n/keys"
 import Head2 from "./Head2"
 import { mfaChallenge, mfaEnroll, mfaVerifyEnroll, userEmail } from "../auth/customAuth"
 import { cloudSyncNow } from "../sync/syncClient"
@@ -10,6 +12,7 @@ import { cloudSyncNow } from "../sync/syncClient"
 export const OPEN_ACCOUNT_EVENT = "open-account-modal"
 
 export default function ManageAccountModal() {
+    const { t } = useTranslation()
     const [open, setOpen] = useState(false)
     const [busy, setBusy] = useState(false)
     const [error, setError] = useState("")
@@ -43,7 +46,7 @@ export default function ManageAccountModal() {
             setSecret(step.secret ?? null)
             setFactorId(step.factorId ?? null)
         } else {
-            setError(step.message ?? "Couldn't start 2FA enrollment.")
+            setError(step.message ?? t(k.ACCOUNT_ERR_ENROLL))
         }
     }
 
@@ -56,7 +59,7 @@ export default function ManageAccountModal() {
         const ch = await mfaChallenge(factorId)
         if (ch.status !== "ok" || !ch.authenticationChallengeId) {
             setBusy(false)
-            setError(ch.message ?? "Couldn't verify the code — try again.")
+            setError(ch.message ?? t(k.ACCOUNT_ERR_VERIFY))
             return
         }
         const res = await mfaVerifyEnroll(ch.authenticationChallengeId, code.trim())
@@ -65,7 +68,7 @@ export default function ManageAccountModal() {
             setActivated(true)
             setError("")
         } else {
-            setError(res.message ?? "That code didn't match. Try again.")
+            setError(res.message ?? t(k.ACCOUNT_ERR_CODE_MISMATCH))
         }
     }
 
@@ -74,7 +77,7 @@ export default function ManageAccountModal() {
         setBusy(true)
         const ok = await cloudSyncNow()
         setBusy(false)
-        setSyncMsg(ok ? "Synced ✓" : "Sync failed — try again")
+        setSyncMsg(ok ? t(k.ACCOUNT_SYNCED) : t(k.ACCOUNT_SYNC_FAILED))
     }
 
     return (
@@ -87,10 +90,11 @@ export default function ManageAccountModal() {
             />
             <div className="modal">
                 <div className="modal-box max-w-md" id="account-modal-box">
-                    <Head2>Your account</Head2>
+                    <Head2>{t(k.ACCOUNT_TITLE)}</Head2>
                     <p className="mb-3">
-                        Signed in as <strong id="account-modal-email">{userEmail()}</strong> — your
-                        prompts sync automatically across devices.
+                        {t(k.ACCOUNT_SIGNED_IN_AS)}{" "}
+                        <strong id="account-modal-email">{userEmail()}</strong>{" "}
+                        {t(k.ACCOUNT_SYNC_AUTO_SUFFIX)}
                     </p>
 
                     <div className="flex gap-2 mb-4">
@@ -100,49 +104,40 @@ export default function ManageAccountModal() {
                             disabled={busy}
                             onClick={syncNow}
                         >
-                            {busy ? "Working…" : "Sync now"}
+                            {busy ? t(k.AUTH_WORKING) : t(k.ACCOUNT_SYNC_NOW)}
                         </button>
                         {syncMsg && <span className="self-center text-sm">{syncMsg}</span>}
                     </div>
 
-                    <div className="divider text-xs">Two-factor authentication</div>
+                    <div className="divider text-xs">{t(k.AUTH_TWO_FACTOR)}</div>
                     {!qrCode ? (
                         <>
-                            <p className="text-sm mb-3">
-                                Add an authenticator app (Google Authenticator, 1Password, etc.) as
-                                a second factor. You&apos;ll be asked for a 6-digit code at sign-in.
-                            </p>
+                            <p className="text-sm mb-3">{t(k.ACCOUNT_2FA_INTRO)}</p>
                             <button
                                 id="account-enroll-2fa"
                                 className="btn btn-outline btn-sm"
                                 disabled={busy}
                                 onClick={enroll2fa}
                             >
-                                Set up 2FA
+                                {t(k.ACCOUNT_SETUP_2FA)}
                             </button>
                         </>
                     ) : activated ? (
                         <div className="alert alert-success text-sm" id="account-2fa-done">
-                            <span>
-                                Two-factor authentication is on. You&apos;ll be asked for a code
-                                from your authenticator app at your next sign-in.
-                            </span>
+                            <span>{t(k.ACCOUNT_2FA_ON)}</span>
                         </div>
                     ) : (
                         <div className="text-sm">
-                            <p className="mb-2">
-                                Scan this QR code with your authenticator app, then enter the
-                                6-digit code it shows to confirm and turn on 2FA.
-                            </p>
+                            <p className="mb-2">{t(k.ACCOUNT_2FA_SCAN)}</p>
                             <img
                                 id="account-2fa-qr"
                                 src={qrCode}
-                                alt="2FA QR code"
+                                alt={t(k.ACCOUNT_2FA_QR_ALT)}
                                 className="w-40 h-40 mx-auto my-2"
                             />
                             {secret && (
                                 <p className="text-xs opacity-70 break-all mb-3">
-                                    Manual entry key: {secret}
+                                    {t(k.ACCOUNT_2FA_MANUAL_KEY)} {secret}
                                 </p>
                             )}
                             <input
@@ -163,7 +158,7 @@ export default function ManageAccountModal() {
                                 disabled={busy || code.length < 6}
                                 onClick={confirm2fa}
                             >
-                                {busy ? "Verifying…" : "Confirm & turn on 2FA"}
+                                {busy ? t(k.AUTH_VERIFYING) : t(k.ACCOUNT_2FA_CONFIRM)}
                             </button>
                         </div>
                     )}
@@ -175,7 +170,7 @@ export default function ManageAccountModal() {
                     )}
                 </div>
                 <div className="modal-backdrop">
-                    <button onClick={() => setOpen(false)}>Close</button>
+                    <button onClick={() => setOpen(false)}>{t(k.CLOSE)}</button>
                 </div>
             </div>
         </>

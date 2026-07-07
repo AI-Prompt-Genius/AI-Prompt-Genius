@@ -215,7 +215,7 @@ export default function Sidebar({
                                         id="sidebar-signin"
                                         onClick={() => window.dispatchEvent(new Event(OPEN_AUTH_EVENT))}
                                     >
-                                        <UserIcon /> Sign in
+                                        <UserIcon /> {t(k.AUTH_SIGN_IN)}
                                     </a>
                                 </li>
                             </>
@@ -224,7 +224,7 @@ export default function Sidebar({
                             <li>
                                 <details>
                                     <summary id="sidebar-account-menu">
-                                        <UserIcon /> Account
+                                        <UserIcon /> {t(k.ACCOUNT_MENU)}
                                     </summary>
                                     <ul>
                                         <li>
@@ -234,7 +234,7 @@ export default function Sidebar({
                                                     window.dispatchEvent(new Event(OPEN_ACCOUNT_EVENT))
                                                 }
                                             >
-                                                <UserIcon /> Manage account
+                                                <UserIcon /> {t(k.MANAGE_ACCOUNT)}
                                             </a>
                                         </li>
                                         <li>
@@ -244,7 +244,7 @@ export default function Sidebar({
                                         </li>
                                         <li>
                                             <a id="sidebar-signout" onClick={handleSignOut}>
-                                                <SignOutIcon /> Sign out
+                                                <SignOutIcon /> {t(k.SIGN_OUT)}
                                             </a>
                                         </li>
                                     </ul>

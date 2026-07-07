@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
+import k from "../i18n/keys"
 import Head2 from "./Head2"
 import { isSignedIn, userEmail } from "../auth/customAuth"
 import { OPEN_AUTH_EVENT } from "./AuthModal"
@@ -11,6 +13,7 @@ import { OPEN_AUTH_EVENT } from "./AuthModal"
 type SyncPref = "cloud" | "local" | null
 
 export default function SyncChoice() {
+    const { t } = useTranslation()
     const [pref, setPref] = useState<SyncPref>(
         (localStorage.getItem("syncPreference") as SyncPref) ?? null,
     )
@@ -43,11 +46,8 @@ export default function SyncChoice() {
 
     return (
         <div>
-            <Head2>How do you want to store your prompts?</Head2>
-            <p className="mb-3">
-                Signing in is optional. Sync keeps your library backed up and available on every
-                device; local-only keeps everything in this browser.
-            </p>
+            <Head2>{t(k.SYNC_CHOICE_TITLE)}</Head2>
+            <p className="mb-3">{t(k.SYNC_CHOICE_SUBTITLE)}</p>
 
             <div className="flex flex-col sm:flex-row gap-3">
                 <button
@@ -58,9 +58,9 @@ export default function SyncChoice() {
                     }`}
                 >
                     <span className="flex flex-col items-start text-left">
-                        <span className="font-bold">Sync across devices</span>
+                        <span className="font-bold">{t(k.SYNC_CHOICE_CLOUD_TITLE)}</span>
                         <span className="text-xs font-normal opacity-80">
-                            Sign in · backed up · everywhere
+                            {t(k.SYNC_CHOICE_CLOUD_DESC)}
                         </span>
                     </span>
                 </button>
@@ -72,9 +72,9 @@ export default function SyncChoice() {
                     }`}
                 >
                     <span className="flex flex-col items-start text-left">
-                        <span className="font-bold">Stay local only</span>
+                        <span className="font-bold">{t(k.SYNC_CHOICE_LOCAL_TITLE)}</span>
                         <span className="text-xs font-normal opacity-80">
-                            No sign-in · this device only
+                            {t(k.SYNC_CHOICE_LOCAL_DESC)}
                         </span>
                     </span>
                 </button>
@@ -83,29 +83,26 @@ export default function SyncChoice() {
             {pref === "cloud" && signedIn && (
                 <div className="alert alert-success mt-4 text-sm" id="sync-success">
                     <span>
-                        <strong>Cloud Sync is on.</strong> Signed in as {userEmail()} — your prompts
-                        now sync automatically. Manage this anytime in{" "}
-                        <em>Settings → Cloud Syncing</em>.
+                        <strong>{t(k.SYNC_CHOICE_CLOUD_ON)}</strong>{" "}
+                        {t(k.SYNC_CHOICE_CLOUD_ON_DESC, { email: userEmail() })}{" "}
+                        <em>{t(k.SYNC_CHOICE_SETTINGS_CLOUD)}</em>.
                     </span>
                 </div>
             )}
 
             {pref === "cloud" && !signedIn && (
                 <div className="alert alert-info mt-4 text-sm" id="sync-pending">
-                    <span>
-                        Finish signing in — you can use email &amp; password or Google. This screen
-                        updates automatically.
-                    </span>
+                    <span>{t(k.SYNC_CHOICE_PENDING)}</span>
                 </div>
             )}
 
             {pref === "local" && (
                 <div className="alert alert-warning mt-4 text-sm" id="local-warning">
                     <span>
-                        <strong>Heads up — local-only.</strong> Your prompts live only in this
-                        browser on this device. Clearing browsing data or switching devices will
-                        lose them. Export a backup anytime from <em>Settings → Import/Export</em>,
-                        and you can turn on Cloud Sync later.
+                        <strong>{t(k.SYNC_CHOICE_LOCAL_WARNING_TITLE)}</strong>{" "}
+                        {t(k.SYNC_CHOICE_LOCAL_WARNING_DESC)}{" "}
+                        <em>{t(k.SYNC_CHOICE_SETTINGS_IMPORT)}</em>
+                        {t(k.SYNC_CHOICE_LOCAL_WARNING_DESC2)}
                     </span>
                 </div>
             )}

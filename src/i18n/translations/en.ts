@@ -174,6 +174,93 @@ export const en = {
     [k.USE_SIMPLE_CONDITION]: "Simple condition",
     [k.NO_VARIABLES_YET]: "Add a variable to the prompt first",
     [k.SELECT_VARIABLE]: "Select a variable",
+
+    // Sign in / auth
+    [k.AUTH_SIGN_IN]: "Sign in",
+    [k.AUTH_CREATE_YOUR_ACCOUNT]: "Create your account",
+    [k.AUTH_SUBTITLE]:
+        "Sync your prompts to every device. Signing in is optional — you can keep using AI Prompt Genius locally without an account.",
+    [k.AUTH_CONTINUE_WITH_GOOGLE]: "Continue with Google",
+    [k.AUTH_OR_USE_EMAIL]: "or use email",
+    [k.AUTH_PASSWORD]: "Password",
+    [k.AUTH_CHOOSE_PASSWORD]: "Choose a password (10+ chars)",
+    [k.AUTH_CONFIRM_PASSWORD]: "Confirm password",
+    [k.AUTH_WORKING]: "Working…",
+    [k.AUTH_CREATE_ACCOUNT]: "Create account",
+    [k.AUTH_FORGOT_PASSWORD]: "Forgot your password?",
+    [k.AUTH_NEW_HERE]: "New here?",
+    [k.AUTH_CREATE_AN_ACCOUNT]: "Create an account",
+    [k.AUTH_ALREADY_HAVE_ACCOUNT]: "Already have an account?",
+    [k.AUTH_CHECK_YOUR_EMAIL]: "Check your email",
+    [k.AUTH_TWO_FACTOR]: "Two-factor authentication",
+    [k.AUTH_EMAIL_CODE_SENT]:
+        "We sent a 6-digit code to {{email}}. Enter it below to finish signing in.",
+    [k.AUTH_ENTER_AUTH_CODE]: "Enter the 6-digit code from your authenticator app.",
+    [k.AUTH_VERIFYING]: "Verifying…",
+    [k.AUTH_VERIFY]: "Verify",
+    [k.AUTH_RESET_YOUR_PASSWORD]: "Reset your password",
+    [k.AUTH_RESET_SUBTITLE]:
+        "Enter your account email and we'll send you a link to set a new password.",
+    [k.AUTH_SENDING]: "Sending…",
+    [k.AUTH_SEND_RESET_LINK]: "Send reset link",
+    [k.AUTH_BACK_TO_SIGN_IN]: "Back to sign in",
+    [k.AUTH_RESET_SENT]:
+        "If an account exists for {{email}}, we've sent a link to reset your password. It may take a minute to arrive — check your spam folder too.",
+    [k.AUTH_SET_NEW_PASSWORD]: "Set a new password",
+    [k.AUTH_SET_NEW_PASSWORD_SUBTITLE]: "Choose a new password for your account.",
+    [k.AUTH_NEW_PASSWORD_PLACEHOLDER]: "New password (10+ chars)",
+    [k.AUTH_CONFIRM_NEW_PASSWORD]: "Confirm new password",
+    [k.AUTH_SAVING]: "Saving…",
+    [k.AUTH_SAVE_NEW_PASSWORD]: "Save new password",
+    [k.AUTH_ERR_NO_FACTOR]:
+        "This account requires 2FA, but no authenticator factor was found.",
+    [k.AUTH_ERR_CHALLENGE_START]: "Couldn't start the 2FA challenge.",
+    [k.AUTH_ERR_GENERIC]: "Something went wrong — please try again.",
+    [k.AUTH_ERR_PASSWORD_MISMATCH]: "Passwords don't match — please re-enter them.",
+
+    // Manage account
+    [k.ACCOUNT_TITLE]: "Your account",
+    [k.ACCOUNT_SIGNED_IN_AS]: "Signed in as",
+    [k.ACCOUNT_SYNC_AUTO_SUFFIX]: "— your prompts sync automatically across devices.",
+    [k.ACCOUNT_SYNC_NOW]: "Sync now",
+    [k.ACCOUNT_SYNCED]: "Synced ✓",
+    [k.ACCOUNT_SYNC_FAILED]: "Sync failed — try again",
+    [k.ACCOUNT_2FA_INTRO]:
+        "Add an authenticator app (Google Authenticator, 1Password, etc.) as a second factor. You'll be asked for a 6-digit code at sign-in.",
+    [k.ACCOUNT_SETUP_2FA]: "Set up 2FA",
+    [k.ACCOUNT_2FA_ON]:
+        "Two-factor authentication is on. You'll be asked for a code from your authenticator app at your next sign-in.",
+    [k.ACCOUNT_2FA_SCAN]:
+        "Scan this QR code with your authenticator app, then enter the 6-digit code it shows to confirm and turn on 2FA.",
+    [k.ACCOUNT_2FA_QR_ALT]: "2FA QR code",
+    [k.ACCOUNT_2FA_MANUAL_KEY]: "Manual entry key:",
+    [k.ACCOUNT_2FA_CONFIRM]: "Confirm & turn on 2FA",
+    [k.ACCOUNT_ERR_ENROLL]: "Couldn't start 2FA enrollment.",
+    [k.ACCOUNT_ERR_VERIFY]: "Couldn't verify the code — try again.",
+    [k.ACCOUNT_ERR_CODE_MISMATCH]: "That code didn't match. Try again.",
+    [k.ACCOUNT_MENU]: "Account",
+    [k.MANAGE_ACCOUNT]: "Manage account",
+    [k.SIGN_OUT]: "Sign out",
+
+    // Sync choice (onboarding)
+    [k.SYNC_CHOICE_TITLE]: "How do you want to store your prompts?",
+    [k.SYNC_CHOICE_SUBTITLE]:
+        "Signing in is optional. Sync keeps your library backed up and available on every device; local-only keeps everything in this browser.",
+    [k.SYNC_CHOICE_CLOUD_TITLE]: "Sync across devices",
+    [k.SYNC_CHOICE_CLOUD_DESC]: "Sign in · backed up · everywhere",
+    [k.SYNC_CHOICE_LOCAL_TITLE]: "Stay local only",
+    [k.SYNC_CHOICE_LOCAL_DESC]: "No sign-in · this device only",
+    [k.SYNC_CHOICE_CLOUD_ON]: "Cloud Sync is on.",
+    [k.SYNC_CHOICE_CLOUD_ON_DESC]:
+        "Signed in as {{email}} — your prompts now sync automatically. Manage this anytime in",
+    [k.SYNC_CHOICE_SETTINGS_CLOUD]: "Settings → Cloud Syncing",
+    [k.SYNC_CHOICE_PENDING]:
+        "Finish signing in — you can use email & password or Google. This screen updates automatically.",
+    [k.SYNC_CHOICE_LOCAL_WARNING_TITLE]: "Heads up — local-only.",
+    [k.SYNC_CHOICE_LOCAL_WARNING_DESC]:
+        "Your prompts live only in this browser on this device. Clearing browsing data or switching devices will lose them. Export a backup anytime from",
+    [k.SYNC_CHOICE_SETTINGS_IMPORT]: "Settings → Import/Export",
+    [k.SYNC_CHOICE_LOCAL_WARNING_DESC2]: ", and you can turn on Cloud Sync later.",
 }
 
 export default en
