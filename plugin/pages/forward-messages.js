@@ -29,6 +29,19 @@ window.addEventListener(
         } else if (message.message === "sync_prompts") {
             const prompts = message.data
             chrome.storage.local.set({ currentPrompts: prompts })
+        } else if (message.message === "getTransfer") {
+            // Old prompts/language live in this page's own localStorage (same chrome-extension://
+            // origin the legacy popup/pages used, and the same origin sidebar/fullscreen/search
+            // load from) — not chrome.storage.local, which the app never wrote these to.
+            const prompts = JSON.parse(localStorage.getItem("prompts") || "[]").reverse()
+            const lang = localStorage.getItem("lng") || "en"
+            const response = { message: "transfer", prompts: prompts, lang: lang }
+            document
+                .getElementById("window")
+                .contentWindow.postMessage(
+                    JSON.stringify(response),
+                    "https://lib.aipromptgenius.app",
+                )
         } else if (message.message === "pro_status") {
             const proStatus = message.pro
             chrome.storage.local.set({ pro: proStatus })
