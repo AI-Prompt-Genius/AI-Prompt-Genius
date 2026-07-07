@@ -3,8 +3,10 @@ import Head2 from "./Head2"
 import { GoogleIcon } from "./icons/Icons"
 import {
     confirmPasswordReset,
+    isFullscreenTab,
     mfaChallenge,
     mfaVerify,
+    PENDING_AUTH_KEY,
     PENDING_AUTH_STEP_KEY,
     PENDING_RESET_KEY,
     requestPasswordReset,
@@ -56,6 +58,19 @@ export default function AuthModal() {
         }
         window.addEventListener(OPEN_AUTH_EVENT, openHandler)
         return () => window.removeEventListener(OPEN_AUTH_EVENT, openHandler)
+    }, [])
+
+    // Google sign-in handed off from the side panel (which can't host the OAuth popup): the
+    // fullscreen tab it opened lands here with pendingAuth=google. Open on the form so the user
+    // clicks "Continue with Google" once more — that click's gesture lets the popup open, and the
+    // fullscreen tab is persistent so its window.opener survives the callback.
+    useEffect(() => {
+        if (!isFullscreenTab()) return
+        if (localStorage.getItem(PENDING_AUTH_KEY) !== "google") return
+        localStorage.removeItem(PENDING_AUTH_KEY)
+        setScreen("form")
+        setError("")
+        setOpen(true)
     }, [])
 
     // A password-reset link was followed: initAuth stashed the token, so open on the reset screen.

@@ -1,13 +1,19 @@
+import { sendMessageToParent } from "../components/js/utils"
+
 // Custom-UI auth (WorkOS User Management, proxied through our worker so the secret API key never
 // reaches the browser). Signing in is optional — no tokens means the app stays fully local.
 //
 // Methods: email/password (inline, works inside the sidebar iframe) and Google OAuth. The Google
-// consent screen can't render inside the extension iframe, so it opens in a POPUP. Crucially, a
-// full-tab redirect would land the callback on a standalone first-party lib.aipromptgenius.app tab,
-// whose storage is a DIFFERENT bucket from the embedded app (Chrome partitions the embedded iframe's
-// storage under the extension) — the tokens would strand away from the user's prompts. The popup
-// keeps `window.opener` pointed at the embedded app, so the callback hands the OAuth code back into
-// the correct bucket to finish there (see `initAuth` + the `googleAuthCode` handler in App.tsx).
+// consent screen can't render inside the extension iframe, so it opens in a POPUP whose
+// `window.opener` points back at the embedded app; the callback hands the OAuth code to the opener
+// so tokens land in the app's storage bucket, not a standalone first-party lib.aipromptgenius.app
+// tab (Chrome partitions the embedded iframe's storage under the extension, so a first-party tab is
+// a DIFFERENT bucket that would strand the tokens away from the user's prompts).
+//
+// The side panel can't host that popup: opening it steals focus and Chrome tears the panel (and its
+// `window.opener`) down before the callback returns. So from the side panel we first route into a
+// persistent fullscreen extension tab (same partition, shared via localStorage) and run the popup
+// from there. See `startGoogleSignIn`, `initAuth`, and the `googleAuthCode` handler in App.tsx.
 // Passkeys are deliberately not offered (WorkOS only supports them on the hosted page we dropped).
 //
 // Tokens live in localStorage — deliberate: shared across the sidebar iframe and fullscreen tab,
@@ -23,7 +29,7 @@ const REFRESH_KEY = "auth_refresh_token"
 const SIGNED_IN_KEY = "authkit_signed_in" // kept from the previous flow so UI listeners still work
 const EMAIL_KEY = "authkit_email"
 const USER_ID_KEY = "auth_user_id"
-const PENDING_AUTH_KEY = "pendingAuth"
+export const PENDING_AUTH_KEY = "pendingAuth"
 export const PENDING_RESET_KEY = "pendingResetToken"
 // A Google callback that didn't complete in one shot (email verification / MFA) is stashed here
 // for AuthModal to resume — localStorage is shared with the sidebar iframe, same as the reset flow.
@@ -43,6 +49,20 @@ export interface AuthStep {
     factorId?: string
     qrCode?: string
     secret?: string
+}
+
+function isInIframe(): boolean {
+    try {
+        return window.self !== window.top
+    } catch {
+        return true
+    }
+}
+
+/** True in the persistent fullscreen extension tab (plugin/pages/fullscreen.html) — it embeds the
+ * SPA with ?fullscreen=true, which distinguishes it from the focus-fragile side panel iframe. */
+export function isFullscreenTab(): boolean {
+    return new URLSearchParams(window.location.search).get("fullscreen") === "true"
 }
 
 async function post(path: string, body: unknown, token?: string): Promise<AuthStep> {
@@ -199,13 +219,22 @@ export function googleAuthUrl(): string {
 }
 
 /**
- * Start Google sign-in in a popup. The popup keeps `window.opener` pointed at this (embedded) app,
- * so the callback can hand the OAuth code back into our storage bucket instead of stranding the
- * tokens on a standalone first-party tab (see the module header). If the popup is blocked we fall
- * back to a full-tab redirect — it completes the sign-in but lands first-party; the user can retry
- * to get the in-place popup.
+ * Start Google sign-in.
+ *
+ * From the side panel we can't host the OAuth popup — opening it steals focus and Chrome tears the
+ * panel down before the callback returns, killing the `window.opener` the code must post back to.
+ * So the side panel hands off to a persistent fullscreen extension tab (flagged via `pendingAuth`
+ * in the shared-partition localStorage); that tab auto-opens this modal and the user completes the
+ * flow there. In the fullscreen tab (or a standalone page) we open the popup directly — its opener
+ * stays alive, so the callback lands the tokens in this (correct) storage bucket. Popup blocked →
+ * full-tab redirect fallback (completes but lands first-party; the user can retry).
  */
 export function startGoogleSignIn(): void {
+    if (isInIframe() && !isFullscreenTab()) {
+        localStorage.setItem(PENDING_AUTH_KEY, "google")
+        sendMessageToParent({ message: "openFullScreen" })
+        return
+    }
     const popup = window.open(
         googleAuthUrl(),
         "workos_google_signin",
