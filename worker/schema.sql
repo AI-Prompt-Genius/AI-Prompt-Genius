@@ -29,6 +29,18 @@ CREATE TABLE IF NOT EXISTS folders (
 );
 CREATE INDEX IF NOT EXISTS idx_folders_rev ON folders (user_id, rev);
 
+-- Per-user account settings + Pro license (Feature: settings/pro sync with the account).
+-- Singleton row per user. `data` is a JSON blob of device-portable settings (language, theme,
+-- persist_variables), last-writer-wins on `updated_at`. `pro_key` is the Gumroad license key and
+-- is STICKY — the merge never clears it from a settings write, only an explicit deactivation — so
+-- Pro follows the account across every signed-in device.
+CREATE TABLE IF NOT EXISTS user_settings (
+  user_id    TEXT PRIMARY KEY,
+  data       TEXT NOT NULL DEFAULT '{}',
+  updated_at INTEGER NOT NULL DEFAULT 0,
+  pro_key    TEXT
+);
+
 -- Teams (Feature 3 extension): a workspace can own shared prompts/folders and members with roles.
 -- Left as a documented next step — the sync endpoint keys everything by user_id today; swap that
 -- for workspace_id + a membership check to share a library.

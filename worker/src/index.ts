@@ -28,6 +28,15 @@ interface SyncPrompt {
     lastChanged?: number
 }
 
+function safeParse(s: string): Record<string, unknown> {
+    try {
+        const v = JSON.parse(s)
+        return v && typeof v === "object" ? (v as Record<string, unknown>) : {}
+    } catch {
+        return {}
+    }
+}
+
 function json(data: unknown, status = 200): Response {
     return new Response(JSON.stringify(data), {
         status,
@@ -81,6 +90,10 @@ export default {
                 prompts?: SyncPrompt[]
                 deletedPromptIds?: string[]
                 folders?: string[]
+                settings?: { data: Record<string, unknown>; updatedAt: number }
+                // Gumroad license key. `null` = explicit deactivation (clear it); `undefined`
+                // (omitted) = this device just doesn't know one, leave the account's key untouched.
+                proKey?: string | null
             }
 
             const sinceRev = body.sinceRev ?? 0
@@ -146,6 +159,55 @@ export default {
                 }
             }
 
+            // Account settings + Pro license (singleton row per user). Best-effort and isolated:
+            // a not-yet-migrated DB (no user_settings table) must not break prompt/folder sync.
+            let settingsOut: { data: Record<string, unknown>; updatedAt: number } = {
+                data: {},
+                updatedAt: 0,
+            }
+            let proKeyOut: string | null = null
+            try {
+                const existing = await env.DB.prepare(
+                    "SELECT data, updated_at, pro_key FROM user_settings WHERE user_id = ?",
+                )
+                    .bind(userId)
+                    .first<{ data: string; updated_at: number; pro_key: string | null }>()
+
+                // Settings: last-writer-wins on updated_at. Pro key: STICKY — an omitted proKey
+                // (undefined) keeps whatever the account already has; only an explicit null clears
+                // it, so a device that never activated Pro can't wipe the account's license.
+                const serverUpdatedAt = existing?.updated_at ?? 0
+                const incoming = body.settings
+                const winData =
+                    incoming && incoming.updatedAt > serverUpdatedAt
+                        ? incoming.data
+                        : existing
+                          ? safeParse(existing.data)
+                          : {}
+                const winUpdatedAt =
+                    incoming && incoming.updatedAt > serverUpdatedAt
+                        ? incoming.updatedAt
+                        : serverUpdatedAt
+
+                const proKey =
+                    body.proKey === undefined ? (existing?.pro_key ?? null) : body.proKey
+
+                if (incoming || body.proKey !== undefined || !existing) {
+                    await env.DB.prepare(
+                        `INSERT INTO user_settings (user_id, data, updated_at, pro_key)
+                         VALUES (?, ?, ?, ?)
+                         ON CONFLICT(user_id) DO UPDATE SET
+                           data=excluded.data, updated_at=excluded.updated_at, pro_key=excluded.pro_key`,
+                    )
+                        .bind(userId, JSON.stringify(winData), winUpdatedAt, proKey)
+                        .run()
+                }
+                settingsOut = { data: winData, updatedAt: winUpdatedAt }
+                proKeyOut = proKey
+            } catch (err) {
+                console.error("settings sync skipped", err)
+            }
+
             // Return everything changed since the client's last-seen rev.
             const changedPrompts = await env.DB.prepare(
                 "SELECT * FROM prompts WHERE user_id = ? AND rev > ?",
@@ -162,6 +224,8 @@ export default {
                 rev: nextRev,
                 prompts: changedPrompts.results,
                 folders: (changedFolders.results as Array<{ name: string }>).map(f => f.name),
+                settings: settingsOut,
+                proKey: proKeyOut,
             })
         }
 

@@ -1,13 +1,68 @@
-import { FolderIcon } from "./icons/Icons"
+import { useState } from "react"
+import { EditIcon, FolderIcon } from "./icons/Icons"
 
-export default function Folder(props: { folder: string; onClick: () => void; id?: string }) {
+export default function Folder(props: {
+    folder: string
+    onClick: () => void
+    onRename?: (oldName: string, newName: string) => void
+    id?: string
+}) {
     let folder = props.folder
+    const [editing, setEditing] = useState(false)
+    const [value, setValue] = useState(folder)
+
+    function startEditing(e: React.MouseEvent) {
+        e.stopPropagation()
+        setValue(folder)
+        setEditing(true)
+    }
+
+    function commit() {
+        const next = value.trim()
+        setEditing(false)
+        if (next && next !== folder) {
+            props.onRename?.(folder, next)
+        } else {
+            setValue(folder)
+        }
+    }
+
     return (
         <li className="folder" id={`folder-${folder}`} data-folder-name={folder}>
-            <a onClick={() => props.onClick()}>
-                <FolderIcon></FolderIcon>
-                {folder}
-            </a>
+            {editing ? (
+                <input
+                    autoFocus
+                    maxLength={18}
+                    className="input input-bordered input-xs w-full"
+                    value={value}
+                    onClick={e => e.stopPropagation()}
+                    onChange={e => setValue(e.target.value)}
+                    onKeyDown={e => {
+                        if (e.key === "Enter") commit()
+                        if (e.key === "Escape") {
+                            setValue(folder)
+                            setEditing(false)
+                        }
+                    }}
+                    onBlur={commit}
+                />
+            ) : (
+                <a onClick={() => props.onClick()}>
+                    <FolderIcon></FolderIcon>
+                    <span className="grow truncate">{folder}</span>
+                    {props.onRename && (
+                        <button
+                            type="button"
+                            title="Rename folder"
+                            aria-label="Rename folder"
+                            className="opacity-40 hover:opacity-100 transition-opacity shrink-0"
+                            onClick={startEditing}
+                        >
+                            <EditIcon></EditIcon>
+                        </button>
+                    )}
+                </a>
+            )}
         </li>
     )
 }

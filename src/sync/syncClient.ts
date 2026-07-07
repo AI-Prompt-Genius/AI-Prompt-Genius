@@ -3,6 +3,13 @@ import { getObject, setObject } from "../components/js/utils"
 import { usePromptStore } from "../store/usePromptStore"
 import { getAccessToken, isSignedIn, signOut } from "../auth/customAuth"
 import { mergePulledPrompts, type ServerPromptRow } from "./merge"
+import {
+    getSettingsPush,
+    getProKeyPush,
+    applyPulledSettings,
+    applyPulledProKey,
+    type SettingsPayload,
+} from "./settingsSync"
 
 // Cloudflare sync client (Feature 2). Pushes only the changed/new/deleted records the app already
 // tracks (changedPrompts / newPrompts / deletedPrompts), pulls rows changed since our last-seen
@@ -23,6 +30,8 @@ export async function cloudSignOut(): Promise<void> {
     await signOut()
     localStorage.removeItem(REV_KEY)
     localStorage.removeItem(LAST_SYNCED_KEY)
+    localStorage.removeItem("cf_settings_synced")
+    localStorage.removeItem("cf_settings_updated_at")
     localStorage.setItem("syncPreference", "local")
 }
 
@@ -67,6 +76,10 @@ export async function cloudSyncNow(): Promise<boolean> {
             // folders already in the cloud from another device — so don't assert our folder set
             // until we actually have one. (Subsequent syncs send it as-is so deletes propagate.)
             folders: sinceRev === 0 && store.folders.length === 0 ? undefined : store.folders,
+            // Account settings blob (LWW) + Pro license key (sticky server-side). proKey is only
+            // sent when this device actually has one, so it never wipes the account's license.
+            settings: getSettingsPush(),
+            proKey: getProKeyPush(),
         }
         let res = await postSync(token, payload)
         if (res.status === 401) {
@@ -81,6 +94,8 @@ export async function cloudSyncNow(): Promise<boolean> {
             rev: number
             prompts: ServerPromptRow[]
             folders: string[]
+            settings?: SettingsPayload
+            proKey?: string | null
         }
 
         // Merge server rows into the local library with last-writer-wins (see merge.ts) so a
@@ -93,6 +108,10 @@ export async function cloudSyncNow(): Promise<boolean> {
         // then clear the delta bookkeeping the server has now absorbed.
         store.replacePrompts(merged)
         store.replaceFolders(mergedFolders)
+
+        // Apply the account's settings + Pro license alongside the prompt merge.
+        applyPulledSettings(data.settings)
+        applyPulledProKey(data.proKey)
         setObject("changedPrompts", [])
         setObject("newPrompts", [])
         setObject("deletedPrompts", [])

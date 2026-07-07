@@ -18,6 +18,7 @@ import SettingsModal from "./SettingsModal"
 import Toast from "./Toast"
 import type { LegacyPrompt } from "../types"
 import { isSignedIn, signOut } from "../auth/customAuth"
+import { usePromptStore } from "../store/usePromptStore"
 import { OPEN_AUTH_EVENT } from "./AuthModal"
 import { OPEN_ACCOUNT_EVENT } from "./ManageAccountModal"
 
@@ -128,6 +129,16 @@ export default function Sidebar({
         document.getElementById(`folder-${name}`)?.classList.add("selected")
     }
 
+    function renameFolder(oldName: string, newName: string) {
+        usePromptStore.getState().renameFolder(oldName, newName)
+        // If the renamed folder is the active filter, follow it so the list doesn't go blank.
+        if (selectedFolder === oldName) {
+            setSelectedFolder(newName)
+            filterPrompts(newName, filterTags, searchTerm)
+        }
+        showToast(newName)
+    }
+
     function openFullscreen() {
         console.log("OPENING!")
         // Create the message object
@@ -167,6 +178,7 @@ export default function Sidebar({
                                     key={folder}
                                     folder={folder}
                                     onClick={() => selectFolder(folder)}
+                                    onRename={renameFolder}
                                 ></Folder>
                             ))}
                         </ul>

@@ -18,7 +18,7 @@ import {
     setObject,
 } from "./js/utils"
 import LanguageSelect from "./LanguageSelect"
-import { CrownIcon, TrashIcon } from "./icons/Icons"
+import { CrownIcon, EditIcon, TrashIcon } from "./icons/Icons"
 import ShortcutInfo from "./ShortcutInfo"
 import { ActivatePro } from "./ActivatePro"
 import { ProFeatures } from "./ProFeatures"
@@ -324,8 +324,11 @@ export default function SettingsModal({
                                                                 onClick={() =>
                                                                     renameFolderHandler(folder)
                                                                 }
-                                                                className="btn btn-sm join-item"
+                                                                title={t(k.SAVE)}
+                                                                aria-label={t(k.SAVE)}
+                                                                className="btn btn-sm join-item gap-1"
                                                             >
+                                                                <EditIcon />
                                                                 {t(k.SAVE)}
                                                             </button>
                                                         </div>
