@@ -244,7 +244,11 @@ export async function initAuth(): Promise<void> {
         window.history.replaceState({}, "", "/")
         return
     }
-    if (!isInIframe() && localStorage.getItem(PENDING_AUTH_KEY) === "google") {
+    // The fullscreen tab (plugin/pages/fullscreen.html) still nests the SPA in its own iframe, so
+    // isInIframe() alone can't tell "escaped the sidebar" from "still framed" — the ?fullscreen=true
+    // param (set by the escape-hatch tab/link) disambiguates it.
+    const isFullscreenTab = params.get("fullscreen") === "true"
+    if ((!isInIframe() || isFullscreenTab) && localStorage.getItem(PENDING_AUTH_KEY) === "google") {
         localStorage.removeItem(PENDING_AUTH_KEY)
         if (!isSignedIn()) window.location.href = googleAuthUrl()
     }
