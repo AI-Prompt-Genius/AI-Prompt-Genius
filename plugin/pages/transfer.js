@@ -13,11 +13,10 @@ window.addEventListener(
 
 let response
 async function main() {
-    const promptObj = await chrome.storage.local.get({ prompts: [] })
-    const prompts = await promptObj.prompts.reverse()
-
-    const langObj = await chrome.storage.local.get({ lang: "en" })
-    const lang = await langObj.lang
+    // Old prompts/language live in this page's localStorage (same chrome-extension:// origin
+    // the legacy popup/pages used) — not chrome.storage.local, which the app never wrote these to.
+    const prompts = JSON.parse(localStorage.getItem("prompts") || "[]").reverse()
+    const lang = localStorage.getItem("lng") || "en"
     response = { message: "transfer", prompts: prompts, lang: lang }
 }
 main()
