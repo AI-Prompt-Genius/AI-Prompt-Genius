@@ -250,6 +250,9 @@ export async function initAuth(): Promise<void> {
     const isFullscreenTab = params.get("fullscreen") === "true"
     if ((!isInIframe() || isFullscreenTab) && localStorage.getItem(PENDING_AUTH_KEY) === "google") {
         localStorage.removeItem(PENDING_AUTH_KEY)
-        if (!isSignedIn()) window.location.href = googleAuthUrl()
+        // In the fullscreen tab we're still framed (see above), and WorkOS's authorize page
+        // refuses to render inside any iframe — navigate the real top-level tab, not just this
+        // nested frame, or the browser shows a blocked/"forbidden" page instead of Google's UI.
+        if (!isSignedIn()) window.top!.location.href = googleAuthUrl()
     }
 }
