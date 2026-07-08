@@ -11,11 +11,14 @@
 
 import { createRemoteJWKSet, jwtVerify } from "jose"
 import { handleAuth } from "./auth"
+import { handleAdmin, handlePublicPromos } from "./admin"
 
 export interface Env {
     DB: D1Database
     WORKOS_CLIENT_ID: string
     WORKOS_API_KEY?: string
+    // Bearer secret gating the /admin dashboard + API (wrangler secret put ADMIN_TOKEN).
+    ADMIN_TOKEN?: string
 }
 
 interface SyncPrompt {
@@ -76,6 +79,16 @@ export default {
     async fetch(req: Request, env: Env): Promise<Response> {
         if (req.method === "OPTIONS") return json({})
         const url = new URL(req.url)
+
+        // Public promo feed the extension polls (no auth).
+        if (url.pathname === "/promos" && req.method === "GET") {
+            return handlePublicPromos(env)
+        }
+
+        // Admin dashboard + API (gated inside handleAdmin by ADMIN_TOKEN).
+        if (url.pathname.startsWith("/admin")) {
+            return handleAdmin(req, env, url.pathname)
+        }
 
         if (url.pathname.startsWith("/auth/") && req.method === "POST") {
             const userId = await verifyWorkosToken(req, env) // null for pre-auth endpoints

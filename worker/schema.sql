@@ -42,6 +42,19 @@ CREATE TABLE IF NOT EXISTS user_settings (
   pro_key    TEXT
 );
 
+-- Promotions managed from the admin dashboard (worker/src/admin.ts) and polled by the
+-- extension's background service worker. `id` doubles as the client's seenPromos key, so a
+-- promo opens at most once per user. Replaces the old hardcoded array in plugin/background.js.
+CREATE TABLE IF NOT EXISTS promos (
+  id         TEXT PRIMARY KEY,
+  name       TEXT NOT NULL,
+  url        TEXT NOT NULL,
+  start_date TEXT NOT NULL,          -- 'YYYY-MM-DD' (inclusive)
+  end_date   TEXT NOT NULL,          -- 'YYYY-MM-DD' (inclusive)
+  active     INTEGER NOT NULL DEFAULT 1,
+  created_at INTEGER NOT NULL
+);
+
 -- Teams (Feature 3 extension): a workspace can own shared prompts/folders and members with roles.
 -- Left as a documented next step — the sync endpoint keys everything by user_id today; swap that
 -- for workspace_id + a membership check to share a library.
