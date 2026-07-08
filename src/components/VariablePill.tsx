@@ -1,6 +1,8 @@
 import { forwardRef } from "react"
+import i18n from "i18next"
+import k from "./../i18n/keys"
 import { parseVar } from "./js/variables"
-import { TYPE_INFO, TypeIcon, iconKeyFor } from "./editor/varTypeMeta"
+import { TypeIcon, iconKeyFor, typeLabel } from "./editor/varTypeMeta"
 
 // The visual pill for a `{{…}}` variable token, shared by the inline chip editor (interactive) and
 // the read-only prompt-card preview (see renderWithPills). Keeping it here means both render
@@ -17,16 +19,17 @@ interface VariablePillProps extends React.HTMLAttributes<HTMLSpanElement> {
 const VariablePill = forwardRef<HTMLSpanElement, VariablePillProps>(
     ({ token, className = "", ...rest }, ref) => {
         const v = parseVar(token.slice(2, -2), token)
-        const typeLabel = TYPE_INFO[iconKeyFor(v.type)].label
+        const label = typeLabel(iconKeyFor(v.type))
+        const fallbackName = i18n.t(k.VARIABLE_FALLBACK)
         return (
             <span
                 ref={ref}
                 className={`${PILL_BASE_CLASS} mx-px ${className}`}
-                title={`${v.name || "variable"} · ${typeLabel}`}
+                title={`${v.name || fallbackName} · ${label}`}
                 {...rest}
             >
                 <TypeIcon type={v.type} className="h-3.5 w-3.5 opacity-70" />
-                {v.name || "variable"}
+                {v.name || fallbackName}
             </span>
         )
     },

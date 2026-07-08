@@ -278,6 +278,29 @@ export const en = {
         "We're actively building based on what users tell us. A couple minutes of feedback goes a long way.",
     [k.NEW_FEATURES_FEEDBACK_CTA]: "Open feedback form",
     [k.NEW_FEATURES_SKIP]: "Skip",
+
+    // Previously-hardcoded strings
+    [k.RENAME_FOLDER]: "Rename folder",
+    [k.UNTITLED_PROMPT]: "Untitled prompt",
+    [k.VARIABLE_FALLBACK]: "variable",
+    [k.SIGNED_OUT_LOCAL]: "Signed out — your prompts stay on this device",
+    [k.MAX_PROMPTS_REACHED]: "You've reached the maximum of {{max}} prompts.",
+    [k.TYPE_LARGE_TEXT]: "Large text",
+    [k.TYPE_NUMBER]: "Number",
+    [k.TYPE_DROPDOWN]: "Dropdown",
+    [k.TYPE_IF_ELSE]: "If / else",
+    [k.HOTKEY_IS_BACK]: "Hotkey is back!",
+    [k.HOTKEY_ACCESS_YOUR_PROMPTS]:
+        "Access your prompts with a customizable hotkey shortcut on any page.",
+    [k.HOTKEY_SETUP_INSTRUCTIONS]:
+        'and choose a shortcut for "Launch Search" under AI Prompt Genius. Then use that shortcut on any page, for example, ChatGPT.',
+    [k.HOTKEY_FEEDBACK_TITLE]: "Give your feedback for a chance to win a $50 Amazon.com gift card",
+    [k.HOTKEY_FEEDBACK_LINK]: "Click here to participate",
+    [k.HOTKEY_FEEDBACK_TAIL]:
+        "in a survey about the future of AI Prompt Genius (English only). Your feedback is much appreciated!",
+    [k.HOTKEY_OUTAGE_TITLE]: "Acknowledgement of outage",
+    [k.HOTKEY_OUTAGE_BODY]:
+        "We'd like to apologize for any disruption that may have occurred Tuesday the 12th. As always, you can reach out to aipromptgenius@gmail.com for support.",
 }
 
 export default en

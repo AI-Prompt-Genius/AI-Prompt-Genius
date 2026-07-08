@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import k from "./../i18n/keys"
 import { EditIcon, FolderIcon } from "./icons/Icons"
 
 export default function Folder(props: {
@@ -7,6 +9,7 @@ export default function Folder(props: {
     onRename?: (oldName: string, newName: string) => void
     id?: string
 }) {
+    const { t } = useTranslation()
     let folder = props.folder
     const [editing, setEditing] = useState(false)
     const [value, setValue] = useState(folder)
@@ -53,8 +56,8 @@ export default function Folder(props: {
                     {props.onRename && (
                         <button
                             type="button"
-                            title="Rename folder"
-                            aria-label="Rename folder"
+                            title={t(k.RENAME_FOLDER)}
+                            aria-label={t(k.RENAME_FOLDER)}
                             className="opacity-40 hover:opacity-100 transition-opacity shrink-0"
                             onClick={startEditing}
                         >

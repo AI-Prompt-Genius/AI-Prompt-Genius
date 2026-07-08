@@ -155,7 +155,7 @@ function Template({
                             <h2 className="card-title mainClick flex">{template.title}</h2>
                         ) : (
                             <h2 className="card-title mainClick flex italic opacity-60">
-                                Untitled prompt
+                                {t(k.UNTITLED_PROMPT)}
                             </h2>
                         )}
                         {!compact && (

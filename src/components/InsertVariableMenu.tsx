@@ -8,7 +8,7 @@ import {
     type ComparisonOperator,
     parseVar,
 } from "./js/variables"
-import { type BuilderType, TYPE_INFO, TypeIcon } from "./editor/varTypeMeta"
+import { type BuilderType, TypeIcon, typeLabel } from "./editor/varTypeMeta"
 import type { OptionSet, VarType } from "../types"
 
 // The "Insert Variable" builder. Pure UI: it assembles a canonical `{{…}}` token string and hands
@@ -208,7 +208,7 @@ export default function InsertVariableMenu({
                                     }`}
                                 >
                                     <TypeIcon type={bt} className="h-4 w-4" />
-                                    {TYPE_INFO[bt].label}
+                                    {typeLabel(bt)}
                                 </button>
                             )
                         })}

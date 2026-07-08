@@ -1,14 +1,20 @@
 // Shared visual metadata for variable types — used by both the inline chips (VariableChipNode)
 // and the insert-variable builder so a type looks the same everywhere.
+import i18n from "i18next"
+import k from "./../../i18n/keys"
 
 export type BuilderType = "text" | "largeText" | "number" | "dropdown" | "conditional"
 
-export const TYPE_INFO: Record<BuilderType, { label: string }> = {
-    text: { label: "Text" },
-    largeText: { label: "Large text" },
-    number: { label: "Number" },
-    dropdown: { label: "Dropdown" },
-    conditional: { label: "If / else" },
+export const TYPE_INFO: Record<BuilderType, { labelKey: string }> = {
+    text: { labelKey: k.TEXT },
+    largeText: { labelKey: k.TYPE_LARGE_TEXT },
+    number: { labelKey: k.TYPE_NUMBER },
+    dropdown: { labelKey: k.TYPE_DROPDOWN },
+    conditional: { labelKey: k.TYPE_IF_ELSE },
+}
+
+export function typeLabel(type: BuilderType): string {
+    return i18n.t(TYPE_INFO[type].labelKey)
 }
 
 /** Normalize a ParsedVar type (which includes "legacy") to a builder/icon key. */

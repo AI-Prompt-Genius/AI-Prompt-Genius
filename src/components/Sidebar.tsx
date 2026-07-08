@@ -71,12 +71,12 @@ export default function Sidebar({
         await signOut()
         setSignedIn(false)
         window.dispatchEvent(new Event("auth-changed"))
-        showToast("Signed out — your prompts stay on this device")
+        showToast(t(k.SIGNED_OUT_LOCAL))
     }
 
     function newPrompt() {
         if (getObject("prompts", []).length >= MAX_PROMPTS) {
-            showToast(`You've reached the maximum of ${MAX_PROMPTS.toLocaleString()} prompts.`)
+            showToast(t(k.MAX_PROMPTS_REACHED, { max: MAX_PROMPTS.toLocaleString() }))
             return
         }
         const folder = selectedFolder
