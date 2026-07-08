@@ -5,9 +5,9 @@ import type { LegacyPrompt } from "../types"
 const MIGRATION_FLAG = "migratedToIDB_v1"
 
 // One-time seed of IndexedDB from the legacy localStorage blob. localStorage remains the
-// canonical store through Phase B (cloudSyncing / export / the hotkey mirror still read it);
-// IndexedDB is dual-written on every change so it can become canonical when Phase E removes
-// the Google-Sheets sync path. The legacy blob is left untouched as a rollback safety net.
+// canonical store through Phase B (export / the hotkey mirror still read it); IndexedDB is
+// dual-written on every change so it can become canonical later. The legacy blob is left
+// untouched as a rollback safety net.
 export async function migrateLegacyToIDB(): Promise<void> {
     if (localStorage.getItem(MIGRATION_FLAG) === "true") return
 

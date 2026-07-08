@@ -3,7 +3,7 @@ import type { LegacyPrompt, OptionSet } from "../types"
 
 // Folders are still stored by their (unique) name in Phase B. Folder identity / nesting
 // (parentId, rename) lands in Phase D; keeping the string-name shape here avoids rippling
-// folderId through cloudSyncing / export / the hotkey mirror before those consumers move.
+// folderId through export / the hotkey mirror before those consumers move.
 export interface FolderRecord {
     name: string
     sortIndex: number

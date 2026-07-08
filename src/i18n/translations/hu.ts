@@ -97,7 +97,6 @@ export const hu = {
     [k.DELETE_PROMPT]: `Utasítás törlése`,
     [k.DESCRIPTION]: `Leírás`,
     [k.DESCRIPTION_PLACEHOLDER]: `Az utasítás rövid leírása.`,
-    [k.DISABLE_CLOUD_SYNCING]: `Felhő szinkronizálás kikapcsolása`,
     [k.EDIT_VARIABLE]: `Változó szerkesztése`,
     [k.ELSE_INSERT]: `Egyébként szúrja be`,
     [k.ENTER_TAG]: `Nyomja meg az Entert egy címke hozzáadásához`,
@@ -133,13 +132,11 @@ export const hu = {
     [k.LICENSE_KEY]: `License Key`,
     [k.LIGHT]: `Világos`,
     [k.LIKED_THEME]: `Tetszett a téma? Frissítsen Pro verzióra!`,
-    [k.LINK_GOOGLE_SHEETS]: `Google Sheets összekapcsolása`,
     [k.LUXURY]: `Luxus`,
     [k.MANAGE_ACCOUNT]: `Fiók kezelése`,
     [k.MANAGE_FOLDERS]: `Mappák kezelése`,
     [k.MANAGE_OPTION_SETS]: `Opciókészletek kezelése`,
     [k.MANAGE_PRO_SUBSCRIPTION]: `Pro előfizetés kezelése`,
-    [k.MANUALLY_RESYNC]: `Manuális újraszinkronizálás`,
     [k.MASS_DELETE_YOUR_PROMPTS_AND_F]: `Tömegesen törölje utasításait és mappáit. Javasoljuk, hogy először exportálja őket.`,
     [k.MORE_ROBUST_IMPORT_AND_CLOUD_S]: `Megbízhatóbb importálási és felhő szinkronizálási funkciók`,
     [k.NAME_FOR_YOUR_PROMPT]: `Utasításának neve.`,
@@ -198,7 +195,6 @@ export const hu = {
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: `Beállítások → Importálás/Exportálás`,
     [k.SYNC_CHOICE_SUBTITLE]: `A bejelentkezés opcionális. A szinkronizálás biztonsági mentést készít az adattárból, és minden eszközön elérhető; a csak helyire a böngészőben tárolt adatokra korlátozódik.`,
     [k.SYNC_CHOICE_TITLE]: `Hogyan szeretné tárolni az utasításait?`,
-    [k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS]: `Utasítások szinkronizálása Google Sheets segítségével`,
     [k.TAG]: `Címke`,
     [k.TAGS]: `Címkék`,
     [k.TEXT]: `Szöveg`,
@@ -221,7 +217,6 @@ export const hu = {
     [k.VALENTINE]: `Valentin`,
     [k.VARIABLE_NAME]: `Változó neve`,
     [k.VARIABLE_TYPE]: `Típus`,
-    [k.VIEW_LINKED_SHEET]: `Összekapcsolt táblázat megtekintése`,
     [k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO]: `Szeretné szinkronizálni utasításait több eszköz között, vagy csak
                                 biztonsági másolatot szeretne a felhőben? Kezdje azzal, hogy bezárja ezt az
                                 ablakot, majd kattintson a Beállítások > Felhő szinkronizálás menüpontra.

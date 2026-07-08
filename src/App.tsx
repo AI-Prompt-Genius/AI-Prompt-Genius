@@ -5,9 +5,8 @@ import TransferModal from "./components/TransferModal"
 import React, { useEffect, useMemo, useState } from "react"
 import { useDebounce } from "@uidotdev/usehooks"
 import { ThemeContext } from "./components/ThemeContext"
-import { checkForResync, finishAuth } from "./components/js/cloudSyncing"
 import Toast from "./components/Toast"
-import { getObject, sendMessageToParent, setObject } from "./components/js/utils"
+import { sendMessageToParent, setObject } from "./components/js/utils"
 import OnboardingModal from "./components/OnboardingModal"
 import i18next from "i18next"
 import HotkeyUpdateModal from "./components/HotkeyUpdateModal"
@@ -101,18 +100,6 @@ function App() {
         setSearchTerm(searchTerm)
     }
 
-    function pollLocalStorage() {
-        const intervalId = setInterval(() => {
-            const finishedAuthValue = localStorage.getItem("finishedAuthEvent")
-            if (finishedAuthValue && finishedAuthValue !== "") {
-                reloadFromLegacy()
-                showToast(finishedAuthValue)
-                localStorage.setItem("finishedAuthEvent", "")
-                clearInterval(intervalId)
-            }
-        }, 1000) // Polls every 1000ms or 1 second
-    }
-
     // One-time setup: analytics, IndexedDB migration, auth bootstrap, cloud resync.
     useEffect(() => {
         ReactGA.initialize("G-YV9PMGYJDJ")
@@ -126,9 +113,6 @@ function App() {
                 cloudSyncIfDue()
             })
             .catch(err => console.error("Auth bootstrap failed", err))
-        if (getObject("cloudSyncing", false)) {
-            checkForResync()
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -143,11 +127,7 @@ function App() {
             } catch {
                 return
             }
-            if (data.message === "newAuthToken") {
-                localStorage.setItem("GOOGLE_API_TOKEN", data.token)
-                finishAuth()
-                pollLocalStorage()
-            } else if (data.message === "googleAuthCode") {
+            if (data.message === "googleAuthCode") {
                 // The Google sign-in popup handed us the OAuth code. We're the embedded app, so
                 // completing the exchange here lands the tokens in the same storage bucket as the
                 // user's prompts (a full-tab redirect would have stranded them first-party).

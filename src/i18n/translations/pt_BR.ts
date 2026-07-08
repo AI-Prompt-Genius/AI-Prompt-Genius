@@ -97,7 +97,6 @@ export const pt_BR = {
     [k.DELETE_PROMPT]: `Excluir Prompt`,
     [k.DESCRIPTION]: `Descrição`,
     [k.DESCRIPTION_PLACEHOLDER]: `Uma breve descrição do prompt.`,
-    [k.DISABLE_CLOUD_SYNCING]: `Desativar Sincronização em Nuvem`,
     [k.EDIT_VARIABLE]: `Editar Variável`,
     [k.ELSE_INSERT]: `Senão inserir`,
     [k.ENTER_TAG]: `Pressione enter para adicionar uma tag`,
@@ -133,13 +132,11 @@ export const pt_BR = {
     [k.LICENSE_KEY]: `Chave de Licença`,
     [k.LIGHT]: `Claro`,
     [k.LIKED_THEME]: `Gostou desse tema? Faça upgrade para o Pro!`,
-    [k.LINK_GOOGLE_SHEETS]: `Vincular Google Sheets`,
     [k.LUXURY]: `Luxo`,
     [k.MANAGE_ACCOUNT]: `Gerenciar conta`,
     [k.MANAGE_FOLDERS]: `Gerenciar Pastas`,
     [k.MANAGE_OPTION_SETS]: `Gerenciar Conjuntos de Opções`,
     [k.MANAGE_PRO_SUBSCRIPTION]: `Gerenciar Assinatura Pro`,
-    [k.MANUALLY_RESYNC]: `Ressincronizar Manualmente`,
     [k.MASS_DELETE_YOUR_PROMPTS_AND_F]: `Exclua em massa seus prompts e pastas. Recomendamos exportar primeiro.`,
     [k.MORE_ROBUST_IMPORT_AND_CLOUD_S]: `Recursos de importação e sincronização em nuvem mais robustos`,
     [k.NAME_FOR_YOUR_PROMPT]: `Um nome para o seu prompt.`,
@@ -198,7 +195,6 @@ export const pt_BR = {
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: `Configurações → Importar/Exportar`,
     [k.SYNC_CHOICE_SUBTITLE]: `Fazer login é opcional. A sincronização mantém sua biblioteca com backup e disponível em todos os dispositivos; o modo apenas local mantém tudo neste navegador.`,
     [k.SYNC_CHOICE_TITLE]: `Como você quer guardar seus prompts?`,
-    [k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS]: `Sincronizar Prompts via Google Sheets`,
     [k.TAG]: `Tag`,
     [k.TAGS]: `Tags`,
     [k.TEXT]: `Texto`,
@@ -221,7 +217,6 @@ export const pt_BR = {
     [k.VALENTINE]: `Dia dos Namorados`,
     [k.VARIABLE_NAME]: `Nome da variável`,
     [k.VARIABLE_TYPE]: `Tipo`,
-    [k.VIEW_LINKED_SHEET]: `Ver planilha vinculada`,
     [k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO]: `Quer sincronizar seus prompts em vários dispositivos ou apenas ter um
                                 backup na nuvem? Você pode começar fechando esta janela e
                                 clicando em configurações > sincronização em nuvem. Você precisará fazer isso em cada

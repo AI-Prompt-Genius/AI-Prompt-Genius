@@ -97,7 +97,6 @@ export const es = {
     [k.DELETE_PROMPT]: `Eliminar prompt`,
     [k.DESCRIPTION]: `Descripción`,
     [k.DESCRIPTION_PLACEHOLDER]: `Una breve descripción del prompt.`,
-    [k.DISABLE_CLOUD_SYNCING]: `Desactivar sincronización en la nube`,
     [k.EDIT_VARIABLE]: `Editar variable`,
     [k.ELSE_INSERT]: `Si no, insertar`,
     [k.ENTER_TAG]: `Presiona Enter para añadir una etiqueta`,
@@ -133,13 +132,11 @@ export const es = {
     [k.LICENSE_KEY]: `Clave de licencia`,
     [k.LIGHT]: `Claro`,
     [k.LIKED_THEME]: `¿Te gustó ese tema? ¡Actualiza a Pro!`,
-    [k.LINK_GOOGLE_SHEETS]: `Vincular Google Sheets`,
     [k.LUXURY]: `Lujo`,
     [k.MANAGE_ACCOUNT]: `Administrar cuenta`,
     [k.MANAGE_FOLDERS]: `Administrar carpetas`,
     [k.MANAGE_OPTION_SETS]: `Administrar conjuntos de opciones`,
     [k.MANAGE_PRO_SUBSCRIPTION]: `Administrar suscripción Pro`,
-    [k.MANUALLY_RESYNC]: `Resincronizar manualmente`,
     [k.MASS_DELETE_YOUR_PROMPTS_AND_F]: `Elimina en masa tus prompts y carpetas. Te recomendamos exportar primero.`,
     [k.MORE_ROBUST_IMPORT_AND_CLOUD_S]: `Funciones de importación y sincronización en la nube más robustas`,
     [k.NAME_FOR_YOUR_PROMPT]: `Un nombre para tu prompt.`,
@@ -198,7 +195,6 @@ export const es = {
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: `Configuración → Importar/Exportar`,
     [k.SYNC_CHOICE_SUBTITLE]: `Iniciar sesión es opcional. La sincronización mantiene tu biblioteca respaldada y disponible en todos los dispositivos; solo local mantiene todo en este navegador.`,
     [k.SYNC_CHOICE_TITLE]: `¿Cómo quieres guardar tus prompts?`,
-    [k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS]: `Sincronizar prompts mediante Google Sheets`,
     [k.TAG]: `Etiqueta`,
     [k.TAGS]: `Etiquetas`,
     [k.TEXT]: `Texto`,
@@ -221,7 +217,6 @@ export const es = {
     [k.VALENTINE]: `San Valentín`,
     [k.VARIABLE_NAME]: `Nombre de la variable`,
     [k.VARIABLE_TYPE]: `Tipo`,
-    [k.VIEW_LINKED_SHEET]: `Ver hoja vinculada`,
     [k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO]: `¿Quieres sincronizar tus prompts en varios dispositivos o simplemente
                                 tener una copia de seguridad en la nube? Puedes empezar cerrando esta
                                 ventana y haciendo clic en configuración > sincronización en la nube.

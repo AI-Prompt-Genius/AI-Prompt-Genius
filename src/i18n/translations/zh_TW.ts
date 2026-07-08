@@ -97,7 +97,6 @@ export const zh_TW = {
     [k.DELETE_PROMPT]: `刪除提示`,
     [k.DESCRIPTION]: `描述`,
     [k.DESCRIPTION_PLACEHOLDER]: `提示的簡短描述。`,
-    [k.DISABLE_CLOUD_SYNCING]: `停用雲端同步`,
     [k.EDIT_VARIABLE]: `編輯變數`,
     [k.ELSE_INSERT]: `否則插入`,
     [k.ENTER_TAG]: `按下 Enter 鍵新增標籤`,
@@ -133,13 +132,11 @@ export const zh_TW = {
     [k.LICENSE_KEY]: `授權金鑰`,
     [k.LIGHT]: `亮色`,
     [k.LIKED_THEME]: `喜歡這個主題嗎？升級至專業版！`,
-    [k.LINK_GOOGLE_SHEETS]: `連結 Google 試算表`,
     [k.LUXURY]: `奢華`,
     [k.MANAGE_ACCOUNT]: `管理帳戶`,
     [k.MANAGE_FOLDERS]: `管理資料夾`,
     [k.MANAGE_OPTION_SETS]: `管理選項組`,
     [k.MANAGE_PRO_SUBSCRIPTION]: `管理專業版訂閱`,
-    [k.MANUALLY_RESYNC]: `手動重新同步`,
     [k.MASS_DELETE_YOUR_PROMPTS_AND_F]: `大量刪除您的提示和資料夾。建議您先匯出備份。`,
     [k.MORE_ROBUST_IMPORT_AND_CLOUD_S]: `更強大的匯入與雲端同步功能`,
     [k.NAME_FOR_YOUR_PROMPT]: `為您的提示命名。`,
@@ -198,7 +195,6 @@ export const zh_TW = {
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: `設定 → 匯入/匯出`,
     [k.SYNC_CHOICE_SUBTITLE]: `登入為可選項。同步會備份您的資料庫並在每個設備上可用；僅本地會將所有內容保留在此瀏覽器中。`,
     [k.SYNC_CHOICE_TITLE]: `您想如何存儲您的提示？`,
-    [k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS]: `透過 Google 試算表同步提示`,
     [k.TAG]: `標籤`,
     [k.TAGS]: `標籤`,
     [k.TEXT]: `文字`,
@@ -221,7 +217,6 @@ export const zh_TW = {
     [k.VALENTINE]: `情人節`,
     [k.VARIABLE_NAME]: `變數名稱`,
     [k.VARIABLE_TYPE]: `類型`,
-    [k.VIEW_LINKED_SHEET]: `檢視已連結的試算表`,
     [k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO]: `想要在多台裝置間同步您的提示，或只是想要
                                 雲端備份嗎？您可以先關閉此視窗，然後點選
                                 「設定」>「雲端同步」來開始設定。您需要在每台

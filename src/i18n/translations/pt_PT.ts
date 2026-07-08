@@ -97,7 +97,6 @@ export const pt_PT = {
     [k.DELETE_PROMPT]: `Eliminar Prompt`,
     [k.DESCRIPTION]: `Descrição`,
     [k.DESCRIPTION_PLACEHOLDER]: `Uma breve descrição do prompt.`,
-    [k.DISABLE_CLOUD_SYNCING]: `Desativar Sincronização na Nuvem`,
     [k.EDIT_VARIABLE]: `Editar Variável`,
     [k.ELSE_INSERT]: `Caso contrário, inserir`,
     [k.ENTER_TAG]: `Prima enter para adicionar uma etiqueta`,
@@ -133,13 +132,11 @@ export const pt_PT = {
     [k.LICENSE_KEY]: `Chave de Licença`,
     [k.LIGHT]: `Claro`,
     [k.LIKED_THEME]: `Gostou desse tema? Faça upgrade para Pro!`,
-    [k.LINK_GOOGLE_SHEETS]: `Associar Google Sheets`,
     [k.LUXURY]: `Luxury`,
     [k.MANAGE_ACCOUNT]: `Gerir conta`,
     [k.MANAGE_FOLDERS]: `Gerir Pastas`,
     [k.MANAGE_OPTION_SETS]: `Gerir Conjuntos de Opções`,
     [k.MANAGE_PRO_SUBSCRIPTION]: `Gerir Subscrição Pro`,
-    [k.MANUALLY_RESYNC]: `Ressincronizar Manualmente`,
     [k.MASS_DELETE_YOUR_PROMPTS_AND_F]: `Elimine em massa os seus prompts e pastas. Recomendamos que exporte primeiro.`,
     [k.MORE_ROBUST_IMPORT_AND_CLOUD_S]: `Funcionalidades de importação e sincronização na nuvem mais robustas`,
     [k.NAME_FOR_YOUR_PROMPT]: `Um nome para o seu prompt.`,
@@ -198,7 +195,6 @@ export const pt_PT = {
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: `Definições → Importar/Exportar`,
     [k.SYNC_CHOICE_SUBTITLE]: `Iniciar sessão é opcional. A sincronização mantém a sua biblioteca com cópia de segurança e disponível em todos os dispositivos; apenas local mantém tudo neste navegador.`,
     [k.SYNC_CHOICE_TITLE]: `Como pretende armazenar os seus prompts?`,
-    [k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS]: `Sincronizar Prompts via Google Sheets`,
     [k.TAG]: `Etiqueta`,
     [k.TAGS]: `Etiquetas`,
     [k.TEXT]: `Texto`,
@@ -221,7 +217,6 @@ export const pt_PT = {
     [k.VALENTINE]: `Valentine`,
     [k.VARIABLE_NAME]: `Nome da variável`,
     [k.VARIABLE_TYPE]: `Tipo`,
-    [k.VIEW_LINKED_SHEET]: `Ver folha associada`,
     [k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO]: `Quer sincronizar os seus prompts em vários dispositivos ou apenas ter uma
                                 cópia de segurança na nuvem? Pode começar fechando esta janela e
                                 clicando em definições > sincronização na nuvem. Terá de o fazer em cada

@@ -97,7 +97,6 @@ export const de = {
     [k.DELETE_PROMPT]: `Prompt löschen`,
     [k.DESCRIPTION]: `Beschreibung`,
     [k.DESCRIPTION_PLACEHOLDER]: `Eine kurze Beschreibung des Prompts.`,
-    [k.DISABLE_CLOUD_SYNCING]: `Cloud-Synchronisierung deaktivieren`,
     [k.EDIT_VARIABLE]: `Variable bearbeiten`,
     [k.ELSE_INSERT]: `Sonst einfügen`,
     [k.ENTER_TAG]: `Drücken Sie die Eingabetaste, um ein Tag hinzuzufügen`,
@@ -133,13 +132,11 @@ export const de = {
     [k.LICENSE_KEY]: `Lizenzschlüssel`,
     [k.LIGHT]: `Hell`,
     [k.LIKED_THEME]: `Gefällt Ihnen dieses Design? Upgraden Sie auf Pro!`,
-    [k.LINK_GOOGLE_SHEETS]: `Google Sheets verknüpfen`,
     [k.LUXURY]: `Luxus`,
     [k.MANAGE_ACCOUNT]: `Konto verwalten`,
     [k.MANAGE_FOLDERS]: `Ordner verwalten`,
     [k.MANAGE_OPTION_SETS]: `Optionssätze verwalten`,
     [k.MANAGE_PRO_SUBSCRIPTION]: `Pro-Abonnement verwalten`,
-    [k.MANUALLY_RESYNC]: `Manuell neu synchronisieren`,
     [k.MASS_DELETE_YOUR_PROMPTS_AND_F]: `Löschen Sie Ihre Prompts und Ordner in großer Zahl. Wir empfehlen, zuerst zu exportieren.`,
     [k.MORE_ROBUST_IMPORT_AND_CLOUD_S]: `Robustere Import- und Cloud-Synchronisierungsfunktionen`,
     [k.NAME_FOR_YOUR_PROMPT]: `Ein Name für Ihren Prompt.`,
@@ -198,7 +195,6 @@ export const de = {
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: `Einstellungen → Importieren/Exportieren`,
     [k.SYNC_CHOICE_SUBTITLE]: `Die Anmeldung ist optional. Sync hält Ihre Bibliothek gesichert und auf allen Geräten verfügbar; nur lokal speichert alles in diesem Browser.`,
     [k.SYNC_CHOICE_TITLE]: `Wie möchten Sie Ihre Prompts speichern?`,
-    [k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS]: `Prompts über Google Sheets synchronisieren`,
     [k.TAG]: `Tag`,
     [k.TAGS]: `Tags`,
     [k.TEXT]: `Text`,
@@ -221,7 +217,6 @@ export const de = {
     [k.VALENTINE]: `Valentine`,
     [k.VARIABLE_NAME]: `Variablenname`,
     [k.VARIABLE_TYPE]: `Typ`,
-    [k.VIEW_LINKED_SHEET]: `Verknüpftes Sheet anzeigen`,
     [k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO]: `Möchten Sie Ihre Prompts auf mehreren Geräten synchronisieren oder einfach nur eine
                                 Cloud-Sicherung haben? Sie können loslegen, indem Sie dieses Fenster schließen und
                                 auf Einstellungen > Cloud-Synchronisierung klicken. Dies müssen Sie auf jedem

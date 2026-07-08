@@ -11,11 +11,11 @@ import {
 // Single in-memory source of truth for prompts + folders. Replaces the App-level
 // `useLocalStorage("prompts")` + shadow `filteredPrompts` state that drifted and forced the
 // double-`setState` hack. Mutations still flow through the tested legacy utils (which own the
-// newPrompts/changedPrompts/deletedPrompts bookkeeping that cloudSyncing consumes); this store
+// newPrompts/changedPrompts/deletedPrompts bookkeeping that syncClient consumes); this store
 // just persists the resulting array immutably and keeps IndexedDB + the hotkey mirror in sync.
 
 function writePromptsEverywhere(prompts: LegacyPrompt[]): void {
-    setObject("prompts", prompts) // localStorage — canonical for cloudSyncing/export until Phase E
+    setObject("prompts", prompts) // localStorage — canonical for export until Phase E
     sendMessageToParent({ message: "sync_prompts", data: prompts }) // Ctrl+Shift+P picker mirror
     // IndexedDB dual-write (best-effort; becomes canonical when Phase E drops localStorage)
     db.transaction("rw", db.prompts, async () => {

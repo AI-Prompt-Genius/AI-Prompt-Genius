@@ -1,6 +1,6 @@
 window.addEventListener(
     "message",
-    async function (event) {
+    function (event) {
         // Check the origin of the message
 
         // Parse the received message
@@ -17,15 +17,6 @@ window.addEventListener(
         } else if (message.message === "clearStorage") {
             chrome.storage.local.clear()
             chrome.storage.sync.clear()
-        } else if (message.message === "openAuth") {
-            const authToken = await getAuthToken()
-            const response = { message: "newAuthToken", token: authToken }
-            const responseStr = JSON.stringify(response)
-            document
-                .getElementById("window")
-                .contentWindow.postMessage(responseStr, "https://lib.aipromptgenius.app")
-        } else if (message.message === "clearCachedTokens") {
-            chrome.identity.clearAllCachedAuthTokens()
         } else if (message.message === "sync_prompts") {
             const prompts = message.data
             chrome.storage.local.set({ currentPrompts: prompts })
@@ -36,20 +27,6 @@ window.addEventListener(
     },
     false,
 )
-
-async function getAuthToken(interactive = true) {
-    return new Promise((resolve, reject) => {
-        chrome.identity.getAuthToken({ interactive: interactive }, function (token) {
-            if (chrome.runtime.lastError) {
-                reject(chrome.runtime.lastError)
-                chrome.identity.clearAllCachedAuthTokens()
-            } else {
-                //chrome.storage.local.set({ token: token });
-                resolve(token)
-            }
-        })
-    })
-}
 
 function exportFiles(h = true, p = true, s = true) {
     chrome.storage.local.get(["threads", "prompts", "settings"], function (result) {

@@ -97,7 +97,6 @@ export const it = {
     [k.DELETE_PROMPT]: `Elimina prompt`,
     [k.DESCRIPTION]: `Descrizione`,
     [k.DESCRIPTION_PLACEHOLDER]: `Una breve descrizione del prompt.`,
-    [k.DISABLE_CLOUD_SYNCING]: `Disattiva sincronizzazione cloud`,
     [k.EDIT_VARIABLE]: `Modifica variabile`,
     [k.ELSE_INSERT]: `Altrimenti inserisci`,
     [k.ENTER_TAG]: `Premi invio per aggiungere un tag`,
@@ -133,13 +132,11 @@ export const it = {
     [k.LICENSE_KEY]: `Chiave di licenza`,
     [k.LIGHT]: `Chiaro`,
     [k.LIKED_THEME]: `Ti piace questo tema? Passa a Pro!`,
-    [k.LINK_GOOGLE_SHEETS]: `Collega Google Sheets`,
     [k.LUXURY]: `Lusso`,
     [k.MANAGE_ACCOUNT]: `Gestisci account`,
     [k.MANAGE_FOLDERS]: `Gestisci cartelle`,
     [k.MANAGE_OPTION_SETS]: `Gestisci set di opzioni`,
     [k.MANAGE_PRO_SUBSCRIPTION]: `Gestisci abbonamento Pro`,
-    [k.MANUALLY_RESYNC]: `Risincronizza manualmente`,
     [k.MASS_DELETE_YOUR_PROMPTS_AND_F]: `Elimina in massa i tuoi prompt e cartelle. Ti consigliamo di esportare prima.`,
     [k.MORE_ROBUST_IMPORT_AND_CLOUD_S]: `Funzionalità di importazione e sincronizzazione cloud più robuste`,
     [k.NAME_FOR_YOUR_PROMPT]: `Un nome per il tuo prompt.`,
@@ -198,7 +195,6 @@ export const it = {
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: `Impostazioni → Importa/Esporta`,
     [k.SYNC_CHOICE_SUBTITLE]: `L'accesso è facoltativo. Sync mantiene la tua libreria salvata e disponibile su ogni dispositivo; solo locale mantiene tutto in questo browser.`,
     [k.SYNC_CHOICE_TITLE]: `Come vuoi archiviare i tuoi prompt?`,
-    [k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS]: `Sincronizza i prompt tramite Google Sheets`,
     [k.TAG]: `Tag`,
     [k.TAGS]: `Tag`,
     [k.TEXT]: `Testo`,
@@ -221,7 +217,6 @@ export const it = {
     [k.VALENTINE]: `San Valentino`,
     [k.VARIABLE_NAME]: `Nome variabile`,
     [k.VARIABLE_TYPE]: `Tipo`,
-    [k.VIEW_LINKED_SHEET]: `Visualizza foglio collegato`,
     [k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO]: `Vuoi sincronizzare i tuoi prompt su più dispositivi o semplicemente avere un
                                 backup cloud? Puoi iniziare chiudendo questa finestra e
                                 cliccando su impostazioni > sincronizzazione cloud. Dovrai farlo su ogni

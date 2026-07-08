@@ -97,7 +97,6 @@ export const uk = {
     [k.DELETE_PROMPT]: `Видалити промпт`,
     [k.DESCRIPTION]: `Опис`,
     [k.DESCRIPTION_PLACEHOLDER]: `Короткий опис промпту.`,
-    [k.DISABLE_CLOUD_SYNCING]: `Вимкнути синхронізацію в хмарі`,
     [k.EDIT_VARIABLE]: `Редагувати змінну`,
     [k.ELSE_INSERT]: `Інакше вставити`,
     [k.ENTER_TAG]: `Натисніть Enter, щоб додати тег`,
@@ -133,13 +132,11 @@ export const uk = {
     [k.LICENSE_KEY]: `Ключ ліцензії`,
     [k.LIGHT]: `Світла`,
     [k.LIKED_THEME]: `Сподобалась ця тема? Перейдіть на Pro!`,
-    [k.LINK_GOOGLE_SHEETS]: `Прив'язати Google Таблиці`,
     [k.LUXURY]: `Розкіш`,
     [k.MANAGE_ACCOUNT]: `Керування акаунтом`,
     [k.MANAGE_FOLDERS]: `Керування папками`,
     [k.MANAGE_OPTION_SETS]: `Керування наборами варіантів`,
     [k.MANAGE_PRO_SUBSCRIPTION]: `Керувати підпискою Pro`,
-    [k.MANUALLY_RESYNC]: `Синхронізувати вручну`,
     [k.MASS_DELETE_YOUR_PROMPTS_AND_F]: `Масово видаліть свої промпти та папки. Рекомендуємо спершу зробити експорт.`,
     [k.MORE_ROBUST_IMPORT_AND_CLOUD_S]: `Надійніші функції імпорту та синхронізації в хмарі`,
     [k.NAME_FOR_YOUR_PROMPT]: `Назва для вашого промпту.`,
@@ -198,7 +195,6 @@ export const uk = {
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: `Параметри → Імпорт/Експорт`,
     [k.SYNC_CHOICE_SUBTITLE]: `Вхід необов'язковий. Синхронізація зберігає вашу бібліотеку з резервною копією і робить її доступною на всіх пристроях; локально — все залишається в цьому браузері.`,
     [k.SYNC_CHOICE_TITLE]: `Як ви хочете зберігати свої промти?`,
-    [k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS]: `Синхронізація промптів через Google Таблиці`,
     [k.TAG]: `Тег`,
     [k.TAGS]: `Теги`,
     [k.TEXT]: `Текст`,
@@ -221,7 +217,6 @@ export const uk = {
     [k.VALENTINE]: `Валентинка`,
     [k.VARIABLE_NAME]: `Назва змінної`,
     [k.VARIABLE_TYPE]: `Тип`,
-    [k.VIEW_LINKED_SHEET]: `Переглянути прив'язану таблицю`,
     [k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO]: `Хочете синхронізувати свої промпти на кількох пристроях або просто мати
                                 резервну копію в хмарі? Ви можете почати, закривши це вікно та
                                 натиснувши налаштування > синхронізація в хмарі. Це потрібно зробити на кожному

@@ -97,7 +97,6 @@ export const ru = {
     [k.DELETE_PROMPT]: `Удалить подсказку`,
     [k.DESCRIPTION]: `Описание`,
     [k.DESCRIPTION_PLACEHOLDER]: `Краткое описание подсказки.`,
-    [k.DISABLE_CLOUD_SYNCING]: `Отключить облачную синхронизацию`,
     [k.EDIT_VARIABLE]: `Редактировать переменную`,
     [k.ELSE_INSERT]: `Иначе вставить`,
     [k.ENTER_TAG]: `Нажмите Enter, чтобы добавить тег`,
@@ -133,13 +132,11 @@ export const ru = {
     [k.LICENSE_KEY]: `Лицензионный ключ`,
     [k.LIGHT]: `Светлая`,
     [k.LIKED_THEME]: `Понравилась эта тема? Перейдите на Pro!`,
-    [k.LINK_GOOGLE_SHEETS]: `Связать с Google Таблицами`,
     [k.LUXURY]: `Люкс`,
     [k.MANAGE_ACCOUNT]: `Управление аккаунтом`,
     [k.MANAGE_FOLDERS]: `Управление папками`,
     [k.MANAGE_OPTION_SETS]: `Управление наборами вариантов`,
     [k.MANAGE_PRO_SUBSCRIPTION]: `Управление подпиской Pro`,
-    [k.MANUALLY_RESYNC]: `Синхронизировать вручную`,
     [k.MASS_DELETE_YOUR_PROMPTS_AND_F]: `Массово удалите свои подсказки и папки. Рекомендуем сначала выполнить экспорт.`,
     [k.MORE_ROBUST_IMPORT_AND_CLOUD_S]: `Более надёжные функции импорта и облачной синхронизации`,
     [k.NAME_FOR_YOUR_PROMPT]: `Название для вашей подсказки.`,
@@ -198,7 +195,6 @@ export const ru = {
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: `Параметры → Импорт/Экспорт`,
     [k.SYNC_CHOICE_SUBTITLE]: `Вход опционален. Синхронизация сохраняет вашу библиотеку и делает ее доступной на всех устройствах; локальное хранилище сохраняет все только в этом браузере.`,
     [k.SYNC_CHOICE_TITLE]: `Как вы хотите хранить свои подсказки?`,
-    [k.SYNC_PROMPTS_VIA_GOOGLE_SHEETS]: `Синхронизация подсказок через Google Таблицы`,
     [k.TAG]: `Тег`,
     [k.TAGS]: `Теги`,
     [k.TEXT]: `Текст`,
@@ -221,7 +217,6 @@ export const ru = {
     [k.VALENTINE]: `Валентайн`,
     [k.VARIABLE_NAME]: `Имя переменной`,
     [k.VARIABLE_TYPE]: `Тип`,
-    [k.VIEW_LINKED_SHEET]: `Просмотреть связанную таблицу`,
     [k.WANT_TO_SYNC_YOUR_PROMPTS_ACRO]: `Хотите синхронизировать свои подсказки на нескольких устройствах или просто иметь
                                 резервную копию в облаке? Вы можете начать, закрыв это окно и
                                 перейдя в настройки > облачная синхронизация. Вам нужно будет сделать это на каждом
