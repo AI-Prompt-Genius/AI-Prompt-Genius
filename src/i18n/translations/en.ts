@@ -261,6 +261,23 @@ export const en = {
         "Your prompts live only in this browser on this device. Clearing browsing data or switching devices will lose them. Export a backup anytime from",
     [k.SYNC_CHOICE_SETTINGS_IMPORT]: "Settings → Import/Export",
     [k.SYNC_CHOICE_LOCAL_WARNING_DESC2]: ", and you can turn on Cloud Sync later.",
+
+    // New features modal
+    [k.NEW_FEATURES_TITLE]: "What's New in Prompt Genius",
+    [k.NEW_FEATURES_SUBTITLE]: "Check out these new features to supercharge your prompts",
+    [k.NEW_FEATURES_TYPED_VARIABLES]: "Typed Variables",
+    [k.NEW_FEATURES_TYPED_VARIABLES_DESC]:
+        "Build smarter prompts with variables that adapt to how you fill them in — no more rewriting the same prompt over and over.",
+    [k.NEW_FEATURES_CLOUD_SYNC]: "Cloud Syncing & Settings",
+    [k.NEW_FEATURES_CLOUD_SYNC_DESC]:
+        "Sync your prompts and settings across all your devices. Your preferences, theme, and library stay in sync everywhere you sign in.",
+    [k.NEW_FEATURES_ENABLE_SYNC]: "Create an account for more reliable syncing",
+    [k.NEW_FEATURES_FEEDBACK]: "Share Feedback",
+    [k.NEW_FEATURES_FEEDBACK_TITLE]: "Got thoughts?",
+    [k.NEW_FEATURES_FEEDBACK_DESC]:
+        "We're actively building based on what users tell us. A couple minutes of feedback goes a long way.",
+    [k.NEW_FEATURES_FEEDBACK_CTA]: "Open feedback form",
+    [k.NEW_FEATURES_SKIP]: "Skip",
 }
 
 export default en

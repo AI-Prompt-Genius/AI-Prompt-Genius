@@ -236,6 +236,20 @@ export const hu = {
     [k.YOU_NOW_GET_TO_PICK_YOUR_OWN_C]: `You now get to pick your own categories - now called folders.`,
     [k._]: `...`,
     [k._1]: ``,
+
+    // New features modal
+    [k.NEW_FEATURES_TITLE]: `Mi újság a Prompt Geniusban`,
+    [k.NEW_FEATURES_SUBTITLE]: `Ismerd meg ezeket az új funkciókat, hogy felgyorsítsd a promptjaid`,
+    [k.NEW_FEATURES_TYPED_VARIABLES]: `Típusos változók`,
+    [k.NEW_FEATURES_TYPED_VARIABLES_DESC]: `Hozz létre okosabb promptokat olyan változókkal, amelyek a te kitöltésedhez igazodnak — nincs több átírás.`,
+    [k.NEW_FEATURES_CLOUD_SYNC]: `Felhőszinkronizálás és beállítások`,
+    [k.NEW_FEATURES_CLOUD_SYNC_DESC]: `Szinkronizáld a promptjaidat és beállításaidat az összes eszközödön. Preferenciáid, témád és könyvtárad mindenütt szinkronizálva marad.`,
+    [k.NEW_FEATURES_ENABLE_SYNC]: `Hozz létre egy fiókot a megbízhatóbb szinkronizáláshoz`,
+    [k.NEW_FEATURES_FEEDBACK]: `Visszajelzés megosztása`,
+    [k.NEW_FEATURES_FEEDBACK_TITLE]: `Van ötleted?`,
+    [k.NEW_FEATURES_FEEDBACK_DESC]: `Aktívan fejlesztünk a felhasználók visszajelzése alapján. Néhány percnyi visszajelzés sokat számít.`,
+    [k.NEW_FEATURES_FEEDBACK_CTA]: `Visszajelzési űrlap megnyitása`,
+    [k.NEW_FEATURES_SKIP]: `Kihagyás`,
 }
 
 export default hu

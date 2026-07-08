@@ -236,6 +236,20 @@ export const tr = {
     [k.YOU_NOW_GET_TO_PICK_YOUR_OWN_C]: `You now get to pick your own categories - now called folders.`,
     [k._]: `...`,
     [k._1]: ``,
+
+    // New features modal
+    [k.NEW_FEATURES_TITLE]: `Prompt Genius'ta Yeniler`,
+    [k.NEW_FEATURES_SUBTITLE]: `İstemlerinizi güçlendirmek için bu yeni özellikleri keşfedin`,
+    [k.NEW_FEATURES_TYPED_VARIABLES]: `Yazılı değişkenler`,
+    [k.NEW_FEATURES_TYPED_VARIABLES_DESC]: `Doldurduğunuz şekilde uyum sağlayan değişkenlerle daha akıllı istemler oluşturun — artık tekrar yazmanız gerekmez.`,
+    [k.NEW_FEATURES_CLOUD_SYNC]: `Bulut senkronizasyonu ve ayarlar`,
+    [k.NEW_FEATURES_CLOUD_SYNC_DESC]: `İstemlerinizi ve ayarlarınızı tüm cihazlarınızda senkronize edin. Tercihleriniz, temanız ve kütüphaneniz her yerde senkronize kalır.`,
+    [k.NEW_FEATURES_ENABLE_SYNC]: `Daha güvenilir senkronizasyon için hesap oluşturun`,
+    [k.NEW_FEATURES_FEEDBACK]: `Geri bildirim paylaşın`,
+    [k.NEW_FEATURES_FEEDBACK_TITLE]: `Düşünceleriniz?`,
+    [k.NEW_FEATURES_FEEDBACK_DESC]: `Kullanıcıların bize söylediklerine göre aktif olarak geliştirme yapıyoruz. Birkaç dakikalık geri bildirim çok fark yaratır.`,
+    [k.NEW_FEATURES_FEEDBACK_CTA]: `Geri bildirim formunu aç`,
+    [k.NEW_FEATURES_SKIP]: `Atla`,
 }
 
 export default tr

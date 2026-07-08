@@ -236,6 +236,20 @@ export const ru = {
     [k.YOU_NOW_GET_TO_PICK_YOUR_OWN_C]: `You now get to pick your own categories - now called folders.`,
     [k._]: `...`,
     [k._1]: ``,
+
+    // New features modal
+    [k.NEW_FEATURES_TITLE]: `Новое в Prompt Genius`,
+    [k.NEW_FEATURES_SUBTITLE]: `Ознакомьтесь с этими новыми функциями, чтобы улучшить свои подсказки`,
+    [k.NEW_FEATURES_TYPED_VARIABLES]: `Типизированные переменные`,
+    [k.NEW_FEATURES_TYPED_VARIABLES_DESC]: `Создавайте более умные подсказки с переменными, которые адаптируются к тому, как вы их заполняете — больше не нужно переписывать.`,
+    [k.NEW_FEATURES_CLOUD_SYNC]: `Облачная синхронизация и настройки`,
+    [k.NEW_FEATURES_CLOUD_SYNC_DESC]: `Синхронизируйте свои подсказки и настройки на всех устройствах. Ваши предпочтения, тема и библиотека остаются синхронизированными везде.`,
+    [k.NEW_FEATURES_ENABLE_SYNC]: `Создайте учетную запись для более надежной синхронизации`,
+    [k.NEW_FEATURES_FEEDBACK]: `Поделитесь отзывом`,
+    [k.NEW_FEATURES_FEEDBACK_TITLE]: `Есть мысли?`,
+    [k.NEW_FEATURES_FEEDBACK_DESC]: `Мы активно разрабатываем на основе того, что нам говорят пользователи. Несколько минут обратной связи имеют большое значение.`,
+    [k.NEW_FEATURES_FEEDBACK_CTA]: `Открыть форму обратной связи`,
+    [k.NEW_FEATURES_SKIP]: `Пропустить`,
 }
 
 export default ru

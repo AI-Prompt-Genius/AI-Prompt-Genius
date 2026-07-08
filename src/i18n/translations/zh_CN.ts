@@ -236,6 +236,20 @@ export const zh_CN = {
     [k.YOU_NOW_GET_TO_PICK_YOUR_OWN_C]: `You now get to pick your own categories - now called folders.`,
     [k._]: `...`,
     [k._1]: ``,
+
+    // New features modal
+    [k.NEW_FEATURES_TITLE]: `Prompt Genius 中的新功能`,
+    [k.NEW_FEATURES_SUBTITLE]: `查看这些新功能以增强您的提示`,
+    [k.NEW_FEATURES_TYPED_VARIABLES]: `类型化变量`,
+    [k.NEW_FEATURES_TYPED_VARIABLES_DESC]: `使用适应您填充方式的变量创建更智能的提示——不再需要重新编写。`,
+    [k.NEW_FEATURES_CLOUD_SYNC]: `云同步和设置`,
+    [k.NEW_FEATURES_CLOUD_SYNC_DESC]: `在所有设备上同步您的提示和设置。您的偏好设置、主题和库在任何地方都保持同步。`,
+    [k.NEW_FEATURES_ENABLE_SYNC]: `创建帐户以获得更可靠的同步`,
+    [k.NEW_FEATURES_FEEDBACK]: `分享反馈`,
+    [k.NEW_FEATURES_FEEDBACK_TITLE]: `有想法吗？`,
+    [k.NEW_FEATURES_FEEDBACK_DESC]: `我们根据用户的反馈积极开发。几分钟的反馈意见会产生很大的影响。`,
+    [k.NEW_FEATURES_FEEDBACK_CTA]: `打开反馈表单`,
+    [k.NEW_FEATURES_SKIP]: `跳过`,
 }
 
 export default zh_CN

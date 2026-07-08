@@ -236,6 +236,20 @@ export const uk = {
     [k.YOU_NOW_GET_TO_PICK_YOUR_OWN_C]: `You now get to pick your own categories - now called folders.`,
     [k._]: `...`,
     [k._1]: ``,
+
+    // New features modal
+    [k.NEW_FEATURES_TITLE]: `Новое в Prompt Genius`,
+    [k.NEW_FEATURES_SUBTITLE]: `Познайомтеся з цими новими функціями для посилення ваших промптів`,
+    [k.NEW_FEATURES_TYPED_VARIABLES]: `Типізовані змінні`,
+    [k.NEW_FEATURES_TYPED_VARIABLES_DESC]: `Створюйте розумніші промпти зі змінними, які адаптуються до того, як ви їх заповнюєте — більше не потрібно переписувати.`,
+    [k.NEW_FEATURES_CLOUD_SYNC]: `Синхронізація в хмарі та параметри`,
+    [k.NEW_FEATURES_CLOUD_SYNC_DESC]: `Синхронізуйте свої промпти та параметри на всіх ваших пристроях. Ваші переваги, тема та бібліотека залишаються синхронізованими везде.`,
+    [k.NEW_FEATURES_ENABLE_SYNC]: `Створіть обліковий запис для більш надійної синхронізації`,
+    [k.NEW_FEATURES_FEEDBACK]: `Поділіться зворотним зв'язком`,
+    [k.NEW_FEATURES_FEEDBACK_TITLE]: `Є ідеї?`,
+    [k.NEW_FEATURES_FEEDBACK_DESC]: `Ми активно розробляємо на основі того, що нам говорять користувачі. Кілька хвилин зворотного зв'язку роблять велику різницю.`,
+    [k.NEW_FEATURES_FEEDBACK_CTA]: `Відкрити форму зворотного зв'язку`,
+    [k.NEW_FEATURES_SKIP]: `Пропустити`,
 }
 
 export default uk

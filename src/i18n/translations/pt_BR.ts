@@ -236,6 +236,20 @@ export const pt_BR = {
     [k.YOU_NOW_GET_TO_PICK_YOUR_OWN_C]: `You now get to pick your own categories - now called folders.`,
     [k._]: `...`,
     [k._1]: ``,
+
+    // New features modal
+    [k.NEW_FEATURES_TITLE]: `Novidades no Prompt Genius`,
+    [k.NEW_FEATURES_SUBTITLE]: `Confira esses novos recursos para potencializar seus prompts`,
+    [k.NEW_FEATURES_TYPED_VARIABLES]: `Variáveis tipadas`,
+    [k.NEW_FEATURES_TYPED_VARIABLES_DESC]: `Crie prompts mais inteligentes com variáveis que se adaptam a como você as preenche — sem mais reescrituras.`,
+    [k.NEW_FEATURES_CLOUD_SYNC]: `Sincronização em nuvem e configurações`,
+    [k.NEW_FEATURES_CLOUD_SYNC_DESC]: `Sincronize seus prompts e configurações em todos os seus dispositivos. Suas preferências, tema e biblioteca permanecem sincronizados em qualquer lugar.`,
+    [k.NEW_FEATURES_ENABLE_SYNC]: `Crie uma conta para sincronização mais confiável`,
+    [k.NEW_FEATURES_FEEDBACK]: `Compartilhar feedback`,
+    [k.NEW_FEATURES_FEEDBACK_TITLE]: `Tem alguma ideia?`,
+    [k.NEW_FEATURES_FEEDBACK_DESC]: `Estamos construindo ativamente com base no que os usuários nos dizem. Alguns minutos de feedback fazem uma grande diferença.`,
+    [k.NEW_FEATURES_FEEDBACK_CTA]: `Abrir formulário de feedback`,
+    [k.NEW_FEATURES_SKIP]: `Pular`,
 }
 
 export default pt_BR

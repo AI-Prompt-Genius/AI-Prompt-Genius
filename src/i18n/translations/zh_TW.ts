@@ -236,6 +236,20 @@ export const zh_TW = {
     [k.YOU_NOW_GET_TO_PICK_YOUR_OWN_C]: `You now get to pick your own categories - now called folders.`,
     [k._]: `...`,
     [k._1]: ``,
+
+    // New features modal
+    [k.NEW_FEATURES_TITLE]: `Prompt Genius 中的新功能`,
+    [k.NEW_FEATURES_SUBTITLE]: `查看這些新功能以增強您的提示`,
+    [k.NEW_FEATURES_TYPED_VARIABLES]: `類型化變數`,
+    [k.NEW_FEATURES_TYPED_VARIABLES_DESC]: `使用適應您填充方式的變數建立更智慧的提示——不再需要重新編寫。`,
+    [k.NEW_FEATURES_CLOUD_SYNC]: `雲端同步和設定`,
+    [k.NEW_FEATURES_CLOUD_SYNC_DESC]: `在所有設備上同步您的提示和設定。您的偏好設定、主題和媒體庫在任何地方都保持同步。`,
+    [k.NEW_FEATURES_ENABLE_SYNC]: `建立帳戶以獲得更可靠的同步`,
+    [k.NEW_FEATURES_FEEDBACK]: `分享回饋`,
+    [k.NEW_FEATURES_FEEDBACK_TITLE]: `有想法嗎？`,
+    [k.NEW_FEATURES_FEEDBACK_DESC]: `我們根據使用者的回饋積極開發。幾分鐘的回饋意見會產生很大的影響。`,
+    [k.NEW_FEATURES_FEEDBACK_CTA]: `開啟回饋表單`,
+    [k.NEW_FEATURES_SKIP]: `跳過`,
 }
 
 export default zh_TW

@@ -20,6 +20,7 @@ import { cloudSyncIfDue, cloudSyncNow } from "./sync/syncClient"
 import AuthModal, { RESUME_AUTH_STEP_EVENT } from "./components/AuthModal"
 import ManageAccountModal from "./components/ManageAccountModal"
 import OptionSetsModal from "./components/OptionSetsModal"
+import NewFeaturesModal from "./components/NewFeaturesModal"
 
 function applyFilters(
     prompts: LegacyPrompt[],
@@ -88,6 +89,10 @@ function App() {
     const lang = localStorage.getItem("lng") ?? "en"
     const seenHotkeyUpdate = true
     const showHotkeyUpdate = lang === "en" && !onboarding && !transferring && !seenHotkeyUpdate
+
+    // New Features Modal
+    const newFeaturesModalDismissed = localStorage.getItem("newFeaturesModalDismissed") === "true"
+    const showNewFeatures = !onboarding && !transferring && !newFeaturesModalDismissed
 
     // Filtering is now just filter-state updates; the list is derived above.
     function filterPrompts(folder: string = "", tags: string[] = [], searchTerm: string = "") {
@@ -232,6 +237,7 @@ function App() {
             {transferring && <TransferModal />}
             {onboarding && <OnboardingModal />}
             {showHotkeyUpdate && <HotkeyUpdateModal />}
+            {showNewFeatures && <NewFeaturesModal />}
         </div>
     )
 }
