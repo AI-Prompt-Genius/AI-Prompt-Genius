@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS prompts (
   description TEXT,
   tags        TEXT,                  -- semicolon-joined, matching the client's legacy shape
   folder      TEXT,
+  sort_index  REAL NOT NULL DEFAULT 0, -- manual display order (fractional; lower = earlier)
   rev         INTEGER NOT NULL,      -- server rev at which this row last changed
   updated_at  INTEGER NOT NULL,     -- client lastChanged (last-writer-wins tiebreak)
   deleted_at  INTEGER,               -- tombstone; NULL = live

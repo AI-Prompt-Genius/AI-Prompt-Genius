@@ -56,6 +56,7 @@ function App() {
     const prompts = usePromptStore(s => s.prompts)
     const folders = usePromptStore(s => s.folders)
     const setPrompts = usePromptStore(s => s.replacePrompts)
+    const reorderPrompts = usePromptStore(s => s.reorderPrompts)
     const setFolders = usePromptStore(s => s.replaceFolders)
     const reloadFromLegacy = usePromptStore(s => s.reloadFromLegacy)
 
@@ -199,6 +200,7 @@ function App() {
                 filteredPrompts={filteredPrompts}
                 filterPrompts={filterPrompts}
                 setPrompts={setPrompts}
+                reorderPrompts={reorderPrompts}
                 prompts={prompts}
                 tags={tags}
                 folders={folders}

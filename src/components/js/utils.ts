@@ -97,10 +97,18 @@ export function deletePrompt(id: string, prompts: LegacyPrompt[] | null = null):
 }
 
 export function newBlankPrompt(promptObj: LegacyPrompt): LegacyPrompt[] {
-    let prompts = getObject("prompts", [])
+    let prompts: LegacyPrompt[] = getObject("prompts", [])
 
     const newPrompts = getObject("newPrompts", [])
     setObject("newPrompts", [...newPrompts, promptObj.id])
+
+    // New prompts are prepended, so give this one a sortIndex below the current minimum to keep it
+    // at the top once the list is sorted by sortIndex (and so the order syncs cross-device).
+    const minIndex = prompts.reduce(
+        (m, p) => (typeof p.sortIndex === "number" ? Math.min(m, p.sortIndex) : m),
+        0,
+    )
+    promptObj.sortIndex = minIndex - 1
 
     prompts.unshift(promptObj)
     return prompts

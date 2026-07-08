@@ -11,6 +11,7 @@ export interface ServerPromptRow {
     description: string
     tags: string // semicolon-joined on the wire
     folder: string
+    sort_index?: number
     updated_at: number
     deleted_at: number | null
 }
@@ -23,6 +24,7 @@ export function rowToPrompt(row: ServerPromptRow): LegacyPrompt {
         description: row.description ?? "",
         tags: row.tags ? row.tags.split(";").filter(t => t !== "") : [],
         folder: row.folder ?? "",
+        sortIndex: row.sort_index ?? 0,
         lastChanged: row.updated_at,
     }
 }

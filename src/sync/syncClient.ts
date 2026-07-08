@@ -1,6 +1,6 @@
 import type { LegacyPrompt } from "../types"
 import { getObject, setObject } from "../components/js/utils"
-import { usePromptStore } from "../store/usePromptStore"
+import { usePromptStore, normalizeAndSort } from "../store/usePromptStore"
 import { getAccessToken, isSignedIn, signOut } from "../auth/customAuth"
 import { mergePulledPrompts, type ServerPromptRow } from "./merge"
 import {
@@ -25,6 +25,10 @@ const LAST_SYNCED_KEY = "cf_last_synced"
 // straight to localStorage without delta bookkeeping (e.g. the old-extension TransferModal import),
 // which would otherwise only ever upload during a rev-0 first sync.
 const SYNCED_IDS_KEY = "cf_synced_ids"
+// Set once we've pushed every local prompt's sortIndex to the server. Accounts that were already
+// fully synced before manual ordering existed need one full push to seed sort_index server-side;
+// after that reorders push single rows via the normal delta path.
+const SORTINDEX_BOOTSTRAP_KEY = "cf_sortindex_pushed"
 const SYNC_INTERVAL_MS = 5 * 60 * 1000
 
 export function isCloudSynced(): boolean {
@@ -36,6 +40,7 @@ export async function cloudSignOut(): Promise<void> {
     localStorage.removeItem(REV_KEY)
     localStorage.removeItem(LAST_SYNCED_KEY)
     localStorage.removeItem(SYNCED_IDS_KEY)
+    localStorage.removeItem(SORTINDEX_BOOTSTRAP_KEY)
     localStorage.removeItem("cf_settings_synced")
     localStorage.removeItem("cf_settings_updated_at")
     localStorage.setItem("syncPreference", "local")
@@ -59,7 +64,9 @@ export async function cloudSyncNow(): Promise<boolean> {
 
     try {
         const store = usePromptStore.getState()
-        const localPrompts: LegacyPrompt[] = getObject("prompts", [])
+        // Normalize so every prompt carries a sortIndex before it goes up the wire (legacy records
+        // written straight to localStorage may still lack one).
+        const localPrompts: LegacyPrompt[] = normalizeAndSort(getObject("prompts", []))
 
         // The app already tracks exactly the deltas the endpoint wants.
         const changedIds = new Set<string>([
@@ -74,7 +81,14 @@ export async function cloudSyncNow(): Promise<boolean> {
         // bookkeeping (old-extension transfer import): they'd otherwise only ever upload during
         // the rev-0 first sync, and would be stranded forever if the rev had already advanced.
         const syncedIds = new Set<string>(getObject(SYNCED_IDS_KEY, []))
-        const toPush = localPrompts.filter(p => changedIds.has(p.id) || !syncedIds.has(p.id))
+        // One-time full push seeds sort_index for accounts already fully synced before ordering
+        // existed; those prompts are all in syncedIds and unchanged, so they'd never push otherwise.
+        // Their lastChanged is left untouched, so this is LWW-safe (a newer row on another device
+        // still wins). After it succeeds we flip the flag and go back to delta pushes.
+        const needsSortIndexBootstrap = localStorage.getItem(SORTINDEX_BOOTSTRAP_KEY) !== "1"
+        const toPush = needsSortIndexBootstrap
+            ? localPrompts
+            : localPrompts.filter(p => changedIds.has(p.id) || !syncedIds.has(p.id))
 
         const payload = {
             sinceRev,
@@ -132,6 +146,7 @@ export async function cloudSyncNow(): Promise<boolean> {
         )
         localStorage.setItem(REV_KEY, String(data.rev))
         localStorage.setItem(LAST_SYNCED_KEY, String(Date.now()))
+        localStorage.setItem(SORTINDEX_BOOTSTRAP_KEY, "1")
         return true
     } catch (err) {
         console.error("Cloud sync failed", err)

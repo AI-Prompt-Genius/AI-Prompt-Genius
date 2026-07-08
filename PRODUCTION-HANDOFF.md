@@ -25,6 +25,11 @@ store review. The extension side panel and a fullscreen tab both load the same w
 - **Cloud sync** (`worker/src/index.ts`): Cloudflare Worker + D1, per-user **delta sync** (rev +
   tombstones). Verified E2E: push → D1 → pull restores on a "fresh device". Live at
   `https://aipromptgenius-sync.aipromptgenius.workers.dev` (D1 id in `worker/wrangler.toml`).
+  ⚠️ **Deploy ordering:** apply `worker/migrations/0004_prompt_sort_index.sql`
+  (`npx wrangler d1 execute aipromptgenius --remote --file=migrations/0004_prompt_sort_index.sql`)
+  **before** deploying the current worker — it inserts/pulls `prompts.sort_index` (manual
+  drag-to-reorder order) and will error against the old schema. `schema.sql` already has the column
+  for fresh DBs.
 - **Auth = WorkOS custom UI** (hosted AuthKit page + `authkit-js` were dropped; **passkeys axed** —
   WorkOS only offers them hosted). `worker/src/auth.ts` proxies the WorkOS User Management API
   using the `WORKOS_API_KEY` **secret** (already set via `wrangler secret put`). Client ID

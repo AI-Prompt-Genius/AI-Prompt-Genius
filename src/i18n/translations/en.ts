@@ -94,6 +94,7 @@ export const en = {
         "Prompt content. Use {{name}} for a variable, or a typed one like {{tone::list-happy; sad}}, {{count::number-0}}, {{bio::largeText}}. Use the Insert Variable button to build them.",
     [k.DESCRIPTION_PLACEHOLDER]: "A brief description of the prompt.",
     [k.ENTER_TAG]: "Press enter to add a tag",
+    [k.DRAG_TO_REORDER]: "Drag to reorder",
     [k.UPGRADE_TO_PRO]: "Upgrade to Pro",
     [k.FEATURES]: "Features:",
     [k.NO_ADS]: "No ads! Removes bimonthly popup windows & text ads.",

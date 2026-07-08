@@ -25,6 +25,7 @@ interface SyncPrompt {
     description?: string
     tags?: string[]
     folder?: string | null
+    sortIndex?: number
     lastChanged?: number
 }
 
@@ -112,12 +113,12 @@ export default {
             // Apply incoming changes (last-writer-wins on updated_at).
             for (const p of body.prompts ?? []) {
                 await env.DB.prepare(
-                    `INSERT INTO prompts (user_id, id, title, text, description, tags, folder, rev, updated_at, deleted_at)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
+                    `INSERT INTO prompts (user_id, id, title, text, description, tags, folder, sort_index, rev, updated_at, deleted_at)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
                      ON CONFLICT(user_id, id) DO UPDATE SET
                        title=excluded.title, text=excluded.text, description=excluded.description,
-                       tags=excluded.tags, folder=excluded.folder, rev=excluded.rev,
-                       updated_at=excluded.updated_at, deleted_at=NULL
+                       tags=excluded.tags, folder=excluded.folder, sort_index=excluded.sort_index,
+                       rev=excluded.rev, updated_at=excluded.updated_at, deleted_at=NULL
                      WHERE excluded.updated_at >= prompts.updated_at`,
                 )
                     .bind(
@@ -128,6 +129,7 @@ export default {
                         p.description ?? "",
                         (p.tags ?? []).join(";"),
                         p.folder ?? "",
+                        p.sortIndex ?? 0,
                         nextRev,
                         p.lastChanged ?? Date.now(),
                     )
@@ -210,7 +212,7 @@ export default {
 
             // Return everything changed since the client's last-seen rev.
             const changedPrompts = await env.DB.prepare(
-                "SELECT * FROM prompts WHERE user_id = ? AND rev > ?",
+                "SELECT * FROM prompts WHERE user_id = ? AND rev > ? ORDER BY sort_index",
             )
                 .bind(userId, sinceRev)
                 .all()

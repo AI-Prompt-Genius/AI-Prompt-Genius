@@ -19,6 +19,7 @@ import type { LegacyPrompt } from "../types"
 interface MainContentProps {
     prompts: LegacyPrompt[]
     setPrompts: (...args: any[]) => void
+    reorderPrompts: (draggedId: string, targetId: string, placeAfter?: boolean) => void
     categories?: any
     tags?: any
     folders: string[]
@@ -35,6 +36,7 @@ interface MainContentProps {
 export default function MainContent({
     prompts,
     setPrompts,
+    reorderPrompts,
     categories,
     folders,
     filteredPrompts,
@@ -153,6 +155,7 @@ export default function MainContent({
                             renderTemplate={prompt => (
                                 <Template
                                     setPrompts={setPrompts}
+                                    reorderPrompts={reorderPrompts}
                                     categories={categories}
                                     onClick={() => usePrompt(prompt.text)}
                                     template={prompt}

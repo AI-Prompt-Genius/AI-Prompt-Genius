@@ -39,6 +39,9 @@ export interface LegacyPrompt {
     tags: string[]
     folder?: string | null
     lastChanged?: number
+    // Position key for manual ordering (lower = earlier). Synced cross-device via `sort_index`.
+    // Legacy records lack it; the store backfills from array order on load.
+    sortIndex?: number
     [key: string]: unknown
 }
 

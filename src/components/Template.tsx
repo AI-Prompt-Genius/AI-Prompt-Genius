@@ -1,9 +1,9 @@
 import i18n from "i18next"
 import k from "./../i18n/keys"
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { deletePrompt, editPrompt, getCurrentTimestamp, promptLimitError, uuid } from "./js/utils"
-import { EditIcon, TrashIcon } from "./icons/Icons"
+import { DragHandleIcon, EditIcon, TrashIcon } from "./icons/Icons"
 import FolderSelect from "./FolderSelect"
 import PromptEditor from "./PromptEditor"
 import RemoveTag from "./RemoveTag"
@@ -14,6 +14,7 @@ import type { LegacyPrompt } from "../types"
 interface TemplateProps {
     template: LegacyPrompt
     setPrompts: (...args: any[]) => void
+    reorderPrompts: (draggedId: string, targetId: string, placeAfter?: boolean) => void
     onClick: () => void
     folders: string[]
     filterTags: string[]
@@ -28,6 +29,7 @@ interface TemplateProps {
 function Template({
     template,
     setPrompts,
+    reorderPrompts,
     onClick,
     folders,
     filterTags,
@@ -51,8 +53,75 @@ function Template({
     const isFullScreen = new URLSearchParams(window.location.search).get("fullscreen") === "true"
 
     const tagRef = React.createRef<HTMLInputElement>()
+    const cardRef = useRef<HTMLDivElement>(null)
 
     const compactBtnClass = compact ? "" : "max-[600px]:flex-col lg:flex-col"
+
+    // Native HTML5 drag-and-drop reordering. The grip (left of the tags) is the only draggable
+    // element; the whole card is the drop target. We drop *between* cards: the cursor's half of
+    // the hovered card decides whether the item lands before or after it, and an insertion line is
+    // shown in that gap. In a single-column layout the split is vertical (line above/below); in a
+    // multi-column grid the cards sit side-by-side, so the split is horizontal (line left/right).
+    // Reordering mutates the master prompt array via the store, and the filtered view re-derives
+    // from it. The line and drop side are toggled directly on the DOM (not React state) so the
+    // memoized card doesn't re-render mid-drag.
+
+    // Which side the cursor is currently over (kept out of state to avoid re-renders). Read on drop.
+    const dropAfterRef = useRef(false)
+
+    type DropSide = "top" | "bottom" | "left" | "right" | "none"
+
+    function setInsertionLine(side: DropSide) {
+        const el = cardRef.current
+        if (!el) return
+        el.querySelector(".drop-line-top")?.classList.toggle("opacity-100", side === "top")
+        el.querySelector(".drop-line-bottom")?.classList.toggle("opacity-100", side === "bottom")
+        el.querySelector(".drop-line-left")?.classList.toggle("opacity-100", side === "left")
+        el.querySelector(".drop-line-right")?.classList.toggle("opacity-100", side === "right")
+    }
+
+    // True when the card sits in a multi-column grid row (its parent grid has >1 column track).
+    function isMultiColumn(): boolean {
+        const parent = cardRef.current?.parentElement
+        if (!parent) return false
+        const cols = getComputedStyle(parent).gridTemplateColumns
+        return cols !== "none" && cols.trim().split(/\s+/).length > 1
+    }
+
+    function handleDragStart(e: React.DragEvent) {
+        e.dataTransfer.setData("text/plain", template.id)
+        e.dataTransfer.effectAllowed = "move"
+        // Drag the whole card, not just the little grip icon.
+        if (cardRef.current) e.dataTransfer.setDragImage(cardRef.current, 16, 16)
+    }
+
+    function handleDragOver(e: React.DragEvent) {
+        e.preventDefault()
+        e.dataTransfer.dropEffect = "move"
+        const rect = cardRef.current?.getBoundingClientRect()
+        if (!rect) return
+        if (isMultiColumn()) {
+            const after = e.clientX > rect.left + rect.width / 2
+            dropAfterRef.current = after
+            setInsertionLine(after ? "right" : "left")
+        } else {
+            const after = e.clientY > rect.top + rect.height / 2
+            dropAfterRef.current = after
+            setInsertionLine(after ? "bottom" : "top")
+        }
+    }
+
+    function handleDragLeave() {
+        setInsertionLine("none")
+    }
+
+    function handleDrop(e: React.DragEvent) {
+        e.preventDefault()
+        setInsertionLine("none")
+        const draggedId = e.dataTransfer.getData("text/plain")
+        if (draggedId && draggedId !== template.id)
+            reorderPrompts(draggedId, template.id, dropAfterRef.current)
+    }
 
     function showModal() {
         setEditModalVisible(true)
@@ -77,6 +146,7 @@ function Template({
             id: template.id ?? uuid(),
             lastChanged: getCurrentTimestamp(),
             folder: folder,
+            sortIndex: template.sortIndex, // preserve manual order across edits
         }
         // Single source of truth: update the store; the filtered list re-derives automatically.
         setPrompts(editPrompt(template.id, editedPrompt))
@@ -143,12 +213,23 @@ function Template({
     return (
         <>
             <div
+                ref={cardRef}
                 onClick={e => {
                     if ((e.target as HTMLElement).classList.contains("mainClick")) onClick()
                 }}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
                 id={template.id}
-                className="mainClick z-0 card w-full lg:mb-0 bg-base-200/50 shadow-md template mb-3 cursor-pointer transition-colors hover:bg-base-300/50"
+                className="mainClick relative z-0 card w-full lg:mb-0 bg-base-200/50 shadow-md template mb-3 cursor-pointer transition-colors hover:bg-base-300/50"
             >
+                {/* Insertion indicators shown in the gap around the card while dragging over one of
+                    its halves — top/bottom in a single column, left/right in a multi-column grid.
+                    pointer-events-none so they never become the drag target. */}
+                <span className="drop-line-top pointer-events-none absolute -top-1.5 left-2 right-2 h-1 rounded-full bg-primary opacity-0 transition-opacity" />
+                <span className="drop-line-bottom pointer-events-none absolute -bottom-1.5 left-2 right-2 h-1 rounded-full bg-primary opacity-0 transition-opacity" />
+                <span className="drop-line-left pointer-events-none absolute -left-1.5 top-2 bottom-2 w-1 rounded-full bg-primary opacity-0 transition-opacity" />
+                <span className="drop-line-right pointer-events-none absolute -right-1.5 top-2 bottom-2 w-1 rounded-full bg-primary opacity-0 transition-opacity" />
                 <div className="mainClick z-0 card-body flex flex-row p-4 justify-between align-top">
                     <div className="mainClick flex flex-col">
                         {template.title ? (
@@ -165,16 +246,27 @@ function Template({
                                     : renderWithPills(template.text ?? "")}
                             </p>
                         )}
-                        <div className={"flex flex-wrap"}>
-                            {template.tags &&
-                                template.tags.map((tag, i) => (
-                                    <Tag
-                                        filterTags={filterTags}
-                                        key={i}
-                                        tag={tag}
-                                        onClick={() => filterByTag(tag)}
-                                    />
-                                ))}
+                        <div className="flex items-center gap-1">
+                            <div
+                                draggable
+                                onDragStart={handleDragStart}
+                                onDragEnd={handleDragLeave}
+                                title={t(k.DRAG_TO_REORDER)}
+                                className="drag-handle shrink-0 self-start mt-1 cursor-grab active:cursor-grabbing rounded p-0.5 opacity-40 hover:opacity-90 hover:bg-base-300"
+                            >
+                                <DragHandleIcon />
+                            </div>
+                            <div className={"flex flex-wrap"}>
+                                {template.tags &&
+                                    template.tags.map((tag, i) => (
+                                        <Tag
+                                            filterTags={filterTags}
+                                            key={i}
+                                            tag={tag}
+                                            onClick={() => filterByTag(tag)}
+                                        />
+                                    ))}
+                            </div>
                         </div>
                     </div>
                     <div className={`mainClick buttons flex ${compactBtnClass}`}>
