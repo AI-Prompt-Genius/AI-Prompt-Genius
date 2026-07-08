@@ -49,17 +49,17 @@ export default function NewFeaturesModal() {
             />
 
             <div className="modal">
-                <div className="modal-box max-w-2xl p-0 overflow-hidden">
-                    <div className="bg-gradient-to-br from-primary/15 via-primary/5 to-transparent px-8 pt-8 pb-6 text-center">
-                        <h2 className="text-2xl sm:text-3xl font-bold">
+                <div className="modal-box max-w-2xl p-0 overflow-hidden flex flex-col max-h-[85vh]">
+                    <div className="bg-gradient-to-br from-primary/15 via-primary/5 to-transparent px-6 pt-6 pb-4 text-center flex-shrink-0">
+                        <h2 className="text-xl sm:text-2xl font-bold">
                             {t(k.NEW_FEATURES_TITLE)}
                         </h2>
-                        <p className="text-base-content/70 mt-2">
+                        <p className="text-sm text-base-content/70 mt-1">
                             {t(k.NEW_FEATURES_SUBTITLE)}
                         </p>
                     </div>
 
-                    <div className="px-6 sm:px-8 py-6 space-y-3">
+                    <div className="px-4 sm:px-6 py-4 space-y-2 overflow-y-auto flex-1">
                         <FeatureCard
                             icon={<BracesIcon />}
                             title={t(k.NEW_FEATURES_TYPED_VARIABLES)}
@@ -76,7 +76,7 @@ export default function NewFeaturesModal() {
                             description={t(k.NEW_FEATURES_FEEDBACK_DESC)}
                         >
                             <button
-                                className="btn btn-sm btn-outline mt-3"
+                                className="btn btn-sm btn-outline mt-2"
                                 onClick={handleFeedback}
                             >
                                 {t(k.NEW_FEATURES_FEEDBACK_CTA)}
@@ -84,12 +84,12 @@ export default function NewFeaturesModal() {
                         </FeatureCard>
                     </div>
 
-                    <div className="px-6 sm:px-8 pb-8 pt-2 flex flex-col-reverse sm:flex-row gap-3 justify-center items-center">
-                        <button className="btn btn-ghost" onClick={closeModal}>
+                    <div className="px-4 sm:px-6 pb-4 pt-2 flex flex-col-reverse sm:flex-row gap-2 justify-center items-center flex-shrink-0 border-t border-base-content/10">
+                        <button className="btn btn-ghost btn-sm" onClick={closeModal}>
                             {t(k.NEW_FEATURES_SKIP)}
                         </button>
                         <button
-                            className="btn btn-primary w-full sm:w-auto"
+                            className="btn btn-primary btn-sm w-full sm:w-auto"
                             onClick={handleEnableSync}
                         >
                             {t(k.NEW_FEATURES_ENABLE_SYNC)}
