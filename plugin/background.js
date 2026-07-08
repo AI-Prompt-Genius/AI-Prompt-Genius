@@ -60,9 +60,8 @@ const onExtensionUpdated = () => {
 
 onExtensionUpdated()
 
-// Side-panel-first: clicking the toolbar icon opens the side panel.
-// Note: the sidePanel API has no programmatic close, so this is "click to open";
-// Chrome's toolbar button then acts as the native open/close toggle.
+// The toolbar icon now opens the popup (action.default_popup) instead of the
+// side panel. The side panel is still reachable via the open-sidebar command.
 chrome.sidePanel
     .setPanelBehavior({ openPanelOnActionClick: true })
     .catch(err => console.error(err))

@@ -8,7 +8,9 @@
     "background": {
         "service_worker": "background.js"
     },
-    "action": {},
+    "action": {
+        "default_popup": "pages/popup.html"
+    },
     "side_panel": {
         "default_path": "pages/sidebar.html"
     },
