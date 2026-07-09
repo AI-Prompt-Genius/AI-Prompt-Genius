@@ -38,7 +38,7 @@
     },
     "browser_specific_settings": {
         "gecko": {
-            "id": "aipromptgenius@aipromptgenius.app",
+            "id": "{36766b00-d6ed-450e-be68-caf35d1bd83f}",
             "strict_min_version": "115.0",
             "data_collection_permissions": {
                 "required": [
