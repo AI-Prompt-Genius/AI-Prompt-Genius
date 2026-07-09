@@ -29,13 +29,13 @@ rm -f "$CHROME_ZIP"
 zip -r "$CHROME_ZIP" "$PLUGIN_DIR" "${EXCLUDES[@]}"
 
 # --- Firefox build ----------------------------------------------------------
-# Zip the folder, then replace manifest.json inside the archive with the
-# Firefox one (renamed on the fly via a temp copy) so plugin/ is left untouched.
+# Copy plugin/ to temp dir, swap in firefox-manifest.json, then zip the contents
+# directly (not the containing folder) so files are at the root of the archive.
 rm -f "$FIREFOX_ZIP"
 TMP_DIR=$(mktemp -d)
-cp -R "$PLUGIN_DIR" "$TMP_DIR/$PLUGIN_DIR"
-mv "$TMP_DIR/$PLUGIN_DIR/firefox-manifest.json" "$TMP_DIR/$PLUGIN_DIR/manifest.json"
-(cd "$TMP_DIR" && zip -r "$OLDPWD/$FIREFOX_ZIP" "$PLUGIN_DIR" -x "*/.DS_Store")
+cp -R "$PLUGIN_DIR" "$TMP_DIR/build"
+mv "$TMP_DIR/build/firefox-manifest.json" "$TMP_DIR/build/manifest.json"
+(cd "$TMP_DIR/build" && zip -r "$OLDPWD/$FIREFOX_ZIP" . -x "*/.DS_Store")
 rm -rf "$TMP_DIR"
 
 # --- Publish ----------------------------------------------------------------
