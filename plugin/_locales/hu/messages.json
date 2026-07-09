@@ -3,13 +3,13 @@
         "message": "AI Prompt Genius"
     },
     "appDesc": {
-        "message": "Hozzon létre egyéni AI-kérés könyvtárat"
+        "message": "Hozzon létre egyéni AI prompt könyvtárat"
     },
     "openSidebar": {
-        "message": "Oldalvarnyit megnyitása"
+        "message": "Oldalsáv megnyitása"
     },
     "searchPrompts": {
-        "message": "Keresési felhívások..."
+        "message": "Promptok keresése..."
     },
     "copy": {
         "message": "Másolás"
