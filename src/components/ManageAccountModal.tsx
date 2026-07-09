@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import k from "../i18n/keys"
 import Head2 from "./Head2"
-import { mfaChallenge, mfaEnroll, mfaVerifyEnroll, userEmail } from "../auth/customAuth"
-import { cloudSyncNow } from "../sync/syncClient"
+import { deleteAccount, mfaChallenge, mfaEnroll, mfaVerifyEnroll, userEmail } from "../auth/customAuth"
+import { cloudSignOut, cloudSyncNow } from "../sync/syncClient"
 
 // Account management: shows the signed-in identity, manual sync, and TOTP 2FA enrollment
 // (WorkOS returns the QR as a data URI — scan with any authenticator app; it's enforced at the
@@ -22,12 +22,16 @@ export default function ManageAccountModal() {
     const [code, setCode] = useState("")
     const [activated, setActivated] = useState(false)
     const [syncMsg, setSyncMsg] = useState("")
+    const [confirmingDelete, setConfirmingDelete] = useState(false)
+    const [confirmEmail, setConfirmEmail] = useState("")
 
     useEffect(() => {
         const openHandler = () => {
             setOpen(true)
             setError("")
             setSyncMsg("")
+            setConfirmingDelete(false)
+            setConfirmEmail("")
         }
         window.addEventListener(OPEN_ACCOUNT_EVENT, openHandler)
         return () => window.removeEventListener(OPEN_ACCOUNT_EVENT, openHandler)
@@ -78,6 +82,24 @@ export default function ManageAccountModal() {
         const ok = await cloudSyncNow()
         setBusy(false)
         setSyncMsg(ok ? t(k.ACCOUNT_SYNCED) : t(k.ACCOUNT_SYNC_FAILED))
+    }
+
+    // Strict-confirmed, irreversible account deletion: the typed email must match the signed-in
+    // address before the button enables. On success we clear the local session (local prompts are
+    // left untouched) and broadcast auth-changed so the sidebar flips to signed-out.
+    async function deleteMyAccount() {
+        if (busy || confirmEmail.trim().toLowerCase() !== (userEmail() ?? "").toLowerCase()) return
+        setBusy(true)
+        setError("")
+        const step = await deleteAccount()
+        if (step.status === "ok") {
+            await cloudSignOut()
+            window.dispatchEvent(new Event("auth-changed"))
+            setOpen(false)
+        } else {
+            setBusy(false)
+            setError(step.message ?? t(k.ACCOUNT_ERR_DELETE))
+        }
     }
 
     return (
@@ -166,6 +188,75 @@ export default function ManageAccountModal() {
                     {error && (
                         <div className="alert alert-error mt-3 text-sm">
                             <span>{error}</span>
+                        </div>
+                    )}
+
+                    <div className="divider text-xs text-error">
+                        {t(k.ACCOUNT_DANGER_ZONE)}
+                    </div>
+                    {!confirmingDelete ? (
+                        <>
+                            <p className="text-sm mb-3">{t(k.ACCOUNT_DELETE_INTRO)}</p>
+                            <button
+                                id="account-delete"
+                                className="btn btn-outline btn-error btn-sm"
+                                disabled={busy}
+                                onClick={() => {
+                                    setConfirmingDelete(true)
+                                    setError("")
+                                }}
+                            >
+                                {t(k.ACCOUNT_DELETE_BTN)}
+                            </button>
+                        </>
+                    ) : (
+                        <div className="text-sm">
+                            <p className="mb-1">
+                                {t(k.ACCOUNT_DELETE_CONFIRM_PROMPT, {
+                                    email: userEmail() ?? "",
+                                })}
+                            </p>
+                            <p className="text-xs opacity-70 mb-3">
+                                {t(k.ACCOUNT_DELETE_LOCAL_NOTE)}
+                            </p>
+                            <input
+                                id="account-delete-email"
+                                type="email"
+                                autoComplete="off"
+                                className="input input-bordered w-full mb-3"
+                                placeholder={t(k.ACCOUNT_DELETE_TYPE_EMAIL)}
+                                value={confirmEmail}
+                                onChange={e => setConfirmEmail(e.target.value)}
+                                onKeyDown={e => {
+                                    if (e.key === "Enter") deleteMyAccount()
+                                }}
+                            />
+                            <div className="flex gap-2">
+                                <button
+                                    id="account-delete-confirm"
+                                    className="btn btn-error btn-sm flex-1"
+                                    disabled={
+                                        busy ||
+                                        confirmEmail.trim().toLowerCase() !==
+                                            (userEmail() ?? "").toLowerCase()
+                                    }
+                                    onClick={deleteMyAccount}
+                                >
+                                    {busy
+                                        ? t(k.ACCOUNT_DELETING)
+                                        : t(k.ACCOUNT_DELETE_CONFIRM_BTN)}
+                                </button>
+                                <button
+                                    className="btn btn-ghost btn-sm"
+                                    disabled={busy}
+                                    onClick={() => {
+                                        setConfirmingDelete(false)
+                                        setConfirmEmail("")
+                                    }}
+                                >
+                                    {t(k.ACCOUNT_DELETE_CANCEL)}
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>

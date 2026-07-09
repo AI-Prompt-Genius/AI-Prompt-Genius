@@ -191,6 +191,18 @@ export async function mfaEnroll(): Promise<AuthStep> {
     return post("/auth/mfa/enroll", {}, token)
 }
 
+/**
+ * Permanently delete the signed-in user's cloud account: the worker purges all their synced
+ * prompts/folders/settings and deletes their WorkOS login. Identity is taken server-side from the
+ * access token, so there's nothing to pass. On success the caller should clear the local session
+ * (see cloudSignOut). Local on-device prompts are left untouched.
+ */
+export async function deleteAccount(): Promise<AuthStep> {
+    const token = await getAccessToken()
+    if (!token) return { status: "error", message: "Not signed in" }
+    return post("/auth/delete-account", {}, token)
+}
+
 /** Confirm a just-enrolled TOTP factor with a code from the user's authenticator app. */
 export async function mfaVerifyEnroll(
     authenticationChallengeId: string,

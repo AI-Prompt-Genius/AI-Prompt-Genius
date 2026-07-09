@@ -7,7 +7,10 @@
 //
 // Requires: `npx wrangler secret put WORKOS_API_KEY` (dashboard → API Keys, sk_...).
 
+import { deleteUserAccount } from "./user"
+
 export interface AuthEnv {
+    DB: D1Database
     WORKOS_CLIENT_ID: string
     WORKOS_API_KEY?: string
 }
@@ -282,6 +285,20 @@ export async function handleAuth(
                 )
             }
             return json({ status: "ok" })
+        }
+
+        case "/auth/delete-account": {
+            // Hard, irreversible account deletion: purge the user's D1 data (prompts, folders,
+            // settings) and delete their WorkOS user. Identity comes strictly from the verified
+            // access token — never a body-supplied id — so a user can only delete themselves.
+            if (!verifiedUserId) return json({ status: "error", message: "unauthorized" }, 401)
+            try {
+                await deleteUserAccount(env, verifiedUserId)
+                return json({ status: "ok" })
+            } catch (err) {
+                console.error("account deletion failed", err)
+                return json({ status: "error", message: "Account deletion failed" }, 500)
+            }
         }
 
         default:

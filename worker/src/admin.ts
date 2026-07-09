@@ -6,6 +6,8 @@
 // secret). The /admin HTML shell is public but inert without the token, which the page prompts
 // for and stores in localStorage. The public /promos endpoint needs no auth.
 
+import { deleteUserAccount } from "./user"
+
 export interface AdminEnv {
     DB: D1Database
     WORKOS_CLIENT_ID: string
@@ -105,20 +107,56 @@ export async function handleAdmin(req: Request, env: AdminEnv, pathname: string)
              FROM prompts WHERE deleted_at IS NULL GROUP BY user_id`,
         ).all()
 
-        const byId = new Map<string, { userId: string; email: string; prompts: number; storageBytes: number }>()
+        type Row = { userId: string; email: string; prompts: number; storageBytes: number; pro: boolean }
+        const byId = new Map<string, Row>()
         for (const r of (agg.results ?? []) as Array<{ userId: string; prompts: number; storageBytes: number }>) {
-            byId.set(r.userId, { userId: r.userId, email: "", prompts: r.prompts, storageBytes: r.storageBytes })
+            byId.set(r.userId, {
+                userId: r.userId,
+                email: "",
+                prompts: r.prompts,
+                storageBytes: r.storageBytes,
+                pro: false,
+            })
         }
+
+        // Pro = the account has a Gumroad license key stored (user_settings.pro_key). Best-effort:
+        // a not-yet-migrated DB just yields no rows and everyone shows as Free.
+        try {
+            const pro = await env.DB.prepare(
+                "SELECT user_id FROM user_settings WHERE pro_key IS NOT NULL AND pro_key != ''",
+            ).all()
+            for (const r of (pro.results ?? []) as Array<{ user_id: string }>) {
+                const existing = byId.get(r.user_id)
+                if (existing) existing.pro = true
+                else byId.set(r.user_id, { userId: r.user_id, email: "", prompts: 0, storageBytes: 0, pro: true })
+            }
+        } catch (err) {
+            console.error("pro status lookup skipped", err)
+        }
+
         // Union in WorkOS users (some may have no prompts yet → 0 storage).
         const workos = await listWorkosUsers(env)
         for (const [id, info] of workos) {
             const existing = byId.get(id)
             if (existing) existing.email = info.email
-            else byId.set(id, { userId: id, email: info.email, prompts: 0, storageBytes: 0 })
+            else byId.set(id, { userId: id, email: info.email, prompts: 0, storageBytes: 0, pro: false })
         }
 
         const users = [...byId.values()].sort((a, b) => b.storageBytes - a.storageBytes)
         return json({ users })
+    }
+
+    // Hard-delete a user: purge their D1 data and delete their WorkOS account. Irreversible.
+    if (pathname === "/admin/api/users/delete" && req.method === "POST") {
+        const b = (await req.json().catch(() => ({}))) as { userId?: string }
+        if (!b.userId) return json({ error: "userId required" }, 400)
+        try {
+            await deleteUserAccount(env, b.userId)
+            return json({ ok: true })
+        } catch (err) {
+            console.error("admin user deletion failed", err)
+            return json({ error: "deletion failed" }, 500)
+        }
     }
 
     if (pathname === "/admin/api/promos" && req.method === "GET") {
@@ -200,6 +238,7 @@ const ADMIN_HTML = /* html */ `<!doctype html>
   .pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; }
   .pill.on { background: #14361f; color: #7fd99a; }
   .pill.off { background: #2a2d34; color: #9aa0ac; }
+  .pill.pro { background: #3a2f10; color: #f0c674; font-weight: 600; }
   .stat { font-size: 26px; font-weight: 700; }
   #gate { max-width: 420px; margin: 80px auto; }
   .hidden { display: none; }
@@ -230,7 +269,7 @@ const ADMIN_HTML = /* html */ `<!doctype html>
     </div>
     <table id="usersTable">
       <thead><tr>
-        <th>User</th><th class="num"># Prompts</th><th class="num">Total storage</th>
+        <th>User</th><th>Plan</th><th class="num"># Prompts</th><th class="num">Total storage</th><th></th>
       </tr></thead>
       <tbody></tbody>
       <tfoot></tfoot>
@@ -285,18 +324,37 @@ const ADMIN_HTML = /* html */ `<!doctype html>
     var tb = document.querySelector("#usersTable tbody");
     var tf = document.querySelector("#usersTable tfoot");
     tb.innerHTML = "";
-    var totalBytes = 0, totalPrompts = 0;
+    var totalBytes = 0, totalPrompts = 0, proCount = 0;
     (data.users || []).forEach(function (u) {
-      totalBytes += u.storageBytes; totalPrompts += u.prompts;
+      totalBytes += u.storageBytes; totalPrompts += u.prompts; if (u.pro) proCount++;
+      var label = u.email || u.userId;
+      var plan = u.pro
+        ? "<span class='pill pro'>Pro</span>"
+        : "<span class='pill off'>Free</span>";
       var tr = document.createElement("tr");
-      tr.innerHTML = "<td>" + esc(u.email || u.userId) + "</td>" +
+      tr.innerHTML = "<td>" + esc(label) + "</td>" +
+        "<td>" + plan + "</td>" +
         "<td class='num'>" + u.prompts + "</td>" +
-        "<td class='num'>" + fmtBytes(u.storageBytes) + "</td>";
+        "<td class='num'>" + fmtBytes(u.storageBytes) + "</td>" +
+        "<td class='num'><button class='danger' data-del-user>Delete</button></td>";
+      tr.querySelector("[data-del-user]").onclick = function () {
+        // Strict confirmation: require typing the exact user identifier before we purge.
+        var typed = prompt("This permanently deletes " + label + "'s account, all their prompts, and their login. This cannot be undone.\\n\\nType \\"" + label + "\\" to confirm:");
+        if (typed !== label) { if (typed !== null) alert("Didn't match — nothing was deleted."); return; }
+        api("/admin/api/users/delete", {
+          method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ userId: u.userId }),
+        }).then(function (res) {
+          if (res && res.error) { alert(res.error); return; }
+          loadUsers();
+        });
+      };
       tb.appendChild(tr);
     });
     tf.innerHTML = "<tr><td>" + (data.users || []).length + " users</td>" +
+      "<td>" + proCount + " Pro</td>" +
       "<td class='num'>" + totalPrompts + "</td>" +
-      "<td class='num'>" + fmtBytes(totalBytes) + "</td></tr>";
+      "<td class='num'>" + fmtBytes(totalBytes) + "</td><td></td></tr>";
   }
 
   async function loadPromos() {

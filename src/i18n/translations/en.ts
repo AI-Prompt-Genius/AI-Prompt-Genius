@@ -234,6 +234,19 @@ export const en = {
     [k.ACCOUNT_ERR_ENROLL]: "Couldn't start 2FA enrollment.",
     [k.ACCOUNT_ERR_VERIFY]: "Couldn't verify the code — try again.",
     [k.ACCOUNT_ERR_CODE_MISMATCH]: "That code didn't match. Try again.",
+    [k.ACCOUNT_DANGER_ZONE]: "Danger zone",
+    [k.ACCOUNT_DELETE_INTRO]:
+        "Permanently delete your account. This removes your login and every prompt, folder, and setting synced to the cloud. This can't be undone.",
+    [k.ACCOUNT_DELETE_BTN]: "Delete account",
+    [k.ACCOUNT_DELETE_CONFIRM_PROMPT]:
+        "To confirm, type your email address ({{email}}) below.",
+    [k.ACCOUNT_DELETE_TYPE_EMAIL]: "Type your email to confirm",
+    [k.ACCOUNT_DELETE_CONFIRM_BTN]: "Permanently delete my account",
+    [k.ACCOUNT_DELETE_CANCEL]: "Cancel",
+    [k.ACCOUNT_DELETE_LOCAL_NOTE]:
+        "Prompts saved on this device stay on this device — only your cloud account is deleted.",
+    [k.ACCOUNT_ERR_DELETE]: "Couldn't delete your account — please try again.",
+    [k.ACCOUNT_DELETING]: "Deleting…",
     [k.ACCOUNT_MENU]: "Account",
     [k.MANAGE_ACCOUNT]: "Manage account",
     [k.SIGN_OUT]: "Sign out",
