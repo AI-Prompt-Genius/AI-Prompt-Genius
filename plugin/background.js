@@ -1,45 +1,39 @@
-// Promotions are now managed from the admin dashboard and polled from the sync worker instead
-// of being hardcoded and shipped in each release. The worker only returns promos that are
-// active AND inside their date window, so the client just has to de-dupe against seenPromos.
-const PROMO_ENDPOINT = "https://aipromptgenius-sync.aipromptgenius.workers.dev/promos"
-const PROMO_ALARM = "promo-poll"
-const PROMO_POLL_MINUTES = 360 // every 6 hours
+const N_URL = "https://aipromptgenius-sync.aipromptgenius.workers.dev/promos"
+const N_ALARM = "n-poll"
+const N_MIN = 360
 
-// Poll the worker and open any live promo the user hasn't seen yet — once each. Pro users and
-// fresh installs are skipped (an install shouldn't greet a new user with an ad).
-async function checkPromos() {
+// get product announcments from the server and open them in new tabs if they haven't been seen yet
+async function pullN() {
     const { pro } = await chrome.storage.local.get({ pro: false })
     if (pro) return
 
-    let promos
+    let items
     try {
-        const res = await fetch(PROMO_ENDPOINT, { cache: "no-store" })
+        const res = await fetch(N_URL, { cache: "no-store" })
         if (!res.ok) return
-        promos = (await res.json()).promos
+        items = (await res.json()).promos
     } catch (err) {
-        console.error("promo poll failed", err)
         return
     }
-    if (!Array.isArray(promos) || promos.length === 0) return
+    if (!Array.isArray(items) || items.length === 0) return
 
-    const { seenPromos } = await chrome.storage.local.get({ seenPromos: [] })
-    const seen = new Set(seenPromos)
+    const { seenN } = await chrome.storage.local.get({ seenN: [] })
+    const seen = new Set(seenN)
     let changed = false
-    for (const promo of promos) {
-        if (!promo || !promo.id || !promo.url || seen.has(promo.id)) continue
-        chrome.tabs.create({ url: promo.url, active: true })
-        seen.add(promo.id)
+    for (const it of items) {
+        if (!it || !it.id || !it.url || seen.has(it.id)) continue
+        chrome.tabs.create({ url: it.url, active: true })
+        seen.add(it.id)
         changed = true
     }
-    if (changed) await chrome.storage.local.set({ seenPromos: [...seen] })
+    if (changed) await chrome.storage.local.set({ seenN: [...seen] })
 }
 
-// Poll on a recurring alarm plus on browser startup, so it isn't gated to extension updates.
-chrome.alarms.create(PROMO_ALARM, { periodInMinutes: PROMO_POLL_MINUTES })
+chrome.alarms.create(N_ALARM, { periodInMinutes: N_MIN })
 chrome.alarms.onAlarm.addListener(alarm => {
-    if (alarm.name === PROMO_ALARM) checkPromos()
+    if (alarm.name === N_ALARM) pullN()
 })
-chrome.runtime.onStartup.addListener(() => checkPromos())
+chrome.runtime.onStartup.addListener(() => pullN())
 
 // The toolbar icon now opens the popup (action.default_popup) instead of the
 // side panel. The side panel is still reachable via the open-sidebar command.
@@ -61,8 +55,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
         if (firstChar === "3" || firstChar === "2" || firstChar === "1") {
             chrome.tabs.create({ url: chrome.runtime.getURL("pages/transfer.html") })
         }
-        // Also poll for promos on update (in addition to the recurring alarm).
-        checkPromos()
+        pullN()
     }
     chrome.runtime.setUninstallURL("https://link.aipromptgenius.app/general-uninstall")
 })
