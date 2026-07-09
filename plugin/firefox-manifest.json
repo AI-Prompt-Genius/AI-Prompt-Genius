@@ -4,15 +4,17 @@
     "version": "5.0.0",
     "description": "__MSG_appDesc__",
     "default_locale": "en",
-    "permissions": ["sidePanel", "storage", "activeTab", "scripting", "alarms"],
+    "permissions": ["storage", "activeTab", "scripting", "alarms"],
     "background": {
-        "service_worker": "background.js"
+        "scripts": ["background.js"]
     },
     "action": {
         "default_popup": "pages/popup.html"
     },
-    "side_panel": {
-        "default_path": "pages/sidebar.html"
+    "sidebar_action": {
+        "default_panel": "pages/sidebar.html",
+        "default_title": "__MSG_appName__",
+        "default_icon": "icons/48x48.png"
     },
     "commands": {
         "open-sidebar": {
@@ -33,6 +35,17 @@
         "16": "icons/16x16.png",
         "48": "icons/48x48.png",
         "128": "icons/128x128.png"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "aipromptgenius@aipromptgenius.app",
+            "strict_min_version": "115.0",
+            "data_collection_permissions": {
+                "required": [
+                    "none"
+                ]
+            }
+        }
     },
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAk5XZtUbZsw0MDuInTiRVx05/PODaPVhNAJ2CJT1VjuctCkMU/dZfmRTbjVJF8CV8ZPHsnA6Q6eqZFw0K4CHpn3z2EE+AkWwc9gN9hrd4lIlHPq5CwqEED0Fq+7JrUq4CjYNEfOLjnIge2cXknzN22u5+TByq/cJ1+NuqxuE8cywxxJqHEs3vgtu3uqbtOqNN+suik92pABklcjLy8Kmb60KXCxxWoalkdhr2rp5SFScsyVfzzURhwurIacq+aOEdj+yYLCQqJtsoqOpr31SEQE0coTSphpO0L5KatsgEwEMSPr2qnqwltxddvRztsb506ZMHXiSN+v0F48E8Z2AwIDAQAB"
 }

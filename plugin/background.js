@@ -43,9 +43,12 @@ chrome.runtime.onStartup.addListener(() => checkPromos())
 
 // The toolbar icon now opens the popup (action.default_popup) instead of the
 // side panel. The side panel is still reachable via the open-sidebar command.
-chrome.sidePanel
-    .setPanelBehavior({ openPanelOnActionClick: true })
-    .catch(err => console.error(err))
+// chrome.sidePanel is Chrome-only; Firefox uses sidebar_action, so guard it.
+if (chrome.sidePanel) {
+    chrome.sidePanel
+        .setPanelBehavior({ openPanelOnActionClick: true })
+        .catch(err => console.error(err))
+}
 
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === "install") {
@@ -66,9 +69,15 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
 chrome.commands.onCommand.addListener((command, tab) => {
     if (command === "open-sidebar") {
-        const chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [, 0])[1]
-        if (chromeVersion >= 116) {
-            chrome.sidePanel.open({ windowId: tab.windowId })
+        if (chrome.sidePanel && chrome.sidePanel.open) {
+            // Chrome: sidePanel.open requires Chrome 116+
+            const chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [, 0])[1]
+            if (chromeVersion >= 116) {
+                chrome.sidePanel.open({ windowId: tab.windowId })
+            }
+        } else if (globalThis.browser && browser.sidebarAction) {
+            // Firefox: must run inside this user-input handler
+            browser.sidebarAction.toggle()
         }
     }
     if (command === "launch-search") {

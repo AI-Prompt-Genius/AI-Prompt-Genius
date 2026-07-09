@@ -2,6 +2,7 @@ import i18n from "i18next"
 import k from "./../i18n/keys"
 import React from "react"
 import Head4 from "./Head4"
+import { shortcutsLabel } from "../utils/browser"
 
 const ShortcutInfo = () => {
     function openKeyboardShortcuts() {
@@ -26,7 +27,7 @@ const ShortcutInfo = () => {
             <p>
                 {t(k.SETUP_KEYBOARD_SHORTCUTS_TO_OP)}{" "}
                 <span className={"link link-primary"} onClick={openKeyboardShortcuts}>
-                    {t(k.CHROME_EXTENSIONS_SHORTCUTS)}
+                    {shortcutsLabel()}
                 </span>{" "}
                 {t(k.TO_GET_STARTED)}
             </p>

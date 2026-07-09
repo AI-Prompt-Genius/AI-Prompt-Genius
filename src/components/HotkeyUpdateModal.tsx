@@ -5,6 +5,7 @@ import Head4 from "./Head4"
 import hotkey from "../images/hotkeydemo.webp"
 import k from "../i18n/keys"
 import { useTranslation } from "react-i18next"
+import { shortcutsLabel } from "../utils/browser"
 
 export default function HotkeyUpdateModal() {
     const { t } = useTranslation()
@@ -46,7 +47,7 @@ export default function HotkeyUpdateModal() {
                         <p className={"my-2"}>
                             To set it up, go to{" "}
                             <span className={"link link-primary"} onClick={openKeyboardShortcuts}>
-                                {t(k.CHROME_EXTENSIONS_SHORTCUTS)}
+                                {shortcutsLabel()}
                             </span>{" "}
                             {t(k.HOTKEY_SETUP_INSTRUCTIONS)}
                         </p>

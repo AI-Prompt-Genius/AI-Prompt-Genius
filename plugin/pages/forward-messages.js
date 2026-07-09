@@ -11,7 +11,14 @@ window.addEventListener(
             // Forward the message to the background script
             chrome.tabs.create({ url: `${chrome.runtime.getURL("pages/fullscreen.html")}` })
         } else if (message.message === "openShortcuts") {
-            chrome.tabs.create({ url: `chrome://extensions/shortcuts` })
+            // chrome://extensions/shortcuts is Chrome-only. Firefox has no linkable
+            // shortcuts sub-page, so send Firefox users to about:addons where they
+            // can open ⚙ → "Manage Extension Shortcuts".
+            if (globalThis.browser && browser.sidebarAction) {
+                chrome.tabs.create({ url: `about:addons` })
+            } else {
+                chrome.tabs.create({ url: `chrome://extensions/shortcuts` })
+            }
         } else if (message.message === "downloadArchive") {
             exportFiles()
         } else if (message.message === "clearStorage") {
