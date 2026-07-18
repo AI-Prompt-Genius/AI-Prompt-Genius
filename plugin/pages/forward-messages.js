@@ -30,6 +30,8 @@ window.addEventListener(
         } else if (message.message === "pro_status") {
             const proStatus = message.pro
             chrome.storage.local.set({ pro: proStatus })
+        } else if (message.message === "set_toolbar_target") {
+            chrome.storage.local.set({ toolbarTarget: message.target })
         }
     },
     false,

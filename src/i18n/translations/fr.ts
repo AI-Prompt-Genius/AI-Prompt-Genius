@@ -160,6 +160,8 @@ export const fr = {
     [k.OUT_OF_SEATS]: `Vous n'avez plus de places disponibles avec cette clé de licence. Veuillez en acheter une autre pour 8 appareils supplémentaires.`,
     [k.PERSIST_VARIABLES]: `Conserver les variables`,
     [k.PERSIST_VARIABLES_DESCRIPTION]: `Sélectionner cette option fait en sorte que vos valeurs de variables ne soient pas effacées entre les utilisations et entre les invites.`,
+    [k.OPEN_IN_SIDEBAR]: `Ouvrir dans la barre latérale`,
+    [k.OPEN_IN_SIDEBAR_DESCRIPTION]: `Lorsque cette option est activée, cliquer sur l'icône de la barre d'outils ouvre l'extension dans le panneau latéral du navigateur au lieu de la fenêtre contextuelle.`,
     [k.PROMPT_CONTENT_PLACEHOLDER]: `Contenu de l'invite. Utilisez {{name}} pour une variable, ou une variable typée comme {{tone::list-happy; sad}}, {{count::number-0}}, {{bio::largeText}}. Utilisez le bouton Insérer une variable pour les créer.`,
     [k.PROMPT_COPIED]: `Invite copiée dans le presse-papiers`,
     [k.PROMPT_GENIUS_JUST_GOT_AN_UPDA]: `Prompt Genius vient de recevoir une mise à jour`,

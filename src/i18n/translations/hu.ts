@@ -164,6 +164,8 @@ export const hu = {
     [k.OUT_OF_SEATS]: `Elfogytak a licenchelyek ehhez a licenckulcshoz. Vásároljon egy újabbat további 8 eszközhöz.`,
     [k.PERSIST_VARIABLES]: `Változók megőrzése`,
     [k.PERSIST_VARIABLES_DESCRIPTION]: `Ha kiválasztja ezt az opciót, a változók bemenetei nem törlődnek a felhasználások és az utasítások között.`,
+    [k.OPEN_IN_SIDEBAR]: `Megnyitás oldalsávban`,
+    [k.OPEN_IN_SIDEBAR_DESCRIPTION]: `Ha engedélyezve van, az eszköztár ikonjára kattintva a bővítmény a böngésző oldalsávjában nyílik meg a felugró ablak helyett.`,
     [k.PROMPT_CONTENT_PLACEHOLDER]: `Utasítás tartalma. Használja a {{name}} jelölést egy változóhoz, vagy típusos változót, mint {{tone::list-happy; sad}}, {{count::number-0}}, {{bio::largeText}}. Használja a Változó beszúrása gombot ezek létrehozásához.`,
     [k.PROMPT_COPIED]: `Utasítás a vágólapra másolva`,
     [k.PROMPT_GENIUS_JUST_GOT_AN_UPDA]: `A Prompt Genius frissült`,

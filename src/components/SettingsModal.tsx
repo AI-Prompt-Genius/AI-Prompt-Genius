@@ -15,6 +15,7 @@ import {
     getObject,
     removeFolder,
     removeFolderFromPrompts,
+    sendMessageToParent,
     setObject,
 } from "./js/utils"
 import LanguageSelect from "./LanguageSelect"
@@ -172,6 +173,16 @@ export default function SettingsModal({
         localStorage.setItem("persist_variables", String(checked))
     }
 
+    function updateOpenInSidebar() {
+        const checked = (document.getElementById("open-in-sidebar-toggle") as HTMLInputElement)
+            .checked
+        localStorage.setItem("open_in_sidebar", String(checked))
+        sendMessageToParent({
+            message: "set_toolbar_target",
+            target: checked ? "sidebar" : "popup",
+        })
+    }
+
     return (
         <>
             <input
@@ -269,6 +280,26 @@ export default function SettingsModal({
                                                 />
                                             </div>
                                             <p>{t(k.PERSIST_VARIABLES_DESCRIPTION)}</p>
+                                        </div>
+                                        <div className={"mb-2"}>
+                                            <div className={"flex items-center"}>
+                                                <h4 className={"text-lg font-medium"}>
+                                                    {t(k.OPEN_IN_SIDEBAR)}
+                                                </h4>{" "}
+                                                &nbsp;
+                                                <input
+                                                    id={"open-in-sidebar-toggle"}
+                                                    type="checkbox"
+                                                    className="toggle"
+                                                    defaultChecked={
+                                                        localStorage.getItem(
+                                                            "open_in_sidebar",
+                                                        ) === "true"
+                                                    }
+                                                    onChange={() => updateOpenInSidebar()}
+                                                />
+                                            </div>
+                                            <p>{t(k.OPEN_IN_SIDEBAR_DESCRIPTION)}</p>
                                         </div>
                                         <div className={"mb-3"}>
                                             <h4 className={"text-lg font-medium mb-1"}>

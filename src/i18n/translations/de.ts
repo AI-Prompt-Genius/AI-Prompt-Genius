@@ -164,6 +164,8 @@ export const de = {
     [k.OUT_OF_SEATS]: `Sie haben keine Plätze mehr mit diesem Lizenzschlüssel. Bitte erwerben Sie einen weiteren für 8 zusätzliche Geräte.`,
     [k.PERSIST_VARIABLES]: `Variablen dauerhaft speichern`,
     [k.PERSIST_VARIABLES_DESCRIPTION]: `Wenn Sie diese Option auswählen, werden Ihre Variableneingaben zwischen Verwendungen und über Prompts hinweg nicht gelöscht.`,
+    [k.OPEN_IN_SIDEBAR]: `Im Seitenbereich öffnen`,
+    [k.OPEN_IN_SIDEBAR_DESCRIPTION]: `Wenn aktiviert, öffnet ein Klick auf das Symbol in der Symbolleiste die Erweiterung in der Seitenleiste des Browsers anstelle des Popups.`,
     [k.PROMPT_CONTENT_PLACEHOLDER]: `Prompt-Inhalt. Verwenden Sie {{name}} für eine Variable oder eine typisierte wie {{tone::list-happy; sad}}, {{count::number-0}}, {{bio::largeText}}. Nutzen Sie die Schaltfläche „Variable einfügen“, um sie zu erstellen.`,
     [k.PROMPT_COPIED]: `Prompt in die Zwischenablage kopiert`,
     [k.PROMPT_GENIUS_JUST_GOT_AN_UPDA]: `Prompt Genius hat gerade ein Update erhalten`,

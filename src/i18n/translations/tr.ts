@@ -160,6 +160,8 @@ export const tr = {
     [k.OUT_OF_SEATS]: `Bu lisans anahtarıyla koltuklarınız tükendi. 8 cihaz daha eklemek için lütfen başka bir tane satın alın.`,
     [k.PERSIST_VARIABLES]: `Değişkenleri Kalıcı Tut`,
     [k.PERSIST_VARIABLES_DESCRIPTION]: `Bu seçeneği işaretlemek, değişken girdilerinizin kullanımlar arasında ve istemler genelinde temizlenmemesini sağlar.`,
+    [k.OPEN_IN_SIDEBAR]: `Kenar Çubuğunda Aç`,
+    [k.OPEN_IN_SIDEBAR_DESCRIPTION]: `Etkinleştirildiğinde, araç çubuğu simgesine tıklamak uzantıyı açılır pencere yerine tarayıcının kenar panelinde açar.`,
     [k.PROMPT_CONTENT_PLACEHOLDER]: `İstem içeriği. Bir değişken için {{name}} kullanın veya {{tone::list-happy; sad}}, {{count::number-0}}, {{bio::largeText}} gibi tipli bir değişken kullanın. Bunları oluşturmak için Değişken Ekle düğmesini kullanın.`,
     [k.PROMPT_COPIED]: `İstem Panoya Kopyalandı`,
     [k.PROMPT_GENIUS_JUST_GOT_AN_UPDA]: `Prompt Genius az önce güncellendi`,

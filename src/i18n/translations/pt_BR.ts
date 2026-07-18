@@ -164,6 +164,8 @@ export const pt_BR = {
     [k.OUT_OF_SEATS]: `Você está sem vagas com esta chave de licença. Compre outra para 8 dispositivos adicionais.`,
     [k.PERSIST_VARIABLES]: `Persistir Variáveis`,
     [k.PERSIST_VARIABLES_DESCRIPTION]: `Selecionar esta opção faz com que os valores das suas variáveis não sejam apagados entre usos e entre prompts.`,
+    [k.OPEN_IN_SIDEBAR]: `Abrir na barra lateral`,
+    [k.OPEN_IN_SIDEBAR_DESCRIPTION]: `Quando ativado, clicar no ícone da barra de ferramentas abre a extensão no painel lateral do navegador em vez do pop-up.`,
     [k.PROMPT_CONTENT_PLACEHOLDER]: `Conteúdo do prompt. Use {{name}} para uma variável, ou uma tipada como {{tone::list-happy; sad}}, {{count::number-0}}, {{bio::largeText}}. Use o botão Inserir Variável para criá-las.`,
     [k.PROMPT_COPIED]: `Prompt Copiado para a Área de Transferência`,
     [k.PROMPT_GENIUS_JUST_GOT_AN_UPDA]: `O Prompt Genius acabou de receber uma atualização`,

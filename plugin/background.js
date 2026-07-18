@@ -29,20 +29,31 @@ async function pullN() {
     if (changed) await chrome.storage.local.set({ seenN: [...seen] })
 }
 
+// Toolbar icon opens the popup by default (action.default_popup). Users can opt
+// into the side panel from Settings, which sets the toolbarTarget storage key.
+// chrome.sidePanel is Chrome-only; Firefox has no toolbar-click override.
+async function applyToolbarTarget() {
+    if (!chrome.sidePanel) return
+    const { toolbarTarget } = await chrome.storage.local.get({ toolbarTarget: "popup" })
+    try {
+        await chrome.sidePanel.setPanelBehavior({
+            openPanelOnActionClick: toolbarTarget === "sidebar",
+        })
+    } catch (err) {
+        console.error(err)
+    }
+}
+applyToolbarTarget()
+
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === "local" && changes.toolbarTarget) applyToolbarTarget()
+})
+
 chrome.alarms.create(N_ALARM, { periodInMinutes: N_MIN })
 chrome.alarms.onAlarm.addListener(alarm => {
     if (alarm.name === N_ALARM) pullN()
 })
 chrome.runtime.onStartup.addListener(() => pullN())
-
-// The toolbar icon now opens the popup (action.default_popup) instead of the
-// side panel. The side panel is still reachable via the open-sidebar command.
-// chrome.sidePanel is Chrome-only; Firefox uses sidebar_action, so guard it.
-if (chrome.sidePanel) {
-    chrome.sidePanel
-        .setPanelBehavior({ openPanelOnActionClick: true })
-        .catch(err => console.error(err))
-}
 
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason === "install") {

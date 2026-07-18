@@ -160,6 +160,8 @@ export const zh_CN = {
     [k.OUT_OF_SEATS]: `此许可证密钥的席位已用完。请购买另一个许可证以再增加 8 台设备。`,
     [k.PERSIST_VARIABLES]: `保留变量`,
     [k.PERSIST_VARIABLES_DESCRIPTION]: `选中此选项后，您的变量输入将不会在多次使用或跨提示时被清除。`,
+    [k.OPEN_IN_SIDEBAR]: `在侧边栏中打开`,
+    [k.OPEN_IN_SIDEBAR_DESCRIPTION]: `启用后，点击工具栏图标将在浏览器侧边栏中打开扩展程序，而不是弹出窗口。`,
     [k.PROMPT_CONTENT_PLACEHOLDER]: `提示内容。使用 {{name}} 表示变量，或使用类型化变量，如 {{tone::list-happy; sad}}、{{count::number-0}}、{{bio::largeText}}。您可以使用“插入变量”按钮来创建它们。`,
     [k.PROMPT_COPIED]: `提示已复制到剪贴板`,
     [k.PROMPT_GENIUS_JUST_GOT_AN_UPDA]: `Prompt Genius 刚刚进行了更新`,

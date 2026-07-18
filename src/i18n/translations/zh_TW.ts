@@ -164,6 +164,8 @@ export const zh_TW = {
     [k.OUT_OF_SEATS]: `此授權金鑰的席位已用完。請購買另一組授權以增加 8 台裝置的使用額度。`,
     [k.PERSIST_VARIABLES]: `保留變數內容`,
     [k.PERSIST_VARIABLES_DESCRIPTION]: `啟用此選項後，您輸入的變數內容將不會在不同使用情境或提示之間被清除。`,
+    [k.OPEN_IN_SIDEBAR]: `在側邊欄中開啟`,
+    [k.OPEN_IN_SIDEBAR_DESCRIPTION]: `啟用後，點擊工具列圖示會在瀏覽器的側邊欄中開啟擴充功能，而不是彈出視窗。`,
     [k.PROMPT_CONTENT_PLACEHOLDER]: `提示內容。使用 {{name}} 來建立變數，或使用具型別的變數，例如 {{tone::list-happy; sad}}、{{count::number-0}}、{{bio::largeText}}。您可以使用「插入變數」按鈕來建立它們。`,
     [k.PROMPT_COPIED]: `提示已複製到剪貼簿`,
     [k.PROMPT_GENIUS_JUST_GOT_AN_UPDA]: `Prompt Genius 剛完成一次更新`,

@@ -164,6 +164,8 @@ export const it = {
     [k.OUT_OF_SEATS]: `Hai esaurito i posti disponibili con questa chiave di licenza. Acquistane un'altra per 8 dispositivi aggiuntivi.`,
     [k.PERSIST_VARIABLES]: `Mantieni variabili`,
     [k.PERSIST_VARIABLES_DESCRIPTION]: `Selezionando questa opzione, i valori delle variabili non verranno cancellati tra un utilizzo e l'altro o tra prompt diversi.`,
+    [k.OPEN_IN_SIDEBAR]: `Apri nella barra laterale`,
+    [k.OPEN_IN_SIDEBAR_DESCRIPTION]: `Se abilitato, facendo clic sull'icona della barra degli strumenti l'estensione si apre nel pannello laterale del browser invece che nel popup.`,
     [k.PROMPT_CONTENT_PLACEHOLDER]: `Contenuto del prompt. Usa {{name}} per una variabile, oppure una tipizzata come {{tone::list-happy; sad}}, {{count::number-0}}, {{bio::largeText}}. Usa il pulsante Inserisci variabile per crearle.`,
     [k.PROMPT_COPIED]: `Prompt copiato negli appunti`,
     [k.PROMPT_GENIUS_JUST_GOT_AN_UPDA]: `Prompt Genius ha appena ricevuto un aggiornamento`,

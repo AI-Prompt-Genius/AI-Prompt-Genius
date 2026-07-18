@@ -139,6 +139,9 @@ export const en = {
     [k.PERSIST_VARIABLES]: "Persist Variables",
     [k.PERSIST_VARIABLES_DESCRIPTION]:
         "Selecting this option makes it so that your variable inputs don't get cleared between uses & across prompts.",
+    [k.OPEN_IN_SIDEBAR]: "Open in Sidebar",
+    [k.OPEN_IN_SIDEBAR_DESCRIPTION]:
+        "When enabled, clicking the toolbar icon opens the extension in the browser's side panel instead of the popup.",
     [k.ADD]: "Add",
     [k.DELETE]: "Delete",
     [k.OPTION_SETS]: "Dropdown Option Sets",
