@@ -1,11 +1,37 @@
 const N_URL = "https://aipromptgenius-sync.aipromptgenius.workers.dev/promos"
+const VERIFY_URL = "https://aipromptgenius-sync.aipromptgenius.workers.dev/license/verify"
 const N_ALARM = "n-poll"
 const N_MIN = 360
+const PRO_TTL = 24 * 60 * 60 * 1000
+
+async function isPro() {
+    const { pro, proKey, proCheckedAt } = await chrome.storage.local.get({
+        pro: false,
+        proKey: null,
+        proCheckedAt: 0,
+    })
+    if (!proKey) return pro
+    if (pro && Date.now() - proCheckedAt < PRO_TTL) return true
+
+    try {
+        const res = await fetch(VERIFY_URL, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ proKey }),
+        })
+        if (!res.ok) return true
+        const data = await res.json()
+        if (typeof data.valid !== "boolean") return true
+        await chrome.storage.local.set({ pro: data.valid, proCheckedAt: Date.now() })
+        return data.valid
+    } catch (err) {
+        return true
+    }
+}
 
 // get product announcments from the server and open them in new tabs if they haven't been seen yet
 async function pullN() {
-    const { pro } = await chrome.storage.local.get({ pro: false })
-    if (pro) return
+    if (await isPro()) return
 
     let items
     try {

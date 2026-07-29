@@ -22,20 +22,36 @@ window.addEventListener(
         } else if (message.message === "downloadArchive") {
             exportFiles()
         } else if (message.message === "clearStorage") {
-            chrome.storage.local.clear()
+            clearStorageKeepingPro()
             chrome.storage.sync.clear()
         } else if (message.message === "sync_prompts") {
             const prompts = message.data
             chrome.storage.local.set({ currentPrompts: prompts })
         } else if (message.message === "pro_status") {
-            const proStatus = message.pro
-            chrome.storage.local.set({ pro: proStatus })
+            // Mirror the license key too, not just the boolean: background.js has no access to
+            // the app's localStorage, and without a key it can only trust this mirror — which
+            // defaults to false and would nag a paying user who hasn't opened the app lately.
+            const patch = { pro: !!message.pro, proCheckedAt: Date.now() }
+            if (typeof message.proKey === "string") patch.proKey = message.proKey
+            else if (message.proKey === null) patch.proKey = null
+            chrome.storage.local.set(patch)
         } else if (message.message === "set_toolbar_target") {
             chrome.storage.local.set({ toolbarTarget: message.target })
         }
     },
     false,
 )
+
+// "Clear storage" means the user's prompt data, not their purchase. A blanket clear() used to
+// drop the Pro mirror while the app's own localStorage stayed Pro — the app kept showing Pro
+// while background.js reverted to treating them as a free user.
+function clearStorageKeepingPro() {
+    chrome.storage.local.get({ pro: false, proKey: null, proCheckedAt: 0 }, function (kept) {
+        chrome.storage.local.clear(function () {
+            chrome.storage.local.set(kept)
+        })
+    })
+}
 
 function exportFiles(h = true, p = true, s = true) {
     chrome.storage.local.get(["threads", "prompts", "settings"], function (result) {

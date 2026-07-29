@@ -12,6 +12,7 @@
 import { createRemoteJWKSet, jwtVerify } from "jose"
 import { handleAuth } from "./auth"
 import { handleAdmin, handlePublicPromos } from "./admin"
+import { handleLicenseVerify } from "./license"
 
 export interface Env {
     DB: D1Database
@@ -83,6 +84,12 @@ export default {
         // Public promo feed the extension polls (no auth).
         if (url.pathname === "/promos" && req.method === "GET") {
             return handlePublicPromos(env)
+        }
+
+        // Pro check for the extension's background script, which has no access to the SPA's
+        // localStorage and can't call Gumroad directly without a new host permission.
+        if (url.pathname === "/license/verify" && req.method === "POST") {
+            return handleLicenseVerify(req)
         }
 
         // Admin dashboard + API (gated inside handleAdmin by ADMIN_TOKEN).

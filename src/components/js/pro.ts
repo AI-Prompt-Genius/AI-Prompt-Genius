@@ -5,6 +5,14 @@ export function getProStatus() {
     return isPro === "true"
 }
 
+export function mirrorProToExtension() {
+    sendMessageToParent({
+        message: "pro_status",
+        pro: getProStatus(),
+        proKey: localStorage.getItem("pro_key") ?? null,
+    })
+}
+
 export async function updateProStatus() {
     let proKey = localStorage.getItem("pro_key") ?? null
     const currentTime = new Date().getTime()
@@ -13,16 +21,19 @@ export async function updateProStatus() {
         const verifyPro = await notFirstCheck(proKey)
         if (verifyPro) {
             localStorage.setItem("pro", "true")
-            sendMessageToParent({ message: "pro_status", pro: true })
+            mirrorProToExtension()
             return true
         } else {
             localStorage.removeItem("pro_key")
             localStorage.setItem("pro", "false")
-            sendMessageToParent({ message: "pro_status", pro: false })
+            mirrorProToExtension()
             return false
         }
     } else {
         localStorage.setItem("pro", "false")
+        // This branch used to return without mirroring, leaving whatever the extension last
+        // heard in place.
+        mirrorProToExtension()
         return false
     }
 }
@@ -43,19 +54,19 @@ export async function activateLicense(license_key: string) {
     if (data.success) {
         if (data.uses > 8) {
             // caps users at 8 devices
-            sendMessageToParent({ message: "pro_status", pro: false })
             localStorage.setItem("pro", "false")
+            mirrorProToExtension()
             return "full"
         } else {
             localStorage.setItem("pro_key", license_key)
             localStorage.setItem("pro", "true")
-            sendMessageToParent({ message: "pro_status", pro: true })
+            mirrorProToExtension()
             return true
         }
     } else {
         localStorage.removeItem("pro_key")
         localStorage.setItem("pro", "false")
-        sendMessageToParent({ message: "pro_status", pro: false })
+        mirrorProToExtension()
         return false
     }
 }

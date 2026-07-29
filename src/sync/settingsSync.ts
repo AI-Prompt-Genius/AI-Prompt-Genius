@@ -1,6 +1,6 @@
 import i18next from "i18next"
-import { getObject, setObject, sendMessageToParent } from "../components/js/utils"
-import { updateProStatus } from "../components/js/pro"
+import { getObject, setObject } from "../components/js/utils"
+import { mirrorProToExtension, updateProStatus } from "../components/js/pro"
 
 // Account-level settings + Pro license sync (rides on the /sync request in syncClient.ts).
 //
@@ -76,7 +76,7 @@ export function applyPulledProKey(proKey: string | null | undefined): void {
     if (proKey === localStorage.getItem("pro_key")) return
     localStorage.setItem("pro_key", proKey)
     localStorage.setItem("pro", "true")
-    sendMessageToParent({ message: "pro_status", pro: true })
+    mirrorProToExtension()
     // Verify (non-incrementing) so a revoked/expired key self-corrects instead of granting Pro forever.
     updateProStatus()
 }

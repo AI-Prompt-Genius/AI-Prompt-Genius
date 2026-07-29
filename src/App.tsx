@@ -20,6 +20,7 @@ import AuthModal, { RESUME_AUTH_STEP_EVENT } from "./components/AuthModal"
 import ManageAccountModal from "./components/ManageAccountModal"
 import OptionSetsModal from "./components/OptionSetsModal"
 import NewFeaturesModal from "./components/NewFeaturesModal"
+import { mirrorProToExtension } from "./components/js/pro"
 
 function applyFilters(
     prompts: LegacyPrompt[],
@@ -105,6 +106,10 @@ function App() {
     useEffect(() => {
         ReactGA.initialize("G-YV9PMGYJDJ")
         ReactGA.send({ hitType: "pageview", page: "/", title: "Home" })
+        // Refresh the extension's Pro mirror on every load. updateProStatus() only mirrors once
+        // a day and only from MainContent, which left the promo gate in background.js reading a
+        // stale or never-written "not Pro" for paying users.
+        mirrorProToExtension()
         migrateLegacyToIDB()
         // Auth bootstrap: exchanges a Google ?code= callback if present, resumes a sign-in
         // handed over from the sidebar, then background-syncs if signed in.
