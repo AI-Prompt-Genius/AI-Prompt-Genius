@@ -68,7 +68,9 @@ async function listWorkosUsers(
 
 // Active promos whose date window includes today (D1's date('now') is UTC). Shared by the
 // admin preview and the public endpoint.
-async function activePromos(env: AdminEnv): Promise<Array<{ id: string; name: string; url: string }>> {
+async function activePromos(
+    env: AdminEnv,
+): Promise<Array<{ id: string; name: string; url: string }>> {
     const rows = await env.DB.prepare(
         `SELECT id, name, url FROM promos
          WHERE active = 1 AND date('now') BETWEEN start_date AND end_date
@@ -86,7 +88,11 @@ export async function handlePublicPromos(env: AdminEnv): Promise<Response> {
     }
 }
 
-export async function handleAdmin(req: Request, env: AdminEnv, pathname: string): Promise<Response> {
+export async function handleAdmin(
+    req: Request,
+    env: AdminEnv,
+    pathname: string,
+): Promise<Response> {
     if (pathname === "/admin" && req.method === "GET") {
         return new Response(ADMIN_HTML, {
             headers: { "content-type": "text/html; charset=utf-8" },
@@ -107,9 +113,19 @@ export async function handleAdmin(req: Request, env: AdminEnv, pathname: string)
              FROM prompts WHERE deleted_at IS NULL GROUP BY user_id`,
         ).all()
 
-        type Row = { userId: string; email: string; prompts: number; storageBytes: number; pro: boolean }
+        type Row = {
+            userId: string
+            email: string
+            prompts: number
+            storageBytes: number
+            pro: boolean
+        }
         const byId = new Map<string, Row>()
-        for (const r of (agg.results ?? []) as Array<{ userId: string; prompts: number; storageBytes: number }>) {
+        for (const r of (agg.results ?? []) as Array<{
+            userId: string
+            prompts: number
+            storageBytes: number
+        }>) {
             byId.set(r.userId, {
                 userId: r.userId,
                 email: "",
@@ -119,19 +135,25 @@ export async function handleAdmin(req: Request, env: AdminEnv, pathname: string)
             })
         }
 
-        // Pro = the account has a Gumroad license key stored (user_settings.pro_key). Best-effort:
-        // a not-yet-migrated DB just yields no rows and everyone shows as Free.
+        // Pro = the account has a Gumroad license key in its singleton sync state.
         try {
             const pro = await env.DB.prepare(
-                "SELECT user_id FROM user_settings WHERE pro_key IS NOT NULL AND pro_key != ''",
+                "SELECT user_id FROM sync_state WHERE pro_key IS NOT NULL AND pro_key != ''",
             ).all()
             for (const r of (pro.results ?? []) as Array<{ user_id: string }>) {
                 const existing = byId.get(r.user_id)
                 if (existing) existing.pro = true
-                else byId.set(r.user_id, { userId: r.user_id, email: "", prompts: 0, storageBytes: 0, pro: true })
+                else
+                    byId.set(r.user_id, {
+                        userId: r.user_id,
+                        email: "",
+                        prompts: 0,
+                        storageBytes: 0,
+                        pro: true,
+                    })
             }
         } catch (err) {
-            console.error("pro status lookup skipped", err)
+            console.error("sync-state pro lookup skipped", err)
         }
 
         // Union in WorkOS users (some may have no prompts yet → 0 storage).
@@ -139,7 +161,14 @@ export async function handleAdmin(req: Request, env: AdminEnv, pathname: string)
         for (const [id, info] of workos) {
             const existing = byId.get(id)
             if (existing) existing.email = info.email
-            else byId.set(id, { userId: id, email: info.email, prompts: 0, storageBytes: 0, pro: false })
+            else
+                byId.set(id, {
+                    userId: id,
+                    email: info.email,
+                    prompts: 0,
+                    storageBytes: 0,
+                    pro: false,
+                })
         }
 
         const users = [...byId.values()].sort((a, b) => b.storageBytes - a.storageBytes)

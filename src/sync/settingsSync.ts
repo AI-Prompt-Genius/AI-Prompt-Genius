@@ -19,6 +19,7 @@ export interface SettingsPayload {
 
 const SETTINGS_SYNCED_KEY = "cf_settings_synced" // last blob the server acknowledged (baseline)
 const SETTINGS_TS_KEY = "cf_settings_updated_at" // our last-known winning timestamp
+const PRO_SYNCED_KEY = "cf_pro_key_synced"
 
 const SYNCED_KEYS = ["lng", "theme", "persist_variables"] as const
 
@@ -36,19 +37,37 @@ function buildSettingsSnapshot(): Record<string, string> {
  * The settings blob to push. We bump `updatedAt` to now only when the local snapshot has drifted
  * from the last-synced baseline, so an unchanged device doesn't keep winning the merge.
  */
-export function getSettingsPush(): SettingsPayload {
+export function getSettingsPush(): SettingsPayload | undefined {
     const data = buildSettingsSnapshot()
     const baseline = getObject(SETTINGS_SYNCED_KEY, null) as Record<string, string> | null
     let updatedAt = Number(localStorage.getItem(SETTINGS_TS_KEY) ?? 0)
-    if (!baseline || JSON.stringify(baseline) !== JSON.stringify(data)) {
-        updatedAt = Date.now()
-    }
+    if (baseline && JSON.stringify(baseline) === JSON.stringify(data)) return undefined
+
+    updatedAt = Math.max(Date.now(), updatedAt + 1)
+    // Record the local version immediately. If the setting changes again while the request is in
+    // flight, the response carrying this timestamp cannot overwrite that newer local snapshot.
+    localStorage.setItem(SETTINGS_TS_KEY, String(updatedAt))
     return { data, updatedAt }
 }
 
-/** The Pro license key to push, or `undefined` to leave the account's key untouched. */
-export function getProKeyPush(): string | undefined {
-    return localStorage.getItem("pro_key") ?? undefined
+/** The changed Pro key, or `undefined` when this device has nothing new to tell the server. */
+export function getProKeyPush(): string | null | undefined {
+    const current = localStorage.getItem("pro_key")
+    const rawBaseline = localStorage.getItem(PRO_SYNCED_KEY)
+
+    // A fresh device with no key must not clear the account's sticky server-side key.
+    if (rawBaseline === null) return current ?? undefined
+
+    let baseline: string | null
+    try {
+        const parsed = JSON.parse(rawBaseline) as unknown
+        baseline = typeof parsed === "string" || parsed === null ? parsed : null
+    } catch {
+        // Treat a corrupted baseline as unsynced state instead of aborting the entire sync.
+        localStorage.removeItem(PRO_SYNCED_KEY)
+        return current ?? undefined
+    }
+    return current === baseline ? undefined : current
 }
 
 /** Apply the server's winning settings blob and record it as the new baseline. */
@@ -66,13 +85,21 @@ export function applyPulledSettings(pulled: SettingsPayload | undefined): void {
         window.dispatchEvent(new StorageEvent("local-storage"))
     }
 
-    localStorage.setItem(SETTINGS_TS_KEY, String(pulled.updatedAt))
+    localStorage.setItem(SETTINGS_TS_KEY, String(Math.max(localTs, pulled.updatedAt)))
     setObject(SETTINGS_SYNCED_KEY, pulled.data)
 }
 
 /** Apply the account's Pro license key, activating Pro locally and reconciling against Gumroad. */
 export function applyPulledProKey(proKey: string | null | undefined): void {
-    if (!proKey) return
+    if (proKey === undefined) return
+    setObject(PRO_SYNCED_KEY, proKey)
+    if (proKey === null) {
+        if (localStorage.getItem("pro_key") === null) return
+        localStorage.removeItem("pro_key")
+        localStorage.setItem("pro", "false")
+        mirrorProToExtension()
+        return
+    }
     if (proKey === localStorage.getItem("pro_key")) return
     localStorage.setItem("pro_key", proKey)
     localStorage.setItem("pro", "true")

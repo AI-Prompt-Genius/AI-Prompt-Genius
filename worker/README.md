@@ -18,11 +18,13 @@ npx wrangler deploy                             # note the deployed URL
 
 The library app already tracks the exact deltas the `/sync` endpoint wants — reuse them:
 
-- **push**: `getObject("changedPrompts")` + `getObject("newPrompts")` → `prompts[]`,
-  `getObject("deletedPrompts")` → `deletedPromptIds[]`, `usePromptStore.getState().folders` →
-  `folders[]`, and the last-seen `rev` from `localStorage`.
-- **apply pull**: merge the returned `prompts`/`folders` into the store via `replacePrompts` /
-  `replaceFolders`, store the new `rev`, and clear the `changed/new/deleted` bookkeeping lists.
+-   **push**: send only changed/new prompts, prompt tombstones, and changed singleton state
+    (`folderState`, settings, Pro key), together with the last-seen `rev`.
+-   **apply pull**: merge returned prompt deltas and apply the authoritative versioned folder/settings
+    state, store the returned persisted `rev`, and clear acknowledged bookkeeping lists.
+
+Apply `migrations/0006_sync_state.sql` before deploying the matching Worker. It backfills the
+singleton row used by the one-read, zero-write idle sync path.
 
 Auth: the app opens a normal web login **inside the iframe** and stores the returned `token` in its
 own `localStorage` — no `chrome.identity`, which is why Phase E can also delete `identity`/`oauth2`

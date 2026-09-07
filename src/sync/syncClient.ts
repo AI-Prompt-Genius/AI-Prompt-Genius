@@ -10,6 +10,12 @@ import {
     applyPulledProKey,
     type SettingsPayload,
 } from "./settingsSync"
+import {
+    applyPulledFolders,
+    clearFolderSyncState,
+    getFoldersPush,
+    type FolderStatePayload,
+} from "./folderSync"
 
 // Cloudflare sync client (Feature 2). Pushes only the changed/new/deleted records the app already
 // tracks (changedPrompts / newPrompts / deletedPrompts), pulls rows changed since our last-seen
@@ -20,6 +26,8 @@ const WORKER_URL = "https://aipromptgenius-sync.aipromptgenius.workers.dev"
 
 const REV_KEY = "cf_sync_rev"
 const LAST_SYNCED_KEY = "cf_last_synced"
+const SYNC_PROTOCOL_KEY = "cf_sync_protocol"
+const CURRENT_SYNC_PROTOCOL = 2
 // Ids of prompts the server has acknowledged (pushed by us or pulled from it). Any local prompt
 // NOT in this set is pushed regardless of rev — this is what recovers prompts that were written
 // straight to localStorage without delta bookkeeping (e.g. the old-extension TransferModal import),
@@ -30,6 +38,7 @@ const SYNCED_IDS_KEY = "cf_synced_ids"
 // after that reorders push single rows via the normal delta path.
 const SORTINDEX_BOOTSTRAP_KEY = "cf_sortindex_pushed"
 const SYNC_INTERVAL_MS = 5 * 60 * 1000
+let syncInFlight: Promise<boolean> | null = null
 
 export function isCloudSynced(): boolean {
     return isSignedIn()
@@ -39,10 +48,13 @@ export async function cloudSignOut(): Promise<void> {
     await signOut()
     localStorage.removeItem(REV_KEY)
     localStorage.removeItem(LAST_SYNCED_KEY)
+    localStorage.removeItem(SYNC_PROTOCOL_KEY)
     localStorage.removeItem(SYNCED_IDS_KEY)
     localStorage.removeItem(SORTINDEX_BOOTSTRAP_KEY)
     localStorage.removeItem("cf_settings_synced")
     localStorage.removeItem("cf_settings_updated_at")
+    localStorage.removeItem("cf_pro_key_synced")
+    clearFolderSyncState()
     localStorage.setItem("syncPreference", "local")
 }
 
@@ -58,7 +70,7 @@ async function postSync(token: string, payload: unknown): Promise<Response> {
 }
 
 /** Push local deltas, pull server changes since our last rev, merge into the store. */
-export async function cloudSyncNow(): Promise<boolean> {
+async function performCloudSync(): Promise<boolean> {
     let token = await getAccessToken()
     if (!token) return false
 
@@ -74,6 +86,10 @@ export async function cloudSyncNow(): Promise<boolean> {
             ...getObject("newPrompts", []),
         ])
         const deletedIds: string[] = Array.from(new Set(getObject("deletedPrompts", [])))
+        // The v2 Worker forces a full snapshot while upgrading this account. Keep sending the real
+        // cursor during negotiation so a temporarily older Worker can still serve cheap deltas.
+        const hasCurrentProtocol =
+            localStorage.getItem(SYNC_PROTOCOL_KEY) === String(CURRENT_SYNC_PROTOCOL)
         const sinceRev = Number(localStorage.getItem(REV_KEY) ?? 0)
 
         // Push every prompt that is either explicitly changed OR not yet known to the server.
@@ -90,19 +106,27 @@ export async function cloudSyncNow(): Promise<boolean> {
             ? localPrompts
             : localPrompts.filter(p => changedIds.has(p.id) || !syncedIds.has(p.id))
 
+        const foldersAtRequest = [...store.folders]
+        // Before v2 is confirmed, expose a dirty snapshot only through the legacy fallback. The
+        // server accepts it during the one-way upgrade and rejects every legacy snapshot after it.
+        const dirtyFolderState = getFoldersPush(foldersAtRequest, sinceRev)
+        const folderState = hasCurrentProtocol ? dirtyFolderState : undefined
+        const settings = getSettingsPush()
+        const proKeyAtRequest = localStorage.getItem("pro_key")
+        const proKey = getProKeyPush()
         const payload = {
+            protocolVersion: CURRENT_SYNC_PROTOCOL,
             sinceRev,
             prompts: toPush,
             deletedPromptIds: deletedIds,
-            // Folders use replace-set semantics server-side (it tombstones anything omitted).
-            // On the first sync after sign-in an empty local folder list would therefore wipe
-            // folders already in the cloud from another device — so don't assert our folder set
-            // until we actually have one. (Subsequent syncs send it as-is so deletes propagate.)
-            folders: sinceRev === 0 && store.folders.length === 0 ? undefined : store.folders,
-            // Account settings blob (LWW) + Pro license key (sticky server-side). proKey is only
-            // sent when this device actually has one, so it never wipes the account's license.
-            settings: getSettingsPush(),
-            proKey: getProKeyPush(),
+            // Versioned singleton state is omitted when unchanged. The Worker can consequently
+            // answer an idle request with one sync_state lookup and zero writes.
+            folderState,
+            // During a rolling deploy, the old Worker ignores protocolVersion/folderState. Give it
+            // the dirty snapshot in its legacy field; v2 accepts this only for the atomic upgrade.
+            folders: hasCurrentProtocol ? undefined : dirtyFolderState?.names,
+            settings,
+            proKey,
         }
         let res = await postSync(token, payload)
         if (res.status === 401) {
@@ -114,9 +138,11 @@ export async function cloudSyncNow(): Promise<boolean> {
         if (!res.ok) throw new Error(`sync failed: ${res.status}`)
 
         const data = (await res.json()) as {
+            protocolVersion?: number
             rev: number
             prompts: ServerPromptRow[]
             folders: string[]
+            folderState?: FolderStatePayload
             settings?: SettingsPayload
             proKey?: string | null
         }
@@ -124,27 +150,82 @@ export async function cloudSyncNow(): Promise<boolean> {
         // Merge server rows into the local library with last-writer-wins (see merge.ts) so a
         // stale cloud tombstone can't delete a newer local prompt and a stale cloud row can't
         // clobber a newer local edit — the "sign in and lose my prompts" failure mode.
-        const merged = mergePulledPrompts(localPrompts, data.prompts)
-        const mergedFolders = Array.from(new Set([...store.folders, ...data.folders]))
+        // Re-read local prompts after the request so an edit made while it was in flight is not
+        // overwritten by the pre-request snapshot. LWW keeps the newer local version pending.
+        const currentPrompts: LegacyPrompt[] = normalizeAndSort(getObject("prompts", []))
+        const pendingDeletedIds = new Set<string>(getObject("deletedPrompts", []))
+        const merged = mergePulledPrompts(currentPrompts, data.prompts).filter(
+            prompt => !pendingDeletedIds.has(prompt.id),
+        )
+        // During a staged rollout an older Worker returns only a folder delta array. Preserve its
+        // union semantics until folderState is available; the new Worker always returns the full,
+        // versioned authoritative list, including deletions.
+        const currentFolders = usePromptStore.getState().folders
+        const foldersChangedDuringRequest =
+            currentFolders.length !== foldersAtRequest.length ||
+            currentFolders.some((name, index) => name !== foldersAtRequest[index])
+        const authoritativeFolders = data.folderState
+            ? applyPulledFolders(data.folderState)
+            : applyPulledFolders({
+                  names: Array.from(new Set([...store.folders, ...(data.folders ?? [])])),
+                  updatedAt: Math.max(Date.now(), (dirtyFolderState?.updatedAt ?? 0) + 1),
+              })
+        const upgradeFallbackRejected =
+            !hasCurrentProtocol &&
+            !!dirtyFolderState &&
+            !!data.folderState &&
+            (data.folderState.names.length !== foldersAtRequest.length ||
+                data.folderState.names.some((name, index) => name !== foldersAtRequest[index]))
+        // A rejected upgrade fallback remains local and differs from the newly recorded server
+        // baseline, so the next confirmed-v2 request retries it as a versioned folderState.
+        const pulledFolders =
+            foldersChangedDuringRequest || upgradeFallbackRejected
+                ? undefined
+                : authoritativeFolders
 
         // Persist merged state through the store (localStorage + IndexedDB + picker mirror),
         // then clear the delta bookkeeping the server has now absorbed.
         store.replacePrompts(merged)
-        store.replaceFolders(mergedFolders)
+        if (pulledFolders) store.replaceFolders(pulledFolders)
 
         // Apply the account's settings + Pro license alongside the prompt merge.
         applyPulledSettings(data.settings)
-        applyPulledProKey(data.proKey)
-        setObject("changedPrompts", [])
-        setObject("newPrompts", [])
-        setObject("deletedPrompts", [])
-        // Everything in the merged library is now on the server (we pushed all unsynced local
-        // prompts above, and the rest came from the server), so record it as the acknowledged set.
+        // Do not let an in-flight response undo a license activation/removal made locally after
+        // this request started. Its dirty baseline remains untouched and will push next time.
+        if (localStorage.getItem("pro_key") === proKeyAtRequest) applyPulledProKey(data.proKey)
+        const sentVersions = new Map(toPush.map(prompt => [prompt.id, prompt.lastChanged ?? 0]))
+        const currentById = new Map(currentPrompts.map(prompt => [prompt.id, prompt]))
+        const returnedIds = new Set(data.prompts.map(row => row.id))
         setObject(
-            SYNCED_IDS_KEY,
-            merged.map(p => p.id),
+            "changedPrompts",
+            (getObject("changedPrompts", []) as string[]).filter(id => {
+                if (!returnedIds.has(id) || !sentVersions.has(id)) return true
+                return (currentById.get(id)?.lastChanged ?? 0) > (sentVersions.get(id) ?? 0)
+            }),
         )
+        setObject(
+            "newPrompts",
+            (getObject("newPrompts", []) as string[]).filter(
+                id => !returnedIds.has(id) || !sentVersions.has(id),
+            ),
+        )
+        const sentDeletedIds = new Set(deletedIds)
+        setObject(
+            "deletedPrompts",
+            (getObject("deletedPrompts", []) as string[]).filter(id => !sentDeletedIds.has(id)),
+        )
+        // Only rows sent in this request or returned by the server are acknowledged. A prompt
+        // created while the request was in flight must remain unsynced for the next request.
+        const acknowledgedIds = new Set(syncedIds)
+        for (const row of data.prompts) {
+            if (row.deleted_at) acknowledgedIds.delete(row.id)
+            else acknowledgedIds.add(row.id)
+        }
+        setObject(SYNCED_IDS_KEY, Array.from(acknowledgedIds))
         localStorage.setItem(REV_KEY, String(data.rev))
+        if (data.protocolVersion === CURRENT_SYNC_PROTOCOL) {
+            localStorage.setItem(SYNC_PROTOCOL_KEY, String(CURRENT_SYNC_PROTOCOL))
+        }
         localStorage.setItem(LAST_SYNCED_KEY, String(Date.now()))
         localStorage.setItem(SORTINDEX_BOOTSTRAP_KEY, "1")
         return true
@@ -152,6 +233,14 @@ export async function cloudSyncNow(): Promise<boolean> {
         console.error("Cloud sync failed", err)
         return false
     }
+}
+
+export function cloudSyncNow(): Promise<boolean> {
+    if (syncInFlight) return syncInFlight
+    syncInFlight = performCloudSync().finally(() => {
+        syncInFlight = null
+    })
+    return syncInFlight
 }
 
 /** Background sync on app load — only when signed in and the last sync is stale. */

@@ -42,6 +42,19 @@ CREATE TABLE IF NOT EXISTS user_settings (
   pro_key    TEXT
 );
 
+-- One row per account. This is the authoritative revision/settings/folder state for the current
+-- sync protocol; `folders` and `user_settings` above remain for migration/old-deployment safety.
+CREATE TABLE IF NOT EXISTS sync_state (
+  user_id             TEXT PRIMARY KEY,
+  rev                 INTEGER NOT NULL DEFAULT 0,
+  protocol_version    INTEGER NOT NULL DEFAULT 1,
+  folders             TEXT NOT NULL DEFAULT '[]',
+  folders_updated_at  INTEGER NOT NULL DEFAULT 0,
+  settings_data       TEXT NOT NULL DEFAULT '{}',
+  settings_updated_at INTEGER NOT NULL DEFAULT 0,
+  pro_key              TEXT
+);
+
 -- Promotions managed from the admin dashboard (worker/src/admin.ts) and polled by the
 -- extension's background service worker. `id` doubles as the client's seenPromos key, so a
 -- promo opens at most once per user. Replaces the old hardcoded array in plugin/background.js.

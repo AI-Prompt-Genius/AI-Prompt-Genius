@@ -9,18 +9,15 @@ export interface DeleteEnv {
     WORKOS_API_KEY?: string
 }
 
-// Purge all of a user's data from D1 and delete their WorkOS account. D1 deletes run first (and
-// unconditionally); the WorkOS call is best-effort so a purge still completes if the account API
-// hiccups. `user_settings` is wrapped in its own try/catch because a not-yet-migrated DB has no
-// such table (see migration 0003).
+// Purge all of a user's data from D1 in one transaction, then delete their WorkOS account. The
+// WorkOS call is best-effort so the D1 purge still completes if the account API hiccups.
 export async function deleteUserAccount(env: DeleteEnv, userId: string): Promise<void> {
-    await env.DB.prepare("DELETE FROM prompts WHERE user_id = ?").bind(userId).run()
-    await env.DB.prepare("DELETE FROM folders WHERE user_id = ?").bind(userId).run()
-    try {
-        await env.DB.prepare("DELETE FROM user_settings WHERE user_id = ?").bind(userId).run()
-    } catch (err) {
-        console.error("user_settings delete skipped", err)
-    }
+    await env.DB.batch([
+        env.DB.prepare("DELETE FROM prompts WHERE user_id = ?").bind(userId),
+        env.DB.prepare("DELETE FROM folders WHERE user_id = ?").bind(userId),
+        env.DB.prepare("DELETE FROM user_settings WHERE user_id = ?").bind(userId),
+        env.DB.prepare("DELETE FROM sync_state WHERE user_id = ?").bind(userId),
+    ])
     if (env.WORKOS_API_KEY) {
         await fetch(`${WORKOS}/user_management/users/${userId}`, {
             method: "DELETE",
