@@ -21,7 +21,7 @@ export default function Ad() {
                     apiKey="a164501b-2c0f-4ce1-a646-b680633f08ed"
                     placement="banner"
                     theme={adTheme}
-                    {...({ language: lang } as Record<string, unknown>)}
+                    language={lang}
                 />
             )}
         </>
