@@ -1,6 +1,10 @@
 import { k } from "../keys"
 
 export const en = {
+    MCP_DONE: "Done",
+    MCP_COPY_EXAMPLE: "Copy example",
+    MCP_EXAMPLE_COPIED: "Example copied. Paste it into your AI assistant.",
+
     MCP_PAGE_SUBTITLE: "Your prompt library, connected to your AI assistant.",
     MCP_NEW_CONNECTION: "New connection",
     MCP_EXAMPLE_ORGANIZE: "Organize my writing prompts into folders by topic.",

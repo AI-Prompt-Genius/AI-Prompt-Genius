@@ -435,3 +435,23 @@ export function SignOutIcon() {
         </svg>
     )
 }
+
+export function SparklesIcon() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            className="w-6 h-6 shrink-0"
+            aria-hidden="true"
+        >
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m9 3 1.8 5.2L16 10l-5.2 1.8L9 17l-1.8-5.2L2 10l5.2-1.8L9 3Zm9-1 1.1 3.9L23 7l-3.9 1.1L18 12l-1.1-3.9L13 7l3.9-1.1L18 2Zm0 12 1.1 3.9L23 19l-3.9 1.1L18 24l-1.1-3.9L13 19l3.9-1.1L18 14Z"
+            />
+        </svg>
+    )
+}

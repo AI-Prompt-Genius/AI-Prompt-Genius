@@ -7,7 +7,7 @@ import { getCurrentTimestamp, getObject, MAX_PROMPTS, newBlankPrompt, uuid } fro
 import {
     ArrowNewWindow,
     Cog,
-    BracesIcon,
+    SparklesIcon,
     HomeIcon,
     PlusDoc,
     PlusFolder,
@@ -264,7 +264,7 @@ export default function Sidebar({
                                                 aria-current={page === "mcp" ? "page" : undefined}
                                                 onClick={() => onPageChange("mcp")}
                                             >
-                                                <BracesIcon /> {t(k.MCP_TITLE)}
+                                                <SparklesIcon /> {t(k.MCP_TITLE)}
                                             </button>
                                         </li>
                                         <li>
