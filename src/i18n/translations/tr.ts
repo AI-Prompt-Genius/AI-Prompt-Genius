@@ -1,6 +1,60 @@
 import { k } from "../keys"
 
 export const tr = {
+    [k.MCP_ACCESS_TITLE]: "Erişimi yönet",
+    [k.MCP_ALLOW]: "Erişime izin ver",
+    [k.MCP_CONNECT]: "AI Prompt Genius’a bağlan",
+    [k.MCP_CONSENT_NOTE]:
+        "Seçilen izinler bulut kitaplığınızın tamamı için geçerlidir. Yapay zekâ bağlantıları bölümünden istediğiniz zaman tüm yapay zekâ istemcilerinin bağlantısını kesebilirsiniz.",
+    [k.MCP_COPIED]: "Sunucu URL’si kopyalandı.",
+    [k.MCP_COPY]: "Sunucu URL’sini kopyala",
+    [k.MCP_COPY_EXAMPLE]: "Örneği kopyala",
+    [k.MCP_COPY_FAILED]:
+        "Otomatik kopyalama başarısız oldu. Sunucu URL’sini seçip elle kopyalayın.",
+    [k.MCP_DELETE]: "İstemleri ve klasörleri sil",
+    [k.MCP_DENY]: "Reddet",
+    [k.MCP_DESCRIPTION]:
+        "Yapay zekâ istemcinizin bulut kitaplığınızdaki istemleri ve klasörleri okumasına, oluşturmasına, düzenlemesine, organize etmesine ve silmesine izin verin.",
+    [k.MCP_DISCONNECT]: "Tüm yapay zekâ istemcilerinin bağlantısını kes",
+    [k.MCP_DISCONNECTED]:
+        "Tüm yapay zekâ istemcilerinin bağlantısı kesildi. Tekrar erişim vermek için yapay zekâ istemcinizden yeniden bağlanın.",
+    [k.MCP_DONE]: "Bitti",
+    [k.MCP_ENDPOINT]: "MCP sunucu URL’si",
+    [k.MCP_ERROR]: "İstek tamamlanamadı. Lütfen tekrar deneyin.",
+    [k.MCP_EXAMPLE_COPIED]: "Örnek kopyalandı. Yapay zekâ asistanınıza yapıştırın.",
+    [k.MCP_EXAMPLE_ORGANIZE]: "Yazı yazma istemlerimi konularına göre klasörlere ayır.",
+    [k.MCP_NEW_CONNECTION]: "Yeni bağlantı",
+    [k.MCP_OPENAI_GUIDE]: "OpenAI’ın güncel bağlantı kılavuzu",
+    [k.MCP_PAGE_SUBTITLE]: "İstem kitaplığınız, yapay zekâ asistanınıza bağlı.",
+    [k.MCP_PRO_REQUIRED]:
+        "Bu bağlantı Pro gerektirir. Pro’yu zaten etkinleştirdiyseniz hesap durumunuzu yenilemek için kitaplığınızı eşitleyin.",
+    [k.MCP_READ]: "İstemleri ve klasörleri oku",
+    [k.MCP_REQUESTS_ACCESS]: "{{clientName}}, istem kitaplığınıza erişim istiyor.",
+    [k.MCP_RETURN_TO]: "Dönüş adresi",
+    [k.MCP_SETUP_HEADING]: "Yapay zekâ asistanınızda başlayın",
+    [k.MCP_SHORT_ACCESS]:
+        "Son değişikliklerinizi görmek için eşitleyin veya tüm yapay zekâ istemcilerinin bağlantısını kesin. İstemleriniz kitaplığınızda kalır.",
+    [k.MCP_SHORT_OPENAI]:
+        "OpenAI’da listelenmesi daha sonra gerçekleşecek. Elle kurulumun kullanılabilirliği yapay zekâ istemcinize bağlıdır.",
+    [k.MCP_SHORT_REQUIREMENTS]:
+        "AI Prompt Genius Pro gerektirir. Önce oturum açın ve uzantı kitaplığınızı eşitleyin.",
+    [k.MCP_SHORT_STEP_ONE]:
+        "Asistanınızın entegrasyon ayarlarını açın ve uzak bir MCP sunucusu ekleyin.",
+    [k.MCP_SHORT_STEP_THREE]:
+        "AI Prompt Genius hesabınızda oturum açın ve hangi izinleri vereceğinizi seçin.",
+    [k.MCP_SHORT_STEP_TWO]:
+        "Aşağıdaki sunucu adresini yapıştırın ve oturum açmak için OAuth’u seçin.",
+    [k.MCP_SIGN_IN]: "Oturum aç",
+    [k.MCP_SIGN_IN_HELP]: "Bulutta eşitlenen istem kitaplığınızın ait olduğu hesapta oturum açın.",
+    [k.MCP_SYNC]: "Kitaplığı şimdi eşitle",
+    [k.MCP_SYNCED]: "Bulut kitaplığınız güncel.",
+    [k.MCP_SYNC_FAILED]: "Eşitleme başarısız oldu. Lütfen oturum açıp tekrar deneyin.",
+    [k.MCP_TEST_PROMPT]: "AI Prompt Genius kitaplığımdaki klasörleri listele.",
+    [k.MCP_TITLE]: "Yapay zekâ bağlantıları",
+    [k.MCP_UNAVAILABLE]:
+        "MCP hizmeti geçici olarak kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+    [k.MCP_WRITE]:
+        "İstemleri ve klasörleri oluştur, düzenle, taşı, yeniden adlandır ve yeniden sırala",
     [k.MCP_PRO_FEATURE]: `İstemleri ve klasörleri toplu olarak yönetmek için yapay zekâ asistanınızı MCP üzerinden bağlayın.`,
     [k.ACCESS_TO_NEW_THEMES]: `Cyberpunk, luxury ve daha fazlasını içeren yeni temalara erişim kazanın!`,
     [k.ACCOUNT_2FA_CONFIRM]: `Onayla ve 2FA'yı aç`,

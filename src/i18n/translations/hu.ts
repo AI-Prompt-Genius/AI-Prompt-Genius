@@ -1,6 +1,60 @@
 import { k } from "../keys"
 
 export const hu = {
+    [k.MCP_ACCESS_TITLE]: "Hozzáférés kezelése",
+    [k.MCP_ALLOW]: "Hozzáférés engedélyezése",
+    [k.MCP_CONNECT]: "Csatlakozás az AI Prompt Geniushoz",
+    [k.MCP_CONSENT_NOTE]:
+        "A kiválasztott engedélyek a teljes felhőbeli könyvtárra vonatkoznak. Az AI-kapcsolatok oldalon bármikor leválaszthatja az összes AI-klienst.",
+    [k.MCP_COPIED]: "A szerver URL-címe másolva.",
+    [k.MCP_COPY]: "Szerver URL-címének másolása",
+    [k.MCP_COPY_EXAMPLE]: "Példa másolása",
+    [k.MCP_COPY_FAILED]:
+        "Az automatikus másolás nem sikerült. Jelölje ki a szerver URL-címét, és másolja ki kézzel.",
+    [k.MCP_DELETE]: "Promptok és mappák törlése",
+    [k.MCP_DENY]: "Elutasítás",
+    [k.MCP_DESCRIPTION]:
+        "Engedélyezze AI-kliensének a felhőbeli könyvtárban lévő promptok és mappák olvasását, létrehozását, szerkesztését, rendszerezését és törlését.",
+    [k.MCP_DISCONNECT]: "Összes AI-kliens leválasztása",
+    [k.MCP_DISCONNECTED]:
+        "Az összes AI-kliens le lett választva. A hozzáférés újbóli engedélyezéséhez csatlakozzon újra az AI-kliensből.",
+    [k.MCP_DONE]: "Kész",
+    [k.MCP_ENDPOINT]: "MCP-szerver URL-címe",
+    [k.MCP_ERROR]: "A kérés nem teljesíthető. Próbálja újra.",
+    [k.MCP_EXAMPLE_COPIED]: "Példa másolva. Illessze be az AI-asszisztensébe.",
+    [k.MCP_EXAMPLE_ORGANIZE]: "Rendezd az íráshoz használt promptjaimat témák szerint mappákba.",
+    [k.MCP_NEW_CONNECTION]: "Új kapcsolat",
+    [k.MCP_OPENAI_GUIDE]: "Az OpenAI aktuális csatlakozási útmutatója",
+    [k.MCP_PAGE_SUBTITLE]: "Promptkönyvtára összekapcsolva AI-asszisztensével.",
+    [k.MCP_PRO_REQUIRED]:
+        "Ehhez a kapcsolathoz Pro szükséges. Ha már aktiválta a Pro verziót, szinkronizálja könyvtárát a fiók állapotának frissítéséhez.",
+    [k.MCP_READ]: "Promptok és mappák olvasása",
+    [k.MCP_REQUESTS_ACCESS]: "A(z) {{clientName}} hozzáférést kér a promptkönyvtárához.",
+    [k.MCP_RETURN_TO]: "Visszatérési cím",
+    [k.MCP_SETUP_HEADING]: "Kezdje az AI-asszisztensében",
+    [k.MCP_SHORT_ACCESS]:
+        "Szinkronizáljon a legújabb változások megtekintéséhez, vagy válassza le az összes AI-klienst. Promptjai a könyvtárban maradnak.",
+    [k.MCP_SHORT_OPENAI]:
+        "Az OpenAI-katalógusban később jelenik meg. A kézi beállítás elérhetősége az AI-klienstől függ.",
+    [k.MCP_SHORT_REQUIREMENTS]:
+        "AI Prompt Genius Pro szükséges. Először jelentkezzen be, és szinkronizálja a bővítmény könyvtárát.",
+    [k.MCP_SHORT_STEP_ONE]:
+        "Nyissa meg asszisztense integrációs beállításait, és adjon hozzá egy távoli MCP-szervert.",
+    [k.MCP_SHORT_STEP_THREE]:
+        "Jelentkezzen be AI Prompt Genius-fiókjába, és válassza ki az engedélyezni kívánt jogosultságokat.",
+    [k.MCP_SHORT_STEP_TWO]:
+        "Illessze be az alábbi szervercímet, és válassza az OAuth lehetőséget a bejelentkezéshez.",
+    [k.MCP_SIGN_IN]: "Bejelentkezés",
+    [k.MCP_SIGN_IN_HELP]:
+        "Jelentkezzen be abba a fiókba, amelyhez a felhőben szinkronizált promptkönyvtára tartozik.",
+    [k.MCP_SYNC]: "Könyvtár szinkronizálása most",
+    [k.MCP_SYNCED]: "Felhőbeli könyvtára naprakész.",
+    [k.MCP_SYNC_FAILED]: "A szinkronizálás sikertelen. Jelentkezzen be, és próbálja újra.",
+    [k.MCP_TEST_PROMPT]: "Sorold fel az AI Prompt Genius-könyvtáramban lévő mappákat.",
+    [k.MCP_TITLE]: "AI-kapcsolatok",
+    [k.MCP_UNAVAILABLE]: "Az MCP-szolgáltatás átmenetileg nem érhető el. Próbálja újra később.",
+    [k.MCP_WRITE]:
+        "Promptok és mappák létrehozása, szerkesztése, áthelyezése, átnevezése és átrendezése",
     [k.MCP_PRO_FEATURE]: `Csatlakoztassa AI-asszisztensét MCP-n keresztül a promptok és mappák tömeges kezeléséhez.`,
     [k.ACCESS_TO_NEW_THEMES]: `Hozzáférés új témákhoz, például a cyberpunkhoz, a luxuryhoz és még sok máshoz!`,
     [k.ACCOUNT_2FA_CONFIRM]: `Megerősítés és 2FA engedélyezése`,

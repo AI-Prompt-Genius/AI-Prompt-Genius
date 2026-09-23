@@ -1,6 +1,62 @@
 import { k } from "../keys"
 
 export const de = {
+    [k.MCP_ACCESS_TITLE]: "Zugriff verwalten",
+    [k.MCP_ALLOW]: "Zugriff erlauben",
+    [k.MCP_CONNECT]: "Mit AI Prompt Genius verbinden",
+    [k.MCP_CONSENT_NOTE]:
+        "Die ausgewählten Berechtigungen gelten für Ihre gesamte Cloud-Bibliothek. Unter „KI-Verbindungen“ können Sie jederzeit alle KI-Clients trennen.",
+    [k.MCP_COPIED]: "Server-URL kopiert.",
+    [k.MCP_COPY]: "Server-URL kopieren",
+    [k.MCP_COPY_EXAMPLE]: "Beispiel kopieren",
+    [k.MCP_COPY_FAILED]:
+        "Automatisches Kopieren nicht möglich. Wählen Sie die Server-URL aus und kopieren Sie sie manuell.",
+    [k.MCP_DELETE]: "Prompts und Ordner löschen",
+    [k.MCP_DENY]: "Ablehnen",
+    [k.MCP_DESCRIPTION]:
+        "Erlauben Sie Ihrem KI-Client, Prompts und Ordner in Ihrer Cloud-Bibliothek zu lesen, zu erstellen, zu bearbeiten, zu organisieren und zu löschen.",
+    [k.MCP_DISCONNECT]: "Alle KI-Clients trennen",
+    [k.MCP_DISCONNECTED]:
+        "Alle KI-Clients wurden getrennt. Stellen Sie die Verbindung in Ihrem KI-Client erneut her, um wieder Zugriff zu gewähren.",
+    [k.MCP_DONE]: "Fertig",
+    [k.MCP_ENDPOINT]: "MCP-Server-URL",
+    [k.MCP_ERROR]: "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
+    [k.MCP_EXAMPLE_COPIED]: "Beispiel kopiert. Fügen Sie es in Ihren KI-Assistenten ein.",
+    [k.MCP_EXAMPLE_ORGANIZE]: "Ordne meine Schreib-Prompts nach Themen in Ordner ein.",
+    [k.MCP_NEW_CONNECTION]: "Neue Verbindung",
+    [k.MCP_OPENAI_GUIDE]: "Aktuelle Verbindungsanleitung von OpenAI",
+    [k.MCP_PAGE_SUBTITLE]: "Ihre Prompt-Bibliothek, verbunden mit Ihrem KI-Assistenten.",
+    [k.MCP_PRO_REQUIRED]:
+        "Diese Verbindung erfordert Pro. Wenn Sie Pro bereits aktiviert haben, synchronisieren Sie Ihre Bibliothek, um Ihren Kontostatus zu aktualisieren.",
+    [k.MCP_READ]: "Prompts und Ordner lesen",
+    [k.MCP_REQUESTS_ACCESS]: "{{clientName}} möchte auf Ihre Prompt-Bibliothek zugreifen.",
+    [k.MCP_RETURN_TO]: "Rückleitungsadresse",
+    [k.MCP_SETUP_HEADING]: "Beginnen Sie in Ihrem KI-Assistenten",
+    [k.MCP_SHORT_ACCESS]:
+        "Synchronisieren Sie die neuesten Änderungen oder trennen Sie alle KI-Clients. Ihre Prompts bleiben in Ihrer Bibliothek.",
+    [k.MCP_SHORT_OPENAI]:
+        "Ein OpenAI-Eintrag folgt später. Ob die manuelle Einrichtung verfügbar ist, hängt von Ihrem KI-Client ab.",
+    [k.MCP_SHORT_REQUIREMENTS]:
+        "Erfordert AI Prompt Genius Pro. Melden Sie sich zuerst an und synchronisieren Sie die Bibliothek Ihrer Erweiterung.",
+    [k.MCP_SHORT_STEP_ONE]:
+        "Öffnen Sie die Integrationseinstellungen Ihres Assistenten und fügen Sie einen Remote-MCP-Server hinzu.",
+    [k.MCP_SHORT_STEP_THREE]:
+        "Melden Sie sich bei Ihrem AI Prompt Genius-Konto an und wählen Sie die Berechtigungen aus, die Sie erteilen möchten.",
+    [k.MCP_SHORT_STEP_TWO]:
+        "Fügen Sie die unten stehende Serveradresse ein und wählen Sie OAuth zur Anmeldung.",
+    [k.MCP_SIGN_IN]: "Anmelden",
+    [k.MCP_SIGN_IN_HELP]:
+        "Melden Sie sich bei dem Konto an, zu dem Ihre in der Cloud synchronisierte Prompt-Bibliothek gehört.",
+    [k.MCP_SYNC]: "Bibliothek jetzt synchronisieren",
+    [k.MCP_SYNCED]: "Ihre Cloud-Bibliothek ist auf dem neuesten Stand.",
+    [k.MCP_SYNC_FAILED]:
+        "Synchronisierung fehlgeschlagen. Bitte melden Sie sich an und versuchen Sie es erneut.",
+    [k.MCP_TEST_PROMPT]: "Liste die Ordner in meiner AI Prompt Genius-Bibliothek auf.",
+    [k.MCP_TITLE]: "KI-Verbindungen",
+    [k.MCP_UNAVAILABLE]:
+        "Der MCP-Dienst ist vorübergehend nicht verfügbar. Bitte versuchen Sie es später erneut.",
+    [k.MCP_WRITE]:
+        "Prompts und Ordner erstellen, bearbeiten, verschieben, umbenennen und neu anordnen",
     [k.MCP_PRO_FEATURE]: `Verbinden Sie Ihren KI-Assistenten über MCP, um mehrere Prompts und Ordner gleichzeitig zu verwalten.`,
     [k.ACCESS_TO_NEW_THEMES]: `Erhalten Sie Zugriff auf neue Designs, darunter Cyberpunk, Luxury und mehr!`,
     [k.ACCOUNT_2FA_CONFIRM]: `2FA bestätigen und aktivieren`,

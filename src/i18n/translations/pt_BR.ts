@@ -1,6 +1,59 @@
 import { k } from "../keys"
 
 export const pt_BR = {
+    [k.MCP_ACCESS_TITLE]: "Gerenciar acesso",
+    [k.MCP_ALLOW]: "Permitir acesso",
+    [k.MCP_CONNECT]: "Conectar ao AI Prompt Genius",
+    [k.MCP_CONSENT_NOTE]:
+        "As permissões selecionadas se aplicam a toda a sua biblioteca na nuvem. Você pode desconectar todos os clientes de IA a qualquer momento em Conexões de IA.",
+    [k.MCP_COPIED]: "URL do servidor copiada.",
+    [k.MCP_COPY]: "Copiar URL do servidor",
+    [k.MCP_COPY_EXAMPLE]: "Copiar exemplo",
+    [k.MCP_COPY_FAILED]:
+        "Não foi possível copiar automaticamente. Selecione a URL do servidor e copie manualmente.",
+    [k.MCP_DELETE]: "Excluir prompts e pastas",
+    [k.MCP_DENY]: "Negar",
+    [k.MCP_DESCRIPTION]:
+        "Permita que seu cliente de IA leia, crie, edite, organize e exclua prompts e pastas da sua biblioteca na nuvem.",
+    [k.MCP_DISCONNECT]: "Desconectar todos os clientes de IA",
+    [k.MCP_DISCONNECTED]:
+        "Todos os clientes de IA foram desconectados. Reconecte pelo seu cliente de IA para conceder acesso novamente.",
+    [k.MCP_DONE]: "Concluído",
+    [k.MCP_ENDPOINT]: "URL do servidor MCP",
+    [k.MCP_ERROR]: "Não foi possível concluir a solicitação. Tente novamente.",
+    [k.MCP_EXAMPLE_COPIED]: "Exemplo copiado. Cole no seu assistente de IA.",
+    [k.MCP_EXAMPLE_ORGANIZE]: "Organize meus prompts de escrita em pastas por assunto.",
+    [k.MCP_NEW_CONNECTION]: "Nova conexão",
+    [k.MCP_OPENAI_GUIDE]: "Guia de conexão atual da OpenAI",
+    [k.MCP_PAGE_SUBTITLE]: "Sua biblioteca de prompts, conectada ao seu assistente de IA.",
+    [k.MCP_PRO_REQUIRED]:
+        "Esta conexão requer Pro. Se você já ativou o Pro, sincronize sua biblioteca para atualizar o status da sua conta.",
+    [k.MCP_READ]: "Ler prompts e pastas",
+    [k.MCP_REQUESTS_ACCESS]: "{{clientName}} solicita acesso à sua biblioteca de prompts.",
+    [k.MCP_RETURN_TO]: "Endereço de retorno",
+    [k.MCP_SETUP_HEADING]: "Comece no seu assistente de IA",
+    [k.MCP_SHORT_ACCESS]:
+        "Sincronize para ver as alterações mais recentes ou desconecte todos os clientes de IA. Seus prompts permanecem na sua biblioteca.",
+    [k.MCP_SHORT_OPENAI]:
+        "A publicação na OpenAI virá depois. A disponibilidade da configuração manual depende do seu cliente de IA.",
+    [k.MCP_SHORT_REQUIREMENTS]:
+        "Requer AI Prompt Genius Pro. Primeiro, entre na sua conta e sincronize a biblioteca da extensão.",
+    [k.MCP_SHORT_STEP_ONE]:
+        "Abra as configurações de integrações do seu assistente e adicione um servidor MCP remoto.",
+    [k.MCP_SHORT_STEP_THREE]:
+        "Entre na sua conta do AI Prompt Genius e escolha quais permissões conceder.",
+    [k.MCP_SHORT_STEP_TWO]: "Cole o endereço do servidor abaixo e escolha OAuth para entrar.",
+    [k.MCP_SIGN_IN]: "Entrar",
+    [k.MCP_SIGN_IN_HELP]:
+        "Entre na conta à qual pertence sua biblioteca de prompts sincronizada na nuvem.",
+    [k.MCP_SYNC]: "Sincronizar biblioteca agora",
+    [k.MCP_SYNCED]: "Sua biblioteca na nuvem está atualizada.",
+    [k.MCP_SYNC_FAILED]: "Falha na sincronização. Entre na sua conta e tente novamente.",
+    [k.MCP_TEST_PROMPT]: "Liste as pastas da minha biblioteca do AI Prompt Genius.",
+    [k.MCP_TITLE]: "Conexões de IA",
+    [k.MCP_UNAVAILABLE]:
+        "O serviço MCP está temporariamente indisponível. Tente novamente mais tarde.",
+    [k.MCP_WRITE]: "Criar, editar, mover, renomear e reordenar prompts e pastas",
     [k.MCP_PRO_FEATURE]: `Conecte seu assistente de IA via MCP para gerenciar prompts e pastas em lote.`,
     [k.ACCESS_TO_NEW_THEMES]: `Tenha acesso a novos temas, incluindo cyberpunk, luxury e muito mais!`,
     [k.ACCOUNT_2FA_CONFIRM]: `Confirmar e ativar 2FA`,

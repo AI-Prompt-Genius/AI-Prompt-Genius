@@ -71,7 +71,7 @@ export const en = {
     MCP_WRITE: "Create, edit, move, rename, and reorder prompts and folders",
     MCP_DELETE: "Delete prompts and folders",
     MCP_CONSENT_NOTE:
-        "The selected permissions apply to your entire cloud library. You can disconnect all AI clients in Settings at any time.",
+        "The selected permissions apply to your entire cloud library. You can disconnect all AI clients in AI connections at any time.",
     MCP_PRO_REQUIRED:
         "This connection requires Pro. If you have already activated Pro, sync your library to refresh your account status.",
     MCP_DENY: "Deny",
