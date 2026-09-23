@@ -13,7 +13,7 @@ export function ProUpgradeModal(props: { showToast: (message: string) => void })
     return (
         <>
             <input type="checkbox" id="proUpgradeModal" className="modal-toggle hidden" />
-            <div className="modal" role={"dialog"}>
+            <div id="pro-upgrade-dialog" className="modal" role={"dialog"}>
                 <div className="modal-box max-w-[1000px] h-full">
                     <Logo className="w-20 h-20 mx-auto my-4"> </Logo>
                     <ProFeatures />

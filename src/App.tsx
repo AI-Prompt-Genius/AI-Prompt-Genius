@@ -1,5 +1,6 @@
 import McpIntegration from "./components/McpIntegration"
 import McpConsent from "./components/McpConsent"
+import { ProUpgradeModal } from "./components/ProUpgradeModal"
 import "./App.css"
 import Sidebar from "./components/Sidebar"
 import MainContent from "./components/MainContent"
@@ -247,6 +248,7 @@ function App() {
             )}
 
             {toast && <Toast message={toastMessage} />}
+            <ProUpgradeModal showToast={showToast} />
             <McpConsent />
             <AuthModal />
             <ManageAccountModal />

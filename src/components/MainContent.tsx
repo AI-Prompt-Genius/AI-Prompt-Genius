@@ -12,7 +12,6 @@ import CompactToggle from "./CompactToggle"
 import { useLocalStorage } from "@uidotdev/usehooks"
 import Ad from "./Ad"
 import ReactGA from "react-ga4"
-import { ProUpgradeModal } from "./ProUpgradeModal"
 import { proRefreshDue, updateProStatus } from "./js/pro"
 import type { LegacyPrompt } from "../types"
 
@@ -184,8 +183,6 @@ export default function MainContent({
             )}
 
             {showToastMessage && <Toast message={toastMessage} />}
-
-            <ProUpgradeModal showToast={showToast} />
         </>
     )
 }

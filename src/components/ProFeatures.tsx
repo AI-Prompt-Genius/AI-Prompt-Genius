@@ -9,7 +9,7 @@ export function ProFeatures() {
 
     return (
         <div className={"p-4"}>
-            <Head2>{t(k.LIKED_THEME)}</Head2>
+            <Head2>{t(k.UPGRADE_TO_PRO)}</Head2>
             <Head4>{t(k.FEATURES)}</Head4>
             <ul className={"list-disc ml-6"}>
                 <li>{t(k.NO_ADS)}</li>

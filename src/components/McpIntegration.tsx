@@ -76,9 +76,16 @@ export default function McpIntegration() {
                     <button
                         className="btn btn-primary"
                         aria-haspopup="dialog"
-                        aria-controls="mcp-setup"
+                        aria-controls={pro ? "mcp-setup" : "pro-upgrade-dialog"}
                         onClick={() => {
                             setMessage("")
+                            if (!pro) {
+                                const upgrade = document.getElementById(
+                                    "proUpgradeModal",
+                                ) as HTMLInputElement | null
+                                if (upgrade) upgrade.checked = true
+                                return
+                            }
                             dialog.current?.showModal()
                             if (setupBody.current) setupBody.current.scrollTop = 0
                         }}
