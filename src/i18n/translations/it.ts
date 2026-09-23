@@ -1,6 +1,7 @@
 import { k } from "../keys"
 
 export const it = {
+    [k.MCP_PRO_FEATURE]: `Collega il tuo assistente IA tramite MCP per gestire prompt e cartelle in blocco.`,
     [k.ACCESS_TO_NEW_THEMES]: `Accedi a nuovi temi, tra cui cyberpunk, luxury e altro ancora!`,
     [k.ACCOUNT_2FA_CONFIRM]: `Conferma e attiva 2FA`,
     [k.ACCOUNT_2FA_INTRO]: `Aggiungi un'app di autenticazione (Google Authenticator, 1Password, ecc.) come secondo fattore. Ti verrà chiesto un codice a 6 cifre all'accesso.`,

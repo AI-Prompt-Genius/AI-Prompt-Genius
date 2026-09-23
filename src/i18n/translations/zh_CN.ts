@@ -1,6 +1,7 @@
 import { k } from "../keys"
 
 export const zh_CN = {
+    [k.MCP_PRO_FEATURE]: `通过 MCP 连接 AI 助手，批量管理提示词和文件夹。`,
     [k.ACCESS_TO_NEW_THEMES]: `解锁全新主题，包括赛博朋克、奢华风格等！`,
     [k.ACCOUNT_2FA_CONFIRM]: `确认并启用双因素认证`,
     [k.ACCOUNT_2FA_INTRO]: `添加身份验证器应用（如 Google Authenticator、1Password）作为第二因素。登录时系统会要求您输入 6 位代码。`,

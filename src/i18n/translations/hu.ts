@@ -1,6 +1,7 @@
 import { k } from "../keys"
 
 export const hu = {
+    [k.MCP_PRO_FEATURE]: `Csatlakoztassa AI-asszisztensét MCP-n keresztül a promptok és mappák tömeges kezeléséhez.`,
     [k.ACCESS_TO_NEW_THEMES]: `Hozzáférés új témákhoz, például a cyberpunkhoz, a luxuryhoz és még sok máshoz!`,
     [k.ACCOUNT_2FA_CONFIRM]: `Megerősítés és 2FA engedélyezése`,
     [k.ACCOUNT_2FA_INTRO]: `Adjon hozzá egy hitelesítő alkalmazást (Google Authenticator, 1Password, stb.) második faktorként. A bejelentkezéskor egy 6 számjegyű kódot kell majd megadni.`,

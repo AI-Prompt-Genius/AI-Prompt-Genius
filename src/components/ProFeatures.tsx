@@ -14,6 +14,7 @@ export function ProFeatures() {
             <ul className={"list-disc ml-6"}>
                 <li>{t(k.NO_ADS)}</li>
                 <li>{t(k.ACCESS_TO_NEW_THEMES)}</li>
+                <li>{t(k.MCP_PRO_FEATURE)}</li>
                 <li>{t(k.SUPPORT_A_SMALL_DEVELOPER)}</li>
             </ul>
             <a

@@ -1,6 +1,7 @@
 import { k } from "../keys"
 
 export const zh_TW = {
+    [k.MCP_PRO_FEATURE]: `透過 MCP 連接 AI 助理，批次管理提示詞與資料夾。`,
     [k.ACCESS_TO_NEW_THEMES]: `解鎖全新主題，包括賽博龐克、奢華等更多樣式！`,
     [k.ACCOUNT_2FA_CONFIRM]: `確認並啟用雙因素驗證`,
     [k.ACCOUNT_2FA_INTRO]: `新增驗證器應用程式 (Google Authenticator、1Password 等) 作為第二因素。登入時會要求您輸入 6 位數代碼。`,

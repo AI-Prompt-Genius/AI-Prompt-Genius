@@ -1,6 +1,7 @@
 import { k } from "../keys"
 
 export const tr = {
+    [k.MCP_PRO_FEATURE]: `İstemleri ve klasörleri toplu olarak yönetmek için yapay zekâ asistanınızı MCP üzerinden bağlayın.`,
     [k.ACCESS_TO_NEW_THEMES]: `Cyberpunk, luxury ve daha fazlasını içeren yeni temalara erişim kazanın!`,
     [k.ACCOUNT_2FA_CONFIRM]: `Onayla ve 2FA'yı aç`,
     [k.ACCOUNT_2FA_INTRO]: `Bir kimlik doğrulayıcı uygulamasını (Google Authenticator, 1Password, vb.) ikinci faktör olarak ekleyin. Giriş yaparken size 6 haneli bir kod sorulacaktır.`,

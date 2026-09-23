@@ -1,6 +1,7 @@
 import { k } from "../keys"
 
 export const uk = {
+    [k.MCP_PRO_FEATURE]: `Підключіть ШІ-асистента через MCP для масового керування промптами й папками.`,
     [k.ACCESS_TO_NEW_THEMES]: `Отримайте доступ до нових тем, зокрема cyberpunk, luxury та інших!`,
     [k.ACCOUNT_2FA_CONFIRM]: `Підтвердити й увімкнути 2FA`,
     [k.ACCOUNT_2FA_INTRO]: `Додайте додаток аутентифікатора (Google Authenticator, 1Password тощо) як другий фактор. Вам буде запропоновано ввести 6-значний код при вході.`,
