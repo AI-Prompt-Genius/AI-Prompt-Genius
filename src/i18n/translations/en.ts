@@ -1,6 +1,22 @@
 import { k } from "../keys"
 
 export const en = {
+    MCP_PAGE_SUBTITLE: "Your prompt library, connected to your AI assistant.",
+    MCP_NEW_CONNECTION: "New connection",
+    MCP_EXAMPLE_ORGANIZE: "Organize my writing prompts into folders by topic.",
+    MCP_SETUP_HEADING: "Start in your AI assistant",
+    MCP_SHORT_REQUIREMENTS:
+        "Requires AI Prompt Genius Pro. Sign in and sync your extension library first.",
+    MCP_SHORT_STEP_ONE:
+        "Open your assistant\u2019s integrations settings and add a remote MCP server.",
+    MCP_SHORT_STEP_TWO: "Paste the server address below and choose OAuth to sign in.",
+    MCP_SHORT_STEP_THREE:
+        "Sign in to your AI Prompt Genius account and choose which permissions to allow.",
+    MCP_SHORT_OPENAI:
+        "OpenAI listing coming later. Manual setup availability depends on your AI client.",
+    MCP_SHORT_ACCESS:
+        "Sync to see your latest changes, or disconnect all AI clients. Your prompts stay in your library.",
+
     MCP_PRO_HELP:
         "Requires AI Prompt Genius Pro and cloud sync. A ChatGPT subscription does not include AI Prompt Genius Pro.",
     MCP_STEP_SYNC_TITLE: "Sign in and sync your library",
@@ -29,7 +45,7 @@ export const en = {
     MCP_COPY_FAILED: "Unable to copy automatically. Select the server URL and copy it manually.",
     MCP_UNAVAILABLE: "The MCP service is temporarily unavailable. Please try again later.",
 
-    MCP_TITLE: "MCP integration",
+    MCP_TITLE: "AI connections",
     MCP_DESCRIPTION:
         "Let your AI client read, create, edit, organize, and delete prompts and folders in your cloud library.",
     MCP_SETUP:

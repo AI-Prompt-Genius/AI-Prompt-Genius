@@ -1,3 +1,4 @@
+import McpIntegration from "./components/McpIntegration"
 import McpConsent from "./components/McpConsent"
 import "./App.css"
 import Sidebar from "./components/Sidebar"
@@ -67,6 +68,9 @@ function App() {
         [prompts],
     )
 
+    const [page, setPage] = useState<"prompts" | "mcp">(() =>
+        new URLSearchParams(window.location.search).get("page") === "mcp" ? "mcp" : "prompts",
+    )
     const [selectedFolder, setSelectedfolder] = useState("")
     const [filterTags, setFilterTags] = useState<string[]>([])
     const [searchTerm, setSearchTerm] = useState("")
@@ -207,6 +211,8 @@ function App() {
     return (
         <div data-theme={theme} className={`flex bg-base-100 w-[100vw] h-[100vh] overflow-hidden`}>
             <Sidebar
+                page={page}
+                onPageChange={setPage}
                 filterPrompts={filterPrompts}
                 setPrompts={setPrompts}
                 setFolders={setFolders}
@@ -220,21 +226,25 @@ function App() {
                 showToast={showToast}
             />
 
-            <MainContent
-                filteredPrompts={filteredPrompts}
-                filterPrompts={filterPrompts}
-                setPrompts={setPrompts}
-                reorderPrompts={reorderPrompts}
-                prompts={prompts}
-                tags={tags}
-                folders={folders}
-                filterTags={filterTags}
-                setFilterTags={setFilterTags}
-                setSelectedFolder={setSelectedfolder}
-                selectedFolder={selectedFolder}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-            />
+            {page === "mcp" ? (
+                <McpIntegration />
+            ) : (
+                <MainContent
+                    filteredPrompts={filteredPrompts}
+                    filterPrompts={filterPrompts}
+                    setPrompts={setPrompts}
+                    reorderPrompts={reorderPrompts}
+                    prompts={prompts}
+                    tags={tags}
+                    folders={folders}
+                    filterTags={filterTags}
+                    setFilterTags={setFilterTags}
+                    setSelectedFolder={setSelectedfolder}
+                    selectedFolder={selectedFolder}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                />
+            )}
 
             {toast && <Toast message={toastMessage} />}
             <McpConsent />

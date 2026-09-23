@@ -1,0 +1,8 @@
+# Library web app on Cloudflare Pages. Static assets bypass the MCP proxy.
+name = "ai-prompt-genius"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-07-07"
+
+[[services]]
+binding = "MCP_BACKEND"
+service = "aipromptgenius-sync"

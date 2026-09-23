@@ -24,8 +24,7 @@ export interface McpEnv {
     MCP_PUBLIC_URL?: string
     APP_ORIGIN?: string
 }
-export const mcpUrl = (env: McpEnv) =>
-    env.MCP_PUBLIC_URL ?? "https://aipromptgenius-sync.aipromptgenius.workers.dev/mcp"
+export const mcpUrl = (env: McpEnv) => env.MCP_PUBLIC_URL ?? "https://lib.aipromptgenius.app/mcp"
 export const appOrigin = (env: McpEnv) => env.APP_ORIGIN ?? "https://lib.aipromptgenius.app"
 const id = z.string().min(1).max(128)
 // Existing folder names are identifiers: never normalize them on lookup.

@@ -1,7 +1,7 @@
 # Pro MCP integration
 
 The Worker serves a stateless, OAuth-protected Streamable HTTP MCP endpoint at
-`https://aipromptgenius-sync.aipromptgenius.workers.dev/mcp`. It operates on the signed-in
+`https://lib.aipromptgenius.app/mcp`. It operates on the signed-in
 account's **cloud-synced** library. Local-only prompts must be synced first.
 
 ## Rollout
@@ -130,3 +130,13 @@ operations, concurrent conflicts, pagination, idempotency, and transaction rollb
 `npx wrangler deploy --dry-run` validates the deployment bundle without publishing it.
 Local protocol tests do not replace the staging check with the intended third-party
 MCP clients and live WorkOS/Gumroad configuration.
+
+## Custom-domain routing
+
+The library Pages project forwards `/mcp`, `/oauth/*`, and OAuth discovery paths to
+this Worker using the `MCP_BACKEND` service binding in the repository-root Wrangler
+configuration. `public/_worker.js` preserves the original request URL; this is required
+for OAuth issuer and resource validation. `public/_routes.json` keeps ordinary static
+asset requests outside the proxy. Deploy the Pages project as well as this Worker when
+changing the public MCP URL. Existing clients using the old workers.dev URL should
+reconnect with `https://lib.aipromptgenius.app/mcp`.

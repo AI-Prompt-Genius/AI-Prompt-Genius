@@ -1,0 +1,11 @@
+{
+    "version": 1,
+    "include": [
+        "/mcp",
+        "/oauth/*",
+        "/.well-known/oauth-authorization-server",
+        "/.well-known/oauth-protected-resource",
+        "/.well-known/oauth-protected-resource/mcp"
+    ],
+    "exclude": []
+}

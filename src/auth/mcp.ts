@@ -9,7 +9,7 @@ class McpAccountError extends Error {
 export function mcpErrorKey(error: unknown): string {
     return error instanceof McpAccountError ? error.translationKey : k.MCP_ERROR
 }
-export const MCP_URL = `${WORKER_URL}/mcp`
+export const MCP_URL = "https://lib.aipromptgenius.app/mcp"
 export async function mcpAccountRequest<T>(path: string, body: unknown = {}): Promise<T> {
     let token = await getAccessToken()
     if (!token) throw new McpAccountError(k.MCP_SIGN_IN_HELP)

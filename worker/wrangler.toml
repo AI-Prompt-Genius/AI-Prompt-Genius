@@ -5,6 +5,7 @@
 #          npx wrangler deploy
 name = "aipromptgenius-sync"
 main = "src/index.ts"
+workers_dev = true
 compatibility_date = "2026-07-07"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 
@@ -16,7 +17,7 @@ id = "0a64cdd47a814ce1acc9f648d459d99d"
 [vars]
 MCP_WEEKLY_TOOL_LIMIT = "10000"
 MCP_MONTHLY_TOOL_LIMIT = "40000"
-MCP_PUBLIC_URL = "https://aipromptgenius-sync.aipromptgenius.workers.dev/mcp"
+MCP_PUBLIC_URL = "https://lib.aipromptgenius.app/mcp"
 APP_ORIGIN = "https://lib.aipromptgenius.app"
 # WorkOS Client ID (public, not a secret) — from the WorkOS dashboard, per environment.
 WORKOS_CLIENT_ID = "client_01KWG8251AYSWRAXXKVHKZGSXN"

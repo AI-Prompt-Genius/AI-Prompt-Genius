@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next"
-import McpModal from "./McpModal"
 import k from "./../i18n/keys"
 import Logo from "./Logo"
 import Folder from "./Folder"
@@ -25,6 +24,8 @@ import { OPEN_AUTH_EVENT } from "./AuthModal"
 import { OPEN_ACCOUNT_EVENT } from "./ManageAccountModal"
 
 interface SidebarProps {
+    page: "prompts" | "mcp"
+    onPageChange: (page: "prompts" | "mcp") => void
     setPrompts: (...args: any[]) => void
     setFolders: (...args: any[]) => void
     folders: string[]
@@ -39,6 +40,8 @@ interface SidebarProps {
 }
 
 export default function Sidebar({
+    page,
+    onPageChange,
     setPrompts,
     setFolders,
     folders,
@@ -55,7 +58,6 @@ export default function Sidebar({
 
     const [folderModal, setFolderModal] = useState(false)
     const [settingsModal, setSettingsModal] = useState(false)
-    const [mcpModal, setMcpModal] = useState(false)
 
     // Account state — sign-in may complete in another same-origin context (fullscreen tab), so
     // track both local writes (custom event) and cross-context writes (storage event).
@@ -78,6 +80,7 @@ export default function Sidebar({
     }
 
     function newPrompt() {
+        onPageChange("prompts")
         if (getObject("prompts", []).length >= MAX_PROMPTS) {
             showToast(t(k.MAX_PROMPTS_REACHED, { max: MAX_PROMPTS.toLocaleString() }))
             return
@@ -124,6 +127,7 @@ export default function Sidebar({
     }
 
     function selectFolder(name: string) {
+        onPageChange("prompts")
         setSelectedFolder(name)
         filterPrompts(name, filterTags, searchTerm)
         document.querySelectorAll(".folder").forEach(folder => {
@@ -166,7 +170,11 @@ export default function Sidebar({
                             {/* Sidebar content here */}
                             <li
                                 key=""
-                                className="selected folder"
+                                className={
+                                    page === "prompts" && selectedFolder === ""
+                                        ? "selected folder"
+                                        : "folder"
+                                }
                                 data-folder-name="all"
                                 id="folder-"
                             >
@@ -252,7 +260,9 @@ export default function Sidebar({
                                         <li>
                                             <button
                                                 id="sidebar-mcp"
-                                                onClick={() => setMcpModal(true)}
+                                                className={page === "mcp" ? "active" : ""}
+                                                aria-current={page === "mcp" ? "page" : undefined}
+                                                onClick={() => onPageChange("mcp")}
                                             >
                                                 <BracesIcon /> {t(k.MCP_TITLE)}
                                             </button>
@@ -282,7 +292,6 @@ export default function Sidebar({
                     </a>
                 </li>
             </div>
-            {mcpModal && <McpModal onClose={() => setMcpModal(false)} />}
             {folderModal && <FolderModal setFolders={setFolders} onClose={closeFolderModal} />}
 
             {settingsModal && (
