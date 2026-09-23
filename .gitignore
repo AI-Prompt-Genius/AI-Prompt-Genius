@@ -27,3 +27,6 @@ docs/.obsidian
 *.sln
 *.sw?
 .vite
+
+# Cloudflare local state and deployment bundles
+.wrangler/
