@@ -13,7 +13,7 @@ import { useLocalStorage } from "@uidotdev/usehooks"
 import Ad from "./Ad"
 import ReactGA from "react-ga4"
 import { ProUpgradeModal } from "./ProUpgradeModal"
-import { updateProStatus } from "./js/pro"
+import { proRefreshDue, updateProStatus } from "./js/pro"
 import type { LegacyPrompt } from "../types"
 
 interface MainContentProps {
@@ -59,13 +59,14 @@ export default function MainContent({
 
     const searchInputRef = useRef<HTMLInputElement>(null)
 
-    const currentTime = new Date().getTime()
-    const lastCheckedPro = Number(localStorage.getItem("last_checked_pro") ?? 0)
-    const hasBeen24Hours = currentTime - lastCheckedPro > 24 * 60 * 60 * 1000
-
-    if (hasBeen24Hours) {
-        updateProStatus()
-    }
+    useEffect(() => {
+        const refresh = () => {
+            if (proRefreshDue()) void updateProStatus()
+        }
+        refresh()
+        window.addEventListener("focus", refresh)
+        return () => window.removeEventListener("focus", refresh)
+    }, [])
 
     function closeModal() {
         const el = document.getElementById("var_modal") as HTMLInputElement | null

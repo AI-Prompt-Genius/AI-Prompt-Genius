@@ -1,3 +1,4 @@
+import McpConsent from "./components/McpConsent"
 import "./App.css"
 import Sidebar from "./components/Sidebar"
 import MainContent from "./components/MainContent"
@@ -93,7 +94,11 @@ function App() {
 
     // New Features Modal
     const newFeaturesModalDismissed = localStorage.getItem("newFeaturesModalDismissed") === "true"
-    const showNewFeatures = !onboarding && !transferring && !newFeaturesModalDismissed
+    const showNewFeatures =
+        !onboarding &&
+        !transferring &&
+        !newFeaturesModalDismissed &&
+        !new URLSearchParams(window.location.search).has("mcp_authorize")
 
     // Filtering is now just filter-state updates; the list is derived above.
     function filterPrompts(folder: string = "", tags: string[] = [], searchTerm: string = "") {
@@ -120,6 +125,20 @@ function App() {
             })
             .catch(err => console.error("Auth bootstrap failed", err))
         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        const refresh = () => {
+            if (document.visibilityState === "visible") cloudSyncIfDue()
+        }
+        const timer = setInterval(refresh, 5 * 60 * 1000)
+        window.addEventListener("focus", refresh)
+        document.addEventListener("visibilitychange", refresh)
+        return () => {
+            clearInterval(timer)
+            window.removeEventListener("focus", refresh)
+            document.removeEventListener("visibilitychange", refresh)
+        }
     }, [])
 
     useEffect(() => {
@@ -218,6 +237,7 @@ function App() {
             />
 
             {toast && <Toast message={toastMessage} />}
+            <McpConsent />
             <AuthModal />
             <ManageAccountModal />
             <OptionSetsModal />

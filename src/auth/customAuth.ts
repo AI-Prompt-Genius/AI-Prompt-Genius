@@ -1,3 +1,4 @@
+import { clearAccountEntitlement } from "./entitlements"
 import { sendMessageToParent } from "../components/js/utils"
 
 // Custom-UI auth (WorkOS User Management, proxied through our worker so the secret API key never
@@ -82,6 +83,7 @@ async function post(path: string, body: unknown, token?: string): Promise<AuthSt
 
 function storeSession(step: AuthStep): void {
     if (step.status !== "complete" || !step.accessToken) return
+    if (step.user && step.user.id !== userId()) clearAccountEntitlement(userId())
     localStorage.setItem(ACCESS_KEY, step.accessToken)
     if (step.refreshToken) localStorage.setItem(REFRESH_KEY, step.refreshToken)
     if (step.user) {
@@ -132,12 +134,20 @@ export async function getAccessToken(forceRefresh = false): Promise<string | nul
 }
 
 function signOutLocal(): void {
+    clearAccountEntitlement(userId())
     localStorage.removeItem(ACCESS_KEY)
     localStorage.removeItem(REFRESH_KEY)
     localStorage.removeItem(SIGNED_IN_KEY)
     localStorage.removeItem(EMAIL_KEY)
     localStorage.removeItem(USER_ID_KEY)
     localStorage.removeItem(PENDING_AUTH_KEY)
+    sendMessageToParent({
+        message: "pro_status",
+        pro: localStorage.getItem("pro") === "true",
+        proKey: localStorage.getItem("pro_key"),
+        proExpiresAt: 0,
+    })
+    window.dispatchEvent(new Event("pro-changed"))
 }
 
 export async function signOut(): Promise<void> {

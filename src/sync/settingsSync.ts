@@ -90,9 +90,14 @@ export function applyPulledSettings(pulled: SettingsPayload | undefined): void {
 }
 
 /** Apply the account's Pro license key, activating Pro locally and reconciling against Gumroad. */
-export function applyPulledProKey(proKey: string | null | undefined): void {
+export function applyPulledProKey(proKey: string | null | undefined, hasEntitlement = false): void {
     if (proKey === undefined) return
     setObject(PRO_SYNCED_KEY, proKey)
+    if (hasEntitlement) {
+        if (proKey === null) localStorage.removeItem("pro_key")
+        else localStorage.setItem("pro_key", proKey)
+        return
+    }
     if (proKey === null) {
         if (localStorage.getItem("pro_key") === null) return
         localStorage.removeItem("pro_key")
@@ -102,8 +107,6 @@ export function applyPulledProKey(proKey: string | null | undefined): void {
     }
     if (proKey === localStorage.getItem("pro_key")) return
     localStorage.setItem("pro_key", proKey)
-    localStorage.setItem("pro", "true")
-    mirrorProToExtension()
     // Verify (non-incrementing) so a revoked/expired key self-corrects instead of granting Pro forever.
     updateProStatus()
 }

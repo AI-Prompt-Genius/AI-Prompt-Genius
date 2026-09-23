@@ -1,5 +1,9 @@
 # AI Prompt Genius — Sync Worker (Feature 2 scaffold)
 
+For the current Pro MCP integration, deployment prerequisites, and tool contract, see
+[MCP.md](MCP.md). Pro entitlement behavior is documented in [ENTITLEMENTS.md](ENTITLEMENTS.md).
+The scaffold notes below describe the original sync implementation.
+
 Deployable Cloudflare Worker + D1 backend that replaces the Google-Sheets sync with a per-user
 **delta** protocol (push only changed/deleted records, pull changes since your last `rev`). This is
 a **scaffold** — it needs your Cloudflare account to deploy and cannot be verified from the repo.

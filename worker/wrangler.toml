@@ -5,9 +5,19 @@
 #          npx wrangler deploy
 name = "aipromptgenius-sync"
 main = "src/index.ts"
-compatibility_date = "2024-05-01"
+compatibility_date = "2026-07-07"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+
+# Dedicated OAuth client/grant storage; local dev uses simulated KV.
+[[kv_namespaces]]
+binding = "OAUTH_KV"
+id = "0a64cdd47a814ce1acc9f648d459d99d"
 
 [vars]
+MCP_WEEKLY_TOOL_LIMIT = "10000"
+MCP_MONTHLY_TOOL_LIMIT = "40000"
+MCP_PUBLIC_URL = "https://aipromptgenius-sync.aipromptgenius.workers.dev/mcp"
+APP_ORIGIN = "https://lib.aipromptgenius.app"
 # WorkOS Client ID (public, not a secret) — from the WorkOS dashboard, per environment.
 WORKOS_CLIENT_ID = "client_01KWG8251AYSWRAXXKVHKZGSXN"
 
@@ -15,3 +25,18 @@ WORKOS_CLIENT_ID = "client_01KWG8251AYSWRAXXKVHKZGSXN"
 binding = "DB"
 database_name = "aipromptgenius"
 database_id = "4b6f5963-1c80-4525-934e-11fdcd5fc8f8"
+
+# Rate limiting uses Cloudflare counters, not a D1 write for every request.
+[[ratelimits]]
+name = "MCP_RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }
+
+# Strongly consistent per-account caps; no D1 usage accounting.
+[[durable_objects.bindings]]
+name = "MCP_USAGE"
+class_name = "McpUsage"
+
+[[migrations]]
+tag = "mcp-usage-v1"
+new_sqlite_classes = ["McpUsage"]

@@ -1,3 +1,4 @@
+import McpIntegration from "./McpIntegration"
 import i18n from "i18next"
 import k from "./../i18n/keys"
 import { useTranslation } from "react-i18next"
@@ -25,7 +26,7 @@ import { ActivatePro } from "./ActivatePro"
 import { ProFeatures } from "./ProFeatures"
 import Head2 from "./Head2"
 import Head4 from "./Head4"
-import { getProStatus } from "./js/pro"
+import { useProStatus } from "./js/pro"
 import { usePromptStore } from "../store/usePromptStore"
 import { OPEN_OPTION_SETS_EVENT } from "./OptionSetsModal"
 
@@ -57,7 +58,7 @@ export default function SettingsModal({
     const [currentPage, setCurrentPage] = useState("General")
     const [confirmDelete, setConfirmDelete] = useState(false)
 
-    const isPro = getProStatus()
+    const isPro = useProStatus()
 
     const handlePageChange = (page: string) => {
         setCurrentPage(page)
@@ -257,6 +258,7 @@ export default function SettingsModal({
                                         )}
                                         <div className={"mt-3"}>
                                             <ActivatePro in_settings={true} showToast={showToast} />
+                                            <McpIntegration />
                                         </div>
                                         <div className={"mb-2"}>
                                             <h2 className={"text-xl font-semibold my-3"}>
@@ -292,9 +294,8 @@ export default function SettingsModal({
                                                     type="checkbox"
                                                     className="toggle"
                                                     defaultChecked={
-                                                        localStorage.getItem(
-                                                            "open_in_sidebar",
-                                                        ) === "true"
+                                                        localStorage.getItem("open_in_sidebar") ===
+                                                        "true"
                                                     }
                                                     onChange={() => updateOpenInSidebar()}
                                                 />

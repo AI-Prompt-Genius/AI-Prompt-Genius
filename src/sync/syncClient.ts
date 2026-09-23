@@ -1,7 +1,9 @@
+import { applyAccountEntitlement } from "../components/js/pro"
+import type { ProEntitlement } from "../auth/entitlements"
 import type { LegacyPrompt } from "../types"
 import { getObject, setObject } from "../components/js/utils"
 import { usePromptStore, normalizeAndSort } from "../store/usePromptStore"
-import { getAccessToken, isSignedIn, signOut } from "../auth/customAuth"
+import { getAccessToken, isSignedIn, signOut, userId } from "../auth/customAuth"
 import { mergePulledPrompts, type ServerPromptRow } from "./merge"
 import {
     getSettingsPush,
@@ -71,6 +73,7 @@ async function postSync(token: string, payload: unknown): Promise<Response> {
 
 /** Push local deltas, pull server changes since our last rev, merge into the store. */
 async function performCloudSync(): Promise<boolean> {
+    const accountId = userId()
     let token = await getAccessToken()
     if (!token) return false
 
@@ -138,6 +141,7 @@ async function performCloudSync(): Promise<boolean> {
         if (!res.ok) throw new Error(`sync failed: ${res.status}`)
 
         const data = (await res.json()) as {
+            entitlement?: ProEntitlement
             protocolVersion?: number
             rev: number
             prompts: ServerPromptRow[]
@@ -152,6 +156,7 @@ async function performCloudSync(): Promise<boolean> {
         // clobber a newer local edit — the "sign in and lose my prompts" failure mode.
         // Re-read local prompts after the request so an edit made while it was in flight is not
         // overwritten by the pre-request snapshot. LWW keeps the newer local version pending.
+        if (!isSignedIn() || userId() !== accountId) return false
         const currentPrompts: LegacyPrompt[] = normalizeAndSort(getObject("prompts", []))
         const pendingDeletedIds = new Set<string>(getObject("deletedPrompts", []))
         const merged = mergePulledPrompts(currentPrompts, data.prompts).filter(
@@ -192,7 +197,10 @@ async function performCloudSync(): Promise<boolean> {
         applyPulledSettings(data.settings)
         // Do not let an in-flight response undo a license activation/removal made locally after
         // this request started. Its dirty baseline remains untouched and will push next time.
-        if (localStorage.getItem("pro_key") === proKeyAtRequest) applyPulledProKey(data.proKey)
+        if (localStorage.getItem("pro_key") === proKeyAtRequest) {
+            applyPulledProKey(data.proKey, !!data.entitlement)
+            if (data.entitlement && accountId) applyAccountEntitlement(accountId, data.entitlement)
+        }
         const sentVersions = new Map(toPush.map(prompt => [prompt.id, prompt.lastChanged ?? 0]))
         const currentById = new Map(currentPrompts.map(prompt => [prompt.id, prompt]))
         const returnedIds = new Set(data.prompts.map(row => row.id))

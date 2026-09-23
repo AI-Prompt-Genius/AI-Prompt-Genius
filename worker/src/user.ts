@@ -16,6 +16,7 @@ export async function deleteUserAccount(env: DeleteEnv, userId: string): Promise
         env.DB.prepare("DELETE FROM prompts WHERE user_id = ?").bind(userId),
         env.DB.prepare("DELETE FROM folders WHERE user_id = ?").bind(userId),
         env.DB.prepare("DELETE FROM user_settings WHERE user_id = ?").bind(userId),
+        env.DB.prepare("DELETE FROM mcp_mutations WHERE user_id = ?").bind(userId),
         env.DB.prepare("DELETE FROM sync_state WHERE user_id = ?").bind(userId),
     ])
     if (env.WORKOS_API_KEY) {

@@ -2,7 +2,7 @@ import assert from "node:assert/strict"
 import { readFile } from "node:fs/promises"
 import test from "node:test"
 import { build } from "esbuild"
-import { Miniflare } from "miniflare"
+import { Miniflare, createFetchMock } from "miniflare"
 
 async function createHarness() {
     const bundle = await build({
@@ -12,7 +12,15 @@ async function createHarness() {
         platform: "browser",
         write: false,
     })
+    const fetchMock = createFetchMock()
+    fetchMock.disableNetConnect()
+    fetchMock
+        .get("https://api.gumroad.com")
+        .intercept({ path: "/v2/licenses/verify", method: "POST" })
+        .reply(200, JSON.stringify({ success: true, purchase: {} }))
+        .persist()
     const mf = new Miniflare({
+        fetchMock,
         compatibilityDate: "2026-07-07",
         d1Databases: { DB: "sync-test" },
         modules: true,

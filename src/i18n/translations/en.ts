@@ -1,6 +1,33 @@
 import { k } from "../keys"
 
 export const en = {
+    MCP_TITLE: "MCP integration",
+    MCP_DESCRIPTION:
+        "Let your AI client read, create, edit, organize, and delete prompts and folders in your cloud library.",
+    MCP_SETUP:
+        "Sync your extension library first. Add this URL as a remote MCP server in your AI client, then sign in and approve its permissions. Only cloud-synced prompts are available.",
+    MCP_ENDPOINT: "MCP server URL",
+    MCP_SIGN_IN: "Sign in",
+    MCP_SYNC: "Sync library now",
+    MCP_SYNCED: "Your cloud library is up to date.",
+    MCP_SYNC_FAILED: "Sync failed. Please sign in and try again.",
+    MCP_DISCONNECT: "Disconnect all AI clients",
+    MCP_DISCONNECTED:
+        "All AI clients have been disconnected. Reconnect from your AI client to grant access again.",
+    MCP_ERROR: "Unable to complete the request. Please try again.",
+    MCP_CONNECT: "Connect to AI Prompt Genius",
+    MCP_SIGN_IN_HELP: "Sign in to the account that owns your cloud-synced prompt library.",
+    MCP_REQUESTS_ACCESS: "requests access to your prompt library.",
+    MCP_RETURN_TO: "Return address",
+    MCP_READ: "Read prompts and folders",
+    MCP_WRITE: "Create, edit, move, rename, and reorder prompts and folders",
+    MCP_DELETE: "Delete prompts and folders",
+    MCP_CONSENT_NOTE:
+        "The selected permissions apply to your entire cloud library. You can disconnect all AI clients in Settings at any time.",
+    MCP_PRO_REQUIRED:
+        "This connection requires Pro. If you have already activated Pro, sync your library to refresh your account status.",
+    MCP_DENY: "Deny",
+    MCP_ALLOW: "Allow access",
     [k.FOLDER]: `folder-`,
     [k.FOLDER_NAME]: `Folder Name`,
     [k.SAVE]: `Save`,
@@ -211,8 +238,7 @@ export const en = {
     [k.AUTH_CONFIRM_NEW_PASSWORD]: "Confirm new password",
     [k.AUTH_SAVING]: "Saving…",
     [k.AUTH_SAVE_NEW_PASSWORD]: "Save new password",
-    [k.AUTH_ERR_NO_FACTOR]:
-        "This account requires 2FA, but no authenticator factor was found.",
+    [k.AUTH_ERR_NO_FACTOR]: "This account requires 2FA, but no authenticator factor was found.",
     [k.AUTH_ERR_CHALLENGE_START]: "Couldn't start the 2FA challenge.",
     [k.AUTH_ERR_GENERIC]: "Something went wrong — please try again.",
     [k.AUTH_ERR_PASSWORD_MISMATCH]: "Passwords don't match — please re-enter them.",
@@ -241,8 +267,7 @@ export const en = {
     [k.ACCOUNT_DELETE_INTRO]:
         "Permanently delete your account. This removes your login and every prompt, folder, and setting synced to the cloud. This can't be undone.",
     [k.ACCOUNT_DELETE_BTN]: "Delete account",
-    [k.ACCOUNT_DELETE_CONFIRM_PROMPT]:
-        "To confirm, type your email address ({{email}}) below.",
+    [k.ACCOUNT_DELETE_CONFIRM_PROMPT]: "To confirm, type your email address ({{email}}) below.",
     [k.ACCOUNT_DELETE_TYPE_EMAIL]: "Type your email to confirm",
     [k.ACCOUNT_DELETE_CONFIRM_BTN]: "Permanently delete my account",
     [k.ACCOUNT_DELETE_CANCEL]: "Cancel",

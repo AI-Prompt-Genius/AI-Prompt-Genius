@@ -1,5 +1,5 @@
 import React from "react"
-import { getProStatus } from "./js/pro"
+import { useProStatus } from "./js/pro"
 import { AdsOnBreadSlot } from "@adsonbread/react"
 import { ThemeContext } from "./ThemeContext"
 
@@ -9,7 +9,7 @@ function getAdsTheme(theme: string) {
 }
 
 export default function Ad() {
-    const isPro = getProStatus()
+    const isPro = useProStatus()
     const { theme } = React.useContext(ThemeContext)
     const lang = localStorage.getItem("lng") ?? "en"
     const adTheme = getAdsTheme(theme)

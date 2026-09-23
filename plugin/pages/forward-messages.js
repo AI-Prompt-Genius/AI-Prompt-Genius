@@ -31,7 +31,11 @@ window.addEventListener(
             // Mirror the license key too, not just the boolean: background.js has no access to
             // the app's localStorage, and without a key it can only trust this mirror — which
             // defaults to false and would nag a paying user who hasn't opened the app lately.
-            const patch = { pro: !!message.pro, proCheckedAt: Date.now() }
+            const patch = {
+                pro: !!message.pro,
+                proCheckedAt: Date.now(),
+                proExpiresAt: Number.isFinite(message.proExpiresAt) ? message.proExpiresAt : 0,
+            }
             if (typeof message.proKey === "string") patch.proKey = message.proKey
             else if (message.proKey === null) patch.proKey = null
             chrome.storage.local.set(patch)
@@ -46,11 +50,14 @@ window.addEventListener(
 // drop the Pro mirror while the app's own localStorage stayed Pro — the app kept showing Pro
 // while background.js reverted to treating them as a free user.
 function clearStorageKeepingPro() {
-    chrome.storage.local.get({ pro: false, proKey: null, proCheckedAt: 0 }, function (kept) {
-        chrome.storage.local.clear(function () {
-            chrome.storage.local.set(kept)
-        })
-    })
+    chrome.storage.local.get(
+        { pro: false, proKey: null, proCheckedAt: 0, proExpiresAt: 0 },
+        function (kept) {
+            chrome.storage.local.clear(function () {
+                chrome.storage.local.set(kept)
+            })
+        },
+    )
 }
 
 function exportFiles(h = true, p = true, s = true) {

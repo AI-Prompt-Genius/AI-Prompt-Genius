@@ -1,14 +1,13 @@
 import Head2 from "./Head2"
 import Head4 from "./Head4"
-import { activateLicense, getProStatus } from "./js/pro"
-import { useState } from "react"
+import { activateLicense, useProStatus } from "./js/pro"
 import { CrownIcon } from "./icons/Icons"
 import { useTranslation } from "react-i18next"
 import k from "./../i18n/keys"
 export function ActivatePro(props: { in_settings: boolean; showToast: (message: string) => void }) {
     const { t, i18n } = useTranslation()
 
-    const [isPro, setPro] = useState(getProStatus())
+    const isPro = useProStatus()
     const licenseKey = localStorage.getItem("pro_key") ?? ""
 
     async function activatePro() {
@@ -19,7 +18,6 @@ export function ActivatePro(props: { in_settings: boolean; showToast: (message: 
         } else if (success) {
             props.showToast(t(k.SUCCESSFULLY_ACTIVATED_PRO))
             ;(document.getElementById("licenseKey") as HTMLInputElement).disabled = true
-            setPro(true)
         } else {
             props.showToast(t(k.ERROR_ACTIVATING_PRO))
         }
@@ -58,7 +56,7 @@ export function ActivatePro(props: { in_settings: boolean; showToast: (message: 
                     {t(k.ACTIVATE)}
                 </button>
             </div>
-            {isPro && (
+            {isPro && licenseKey && (
                 <p className={"my-3"}>
                     <a
                         className={"link link-primary"}

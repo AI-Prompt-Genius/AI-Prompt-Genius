@@ -52,7 +52,15 @@ CREATE TABLE IF NOT EXISTS sync_state (
   folders_updated_at  INTEGER NOT NULL DEFAULT 0,
   settings_data       TEXT NOT NULL DEFAULT '{}',
   settings_updated_at INTEGER NOT NULL DEFAULT 0,
-  pro_key              TEXT
+  pro_key              TEXT,
+  gumroad_key_hash      TEXT,
+  gumroad_valid_until   INTEGER NOT NULL DEFAULT 0,
+  gumroad_check_after   INTEGER NOT NULL DEFAULT 0,
+  gumroad_unavailable   INTEGER NOT NULL DEFAULT 0,
+  stripe_pro_until     INTEGER NOT NULL DEFAULT 0,
+  stripe_version       INTEGER NOT NULL DEFAULT 0,
+  mcp_write_id         TEXT,
+  mcp_auth_epoch       INTEGER NOT NULL DEFAULT 0
 );
 
 -- Promotions managed from the admin dashboard (worker/src/admin.ts) and polled by the
@@ -73,3 +81,17 @@ CREATE TABLE IF NOT EXISTS promos (
 -- for workspace_id + a membership check to share a library.
 -- CREATE TABLE workspaces (...);
 -- CREATE TABLE memberships (workspace_id, user_id, role);
+
+
+-- Only a bulk mutation gets a receipt; reads, discovery, and idle sync never write one.
+CREATE TABLE IF NOT EXISTS mcp_mutations (
+  user_id TEXT NOT NULL,
+  request_id TEXT NOT NULL,
+  payload_hash TEXT NOT NULL,
+  result TEXT NOT NULL,
+  created_at INTEGER NOT NULL,
+  PRIMARY KEY (user_id, request_id)
+);
+CREATE INDEX IF NOT EXISTS idx_mcp_mutations_expiry ON mcp_mutations(user_id, created_at);
+-- Folder-wide moves/renames/deletes do not scan unrelated accounts or folders.
+CREATE INDEX IF NOT EXISTS idx_prompts_folder ON prompts(user_id, folder) WHERE deleted_at IS NULL;

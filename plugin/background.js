@@ -5,13 +5,16 @@ const N_MIN = 360
 const PRO_TTL = 24 * 60 * 60 * 1000
 
 async function isPro() {
-    const { pro, proKey, proCheckedAt } = await chrome.storage.local.get({
+    const { pro, proKey, proCheckedAt, proExpiresAt } = await chrome.storage.local.get({
         pro: false,
         proKey: null,
         proCheckedAt: 0,
+        proExpiresAt: 0,
     })
-    if (!proKey) return pro
-    if (pro && Date.now() - proCheckedAt < PRO_TTL) return true
+    // Account membership can grant access even when an old Gumroad key is invalid.
+    if (pro && proExpiresAt > Date.now()) return true
+    if (!proKey) return proExpiresAt ? false : pro
+    if (pro && !proExpiresAt && Date.now() - proCheckedAt < PRO_TTL) return true
 
     try {
         const res = await fetch(VERIFY_URL, {
@@ -22,7 +25,25 @@ async function isPro() {
         if (!res.ok) return true
         const data = await res.json()
         if (typeof data.valid !== "boolean") return true
-        await chrome.storage.local.set({ pro: data.valid, proCheckedAt: Date.now() })
+        // A newer app mirror must win over an in-flight legacy check.
+        const latest = await chrome.storage.local.get({
+            pro: false,
+            proKey: null,
+            proCheckedAt: 0,
+            proExpiresAt: 0,
+        })
+        if (
+            latest.proKey !== proKey ||
+            latest.proCheckedAt !== proCheckedAt ||
+            latest.proExpiresAt !== proExpiresAt
+        ) {
+            return latest.pro && (!latest.proExpiresAt || latest.proExpiresAt > Date.now())
+        }
+        await chrome.storage.local.set({
+            pro: data.valid,
+            proCheckedAt: Date.now(),
+            proExpiresAt: 0,
+        })
         return data.valid
     } catch (err) {
         return true

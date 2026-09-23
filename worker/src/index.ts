@@ -1,3 +1,5 @@
+export { McpUsage } from "./mcpUsage"
+import { oauthProvider, handleMcpAuthorization, type OAuthEnv } from "./mcpOAuth"
 // AI Prompt Genius sync Worker (Cloudflare Workers + D1), authenticated with WorkOS AuthKit.
 //
 // The SPA signs users in via AuthKit (hosted UI — email/password, Google, passkeys, TOTP MFA all
@@ -12,12 +14,13 @@
 import { createRemoteJWKSet, jwtVerify } from "jose"
 import { handleAuth } from "./auth"
 import { handleAdmin, handlePublicPromos } from "./admin"
-import { handleLicenseVerify } from "./license"
+import { handleLicenseVerify, proJson } from "./license"
+import { resolveEntitlement, type EntitlementState } from "./entitlements"
 import { handleSync } from "./sync"
 
-export interface Env {
-    DB: D1Database
-    WORKOS_CLIENT_ID: string
+export interface Env extends OAuthEnv, Pick<CloudflareBindings, "DB" | "WORKOS_CLIENT_ID"> {
+    MCP_RATE_LIMITER?: CloudflareBindings["MCP_RATE_LIMITER"]
+    MCP_USAGE?: CloudflareBindings["MCP_USAGE"]
     WORKOS_API_KEY?: string
     // Bearer secret gating the /admin dashboard + API (wrangler secret put ADMIN_TOKEN).
     ADMIN_TOKEN?: string
@@ -57,10 +60,14 @@ async function verifyWorkosToken(req: Request, env: Env): Promise<string | null>
     }
 }
 
-export default {
+export const application = {
     async fetch(req: Request, env: Env): Promise<Response> {
         if (req.method === "OPTIONS") return json({})
         const url = new URL(req.url)
+
+        if (url.pathname === "/oauth/authorize" || url.pathname.startsWith("/integrations/mcp/")) {
+            return handleMcpAuthorization(req, env, await verifyWorkosToken(req, env))
+        }
 
         // Public promo feed the extension polls (no auth).
         if (url.pathname === "/promos" && req.method === "GET") {
@@ -69,8 +76,30 @@ export default {
 
         // Pro check for the extension's background script, which has no access to the SPA's
         // localStorage and can't call Gumroad directly without a new host permission.
-        if (url.pathname === "/license/verify" && req.method === "POST") {
-            return handleLicenseVerify(req)
+        if (
+            ["/license/verify", "/license/activate"].includes(url.pathname) &&
+            req.method === "POST"
+        ) {
+            return handleLicenseVerify(req, url.pathname === "/license/activate")
+        }
+
+        if (url.pathname === "/entitlements" && req.method === "POST") {
+            const userId = await verifyWorkosToken(req, env)
+            if (!userId) return proJson({ error: "unauthorized" }, 401)
+            const state = await env.DB.prepare("SELECT * FROM sync_state WHERE user_id = ?")
+                .bind(userId)
+                .first<EntitlementState>()
+            // Unsynced accounts have no server entitlement. Do not create rows on status reads.
+            const entitlement = state
+                ? await resolveEntitlement(env.DB, userId, state)
+                : {
+                      pro: false,
+                      sources: [],
+                      status: "verified",
+                      validUntil: 0,
+                      refreshAfter: Date.now() + 24 * 60 * 60 * 1000,
+                  }
+            return proJson(entitlement, entitlement.status === "unavailable" ? 503 : 200)
         }
 
         // Admin dashboard + API (gated inside handleAdmin by ADMIN_TOKEN).
@@ -90,5 +119,25 @@ export default {
         }
 
         return json({ error: "not found" }, 404)
+    },
+}
+
+export default {
+    async fetch(req: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
+        // Existing sync/auth can still run before the new KV binding is provisioned.
+        if (!env.OAUTH_KV) {
+            const path = new URL(req.url).pathname
+            if (
+                path.startsWith("/mcp") ||
+                path.startsWith("/oauth/") ||
+                path.startsWith("/.well-known/") ||
+                path.startsWith("/integrations/mcp/")
+            ) {
+                return proJson({ error: "mcp_not_configured" }, 503)
+            }
+            return application.fetch(req, env)
+        }
+        if (!ctx) throw new Error("Missing Worker execution context")
+        return oauthProvider(env, application).fetch(req, env, ctx)
     },
 }

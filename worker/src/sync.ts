@@ -1,3 +1,5 @@
+import { resolveEntitlement, type EntitlementState } from "./entitlements"
+
 // D1 sync protocol. A singleton sync_state row is the cheap version check for an account: an idle
 // request reads exactly that row and returns without touching prompts or issuing a write.
 
@@ -21,7 +23,7 @@ interface FolderStatePayload {
     updatedAt: number
 }
 
-interface SyncStateRow {
+interface SyncStateRow extends EntitlementState {
     rev: number
     protocol_version: number
     folders: string
@@ -47,6 +49,7 @@ function json(data: unknown, status = 200): Response {
         status,
         headers: {
             "content-type": "application/json",
+            "cache-control": "no-store",
             "access-control-allow-origin": "*",
             "access-control-allow-headers": "content-type, authorization",
             "access-control-allow-methods": "POST, OPTIONS",
@@ -156,8 +159,7 @@ async function createStateIfMissing(
         .run()
 
     const state = await env.DB.prepare(
-        `SELECT rev, protocol_version, folders, folders_updated_at,
-                settings_data, settings_updated_at, pro_key
+        `SELECT *
          FROM sync_state WHERE user_id = ?`,
     )
         .bind(userId)
@@ -166,10 +168,16 @@ async function createStateIfMissing(
     return state
 }
 
-function stateResponse(state: SyncStateRow, prompts: unknown[] = []): Response {
+async function stateResponse(
+    env: SyncEnv,
+    userId: string,
+    state: SyncStateRow,
+    prompts: unknown[] = [],
+): Promise<Response> {
     const folders = safeFolders(state.folders)
     return json({
         protocolVersion: 2,
+        entitlement: await resolveEntitlement(env.DB, userId, state),
         rev: state.rev,
         prompts,
         // Keep the legacy array while current clients roll out; folderState is authoritative for
@@ -210,8 +218,7 @@ export async function handleSync(req: Request, env: SyncEnv, userId: string): Pr
     )
 
     let state = await env.DB.prepare(
-        `SELECT rev, protocol_version, folders, folders_updated_at,
-                settings_data, settings_updated_at, pro_key
+        `SELECT *
          FROM sync_state WHERE user_id = ?`,
     )
         .bind(userId)
@@ -271,7 +278,8 @@ export async function handleSync(req: Request, env: SyncEnv, userId: string): Pr
     const effectiveSinceRev = hasProtocolUpgrade || requestedRev > state.rev ? -1 : requestedRev
 
     // This is the common path: one indexed row read, no write and no prompt-table read.
-    if (!hasCandidateMutation && effectiveSinceRev === state.rev) return stateResponse(state)
+    if (!hasCandidateMutation && effectiveSinceRev === state.rev)
+        return stateResponse(env, userId, state)
 
     if (hasCandidateMutation) {
         const promptsJson = JSON.stringify(incomingPrompts)
@@ -408,8 +416,7 @@ export async function handleSync(req: Request, env: SyncEnv, userId: string): Pr
                  )`,
             ).bind(userId, effectiveSinceRev, promptsJson, deletedJson),
             env.DB.prepare(
-                `SELECT rev, protocol_version, folders, folders_updated_at,
-                        settings_data, settings_updated_at, pro_key
+                `SELECT *
                  FROM sync_state WHERE user_id = ?`,
             ).bind(userId),
         )
@@ -418,12 +425,12 @@ export async function handleSync(req: Request, env: SyncEnv, userId: string): Pr
         const changed = results[results.length - 2].results ?? []
         const nextState = results[results.length - 1].results?.[0] as SyncStateRow | undefined
         if (!nextState) throw new Error("sync state disappeared during mutation")
-        return stateResponse(nextState, changed)
+        return stateResponse(env, userId, nextState, changed)
     }
 
     // The account changed on another device. Only now do we touch the prompt table.
     const changed = await env.DB.prepare("SELECT * FROM prompts WHERE user_id = ? AND rev > ?")
         .bind(userId, effectiveSinceRev)
         .all()
-    return stateResponse(state, changed.results ?? [])
+    return stateResponse(env, userId, state, changed.results ?? [])
 }
