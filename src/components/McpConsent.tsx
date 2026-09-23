@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { isSignedIn, userEmail, userId } from "../auth/customAuth"
-import { mcpAccountRequest } from "../auth/mcp"
+import k from "../i18n/keys"
+import { mcpAccountRequest, mcpErrorKey } from "../auth/mcp"
 import { OPEN_AUTH_EVENT } from "./AuthModal"
 import { useProStatus } from "./js/pro"
 import { cloudSyncNow } from "../sync/syncClient"
@@ -49,7 +50,7 @@ export default function McpConsent() {
                 }
             })
             .catch(reason => {
-                if (active) setError(reason.message)
+                if (active) setError(mcpErrorKey(reason))
             })
         return () => {
             active = false
@@ -67,7 +68,7 @@ export default function McpConsent() {
             })
             window.location.assign(result.redirectTo)
         } catch (reason) {
-            setError(reason instanceof Error ? reason.message : t("MCP_ERROR"))
+            setError(mcpErrorKey(reason))
             setBusy(false)
         }
     }
@@ -80,16 +81,16 @@ export default function McpConsent() {
         >
             <div className="modal-box space-y-4">
                 <h2 className="text-xl font-semibold" id="mcp-consent-title">
-                    {t("MCP_CONNECT")}
+                    {t(k.MCP_CONNECT)}
                 </h2>
                 {!signedIn ? (
                     <>
-                        <p>{t("MCP_SIGN_IN_HELP")}</p>
+                        <p>{t(k.MCP_SIGN_IN_HELP)}</p>
                         <button
                             className="btn btn-primary"
                             onClick={() => window.dispatchEvent(new Event(OPEN_AUTH_EVENT))}
                         >
-                            {t("MCP_SIGN_IN")}
+                            {t(k.MCP_SIGN_IN)}
                         </button>
                     </>
                 ) : (
@@ -98,10 +99,10 @@ export default function McpConsent() {
                         {details && (
                             <>
                                 <p>
-                                    <strong>{details.clientName}</strong> {t("MCP_REQUESTS_ACCESS")}
+                                    {t(k.MCP_REQUESTS_ACCESS, { clientName: details.clientName })}
                                 </p>
                                 <p className="text-sm break-all">
-                                    {t("MCP_RETURN_TO")}: {details.redirectUri}
+                                    {t(k.MCP_RETURN_TO)}: {details.redirectUri}
                                 </p>
                                 {details.scopes.map(scope => (
                                     <label key={scope} className="flex gap-3 items-center">
@@ -119,24 +120,24 @@ export default function McpConsent() {
                                         />
                                         {t(
                                             scope === "library:read"
-                                                ? "MCP_READ"
+                                                ? k.MCP_READ
                                                 : scope === "library:write"
-                                                ? "MCP_WRITE"
-                                                : "MCP_DELETE",
+                                                ? k.MCP_WRITE
+                                                : k.MCP_DELETE,
                                         )}
                                     </label>
                                 ))}
-                                <p>{t("MCP_CONSENT_NOTE")}</p>
+                                <p>{t(k.MCP_CONSENT_NOTE)}</p>
                                 {!pro && (
                                     <p>
-                                        {t("MCP_PRO_REQUIRED")}{" "}
+                                        {t(k.MCP_PRO_REQUIRED)}{" "}
                                         <a
                                             className="link"
                                             href="https://link.aipromptgenius.app/upgrade-pro"
                                             target="_blank"
                                             rel="noreferrer"
                                         >
-                                            {t("UPGRADE_TO_PRO")}
+                                            {t(k.UPGRADE_TO_PRO)}
                                         </a>
                                     </p>
                                 )}
@@ -146,11 +147,11 @@ export default function McpConsent() {
                                     onClick={async () => {
                                         setBusy(true)
                                         const ok = await cloudSyncNow()
-                                        if (!ok) setError(t("MCP_SYNC_FAILED"))
+                                        if (!ok) setError(k.MCP_SYNC_FAILED)
                                         setBusy(false)
                                     }}
                                 >
-                                    {t("MCP_SYNC")}
+                                    {t(k.MCP_SYNC)}
                                 </button>
                                 <div className="modal-action">
                                     <button
@@ -158,14 +159,14 @@ export default function McpConsent() {
                                         disabled={busy}
                                         onClick={() => decide(false)}
                                     >
-                                        {t("MCP_DENY")}
+                                        {t(k.MCP_DENY)}
                                     </button>
                                     <button
                                         className="btn btn-primary"
                                         disabled={busy || !pro || !scopes.length}
                                         onClick={() => decide(true)}
                                     >
-                                        {t("MCP_ALLOW")}
+                                        {t(k.MCP_ALLOW)}
                                     </button>
                                 </div>
                             </>
@@ -174,7 +175,7 @@ export default function McpConsent() {
                 )}
                 {error && (
                     <p role="alert" className="text-error">
-                        {error}
+                        {t(error)}
                     </p>
                 )}
             </div>

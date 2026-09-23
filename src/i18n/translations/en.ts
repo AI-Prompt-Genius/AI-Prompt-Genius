@@ -1,6 +1,34 @@
 import { k } from "../keys"
 
 export const en = {
+    MCP_PRO_HELP:
+        "Requires AI Prompt Genius Pro and cloud sync. A ChatGPT subscription does not include AI Prompt Genius Pro.",
+    MCP_STEP_SYNC_TITLE: "Sign in and sync your library",
+    MCP_STEP_SYNC_BODY:
+        "In the AI Prompt Genius extension, sign in to your Pro account and sync your prompts. Use that same account when connecting your AI client. Only cloud-synced prompts are available.",
+    MCP_STEP_CONNECT_TITLE: "Add AI Prompt Genius to your AI client",
+    MCP_STEP_CONNECT_BODY:
+        "Open your AI client’s MCP or integrations settings and add a remote server. Name it AI Prompt Genius, paste the URL below, and choose OAuth authentication if asked. Your client must support remote MCP with OAuth.",
+    MCP_OPENAI_PENDING:
+        "An OpenAI plugin listing is planned but is not available yet. Until it is published, use manual MCP setup in a compatible client. ChatGPT manual setup depends on your account and workspace permissions.",
+    MCP_OPENAI_GUIDE: "OpenAI’s current connection guide",
+    MCP_STEP_APPROVE_TITLE: "Sign in and choose permissions",
+    MCP_STEP_APPROVE_BODY:
+        "Follow the connection’s sign-in prompt. Check that the AI Prompt Genius account is correct, select the read, edit, or delete permissions you want to grant, then choose Allow access. Return to your AI client to finish connecting.",
+    MCP_STEP_TEST_TITLE: "Try your connection",
+    MCP_STEP_TEST_BODY:
+        "Enable AI Prompt Genius in a conversation in your AI client and try this request:",
+    MCP_TEST_PROMPT: "List the folders in my AI Prompt Genius library.",
+    MCP_SYNC_HELP:
+        "Changes made by your AI client appear after the extension syncs. Use Sync library now to refresh immediately.",
+    MCP_ACCESS_TITLE: "Manage access",
+    MCP_ACCESS_HELP:
+        "Disconnecting removes access for all connected AI clients. It does not delete your prompts. Reconnect in each client to grant access again.",
+    MCP_COPY: "Copy server URL",
+    MCP_COPIED: "Server URL copied.",
+    MCP_COPY_FAILED: "Unable to copy automatically. Select the server URL and copy it manually.",
+    MCP_UNAVAILABLE: "The MCP service is temporarily unavailable. Please try again later.",
+
     MCP_TITLE: "MCP integration",
     MCP_DESCRIPTION:
         "Let your AI client read, create, edit, organize, and delete prompts and folders in your cloud library.",
@@ -17,7 +45,7 @@ export const en = {
     MCP_ERROR: "Unable to complete the request. Please try again.",
     MCP_CONNECT: "Connect to AI Prompt Genius",
     MCP_SIGN_IN_HELP: "Sign in to the account that owns your cloud-synced prompt library.",
-    MCP_REQUESTS_ACCESS: "requests access to your prompt library.",
+    MCP_REQUESTS_ACCESS: "{{clientName}} requests access to your prompt library.",
     MCP_RETURN_TO: "Return address",
     MCP_READ: "Read prompts and folders",
     MCP_WRITE: "Create, edit, move, rename, and reorder prompts and folders",

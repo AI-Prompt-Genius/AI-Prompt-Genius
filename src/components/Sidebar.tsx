@@ -1,4 +1,5 @@
-import i18n from "i18next"
+import { useTranslation } from "react-i18next"
+import McpModal from "./McpModal"
 import k from "./../i18n/keys"
 import Logo from "./Logo"
 import Folder from "./Folder"
@@ -7,6 +8,7 @@ import { getCurrentTimestamp, getObject, MAX_PROMPTS, newBlankPrompt, uuid } fro
 import {
     ArrowNewWindow,
     Cog,
+    BracesIcon,
     HomeIcon,
     PlusDoc,
     PlusFolder,
@@ -49,10 +51,11 @@ export default function Sidebar({
     setSearchTerm,
     showToast,
 }: SidebarProps) {
-    const t = i18n.t
+    const { t } = useTranslation()
 
     const [folderModal, setFolderModal] = useState(false)
     const [settingsModal, setSettingsModal] = useState(false)
+    const [mcpModal, setMcpModal] = useState(false)
 
     // Account state — sign-in may complete in another same-origin context (fullscreen tab), so
     // track both local writes (custom event) and cross-context writes (storage event).
@@ -213,7 +216,9 @@ export default function Sidebar({
                                 <li>
                                     <a
                                         id="sidebar-signin"
-                                        onClick={() => window.dispatchEvent(new Event(OPEN_AUTH_EVENT))}
+                                        onClick={() =>
+                                            window.dispatchEvent(new Event(OPEN_AUTH_EVENT))
+                                        }
                                     >
                                         <UserIcon /> {t(k.AUTH_SIGN_IN)}
                                     </a>
@@ -231,7 +236,9 @@ export default function Sidebar({
                                             <a
                                                 id="sidebar-account"
                                                 onClick={() =>
-                                                    window.dispatchEvent(new Event(OPEN_ACCOUNT_EVENT))
+                                                    window.dispatchEvent(
+                                                        new Event(OPEN_ACCOUNT_EVENT),
+                                                    )
                                                 }
                                             >
                                                 <UserIcon /> {t(k.MANAGE_ACCOUNT)}
@@ -241,6 +248,14 @@ export default function Sidebar({
                                             <a onClick={openSettings}>
                                                 <Cog /> {t(k.SETTINGS)}
                                             </a>
+                                        </li>
+                                        <li>
+                                            <button
+                                                id="sidebar-mcp"
+                                                onClick={() => setMcpModal(true)}
+                                            >
+                                                <BracesIcon /> {t(k.MCP_TITLE)}
+                                            </button>
                                         </li>
                                         <li>
                                             <a id="sidebar-signout" onClick={handleSignOut}>
@@ -267,6 +282,7 @@ export default function Sidebar({
                     </a>
                 </li>
             </div>
+            {mcpModal && <McpModal onClose={() => setMcpModal(false)} />}
             {folderModal && <FolderModal setFolders={setFolders} onClose={closeFolderModal} />}
 
             {settingsModal && (

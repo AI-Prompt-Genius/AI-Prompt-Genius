@@ -1,4 +1,3 @@
-import McpIntegration from "./McpIntegration"
 import i18n from "i18next"
 import k from "./../i18n/keys"
 import { useTranslation } from "react-i18next"
@@ -258,7 +257,6 @@ export default function SettingsModal({
                                         )}
                                         <div className={"mt-3"}>
                                             <ActivatePro in_settings={true} showToast={showToast} />
-                                            <McpIntegration />
                                         </div>
                                         <div className={"mb-2"}>
                                             <h2 className={"text-xl font-semibold my-3"}>
