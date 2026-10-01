@@ -189,7 +189,6 @@ export const zh_CN = {
     [k.NIGHT]: `夜间`,
     [k.NONE]: `无`,
     [k.NORD]: `北欧`,
-    [k.REMOVE_ADS]: "移除广告",
     [k.NO_ADS]: `无广告！移除每两月一次的弹窗和文字广告。`,
     [k.NO_FOLDER]: `无文件夹`,
     [k.NO_OPTION_SETS_YET]: `尚无选项集。请在下方创建一个。`,

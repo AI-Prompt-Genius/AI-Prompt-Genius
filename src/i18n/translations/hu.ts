@@ -204,7 +204,6 @@ export const hu = {
     [k.NIGHT]: `Éjszaka`,
     [k.NONE]: `Nincs`,
     [k.NORD]: `Nord`,
-    [k.REMOVE_ADS]: "Hirdetések eltávolítása",
     [k.NO_ADS]: `Nincs reklám! Eltávolítja a kéthavonta megjelenő felugró ablakokat és szöveges hirdetéseket.`,
     [k.NO_FOLDER]: `Nincs mappa`,
     [k.NO_OPTION_SETS_YET]: `Még nincs opciókészlet. Hozzon létre egyet alább.`,

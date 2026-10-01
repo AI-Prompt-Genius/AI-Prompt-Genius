@@ -200,7 +200,6 @@ export const tr = {
     [k.NIGHT]: `Gece`,
     [k.NONE]: `Yok`,
     [k.NORD]: `Nord`,
-    [k.REMOVE_ADS]: "Reklamları kaldır",
     [k.NO_ADS]: `Reklamsız! İki ayda bir açılan pencereleri ve metin reklamlarını kaldırır.`,
     [k.NO_FOLDER]: `Klasör Yok`,
     [k.NO_OPTION_SETS_YET]: `Henüz seçenek kümesi yok. Aşağıdan bir tane oluşturun.`,

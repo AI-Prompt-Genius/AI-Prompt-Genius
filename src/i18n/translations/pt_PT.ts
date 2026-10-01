@@ -204,7 +204,6 @@ export const pt_PT = {
     [k.NIGHT]: `Noite`,
     [k.NONE]: `Nenhum`,
     [k.NORD]: `Nord`,
-    [k.REMOVE_ADS]: "Remover anúncios",
     [k.NO_ADS]: `Sem anúncios! Remove as janelas de popup e anúncios de texto bimestrais.`,
     [k.NO_FOLDER]: `Sem Pasta`,
     [k.NO_OPTION_SETS_YET]: `Ainda não há conjuntos de opções. Crie um abaixo.`,

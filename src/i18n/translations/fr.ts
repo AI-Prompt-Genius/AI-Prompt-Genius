@@ -200,7 +200,6 @@ export const fr = {
     [k.NIGHT]: `Nuit`,
     [k.NONE]: `Aucun`,
     [k.NORD]: `Nord`,
-    [k.REMOVE_ADS]: "Supprimer les publicités",
     [k.NO_ADS]: `Pas de publicité ! Supprime les fenêtres pop-up et les annonces textuelles bimensuelles.`,
     [k.NO_FOLDER]: `Aucun dossier`,
     [k.NO_OPTION_SETS_YET]: `Aucun ensemble d'options pour le moment. Créez-en un ci-dessous.`,
