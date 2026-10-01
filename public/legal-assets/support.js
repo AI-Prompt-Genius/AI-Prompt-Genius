@@ -1,1 +1,0 @@
-document.getElementById("copy").addEventListener("click",async()=>{const field=document.getElementById("endpoint"),status=document.getElementById("copy-status");try{await navigator.clipboard.writeText(field.value);status.textContent="Server address copied."}catch{field.select();status.textContent="Select the server address and copy it manually."}})

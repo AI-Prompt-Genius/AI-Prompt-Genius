@@ -34,15 +34,15 @@ https://aipromptgenius.app
 
 ### supportURL
 
-https://lib.aipromptgenius.app/support/
+https://www.aipromptgenius.app/support/
 
 ### privacyPolicyURL
 
-https://lib.aipromptgenius.app/privacy/
+https://www.aipromptgenius.app/privacy/ai-connections/
 
 ### termsOfServiceURL
 
-https://lib.aipromptgenius.app/terms/
+https://www.aipromptgenius.app/terms/
 
 ## Reviewer access — enter privately in the portal
 

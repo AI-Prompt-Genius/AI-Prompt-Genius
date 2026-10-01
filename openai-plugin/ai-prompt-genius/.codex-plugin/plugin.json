@@ -31,9 +31,9 @@
       "Delete selected prompts and folders"
     ],
     "websiteURL": "https://aipromptgenius.app",
-    "supportURL": "https://lib.aipromptgenius.app/support/",
-    "privacyPolicyURL": "https://lib.aipromptgenius.app/privacy/",
-    "termsOfServiceURL": "https://lib.aipromptgenius.app/terms/",
+    "supportURL": "https://www.aipromptgenius.app/support/",
+    "privacyPolicyURL": "https://www.aipromptgenius.app/privacy/ai-connections/",
+    "termsOfServiceURL": "https://www.aipromptgenius.app/terms/",
     "defaultPrompt": [
       "List my saved prompts and folders.",
       "Organize my writing prompts into folders by topic.",
