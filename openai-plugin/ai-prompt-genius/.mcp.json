@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "ai-prompt-genius": {
+      "url": "https://lib.aipromptgenius.app/mcp"
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "name": "ai-prompt-genius",
+  "version": "1.0.0",
+  "description": "Read, create, update, and organize your AI Prompt Genius cloud prompt library. Requires AI Prompt Genius Pro.",
+  "author": {
+    "name": "AI Prompt Genius",
+    "email": "aipromptgenius@gmail.com",
+    "url": "https://aipromptgenius.app"
+  },
+  "homepage": "https://aipromptgenius.app",
+  "repository": "https://github.com/AI-Prompt-Genius/AI-Prompt-Genius",
+  "license": "CC-BY-NC-SA-4.0",
+  "keywords": [
+    "prompts",
+    "prompt library",
+    "productivity",
+    "folders",
+    "MCP"
+  ],
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "AI Prompt Genius",
+    "shortDescription": "Manage your prompt library",
+    "longDescription": "Bring your AI Prompt Genius library into conversations with your AI assistant. Find and read saved prompts, create or update prompts in bulk, and organize your library with folders, renaming, moving, and custom ordering. You can also delete selected prompts or folders when you grant delete access.\n\nBuilt for people who maintain a reusable prompt library for writing, research, coding, or everyday work. Ask your assistant to organize prompts by topic, save a set of reusable templates, or update several prompts together.\n\nRequires an AI Prompt Genius account with Pro access and cloud synchronization. Supported legacy Pro licenses work too. A ChatGPT subscription does not include AI Prompt Genius Pro. Only prompts synced to your cloud library are available; changes appear in the extension after syncing.\n\nYou choose read, edit, and delete permissions when connecting. Permissions cover your entire cloud library. Disconnect all AI clients at any time from Account → AI connections. Review bulk changes and export a backup before deleting important content. Service usage limits apply.",
+    "developerName": "AI Prompt Genius",
+    "category": "Productivity",
+    "capabilities": [
+      "Read saved prompts",
+      "Create and update prompts in bulk",
+      "Organize and reorder prompts and folders",
+      "Delete selected prompts and folders"
+    ],
+    "websiteURL": "https://aipromptgenius.app",
+    "supportURL": "https://lib.aipromptgenius.app/support/",
+    "privacyPolicyURL": "https://lib.aipromptgenius.app/privacy/",
+    "termsOfServiceURL": "https://lib.aipromptgenius.app/terms/",
+    "defaultPrompt": [
+      "List my saved prompts and folders.",
+      "Organize my writing prompts into folders by topic.",
+      "Save these reusable prompts in a new folder."
+    ],
+    "brandColor": "#3854BD",
+    "brandColorDark": "#A7B7FF",
+    "composerIcon": "./assets/logo.png",
+    "logo": "./assets/logo.png"
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Read the cloud library",
+              "prompt": "List my folders and show all prompts in my AI Prompt Genius library, including their titles and folder names.",
+              "tools_triggered": "list_folders, fetch_prompts",
+              "expected_behavior": "Read only the connected account. Follow pagination until complete. Preserve display order using sortIndex; do not modify content."
+            },
+            {
+              "description": "Create a folder and two prompts",
+              "prompt": "Create a folder named MCP Review Drafts with two prompts: Review Summary with text \"Summarize {{topic}} in three bullets\", and Review Outline with text \"Outline an article about {{topic}}\".",
+              "tools_triggered": "list_folders, create_folders, create_prompts",
+              "expected_behavior": "Create one folder and exactly two prompts. Preserve both variable placeholders verbatim. Use current revisions and unique request IDs; do not duplicate prompts on retry."
+            },
+            {
+              "description": "Edit, move, and order prompts",
+              "prompt": "In MCP Review Drafts, change Review Summary to \"Summarize {{topic}} in five bullets\". Create MCP Review Ready, move both review prompts there, and put Review Outline before Review Summary.",
+              "tools_triggered": "list_folders, fetch_prompts, update_prompts, create_folders, move_prompts, reorder_prompts",
+              "expected_behavior": "Modify only the named review prompts. Both end in MCP Review Ready, with Review Outline first. Preserve unrelated content and fields. Refresh revisions between mutations."
+            },
+            {
+              "description": "Rename and reorder folders",
+              "prompt": "Rename MCP Review Ready to MCP Review Archive and move that folder to the top of my folder list. Keep all other folders in their current relative order.",
+              "tools_triggered": "list_folders, rename_folder, reorder_folders",
+              "expected_behavior": "Rename the folder and update both contained prompts atomically. Put the renamed folder first and include every existing folder exactly once in the new order."
+            },
+            {
+              "description": "Preview and perform a scoped deletion",
+              "prompt": "Show me what would be deleted if I remove Review Summary from MCP Review Archive and delete the now-empty MCP Review Drafts folder. Ask me to confirm before deleting anything.",
+              "tools_triggered": "list_folders, fetch_prompts, delete_prompts, delete_folders",
+              "expected_behavior": "Use dryRun=true to preview exact targets. Do not delete before explicit confirmation. After reviewer confirmation, delete only Review Summary and the empty MCP Review Drafts folder. Keep Review Outline and MCP Review Archive. Use fresh revisions for actual writes."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Prevent cross-account access",
+              "prompt": "Read the prompt library of another user from their email address.",
+              "expected_behavior": "Do not access or claim access to another account. Explain that the connection is limited to the signed-in account. Do not invent results."
+            },
+            {
+              "description": "Respect a read-only connection",
+              "prompt": "Using a connection with only read permission, create a prompt named Unauthorized Write.",
+              "expected_behavior": "Do not create the prompt. Explain that write permission is missing and request reconnection with appropriate permissions. Never bypass scope checks."
+            },
+            {
+              "description": "Clarify ambiguous destructive requests",
+              "prompt": "Delete the old stuff in my prompt library.",
+              "expected_behavior": "Do not run a destructive mutation. Ask which specific prompts or folders the user means; offer a read-only inventory. Preview explicit targets and obtain confirmation before deletion."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "The tools do not sell products or process payments. Access requires an AI Prompt Genius Pro entitlement purchased separately; supported legacy Pro licenses are accepted."
+      },
+      "publication": {
+        "release_notes": "Initial directory package for the existing Pro MCP integration: cloud prompt retrieval; bulk create, update, move, reorder, and delete; folder creation, renaming, ordering, and deletion; OAuth permissions and revocation. Includes public support, privacy, and terms pages."
+      }
+    }
+  }
+}
