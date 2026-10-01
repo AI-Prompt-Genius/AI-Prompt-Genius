@@ -1,0 +1,33 @@
+.ad-container {
+    width: 100%;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.ad-container [data-adsonbread] > div:last-child {
+    flex-wrap: wrap;
+    gap: 4px 12px;
+}
+
+.ad-remove-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    order: -1;
+    margin-right: auto;
+    color: #888;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.ad-container[data-ad-theme="dark"] .ad-remove-link {
+    color: #a3a7ad;
+}
+
+.ad-remove-link:hover,
+.ad-remove-link:focus-visible {
+    text-decoration: underline;
+}

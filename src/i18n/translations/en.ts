@@ -172,6 +172,7 @@ export const en = {
     [k.DRAG_TO_REORDER]: "Drag to reorder",
     [k.UPGRADE_TO_PRO]: "Upgrade to Pro",
     [k.FEATURES]: "Features:",
+    [k.REMOVE_ADS]: "Remove Ads",
     [k.NO_ADS]: "No ads! Removes bimonthly popup windows & text ads.",
     [k.MCP_PRO_FEATURE]: `Connect your AI assistant via MCP to manage prompts and folders in bulk.`,
     [k.ACCESS_TO_NEW_THEMES]: "Get access to new themes, including cyberpunk, luxury, and more!",

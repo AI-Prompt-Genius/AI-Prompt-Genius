@@ -206,6 +206,7 @@ export const de = {
     [k.NIGHT]: `Nacht`,
     [k.NONE]: `Keine`,
     [k.NORD]: `Nord`,
+    [k.REMOVE_ADS]: "Werbung entfernen",
     [k.NO_ADS]: `Keine Werbung! Entfernt zweimonatliche Popup-Fenster & Textanzeigen.`,
     [k.NO_FOLDER]: `Kein Ordner`,
     [k.NO_OPTION_SETS_YET]: `Noch keine Optionssätze. Erstellen Sie unten einen.`,

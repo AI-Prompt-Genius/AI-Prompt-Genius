@@ -202,6 +202,7 @@ export const it = {
     [k.NIGHT]: `Notte`,
     [k.NONE]: `Nessuno`,
     [k.NORD]: `Nord`,
+    [k.REMOVE_ADS]: "Rimuovi annunci",
     [k.NO_ADS]: `Niente pubblicità! Rimuove le finestre popup bimestrali e gli annunci testuali.`,
     [k.NO_FOLDER]: `Nessuna cartella`,
     [k.NO_OPTION_SETS_YET]: `Ancora nessun set di opzioni. Creane uno qui sotto.`,
