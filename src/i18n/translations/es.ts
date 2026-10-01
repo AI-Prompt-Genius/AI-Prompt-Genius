@@ -203,6 +203,7 @@ export const es = {
     [k.NIGHT]: `Noche`,
     [k.NONE]: `Ninguno`,
     [k.NORD]: `Nord`,
+    [k.REMOVE_ADS]: "Eliminar anuncios",
     [k.NO_ADS]: `¡Sin anuncios! Elimina las ventanas emergentes bimensuales y los anuncios de texto.`,
     [k.NO_FOLDER]: `Sin carpeta`,
     [k.NO_OPTION_SETS_YET]: `Aún no hay conjuntos de opciones. Crea uno abajo.`,

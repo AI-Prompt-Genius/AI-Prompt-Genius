@@ -2,6 +2,9 @@ import React from "react"
 import { useProStatus } from "./js/pro"
 import { AdsOnBreadSlot } from "@adsonbread/react"
 import { ThemeContext } from "./ThemeContext"
+import { useTranslation } from "react-i18next"
+import k from "../i18n/keys"
+import { CrownIcon } from "./icons/Icons"
 
 function getAdsTheme(theme: string) {
     const darkThemes = ["dark", "night", "forest", "luxury"]
@@ -9,6 +12,7 @@ function getAdsTheme(theme: string) {
 }
 
 export default function Ad() {
+    const { t } = useTranslation()
     const isPro = useProStatus()
     const { theme } = React.useContext(ThemeContext)
     const lang = localStorage.getItem("lng") ?? "en"
@@ -17,12 +21,27 @@ export default function Ad() {
     return (
         <>
             {!isPro && (
-                <AdsOnBreadSlot
-                    apiKey="a164501b-2c0f-4ce1-a646-b680633f08ed"
-                    placement="banner"
-                    theme={adTheme}
-                    language={lang}
-                />
+                <div className="w-full">
+                    <AdsOnBreadSlot
+                        apiKey="a164501b-2c0f-4ce1-a646-b680633f08ed"
+                        placement="banner"
+                        theme={adTheme}
+                        language={lang}
+                    />
+                    <div className="mt-2 flex">
+                        <a
+                            className="btn btn-outline btn-sm"
+                            href="https://link.aipromptgenius.app/upgrade-pro"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {t(k.REMOVE_ADS)}
+                            <span aria-hidden="true">
+                                <CrownIcon />
+                            </span>
+                        </a>
+                    </div>
+                </div>
             )}
         </>
     )

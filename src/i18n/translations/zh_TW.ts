@@ -194,6 +194,7 @@ export const zh_TW = {
     [k.NIGHT]: `夜間`,
     [k.NONE]: `無`,
     [k.NORD]: `北歐`,
+    [k.REMOVE_ADS]: "移除廣告",
     [k.NO_ADS]: `無廣告！移除雙月彈出視窗與文字廣告。`,
     [k.NO_FOLDER]: `無資料夾`,
     [k.NO_OPTION_SETS_YET]: `尚無選項組，請在下方建立一個。`,
